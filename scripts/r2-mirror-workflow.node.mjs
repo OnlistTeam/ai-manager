@@ -50,7 +50,7 @@ test("stable and staging roots are isolated and published after versioned assets
   const stableRoot = workflow.indexOf(
     "Recheck latest stable release and publish stable root last",
   );
-  const publicProbe = workflow.indexOf("Verify the public updater manifest");
+  const publicProbe = workflow.indexOf("Verify the public manifests");
 
   assert(
     versionedAssets >= 0 &&
@@ -83,9 +83,49 @@ test("stable and staging roots are isolated and published after versioned assets
   assert.match(workflow, /latest-distribution\.json/);
   assert.match(
     workflow,
-    /cmp --silent latest-distribution\.json observed-latest\.json/,
+    /cmp --silent "\$expected" "\$observed"/,
   );
   assert.doesNotMatch(workflow, /r2 object delete|s3 rm|r2 bucket delete/);
+});
+
+test("the download manifest rides the same channel gates as the updater manifest", async () => {
+  const workflow = await source(".github/workflows/sync-r2.yml");
+
+  // Built from the same validated asset directory, in the same run.
+  assert.match(
+    workflow,
+    /node scripts\/build-download-manifest\.mjs[\s\S]*--base-url "\$PUBLIC_BASE_URL"[\s\S]*--output download-manifest\.json/,
+  );
+
+  // Published only inside the two steps that already re-check whether this
+  // release is still the newest on its channel, so a late upload can never
+  // point the page at an older build than the updater.
+  const staging = workflow.indexOf(
+    "Recheck latest prerelease and publish staging root last",
+  );
+  const stable = workflow.indexOf(
+    "Recheck latest stable release and publish stable root last",
+  );
+  const probe = workflow.indexOf("Verify the public manifests");
+  const stagingUpload = workflow.indexOf(
+    "$R2_BUCKET/$R2_PREFIX/staging/download.json",
+  );
+  const stableUpload = workflow.indexOf("$R2_BUCKET/$R2_PREFIX/download.json");
+
+  assert(
+    stagingUpload > staging && stagingUpload < stable,
+    "the staging download manifest belongs to the staging step",
+  );
+  assert(
+    stableUpload > stable && stableUpload < probe,
+    "the stable download manifest belongs to the stable step",
+  );
+
+  // And it is read back from the public host before the run is called a success.
+  assert.match(
+    workflow,
+    /verify "download manifest"[\s\S]*download-manifest\.json observed-download\.json/,
+  );
 });
 
 test("stable distribution uses exactly one product-owned endpoint", async () => {

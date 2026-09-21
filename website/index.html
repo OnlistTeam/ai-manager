@@ -9,15 +9,59 @@
       content="AI Manager installs, updates, configures, and repairs AI coding command-line tools on your own computer. Free and open source, AGPL-3.0."
     />
     <link rel="canonical" href="https://aimanager.tools/" />
+    <link
+      rel="alternate"
+      hreflang="en"
+      href="https://aimanager.tools/?lang=en"
+    />
+    <link
+      rel="alternate"
+      hreflang="zh-Hans"
+      href="https://aimanager.tools/?lang=zh"
+    />
+    <link
+      rel="alternate"
+      hreflang="zh-Hant"
+      href="https://aimanager.tools/?lang=zh-TW"
+    />
+    <link
+      rel="alternate"
+      hreflang="ja"
+      href="https://aimanager.tools/?lang=ja"
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://aimanager.tools/"
+    />
     <link rel="icon" href="icon.png" type="image/png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!--
+      The language picker is a row of four buttons rather than a dropdown: with
+      four choices a dropdown hides three of them behind a click, and a visitor
+      who landed in the wrong language is exactly the visitor least able to
+      guess what the control does.
+    -->
+    <nav class="langbar" aria-label="Language" data-i18n-aria="lang.label">
+      <button type="button" data-lang="en" aria-pressed="true">English</button>
+      <button type="button" data-lang="zh" aria-pressed="false">
+        简体中文
+      </button>
+      <button type="button" data-lang="zh-TW" aria-pressed="false">
+        繁體中文
+      </button>
+      <button type="button" data-lang="ja" aria-pressed="false">日本語</button>
+    </nav>
+
     <header class="masthead">
       <img class="mark" src="icon.png" alt="" width="56" height="56" />
       <h1>AI Manager</h1>
-      <p class="tagline">A calm desktop manager for AI coding tools</p>
-      <p class="blurb">
+      <p class="tagline" data-i18n="head.tagline">
+        A calm desktop manager for AI coding tools
+      </p>
+      <p class="blurb" data-i18n="head.blurb">
         Install, update, configure, and repair Claude Code, Codex, OpenCode and
         seven more command-line tools without touching shell profiles,
         <code>PATH</code>, or hand-edited configuration files. Everything stays
@@ -27,24 +71,38 @@
 
     <main>
       <section class="downloads" aria-labelledby="downloads-heading">
-        <h2 id="downloads-heading">Download</h2>
+        <h2 id="downloads-heading" data-i18n="dl.heading">Download</h2>
 
         <p class="release-line" id="release-line" aria-live="polite">
-          Looking up the current release&hellip;
+          <span data-i18n="dl.loading"
+            >Looking up the current release&hellip;</span
+          >
         </p>
 
         <div id="recommended" class="recommended" hidden></div>
 
+        <h3 class="platforms-heading" id="platforms-heading" hidden>
+          <span data-i18n="dl.allHeading">All platforms</span>
+        </h3>
         <div id="all-platforms" class="platforms" hidden></div>
 
-        <p class="fallback" id="fallback" hidden>
-          The release list could not be loaded. Every installer is on the
+        <!-- Filled by download.js; the sentence names the mirror and links
+             GitHub, so both halves have to be assembled at render time. -->
+        <p class="source-note" id="source-note" hidden></p>
+
+        <p class="fallback" id="fallback" hidden data-i18n="dl.fallback">
+          The download list could not be loaded. Every installer is also on the
           <a href="https://github.com/OnlistTeam/ai-manager/releases"
             >GitHub Releases page</a
           >.
         </p>
 
-        <p class="note prerelease-note" id="prerelease-note" hidden>
+        <p
+          class="note prerelease-note"
+          id="prerelease-note"
+          hidden
+          data-i18n="dl.prerelease"
+        >
           This is a <strong>prerelease</strong>. It is signed and verified the
           same way a stable release is, but it has not finished clean-machine
           validation on every platform. Expect rough edges, and keep a backup of
@@ -53,22 +111,24 @@
       </section>
 
       <section class="verify" aria-labelledby="verify-heading">
-        <h2 id="verify-heading">Before you install</h2>
+        <h2 id="verify-heading" data-i18n="verify.heading">
+          Before you install
+        </h2>
 
         <div class="verify-grid">
           <article>
-            <h3>macOS</h3>
-            <p>
+            <h3 data-i18n="verify.macos.title">macOS</h3>
+            <p data-i18n="verify.macos.body">
               The app and the disk image are signed with an Apple Developer ID,
               notarized by Apple, and stapled, so macOS opens them without a
               warning. If Gatekeeper complains, the file was altered after
-              publication &mdash; do not open it.
+              publication. Do not open it.
             </p>
           </article>
 
           <article>
-            <h3>Windows</h3>
-            <p>
+            <h3 data-i18n="verify.windows.title">Windows</h3>
+            <p data-i18n="verify.windows.lead">
               The installer carries <strong>no Authenticode signature</strong>,
               so SmartScreen shows an <em>unknown publisher</em> warning on
               first run. That is expected. Buying a code-signing certificate was
@@ -76,28 +136,28 @@
               instead, and it is worth checking:
             </p>
             <pre><code>Get-FileHash .\AI-Manager-&lt;version&gt;-Windows-x64.msi -Algorithm SHA256</code></pre>
-            <p>
+            <p data-i18n="verify.windows.compare">
               Compare the result with the matching
               <code>.msi.sha256</code> file published beside the installer.
             </p>
           </article>
 
           <article>
-            <h3>Linux</h3>
-            <p>
+            <h3 data-i18n="verify.linux.title">Linux</h3>
+            <p data-i18n="verify.linux.lead">
               Linux has no cross-distribution equivalent of platform signing, so
               here too the published checksum is what proves the download:
             </p>
             <pre><code>sha256sum -c AI-Manager-&lt;version&gt;-Linux-x64.AppImage.sha256</code></pre>
-            <p>
+            <p data-i18n="verify.linux.chmod">
               The AppImage needs the executable bit (<code>chmod +x</code>)
               before it will run.
             </p>
           </article>
 
           <article>
-            <h3>Updates</h3>
-            <p>
+            <h3 data-i18n="verify.updates.title">Updates</h3>
+            <p data-i18n="verify.updates.body">
               After the first install you do not need this page again. AI
               Manager checks for updates in the background, verifies a minisign
               signature against a public key compiled into the application, and
@@ -111,19 +171,28 @@
 
     <footer>
       <nav class="footer-links" aria-label="Project">
-        <a href="https://github.com/OnlistTeam/ai-manager">Source code</a>
-        <a href="https://github.com/OnlistTeam/ai-manager/releases"
+        <a
+          href="https://github.com/OnlistTeam/ai-manager"
+          data-i18n="footer.source"
+          >Source code</a
+        >
+        <a
+          href="https://github.com/OnlistTeam/ai-manager/releases"
+          data-i18n="footer.releases"
           >All releases</a
         >
-        <a href="https://github.com/OnlistTeam/ai-manager/blob/main/SECURITY.md"
+        <a
+          href="https://github.com/OnlistTeam/ai-manager/blob/main/SECURITY.md"
+          data-i18n="footer.security"
           >Report a vulnerability</a
         >
         <a
           href="https://github.com/OnlistTeam/ai-manager/blob/main/THIRD_PARTY_NOTICES.md"
+          data-i18n="footer.notices"
           >Third-party notices</a
         >
       </nav>
-      <p class="licence">
+      <p class="licence" data-i18n="footer.licence">
         AI Manager is free software under the
         <a href="https://github.com/OnlistTeam/ai-manager/blob/main/LICENSE"
           >GNU AGPL-3.0-or-later</a
@@ -133,12 +202,13 @@
           >third-party notices</a
         >.
       </p>
-      <p class="privacy">
+      <p class="privacy" data-i18n="footer.privacy">
         No analytics, no telemetry. This page loads nothing but its own files
-        and the public GitHub release list.
+        and one release manifest from our own host.
       </p>
     </footer>
 
+    <script src="i18n.js"></script>
     <script src="download.js"></script>
   </body>
 </html>

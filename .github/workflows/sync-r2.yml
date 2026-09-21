@@ -82,6 +82,7 @@ jobs:
           fi
           printf 'channel=%s\nroot_key=%s\nis_latest=%s\n' \
             "$channel" "$root_key" "$is_latest" >> "$GITHUB_OUTPUT"
+          printf 'published_at=%s\n' "$(jq -r .published_at <<<"$release_json")" >> "$GITHUB_OUTPUT"
 
       - name: Checkout distribution validation scripts
         uses: actions/checkout@v7
@@ -115,6 +116,22 @@ jobs:
             --tag "$TAG" \
             --base-url "$PUBLIC_BASE_URL" \
             --output latest-distribution.json
+
+      # The download page reads this instead of the GitHub API: the installers
+      # are already on this host, and asking GitHub for their sizes would put
+      # the slowest hop back in front of every visitor.
+      - name: Build the download manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/build-download-manifest.mjs \
+            --assets release-assets \
+            --repository OnlistTeam/ai-manager \
+            --tag "$TAG" \
+            --base-url "$PUBLIC_BASE_URL" \
+            --channel "${{ steps.release.outputs.channel }}" \
+            --published-at "${{ steps.release.outputs.published_at }}" \
+            --output download-manifest.json
 
       - name: Upload immutable versioned assets first
         shell: bash
@@ -168,6 +185,12 @@ jobs:
             --content-type "application/json" \
             --cache-control "public, max-age=300, must-revalidate" \
             --remote
+          npx --yes wrangler@4.33.1 r2 object put \
+            "$R2_BUCKET/$R2_PREFIX/staging/download.json" \
+            --file download-manifest.json \
+            --content-type "application/json" \
+            --cache-control "public, max-age=300, must-revalidate" \
+            --remote
 
       - name: Recheck latest stable release and publish stable root last
         if: steps.release.outputs.is_latest == 'true' && steps.release.outputs.channel == 'stable'
@@ -188,24 +211,40 @@ jobs:
             --content-type "application/json" \
             --cache-control "public, max-age=300, must-revalidate" \
             --remote
+          npx --yes wrangler@4.33.1 r2 object put \
+            "$R2_BUCKET/$R2_PREFIX/download.json" \
+            --file download-manifest.json \
+            --content-type "application/json" \
+            --cache-control "public, max-age=300, must-revalidate" \
+            --remote
 
-      - name: Verify the public updater manifest
+      - name: Verify the public manifests
         if: steps.release.outputs.is_latest == 'true'
         shell: bash
         run: |
           set -euo pipefail
-          manifest_url="$PUBLIC_BASE_URL/${{ steps.release.outputs.root_key }}"
-          for attempt in 1 2 3 4 5 6; do
-            if curl --fail --silent --show-error \
-              --header "Cache-Control: no-cache" \
-              "$manifest_url?release=$TAG&run=$GITHUB_RUN_ID" \
-              --output observed-latest.json && \
-              cmp --silent latest-distribution.json observed-latest.json; then
-              exit 0
-            fi
-            if [[ "$attempt" = 6 ]]; then
-              echo "The public updater manifest did not become readable or differed from the uploaded manifest" >&2
-              exit 1
-            fi
-            sleep 10
-          done
+          verify() {
+            local label="$1" url="$2" expected="$3" observed="$4"
+            for attempt in 1 2 3 4 5 6; do
+              if curl --fail --silent --show-error \
+                --header "Cache-Control: no-cache" \
+                "$url?release=$TAG&run=$GITHUB_RUN_ID" \
+                --output "$observed" && \
+                cmp --silent "$expected" "$observed"; then
+                return 0
+              fi
+              if [[ "$attempt" = 6 ]]; then
+                echo "The public $label did not become readable or differed from the uploaded file" >&2
+                return 1
+              fi
+              sleep 10
+            done
+          }
+
+          root_key="${{ steps.release.outputs.root_key }}"
+          verify "updater manifest" \
+            "$PUBLIC_BASE_URL/$root_key" \
+            latest-distribution.json observed-latest.json
+          verify "download manifest" \
+            "$PUBLIC_BASE_URL/${root_key%latest.json}download.json" \
+            download-manifest.json observed-download.json

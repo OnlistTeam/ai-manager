@@ -1,21 +1,32 @@
 /*
- * The page borrows the application's own palette: an ink-plum canvas with one
- * mint accent. Surfaces separate themselves by being lighter than the canvas,
- * never darker, which is the same rule the product's design tokens follow.
+ * The page takes its palette from the product icon rather than from the
+ * application window: warm paper, ink, and the icon's terminal green. A
+ * download page is read once, in daylight, often on a phone, by someone who
+ * has not decided yet — paper reads faster there than a dark canvas does, and
+ * the green ties the page to the thing being downloaded.
+ *
+ * One accent, no gradients, and exactly one dark surface: the command blocks,
+ * which are meant to look like a terminal because that is what they are.
  */
 :root {
-  --bg: #2a2740;
-  --bg-raised: #363252;
-  --surface: #454065;
-  --surface-hover: #514b74;
-  --text: #f6f5fb;
-  --text-muted: #b9b4cf;
-  --hairline: hsl(0 0% 100% / 0.14);
-  --accent: #6ad3ad;
-  --accent-hover: #85e0be;
-  --accent-ink: #0d1713;
-  --warning: #e8b264;
+  --paper: #faf8f3;
+  --card: #ffffff;
+  --sunken: #f3f0e8;
+  --ink: #23211c;
+  --ink-muted: #6c665b;
+  --hairline: hsl(40 10% 20% / 0.13);
+  --hairline-soft: hsl(40 10% 20% / 0.08);
+  --accent: #2c7340;
+  --accent-hover: #21592f;
+  --accent-ink: #ffffff;
+  --accent-wash: hsl(138 45% 32% / 0.08);
+  --warning: #8a5a12;
+  --warning-wash: #fdf6e7;
+  --terminal: #262b26;
+  --terminal-ink: #d8e6d5;
   --radius: 12px;
+  --shadow-card: 0 1px 2px hsl(40 10% 20% / 0.05);
+  --shadow-lift: 0 2px 10px hsl(138 30% 18% / 0.16);
 }
 
 * {
@@ -23,14 +34,14 @@
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
   margin: 0;
   padding: 0 1.5rem 4rem;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--paper);
+  color: var(--ink);
   font:
     16px/1.65 ui-sans-serif,
     -apple-system,
@@ -55,7 +66,7 @@ pre {
 
 a {
   color: var(--accent);
-  text-decoration-color: hsl(0 0% 100% / 0.3);
+  text-decoration-color: hsl(138 45% 32% / 0.35);
   text-underline-offset: 3px;
 }
 
@@ -64,6 +75,7 @@ a:hover {
   text-decoration-color: currentColor;
 }
 
+.langbar,
 .masthead,
 main,
 footer {
@@ -71,10 +83,47 @@ footer {
   margin: 0 auto;
 }
 
+/* ---- language ---- */
+
+.langbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  padding-top: 1.25rem;
+}
+
+.langbar button {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.langbar button:hover {
+  color: var(--ink);
+  background: hsl(40 10% 20% / 0.05);
+}
+
+.langbar button[aria-pressed="true"] {
+  border-color: var(--hairline);
+  background: var(--card);
+  color: var(--ink);
+}
+
+.langbar button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* ---- masthead ---- */
 
 .masthead {
-  padding: 4.5rem 0 3rem;
+  padding: 3.25rem 0 1.5rem;
   text-align: center;
 }
 
@@ -92,18 +141,18 @@ footer {
 
 .tagline {
   margin: 0.4rem 0 1.5rem;
-  color: var(--text-muted);
+  color: var(--ink-muted);
   font-size: 1.125rem;
 }
 
 .blurb {
   margin: 0 auto;
   max-width: 40rem;
-  color: var(--text-muted);
+  color: var(--ink-muted);
 }
 
 .blurb code {
-  color: var(--text);
+  color: var(--ink);
 }
 
 /* ---- sections ---- */
@@ -127,7 +176,7 @@ h3 {
 
 .release-line {
   margin: 0 0 1.75rem;
-  color: var(--text-muted);
+  color: var(--ink-muted);
   font-size: 0.9rem;
 }
 
@@ -145,6 +194,7 @@ h3 {
   border: none;
   border-radius: var(--radius);
   background: var(--accent);
+  box-shadow: var(--shadow-lift);
   color: var(--accent-ink);
   font-size: 1rem;
   font-weight: 620;
@@ -158,7 +208,7 @@ h3 {
 
 .primary-download .meta {
   font-weight: 450;
-  opacity: 0.72;
+  opacity: 0.78;
   font-size: 0.85rem;
 }
 
@@ -170,13 +220,24 @@ h3 {
 
 .arch-hint {
   margin: 0.85rem 0 0;
-  color: var(--text-muted);
+  color: var(--ink-muted);
   font-size: 0.85rem;
+}
+
+.platforms-heading {
+  margin: 0 0 0.75rem;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
 }
 
 .platforms {
   border: 1px solid var(--hairline);
   border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
 }
 
@@ -186,8 +247,7 @@ h3 {
   align-items: center;
   gap: 0.5rem 1rem;
   padding: 0.85rem 1.1rem;
-  background: hsl(0 0% 100% / 0.04);
-  border-top: 1px solid var(--hairline);
+  border-top: 1px solid var(--hairline-soft);
 }
 
 .platform-row:first-child {
@@ -195,20 +255,66 @@ h3 {
 }
 
 .platform-row .name {
-  flex: 1 1 11rem;
+  flex: 1 1 14rem;
   font-size: 0.925rem;
 }
 
+/* The one line that tells a visitor which row is theirs. */
+.platform-row .hint {
+  display: block;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
+
 .platform-row .size {
-  color: var(--text-muted);
+  color: var(--ink-muted);
   font-size: 0.85rem;
   font-variant-numeric: tabular-nums;
 }
 
 .platform-row .links {
   display: flex;
+  align-items: center;
   gap: 0.9rem;
   font-size: 0.875rem;
+}
+
+/* Looks and reads like the Download link beside it; it copies the digest the
+ * manifest already carries rather than sending the reader off to fetch a
+ * one-line text file. */
+.platform-row .checksum {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: hsl(138 45% 32% / 0.35);
+  text-underline-offset: 3px;
+}
+
+.platform-row .checksum:hover:not(:disabled) {
+  color: var(--accent-hover);
+  text-decoration-color: currentColor;
+}
+
+.platform-row .checksum:disabled {
+  color: var(--ink-muted);
+  cursor: default;
+  text-decoration: none;
+}
+
+.platform-row .digest {
+  color: var(--ink-muted);
+  font-size: 0.7rem;
+  overflow-wrap: anywhere;
+}
+
+.source-note {
+  margin: 0.9rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.85rem;
 }
 
 .note {
@@ -219,9 +325,9 @@ h3 {
 }
 
 .prerelease-note {
-  border: 1px solid hsl(35 74% 65% / 0.35);
-  background: hsl(35 74% 65% / 0.08);
-  color: var(--text);
+  border: 1px solid hsl(38 62% 42% / 0.28);
+  background: var(--warning-wash);
+  color: var(--ink);
 }
 
 .prerelease-note strong {
@@ -229,7 +335,7 @@ h3 {
 }
 
 .fallback {
-  color: var(--text-muted);
+  color: var(--ink-muted);
 }
 
 /* ---- verify ---- */
@@ -245,12 +351,13 @@ h3 {
   padding: 1.25rem 1.35rem;
   border: 1px solid var(--hairline);
   border-radius: var(--radius);
-  background: hsl(0 0% 100% / 0.04);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
 }
 
 .verify-grid p {
   margin: 0 0 0.75rem;
-  color: var(--text-muted);
+  color: var(--ink-muted);
   font-size: 0.9rem;
 }
 
@@ -259,15 +366,18 @@ h3 {
 }
 
 .verify-grid strong,
-.verify-grid code {
-  color: var(--text);
+.verify-grid p code {
+  color: var(--ink);
 }
 
+/* The page's one dark surface. These are commands typed into a terminal, and
+ * looking like one is the fastest way to say so. */
 pre {
   margin: 0 0 0.75rem;
   padding: 0.7rem 0.85rem;
   border-radius: 8px;
-  background: hsl(0 0% 0% / 0.28);
+  background: var(--terminal);
+  color: var(--terminal-ink);
   /* These are commands a reader is meant to copy, so they wrap rather than
    * scroll off the edge of a card where the tail is invisible. */
   white-space: pre-wrap;
@@ -275,7 +385,15 @@ pre {
 }
 
 pre code {
-  color: var(--text);
+  color: inherit;
+}
+
+/* Inline code inside running text stays on paper; only blocks go dark. */
+.verify-grid p code,
+.blurb code {
+  padding: 0.1em 0.35em;
+  border-radius: 5px;
+  background: var(--sunken);
 }
 
 /* ---- footer ---- */
@@ -296,13 +414,17 @@ footer {
 
 footer p {
   margin: 0 0 0.6rem;
-  color: var(--text-muted);
+  color: var(--ink-muted);
   font-size: 0.85rem;
 }
 
 @media (max-width: 34rem) {
+  .langbar {
+    justify-content: center;
+  }
+
   .masthead {
-    padding-top: 3rem;
+    padding-top: 2.25rem;
   }
 
   .masthead h1 {

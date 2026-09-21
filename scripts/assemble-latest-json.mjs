@@ -20,7 +20,7 @@ const RELEASE_TAG = new RegExp(
 const RFC3339 =
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/;
 
-function releaseNames(version) {
+export function releaseNames(version) {
   return {
     macArmDmg: `AI-Manager-${version}-macOS-arm64.dmg`,
     macArmUpdater: `AI-Manager-${version}-macOS-arm64.app.tar.gz`,
@@ -32,7 +32,7 @@ function releaseNames(version) {
   };
 }
 
-function parseTag(tag) {
+export function parseTag(tag) {
   const match = tag.match(RELEASE_TAG);
   if (!match) {
     throw new Error(`release tag must be v-prefixed SemVer: ${tag}`);
@@ -40,7 +40,7 @@ function parseTag(tag) {
   return match[1];
 }
 
-function validateRepository(repository) {
+export function validateRepository(repository) {
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repository)) {
     throw new Error(`invalid GitHub repository slug: ${repository}`);
   }
@@ -105,7 +105,13 @@ export function expectedAssetNames(version) {
   ]);
 }
 
-async function validateChecksum(assetsDir, artifactName) {
+/**
+ * Reads the published `.sha256` record beside an artifact, checks it really
+ * describes that artifact, and recomputes the digest from the bytes on disk.
+ * Returns the verified digest so callers can republish it without trusting the
+ * record a second time.
+ */
+export async function readVerifiedChecksum(assetsDir, artifactName) {
   const checksumPath = join(assetsDir, `${artifactName}.sha256`);
   const checksum = (await readFile(checksumPath, "utf8")).trim();
   const match = checksum.match(/^([a-f0-9]{64}) {2}(.+)$/);
@@ -118,6 +124,11 @@ async function validateChecksum(assetsDir, artifactName) {
   if (actual !== match[1]) {
     throw new Error(`checksum mismatch for ${artifactName}`);
   }
+  return actual;
+}
+
+async function validateChecksum(assetsDir, artifactName) {
+  await readVerifiedChecksum(assetsDir, artifactName);
 }
 
 function artifactUrl(repository, tag, name) {
