@@ -165,11 +165,18 @@ pub(super) fn resolve_with_state(
         } else {
             EffectiveCredential::Unknown
         };
+        result.credential_value = value;
         result.credential_source = source;
     } else if let Some(auth) = auth {
         if let Some(entry) = auth.get(provider_id) {
             result.credential = match entry.get("type").and_then(Value::as_str) {
-                Some("api") if nonempty(entry.get("key")) => EffectiveCredential::Configured,
+                Some("api") if nonempty(entry.get("key")) => {
+                    result.credential_value = entry
+                        .get("key")
+                        .and_then(Value::as_str)
+                        .map(|key| key.trim().to_string());
+                    EffectiveCredential::Configured
+                }
                 Some("oauth")
                     if nonempty(entry.get("access")) || nonempty(entry.get("refresh")) =>
                 {

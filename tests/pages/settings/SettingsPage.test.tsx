@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import i18n from "i18next";
 import { http, HttpResponse } from "msw";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { APP_LANGUAGES, LANGUAGE_ENDONYMS } from "@/i18n";
 import en from "@/i18n/locales/en.json";
 import zh from "@/i18n/locales/zh.json";
 import { SettingsPage } from "@/pages/settings/SettingsPage";
@@ -314,16 +315,18 @@ describe("SettingsPage", () => {
       name: en.preferences.experience.language.label,
     });
     expect(language).toHaveValue("en");
+    // Endonyms, so the list reads the same whatever the interface language is:
+    // a Korean reader looks for 한국어, not for what English calls Korean.
     expect(
       within(language)
         .getAllByRole("option")
         .map((option) => option.textContent),
-    ).toEqual([
-      en.preferences.experience.language.options.zh,
-      en.preferences.experience.language.options.zhTw,
-      en.preferences.experience.language.options.en,
-      en.preferences.experience.language.options.ja,
-    ]);
+    ).toEqual(APP_LANGUAGES.map((code) => LANGUAGE_ENDONYMS[code]));
+    expect(
+      within(language)
+        .getAllByRole<HTMLOptionElement>("option")
+        .map((option) => option.value),
+    ).toEqual([...APP_LANGUAGES]);
     expect(language).toHaveAccessibleDescription(
       en.preferences.experience.language.description,
     );

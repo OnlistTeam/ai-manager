@@ -4,11 +4,13 @@ use crate::compat::ccswitch::tools::tool_id_to_app_type;
 use crate::domain::{
     AppError, ErrorCode, ProviderRuntimeContext, ProviderRuntimeResource,
     ProviderRuntimeResourceAction, ProviderRuntimeResourceKind, ProviderRuntimeResourceScope,
-    ToolId,
+    ShellVariableLocation, ShellVariableUpdate, ShellVariableWritten, ToolId,
 };
 
 mod effective;
 mod environment;
+mod shell_edit;
+mod shell_files;
 mod storage;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -24,10 +26,9 @@ pub(crate) struct ResolvedRuntimeResource {
     pub target: RuntimeResourceTarget,
 }
 
-pub fn runtime_context(
-    app_handle: &tauri::AppHandle,
-    tool: ToolId,
-) -> Result<ProviderRuntimeContext, AppError> {
+/// The terminal environment as this tool sees it. Both the runtime context and
+/// the model probe start here, so they always agree on what is in force.
+fn tool_environment(tool: ToolId) -> Result<environment::ToolEnvironment, AppError> {
     let app_type_name = tool_id_to_app_type(tool).ok_or_else(|| {
         AppError::new(
             ErrorCode::ProviderNotFound,
@@ -38,15 +39,21 @@ pub fn runtime_context(
             tool.as_str()
         ))
     })?;
-    let environment =
-        environment::ToolEnvironment::detect(tool, app_type_name).map_err(|error| {
-            AppError::new(
-                ErrorCode::ConfigParseFailed,
-                "error.provider.runtimeContextFailed",
-            )
-            .with_technical(error)
-            .with_remediation("error.remediation.retryOrViewDetails")
-        })?;
+    environment::ToolEnvironment::detect(tool, app_type_name).map_err(|error| {
+        AppError::new(
+            ErrorCode::ConfigParseFailed,
+            "error.provider.runtimeContextFailed",
+        )
+        .with_technical(error)
+        .with_remediation("error.remediation.retryOrViewDetails")
+    })
+}
+
+pub fn runtime_context(
+    app_handle: &tauri::AppHandle,
+    tool: ToolId,
+) -> Result<ProviderRuntimeContext, AppError> {
+    let environment = tool_environment(tool)?;
     let (providers, current) =
         crate::compat::ccswitch::provider::ProviderStore::open(app_handle)?.raw_inventory(tool)?;
     let effective_connection =
@@ -65,6 +72,95 @@ pub fn runtime_context(
             .collect(),
         storage,
         effective_connection,
+    })
+}
+
+/// Address and credential of the connection the tool will actually use, for the
+/// model probe (ADR-0041).
+///
+/// This is the path behind the "test" action on a connection that is not a
+/// saved service — one the user set up in a shell profile or wrote into the
+/// tool's own configuration file. The values are resolved here, in the backend,
+/// exactly as `runtime_context` resolves them for display; the renderer sends
+/// neither and receives neither.
+///
+/// `Ok(None)` means there is nothing to test: no address, or a credential this
+/// resolver cannot replay (an OAuth login rather than a key).
+pub(crate) fn effective_probe_target(tool: ToolId) -> Result<Option<(String, String)>, AppError> {
+    Ok(effective::resolve_probe_target(
+        tool,
+        &tool_environment(tool)?,
+    ))
+}
+
+/// Where the tool's connection variables are written down, and which of them
+/// this product can safely change (ADR-0042).
+///
+/// Only variables the tool itself reads are searched, so this can never be
+/// turned into a general "read any variable out of my shell" call. A variable
+/// the shell exports but no start-up file explains is absent from the result:
+/// something sourced it in a way this product does not model, and a line it
+/// cannot point at is a line it must not offer to edit.
+pub(crate) fn shell_variable_locations(tool: ToolId) -> Vec<ShellVariableLocation> {
+    let home = crate::config::get_home_dir();
+    let environment = tool_environment(tool).ok();
+    environment::connection_variables(tool)
+        .iter()
+        .filter_map(|variable| {
+            // The login shell decides which of several assignments is in force,
+            // so a value it does not report is not attributed to any line.
+            let value = environment
+                .as_ref()
+                .and_then(|environment| environment.lookup(variable))?
+                .value;
+            let site = shell_files::responsible_site(&home, variable, &value)?;
+            Some(ShellVariableLocation {
+                variable: site.variable,
+                path: display_source(&site.path.to_string_lossy()),
+                line: site.line,
+                value: site.value,
+                editable: site.rewritable,
+            })
+        })
+        .collect()
+}
+
+/// Replaces one value on one line of a start-up file.
+pub(crate) fn write_shell_variable(
+    tool: ToolId,
+    update: &ShellVariableUpdate,
+) -> Result<ShellVariableWritten, AppError> {
+    // The variable has to be one this tool actually reads. Without this, the
+    // renderer could name any variable in the user's profile.
+    if !environment::connection_variables(tool)
+        .iter()
+        .any(|candidate| candidate.eq_ignore_ascii_case(&update.variable))
+    {
+        return Err(AppError::new(
+            ErrorCode::ProviderNotFound,
+            "error.shellVariable.notAConnectionVariable",
+        )
+        .with_technical(format!(
+            "{} does not read a variable by that name",
+            tool.as_str()
+        ))
+        .with_remediation("error.remediation.checkServiceSettings"));
+    }
+    let path = shell_edit::write_variable(
+        &crate::config::get_home_dir(),
+        &crate::infrastructure::paths::product_data_dir()
+            .join("backups")
+            .join("shell"),
+        shell_edit::ShellVariableEdit {
+            variable: &update.variable,
+            line: update.line,
+            expected_value: &update.expected_value,
+            new_value: &update.new_value,
+        },
+    )?;
+    Ok(ShellVariableWritten {
+        path: display_source(&path.to_string_lossy()),
+        line: update.line,
     })
 }
 

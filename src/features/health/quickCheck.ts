@@ -174,11 +174,19 @@ export function aggregateQuickCheck(
       ),
     );
     const name = displayName(provider.tool, names);
+    // `configured` counts services saved in this application, and nothing
+    // else. Every tool here can also authenticate with its own vendor login —
+    // Gemini CLI on a Google account, Claude Code on an Anthropic one — so a
+    // tool with no saved service is very often a tool that works fine. Calling
+    // that "needs attention" inflates the home count with a finding that is
+    // usually wrong; the row stays, with its offer to connect one, as
+    // information. A tool that genuinely cannot authenticate is caught by the
+    // preflight at launch, which reads the credential instead of guessing.
     add({
       id: itemId("provider", provider.tool),
       toolId: provider.tool,
       kind: "provider",
-      status: provider.configured ? "ready" : "attention",
+      status: provider.configured ? "ready" : "info",
       titleKey: provider.configured
         ? "preferences.check.item.providerReady.title"
         : "preferences.check.item.providerMissing.title",

@@ -1,4 +1,5 @@
 pub mod lifecycle_runner;
+pub mod model_probe;
 mod native_supply;
 pub mod registry;
 pub mod tool_adapter;

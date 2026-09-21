@@ -170,10 +170,15 @@ export function HomePage({
         />
       )}
 
-      {/* The hero only carries the count and the primary action now — it
-          stopped naming the specific problem. This list is the one place
-          that does, whether there is one attention item or several. */}
-      {summary && !checkUnavailable && summary.attentionCount > 0 ? (
+      {/* The hero carries the count and the primary action; this list is the
+          one place that names the findings. A finding is a row with a next
+          step: "Pi is not installed" and "2 MCP servers" are inventory facts,
+          and putting them in a health check buries the rows that matter. */}
+      {summary &&
+      !checkUnavailable &&
+      summary.items.some(
+        (item) => item.status !== "ready" && item.resolution !== undefined,
+      ) ? (
         <Card padding="lg" role="region" aria-label={t("home.health.title")}>
           <QuickCheckResolutionGuide
             summary={summary}

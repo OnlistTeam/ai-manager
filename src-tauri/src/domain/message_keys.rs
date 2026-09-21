@@ -170,6 +170,12 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.prompt.unsupportedTool",
     "error.provider.createFailed",
     "error.provider.listFailed",
+    "error.provider.modelProbeImageTooLarge",
+    "error.provider.modelProbeModelInvalid",
+    "error.provider.modelProbePromptInvalid",
+    "error.provider.modelProbeTimeout",
+    "error.provider.modelProbeUnreachable",
+    "error.provider.modelProbeUnreadable",
     "error.provider.nameRequired",
     "error.provider.notFound",
     "error.provider.notTestable",
@@ -228,6 +234,12 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.settings.loadFailed",
     "error.settings.saveFailed",
     "error.settings.storeUnavailable",
+    "error.shellVariable.movedOn",
+    "error.shellVariable.notAConnectionVariable",
+    "error.shellVariable.notRewritable",
+    "error.shellVariable.outsideHome",
+    "error.shellVariable.valueInvalid",
+    "error.shellVariable.writeFailed",
     "error.skill.actionPanicked",
     "error.skill.alreadyInstalled",
     "error.skill.backupConflict",
@@ -466,6 +478,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 316);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 328);
     }
 }

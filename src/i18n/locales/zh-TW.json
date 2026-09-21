@@ -633,6 +633,12 @@
     "provider": {
       "createFailed": "沒能連線這個服務。",
       "listFailed": "讀不到這個工具的服務清單。",
+      "modelProbeImageTooLarge": "產生的圖片太大，無法顯示。",
+      "modelProbeModelInvalid": "先填一個模型名稱。",
+      "modelProbePromptInvalid": "提示詞不能空白，且不超過 200 個字元。",
+      "modelProbeTimeout": "服務沒有在時間內回應。",
+      "modelProbeUnreachable": "連不上這個服務。",
+      "modelProbeUnreadable": "服務回傳的內容這個應用讀不懂。",
       "nameRequired": "先給這個服務取個名字。",
       "notFound": "這個服務已經不在了。",
       "notTestable": "這個服務沒有可以檢查的位址。",
@@ -780,6 +786,14 @@
     "usage": {
       "readFailed": "AI 管家未能讀取本機用量摘要。",
       "storeUnavailable": "用量資料還沒有準備好。"
+    },
+    "shellVariable": {
+      "movedOn": "那一行和剛才看到的已經不一樣了，所以什麼都沒改。重新看一下再試。",
+      "notAConnectionVariable": "這個變數不是這個工具會讀取的。",
+      "notRewritable": "那一行的值是執行指令得來的，換成純文字會改變它的行為。",
+      "outsideHome": "那一行在你主目錄之外的系統檔案裡，本應用程式不會改動它。",
+      "valueInvalid": "這個值沒辦法放進終端設定檔的一行裡。",
+      "writeFailed": "沒能寫入終端設定檔。原檔案沒有改動。"
     }
   },
   "nav": {
@@ -910,7 +924,7 @@
   },
   "tools": {
     "details": {
-      "action": "軟體詳情",
+      "action": "詳情",
       "title": "{{name}} 的軟體詳情",
       "description": "查看本機設定、記憶與儲存；全域提示詞在專屬頁面統一管理。"
     },
@@ -1352,8 +1366,6 @@
       "allGood": "一切正常",
       "issues_one": "發現 {{count}} 個問題",
       "issues_other": "發現 {{count}} 個問題",
-      "more_one": "還有 {{count}} 項",
-      "more_other": "還有 {{count}} 項",
       "lastChecked": "上次檢查 {{time}}",
       "checkingConnections": "正在檢查服務連線",
       "connectionError": "連線檢查沒能開始，請再試一次。",
@@ -1517,9 +1529,9 @@
       "editNamed": "編輯 {{name}}",
       "remove": "移除",
       "removeNamed": "移除 {{name}}",
-      "test": "檢查位址",
+      "test": "測試",
       "testAll": "檢查全部位址",
-      "testNamed": "檢查 {{name}} 的位址",
+      "testNamed": "測試 {{name}}",
       "useNamed": "使用 {{name}}"
     },
     "card": {
@@ -1620,8 +1632,9 @@
       "shellNotInspectedTitle": "沒能讀取終端機環境"
     },
     "external": {
-      "badge": "未儲存的連線",
-      "endpoint": "現在生效的位址"
+      "badge": "應用程式之外設定的",
+      "endpoint": "現在生效的位址",
+      "overrides": "{{name}} 實際會用這個位址。它優先於你在下面選的服務。"
     },
     "endpoints": {
       "title": "{{tool}} 的端點",
@@ -1832,6 +1845,36 @@
       "retryNamed": "重新檢查 {{name}}",
       "unreachableHint": "目前網路無法連線至這個位址。你可以改用其他相容服務。"
     },
+    "probe": {
+      "title": "測試 {{name}}",
+      "addressChecking": "正在檢查位址…",
+      "model": "模型",
+      "modelCount": "共 {{count}} 個可用模型",
+      "modelLoading": "正在讀取模型清單…",
+      "modelReload": "重新讀取",
+      "modelManual": "模型名稱",
+      "modelManualHint": "這個服務不提供模型清單，請自己填模型名稱。",
+      "modelRefused": "服務拒絕了模型清單請求（HTTP {{status}}）。",
+      "modelTruncated": "只顯示前 {{count}} 個。",
+      "kind": "傳送",
+      "kindText": "文字",
+      "kindImage": "圖片",
+      "kindHint": "根據模型名稱猜的。猜錯了就切換。",
+      "prompt": "提示詞",
+      "send": "傳送",
+      "sending": "正在等待服務回應…",
+      "cost": "這會真實呼叫一次該服務，消耗你的額度。",
+      "result": "結果",
+      "resultMeta": "HTTP {{status}} · {{ms}} 毫秒",
+      "replyEmpty": "服務回應了，但沒有回傳內容。",
+      "replyRefused": "服務拒絕了這次請求。",
+      "replyImageLinkOnly": "服務回傳的是一個連結而不是圖片資料，這裡無法顯示。",
+      "imageAlt": "{{model}} 產生的圖片",
+      "adopt": "用這個模型",
+      "adopted": "已儲存到這個服務。",
+      "adoptFailed": "沒能儲存模型。",
+      "effectiveNote": "這個連線在應用程式裡沒有對應的紀錄，所以沒有可以先跑的位址檢查。"
+    },
     "title": "API 端點",
     "toolsError": {
       "description": "AI 管家沒能查看這台電腦上的工具，所以看不到它們的服務。再試一次。",
@@ -1845,6 +1888,16 @@
     "actionsPaused": {
       "title": "服務操作已暫停",
       "description": "AI 管家需要先確認目前工具和服務狀態，才能繼續變更設定或啟動工具。"
+    },
+    "shellVariable": {
+      "at": "{{path}} 第 {{line}} 行",
+      "editNamed": "在終端設定它的地方編輯 {{variable}}",
+      "nothingChanged": "什麼都沒有改動。重新看一下再試。",
+      "openTerminalsKeepTheOldValue": "已經開啟的終端在重新啟動前仍然用舊的值。",
+      "save": "儲存",
+      "saved": "已儲存。",
+      "title": "編輯 {{variable}}",
+      "value": "值"
     }
   },
   "extensions": {
@@ -2451,13 +2504,7 @@
       "instant": "立即生效",
       "language": {
         "label": "語言",
-        "description": "選擇 AI 管家各處使用的語言。",
-        "options": {
-          "zh": "简体中文",
-          "zhTw": "繁體中文",
-          "en": "English",
-          "ja": "日本語"
-        }
+        "description": "選擇 AI 管家各處使用的語言。"
       }
     },
     "advanced": {

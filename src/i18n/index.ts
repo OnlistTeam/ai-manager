@@ -5,24 +5,98 @@ import i18n, {
 } from "i18next";
 import { initReactI18next } from "react-i18next";
 
-export type AppLanguage = "zh" | "zh-TW" | "en" | "ja";
+/**
+ * The languages the application ships. Adding one means a locale file, an entry
+ * here, an entry in `localeLoaders`, and a row in the settings picker; the
+ * four-locale key-set test in `tests/i18n` then covers it automatically.
+ */
+export const APP_LANGUAGES = [
+  "zh",
+  "zh-TW",
+  "en",
+  "ja",
+  "ko",
+  "de",
+  "fr",
+  "es",
+  "pt-BR",
+  "it",
+  "ru",
+  "vi",
+  "id",
+] as const;
+
+export type AppLanguage = (typeof APP_LANGUAGES)[number];
+
+/**
+ * Each language named in itself, in the picker's order.
+ *
+ * These are endonyms, so they do not change with the interface language: a
+ * Japanese reader looking for Japanese looks for 日本語, not for whatever their
+ * current interface calls it. Keeping them out of the locale files avoids
+ * thirteen identical copies of every entry.
+ */
+export const LANGUAGE_ENDONYMS: Readonly<Record<AppLanguage, string>> = {
+  zh: "简体中文",
+  "zh-TW": "繁體中文",
+  en: "English",
+  ja: "日本語",
+  ko: "한국어",
+  de: "Deutsch",
+  fr: "Français",
+  es: "Español",
+  "pt-BR": "Português (Brasil)",
+  it: "Italiano",
+  ru: "Русский",
+  vi: "Tiếng Việt",
+  id: "Bahasa Indonesia",
+};
 
 const DEFAULT_LANGUAGE: AppLanguage = "zh";
 
+function isAppLanguage(value: unknown): value is AppLanguage {
+  return APP_LANGUAGES.includes(value as AppLanguage);
+}
+
+/**
+ * Prefixes that map straight onto a locale file. Traditional Chinese is not in
+ * here because it needs script and region tests that a prefix cannot express,
+ * and Portuguese is deliberately absent: `pt-BR` is the only Portuguese we
+ * ship, so European Portuguese would be served Brazilian copy silently.
+ */
+const LANGUAGE_PREFIXES: ReadonlyArray<readonly [string, AppLanguage]> = [
+  ["zh", "zh"],
+  ["ja", "ja"],
+  ["en", "en"],
+  ["ko", "ko"],
+  ["de", "de"],
+  ["fr", "fr"],
+  ["es", "es"],
+  ["pt", "pt-BR"],
+  ["it", "it"],
+  ["ru", "ru"],
+  ["vi", "vi"],
+  ["id", "id"],
+];
+
 export function resolveAppLanguage(language?: string | null): AppLanguage {
   const normalized = language?.toLowerCase();
+  if (!normalized) return DEFAULT_LANGUAGE;
 
+  // Traditional Chinese has to be tested before Chinese, or Taiwan, Hong Kong
+  // and Macau are served Simplified.
   if (
     normalized === "zh-tw" ||
-    normalized?.startsWith("zh-hk") ||
-    normalized?.startsWith("zh-mo") ||
-    normalized?.startsWith("zh-hant")
+    normalized.startsWith("zh-hk") ||
+    normalized.startsWith("zh-mo") ||
+    normalized.startsWith("zh-hant")
   ) {
     return "zh-TW";
   }
-  if (normalized?.startsWith("zh")) return "zh";
-  if (normalized?.startsWith("ja")) return "ja";
-  if (normalized?.startsWith("en")) return "en";
+
+  for (const [prefix, language] of LANGUAGE_PREFIXES) {
+    if (normalized.startsWith(prefix)) return language;
+  }
 
   return DEFAULT_LANGUAGE;
 }
@@ -31,14 +105,7 @@ const getInitialLanguage = (): AppLanguage => {
   if (typeof window !== "undefined") {
     try {
       const stored = window.localStorage.getItem("language");
-      if (
-        stored === "zh" ||
-        stored === "zh-TW" ||
-        stored === "en" ||
-        stored === "ja"
-      ) {
-        return stored;
-      }
+      if (isAppLanguage(stored)) return stored;
     } catch (error) {
       console.warn("[i18n] Failed to read stored language preference", error);
     }
@@ -61,6 +128,15 @@ const localeLoaders: Record<
   ja: () => import("./locales/ja.json"),
   zh: () => import("./locales/zh.json"),
   "zh-TW": () => import("./locales/zh-TW.json"),
+  ko: () => import("./locales/ko.json"),
+  de: () => import("./locales/de.json"),
+  fr: () => import("./locales/fr.json"),
+  es: () => import("./locales/es.json"),
+  "pt-BR": () => import("./locales/pt-BR.json"),
+  it: () => import("./locales/it.json"),
+  ru: () => import("./locales/ru.json"),
+  vi: () => import("./locales/vi.json"),
+  id: () => import("./locales/id.json"),
 };
 
 const localeRequests = new Map<AppLanguage, Promise<ResourceKey>>();
@@ -107,7 +183,7 @@ export function initializeI18n(
       await i18n.init({
         lng: language,
         fallbackLng: "en",
-        supportedLngs: ["zh", "zh-TW", "en", "ja"],
+        supportedLngs: [...APP_LANGUAGES],
         load: "currentOnly",
         ns: ["translation"],
         defaultNS: "translation",

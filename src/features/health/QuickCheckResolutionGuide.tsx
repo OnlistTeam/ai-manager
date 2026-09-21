@@ -1,4 +1,3 @@
-import { ArrowRight } from "lucide-react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -12,7 +11,6 @@ import {
   useTaskAvailability,
 } from "@/features/task-center";
 import { type Tool, type ToolId, useToolUpdatePreviews } from "@/entities/tool";
-import { Button } from "@/shared/ui/Button";
 import type {
   QuickCheckItem,
   QuickCheckResolution,
@@ -39,8 +37,18 @@ function isDirect(
   return ["updateTool", "repairTool"].includes(resolution);
 }
 
-function isIssue(item: QuickCheckItem): boolean {
-  return item.status === "attention" || item.status === "action";
+/**
+ * A finding is something with a next step.
+ *
+ * Severity alone is the wrong filter in both directions. "Pi is not installed",
+ * "this service was not checked this run" and "2 MCP servers" are true, have no
+ * action, and belong to an inventory rather than to a health check — listing
+ * them buries the two rows that matter under ten that do not. Meanwhile "no AI
+ * service configured" is only informational yet does have an offer worth
+ * making, so it stays.
+ */
+function isFinding(item: QuickCheckItem): boolean {
+  return item.status !== "ready" && item.resolution !== undefined;
 }
 
 const RESOLUTION_PRIORITY: Record<QuickCheckResolution, number> = {
@@ -52,14 +60,28 @@ const RESOLUTION_PRIORITY: Record<QuickCheckResolution, number> = {
   reviewExtensions: 5,
 };
 
+const SEVERITY: Record<QuickCheckItem["status"], number> = {
+  action: 0,
+  attention: 10,
+  info: 20,
+  ready: 30,
+};
+
 function rank(item: QuickCheckItem): number {
-  const severity = item.status === "action" ? 0 : 100;
   const priority =
-    item.resolution === undefined ? 99 : RESOLUTION_PRIORITY[item.resolution];
-  return severity + priority;
+    item.resolution === undefined ? 9 : RESOLUTION_PRIORITY[item.resolution];
+  return SEVERITY[item.status] + priority;
 }
 
-/** The first problem gets an explicit, confirmed step; the rest stay folded. */
+/**
+ * Every finding as a peer row, most urgent first.
+ *
+ * This used to promote the first problem into an expanded card and fold the
+ * rest behind "5 more", which meant the page named one thing and hid the
+ * shape of everything else. Flat rows are narrow enough that the whole list
+ * fits, and each row carries its own next step, so nothing has to be unfolded
+ * before it can be acted on.
+ */
 export function QuickCheckResolutionGuide({
   summary,
   tools,
@@ -90,38 +112,11 @@ export function QuickCheckResolutionGuide({
   );
   const tasks = useTaskAvailability();
   const activeTools = activeToolOperations(tasks.operations.data ?? []);
-  const issues = summary.items
-    .filter(isIssue)
+  const listed = summary.items
+    .filter(isFinding)
     .sort((left, right) => rank(left) - rank(right));
 
-  if (issues.length === 0) return null;
-
-  const current = issues[0];
-  const remaining = issues.slice(1);
-  const tool = tools.find((candidate) => candidate.id === current.toolId);
-  const directResolution =
-    current.resolution !== undefined &&
-    isDirect(current.resolution) &&
-    tool !== undefined
-      ? current.resolution
-      : null;
-  const active =
-    current.toolId !== null && activeTools.has(current.toolId as ToolId);
-  const directBlocked =
-    directResolution !== null && (tasks.actionsBlocked || active);
-  const confirmationActive = confirmation
-    ? activeTools.has(confirmation.tool.id)
-    : false;
-  const updateActive = updateToolId !== null && activeTools.has(updateToolId);
-  const effectiveAction =
-    current.resolution === undefined
-      ? null
-      : (directResolution ??
-        (current.resolution === "updateTool" ||
-        current.resolution === "repairTool" ||
-        current.resolution === "reviewTool"
-          ? "reviewTool"
-          : current.resolution));
+  if (listed.length === 0) return null;
 
   function closeConfirmation(): void {
     if (update.isPending || repair.isPending) return;
@@ -130,30 +125,58 @@ export function QuickCheckResolutionGuide({
     setConfirmation(null);
   }
 
-  function continueCurrent(): void {
-    if (directResolution && tool) {
-      update.reset();
-      repair.reset();
-      setConfirmation({ resolution: directResolution, tool });
-      return;
-    }
-    switch (effectiveAction) {
-      case "connectService":
-      case "reviewService":
-        onOpenServices?.(current.toolId ?? undefined);
-        return;
-      case "reviewExtensions":
-        onOpenExtensions?.();
-        return;
-      case "reviewTool":
-      case "updateTool":
-      case "repairTool":
-        onOpenTools?.();
-        return;
-      case null:
-        return;
-    }
+  /**
+   * The row's own step. An update or a repair is a real change, so it opens the
+   * same confirmation the tools page uses; everything else navigates to the
+   * page that owns the fix.
+   */
+  function actionFor(item: QuickCheckItem) {
+    if (item.resolution === undefined) return undefined;
+    const tool = tools.find((candidate) => candidate.id === item.toolId);
+    const direct =
+      isDirect(item.resolution) && tool !== undefined ? item.resolution : null;
+    const active =
+      item.toolId !== null && activeTools.has(item.toolId as ToolId);
+    const effective =
+      direct ??
+      (item.resolution === "updateTool" ||
+      item.resolution === "repairTool" ||
+      item.resolution === "reviewTool"
+        ? "reviewTool"
+        : item.resolution);
+
+    return {
+      label: t(`preferences.check.guide.action.${effective}`),
+      disabled: direct !== null && (tasks.actionsBlocked || active),
+      onSelect: () => {
+        if (direct && tool) {
+          update.reset();
+          repair.reset();
+          setConfirmation({ resolution: direct, tool });
+          return;
+        }
+        switch (effective) {
+          case "connectService":
+          case "reviewService":
+            onOpenServices?.(item.toolId ?? undefined);
+            return;
+          case "reviewExtensions":
+            onOpenExtensions?.();
+            return;
+          case "reviewTool":
+          case "updateTool":
+          case "repairTool":
+            onOpenTools?.();
+            return;
+        }
+      },
+    };
   }
+
+  const confirmationActive = confirmation
+    ? activeTools.has(confirmation.tool.id)
+    : false;
+  const updateActive = updateToolId !== null && activeTools.has(updateToolId);
 
   return (
     <>
@@ -163,39 +186,15 @@ export function QuickCheckResolutionGuide({
         onRetry={() => void tasks.operations.refetch()}
       />
       <div ref={guideRef} tabIndex={-1} className="flex flex-col gap-3">
-        <div className="flex flex-col gap-3 rounded-lg border border-hairline bg-layer-1 p-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0">
-            <p className="text-body font-medium text-content">
-              {t(current.titleKey, current.values)}
-            </p>
-            <p className="mt-1 text-caption leading-5 text-content-muted">
-              {t(current.descriptionKey, current.values)}
-            </p>
-          </div>
-          {effectiveAction ? (
-            <Button
-              className="shrink-0"
-              disabled={directBlocked}
-              onClick={continueCurrent}
-            >
-              {t(`preferences.check.guide.action.${effectiveAction}`)}
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Button>
-          ) : null}
-        </div>
-
-        {remaining.length > 0 ? (
-          <details className="rounded-lg border border-hairline bg-layer-1 px-3 py-2">
-            <summary className="cursor-pointer list-none text-caption text-content-muted">
-              {t("home.health.more", { count: remaining.length })}
-            </summary>
-            <ul className="mt-3 grid gap-2 border-t border-hairline pt-3">
-              {remaining.map((item) => (
-                <QuickCheckSignalItem key={item.id} item={item} />
-              ))}
-            </ul>
-          </details>
-        ) : null}
+        <ul className="grid gap-2">
+          {listed.map((item) => (
+            <QuickCheckSignalItem
+              key={item.id}
+              item={item}
+              action={actionFor(item)}
+            />
+          ))}
+        </ul>
       </div>
 
       <QuickCheckResolutionModal

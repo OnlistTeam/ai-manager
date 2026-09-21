@@ -141,7 +141,7 @@ Both items below were resolved before the feature was built.
   fail. Combined with decision 3 this means a service link is in practice a paste-path feature;
   a link opened from the registered scheme can still create Skills, MCP servers and prompts.
 - **`model` is accepted as a provider parameter.** It is not in the decision-2 field list, but the
-  upstream links already carry it and the tools whose configuration *is* a model table have no
+  upstream links already carry it and the tools whose configuration _is_ a model table have no
   usable connection without one.
 - **MCP servers carrying `env` or `headers` are refused.** The product's typed MCP install draft
   deliberately has no field for either, so accepting the link and dropping them would install a

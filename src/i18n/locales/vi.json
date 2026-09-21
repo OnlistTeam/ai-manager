@@ -1,0 +1,2958 @@
+{
+  "about": {
+    "title": "Giấy phép và mã nguồn",
+    "description": "Bản dựng này được cấp phép như thế nào và lấy mã nguồn của nó ở đâu.",
+    "product": "AI Manager",
+    "version": "Phiên bản {{version}}",
+    "versionUnknown": "Không có thông tin phiên bản",
+    "copyright": "Copyright © 2026 AI Manager contributors",
+    "license": "Được cấp phép theo GNU Affero General Public License, phiên bản 3 trở lên. Chương trình này không đi kèm bất kỳ bảo hành nào.",
+    "upstream": "Bao gồm mã nguồn bắt nguồn từ CC Switch, sử dụng theo MIT License. Copyright (c) 2025 Jason Young.",
+    "sourceCode": "Mã nguồn",
+    "licenseText": "Đọc giấy phép"
+  },
+  "common": {
+    "add": "Thêm",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "save": "Lưu",
+    "saving": "Đang lưu...",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận",
+    "close": "Đóng",
+    "done": "Xong",
+    "settings": "Cài đặt",
+    "about": "Giới thiệu",
+    "version": "Phiên bản",
+    "loading": "Đang tải...",
+    "detecting": "Đang kiểm tra…",
+    "notInstalled": "Chưa cài đặt",
+    "success": "Thành công",
+    "error": "Lỗi",
+    "unknown": "Không xác định",
+    "enterValidValue": "Vui lòng nhập giá trị hợp lệ",
+    "clear": "Xóa",
+    "format": "Định dạng",
+    "formatSuccess": "Đã định dạng thành công",
+    "formatError": "Định dạng thất bại: {{error}}",
+    "copy": "Sao chép",
+    "view": "Xem",
+    "back": "Quay lại",
+    "refresh": "Làm mới",
+    "refreshing": "Đang làm mới...",
+    "import": "Nhập",
+    "all": "Tất cả",
+    "search": "Tìm kiếm",
+    "enableAllForApp": "Bật tất cả cho {{app}}",
+    "disableAllForApp": "Tắt tất cả cho {{app}}",
+    "bulkToggleFailed": "Không thể cập nhật {{count}} mục",
+    "reset": "Đặt lại",
+    "actions": "Hành động",
+    "deleting": "Đang xóa...",
+    "auto": "Tự động",
+    "enabled": "Đã bật",
+    "notSet": "Chưa đặt"
+  },
+  "providerForm": {
+    "supplierName": "Tên nhà cung cấp",
+    "supplierNameRequired": "Tên nhà cung cấp *",
+    "supplierNamePlaceholder": "ví dụ: Anthropic Official",
+    "websiteUrl": "URL trang web",
+    "websiteUrlPlaceholder": "https://example.com (tùy chọn)",
+    "apiEndpoint": "Điểm cuối API",
+    "apiEndpointPlaceholder": "https://your-api-endpoint.com",
+    "codexApiEndpointPlaceholder": "https://your-api-endpoint.com/v1",
+    "manageAndTest": "Quản lý & Kiểm tra",
+    "configContent": "Nội dung cấu hình",
+    "officialNoApiKey": "Đăng nhập chính thức không cần API Key, lưu trực tiếp",
+    "codexOfficialNoApiKey": "Phiên bản chính thức không cần API Key, lưu trực tiếp",
+    "codexApiKeyAutoFill": "Chỉ cần điền ở đây, auth.json bên dưới sẽ được tự động điền",
+    "apiKeyAutoFill": "Chỉ cần điền ở đây, cấu hình bên dưới sẽ được tự động điền",
+    "cnOfficialApiKeyHint": "💡 Chỉ cần điền API Key, điểm cuối đã được đặt sẵn",
+    "aggregatorApiKeyHint": "💡 Chỉ cần điền API Key, điểm cuối đã được đặt sẵn",
+    "thirdPartyApiKeyHint": "💡 Chỉ cần điền API Key, điểm cuối đã được đặt sẵn",
+    "customApiKeyHint": "💡 Cấu hình tùy chỉnh yêu cầu điền thủ công tất cả các trường cần thiết",
+    "omoHint": "💡 Cấu hình OMO quản lý việc gán model cho Agent và hỗ trợ cả oh-my-openagent.jsonc lẫn oh-my-opencode.jsonc",
+    "officialHint": "💡 Nhà cung cấp chính thức dùng đăng nhập qua trình duyệt, không cần API Key",
+    "providerKeyStatusLoading": "Trạng thái định danh nhà cung cấp vẫn đang tải. Vui lòng thử lại sau một chút.",
+    "getApiKey": "Lấy API Key",
+    "presets": {
+      "ucloud": "Compshare",
+      "ucloudCoding": "Compshare Coding Plan",
+      "shengsuanyun": "Shengsuanyun",
+      "qiniu": "Qiniu",
+      "openrouter": "OpenRouter",
+      "deepseek": "DeepSeek",
+      "together": "Together AI"
+    },
+    "parameterConfig": "Cấu hình tham số - {{name}} *",
+    "mainModel": "Model chính (tùy chọn)",
+    "mainModelPlaceholder": "ví dụ: GLM-4.6",
+    "fastModel": "Model nhanh (tùy chọn)",
+    "fastModelPlaceholder": "ví dụ: GLM-4.5-Air",
+    "modelHint": "💡 Để trống để dùng model mặc định của nhà cung cấp",
+    "apiHint": "💡 Điền điểm cuối dịch vụ tương thích Claude API, tránh dấu gạch chéo ở cuối",
+    "apiHintOAI": "💡 Điền điểm cuối dịch vụ tương thích OpenAI Chat Completions, tránh dấu gạch chéo ở cuối",
+    "apiHintGeminiNative": "💡 Ưu tiên dùng base URL Gemini Native như https://generativelanguage.googleapis.com hoặc https://generativelanguage.googleapis.com/v1beta; proxy sẽ tự động thêm models/*:generateContent",
+    "codexApiHint": "💡 Điền điểm cuối dịch vụ tương thích định dạng OpenAI Response",
+    "fillSupplierName": "Vui lòng điền tên nhà cung cấp",
+    "fillConfigContent": "Vui lòng điền nội dung cấu hình",
+    "fillParameter": "Vui lòng điền {{label}}",
+    "fillTemplateValue": "Vui lòng điền {{label}}",
+    "endpointRequired": "Điểm cuối API là bắt buộc đối với nhà cung cấp không chính thức",
+    "apiKeyRequired": "API Key là bắt buộc đối với nhà cung cấp không chính thức",
+    "softValidation": {
+      "title": "Cấu hình gặp các vấn đề sau",
+      "hint": "Vẫn lưu? Việc chuyển sang nhà cung cấp này có thể thất bại; bạn có thể điền lại sau.",
+      "saveAnyway": "Vẫn lưu"
+    },
+    "configJsonError": "Nội dung cấu hình sai định dạng JSON, vui lòng kiểm tra cú pháp",
+    "authJsonRequired": "auth.json phải là một đối tượng JSON",
+    "authJsonError": "auth.json sai định dạng, vui lòng kiểm tra cú pháp JSON",
+    "fillAuthJson": "Vui lòng điền cấu hình auth.json",
+    "fillApiKey": "Vui lòng điền OPENAI_API_KEY",
+    "visitWebsite": "Truy cập {{url}}",
+    "anthropicModel": "Model chính",
+    "anthropicSmallFastModel": "Model nhanh",
+    "apiFormat": "Định dạng upstream",
+    "apiFormatHint": "Chọn Anthropic Messages khi nhà cung cấp của bạn vốn là API Anthropic Messages (trực tiếp, không chuyển đổi định dạng); chọn Chat khi dùng Chat Completions; chọn Responses khi dùng Responses API; chọn Gemini Native khi dùng Gemini generateContent. Chat, Responses và Gemini Native đều cần bật routing để chuyển đổi sang Anthropic Messages.",
+    "customUserAgent": "User-Agent tùy chỉnh",
+    "customUserAgentHint": "Chỉ có hiệu lực khi bật routing/proxy cục bộ; thay thế User-Agent trong các yêu cầu chuyển tiếp đến API của nhà cung cấp.",
+    "customUserAgentInvalid": "User-Agent không được chứa ký tự điều khiển (ví dụ: xuống dòng); nếu có sẽ bị bỏ qua.",
+    "customUserAgentPresets": "Mẫu dựng sẵn",
+    "localProxyRequestOverrides": "Ghi đè yêu cầu trên proxy cục bộ",
+    "localProxyRequestOverridesHint": "Chỉ có hiệu lực sau khi bật routing/proxy cục bộ; được áp dụng cho yêu cầu upstream đã chuyển đổi.",
+    "localProxyRequestOverridesInvalid": "Nội dung ghi đè yêu cầu của proxy cục bộ sai định dạng: {{error}}",
+    "localProxyHeaderOverrides": "Ghi đè header",
+    "localProxyHeaderOverridesInvalidDetail": "Nội dung ghi đè header sai định dạng: {{error}}",
+    "localProxyBodyOverrides": "Ghi đè phần thân",
+    "localProxyBodyOverridesInvalidDetail": "Nội dung ghi đè phần thân sai định dạng: {{error}}",
+    "fullUrlLabel": "URL đầy đủ",
+    "fullUrlEnabled": "Chế độ URL đầy đủ",
+    "fullUrlDisabled": "Đánh dấu là URL đầy đủ",
+    "fullUrlHint": "💡 Nhập URL yêu cầu đầy đủ. Chế độ này yêu cầu bật routing, và routing sẽ dùng nguyên URL này mà không thêm đường dẫn",
+    "fullUrlHintGeminiNative": "💡 Ở chế độ URL đầy đủ của Gemini Native, có hai kiểu nhập được hỗ trợ: 1. URL Gemini chính thức/có cấu trúc, vẫn sẽ được chuẩn hóa theo model và phương thức streaming được yêu cầu; 2. URL relay tùy chỉnh không rõ cấu trúc, sẽ được dùng gần như nguyên bản, chỉ thêm tham số truy vấn",
+    "apiFormatAnthropic": "Anthropic Messages (gốc)",
+    "apiFormatOpenAIChat": "OpenAI Chat Completions (cần bật routing)",
+    "apiFormatOpenAIResponses": "OpenAI Responses API (cần bật routing)",
+    "apiFormatGeminiNative": "Gemini Native generateContent (cần bật routing)",
+    "codexApiFormatResponses": "OpenAI Responses API (gốc)",
+    "codexApiFormatOpenAIChat": "OpenAI Chat Completions (cần bật routing)",
+    "codexApiFormatHint": "Chọn định dạng API Codex mà nhà cung cấp này thực sự hỗ trợ; cấu hình vẫn dùng Responses cho các phiên bản Codex mới hơn, còn Chat Completions sẽ được chuyển đổi qua routing cục bộ.",
+    "authField": "Trường xác thực",
+    "authFieldAuthToken": "ANTHROPIC_AUTH_TOKEN (Mặc định)",
+    "authFieldApiKey": "ANTHROPIC_API_KEY",
+    "authFieldHint": "Chọn tên biến môi trường xác thực dùng cho cấu hình",
+    "apiHintResponses": "💡 Điền điểm cuối dịch vụ tương thích OpenAI Responses API, tránh dấu gạch chéo ở cuối",
+    "anthropicDefaultHaikuModel": "Model Haiku mặc định",
+    "anthropicDefaultSonnetModel": "Model Sonnet mặc định",
+    "anthropicDefaultOpusModel": "Model Opus mặc định",
+    "modelPlaceholder": "",
+    "smallModelPlaceholder": "",
+    "haikuModelPlaceholder": "",
+    "modelHelper": "Tùy chọn: chỉ định model Claude mặc định sẽ dùng, để trống để dùng mặc định của hệ thống.",
+    "modelMappingLabel": "Ánh xạ model",
+    "modelMappingHint": "Tên hiển thị chỉ ảnh hưởng đến menu /model; 1M chỉ là khai báo khả năng ngữ cảnh cho Claude Code.",
+    "modelRoleLabel": "Vai trò model",
+    "modelRoleSonnet": "Sonnet",
+    "modelRoleOpus": "Opus",
+    "modelRoleFable": "Fable",
+    "modelRoleHaiku": "Haiku",
+    "modelRoleSubagent": "Subagent",
+    "modelDisplayNameLabel": "Tên hiển thị",
+    "modelDisplayNamePlaceholder": "ví dụ: DeepSeek V4 Pro",
+    "modelNoDisplayName": "Không hiển thị trong /model",
+    "requestModelLabel": "Model được yêu cầu",
+    "modelOneMHeader": "Khai báo 1M",
+    "modelOneMLabel": "1M",
+    "fallbackModelLabel": "Model dự phòng mặc định",
+    "fallbackModelHint": "Model dự phòng cho các yêu cầu không ánh xạ rõ ràng đến Sonnet, Opus, Fable hoặc Haiku. Khuyến nghị dùng cho các điểm cuối bên thứ ba/relay. Nếu không, các yêu cầu này (kể cả tác vụ nền của Haiku) sẽ được chuyển tiếp dưới tên model Claude gốc và có thể thất bại nếu upstream không hỗ trợ. An toàn khi để trống với các điểm cuối chính thức.",
+    "quickSetModels": "Thiết lập nhanh",
+    "quickSetSuccess": "Đã áp dụng tên model cho tất cả vai trò",
+    "advancedOptionsToggle": "Tùy chọn nâng cao",
+    "advancedOptionsHint": "Bao gồm định dạng API, trường xác thực và ánh xạ model. Giá trị mặc định phù hợp với hầu hết trường hợp sử dụng.",
+    "categoryOfficial": "Chính thức",
+    "categoryCnOfficial": "Chính thức mã nguồn mở",
+    "categoryAggregation": "Tổng hợp",
+    "categoryThirdParty": "Bên thứ ba",
+    "fetchModels": "Lấy danh sách model",
+    "fetchingModels": "Đang lấy...",
+    "searchModelPlaceholder": "Tìm model...",
+    "searchModelEmpty": "Không có model phù hợp.",
+    "searchModelAriaLabel": "Chọn model",
+    "fetchModelsSuccess": "Đã tìm thấy {{count}} model",
+    "fetchModelsFailed": "Không thể lấy danh sách model",
+    "fetchModelsEmpty": "Không tìm thấy model nào",
+    "fetchModelsNeedApiKey": "Vui lòng điền API Key trước",
+    "fetchModelsNeedEndpoint": "Vui lòng điền điểm cuối API trước",
+    "fetchModelsNeedConfig": "Vui lòng điền điểm cuối API và API Key trước",
+    "fetchModelsAuthFailed": "API Key không hợp lệ hoặc thiếu quyền",
+    "fetchModelsNotSupported": "Nhà cung cấp này không hỗ trợ lấy danh sách model",
+    "fetchModelsEndpointNotFound": "Không tìm thấy điểm cuối model nào có thể truy cập. Vui lòng kiểm tra Base URL hoặc xác nhận nhà cung cấp có cung cấp API này không.",
+    "fetchModelsTimeout": "Yêu cầu hết thời gian chờ, vui lòng kiểm tra kết nối mạng",
+    "requiredFields": "Vui lòng điền tên nhà cung cấp, điểm cuối API, API Key và model"
+  },
+  "usage": {
+    "title": "Mức sử dụng & Chi phí",
+    "description": "Góc nhìn riêng tư, cục bộ về cách các công cụ lập trình AI của bạn đã được sử dụng.",
+    "loading": "Đang tải dữ liệu sử dụng cục bộ",
+    "hero": {
+      "eyebrow": "{{days}} ngày qua",
+      "cost": "Chi phí ước tính",
+      "estimate": "Được tính từ bản ghi token cục bộ và bảng giá mô hình. Hóa đơn từ nhà cung cấp của bạn có thể khác.",
+      "metric": {
+        "tokens": "Token",
+        "requests": "Yêu cầu",
+        "success": "Tỷ lệ thành công",
+        "cache": "Trúng cache"
+      }
+    },
+    "trend": {
+      "eyebrow": "Hoạt động cục bộ",
+      "title": "Sử dụng token theo ngày",
+      "total": "{{value}} token trong giai đoạn này",
+      "label": "Xu hướng token theo ngày, tổng cộng {{value}} token"
+    },
+    "tools": {
+      "eyebrow": "Phân tích chi tiết",
+      "title": "Mức sử dụng theo công cụ AI",
+      "requests": "{{value}} yêu cầu",
+      "tokens": "{{value}} token"
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "opencode": "OpenCode",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build",
+      "openclaw": "OpenClaw",
+      "hermes": "Hermes",
+      "pi": "Pi"
+    },
+    "sync": {
+      "running": "Đang đồng bộ dữ liệu sử dụng cục bộ",
+      "runningHint": "Đang quét các phiên làm việc cục bộ. Bạn có thể rời khỏi trang này; quá trình đồng bộ sẽ tiếp tục.",
+      "largeHistory": "Lần đồng bộ đầu tiên hoặc lịch sử lớn có thể mất vài phút. Không cần bắt đầu một lượt đồng bộ khác; bản tóm tắt đã lưu vẫn hiển thị và sẽ cập nhật khi hoàn tất.",
+      "elapsed": "Đã trôi qua: {{seconds}} giây",
+      "action": "Đồng bộ dữ liệu sử dụng cục bộ",
+      "success": "Đã quét {{filesScanned}} tệp cục bộ và thêm {{recordsImported}} bản ghi mới.",
+      "partial": "Đã quét {{filesScanned}} tệp cục bộ và thêm {{recordsImported}} bản ghi. {{sourceIssues}} lượt kiểm tra nguồn chưa hoàn tất; dữ liệu hiện có vẫn được hiển thị.",
+      "errorTitle": "Không thể đồng bộ dữ liệu sử dụng cục bộ",
+      "errorHint": "Bản tóm tắt đã lưu không bị xóa. Hãy thử lại."
+    },
+    "privacy": {
+      "title": "Được thiết kế để tổng hợp và cục bộ",
+      "description": "Trang này không bao giờ hiển thị prompt, phản hồi, ID yêu cầu, đường dẫn, cài đặt nhà cung cấp hay thông tin xác thực. Đồng bộ chỉ đọc các tệp phiên CLI được hỗ trợ trên máy tính này và không liên hệ với bất kỳ nhà cung cấp nào."
+    },
+    "empty": {
+      "title": "Chưa có bản ghi sử dụng cục bộ nào",
+      "description": "Đồng bộ các phiên CLI được hỗ trợ để tạo góc nhìn tổng hợp đầu tiên. Không có gì được tải lên."
+    },
+    "error": {
+      "title": "Không thể đọc dữ liệu sử dụng cục bộ",
+      "description": "Các bản ghi đã lưu của bạn vẫn còn trên máy tính này. Hãy thử đọc lại bản tóm tắt.",
+      "retry": "Thử lại"
+    },
+    "stale": {
+      "title": "Không thể làm mới bản tóm tắt",
+      "description": "Ảnh chụp cục bộ gần nhất vẫn được hiển thị cho đến khi lần đọc mới thành công."
+    }
+  },
+  "dbUpgrade": {
+    "title": "Phiên bản cơ sở dữ liệu quá mới",
+    "description": "Cơ sở dữ liệu này được tạo bởi một bản AI Manager mới hơn hoặc một ứng dụng tương thích. Bản dựng này không thể mở nó, và dữ liệu của bạn chưa bị thay đổi.",
+    "versionInfo": "Cơ sở dữ liệu v{{db}} · Ứng dụng hỗ trợ v{{supported}}",
+    "dbPath": "Tệp cơ sở dữ liệu",
+    "channelUnavailableTitle": "Kênh cập nhật đã ký không khả dụng",
+    "channelUnavailableDescription": "AI Manager không thể lấy hoặc cài đặt an toàn một bản dựng mới hơn cho đến khi điểm cuối cập nhật sản phẩm và khóa ký của nó được chấp thuận. Hãy sao lưu thư mục này, sau đó thoát và dùng một bản dựng tương thích đã được chấp thuận.",
+    "openConfigDir": "Mở thư mục dữ liệu ứng dụng",
+    "quit": "Thoát"
+  },
+  "errors": {
+    "usage_query_failed": "Truy vấn sử dụng thất bại",
+    "configFallbackPath": "AI Manager application data/config.json",
+    "configLoadFailedTitle": "Không thể tải cấu hình",
+    "configLoadFailedMessage": "Không thể đọc tệp cấu hình:\n{{path}}\n\nChi tiết lỗi:\n{{detail}}\n\nVui lòng kiểm tra xem JSON có hợp lệ không, hoặc khôi phục từ tệp sao lưu (ví dụ: config.json.bak) trong cùng thư mục.\n\nỨng dụng sẽ thoát để bạn có thể khắc phục điều này.",
+    "frontendCrashTitle": "Đã có lỗi xảy ra trong giao diện",
+    "frontendCrashMessage": "Đã cố gắng ghi lỗi vào nhật ký chẩn đoán của ứng dụng. Hãy tải lại giao diện, và đính kèm nhật ký khi mở một issue nếu vấn đề vẫn tiếp diễn.",
+    "reloadInterface": "Tải lại giao diện"
+  },
+  "hermes": {
+    "form": {
+      "baseUrl": "Điểm cuối API",
+      "baseUrlHint": "URL điểm cuối API của nhà cung cấp này.",
+      "providerKey": "Khóa nhà cung cấp",
+      "providerKeyPlaceholder": "my-provider",
+      "providerKeyHint": "Chỉ dùng chữ thường, số và dấu gạch nối. Được dùng làm tên nhà cung cấp trong config.yaml.",
+      "providerKeyLockedHint": "Nhà cung cấp này đang có trong cấu hình Hermes; khóa đã bị khóa.",
+      "providerKeyRequired": "Khóa nhà cung cấp là bắt buộc",
+      "providerKeyInvalid": "Khóa nhà cung cấp chỉ được chứa chữ thường, số và dấu gạch nối",
+      "providerKeyDuplicate": "Khóa nhà cung cấp này đã tồn tại",
+      "apiMode": "Chế độ API",
+      "apiModeHint": "Giao thức API của nhà cung cấp. Chọn định dạng khớp với điểm cuối của bạn.",
+      "apiModeChatCompletions": "OpenAI Chat Completions",
+      "apiModeAnthropicMessages": "Anthropic Messages",
+      "apiModeCodexResponses": "OpenAI Responses",
+      "apiModeBedrockConverse": "AWS Bedrock Converse",
+      "baseUrlRequired": "Điểm cuối API là bắt buộc",
+      "baseUrlScheme": "Dùng địa chỉ bắt đầu bằng http:// hoặc https://",
+      "baseUrlInvalid": "Điểm cuối API không phải URL hợp lệ",
+      "models": "Model",
+      "addModel": "Thêm model",
+      "noModels": "Chưa cấu hình model nào. Chuyển sang nhà cung cấp này sẽ không thay đổi model mặc định.",
+      "modelId": "ID model",
+      "modelIdPlaceholder": "anthropic/claude-opus-5",
+      "modelName": "Tên hiển thị",
+      "modelNamePlaceholder": "Claude Opus 5",
+      "contextLength": "Độ dài ngữ cảnh",
+      "toggleModelDetails": "Mở rộng hoặc thu gọn chi tiết model",
+      "removeModel": "Xóa model",
+      "modelsHint": "Khi kích hoạt, model đầu tiên sẽ trở thành mặc định của Hermes.",
+      "rateLimitDelay": "Độ trễ giới hạn tốc độ (giây)",
+      "rateLimitDelayHint": "Độ trễ tối thiểu tính bằng giây giữa các yêu cầu liên tiếp (tùy chọn). Để trống nếu không giới hạn."
+    },
+    "webui": {
+      "open": "Mở giao diện web Hermes",
+      "offline": "Giao diện web Hermes chưa chạy. Khởi động bằng lệnh `hermes dashboard` trước.",
+      "openFailed": "Không thể mở giao diện web Hermes",
+      "launchConfirmTitle": "Hermes Dashboard chưa chạy",
+      "launchConfirmMessage": "Mở terminal và khởi động ngay bằng `hermes dashboard`?\n\nTrình duyệt sẽ tự động mở khi khởi động hoàn tất.\n\nNếu terminal báo không tìm thấy `hermes` hoặc thiếu phần mở rộng web, hãy chạy trước:\npip install hermes-agent[web]",
+      "launchConfirmAction": "Mở terminal & khởi động",
+      "launching": "Đã khởi động `hermes dashboard` trong terminal.",
+      "launchFailed": "Không thể mở terminal"
+    },
+    "memory": {
+      "title": "Bộ nhớ",
+      "agentTab": "Bộ nhớ Agent (MEMORY.md)",
+      "userTab": "Hồ sơ người dùng (USER.md)",
+      "usage": "{{current}} / {{limit}} ký tự",
+      "overLimit": "Vượt hạn mức, Hermes sẽ cắt bớt ở lần tải tiếp theo",
+      "enableOn": "Đang bật",
+      "enableOff": "Đang tắt",
+      "disabledHint": "Hermes sẽ bỏ qua bộ nhớ này cho đến khi được bật lại",
+      "toggleFailed": "Không thể bật/tắt bộ nhớ",
+      "saveSuccess": "Đã lưu bộ nhớ",
+      "saveFailed": "Không thể lưu bộ nhớ",
+      "loadFailed": "Không thể đọc tệp bộ nhớ",
+      "openConfig": "Điều chỉnh hạn mức trong giao diện web Hermes",
+      "runtimeNote": "Thay đổi có hiệu lực khi Hermes khởi động lại hoặc bắt đầu phiên mới."
+    }
+  },
+  "ds": {
+    "status": {
+      "ready": "Sẵn sàng",
+      "attention": "Cần chú ý",
+      "action": "Cần thao tác"
+    },
+    "action": {
+      "install": "Cài đặt",
+      "configure": "Thêm vào công cụ",
+      "readOnly": "Chỉ đọc",
+      "update": "Cập nhật",
+      "versions": "Đổi phiên bản",
+      "open": "Mở",
+      "remove": "Xóa",
+      "check": "Kiểm tra",
+      "fix": "Sửa lỗi",
+      "connect": "Kết nối",
+      "retry": "Thử lại",
+      "copyNamed": "Sao chép {{name}}",
+      "copied": "Đã sao chép",
+      "use": "Dùng",
+      "inUse": "Đang dùng",
+      "cancel": "Hủy",
+      "close": "Đóng",
+      "named": {
+        "install": "Cài đặt {{name}}",
+        "update": "Cập nhật {{name}}",
+        "versions": "Đổi phiên bản {{name}}",
+        "open": "Mở {{name}}",
+        "remove": "Xóa {{name}}",
+        "check": "Kiểm tra {{name}}",
+        "fix": "Sửa lỗi {{name}}"
+      }
+    },
+    "tool": {
+      "notInstalled": "Chưa cài đặt",
+      "installed": "Đã cài đặt",
+      "updateAvailable": "Có bản cập nhật",
+      "broken": "Cần sửa lỗi",
+      "unknown": "Chưa kiểm tra",
+      "installUnavailable": "Cài đặt tự động không khả dụng cho công cụ này.",
+      "openUnavailable": "AI Manager không thể tự động mở công cụ này.",
+      "updateUnavailable": "Cập nhật tự động không khả dụng cho công cụ này.",
+      "repairUnavailable": "Sửa lỗi tự động không khả dụng. AI Manager sẽ không thay đổi công cụ này nếu không có cách sửa an toàn."
+    },
+    "service": {
+      "currentlyUsedBy": "Đang được dùng bởi",
+      "notUsed": "Không sử dụng",
+      "nowActive": "Đang hoạt động"
+    },
+    "task": {
+      "queued": "Đang chờ",
+      "running": "Đang xử lý",
+      "success": "Hoàn tất",
+      "failed": "Thất bại",
+      "cancelled": "Đã dừng",
+      "progressLabel": "Tiến trình tác vụ"
+    },
+    "sidebar": {
+      "primary": "Điều hướng chính",
+      "expand": "Mở rộng thanh bên",
+      "collapse": "Thu gọn thanh bên"
+    }
+  },
+  "operation": {
+    "phase": {
+      "preparing": "Đang chuẩn bị",
+      "downloading": "Đang tải xuống",
+      "cancelling": "Đang hủy an toàn",
+      "cancelled": "Đã hủy",
+      "installing": "Đang cài đặt",
+      "configuring": "Đang cấu hình",
+      "removing": "Đang gỡ bỏ",
+      "checking": "Đang kiểm tra",
+      "ready": "Sẵn sàng",
+      "removed": "Đã gỡ bỏ"
+    },
+    "log": {
+      "started": "Tác vụ đã bắt đầu",
+      "cancellationRequested": "Đã yêu cầu hủy; đang chờ tiến trình đang chạy dừng lại",
+      "cancelled": "Tác vụ đã bị hủy sau khi tiến trình dừng lại",
+      "commandSucceeded": "Lệnh đã hoàn tất",
+      "commandFailed": "Lệnh thất bại",
+      "commandFailureIgnored": "Lệnh trả về trạng thái khác 0; vẫn tiếp tục theo kế hoạch",
+      "tryingFallback": "Đang thử phương án an toàn tiếp theo",
+      "usingConfiguredProxy": "Đang dùng proxy gửi đi đã cấu hình",
+      "usingCommunityMirror": "Đang thử lại lượt tải tương thích npm này qua máy chủ mirror cộng đồng",
+      "nativeSupply": {
+        "start": "Kênh cập nhật chính thức không khả dụng; đang tải cùng chương trình chính thức từ nguồn tải xuống",
+        "done": "Chương trình chính thức đã được cập nhật và quyền sở hữu cài đặt của nó không đổi"
+      },
+      "succeeded": "Tác vụ đã hoàn tất",
+      "failed": "Tác vụ thất bại",
+      "truncated": "Đầu ra trước đó đã bị cắt bớt"
+    }
+  },
+  "error": {
+    "about": {
+      "openLinkFailed": "Không thể mở trang này trong trình duyệt của bạn."
+    },
+    "appUpdate": {
+      "installFailed": "Không thể cài đặt bản cập nhật ứng dụng này.",
+      "notReady": "Bản cập nhật ứng dụng chưa sẵn sàng.",
+      "openDownloadFailed": "Không thể mở trang tải xuống chính thức của AI Manager."
+    },
+    "backup": {
+      "createFailed": "Không thể lưu bản sao lưu.",
+      "deleteFailed": "Không thể xóa bản sao lưu đó.",
+      "exportFailed": "Không thể lưu bản sao cấu hình di động.",
+      "exportLocationRefused": "Chọn một thư mục khác và giữ bản sao di động dưới dạng kho lưu cấu hình.",
+      "importFailed": "Không thể nhập kho lưu cấu hình đó. Thiết lập hiện tại của bạn không thay đổi.",
+      "importTooLarge": "Kho lưu cấu hình đó quá lớn để nhập một cách an toàn.",
+      "listFailed": "Không thể đọc các bản sao lưu của bạn.",
+      "nameExists": "Một bản sao lưu khác đã dùng tên này.",
+      "nameInvalid": "Tên bản sao lưu đó chứa ký tự không được hỗ trợ.",
+      "nameRequired": "Nhập tên bản sao lưu.",
+      "nameTooLong": "Tên bản sao lưu đó quá dài.",
+      "noDatabase": "Chưa có gì để sao lưu.",
+      "notFound": "Bản sao lưu đó không còn ở đây nữa.",
+      "renameFailed": "Không thể đổi tên bản sao lưu đó.",
+      "restoreFailed": "Không thể khôi phục bản sao lưu đó. Không có gì bị thay đổi.",
+      "scheduleSaveFailed": "Không thể lưu thiết lập sao lưu tự động.",
+      "selectionUnavailable": "Vị trí đã chọn không khả dụng dưới dạng tệp cục bộ.",
+      "storeUnavailable": "Ứng dụng vẫn đang khởi động."
+    },
+    "command": {
+      "joinFailed": "Tác vụ đã dừng đột ngột.",
+      "permissionDenied": "AI Manager không được phép làm việc này trên máy tính của bạn.",
+      "programNotFound": "Thiếu một chương trình mà AI Manager cần.",
+      "spawnFailed": "Một chương trình mà AI Manager cần không thể khởi động.",
+      "timeout": "Việc này mất quá nhiều thời gian, nên AI Manager đã dừng lại."
+    },
+    "commandSpec": {
+      "argContainsNul": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "envContainsNul": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "envKeyInvalid": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "scriptNotSealed": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "bashRequiresSingleScript": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "programPathMismatch": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "programPathNotAbsolute": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "sensitiveIndexOutOfRange": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "terminalTargetInvalid": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "terminalTargetNotAnchored": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "terminalWorkingDirectoryNotAbsolute": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "wslDistroInvalid": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại.",
+      "timeoutZero": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại."
+    },
+    "deepLink": {
+      "credentialBlocked": "Liên kết này mang theo một khóa. Liên kết được mở từ bên ngoài AI Manager không được phép làm việc này, vì máy tính của bạn sẽ nhìn thấy khóa đó khi nó đi qua. Hãy sao chép liên kết và dán vào Cài đặt thay vào đó.",
+      "credentialRequired": "Liên kết này không có khóa, mà một điểm cuối API không thể được lưu nếu thiếu khóa. Hãy hỏi nhà cung cấp để có liên kết kèm theo khóa.",
+      "duplicateParameter": "Liên kết này lặp lại một trong các trường của nó, nên không thể đọc được.",
+      "endpointRequired": "Liên kết này không nêu địa chỉ cho điểm cuối API.",
+      "invalidEncoding": "Dữ liệu chứa trong liên kết này đã hỏng và không thể đọc được.",
+      "invalidLink": "Đây không phải là liên kết mà AI Manager có thể đọc.",
+      "mcpUnsupportedFields": "Liên kết này muốn thiết lập các giá trị môi trường hoặc tiêu đề yêu cầu cho một máy chủ MCP. AI Manager không tự thêm những thứ đó, nên không thể dùng liên kết này.",
+      "missingParameter": "Liên kết này thiếu một phần mà AI Manager cần để nhập nó.",
+      "notPending": "Liên kết này không còn chờ xử lý nữa. Có thể nó đã hết hạn, hoặc đã được xử lý rồi.",
+      "tooLarge": "Liên kết này quá dài để đọc một cách an toàn.",
+      "toolUnavailable": "AI Manager không quản lý ứng dụng mà liên kết này nhắm tới.",
+      "unknownParameter": "Liên kết này chứa một trường mà AI Manager không nhận ra.",
+      "unsupportedResource": "Liên kết này yêu cầu thứ mà AI Manager không thể nhập.",
+      "unsupportedScheme": "Liên kết này không thuộc về AI Manager.",
+      "unsupportedVersion": "Liên kết này dùng định dạng mới hơn phiên bản AI Manager hiện tại có thể hiểu.",
+      "valueTooLong": "Một trong các giá trị trong liên kết này dài hơn nhiều so với mức cho phép."
+    },
+    "desktopApp": {
+      "inventoryFailed": "AI Manager không thể kiểm tra các ứng dụng trên máy tính này.",
+      "launchFailed": "Không thể mở ứng dụng này.",
+      "launchUnsupported": "Không thể mở ứng dụng trên hệ thống này.",
+      "notFound": "Ứng dụng đó không còn được cài đặt nữa.",
+      "officialDownloadFailed": "Không thể mở trình cài đặt chính thức của nhà cung cấp.",
+      "officialDownloadUnsupported": "Nhà cung cấp không phát hành trình cài đặt cho hệ thống và kiến trúc này.",
+      "uninstallHandoffFailed": "Không thể mở công cụ gỡ cài đặt của hệ điều hành.",
+      "uninstallHandoffUnsupported": "AI Manager không thể chuyển ứng dụng này cho trình gỡ cài đặt của hệ thống ở đây."
+    },
+    "desktopPreferences": {
+      "invalid": "Giữ khay hệ thống hiển thị trước khi bật khởi động ẩn hoặc giữ ứng dụng chạy sau khi đóng cửa sổ.",
+      "readFailed": "AI Manager không thể đọc tùy chọn desktop trên máy tính này.",
+      "saveFailed": "AI Manager không thể áp dụng tùy chọn desktop một cách an toàn."
+    },
+    "extension": {
+      "adoptFailed": "AI Manager không thể thêm các tiện ích đã tìm thấy một cách an toàn.",
+      "adoptUnsupported": "Loại tiện ích này không thể được thêm từ một bản sao cục bộ có sẵn.",
+      "cannotDisable": "Luôn có một bộ chỉ dẫn đang được sử dụng, nên bộ này không thể tắt được. Hãy chọn một bộ khác thay vào đó.",
+      "copyFailed": "Không thể sao chép Skill này.",
+      "detectedReadOnly": "AI Manager tìm thấy tiện ích này trên máy Mac của bạn nhưng chưa quản lý nó, nên đã giữ nguyên bản sao cục bộ.",
+      "listFailed": "Không thể đọc các tiện ích của công cụ này.",
+      "notFound": "Tiện ích đó không còn ở đây nữa.",
+      "resourceOpenFailed": "Không thể mở các tệp cục bộ của Skill này.",
+      "storeUnavailable": "Ứng dụng vẫn đang khởi động.",
+      "toggleFailed": "Không thể hoàn tất thay đổi này. Công tắc có thể không khớp với những gì công cụ đang thấy.",
+      "unknownKind": "AI Manager không nhận biết loại tiện ích này.",
+      "unsupportedScope": "AI Manager chưa tích hợp loại tiện ích này cho mục tiêu đã chọn."
+    },
+    "health": {
+      "snapshotFailed": "Không thể đọc trạng thái thiết lập của bạn.",
+      "storeUnavailable": "Ứng dụng vẫn đang khởi động."
+    },
+    "import": {
+      "invalidSource": "Không thể nhập thiết lập tương thích đó một cách an toàn.",
+      "mergeFailed": "Không thể nhập thiết lập hiện có. Không có gì bị thay đổi.",
+      "newerVersion": "Thiết lập này dùng định dạng tương thích mới hơn. Hãy cập nhật AI Manager rồi thử lại.",
+      "notFound": "Nguồn nhập không còn ở đây nữa.",
+      "readFailed": "Không thể đọc thiết lập hiện có đó.",
+      "storeUnavailable": "Ứng dụng vẫn đang khởi động."
+    },
+    "mcp": {
+      "actionPanicked": "Đã có lỗi xảy ra khi thêm kết nối MCP này.",
+      "argumentsInvalid": "Không thể thêm các tham số dòng lệnh đó một cách an toàn.",
+      "commandInvalid": "Không thể thêm lệnh đó một cách an toàn.",
+      "commandRequired": "Nhập chương trình mà kết nối này sẽ chạy.",
+      "descriptionTooLong": "Giữ mô tả trong giới hạn 240 ký tự trở xuống.",
+      "installCleanupFailed": "Không thể thêm kết nối này, và AI Manager không thể dọn dẹp hoàn toàn thay đổi vừa thử.",
+      "installFailed": "Không thể thêm kết nối MCP này.",
+      "nameInvalid": "Tên kết nối đó chứa ký tự không được hỗ trợ.",
+      "nameRequired": "Đặt tên cho kết nối này trước.",
+      "nameTooLong": "Giữ tên kết nối trong giới hạn 80 ký tự trở xuống.",
+      "notInstalled": "Kết nối MCP đó không còn ở đây nữa.",
+      "removeFailed": "Không thể xóa kết nối MCP này một cách an toàn.",
+      "removePanicked": "Đã có lỗi xảy ra khi xóa kết nối MCP này.",
+      "removeRestoreFailed": "Không thể xóa kết nối này, và AI Manager không thể xác nhận rằng thiết lập trước đó đã được khôi phục đầy đủ.",
+      "removeVerifyFailed": "AI Manager không thể xác nhận rằng kết nối MCP đã được xóa.",
+      "unsupportedScope": "AI Manager chưa tích hợp kết nối MCP cho mục tiêu đã chọn.",
+      "urlCredentials": "Không đặt tên đăng nhập hoặc mật khẩu trong địa chỉ máy chủ.",
+      "urlInsecure": "Dùng HTTPS cho máy chủ từ xa. HTTP chỉ được phép cho máy tính này.",
+      "urlInvalid": "Nhập một địa chỉ máy chủ HTTP hoặc HTTPS đầy đủ, không có fragment.",
+      "urlRequired": "Nhập địa chỉ máy chủ MCP.",
+      "verifyFailed": "AI Manager không thể xác nhận rằng kết nối MCP đã được thêm."
+    },
+    "native": {
+      "responseSchemaMismatch": "AI Manager nhận được một phản hồi mà nó không hiểu. Hãy thử lại.",
+      "unrecognized": "Đã có lỗi xảy ra. Hãy thử lại."
+    },
+    "networkProxy": {
+      "invalid": "Dùng một proxy cục bộ không cần xác thực, ví dụ http://127.0.0.1:7890 hoặc socks5://localhost:1080.",
+      "readFailed": "AI Manager không thể đọc thiết lập proxy tải xuống.",
+      "saveFailed": "AI Manager không thể áp dụng proxy tải xuống một cách an toàn.",
+      "storeUnavailable": "Thiết lập proxy tải xuống chưa sẵn sàng."
+    },
+    "openclawWorkspace": {
+      "contentInvalid": "Tệp workspace này không phải là văn bản UTF-8 hợp lệ.",
+      "contentTooLarge": "Tệp workspace này vượt quá giới hạn an toàn 1 MiB.",
+      "dateInvalid": "Chọn một ngày hợp lệ theo định dạng YYYY-MM-DD.",
+      "deleteFailed": "AI Manager không thể xóa bộ nhớ hàng ngày đó một cách an toàn.",
+      "directoryOpenFailed": "Không thể mở thư mục workspace trong trình quản lý tệp của hệ thống.",
+      "invalidTarget": "Mục tiêu workspace OpenClaw đó không được hỗ trợ.",
+      "listFailed": "AI Manager không thể đọc danh mục workspace OpenClaw.",
+      "queryInvalid": "Giữ nội dung tìm kiếm workspace trong giới hạn 200 ký tự trở xuống.",
+      "readFailed": "AI Manager không thể đọc tệp workspace OpenClaw đó.",
+      "restoreFailed": "Thay đổi workspace thất bại và tệp gốc không thể tự động khôi phục.",
+      "saveFailed": "AI Manager không thể lưu tệp workspace OpenClaw đó một cách an toàn.",
+      "unsafeEntry": "Mục workspace này là một liên kết hoặc loại tệp không được hỗ trợ, nên AI Manager đã để nguyên không đụng vào.",
+      "verifyFailed": "AI Manager không thể xác minh thay đổi workspace OpenClaw."
+    },
+    "operation": {
+      "cancelFailed": "AI Manager không thể dừng tác vụ này một cách an toàn. Nó đã chờ tiến trình thoát và đánh dấu tác vụ là thất bại.",
+      "cancelNotRequested": "Việc hủy chưa được yêu cầu cho tác vụ này.",
+      "cancelPending": "Tác vụ này đang được hủy.",
+      "cancelUnconfirmed": "AI Manager chưa xác nhận rằng tác vụ này đã dừng.",
+      "cancelled": "Tác vụ này đã bị hủy.",
+      "invalidId": "Tham chiếu tác vụ đó không hợp lệ.",
+      "invalidTransition": "Tác vụ này đã hoàn tất rồi.",
+      "notCancellable": "Tác vụ này không hỗ trợ hủy.",
+      "notCancellableNow": "Tác vụ này đã đến một giai đoạn không thể dừng an toàn.",
+      "notFound": "Tác vụ đó không còn khả dụng nữa.",
+      "notRunning": "Tác vụ đó không đang chạy.",
+      "toolBusy": "Một tác vụ khác đang chạy cho công cụ này. Hãy đợi nó hoàn tất.",
+      "desktopAppBusy": "Một tác vụ khác đang chạy cho ứng dụng desktop này. Hãy đợi nó hoàn tất."
+    },
+    "prompt": {
+      "contentInvalid": "Nội dung chỉ dẫn đó chứa một ký tự không thể lưu an toàn.",
+      "contentRequired": "Viết chỉ dẫn mà công cụ này sẽ tuân theo.",
+      "contentTooLong": "Giữ nội dung chỉ dẫn dưới 1 MB.",
+      "descriptionInvalid": "Mô tả đó chứa ký tự không được hỗ trợ.",
+      "descriptionTooLong": "Giữ mô tả trong giới hạn 500 ký tự trở xuống.",
+      "importEmpty": "Tệp chỉ dẫn hiện tại của công cụ này đang trống.",
+      "importFailed": "Không thể nhập chỉ dẫn hiện tại của công cụ này.",
+      "importMissing": "Công cụ này chưa có tệp chỉ dẫn hiện tại.",
+      "liveInvalid": "Tệp chỉ dẫn hiện tại của công cụ này không phải là văn bản đọc được, nên AI Manager đã để nguyên không thay đổi.",
+      "nameInvalid": "Tên chỉ dẫn đó chứa ký tự không được hỗ trợ.",
+      "nameRequired": "Đặt tên cho chỉ dẫn này trước.",
+      "nameTooLong": "Giữ tên chỉ dẫn trong giới hạn 80 ký tự trở xuống.",
+      "notFound": "Chỉ dẫn đó không còn ở đây nữa.",
+      "readFailed": "Không thể đọc chỉ dẫn đó.",
+      "removeActive": "Chuyển sang một bộ chỉ dẫn khác trước khi xóa bộ này.",
+      "removeFailed": "Không thể xóa chỉ dẫn đó một cách an toàn.",
+      "removeRestoreFailed": "Không thể xóa chỉ dẫn này, và AI Manager không thể xác nhận rằng bản đã lưu được khôi phục.",
+      "saveFailed": "Không thể lưu chỉ dẫn đó.",
+      "saveRestoreFailed": "Không thể lưu chỉ dẫn này, và AI Manager không thể xác nhận rằng phiên bản trước đó đã được khôi phục đầy đủ.",
+      "saveVerifyFailed": "AI Manager không thể xác nhận rằng chỉ dẫn đã được lưu đúng cách.",
+      "unsupportedTool": "AI Manager chưa tích hợp chỉ dẫn cố định cho công cụ này."
+    },
+    "provider": {
+      "createFailed": "Không thể kết nối dịch vụ này.",
+      "listFailed": "Không thể đọc các dịch vụ của công cụ này.",
+      "modelProbeImageTooLarge": "Hình ảnh được tạo ra quá lớn để hiển thị.",
+      "modelProbeModelInvalid": "Nhập tên mô hình trước.",
+      "modelProbePromptInvalid": "Nhập một prompt trong giới hạn 200 ký tự trở xuống.",
+      "modelProbeTimeout": "Dịch vụ này không phản hồi kịp thời.",
+      "modelProbeUnreachable": "Không thể kết nối đến dịch vụ này.",
+      "modelProbeUnreadable": "Dịch vụ này đã phản hồi bằng thứ mà ứng dụng không đọc được.",
+      "nameRequired": "Đặt tên cho dịch vụ này trước.",
+      "notFound": "Dịch vụ đó không còn ở đây nữa.",
+      "notTestable": "Dịch vụ này không có địa chỉ để kiểm tra.",
+      "removeActive": "Chuyển sang một dịch vụ khác trước khi xóa dịch vụ này.",
+      "removeFailed": "Không thể xóa dịch vụ này một cách an toàn.",
+      "removePanicked": "Đã có lỗi xảy ra khi xóa dịch vụ này.",
+      "removeRestoreFailed": "Không thể xóa dịch vụ này, và AI Manager không thể xác nhận rằng thiết lập trước đó đã được khôi phục đầy đủ.",
+      "removeUnsupported": "Dịch vụ này dùng thiết lập riêng của công cụ và không thể xóa ở đây.",
+      "removeVerifyFailed": "AI Manager không thể xác nhận rằng dịch vụ đã được xóa.",
+      "runtimeContextFailed": "Không thể kiểm tra các nguồn cấu hình của công cụ này.",
+      "runtimeResourceNotFound": "Tài nguyên cục bộ đó không còn khả dụng nữa.",
+      "runtimeResourceOpenFailed": "Không thể mở tài nguyên cục bộ đó.",
+      "saveFailed": "Không thể lưu thay đổi cho dịch vụ này.",
+      "saveRestoreFailed": "Không thể lưu dịch vụ này, và AI Manager không thể xác nhận rằng thiết lập trước đó đã được khôi phục đầy đủ.",
+      "settingsPreserveFailed": "Điểm cuối đã được chuyển đổi, nhưng các thiết lập khác của công cụ này không thể giữ nguyên.",
+      "storeUnavailable": "Ứng dụng vẫn đang khởi động.",
+      "switchFailed": "Không thể chuyển sang dịch vụ này.",
+      "testFailed": "Không thể chạy kiểm tra.",
+      "unsupportedTool": "AI Manager chưa tích hợp dịch vụ AI cho công cụ này."
+    },
+    "remediation": {
+      "chooseAnotherService": "Chọn một dịch vụ khác cho công cụ này, rồi thử lại.",
+      "checkConnectionSettings": "Kiểm tra tên, khóa API và mô hình, rồi thử lại.",
+      "checkInternetConnection": "Kiểm tra kết nối internet của bạn, rồi thử lại.",
+      "checkLocalFileAccess": "Đảm bảo Skill vẫn ở vị trí ban đầu và hệ thống của bạn có thể mở được, rồi thử lại.",
+      "checkServiceRegion": "Kiểm tra các khu vực được nhà cung cấp hỗ trợ. AI Manager sẽ không vượt qua các giới hạn về tài khoản hoặc khu vực dịch vụ.",
+      "checkMcpSettings": "Xem lại tên MCP và chi tiết kết nối, rồi thử lại.",
+      "checkPromptSettings": "Xem lại tên và nội dung chỉ dẫn, rồi thử lại.",
+      "checkPermissions": "Đảm bảo AI Manager được phép thay đổi tệp trong thư mục home của bạn, rồi thử lại.",
+      "checkServiceSettings": "Kiểm tra tên và khóa, rồi thử lại.",
+      "configureInstallNetwork": "Xem lại nhật ký tiến trình. Nếu không thể kết nối tới máy chủ tải xuống của nhà cung cấp, hãy cấu hình proxy cục bộ trong Cài đặt rồi thử lại; các công cụ thuộc npm đã tự động dùng cơ chế dự phòng ưu tiên nguồn chính thức.",
+      "chooseListedVersion": "Chọn một trong các phiên bản trong danh sách đăng ký rồi thử lại.",
+      "installManually": "Bạn có thể tự cài đặt công cụ này từ trang web chính thức của nó.",
+      "uninstallDesktopAppManually": "Dùng công cụ quản lý ứng dụng của hệ điều hành để gỡ ứng dụng desktop này.",
+      "openDesktopAppManually": "Mở ứng dụng từ danh sách ứng dụng của hệ điều hành.",
+      "chooseAnotherFolder": "Chọn một thư mục dự án khác rồi thử lại.",
+      "chooseAnotherPrompt": "Chọn một bộ chỉ dẫn khác trước, rồi thử lại.",
+      "openToolManually": "Mở terminal trong thư mục dự án của bạn và khởi động công cụ ở đó.",
+      "refreshSessions": "Làm mới danh sách phiên và chọn lại cuộc hội thoại.",
+      "recheckUpdate": "Kiểm tra lại thông tin cập nhật trước khi tiếp tục.",
+      "removeInTool": "Xóa dịch vụ này từ thiết lập riêng của công cụ.",
+      "retryOrViewDetails": "Thử lại, hoặc mở Xem chi tiết để biết chuyện gì đã xảy ra.",
+      "useOriginalUpdateChannel": "Dùng trình cập nhật gốc của bản cài đặt này, hoặc gỡ nó một cách tường minh trước khi cài qua npm.",
+      "uninstallManually": "Bạn có thể tự xóa các tệp còn lại, rồi chạy Kiểm tra lại.",
+      "pasteDeepLink": "Sao chép liên kết và dán vào Cài đặt để tiếp tục."
+    },
+    "routing": {
+      "changeFailed": "AI Manager không thể hoàn tất thay đổi định tuyến đó một cách an toàn.",
+      "providerNotEligible": "Dịch vụ đó không thể tham gia chuyển đổi dự phòng tự động.",
+      "providerUnavailable": "Dịch vụ đó không còn khả dụng cho định tuyến nữa.",
+      "queueLocked": "Tắt chuyển đổi dự phòng tự động trước khi xóa dịch vụ đang hoạt động hoặc cuối cùng này.",
+      "readFailed": "AI Manager không thể đọc trạng thái định tuyến cục bộ.",
+      "storeUnavailable": "Định tuyến cục bộ chưa sẵn sàng.",
+      "takeoverRequired": "Bật tính năng tiếp quản định tuyến cho công cụ này trước.",
+      "unsupportedTool": "AI Manager chưa tích hợp mặt bằng dữ liệu định tuyến cục bộ cho công cụ này."
+    },
+    "session": {
+      "notFound": "Phiên cục bộ đó không còn khả dụng nữa.",
+      "queryInvalid": "Giữ nội dung tìm kiếm phiên trong giới hạn 200 ký tự trở xuống.",
+      "readFailed": "AI Manager không thể đọc cuộc hội thoại cục bộ đó.",
+      "resumeUnsupported": "Công cụ này không hỗ trợ tiếp tục phiên từ Terminal."
+    },
+    "settings": {
+      "loadFailed": "Không thể đọc thiết lập của bạn.",
+      "saveFailed": "Không thể lưu thay đổi đó.",
+      "storeUnavailable": "Ứng dụng vẫn đang khởi động."
+    },
+    "skill": {
+      "actionPanicked": "Đã có lỗi xảy ra khi cài đặt Skill này.",
+      "alreadyInstalled": "Skill đó đã được cài đặt rồi.",
+      "backupConflict": "Skill đó đã được cài đặt rồi, nên bản sao khôi phục này chưa thể được khôi phục.",
+      "backupDeleteFailed": "Không thể xóa bản sao khôi phục của Skill một cách an toàn.",
+      "backupListFailed": "AI Manager không thể đọc các bản sao khôi phục của Skill.",
+      "backupNotFound": "Bản sao khôi phục Skill đó không còn khả dụng nữa.",
+      "backupRestoreFailed": "Không thể khôi phục Skill từ bản sao khôi phục đó.",
+      "backupVerifyFailed": "AI Manager không thể xác nhận rằng Skill đã khôi phục đã sẵn sàng.",
+      "catalogFailed": "Không thể tải danh mục Skill.",
+      "conflict": "Một Skill đã cài đặt khác đang dùng chung thư mục này.",
+      "downloadFailed": "Không thể tải Skill này.",
+      "installFailed": "Việc cài đặt Skill chưa hoàn tất.",
+      "invalidSource": "Không thể cài đặt nguồn Skill đó một cách an toàn.",
+      "notInstalled": "Skill đó không còn được cài đặt nữa.",
+      "removeFailed": "Không thể xóa Skill này một cách an toàn.",
+      "removePanicked": "Đã có lỗi xảy ra khi xóa Skill này.",
+      "removeVerifyFailed": "AI Manager không thể xác nhận rằng Skill đã được xóa.",
+      "repositoryInvalid": "Nguồn Skill GitHub đó không hợp lệ.",
+      "repositoryListFailed": "AI Manager không thể đọc các nguồn Skill đã cấu hình.",
+      "repositoryNotFound": "Nguồn Skill đó không còn được cấu hình nữa.",
+      "repositoryRemoveFailed": "Không thể xóa nguồn Skill đó.",
+      "repositorySaveFailed": "Không thể lưu nguồn Skill đó.",
+      "storeUnavailable": "Ứng dụng vẫn đang khởi động.",
+      "unsupportedTool": "AI Manager chưa tích hợp Skill cho công cụ này.",
+      "updateCheckFailed": "AI Manager không thể hoàn tất kiểm tra cập nhật Skill.",
+      "updateDownloadFailed": "Không thể tải bản cập nhật Skill này.",
+      "updateFailed": "Việc cập nhật Skill chưa hoàn tất.",
+      "updatePanicked": "Đã có lỗi xảy ra khi cập nhật Skill này.",
+      "updateSourceInvalid": "Không thể dùng nguồn cập nhật Skill đó một cách an toàn.",
+      "updateUnsupported": "Skill này không có kho lưu trữ gốc để cập nhật.",
+      "updateVerifyFailed": "AI Manager không thể xác nhận rằng Skill đã được cập nhật.",
+      "verifyFailed": "AI Manager không thể xác nhận rằng Skill đã được cài đặt.",
+      "zipInstallFailed": "Không thể cài đặt các Skill trong tệp ZIP đó một cách an toàn.",
+      "zipInvalid": "Tệp đó không phải là ZIP Skill hợp lệ và an toàn.",
+      "zipNoNewSkills": "Tệp ZIP đó không chứa Skill mới nào để cài đặt.",
+      "zipNoSkills": "Tệp ZIP đó không chứa Skill nào có SKILL.md.",
+      "zipSelectionUnavailable": "Tệp ZIP đã chọn không khả dụng dưới dạng tệp cục bộ.",
+      "zipVerifyFailed": "AI Manager không thể xác nhận rằng các Skill từ tệp ZIP đó đã được cài đặt."
+    },
+    "system": {
+      "revealFailed": "Không thể hiển thị vị trí này trong trình quản lý tệp."
+    },
+    "tool": {
+      "actionPanicked": "Đã có lỗi xảy ra bên trong AI Manager.",
+      "actionUnsupported": "Công cụ này không hỗ trợ thao tác đó.",
+      "downloadAccessDenied": "Điểm cuối tải xuống đã từ chối yêu cầu này.",
+      "downloadNetworkFailed": "Không thể kết nối đến điểm cuối tải xuống.",
+      "downloadRegistryUnavailable": "Nguồn phần mềm hiện tại đã từ chối hoặc hạn chế yêu cầu này.",
+      "installFailed": "Việc cài đặt chưa hoàn tất.",
+      "launchFailed": "Không thể mở công cụ này trong Terminal.",
+      "nativeSupplyIntegrity": "Chương trình chính thức đã tải xuống không khớp với checksum do nguồn tải xuống công bố, nên AI Manager đã loại bỏ nó.",
+      "nativeSupplyLayout": "Gói đã tải xuống không chứa chương trình khả dụng, hoặc thư mục cài đặt chính thức không thể ghi được.",
+      "nativeSupplySignature": "Chương trình chính thức đã tải xuống không vượt qua kiểm tra chữ ký của nhà cung cấp, nên AI Manager đã xóa nó.",
+      "nativeSupplySwitchFailed": "Phiên bản mới đã được tải xuống, nhưng không thể chuyển đổi trình khởi chạy; chương trình hiện tại không thay đổi.",
+      "nativeSupplyUnavailable": "Nguồn tải xuống không cung cấp phiên bản này của chương trình chính thức.",
+      "nativeSupplyUnsupported": "AI Manager không thể cung cấp bản cài đặt chính thức này trên máy tính này.",
+      "nativeSupplyVerifyFailed": "Chương trình chính thức vừa tải xuống không báo cáo đúng phiên bản mong đợi, nên AI Manager đã xóa nó.",
+      "notFound": "AI Manager không hỗ trợ công cụ này.",
+      "notInstalled": "Công cụ này chưa được cài đặt.",
+      "projectFolderUnavailable": "Thư mục dự án đó không còn khả dụng nữa.",
+      "removePathDenied": "AI Manager không được phép xóa một trong các tệp của công cụ này.",
+      "removePathRefused": "Mục tiêu này nằm ngoài ranh giới an toàn cho việc xóa tự động, nên AI Manager đã dừng lại trước khi xóa bất cứ thứ gì.",
+      "serviceRegionUnavailable": "Nhà cung cấp báo rằng dịch vụ này không khả dụng ở khu vực hiện tại.",
+      "uninstallFailed": "Việc gỡ cài đặt chưa hoàn tất.",
+      "uninstallIncomplete": "Một số tệp của công cụ này vẫn còn trên máy tính của bạn.",
+      "uninstallStrategyUnknown": "AI Manager không thể xác định công cụ này được cài đặt như thế nào, nên không thể gỡ nó.",
+      "updateFailed": "Việc cập nhật chưa hoàn tất.",
+      "updatePreviewStale": "Phương thức cập nhật đã thay đổi trước khi việc cập nhật bắt đầu.",
+      "updatePreviewUnavailable": "AI Manager hiện không thể xác nhận một phương thức cập nhật an toàn.",
+      "versionCatalogFailed": "Không thể tải danh sách phiên bản đã công bố.",
+      "versionHistoryReadFailed": "Không thể tải lịch sử phiên bản cục bộ của công cụ này.",
+      "versionHistoryWriteFailed": "Thay đổi công cụ đã được xác minh, nhưng AI Manager không thể lưu lịch sử phiên bản của nó.",
+      "versionInvalid": "Không thể cài đặt phiên bản đó một cách an toàn.",
+      "versionSourceUnsupported": "Bản cài đặt này phải giữ nguyên kênh cập nhật gốc của nó.",
+      "verifyFailed": "AI Manager không thể xác nhận rằng công cụ này hoạt động."
+    },
+    "usage": {
+      "readFailed": "AI Manager không thể đọc bản tóm tắt sử dụng cục bộ.",
+      "storeUnavailable": "Dữ liệu sử dụng chưa sẵn sàng."
+    },
+    "shellVariable": {
+      "movedOn": "Dòng đó không còn như lúc trước nữa, nên không có gì được thay đổi. Hãy xem lại rồi thử lại.",
+      "notAConnectionVariable": "Công cụ này không đọc biến đó.",
+      "notRewritable": "Dòng đó tạo giá trị bằng cách chạy một câu lệnh; thay bằng văn bản thuần sẽ làm nó hoạt động khác đi.",
+      "outsideHome": "Dòng đó nằm trong một tệp hệ thống ngoài thư mục cá nhân của bạn, ứng dụng này không sửa nó.",
+      "valueInvalid": "Giá trị đó không vừa trên một dòng của tệp cài đặt cửa sổ dòng lệnh.",
+      "writeFailed": "Không ghi được tệp cài đặt cửa sổ dòng lệnh. Tệp gốc không thay đổi."
+    }
+  },
+  "nav": {
+    "appName": "AI Manager",
+    "starting": "Đang khởi động AI Manager",
+    "loadingPage": "Đang mở trang này",
+    "home": "Trang chủ",
+    "tools": "Phần mềm",
+    "services": "API Endpoints",
+    "routing": "Định tuyến cục bộ",
+    "extensions": "Skills",
+    "usage": "Sử dụng",
+    "workspace": "OpenClaw",
+    "settings": "Cài đặt",
+    "localFirst": "Cấu hình của bạn ở lại trên máy này",
+    "data": "Phiên",
+    "mcp": "MCP",
+    "prompts": "Prompt toàn cục"
+  },
+  "openClawWorkspace": {
+    "title": "OpenClaw Workspace",
+    "description": "Định hình danh tính, chỉ dẫn và bộ nhớ của OpenClaw mà không cần chỉnh sửa đường dẫn thủ công.",
+    "loading": "Đang đọc workspace của OpenClaw",
+    "openFolder": "Mở workspace",
+    "refresh": "Làm mới workspace",
+    "retry": "Thử lại",
+    "error": {
+      "title": "Không thể đọc workspace",
+      "description": "Kiểm tra quyền truy cập workspace của OpenClaw, sau đó thử lại."
+    },
+    "overview": {
+      "title": "Tổng quan workspace",
+      "description": "Chế độ xem cục bộ về chỉ dẫn và bộ nhớ của OpenClaw.",
+      "files": "Tệp cốt lõi",
+      "filesValue": "{{ready}}/{{total}}",
+      "memories": "Bộ nhớ hằng ngày",
+      "storage": "Bộ nhớ lưu trữ cục bộ",
+      "limited": "Workspace này lớn bất thường nên bản tóm tắt bị giới hạn."
+    },
+    "files": {
+      "title": "Tệp cốt lõi của workspace",
+      "description": "OpenClaw đọc các tệp Markdown này để hiểu vai trò, sở thích và thói quen của nó.",
+      "status": {
+        "ready": "Sẵn sàng",
+        "missing": "Chưa tạo",
+        "unavailable": "Không khả dụng"
+      },
+      "descriptionById": {
+        "agents": "Hướng dẫn vận hành và quy tắc của agent",
+        "soul": "Tính cách và phong cách giao tiếp",
+        "user": "Hồ sơ và sở thích người dùng",
+        "identity": "Danh tính và cách thể hiện của trợ lý",
+        "tools": "Ghi chú về công cụ và quy trình cục bộ",
+        "memory": "Bộ nhớ dài hạn và quyết định đã chọn lọc",
+        "heartbeat": "Các lần kiểm tra định kỳ và nhịp heartbeat",
+        "bootstrap": "Hướng dẫn thiết lập lần đầu",
+        "boot": "Danh sách kiểm tra khởi động lại gateway"
+      }
+    },
+    "editor": {
+      "fileTitle": "Chỉnh sửa {{filename}}",
+      "memoryTitle": "Bộ nhớ hằng ngày · {{date}}",
+      "description": "Markdown được lưu trực tiếp vào workspace cục bộ của OpenClaw.",
+      "contentLabel": "Markdown của workspace",
+      "loading": "Đang đọc tệp workspace này",
+      "safety": "Trước khi thay thế một tệp đã có, AI Manager giữ lại một bản sao lưu riêng tư và xác minh các byte đã lưu.",
+      "save": "Lưu thay đổi",
+      "saved": "Đã lưu workspace",
+      "backupCreated": "Một bản sao lưu cục bộ đã được giữ lại trước khi thay đổi.",
+      "size": "{{current}}/{{maximum}} byte",
+      "tooLarge": "Tệp này lớn hơn giới hạn an toàn 1 MiB."
+    },
+    "memories": {
+      "title": "Bộ nhớ hằng ngày",
+      "description": "Duyệt, tìm kiếm và quản lý các ghi chú bộ nhớ theo ngày của OpenClaw.",
+      "openFolder": "Mở thư mục bộ nhớ",
+      "today": "Bộ nhớ hôm nay",
+      "searchLabel": "Tìm kiếm bộ nhớ hằng ngày",
+      "searchPlaceholder": "Tìm theo ngày và nội dung ghi chú",
+      "search": "Tìm kiếm",
+      "loading": "Đang đọc bộ nhớ hằng ngày",
+      "empty": "Chưa có bộ nhớ hằng ngày nào",
+      "emptySearch": "Không có bộ nhớ nào khớp với tìm kiếm này",
+      "emptyDescription": "Tạo ghi chú cho hôm nay hoặc điều chỉnh tìm kiếm.",
+      "clearSearch": "Xóa tìm kiếm",
+      "matches_one": "{{count}} kết quả khớp",
+      "matches_other": "{{count}} kết quả khớp",
+      "noPreview": "Ghi chú trống",
+      "limited": "Chỉ hiển thị các kết quả an toàn mới nhất.",
+      "deleteLabel": "Xóa bộ nhớ cho ngày {{date}}",
+      "deleteTitle": "Xóa bộ nhớ cho ngày {{date}}?",
+      "deleteDescription": "Ghi chú sẽ biến mất khỏi OpenClaw. AI Manager sẽ giữ một bản sao lưu cục bộ trước.",
+      "deleteConfirm": "Xóa bộ nhớ",
+      "deleted": "Đã xóa bộ nhớ hằng ngày",
+      "deleteBackup": "Một bản sao lưu cục bộ đã được giữ lại."
+    }
+  },
+  "tool": {
+    "claude-code": {
+      "description": "Tác nhân lập trình AI chính thức của Anthropic cho terminal của bạn."
+    },
+    "codex": {
+      "description": "Tác nhân terminal của OpenAI. Ứng dụng desktop ChatGPT / Codex dùng chung cài đặt Codex."
+    },
+    "opencode": {
+      "description": "Một tác nhân lập trình AI mã nguồn mở mà bạn có thể trỏ đến bất kỳ mô hình nào."
+    },
+    "gemini-cli": {
+      "description": "Tác nhân lập trình AI của Google cho terminal của bạn."
+    },
+    "grok-build": {
+      "description": "Công cụ lập trình dạng tác nhân của xAI cho terminal của bạn."
+    },
+    "openclaw": {
+      "description": "Một trợ lý AI cá nhân kết nối mô hình, công cụ và các kênh nhắn tin."
+    },
+    "hermes": {
+      "description": "Tác nhân mã nguồn mở của Nous Research cho quy trình làm việc trên terminal."
+    },
+    "pi": {
+      "description": "Một tác nhân lập trình gọn nhẹ, có thể mở rộng cho terminal của bạn."
+    },
+    "kimi-code": {
+      "description": "Tác nhân lập trình chính thức của Moonshot AI cho terminal của bạn."
+    },
+    "deepseek-dsh": {
+      "description": "Bộ khung lập trình bản xem trước dành cho nhà phát triển của DeepSeek, khởi chạy từ terminal với giao diện web cục bộ."
+    }
+  },
+  "tools": {
+    "details": {
+      "action": "Chi tiết",
+      "title": "Chi tiết {{name}}",
+      "description": "Xem cấu hình cục bộ, bộ nhớ và dung lượng lưu trữ. Quản lý prompt toàn cục trên trang riêng của nó."
+    },
+    "title": "Quản lý phần mềm",
+    "description": "Cài đặt, cập nhật, gỡ bỏ, hoặc đổi phiên bản phần mềm lập trình AI của bạn.",
+    "loading": "Đang xem xét các công cụ của bạn",
+    "refresh": "Kiểm tra lại",
+    "scan": "Kiểm tra lại",
+    "upToDate": "Đã cập nhật",
+    "checkingVersion": "Đang đọc thông tin phiên bản",
+    "actions": {
+      "moreNamed": "Thêm hành động cho {{name}}"
+    },
+    "discovery": {
+      "eyebrow": "Chọn theo mục tiêu",
+      "title": "Chưa chắc nên cài gì?",
+      "description": "So sánh các công cụ chưa cài đặt theo mục đích bạn muốn dùng. Đây là các gợi ý theo tình huống, không phải quảng cáo trả phí hay bảng xếp hạng.",
+      "scenarioLabel": "Chọn điều bạn muốn làm",
+      "scenario": {
+        "officialCoding": "Dùng công cụ lập trình chính thức của nhà cung cấp",
+        "modelChoice": "Chọn giữa các mô hình và nhà cung cấp",
+        "personalAutomation": "Xây dựng trợ lý cá nhân hoặc tự động hóa"
+      },
+      "publisher": "Phát hành bởi {{publisher}}",
+      "access": {
+        "vendorOrProvider": "Có thể cần gói trả phí, đăng nhập, hoặc API credit của nhà cung cấp; nhà cung cấp quyết định quyền truy cập và giá.",
+        "provider": "Cần một nhà cung cấp mô hình hoặc mô hình cục bộ. Một số nhà cung cấp tính phí cho API credit."
+      },
+      "choose": "Hiển thị {{name}}",
+      "costNote": "AI Manager không bán tài khoản hay credit. Hãy xác nhận điều kiện và giá hiện tại với nhà xuất bản hoặc nhà cung cấp trước khi cài đặt."
+    },
+    "version": {
+      "title": "Quản lý phiên bản {{name}}",
+      "description": "Cài đặt và cập nhật bình thường sẽ tự động dùng bản ổn định mới nhất được khuyến nghị. Chỉ dùng mục này để tương thích, khôi phục, hoặc chọn thủ công một phiên bản đã phát hành.",
+      "loading": "Đang tải danh sách phiên bản đã phát hành",
+      "current": "Phiên bản hiện tại",
+      "notInstalled": "Chưa cài đặt",
+      "sourceLabel": "Nguồn cài đặt",
+      "target": "Đổi sang",
+      "defaultOption": "{{version}} (mới nhất được khuyến nghị)",
+      "defaultGroup": "Mới nhất được khuyến nghị",
+      "taggedOption": "{{version}} (kênh {{tags}})",
+      "taggedGroup": "Các kênh gắn nhãn khác",
+      "otherPublishedGroup": "Các phiên bản đã phát hành khác",
+      "confirm": "Đổi sang phiên bản này",
+      "unchanged": "Phiên bản này đã được cài đặt.",
+      "currentDefault": "Phiên bản mới nhất được khuyến nghị đã được cài đặt.",
+      "nonDefaultWarning": "Bạn đang chọn thủ công một phiên bản không được khuyến nghị. Chỉ dùng cho tương thích hoặc khôi phục sau khi đã xác nhận đúng phiên bản cần dùng.",
+      "defaultChannelNote": "Cài đặt và cập nhật bình thường sẽ tự động dùng bản ổn định mới nhất được khuyến nghị, {{version}}. Không cần chọn thủ công.",
+      "ownerPreserved": "AI Manager sẽ dùng trình quản lý gói đang sở hữu CLI này. Hạ cấp phiên bản thay đổi tệp thực thi nhưng vẫn giữ nguyên cài đặt công cụ của bạn.",
+      "mirrorUsed": "Registry mặc định không phản hồi, nên danh sách này được tải qua mirror cộng đồng. Không có cài đặt trình quản lý gói toàn cục nào bị thay đổi.",
+      "restrictedTitle": "Đổi phiên bản tự động đã bị tắt cho bản cài đặt này",
+      "source": {
+        "notInstalled": "Chưa cài đặt · sẽ dùng registry gói",
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "bun": "bun",
+        "volta": "Volta",
+        "uv": "uv tool",
+        "pipx": "pipx",
+        "brew": "Homebrew",
+        "nativeInstaller": "Trình cài đặt chính thức",
+        "unmanaged": "Không rõ hoặc quản lý thủ công"
+      },
+      "restriction": {
+        "nativeInstaller": "Bản sao này đến từ trình cài đặt chính thức. AI Manager cập nhật nó bằng cùng chương trình chính thức và không bao giờ cài thêm một bản sao thứ hai.",
+        "brew": "Homebrew đang sở hữu bản sao này. Hãy dùng hành động Cập nhật thông thường; đổi sang một phiên bản quản lý riêng sẽ để lại hai bản cài đặt.",
+        "unmanaged": "AI Manager không thể xác định trình quản lý gói nào đang sở hữu bản sao này, nên sẽ không cài đè một phiên bản khác lên nó."
+      }
+    },
+    "updateRecovery": {
+      "title": "Bản cập nhật này cần khôi phục",
+      "available": "Bản cập nhật đã khiến công cụ này bị lỗi. AI Manager có thể khôi phục phiên bản đã xác minh {{version}} qua cùng trình quản lý gói.",
+      "action": "Khôi phục {{version}}",
+      "namedAction": "Khôi phục {{name}} về {{version}}",
+      "confirmTitle": "Khôi phục {{name}} về {{version}}?",
+      "confirmBody": "AI Manager sẽ cài đặt lại phiên bản đã xác minh khớp gần nhất qua cùng trình quản lý gói, sau đó kiểm tra đúng phiên bản đó. Cài đặt công cụ của bạn vẫn được giữ nguyên.",
+      "confirm": "Khôi phục {{version}}",
+      "advisory": {
+        "historyUnavailable": "Không có phiên bản đã xác minh khớp nào được ghi nhận trước bản cập nhật này. Hãy dùng trình cài đặt thông thường của công cụ hoặc trình quản lý gói sở hữu nó để sửa chữa.",
+        "ownershipChanged": "Chủ sở hữu bản cài đặt không còn khớp với lịch sử đã xác minh, nên khôi phục tự động vẫn tắt. Hãy sửa chữa bằng trình quản lý gói hoặc trình cài đặt đang sở hữu bản sao này.",
+        "ownerUnsupported": "Nguồn cài đặt này không hỗ trợ khôi phục phiên bản tự động an toàn. Hãy dùng trình cài đặt thông thường hoặc quy trình khôi phục của trình quản lý gói.",
+        "inspectionFailed": "AI Manager không thể xác minh an toàn lịch sử phiên bản hoặc chủ sở hữu bản cài đặt. Khôi phục tự động vẫn tắt; hãy kiểm tra chi tiết và dùng quy trình khôi phục thông thường của công cụ."
+      }
+    },
+    "summary": {
+      "eyebrow": "Trên máy tính này",
+      "title": "Công cụ của bạn, nhìn qua",
+      "description": "AI Manager kiểm tra từng công cụ cục bộ và đặt bước tiếp theo hữu ích nhất lên thẻ của nó.",
+      "current": "Đã cập nhật",
+      "attention": "Cần chú ý",
+      "available": "Có thể cài đặt"
+    },
+    "coverage": {
+      "eyebrow": "10 công cụ dòng lệnh · 15 bề mặt sử dụng",
+      "title": "Trạng thái CLI và ứng dụng desktop được tách biệt",
+      "description": "Các thẻ bên dưới quản lý mười công cụ dòng lệnh được hỗ trợ. Ứng dụng desktop có kênh cài đặt và cập nhật riêng.",
+      "codex": {
+        "title": "ChatGPT / Codex + Codex CLI",
+        "description": "Ứng dụng desktop của OpenAI bao gồm Codex và dùng chung cài đặt Codex với CLI. Hành động trên thẻ chỉ cập nhật CLI; ứng dụng desktop vẫn dùng kênh cập nhật chính thức riêng."
+      },
+      "claude": {
+        "title": "Claude Desktop + Claude Code",
+        "description": "Đây là hai bề mặt cấu hình riêng biệt và không dùng chung một trạng thái cài đặt."
+      }
+    },
+    "appRelationship": {
+      "sharedConfiguration": {
+        "description": "{{app}} dùng chung cài đặt của CLI này. Thay đổi cấu hình có thể ảnh hưởng đến cả hai bề mặt.",
+        "manage": "Quản lý cài đặt dùng chung"
+      },
+      "separateConfiguration": {
+        "description": "{{app}} giữ cài đặt riêng. Thay đổi trên CLI này không cấu hình ứng dụng desktop.",
+        "manage": "Quản lý cài đặt CLI"
+      },
+      "viewApp": "Xem {{app}}",
+      "viewAppNamed": "Xem thẻ ứng dụng desktop {{app}}"
+    },
+    "desktopApps": {
+      "title": "Ứng dụng desktop",
+      "description": "AI Manager kiểm tra các ứng dụng desktop đã ký của nhà cung cấp riêng biệt với công cụ dòng lệnh của chúng. Nó chọn một gói chính thức cố định hoặc trang tải xuống cho hệ điều hành và chip này; trình duyệt và trình cài đặt hệ thống của bạn hoàn tất việc tải xuống và cài đặt.",
+      "loading": "Đang kiểm tra ứng dụng desktop",
+      "refresh": "Làm mới ứng dụng",
+      "refreshError": "Lần kiểm tra ứng dụng gần nhất vẫn được hiển thị. Hãy làm mới lại trước khi dựa vào nó.",
+      "opened": "{{name}} đang mở.",
+      "officialInstallerOpened": "Bản tải trình cài đặt chính thức của {{name}} đã mở trong trình duyệt của bạn. Khi hoàn tất, hãy mở tệp đã tải và làm theo hướng dẫn của hệ thống.",
+      "officialDownloadOpened": "Trang tải xuống chính thức của {{name}} đã mở trong trình duyệt của bạn.",
+      "officialDownloadNetworkHint": "Nếu trình duyệt của bạn không truy cập được địa chỉ này, hãy đặt proxy cho trình duyệt hoặc hệ thống trước.",
+      "uninstallHandoffOpened": "Vị trí gỡ cài đặt {{name}} trong hệ thống đã được mở.",
+      "items": {
+        "codex-app": {
+          "surface": "Ứng dụng desktop OpenAI · ChatGPT / Codex",
+          "description": "Dùng ChatGPT hoặc Codex trong trải nghiệm desktop đồ họa của OpenAI, trong khi vẫn giữ việc cài đặt và cập nhật Codex CLI riêng biệt."
+        },
+        "claude-desktop": {
+          "surface": "Ứng dụng desktop Anthropic",
+          "description": "Dùng trải nghiệm desktop đồ họa của Claude độc lập với Claude Code trong Terminal."
+        },
+        "cursor": {
+          "surface": "Trình soạn mã AI Cursor",
+          "description": "Dùng Cursor như một trình soạn mã đồ họa độc lập. Việc cài đặt, tài khoản, tiện ích mở rộng và cập nhật của nó vẫn do nhà cung cấp quản lý."
+        },
+        "zcode": {
+          "surface": "Ứng dụng lập trình desktop Z.ai",
+          "description": "Dùng ZCode như một ứng dụng lập trình đồ họa độc lập. Việc cài đặt và cài đặt của nó vẫn do nhà cung cấp quản lý."
+        },
+        "cherry-studio": {
+          "surface": "Ứng dụng desktop Cherry Studio",
+          "description": "Dùng Cherry Studio như một client desktop đa mô hình độc lập, tách biệt khỏi mọi CLI được quản lý."
+        }
+      },
+      "status": {
+        "installed": "Đã cài đặt",
+        "updateAvailable": "Có bản cập nhật",
+        "notInstalled": "Chưa cài đặt",
+        "unsupported": "Không hỗ trợ ở đây",
+        "unknown": "Cần kiểm tra"
+      },
+      "details": {
+        "version": "Phiên bản ứng dụng",
+        "versionUnavailable": "Không có báo cáo",
+        "updates": "Cập nhật",
+        "vendorManagedUpdates": "Do nhà cung cấp quản lý sau khi cài đặt",
+        "officialUpdateAvailable": "Phiên bản chính thức {{version}} đã có sẵn",
+        "updateUnavailable": "Không có kênh cập nhật được quản lý",
+        "rollback": "Khôi phục phiên bản cũ",
+        "rollbackAvailable": "Được nhà cung cấp hỗ trợ",
+        "rollbackUnavailable": "Không có phiên bản công khai để khôi phục",
+        "cliRelationship": "CLI liên quan"
+      },
+      "relationship": {
+        "sharedConfiguration": "Dùng chung cài đặt với {{tool}}",
+        "separateConfiguration": "Tách biệt với {{tool}}",
+        "standaloneApplication": "Ứng dụng desktop độc lập"
+      },
+      "relatedTools": {
+        "codex": "Codex CLI",
+        "claude-code": "Claude Code"
+      },
+      "vendorUpdates": "Trình cập nhật của nhà cung cấp vẫn là nguồn xác thực chính. \"Tải bản mới nhất\" là một lối khôi phục, không phải bằng chứng rằng có phiên bản mới hơn. Hãy dùng trình duyệt hoặc proxy hệ thống nếu cần; AI Manager không mirror gói hay vượt qua hạn chế khu vực.",
+      "action": {
+        "open": "Mở ứng dụng",
+        "openNamed": "Mở {{name}}",
+        "uninstall": "Gỡ cài đặt",
+        "uninstallNamed": "Gỡ cài đặt {{name}} qua hệ thống",
+        "downloadLatest": "Tải trình cài đặt mới nhất",
+        "downloadLatestNamed": "Tải trình cài đặt chính thức mới nhất cho {{name}}",
+        "downloadUpdate": "Tải bản cập nhật",
+        "downloadUpdateNamed": "Tải bản cập nhật chính thức cho {{name}}",
+        "downloadInstaller": "Tải trình cài đặt chính thức",
+        "installOfficially": "Mở trang tải chính thức",
+        "installOfficiallyNamed": "Mở trang tải chính thức cho {{name}}",
+        "moreNamed": "Thêm hành động cho {{name}}",
+        "downloadHelp": "Trợ giúp tải xuống",
+        "unsupported": "Không khả dụng trên hệ thống này",
+        "unsupportedNamed": "{{name}} không khả dụng trên hệ thống này",
+        "unavailable": "Không thể mở",
+        "unavailableNamed": "Không thể mở {{name}}",
+        "viewRelatedTool": "Xem {{tool}}",
+        "viewRelatedToolNamed": "Xem thẻ {{tool}}",
+        "sharedConfiguration": {
+          "manageTool": "Quản lý cài đặt dùng chung"
+        },
+        "separateConfiguration": {
+          "manageTool": "Quản lý cài đặt {{tool}}"
+        },
+        "manageAppMcp": "Quản lý MCP của {{app}}"
+      },
+      "downloadHelp": {
+        "title": "Tải {{name}}",
+        "directDescription": "AI Manager mở trực tiếp trình cài đặt chính thức của nhà cung cấp cho máy tính này, mà không đưa bạn qua trang sản phẩm trung gian trước.",
+        "pageDescription": "Không có trình cài đặt cố định cho hệ thống này, nên AI Manager chỉ có thể mở trang tải xuống chính thức của nhà cung cấp.",
+        "architecture": "AI Manager tự nhận diện hệ thống và chip cục bộ, nên bạn không cần chọn Intel, Apple silicon, x64, hay Arm64.",
+        "systemOwned": "Trình duyệt của bạn tải tệp xuống và trình cài đặt hệ thống xác minh chữ ký của nó. AI Manager không bao giờ tự cài đặt ngầm.",
+        "restrictedNetwork": "Nếu địa chỉ chính thức không truy cập được trên mạng của bạn, hãy cấu hình proxy cho trình duyệt hoặc hệ thống rồi thử lại. Proxy tải CLI của AI Manager không kiểm soát trình duyệt, và AI Manager không mirror trình cài đặt của bên thứ ba hay vượt qua hạn chế khu vực.",
+        "retry": "Thử lại tải chính thức"
+      },
+      "uninstall": {
+        "title": "Gỡ cài đặt {{name}} qua hệ thống?",
+        "description": "AI Manager sẽ mở Finder hoặc trang Ứng dụng đã cài đặt của hệ điều hành. Bạn hoàn tất việc gỡ bỏ tại đó.",
+        "confirm": "Mở gỡ cài đặt hệ thống",
+        "handoff": "AI Manager không tự gỡ ứng dụng desktop và không bao giờ chạy lệnh gỡ cài đặt ẩn.",
+        "data": "Nhà cung cấp quyết định liệu cài đặt ứng dụng, dữ liệu tài khoản và hội thoại có được giữ lại hay không. AI Manager không xóa chúng.",
+        "refresh": "Sau khi hoàn tất trong hệ thống, quay lại đây và chọn Làm mới ứng dụng."
+      },
+      "error": {
+        "title": "Không thể kiểm tra ứng dụng desktop",
+        "description": "AI Manager vừa không thể đọc danh sách ứng dụng của hệ điều hành."
+      }
+    },
+    "empty": {
+      "title": "Không có công cụ nào để hiển thị",
+      "description": "AI Manager không tìm thấy công cụ được hỗ trợ nào trên máy tính này."
+    },
+    "error": {
+      "title": "Không thể đọc công cụ của bạn",
+      "description": "AI Manager vừa không thể xem xét máy tính này."
+    },
+    "refreshError": {
+      "title": "Không thể làm mới công cụ của bạn",
+      "description": "Lần kiểm tra gần nhất vẫn được hiển thị. Hành động trên công cụ tạm dừng cho đến khi có lần kiểm tra mới thành công."
+    },
+    "action": {
+      "unavailable": "Tính năng này sẽ có trong bản cập nhật sau."
+    },
+    "open": {
+      "title": "Mở {{name}}",
+      "description": "Khởi động {{name}} trong thư mục mặc định, hoặc chọn thư mục dự án trước.",
+      "localTitle": "Dự án của bạn luôn riêng tư",
+      "localHint": "Chọn một thư mục không tải lên, quét, hay thay đổi các tệp trong đó.",
+      "confirm": "Bắt đầu ngay",
+      "launchDefault": "Bắt đầu ngay",
+      "chooseFolder": "Chọn thư mục",
+      "launched": "{{name}} đã mở trong Terminal.",
+      "providerUnreachable": "{{name}} không phản hồi",
+      "providerUnreachableHint": "Không có gì được mở và cấu hình đã lưu không bị thay đổi. Hãy kiểm tra lại hoặc thử một dịch vụ tương thích đã lưu khác.",
+      "noSavedAlternative": "Không có dịch vụ tương thích đã lưu nào khác để kiểm tra.",
+      "retry": "Thử lại",
+      "retryNamed": "Thử mở {{name}} lại"
+    },
+    "confirm": {
+      "install": {
+        "title": "Cài đặt {{name}}?",
+        "body": "AI Manager sẽ cài đặt mọi thứ cần thiết.",
+        "confirm": "Cài đặt"
+      },
+      "update": {
+        "title": "Cập nhật {{name}}?",
+        "body": "AI Manager sẽ tải xuống và cài đặt phiên bản mới nhất.",
+        "confirm": "Cập nhật"
+      },
+      "repair": {
+        "title": "Sửa chữa {{name}}?",
+        "body": "AI Manager sẽ gỡ bỏ gói dòng lệnh bị hỏng và cài đặt lại qua cùng trình quản lý gói. Cài đặt của bạn vẫn được giữ nguyên.",
+        "confirm": "Sửa chữa"
+      }
+    },
+    "updatePreview": {
+      "singleDescription": "Xem lại cách bản cài đặt này sẽ cập nhật trước khi bắt đầu.",
+      "loading": "Đang kiểm tra chi tiết cập nhật",
+      "loadingHint": "AI Manager đang kiểm tra bản cài đặt đang hoạt động và phương thức cập nhật gốc của nó.",
+      "refreshing": "Đang kiểm tra lại chi tiết cập nhật",
+      "error": {
+        "title": "Không thể kiểm tra chi tiết cập nhật",
+        "description": "Sẽ không có gì được cập nhật cho đến khi AI Manager xác nhận được một phương thức an toàn."
+      },
+      "recheck": "Kiểm tra lại",
+      "ready": "{{name}} sẽ được cập nhật",
+      "targetVersion": "Cập nhật lên phiên bản {{version}}",
+      "skipped": "{{name}} sẽ bị bỏ qua",
+      "needsReview": "Cần xem lại",
+      "checked": "Đã kiểm tra lộ trình cập nhật",
+      "multipleInstallations_one": "Phát hiện {{count}} bản cài đặt",
+      "multipleInstallations_other": "Phát hiện {{count}} bản cài đặt",
+      "currentDefault": "Mặc định dòng lệnh hiện tại",
+      "version": "Phiên bản {{version}}",
+      "technicalDetails": "Chi tiết kỹ thuật",
+      "commands": "Lệnh dự kiến",
+      "installations": "Các bản cài đặt đã phát hiện",
+      "otherInstallation": "Bản cài đặt khác",
+      "rechecked": "AI Manager kiểm tra lại bản cài đặt và kế hoạch cập nhật trước khi bắt đầu. Nếu có gì thay đổi, nó sẽ dừng lại và yêu cầu bạn xem lại.",
+      "paused": "Cập nhật tạm dừng trong khi AI Manager làm mới trạng thái công cụ và tác vụ.",
+      "method": {
+        "nativeSelfUpdate": "Dùng trình cập nhật riêng của {{name}}",
+        "toolSelfUpdate": "Dùng trình cập nhật riêng của {{name}}",
+        "officialInstaller": "Dùng trình cài đặt chính thức của nhà cung cấp",
+        "homebrew": "Cập nhật qua Homebrew",
+        "npm": "Cập nhật qua trình quản lý gói đang sở hữu bản cài đặt này",
+        "pnpm": "Cập nhật qua trình quản lý gói đang sở hữu bản cài đặt này",
+        "bun": "Cập nhật qua bản cài đặt Bun hiện tại",
+        "volta": "Cập nhật qua bản cài đặt Volta hiện tại",
+        "uv": "Cập nhật qua bản cài đặt uv hiện tại",
+        "pipx": "Cập nhật qua bản cài đặt pipx hiện tại"
+      },
+      "fallback": {
+        "nativeSelfUpdate": "Nếu không hoàn tất được, AI Manager sẽ thử lại bằng trình cập nhật riêng của công cụ.",
+        "toolSelfUpdate": "Nếu không hoàn tất được, AI Manager sẽ thử lại bằng trình cập nhật riêng của công cụ.",
+        "officialInstaller": "Nếu không hoàn tất được, AI Manager sẽ thử lại bằng trình cài đặt chính thức của nhà cung cấp.",
+        "homebrew": "Nếu không hoàn tất được, AI Manager sẽ thử lại qua Homebrew.",
+        "npm": "Nếu không hoàn tất được, AI Manager sẽ thử lại qua npm.",
+        "pnpm": "Nếu không hoàn tất được, AI Manager sẽ thử lại qua pnpm.",
+        "bun": "Nếu không hoàn tất được, AI Manager sẽ thử lại qua Bun.",
+        "volta": "Nếu không hoàn tất được, AI Manager sẽ thử lại qua Volta.",
+        "uv": "Nếu không hoàn tất được, AI Manager sẽ thử lại qua uv.",
+        "pipx": "Nếu không hoàn tất được, AI Manager sẽ thử lại qua pipx."
+      },
+      "blocked": {
+        "notInstalled": "Công cụ này không còn được cài đặt, nên không có gì để cập nhật.",
+        "ambiguousInstallation": "Đã tìm thấy nhiều hơn một bản cài đặt, nhưng AI Manager không thể xác định dòng lệnh của bạn đang dùng bản nào. Nó sẽ không đoán.",
+        "unsupportedInstallation": "Bản cài đặt này không có phương thức cập nhật tự động an toàn.",
+        "inspectionFailed": "AI Manager không thể hoàn tất việc kiểm tra bản cài đặt này."
+      },
+      "source": {
+        "notInstalled": "Chưa cài đặt",
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "bun": "Bun",
+        "volta": "Volta",
+        "uv": "uv",
+        "pipx": "pipx",
+        "brew": "Homebrew",
+        "nativeInstaller": "Bản cài đặt chính thức",
+        "unmanaged": "Bản cài đặt không được quản lý"
+      }
+    },
+    "uninstall": {
+      "title": "Xóa {{name}}?",
+      "description": "Chọn những gì cần xóa. Mặc định chỉ xóa ứng dụng.",
+      "submit": "Xóa",
+      "back": "Quay lại",
+      "confirm": "Xóa vĩnh viễn",
+      "confirmTitle": "Xóa vĩnh viễn những mục này?",
+      "confirmDescription": "Không thể hoàn tác việc này.",
+      "keepSettings": "Giữ lại cài đặt của bạn",
+      "keepSettingsHint": "Cài đặt và hội thoại đã lưu của bạn vẫn ở trên máy tính này, nên cài đặt lại sẽ tiếp tục từ chỗ bạn dừng.",
+      "option": {
+        "app": "Gỡ cài đặt ứng dụng",
+        "appHint": "Luôn được xử lý. Lệnh hoặc đường dẫn chương trình chính xác cho bản cài đặt đã phát hiện được hiển thị bên dưới.",
+        "settings": "Xóa cài đặt",
+        "settingsHint": "Xóa thư mục cài đặt của công cụ này.",
+        "cache": "Xóa bộ nhớ đệm",
+        "cacheHint": "Xóa hội thoại đã lưu và trạng thái cục bộ."
+      },
+      "preview": {
+        "loading": "Đang kiểm tra lệnh và đường dẫn chính xác…",
+        "none": "Không có đường dẫn riêng; tùy chọn này sẽ không xóa thêm tệp nào.",
+        "protected": "Mục này nằm ngoài ranh giới an toàn của việc xóa tự động, nên AI Manager sẽ không đụng đến nó.",
+        "rechecked": "Chủ sở hữu bản cài đặt và đường dẫn được kiểm tra lại trước khi thực thi. Các giá trị hiển thị không bao giờ được gửi lại làm lệnh xóa.",
+        "kind": {
+          "command": "Lệnh",
+          "directory": "Thư mục",
+          "file": "Tệp",
+          "symbolicLink": "Liên kết tượng trưng",
+          "missingPath": "Đường dẫn (hiện không có)"
+        },
+        "reveal": "Hiện trong trình quản lý tệp",
+        "revealNamed": "Hiện {{path}} trong trình quản lý tệp"
+      },
+      "impact": {
+        "app": "Ứng dụng {{name}}",
+        "settings": "Cài đặt {{name}} của bạn",
+        "cache": "Hội thoại {{name}} đã lưu của bạn"
+      },
+      "warning": {
+        "sessionsInsideSettings": "Công cụ này lưu hội thoại đã lưu bên trong thư mục cài đặt của nó, nên xóa cài đặt cũng sẽ xóa luôn chúng.",
+        "outsideHome": "Các tệp nằm ngoài thư mục home của bạn không bao giờ bị xóa. Nếu công cụ này lưu cài đặt ở đó, AI Manager sẽ dừng lại trước khi xóa bất cứ thứ gì và không có gì bị mất. Bỏ chọn các ô này và thử lại để chỉ xóa ứng dụng."
+      },
+      "reason": {
+        "nothingToRemove": "Công cụ này không giữ tệp riêng loại này, nên không có gì ở đây để xóa.",
+        "protected": "Các vị trí này nằm ngoài thư mục home của bạn, nên AI Manager sẽ không xóa chúng."
+      }
+    }
+  },
+  "home": {
+    "pageLabel": "Trang chủ",
+    "greeting": {
+      "morning": "Chào buổi sáng",
+      "afternoon": "Chào buổi chiều",
+      "evening": "Chào buổi tối"
+    },
+    "subtitle": {
+      "ready": "Môi trường lập trình AI của bạn đã sẵn sàng.",
+      "checking": "Đang kiểm tra thiết lập của bạn trước khi gợi ý bước tiếp theo.",
+      "stale": "Đang hiển thị kết quả kiểm tra gần nhất trong lúc Trang chủ làm mới.",
+      "attention": "Có vài điều đáng xem qua.",
+      "action": "Có việc cần bạn chú ý."
+    },
+    "card": {
+      "title": "Môi trường AI",
+      "description": "Công cụ, dịch vụ và tiện ích mở rộng được kiểm tra tại một nơi",
+      "checking": "Đang kiểm tra môi trường AI của bạn",
+      "toolsInstalled_one": "Đã cài {{count}} công cụ",
+      "toolsInstalled_other": "Đã cài {{count}} công cụ",
+      "updatesAvailable_one": "Có {{count}} bản cập nhật",
+      "updatesAvailable_other": "Có {{count}} bản cập nhật",
+      "needAttention_one": "{{count}} mục cần chú ý",
+      "needAttention_other": "{{count}} mục cần chú ý",
+      "allGood": "Mọi thứ đã cập nhật",
+      "nothingInstalled": "Chưa cài công cụ nào",
+      "review": "Xem lại",
+      "startTool": "Bắt đầu với {{name}}",
+      "startHint": "Chọn một thư mục dự án. Dịch vụ của bạn sẽ xác minh quyền truy cập trong lần dùng đầu tiên.",
+      "inventory": {
+        "label": "Chi tiết thiết lập sẵn sàng",
+        "servicesConfigured_one": "Đã cấu hình {{count}} dịch vụ AI",
+        "servicesConfigured_other": "Đã cấu hình {{count}} dịch vụ AI",
+        "mcpEnabled": "MCP đã bật: {{enabled}}/{{total}}",
+        "noMcp": "Chưa có kết nối MCP nào"
+      },
+      "actions": {
+        "tools": "Mở Công cụ AI",
+        "services": "Mở Điểm cuối API",
+        "extensions": "Mở Kỹ năng & MCP"
+      }
+    },
+    "health": {
+      "title": "Kiểm tra tình trạng",
+      "recheck": "Kiểm tra lại",
+      "allGood": "Mọi thứ đều ổn",
+      "issues_one": "Phát hiện {{count}} vấn đề",
+      "issues_other": "Phát hiện {{count}} vấn đề",
+      "lastChecked": "Lần kiểm tra gần nhất: {{time}}",
+      "checkingConnections": "Đang kiểm tra kết nối dịch vụ",
+      "connectionError": "Không thể bắt đầu kiểm tra kết nối. Vui lòng thử lại.",
+      "noTools": {
+        "title": "Bắt đầu với một công cụ lập trình AI",
+        "description": "Khi đã cài một công cụ, việc kiểm tra tình trạng sẽ bao gồm nó.",
+        "action": "Xem Công cụ AI"
+      }
+    },
+    "quickActions": {
+      "title": "Thao tác nhanh",
+      "installTool": "Cài công cụ AI",
+      "installDescription": "Thêm Claude Code, Codex hoặc OpenCode",
+      "updateAll": "Cập nhật tất cả",
+      "updateDescription": "Giữ các công cụ đã cài luôn ở phiên bản mới nhất",
+      "connectService": "Kết nối dịch vụ AI",
+      "connectDescription": "Quản lý các dịch vụ và khóa mà công cụ của bạn sử dụng",
+      "laterHint": "Sẽ có trong bản cập nhật sau"
+    },
+    "updateAll": {
+      "title_one": "Cập nhật {{count}} công cụ?",
+      "title_other": "Cập nhật {{count}} công cụ?",
+      "reviewTitle_one": "Xem lại {{count}} bản cập nhật công cụ",
+      "reviewTitle_other": "Xem lại {{count}} bản cập nhật công cụ",
+      "description": "{{names, list}} sẽ được cập nhật trong nền. Bạn có thể tiếp tục dùng AI Manager và theo dõi tiến trình trong mục Nhiệm vụ.",
+      "previewSummary": "{{ready}} có thể cập nhật ngay. {{skipped}} sẽ bị bỏ qua cho đến khi việc cài đặt được xem lại.",
+      "skippedSummary_one": "{{count}} công cụ bị bỏ qua vì không thể xác nhận phương thức cập nhật.",
+      "skippedSummary_other": "{{count}} công cụ bị bỏ qua vì không thể xác nhận phương thức cập nhật.",
+      "confirm_one": "Cập nhật {{count}} công cụ",
+      "confirm_other": "Cập nhật {{count}} công cụ",
+      "retry_one": "Thử lại công cụ",
+      "retry_other": "Thử lại các công cụ còn lại",
+      "failure": {
+        "partial": {
+          "title": "Một số bản cập nhật đang chạy",
+          "description_one": "{{count}} bản cập nhật đã bắt đầu trong mục Nhiệm vụ. Chỉ công cụ chưa bắt đầu vẫn còn được chọn.",
+          "description_other": "{{count}} bản cập nhật đã bắt đầu trong mục Nhiệm vụ. Chỉ những công cụ chưa bắt đầu vẫn còn được chọn."
+        },
+        "all": {
+          "title": "Không thể bắt đầu cập nhật",
+          "description_one": "Không có nhiệm vụ cập nhật nào được tạo. Thử lại sẽ kiểm tra công cụ này lần nữa trước khi bắt đầu.",
+          "description_other": "Không có nhiệm vụ cập nhật nào được tạo. Thử lại sẽ kiểm tra các công cụ này lần nữa trước khi bắt đầu."
+        }
+      },
+      "hints": {
+        "current": "Mọi thứ đã được cập nhật",
+        "running": "Các bản cập nhật đang chạy trong mục Nhiệm vụ",
+        "checking": "Đang kiểm tra những gì có thể cập nhật",
+        "unavailable": "Trạng thái cập nhật hiện không khả dụng",
+        "review": "Xem lại bản cập nhật này trong Công cụ AI"
+      }
+    },
+    "error": {
+      "title": "Không thể kiểm tra thiết lập của bạn",
+      "description": "AI Manager không thể kiểm tra máy tính này vào lúc này."
+    },
+    "refreshError": {
+      "title": "Trang chủ không thể làm mới",
+      "description": "Thiết lập kiểm tra gần nhất vẫn đang được hiển thị. Việc khởi động và cập nhật công cụ sẽ tạm dừng cho đến khi có một lần kiểm tra mới thành công.",
+      "action": "Kiểm tra lại"
+    },
+    "refreshing": {
+      "title": "Đang kiểm tra lại Trang chủ",
+      "description": "Việc khởi động và cập nhật công cụ sẽ tiếp tục khi lần kiểm tra này hoàn tất."
+    }
+  },
+  "taskCenter": {
+    "open": "Hoạt động",
+    "openUnavailable": "Hoạt động, trạng thái không khả dụng",
+    "openRefreshError": "Hoạt động, đang hiển thị trạng thái gần nhất đã biết",
+    "openRunning_one": "Hoạt động, {{count}} thao tác đang chạy",
+    "openRunning_other": "Hoạt động, {{count}} thao tác đang chạy",
+    "title": "Hoạt động",
+    "running_one": "{{count}} hoạt động đang chạy",
+    "running_other": "{{count}} hoạt động đang chạy",
+    "idle": "Không có hoạt động nào đang chạy",
+    "loading": {
+      "summary": "Đang kiểm tra trạng thái hoạt động",
+      "label": "Đang tải hoạt động…"
+    },
+    "unavailable": {
+      "summary": "Trạng thái hoạt động không khả dụng",
+      "title": "Không thể tải hoạt động",
+      "description": "Thử lại để làm mới hoạt động gần đây.",
+      "retry": "Thử lại"
+    },
+    "refreshError": {
+      "summary": "Đang hiển thị trạng thái hoạt động gần nhất đã biết",
+      "title": "Không thể làm mới hoạt động",
+      "description": "Hoạt động gần nhất đã biết vẫn đang được hiển thị. Tiến trình mới có thể bị thiếu.",
+      "retry": "Làm mới hoạt động"
+    },
+    "toolAuthority": {
+      "openLabel": "Hoạt động: {{status}}; thao tác công cụ không khả dụng",
+      "unavailableTitle": "Thao tác công cụ không khả dụng",
+      "unavailableDescription": "Lịch sử nhiệm vụ vẫn được hiển thị, nhưng AI Manager không thể xác nhận công cụ nào có thể mở.",
+      "refreshTitle": "Không thể làm mới công cụ của bạn",
+      "refreshDescription": "Chi tiết công cụ gần nhất vẫn đang được hiển thị. Việc mở một công cụ đã hoàn tất sẽ tạm dừng cho đến khi có một lần kiểm tra mới thành công.",
+      "retry": "Kiểm tra lại công cụ",
+      "pausedTitle": "Việc mở công cụ đang tạm dừng",
+      "pausedDescription": "AI Manager phải xác nhận công cụ hiện tại trước khi có thể chọn thư mục dự án. Hủy cửa sổ này, sau đó kiểm tra lại công cụ của bạn trong Hoạt động.",
+      "changedTitle": "Công cụ này không còn sẵn sàng để mở",
+      "changedDescription": "Lần kiểm tra gần nhất không còn hiển thị công cụ này là một bản cài đặt có thể khởi chạy. Hủy cửa sổ này và xem lại Công cụ AI."
+    },
+    "empty": {
+      "title": "Chưa có hoạt động nào",
+      "description": "Các lượt cài đặt, cập nhật, gỡ bỏ và kiểm tra môi trường sẽ xuất hiện tại đây."
+    },
+    "sections": {
+      "active": "Đang xử lý",
+      "recent": "Hoạt động gần đây"
+    },
+    "kind": {
+      "install": "Cài đặt {{name}}",
+      "update": "Cập nhật {{name}}",
+      "uninstall": "Gỡ bỏ {{name}}",
+      "repair": "Sửa chữa {{name}}",
+      "changeVersion": "Đổi phiên bản {{name}}",
+      "testProviders": "Kiểm tra dịch vụ {{name}}",
+      "scan": "Kiểm tra hệ thống"
+    },
+    "extension": {
+      "mcp": {
+        "install": "Thêm kết nối MCP {{name}}",
+        "uninstall": "Gỡ bỏ kết nối MCP {{name}}"
+      },
+      "skill": {
+        "install": "Cài đặt Skill {{name}}",
+        "update": "Cập nhật Skill {{name}}",
+        "uninstall": "Gỡ bỏ Skill {{name}}"
+      }
+    },
+    "logs": {
+      "title": "Nhật ký tiến trình ({{count}})",
+      "toggle": "Hiện hoặc ẩn nhật ký tiến trình, {{count}} mục",
+      "privacy": "Chỉ được giữ trong bộ nhớ. Đầu ra bị giới hạn và các thông tin xác thực đã biết sẽ được ẩn đi.",
+      "kind": {
+        "phase": "Giai đoạn",
+        "command": "Lệnh",
+        "stdout": "stdout",
+        "stderr": "Chẩn đoán",
+        "warning": "Cảnh báo",
+        "system": "Hệ thống"
+      }
+    },
+    "viewDetails": "Xem chi tiết",
+    "viewDetailsFor": "Xem chi tiết: {{name}}",
+    "details": {
+      "title": "Chi tiết nhiệm vụ",
+      "code": "Mã lỗi",
+      "reference": "Mã tham chiếu",
+      "technical": "Chi tiết kỹ thuật",
+      "noTechnical": "Không có chi tiết bổ sung nào cho mục này."
+    }
+  },
+  "services": {
+    "action": {
+      "add": "Thêm điểm cuối",
+      "configureNamed": "Thêm {{name}} vào công cụ",
+      "edit": "Sửa",
+      "editNamed": "Sửa {{name}}",
+      "remove": "Xóa",
+      "removeNamed": "Xóa {{name}}",
+      "test": "Kiểm tra",
+      "testAll": "Kiểm tra mọi địa chỉ",
+      "testNamed": "Kiểm tra {{name}}",
+      "useNamed": "Dùng {{name}}"
+    },
+    "card": {
+      "custom": "Dịch vụ tùy chỉnh",
+      "saved": "Đã lưu",
+      "defaultModel": "Model mặc định",
+      "recentModel": "Dùng gần đây",
+      "unknown": "Chưa xác nhận sử dụng",
+      "inUse": "Đang dùng",
+      "noKey": "Chưa lưu khóa nào",
+      "notInEffect": "Đã chọn, nhưng chưa có hiệu lực",
+      "official": "Dịch vụ chính thức",
+      "overriddenBy": "Đã chọn, nhưng bị {{source}} ghi đè",
+      "savedEndpoint": "Điểm cuối đã lưu trong AI Manager",
+      "toolSignIn": "Dùng đăng nhập của {{tool}}"
+    },
+    "connect": {
+      "accountHint": "Dùng một khóa từ tài khoản {{service}} của riêng bạn. Việc truy cập API và chi phí thuộc về dịch vụ đó.",
+      "activateNow": "Dùng ngay",
+      "activateQuestion": "Dùng ngay trong {{tool}}?",
+      "compatible": "Tương thích",
+      "compatibleServices": "Dịch vụ tương thích",
+      "backToPresets": "Dùng một mẫu dịch vụ dựng sẵn",
+      "customBaseUrl": "HTTPS Base URL",
+      "customBaseUrlHint": "Cho phép có đường dẫn. Thông tin xác thực, tham số truy vấn, fragment và HTTP thường bị từ chối.",
+      "customBaseUrlInvalid": "Nhập một HTTPS Base URL không chứa thông tin xác thực.",
+      "customCompatibility": "Dùng một điểm cuối triển khai đúng định dạng API mà {{tool}} mong đợi. AI Manager cấu hình công cụ, nhưng không chuyển đổi giao thức API.",
+      "customDescription": "Nhập điểm cuối HTTPS, khóa và model mà {{tool}} nên dùng.",
+      "customEntry": "Điểm cuối tùy chỉnh",
+      "customEntryHint": "Cần một dịch vụ không có trong danh sách mẫu dựng sẵn đã xem xét?",
+      "customTitle": "Thêm điểm cuối API",
+      "address": {
+        "degraded": "{{name}} đã được lưu, nhưng địa chỉ dịch vụ của nó phản hồi chậm",
+        "failed": "{{name}} đã được lưu, nhưng địa chỉ dịch vụ của nó không phản hồi",
+        "operational": "{{name}} đã được lưu và địa chỉ dịch vụ của nó đã phản hồi"
+      },
+      "addressRetry": "Cấu hình được giữ nguyên. Kiểm tra mạng của bạn, sau đó chạy lại Kiểm tra địa chỉ.",
+      "afterSave": "Sau khi lưu, AI Manager chỉ kiểm tra địa chỉ dịch vụ. {{tool}} xác minh khóa và model ở lần dùng đầu tiên.",
+      "description": "Thêm một dịch vụ API cho {{tool}}. AI Manager sẽ cấu hình nó giúp bạn.",
+      "errorTitle": "Không thể hoàn tất kết nối dịch vụ này",
+      "firstUse": "{{tool}} sẽ xác minh khóa API và model ở lần dùng đầu tiên.",
+      "forTool": "Kết nối đến {{tool}}",
+      "getKey": "Lấy khóa API",
+      "key": "Khóa API",
+      "keyHint": "Được lưu cục bộ. Bạn có thể xem và sao chép khóa trong thẻ điểm cuối và trình chỉnh sửa.",
+      "keyPlaceholder": "Dán khóa API của bạn",
+      "keyRequired": "Dán một khóa API.",
+      "model": "Model",
+      "modelRequired": "Nhập một model.",
+      "measuredServices": "Đo trên máy tính này",
+      "name": "Tên",
+      "nameRequired": "Nhập một tên.",
+      "noPresetMatch": "Không có dịch vụ nào khớp.",
+      "official": "Chính thức",
+      "officialServices": "Dịch vụ chính thức",
+      "openProvider": "Mở dịch vụ",
+      "preset": "Mẫu dịch vụ dựng sẵn",
+      "presetHint": "Chọn một mẫu chính thức hoặc tương thích. Các dịch vụ tương thích được liệt kê để thuận tiện cho việc thiết lập; AI Manager không xác nhận hay bán lại chúng.",
+      "profileError": "AI Manager không thể tải mẫu kết nối an toàn của nó. Các dịch vụ đã lưu của bạn không bị ảnh hưởng.",
+      "profileErrorTitle": "Không thể chuẩn bị một kết nối mới",
+      "profileRetry": "Tải lại cấu hình kết nối",
+      "retryConnect": "Thử kết nối lại dịch vụ này",
+      "retryHint": "AI Manager đã làm mới trạng thái dịch vụ đã lưu. Chi tiết của bạn vẫn còn ở đây; xem lại, sau đó thử kết nối lại.",
+      "responseTime": "{{latency}} ms",
+      "searchPresets": "Tìm dịch vụ…",
+      "saved": "{{name}} đã được lưu",
+      "speedSorted": "Sắp xếp theo phép đo mới nhất của máy tính này.",
+      "speedTest": "Kiểm tra dịch vụ nào phản hồi nhanh nhất",
+      "speedTestAgain": "Kiểm tra lại",
+      "speedTestFailed": "Không thể đo các dịch vụ này. Kiểm tra mạng của bạn và thử lại.",
+      "speedTesting": "Đang kiểm tra địa chỉ dịch vụ…",
+      "title": "Kết nối {{service}}",
+      "unreachable": "Không thể kết nối"
+    },
+    "description": "Chọn một công cụ, sau đó thêm, chuyển và kiểm tra các điểm cuối API của nó.",
+    "effective": {
+      "selection": {
+        "defaultModel": "Model mặc định toàn cục: {{model}}. Cài đặt dự án, cờ dòng lệnh hoặc phiên hiện tại có thể ghi đè nó.",
+        "recentModel": "Model dùng gần đây: {{model}}. Đây là lịch sử cục bộ, không phải phiên hiện tại hay đảm bảo cho lựa chọn tiếp theo.",
+        "unknown": "Không thể xác nhận điểm cuối đang hoạt động. Các mục đã lưu không phải là bằng chứng sử dụng. Kiểm tra cấu hình công cụ và lựa chọn model."
+      },
+      "credential": {
+        "unknown": "Trạng thái thông tin xác thực chưa xác nhận",
+        "configured": "Đã cấu hình khóa",
+        "missing": "Chưa có khóa",
+        "toolLogin": "Dùng đăng nhập riêng của {{tool}}"
+      },
+      "refresh": "Kiểm tra lại",
+      "shellNotInspected": "Chỉ các tệp cấu hình được kiểm tra. Nếu bạn đặt biến môi trường trong terminal, kết nối thực tế có thể khác với những gì hiển thị bên dưới.",
+      "source": {
+        "environment": "Từ biến môi trường terminal {{variable}}",
+        "liveConfig": "Từ {{path}}",
+        "shellFile": "Từ {{variable}} trong {{path}}",
+        "toolDefault": "Không có cài đặt tùy chỉnh; công cụ dùng địa chỉ mặc định của nó"
+      },
+      "errorTitle": "Không thể đọc kết nối nào đang có hiệu lực",
+      "errorDescription": "Danh sách bên dưới vẫn chính xác, nhưng hiện tại chúng tôi không thể cho biết mục nào thực sự đang được dùng.",
+      "shellNotInspectedTitle": "Không thể đọc môi trường terminal"
+    },
+    "external": {
+      "badge": "Đặt ngoài ứng dụng",
+      "endpoint": "Điểm cuối đang có hiệu lực",
+      "overrides": "{{name}} sẽ dùng địa chỉ này. Nó được ưu tiên hơn những gì bạn chọn bên dưới."
+    },
+    "endpoints": {
+      "title": "Điểm cuối của {{tool}}",
+      "count_one": "{{count}} điểm cuối đã lưu",
+      "count_other": "{{count}} điểm cuối đã lưu"
+    },
+    "empty": {
+      "description": "Kết nối một dịch vụ API và AI Manager sẽ thiết lập công cụ này giúp bạn.",
+      "title": "Chưa có gì ở đây"
+    },
+    "error": {
+      "description": "Hãy thử lại, hoặc mở công cụ một lần rồi quay lại.",
+      "title": "Không thể đọc các dịch vụ"
+    },
+    "refreshError": {
+      "description": "Các dịch vụ đã lưu gần nhất vẫn được hiển thị. Các thao tác dịch vụ tạm dừng cho đến khi một lần kiểm tra mới thành công.",
+      "title": "Không thể làm mới API Endpoints"
+    },
+    "form": {
+      "addHeader": "Thêm header",
+      "addModel": "Thêm model",
+      "advancedHint": "Chỉ hiển thị các cài đặt chung được công cụ này hỗ trợ. Các trường khác không bị ảnh hưởng.",
+      "advancedManaged": "Dịch vụ này được quản lý bởi công cụ hoặc đăng nhập tài khoản. Cài đặt điểm cuối của nó chỉ đọc ở đây.",
+      "advancedTitle": "Cài đặt nâng cao",
+      "baseUrl": "Base URL",
+      "baseUrlHint": "Dùng HTTPS, hoặc HTTP chỉ cho localhost. Xóa trống trường này sẽ bỏ điểm cuối tùy chỉnh để công cụ dùng địa chỉ mặc định của nó.",
+      "routeAdd": "Thêm tuyến",
+      "routeAddLabel": "Tuyến dịch vụ mới",
+      "routeAddPlaceholder": "https://api.example.com/v1",
+      "routeDuplicate": "Tuyến đó đã có trong dịch vụ này.",
+      "routeEmpty": "Thêm hoặc nhập ít nhất một tuyến trước khi kiểm tra.",
+      "routeFixed": "Cố định",
+      "routeInvalid": "Dùng một URL HTTPS không chứa thông tin xác thực, hoặc HTTP chỉ cho localhost.",
+      "routeLatency": "{{latency}} ms",
+      "routeLimit": "Giữ tối đa 32 tuyến, kể cả tuyến hiện tại.",
+      "routeRemove": "Xóa tuyến {{route}}",
+      "routeUnreachable": "Không thể kết nối",
+      "routes": "Tuyến dịch vụ",
+      "routesAuto": "Chọn tuyến nhanh nhất sau mỗi lần kiểm tra",
+      "routesAutoHint": "Thao tác này cập nhật Base URL trong bản nháp này. Nó không theo dõi trong nền.",
+      "routesHint": "Giữ các Base URL thay thế cho dịch vụ này. Việc kiểm tra chỉ bắt đầu khi bạn yêu cầu.",
+      "routesTest": "Kiểm tra tuyến",
+      "routesTestFailed": "Không thể kiểm tra các tuyến này. Kiểm tra mạng của bạn và thử lại.",
+      "routesTesting": "Đang kiểm tra tuyến…",
+      "description": "Thay đổi tên, khóa hoặc model.",
+      "errorTitle": "Không thể hoàn tất lưu dịch vụ này",
+      "headerKeepValue": "Để trống để giữ giá trị đã lưu",
+      "headerNameNamed": "Tên header {{index}}",
+      "headerNamePlaceholder": "X-Tenant-ID",
+      "headerRequired": "Mỗi header mới cần một tên và giá trị hợp lệ.",
+      "headers": "Header của yêu cầu",
+      "headersHint": "Giá trị đã lưu không bao giờ được hiển thị lại. Để trống một giá trị hiện có để giữ nguyên; xóa hàng của nó để xóa nó.",
+      "headerValueNamed": "Giá trị cho {{name}}",
+      "headerValuePlaceholder": "Giá trị header",
+      "key": "Khóa API",
+      "keyHint": "Để trống để giữ khóa đã lưu sẵn.",
+      "keyHintEmpty": "Dán khóa bạn nhận được từ dịch vụ này.",
+      "modelNamed": "Model {{index}}",
+      "modelRequired": "Nhập một ID model hoặc xóa hàng chưa hoàn tất.",
+      "models": "Model",
+      "modelsHintMultiple": "Các ánh xạ model OpenCode hiện có giữ nguyên cài đặt đầy đủ. Chỉ xóa một hàng khi bạn thực sự muốn xóa ánh xạ đó.",
+      "modelsHintSingle": "Để trống để công cụ dùng model mặc định của nó.",
+      "name": "Tên",
+      "nameHint": "Chỉ hiển thị ở đây, trong ứng dụng này.",
+      "nameRequired": "Nhập một tên.",
+      "retryHint": "AI Manager đã làm mới trạng thái dịch vụ đã lưu. Xem lại các thay đổi của bạn, sau đó thử lưu lại.",
+      "retrySave": "Thử lưu lại dịch vụ này",
+      "removeHeaderNamed": "Xóa header {{name}}",
+      "removeModelNamed": "Xóa model {{model}}",
+      "save": "Lưu",
+      "settingsLoading": "Đang tải cài đặt dịch vụ an toàn…",
+      "settingsUnavailable": "Không thể đọc các cài đặt bổ sung. Bạn vẫn có thể lưu tên hoặc thay khóa; các cài đặt đó sẽ không bị ảnh hưởng.",
+      "title": "Sửa dịch vụ"
+    },
+    "loading": "Đang tải dịch vụ",
+    "runtime": {
+      "description": "Xem công cụ này thực sự đọc hướng dẫn toàn cục, bộ nhớ, cấu hình và phiên dự án ở đâu.",
+      "loading": "Đang kiểm tra nguồn cấu hình",
+      "localOnlyNote": "Chỉ vị trí và kích thước tệp cục bộ. Nội dung tệp không được tải lên.",
+      "notCreated": "Chưa được tạo",
+      "openConfigFolder": "Mở thư mục cấu hình",
+      "openConfigFile": "Mở tệp cấu hình",
+      "projectUsageNote": "Các tệp cấp người dùng được liệt kê ở đây. Quản lý các quy tắc riêng của dự án trong từng thư mục dự án.",
+      "refresh": "Làm mới ngữ cảnh cục bộ",
+      "action": {
+        "browse": "Mở vị trí",
+        "create": "Tạo và sửa",
+        "edit": "Mở và sửa",
+        "manage": "Quản lý"
+      },
+      "openOutcome": {
+        "editorOpened": "Đã mở trong trình chỉnh sửa mặc định",
+        "folderOpened": "Đã mở trong trình quản lý tệp"
+      },
+      "resource": {
+        "configuration": {
+          "description": "Điểm cuối, đăng nhập và cài đặt công cụ. Các tệp có sẵn mở trong ứng dụng mặc định; các tệp còn thiếu mở thư mục của chúng.",
+          "title": "Cấu hình runtime"
+        },
+        "instructions": {
+          "description": "Một prompt toàn cục cấp người dùng mà công cụ này dùng cho mọi dự án. Tạo tệp trực tiếp khi nó chưa tồn tại.",
+          "managedDescription": "Prompt đang hoạt động. Sửa hoặc chuyển nó trên trang Global Prompts.",
+          "title": "Prompt toàn cục"
+        },
+        "memory": {
+          "description": "Bộ nhớ mà công cụ lưu cục bộ và có thể dùng lại trong các cuộc trò chuyện sau.",
+          "title": "Bộ nhớ"
+        },
+        "sessionData": {
+          "description": "Phiên dự án cục bộ, lịch sử trò chuyện và trạng thái công cụ.",
+          "title": "Dữ liệu phiên dự án"
+        },
+        "userProfile": {
+          "description": "Hồ sơ người dùng cục bộ và các tùy chọn dài hạn mà công cụ này dùng để hiểu bạn.",
+          "title": "Hồ sơ người dùng"
+        }
+      },
+      "scope": {
+        "global": "Toàn cục",
+        "project": "Dự án"
+      },
+      "storage": {
+        "conversationBytes": "Dữ liệu trò chuyện",
+        "limited": "Các thư mục lớn hoặc không đọc được hiển thị theo giới hạn dưới an toàn.",
+        "resourceSize": "Kích thước cục bộ: {{size}}",
+        "sizeUnavailable": "Không có kích thước",
+        "total": "Dữ liệu cục bộ được liệt kê"
+      },
+      "title": "Ngữ cảnh và lưu trữ cục bộ"
+    },
+    "noTools": {
+      "description": "Cài đặt một công cụ trước, sau đó dịch vụ của nó sẽ xuất hiện ở đây.",
+      "title": "Chưa có công cụ nào để thiết lập"
+    },
+    "refresh": "Làm mới",
+    "remove": {
+      "activeHint": "Chọn một dịch vụ khác trước khi xóa dịch vụ này.",
+      "confirm": "Xóa dịch vụ",
+      "description": "Thao tác này xóa dịch vụ đã lưu khỏi AI Manager và {{tool}}.",
+      "errorTitle": "Không thể hoàn tất xóa dịch vụ này",
+      "errorRetry": "Xem lại dịch vụ và thử lại.",
+      "managedHint": "Dịch vụ này dùng cấu hình riêng của công cụ và không thể xóa ở đây.",
+      "point": {
+        "account": "Tài khoản của bạn không bị xóa, và khóa không bị dịch vụ thu hồi.",
+        "local": "Dịch vụ và khóa đã lưu sẽ bị xóa khỏi {{tool}}.",
+        "otherTools": "Các công cụ AI khác và dịch vụ của chúng không bị ảnh hưởng."
+      },
+      "removed": "Đã xóa {{name}}",
+      "retryNamed": "Thử xóa lại {{name}}",
+      "title": "Xóa {{name}}?"
+    },
+    "scope": "Công cụ AI",
+    "scopeUnsupportedShort": "Chưa tích hợp",
+    "scopeSharedShort": "Dùng chung với một ứng dụng desktop",
+    "scopeUnsupportedTitle": "AI Manager chưa tích hợp cấu hình dịch vụ cho {{tool}}",
+    "scopeUnsupportedDescription": "Điều này có nghĩa là AI Manager chưa có adapter an toàn; không nhất thiết có nghĩa là {{tool}} không thể dùng dịch vụ tùy chỉnh. Công cụ đã cài đặt vẫn được hiển thị ở đây để rõ ràng.",
+    "scopeSave": {
+      "errorDescription": "Bạn vẫn đang xem {{tool}}. Hãy thử lại để mở công cụ này ở đây vào lần sau.",
+      "errorTitle": "Chế độ xem công cụ chưa được ghi nhớ",
+      "retry": "Thử lại",
+      "saving": "Đang ghi nhớ công cụ này"
+    },
+    "switch": {
+      "configuredNamed": "Đã thêm {{name}} vào cấu hình công cụ",
+      "chooseModelHint": "Model mặc định chưa thay đổi. Chọn model bạn muốn trong {{tool}}.",
+      "appliedNamed": "Đã chuyển sang {{name}}",
+      "errorNamed": "Không thể hoàn tất chuyển sang {{name}}",
+      "openNow": "Mở ngay",
+      "reopenHint": "{{tool}} đang chạy sẵn sẽ giữ điểm cuối cũ cho đến khi bạn mở lại.",
+      "retryHint": "AI Manager đã làm mới trạng thái dịch vụ đã lưu. Thử lại cùng thao tác chuyển này.",
+      "retryNamed": "Thử chuyển lại sang {{name}}",
+      "switchingNamed": "Đang chuyển sang {{name}}"
+    },
+    "failover": {
+      "tryNext": "Thử dịch vụ khả dụng tiếp theo",
+      "tryNextNamed": "Thử dịch vụ khả dụng đã lưu tiếp theo cho {{name}}",
+      "noneAvailable": "Không có dịch vụ đã lưu nào khác phản hồi. Cấu hình hiện tại không bị thay đổi.",
+      "automaticSuccess": "{{from}} không phản hồi. Đã chuyển sang {{to}}.",
+      "manualSuccess": "Đã chuyển từ {{from}} sang dịch vụ khả dụng {{to}}.",
+      "unknownService": "Dịch vụ không xác định"
+    },
+    "summary": {
+      "activeTitle": "{{service}} đang hoạt động cho {{tool}}",
+      "checked": "Địa chỉ đã kiểm tra",
+      "description": "Chuyển dịch vụ hoặc kiểm tra xem địa chỉ của chúng có phản hồi không. AI Manager xử lý việc thiết lập giúp bạn.",
+      "eyebrow": "Tổng quan kết nối",
+      "noActiveTitle": "Các dịch vụ đã lưu cho {{tool}}",
+      "saved": "Đã lưu",
+      "testable": "Có thể kiểm tra địa chỉ"
+    },
+    "start": {
+      "action": "Khởi động {{tool}}",
+      "description": "Chọn một thư mục dự án. {{tool}} sẽ mở ở đó trong Terminal; dịch vụ xác minh khóa và model đã lưu ở lần dùng đầu tiên.",
+      "eyebrow": "Bước tiếp theo",
+      "title": "Cấu hình của bạn đã được lưu. Khởi động trong {{tool}}"
+    },
+    "test": {
+      "browseCompatible": "Duyệt dịch vụ tương thích",
+      "browseCompatibleNamed": "Duyệt dịch vụ tương thích cho {{name}}",
+      "checkingNamed": "Đang kiểm tra {{name}}",
+      "degraded": "Địa chỉ phản hồi chậm",
+      "errorNamed": "Không thể kiểm tra địa chỉ cho {{name}}",
+      "failed": "Địa chỉ không phản hồi",
+      "latency": "{{ms}} ms",
+      "operational": "Đã kết nối được địa chỉ",
+      "retry": "Thử lại",
+      "retryHint": "Lần kiểm tra thất bại không làm thay đổi dịch vụ này. Thử lại cùng lần kiểm tra.",
+      "retryNamed": "Kiểm tra lại {{name}}",
+      "unreachableHint": "Không thể kết nối đến địa chỉ này từ mạng hiện tại của bạn. Bạn có thể chọn một dịch vụ tương thích khác."
+    },
+    "probe": {
+      "title": "Kiểm tra {{name}}",
+      "addressChecking": "Đang kiểm tra địa chỉ…",
+      "model": "Model",
+      "modelCount": "{{count}} model khả dụng",
+      "modelLoading": "Đang đọc danh sách model…",
+      "modelReload": "Tải lại",
+      "modelManual": "Tên model",
+      "modelManualHint": "Dịch vụ này không công bố danh sách model, vì vậy hãy tự nhập tên model.",
+      "modelRefused": "Dịch vụ đã từ chối danh sách model (HTTP {{status}}).",
+      "modelTruncated": "Đang hiển thị {{count}} đầu tiên.",
+      "kind": "Gửi",
+      "kindText": "Văn bản",
+      "kindImage": "Hình ảnh",
+      "kindHint": "Đoán từ tên model. Hãy đổi nếu sai.",
+      "prompt": "Prompt",
+      "send": "Gửi",
+      "sending": "Đang chờ dịch vụ…",
+      "cost": "Thao tác này gửi một yêu cầu thực và dùng hạn mức của bạn.",
+      "result": "Kết quả",
+      "resultMeta": "HTTP {{status}} · {{ms}} ms",
+      "replyEmpty": "Dịch vụ đã trả lời nhưng không trả về gì.",
+      "replyRefused": "Dịch vụ đã từ chối yêu cầu này.",
+      "replyImageLinkOnly": "Dịch vụ trả về một liên kết thay vì dữ liệu hình ảnh, nên không thể hiển thị hình ảnh ở đây.",
+      "imageAlt": "Hình ảnh được tạo bởi {{model}}",
+      "adopt": "Dùng model này",
+      "adopted": "Đã lưu vào dịch vụ này.",
+      "adoptFailed": "Không thể lưu model.",
+      "effectiveNote": "Kết nối này không có bản ghi nào được lưu ở đây, nên không có bước kiểm tra địa chỉ để chạy trước."
+    },
+    "title": "API Endpoints",
+    "toolsError": {
+      "description": "AI Manager không thể kiểm tra bạn có công cụ nào. Hãy thử lại để xem dịch vụ của chúng.",
+      "title": "Không thể đọc các công cụ của bạn"
+    },
+    "toolsRefreshError": {
+      "title": "Không thể làm mới các công cụ của bạn",
+      "description": "Kết quả kiểm tra công cụ và dịch vụ gần nhất vẫn được hiển thị. Việc kết nối, chuyển, kiểm tra, sửa, xóa và khởi động tạm dừng cho đến khi một lần kiểm tra công cụ mới thành công.",
+      "action": "Kiểm tra lại công cụ"
+    },
+    "actionsPaused": {
+      "title": "Các thao tác dịch vụ đang tạm dừng",
+      "description": "AI Manager phải xác nhận công cụ hiện tại và trạng thái dịch vụ trước khi có thể thực hiện thay đổi khác hoặc khởi động công cụ."
+    },
+    "shellVariable": {
+      "at": "Dòng {{line}} của {{path}}",
+      "editNamed": "Sửa {{variable}} ở nơi cửa sổ dòng lệnh đặt nó",
+      "nothingChanged": "Không có gì thay đổi. Hãy xem lại rồi thử lại.",
+      "openTerminalsKeepTheOldValue": "Cửa sổ dòng lệnh đang mở vẫn giữ giá trị cũ cho đến khi khởi động lại.",
+      "save": "Lưu",
+      "saved": "Đã lưu.",
+      "title": "Sửa {{variable}}",
+      "value": "Giá trị"
+    }
+  },
+  "extensions": {
+    "help": "Trợ giúp",
+    "location": {
+      "action": "Hiện trong trình quản lý tệp",
+      "description": "Định vị tệp hiện tại của phần mềm này, hoặc thư mục hiện có gần nhất nếu chưa được tạo.",
+      "promptNote": "Các prompt đã lưu, không hoạt động không có tệp riêng."
+    },
+    "title": "Skills, MCP & Prompt toàn cục",
+    "description": "Thêm Skills, kết nối MCP, và quản lý prompt toàn cục cho từng công cụ AI.",
+    "refresh": "Làm mới",
+    "loading": "Đang tải extensions",
+    "addLater": "Bạn có thể quản lý các extension đã có. Việc thêm extension mới sẽ có trong bản cập nhật sau.",
+    "addLaterTitle": "Thêm extension",
+    "kindScope": "Loại extension",
+    "toolScope": "Công cụ AI",
+    "scope": {
+      "unsupportedShort": "Chưa tích hợp",
+      "unsupportedTitle": "AI Manager chưa tích hợp {{kind}} cho {{tool}}",
+      "unsupportedDescription": "AI Manager hiện chưa có adapter quản lý an toàn cho mục này. Điều đó không nhất thiết có nghĩa là {{tool}} thiếu tính năng này. Công cụ đã cài đặt vẫn được hiển thị ở đây để rõ ràng."
+    },
+    "adoption": {
+      "kind": {
+        "skill": "Skill",
+        "mcp": "Kết nối MCP",
+        "prompt": "prompt"
+      },
+      "kindPlural": {
+        "skill": "Skills",
+        "mcp": "Kết nối MCP",
+        "prompt": "prompt"
+      },
+      "noticeTitle": "Tìm thấy trên máy Mac này: {{count}}",
+      "noticeDescription": "Những mục này đã hoạt động trong {{tool}}. Hãy thêm chúng vào AI Manager trước khi thay đổi hoặc xóa chúng ở đây.",
+      "openOne": "Thêm 1 {{kind}} đã tìm thấy vào AI Manager",
+      "openMany": "Thêm {{count}} {{kind}} đã tìm thấy vào AI Manager",
+      "titleOne": "Quản lý {{kind}} tìm thấy trên máy Mac này?",
+      "titleMany": "Quản lý {{count}} {{kind}} tìm thấy trên máy Mac này?",
+      "description": "Xem lại những gì sẽ thay đổi trước khi AI Manager bắt đầu quản lý các mục này.",
+      "originalUnchanged": {
+        "skill": "Các tệp Skill hiện tại vẫn giữ nguyên vị trí và không bị ghi lại trong quá trình nhập.",
+        "mcp": "Cấu hình MCP hiện tại vẫn giữ nguyên vị trí và không bị ghi lại trong quá trình nhập.",
+        "prompt": "Các tệp hướng dẫn hiện tại vẫn giữ nguyên vị trí và không bị ghi lại trong quá trình nhập."
+      },
+      "managedCopy": "AI Manager giữ bản sao được quản lý của nó trên máy Mac này.",
+      "mcpPrivate": "Lệnh kết nối, tham số và thông tin xác thực vẫn ở trên máy Mac này và không bao giờ hiển thị trong cửa sổ này.",
+      "futureChanges": "Sau khi nhập, việc tắt hoặc xóa các mục có thể thay đổi bản sao được quản lý trong các công cụ được hỗ trợ.",
+      "confirm": "Thêm vào AI Manager",
+      "retry": "Thử lại",
+      "errorTitle": "Không thể thêm các mục đã tìm thấy",
+      "errorRetry": "AI Manager đã làm mới những gì nó có thể đọc. Xem lại thông báo và thử lại."
+    },
+    "scopeSave": {
+      "saving": "Đang ghi nhớ chế độ xem này",
+      "errorTitle": "Chế độ xem này chưa được ghi nhớ",
+      "errorDescription": "Bạn vẫn có thể tiếp tục làm việc ở đây. Hãy thử lại để AI Manager mở cùng chế độ xem extension này vào lần sau.",
+      "retry": "Thử lại"
+    },
+    "inventory": {
+      "detected": {
+        "title": "Tìm thấy trong công cụ này",
+        "description": "Đọc trực tiếp từ {{tool}} trên máy Mac này; nội dung vẫn ở vị trí gốc của nó.",
+        "rescan": "Quét lại"
+      },
+      "managed": {
+        "title": "Được quản lý bởi AI Manager",
+        "description": "Được AI Manager lưu cục bộ và có thể quản lý ở đây."
+      }
+    },
+    "copy": {
+      "title": "Sao chép “{{name}}” sang ứng dụng khác",
+      "description": "AI Manager sao chép thư mục Skill sang. Bản gốc vẫn ở nguyên vị trí, và hai bản sao sẽ độc lập với nhau từ đó trở đi.",
+      "targetsLabel": "Sao chép sang các ứng dụng này",
+      "confirm": "Sao chép",
+      "alreadyHas": "Đã có sẵn",
+      "copied": "Đã sao chép",
+      "failed": "Chưa sao chép",
+      "independent": "Đã sao chép. Bản sao này phát triển độc lập từ nay; thay đổi nó sẽ không ảnh hưởng đến bản gốc.",
+      "noTargets": "Mọi ứng dụng khác có thể dùng Skills đều đã có Skill này."
+    },
+    "card": {
+      "itemLabel": "{{name}}, mục {{position}} trên {{total}}",
+      "detected": "Tìm thấy trên máy Mac này",
+      "detectedDescription": "Đã được công cụ này sử dụng. AI Manager chỉ hiển thị ở đây và không sao chép hay ghi lại nó.",
+      "onlyIn": "Chỉ {{tool}} có Skill này",
+      "alsoIn": "{{tools, list}} có Skill này",
+      "openLocation": "Mở vị trí",
+      "openLocationNamed": "Mở vị trí của {{name}}",
+      "editDocument": "Sửa SKILL.md",
+      "editDocumentNamed": "Sửa SKILL.md cho {{name}}",
+      "copyTo": "Sao chép sang…",
+      "copyToNamed": "Sao chép {{name}} sang ứng dụng khác",
+      "locationOpened": "Vị trí của {{name}} đã được mở.",
+      "documentOpened": "SKILL.md cho {{name}} đã được mở trong trình chỉnh sửa mặc định của bạn.",
+      "resourceOpenErrorNamed": "Không thể mở {{name}}",
+      "on": "Bật",
+      "off": "Tắt",
+      "noDescription": "Chưa có mô tả.",
+      "expandDescription": "Xem thêm",
+      "collapseDescription": "Thu gọn",
+      "edit": "Sửa",
+      "editNamed": "Sửa {{name}}, mục {{position}} trên {{total}}",
+      "remove": "Xóa",
+      "removeNamed": "Xóa {{name}}, mục {{position}} trên {{total}}",
+      "enableErrorNamed": "Không thể bật {{name}}",
+      "disableErrorNamed": "Không thể tắt {{name}}",
+      "retry": "Thử lại",
+      "retryEnableNamed": "Thử bật lại {{name}}, mục {{position}} trên {{total}}",
+      "retryDisableNamed": "Thử tắt lại {{name}}, mục {{position}} trên {{total}}",
+      "retryHint": "AI Manager đã làm mới trạng thái mà nó có thể đọc. Hãy thử lại cùng thay đổi này.",
+      "updateAvailable": "Có bản cập nhật",
+      "update": "Cập nhật",
+      "updateNamed": "Cập nhật {{name}}, mục {{position}} trên {{total}}",
+      "updating": "Đang cập nhật",
+      "useNamed": "Dùng {{name}}, mục {{position}} trên {{total}}"
+    },
+    "error": {
+      "title": "Không thể đọc extensions",
+      "description": "Hãy thử lại, hoặc mở công cụ một lần rồi quay lại."
+    },
+    "refreshError": {
+      "title": "Không thể làm mới các extension này",
+      "description": "Danh sách gần nhất vẫn được hiển thị. Các thao tác extension tạm dừng cho đến khi một lần kiểm tra mới thành công."
+    },
+    "toolsError": {
+      "title": "Không thể đọc các công cụ của bạn",
+      "description": "AI Manager không thể kiểm tra bạn có công cụ nào, vì vậy không thể hiển thị extension của chúng. Hãy thử lại."
+    },
+    "toolsRefreshError": {
+      "title": "Không thể làm mới các công cụ của bạn",
+      "description": "Kết quả kiểm tra công cụ và extension gần nhất vẫn được hiển thị. Việc thêm, thay đổi và xóa extension tạm dừng cho đến khi một lần kiểm tra công cụ mới thành công.",
+      "action": "Kiểm tra lại công cụ"
+    },
+    "actionsPaused": {
+      "title": "Các thay đổi extension đang tạm dừng",
+      "description": "AI Manager phải xác nhận công cụ hiện tại và trạng thái tác vụ trước khi có thể thực hiện thay đổi khác."
+    },
+    "noTools": {
+      "title": "Chưa có công cụ nào cho việc này",
+      "description": "Cài đặt một công cụ hỗ trợ tính năng này, sau đó quay lại."
+    },
+    "skill": {
+      "title": "Skills",
+      "explainer": "Kiến thức chuyên môn có sẵn mà công cụ AI của bạn có thể làm theo cho một công việc cụ thể.",
+      "catalog": {
+        "add": "Thêm Skill",
+        "title": "Thêm một Skill",
+        "description": "Chọn kiến thức chuyên môn có sẵn cho {{tool}}. Danh mục được tải từ GitHub khi cửa sổ này mở, có phương án dự phòng đã xác minh cho các sự cố tạm thời.",
+        "searchLabel": "Tìm kiếm danh mục Skill",
+        "searchPlaceholder": "Tìm Skills hoặc repository",
+        "trustNote": "Repository GitHub hiển thị trên mỗi hàng vẫn là nguồn gốc. Một kênh jsDelivr đáng tin cậy chỉ có thể truyền tải các tệp công khai đã được xác minh kích thước và SHA-256.",
+        "loading": "Đang tải danh mục Skill từ các nguồn GitHub của nó…",
+        "errorTitle": "Không thể tải danh mục Skill",
+        "errorDescription": "Hãy thử lại. Nếu cả hai đường truyền nguồn vẫn không thể kết nối, hãy mở Settings và cấu hình Local download proxy.",
+        "refreshingTitle": "Đang kiểm tra danh mục Skill mới nhất",
+        "refreshingDescription": "Bạn có thể tiếp tục duyệt danh mục gần nhất. Cài đặt sẽ khả dụng khi kiểm tra hoàn tất.",
+        "refreshErrorTitle": "Không thể làm mới danh mục Skill",
+        "refreshErrorDescription": "Danh mục gần nhất vẫn được hiển thị. Việc cài đặt tạm dừng cho đến khi một lần kiểm tra mới thành công; nếu cần, hãy cấu hình Local download proxy trong Settings.",
+        "mirrorTitle": "Danh mục được tải qua phương án dự phòng đáng tin cậy",
+        "mirrorDescription": "GitHub không phản hồi lần kiểm tra này, vì vậy AI Manager đã dùng jsDelivr để truyền tải một ảnh chụp đã được xác minh kích thước và SHA-256. Repository GitHub vẫn là nguồn có thẩm quyền, và không có cài đặt toàn cục nào thay đổi.",
+        "retry": "Thử lại",
+        "empty": "Không có Skill nào khả dụng",
+        "noResults": "Không có Skill nào khớp với tìm kiếm đó",
+        "noResultsDescription": "Hãy thử một tên hoặc repository khác.",
+        "emptyDescription": "Kiểm tra kết nối và các nguồn Skill đã bật của bạn, sau đó thử lại.",
+        "source": "Từ {{source}}",
+        "installed": "Đã cài đặt",
+        "installedNamed": "{{name}} đã được cài đặt",
+        "install": "Cài đặt",
+        "installNamed": "Cài đặt {{name}}",
+        "installErrorNamed": "Không thể bắt đầu cài đặt {{name}}",
+        "retryInstallNamed": "Thử cài đặt lại {{name}}",
+        "queued": "Đang cài đặt {{name}}",
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks."
+      },
+      "zip": {
+        "action": "Cài đặt từ ZIP",
+        "title": "Cài đặt Skills từ tệp ZIP",
+        "description": "Chọn một tệp lưu trữ cục bộ cho {{tool}}. Tệp này vẫn ở trên máy tính này.",
+        "choose": "Chọn ZIP và cài đặt",
+        "trustTitle": "Dùng một tệp lưu trữ bạn tin tưởng",
+        "trustDescription": "AI Manager đọc tệp lưu trữ cục bộ và từ chối các đường dẫn không an toàn cũng như việc giải nén quá lớn. Các tệp của nó vẫn có thể thay đổi cách công cụ AI của bạn hoạt động.",
+        "formatTitle": "Yêu cầu đối với tệp lưu trữ",
+        "formatDescription": "Dùng một tệp .zip có ít nhất một thư mục Skill chứa SKILL.md.",
+        "syncTitle": "Điều gì xảy ra tiếp theo",
+        "syncDescription": "Các Skill mới, không xung đột được thêm vào bộ nhớ được quản lý và đồng bộ với công cụ này.",
+        "partialNote": "Nếu một Skill sau trong tệp lưu trữ thất bại, các Skill trước đó có thể đã được cài đặt. Tasks hiển thị kết quả và danh sách Skill tự động làm mới.",
+        "queued": "Đang cài đặt Skills từ tệp ZIP",
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
+        "errorHint": "Xem lại thông báo, chọn lại tệp lưu trữ, và thử lại."
+      },
+      "backups": {
+        "action": "Bản sao khôi phục",
+        "title": "Bản sao khôi phục Skill",
+        "description": "Khôi phục hoặc xóa các bản sao cục bộ được tạo trước khi một Skill được quản lý bị xóa. Khôi phục sẽ bật nó cho {{tool}}.",
+        "localTitle": "Chỉ được lưu trên máy tính này",
+        "localDescription": "AI Manager giữ tối đa 20 bản sao gần nhất. Các tệp và đường dẫn của chúng không bao giờ rời khỏi thiết bị này.",
+        "refresh": "Làm mới",
+        "loading": "Đang đọc các bản sao khôi phục Skill",
+        "errorTitle": "Không thể đọc các bản sao khôi phục Skill",
+        "errorDescription": "Danh sách gần nhất đã biết có thể chưa đầy đủ. Hãy làm mới trước khi khôi phục hoặc xóa một bản sao.",
+        "empty": "Chưa có bản sao khôi phục nào. AI Manager tạo một bản trước khi xóa một Skill được quản lý.",
+        "createdAt": "Đã lưu {{date}}",
+        "alreadyInstalled": "Đã cài đặt",
+        "restore": "Khôi phục",
+        "restoreNamed": "Khôi phục {{name}} từ bản sao khôi phục này",
+        "restoreQueued": "Đang khôi phục {{name}}",
+        "restoreQueuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
+        "delete": "Xóa",
+        "deleteNamed": "Xóa bản sao khôi phục cho {{name}}",
+        "deleteTitle": "Xóa bản sao khôi phục cho {{name}}?",
+        "deleteDescription": "Thao tác này chỉ xóa vĩnh viễn bản sao khôi phục này. Một Skill đã cài đặt và các bản sao khác không bị ảnh hưởng.",
+        "deleteConfirm": "Xóa bản sao",
+        "deleteSuccess": "Đã xóa bản sao khôi phục cho {{name}}",
+        "mutationErrorHint": "Danh sách được làm mới từ đĩa. Xem lại thông báo và thử lại."
+      },
+      "repositories": {
+        "manage": "Quản lý nguồn",
+        "title": "Nguồn Skill",
+        "description": "Chọn những repository GitHub đáng tin cậy cung cấp danh mục Skill. Các Skill đã cài đặt được quản lý riêng.",
+        "back": "Quay lại danh mục",
+        "location": "Repository GitHub",
+        "locationPlaceholder": "owner/repository hoặc https://github.com/owner/repository",
+        "branch": "Nhánh (tùy chọn)",
+        "branchPlaceholder": "Tự động phát hiện main hoặc master",
+        "validation": {
+          "location": "Nhập một tên owner/repository hoặc một URL repository GitHub HTTPS đầy đủ."
+        },
+        "add": "Thêm nguồn",
+        "loading": "Đang đọc các nguồn Skill đã cấu hình",
+        "errorTitle": "Không thể đọc nguồn Skill",
+        "errorDescription": "Các nguồn gần nhất đã biết có thể chưa đầy đủ. Hãy thử đọc lại trước khi thực hiện thay đổi.",
+        "retry": "Đọc lại",
+        "empty": "Chưa có nguồn Skill nào được cấu hình. Thêm một repository GitHub đáng tin cậy ở trên.",
+        "defaultBranch": "Nhánh mặc định",
+        "branchValue": "Nhánh: {{branch}}",
+        "enableNamed": "Bật nguồn Skill {{name}}",
+        "disableNamed": "Tắt nguồn Skill {{name}}",
+        "remove": "Xóa",
+        "removeNamed": "Xóa nguồn Skill {{name}}",
+        "removeTitle": "Xóa {{name}} khỏi nguồn Skill?",
+        "removeDescription": "Nó sẽ biến mất khỏi danh mục. Các Skill đã cài đặt từ nguồn này vẫn được giữ lại.",
+        "removeConfirm": "Xóa nguồn",
+        "mutationErrorHint": "Danh sách nguồn trước đó không thay đổi. Xem lại mục nhập và thử lại."
+      },
+      "remove": {
+        "title": "Xóa {{name}}?",
+        "description": "Thao tác này xóa Skill được quản lý khỏi AI Manager và mọi công cụ AI đang bật Skill này.",
+        "point": {
+          "everywhere": "Skill sẽ bị xóa ở mọi nơi hiện đang bật nó.",
+          "recovery": "AI Manager sẽ cố gắng giữ một bản sao khôi phục trước khi xóa các tệp được quản lý.",
+          "external": "Các bản sao ngoài không được nhận diện và các cài đặt công cụ khác của bạn không bị ảnh hưởng."
+        },
+        "confirm": "Xóa Skill",
+        "queued": "Đang xóa {{name}}",
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
+        "errorRetry": "Xem lại thông báo và thử lại."
+      },
+      "update": {
+        "checking": "Đang kiểm tra cập nhật cho các Skill đã cài đặt",
+        "knownCount_one": "Có {{count}} bản cập nhật Skill đã biết",
+        "knownCount_other": "Có {{count}} bản cập nhật Skill đã biết",
+        "checkErrorTitle": "Không thể hoàn tất kiểm tra cập nhật Skill",
+        "checkErrorDescription": "Một số nguồn Skill có thể không kết nối được. Các Skill hiện có vẫn hoạt động, nhưng điều này không đảm bảo mọi thứ đều mới nhất.",
+        "retry": "Kiểm tra lại",
+        "title": "Cập nhật {{name}}?",
+        "description": "AI Manager dùng repository gốc của Skill và một quy trình cập nhật cục bộ đã được xác thực.",
+        "point": {
+          "download": "Tải bản sao mới nhất từ repository đã ghi nhận của Skill.",
+          "backup": "Giữ một bản sao khôi phục trước khi thay thế các tệp được quản lý.",
+          "tools": "Đồng bộ Skill đã cập nhật đến mọi công cụ đang bật Skill này."
+        },
+        "confirm": "Cập nhật Skill",
+        "queued": "Đang cập nhật {{name}}",
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
+        "errorRetry": "Xem lại thông báo và thử lại."
+      },
+      "empty": {
+        "title": "Chưa có skill nào",
+        "description": "Chọn Thêm Skill để cài đặt kiến thức chuyên môn có sẵn cho công cụ này."
+      }
+    },
+    "mcp": {
+      "title": "MCP",
+      "explainer": "Kết nối công cụ AI với tệp, trình duyệt và các dịch vụ khác.",
+      "install": {
+        "add": "Thêm MCP",
+        "title": "Thêm một kết nối MCP",
+        "description": "Kết nối {{tool}} mà không cần dán cấu hình JSON.",
+        "confirm": "Thêm kết nối",
+        "name": "Tên kết nối",
+        "nameHint": "Dùng một tên bạn sẽ nhận ra trong Extensions.",
+        "optionalDescription": "Mô tả (tùy chọn)",
+        "transport": {
+          "label": "Kết nối như thế nào?",
+          "stdio": {
+            "label": "Lệnh cục bộ",
+            "description": "Chạy một chương trình trên máy tính này."
+          },
+          "http": {
+            "label": "HTTP",
+            "description": "Kết nối đến một điểm cuối MCP bảo mật."
+          },
+          "sse": {
+            "label": "SSE",
+            "description": "Kết nối đến một luồng sự kiện bảo mật."
+          }
+        },
+        "command": "Chương trình",
+        "commandHint": "Chỉ nhập tên hoặc đường dẫn chương trình. Đặt từng tham số vào trường tiếp theo.",
+        "commandPlaceholder": "npx",
+        "arguments": "Tham số",
+        "argumentsHint": "Nhập mỗi tham số trên một dòng.",
+        "argumentsPlaceholder": "-y\n@modelcontextprotocol/server-filesystem",
+        "url": "URL máy chủ",
+        "urlHint": "Dùng HTTPS. HTTP chỉ được chấp nhận cho máy tính này.",
+        "urlPlaceholder": "https://mcp.example.com",
+        "trustLocal": "Thao tác này chạy chương trình được đặt tên trên máy tính của bạn. Chỉ thêm phần mềm bạn tin tưởng.",
+        "trustRemote": "Thao tác này gửi lưu lượng MCP đến địa chỉ ở trên. Chỉ thêm dịch vụ bạn tin tưởng.",
+        "noSecrets": "Biểu mẫu hướng dẫn này không có trường cho mật khẩu, header hoặc biến môi trường.",
+        "queued": "Đang thêm {{name}}",
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks."
+      },
+      "remove": {
+        "title": "Xóa {{name}}?",
+        "description": "Thao tác này xóa kết nối đã lưu khỏi AI Manager và mọi công cụ AI đang bật kết nối này.",
+        "point": {
+          "everywhere": "Kết nối sẽ bị xóa khỏi mọi công cụ AI hiện đang bật.",
+          "keepsTargets": "Chương trình, tệp, trình duyệt hoặc dịch vụ từ xa mà nó kết nối tới không bị ảnh hưởng.",
+          "noUndo": "Thao tác này không thể hoàn tác ở đây. Bạn có thể thêm lại kết nối sau."
+        },
+        "confirm": "Xóa kết nối",
+        "queued": "Đang xóa {{name}}",
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
+        "errorRetry": "Kiểm tra chi tiết tác vụ trước khi thử lại."
+      },
+      "empty": {
+        "title": "Chưa có kết nối nào",
+        "description": "Chọn Thêm MCP để kết nối công cụ này với một chương trình cục bộ hoặc dịch vụ bảo mật."
+      }
+    },
+    "prompt": {
+      "title": "Prompt toàn cục",
+      "explainer": "Hướng dẫn thường trực mà một công cụ đọc mỗi khi khởi động.",
+      "exclusive": "Chỉ một bộ hướng dẫn được dùng tại một thời điểm. Chọn bộ khác sẽ chuyển sang bộ đó.",
+      "editor": {
+        "add": "Prompt mới",
+        "createTitle": "Tạo hướng dẫn thường trực",
+        "editTitle": "Sửa {{name}}",
+        "description": "Giữ các hướng dẫn có thể dùng lại cho {{tool}} mà không cần mở tệp cấu hình của nó.",
+        "save": "Lưu hướng dẫn",
+        "activeBackup": "Hướng dẫn này đang được dùng. Trước khi thay đổi tệp đang hoạt động, AI Manager lưu một bản sao khôi phục có đóng dấu thời gian và xác minh bản thay thế.",
+        "readErrorTitle": "Không thể mở hướng dẫn này",
+        "retryRead": "Đọc lại",
+        "saveErrorTitle": "Không thể lưu hướng dẫn này",
+        "name": "Tên hướng dẫn",
+        "optionalDescription": "Mô tả (tùy chọn)",
+        "content": "Hướng dẫn",
+        "contentHint": "Viết văn bản thuần hoặc Markdown. Các hướng dẫn này có thể được gửi đến công cụ AI trong các cuộc trò chuyện sau.",
+        "validation": {
+          "name": {
+            "required": "Đặt một tên cho hướng dẫn này.",
+            "tooLong": "Dùng tối đa 80 ký tự.",
+            "invalid": "Dùng một tên trên một dòng, không có ký tự điều khiển."
+          },
+          "description": {
+            "tooLong": "Dùng tối đa 500 ký tự.",
+            "invalid": "Dùng một mô tả trên một dòng, không có ký tự điều khiển."
+          },
+          "content": {
+            "required": "Viết các hướng dẫn mà công cụ này nên làm theo.",
+            "invalid": "Xóa các ký tự điều khiển không được hỗ trợ.",
+            "tooLarge": "Giữ hướng dẫn dưới 1 MB."
+          }
+        }
+      },
+      "import": {
+        "open": "Nhập hiện tại",
+        "title": "Nhập hướng dẫn hiện tại?",
+        "description": "AI Manager sẽ đọc tệp hướng dẫn mà {{tool}} đang dùng.",
+        "confirm": "Nhập hướng dẫn",
+        "point": {
+          "reads": "Văn bản hiện tại được thêm dưới dạng một mục không hoạt động mà bạn có thể xem lại ở đây.",
+          "unchanged": "Tệp hiện tại của công cụ không bị ghi lại trong quá trình nhập.",
+          "duplicate": "Nếu văn bản giống hệt đã được lưu, sẽ không tạo bản trùng lặp."
+        },
+        "errorTitle": "Không thể nhập hướng dẫn hiện tại"
+      },
+      "remove": {
+        "title": "Xóa {{name}}?",
+        "description": "Thao tác này xóa bản sao đã lưu không hoạt động khỏi AI Manager.",
+        "confirm": "Xóa hướng dẫn",
+        "point": {
+          "current": "Hướng dẫn đang được dùng vẫn được chọn và không bị ảnh hưởng.",
+          "file": "Tệp hướng dẫn đang hoạt động của công cụ và các cài đặt khác của bạn không bị ảnh hưởng.",
+          "undo": "Thao tác này không thể hoàn tác ở đây, nhưng bạn có thể tạo hoặc nhập lại sau."
+        },
+        "active": "Không thể xóa hướng dẫn đang được dùng. Hãy chọn bộ khác trước.",
+        "errorTitle": "Không thể xóa hướng dẫn này"
+      },
+      "empty": {
+        "title": "Chưa có hướng dẫn nào",
+        "description": "Tạo hướng dẫn có thể dùng lại, hoặc nhập tệp mà công cụ này đang dùng."
+      }
+    }
+  },
+  "routing": {
+    "toolScope": "Phần mềm AI",
+    "title": "Định tuyến cục bộ",
+    "description": "Chuyển tiếp yêu cầu ngay trên máy, có tùy chọn tự động chuyển sang các điểm cuối dự phòng.",
+    "summary": {
+      "inactive": "Định tuyến cục bộ đang tắt. Các công cụ vẫn giữ kết nối hiện có.",
+      "needsRestore": "Định tuyến đã dừng, nhưng các công cụ vẫn trỏ đến đó. Hãy khôi phục cấu hình của chúng.",
+      "stats": "Thống kê"
+    },
+    "refresh": "Làm mới trạng thái",
+    "loading": "Đang tải định tuyến cục bộ",
+    "hero": {
+      "title": "Một tuyến cục bộ, ít gián đoạn hơn",
+      "description": "AI Manager sao lưu cấu hình hiện tại của từng công cụ trước khi tiếp quản, giữ lưu lượng trên máy này, và khôi phục cấu hình gốc khi định tuyến dừng lại.",
+      "running": "Định tuyến đang chạy",
+      "stopped": "Sẵn sàng khi bạn cần",
+      "localOnly": "Chỉ loopback cục bộ",
+      "takeovers_one": "Đã định tuyến {{count}} công cụ",
+      "takeovers_other": "Đã định tuyến {{count}} công cụ",
+      "metric": {
+        "requests": "Yêu cầu",
+        "success": "Thành công",
+        "failures": "Thất bại",
+        "failovers": "Chuyển dự phòng"
+      }
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build"
+    },
+    "target": {
+      "routed": "Đã định tuyến",
+      "direct": "Trực tiếp",
+      "current": "Dịch vụ hiện tại: {{name}}",
+      "noProvider": "Trước tiên hãy chọn một dịch vụ hiện tại trong API Endpoints."
+    },
+    "takeover": {
+      "title": "Tiếp quản định tuyến",
+      "description": "Sao lưu và trỏ cấu hình hiện tại của công cụ này sang tuyến cục bộ.",
+      "label": "Tiếp quản định tuyến cho {{name}}",
+      "confirmTitle": "Định tuyến {{name}} cục bộ?",
+      "confirmDescription": "AI Manager sẽ sao lưu cấu hình hiện tại, chỉ thay thế các trường định tuyến, và khôi phục bản sao lưu khi tắt tiếp quản.",
+      "confirm": "Bật định tuyến"
+    },
+    "failover": {
+      "title": "Tự động chuyển dự phòng",
+      "description": "Thử các dịch vụ còn hoạt động theo thứ tự P1, P2 khi một yêu cầu thất bại.",
+      "label": "Tự động chuyển dự phòng cho {{name}}"
+    },
+    "queue": {
+      "title": "Thứ tự chuyển dự phòng",
+      "description": "P1 được chọn khi chuyển dự phòng bắt đầu.",
+      "count_one": "{{count}} dịch vụ",
+      "count_other": "{{count}} dịch vụ",
+      "empty": "Thêm một dịch vụ, hoặc bật chuyển dự phòng để dùng dịch vụ hiện tại làm P1.",
+      "selectLabel": "Dịch vụ để thêm vào chuyển dự phòng",
+      "selectLabelNamed": "Dịch vụ để thêm vào chuyển dự phòng của {{name}}",
+      "selectPlaceholder": "Chọn một dịch vụ",
+      "add": "Thêm",
+      "addNamed": "Thêm dịch vụ đã chọn vào chuyển dự phòng của {{name}}"
+    },
+    "provider": {
+      "current": "Hiện tại",
+      "healthy": "Hoạt động tốt",
+      "unhealthy": "{{count}} lần thất bại liên tiếp",
+      "switch": "Chuyển",
+      "switchLabel": "Chuyển định tuyến sang {{name}}",
+      "removeLabel": "Xóa {{name}} khỏi chuyển dự phòng"
+    },
+    "stop": {
+      "action": "Dừng và khôi phục tất cả",
+      "title": "Dừng toàn bộ định tuyến cục bộ?",
+      "description": "AI Manager sẽ dừng máy chủ cục bộ và khôi phục cấu hình đã sao lưu của mọi công cụ. Thứ tự chuyển dự phòng được giữ lại cho lần sau.",
+      "confirm": "Dừng và khôi phục"
+    },
+    "error": {
+      "title": "Không thể đọc định tuyến cục bộ",
+      "description": "Không có cấu hình nào bị thay đổi. Hãy thử đọc lại trạng thái hiện tại.",
+      "retry": "Thử lại"
+    },
+    "stale": "Ảnh chụp định tuyến gần nhất vẫn được hiển thị vì lần làm mới mới nhất chưa hoàn tất.",
+    "actionError": {
+      "title": "Thay đổi định tuyến chưa hoàn tất"
+    }
+  },
+  "sessions": {
+    "inventoryError": "Không thể làm mới danh sách phần mềm. Các phiên hiện có vẫn khả dụng.",
+    "title": "Phiên cục bộ",
+    "description": "Tìm kiếm các cuộc trò chuyện do công cụ lập trình AI của bạn lưu lại và tiếp tục an toàn các phiên được hỗ trợ trong Terminal.",
+    "loading": "Đang tải phiên cục bộ",
+    "refresh": "Làm mới",
+    "hero": {
+      "local": "Chỉ đọc cục bộ, khi bạn yêu cầu",
+      "limited": "Đang hiển thị 500 phiên khớp mới nhất trong tổng số {{count}}.",
+      "metric": {
+        "visible": "Đang hiển thị",
+        "tools": "Công cụ",
+        "resumable": "Có thể tiếp tục"
+      }
+    },
+    "search": {
+      "label": "Tìm kiếm phiên cục bộ",
+      "placeholder": "Tìm tiêu đề, xem trước, dự án hoặc mã phiên chính xác"
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "opencode": "OpenCode",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build",
+      "openclaw": "OpenClaw",
+      "hermes": "Hermes",
+      "pi": "Pi",
+      "kimi-code": "Kimi Code",
+      "deepseek-dsh": "DeepSeek DSH"
+    },
+    "list": {
+      "title": "Cuộc trò chuyện",
+      "count_one": "{{count}} phiên",
+      "count_other": "{{count}} phiên",
+      "untitled": "Phiên chưa đặt tên",
+      "resumable": "Có thể tiếp tục trong Terminal",
+      "loadMore": "Hiện thêm {{count}}"
+    },
+    "thread": {
+      "title": "Xem trước cuộc trò chuyện",
+      "emptyTitle": "Chọn một cuộc trò chuyện",
+      "emptyDescription": "Nội dung tin nhắn chỉ được đọc sau khi bạn chọn rõ ràng một phiên cục bộ.",
+      "loading": "Đang tải cuộc trò chuyện",
+      "errorTitle": "Không thể đọc cuộc trò chuyện này",
+      "retry": "Thử lại",
+      "limited": "Chỉ hiển thị phần gần đây nhất ({{count}} tin nhắn tổng cộng).",
+      "noMessages": "Không tìm thấy tin nhắn nào có thể đọc trong phiên này.",
+      "messages": "Tin nhắn của phiên",
+      "messageTruncated": "Tin nhắn dài này đã được rút gọn để hiển thị an toàn."
+    },
+    "resume": {
+      "action": "Tiếp tục trong Terminal",
+      "success": "Phiên đã được chuyển sang Terminal.",
+      "error": "Không thể tiếp tục phiên này.",
+      "manualHint": "Hoặc tự dán nội dung này vào terminal:",
+      "manualLabel": "lệnh tiếp tục",
+      "title": "Tiếp tục phiên này",
+      "terminal": {
+        "label": "Mở bằng",
+        "system": "Terminal hệ thống",
+        "iterm2": "iTerm2",
+        "ghostty": "Ghostty",
+        "kitty": "kitty",
+        "wezterm": "WezTerm",
+        "alacritty": "Alacritty"
+      },
+      "launch": "Mở terminal ngay"
+    },
+    "reveal": {
+      "action": "Hiện trong trình quản lý tệp",
+      "actionNamed": "Hiện {{title}} trong trình quản lý tệp"
+    },
+    "role": {
+      "user": "Bạn",
+      "assistant": "Trợ lý",
+      "system": "Hệ thống",
+      "tool": "Công cụ",
+      "other": "Khác"
+    },
+    "empty": {
+      "title": "Không tìm thấy phiên cục bộ nào",
+      "description": "Hãy khởi động một công cụ lập trình AI được hỗ trợ một lần, sau đó làm mới trang này.",
+      "search": "Không có phiên nào khớp với tìm kiếm và bộ lọc công cụ này."
+    },
+    "error": {
+      "title": "Không thể quét phiên cục bộ",
+      "description": "Không có tệp phiên nào bị thay đổi. Hãy thử làm mới chỉ mục cục bộ."
+    }
+  },
+  "preferences": {
+    "title": "Cài đặt",
+    "description": "Tùy chọn cho chính AI Manager.",
+    "loading": "Đang tải cài đặt của bạn",
+    "retry": "Thử lại",
+    "error": {
+      "title": "Không thể đọc cài đặt của bạn",
+      "description": "Hãy thử lại sau một chút."
+    },
+    "groups": {
+      "general": "Chung",
+      "network": "Mạng",
+      "backup": "Sao lưu và khôi phục",
+      "about": "Giới thiệu"
+    },
+    "experience": {
+      "eyebrow": "Trải nghiệm ứng dụng",
+      "title": "Tùy chỉnh AI Manager theo ý bạn",
+      "description": "Tùy chọn ngôn ngữ và giao diện chỉ lưu trên máy này.",
+      "instant": "Áp dụng ngay lập tức",
+      "language": {
+        "label": "Ngôn ngữ",
+        "description": "Chọn ngôn ngữ sử dụng xuyên suốt AI Manager."
+      }
+    },
+    "advanced": {
+      "label": "Chế độ nâng cao",
+      "description": "Hiển thị chi tiết kỹ thuật như vị trí lưu tệp. Nhiều công cụ nâng cao hơn sẽ có trong các bản cập nhật sau.",
+      "saving": "Đang lưu…",
+      "saved": "Đã lưu",
+      "error": "Chưa lưu",
+      "errorHint": "Cài đặt trước đó đã được khôi phục. Hãy bật lại công tắc để thử lại."
+    },
+    "providerFailover": {
+      "label": "Thử các điểm cuối khả dụng trước khi mở hoặc chuyển",
+      "description": "Chỉ khi bạn nhấp Mở hoặc Dùng trong AI Manager: nếu thất bại, thử các điểm cuối tương thích đã lưu khác. Mặc định tắt; không định tuyến lưu lượng. Cấu hình chuyển dự phòng cho các yêu cầu trong API Endpoints → Định tuyến cục bộ."
+    },
+    "desktop": {
+      "title": "Hành vi trên máy tính",
+      "description": "Chọn cách AI Manager khởi động, đóng, và luôn sẵn sàng trên máy này.",
+      "loading": "Đang đọc tùy chọn máy tính",
+      "menuBar": "thanh menu",
+      "systemTray": "khay hệ thống",
+      "requiresTray": "Trước tiên hãy bật Hiện AI Manager trong {{location}} để bạn có thể mở lại cửa sổ.",
+      "error": {
+        "title": "Không thể đọc tùy chọn máy tính",
+        "description": "Không có gì bị thay đổi. Hãy thử lại sau một chút."
+      },
+      "launch": {
+        "label": "Mở AI Manager khi tôi đăng nhập",
+        "description": "Dùng cơ chế khởi động ứng dụng của hệ thống để chạy sau khi bạn đăng nhập.",
+        "descriptionMac": "Thêm một mục khởi động macOS để chạy sau khi bạn đăng nhập vào Mac."
+      },
+      "silent": {
+        "label": "Khởi động trong nền",
+        "description": "Ẩn cửa sổ chính mỗi khi khởi động. Mở lại từ {{location}}.",
+        "requiresLaunch": "Trước tiên hãy bật Mở AI Manager khi tôi đăng nhập."
+      },
+      "tray": {
+        "label": "Hiện AI Manager trong {{location}}",
+        "description": "Giữ một mục trong {{location}}. Tắt tùy chọn này cũng sẽ tắt khởi động trong nền và chạy sau khi đóng cửa sổ."
+      },
+      "close": {
+        "label": "Tiếp tục chạy khi đóng cửa sổ",
+        "description": "Tiếp tục chạy sau khi đóng cửa sổ; mở lại từ {{location}}. Thoát ứng dụng vẫn sẽ dừng nó."
+      }
+    },
+    "network": {
+      "proxy": {
+        "title": "Proxy tải xuống cục bộ",
+        "description": "Đối với các bản cập nhật AI Manager đã ký, bản cập nhật Claude gốc và các tải xuống CLI chính thức khác mà một registry mirror không thể hỗ trợ, hãy định tuyến lưu lượng ra ngoài qua một proxy đã chạy sẵn trên máy này.",
+        "active": "Đang hoạt động",
+        "protected": "Cài đặt được bảo vệ",
+        "protectedHint": "Một proxy có sẵn từ trước chứa thông tin xác thực hoặc địa chỉ từ xa, vì vậy AI Manager sẽ dùng nó nhưng sẽ không hiển thị ở đây. Hãy thay bằng một địa chỉ cục bộ hoặc xóa nó.",
+        "label": "Địa chỉ proxy cục bộ",
+        "hint": "HTTP, HTTPS, SOCKS5 hoặc SOCKS5H trên localhost/127.0.0.1/::1 kèm cổng rõ ràng. Không chấp nhận thông tin xác thực và host từ xa ở đây.",
+        "loading": "Đang đọc proxy tải xuống",
+        "readError": "Không thể đọc proxy tải xuống hiện tại.",
+        "save": "Dùng proxy này"
+      }
+    },
+    "check": {
+      "guide": {
+        "action": {
+          "updateTool": "Cập nhật ngay",
+          "repairTool": "Sửa ngay",
+          "reviewTool": "Xem lại AI Tools",
+          "connectService": "Kết nối một dịch vụ",
+          "reviewService": "Xem lại API Endpoints",
+          "reviewExtensions": "Xem lại Extensions"
+        }
+      },
+      "item": {
+        "toolReady": {
+          "title": "{{name}} đã được cài đặt",
+          "description": "Phiên bản {{version}} có sẵn trên máy này."
+        },
+        "toolUpdate": {
+          "title": "{{name}} có bản cập nhật",
+          "description": "Phiên bản {{version}} đang được cài; {{latestVersion}} đã có sẵn."
+        },
+        "toolBroken": {
+          "title": "{{name}} cần được kiểm tra",
+          "description": "Đã tìm thấy bản cài đặt, nhưng AI Manager không thể sử dụng nó bình thường."
+        },
+        "toolUnknown": {
+          "title": "AI Manager không thể xác định trạng thái của {{name}}",
+          "description": "Hãy kiểm tra lại công cụ này trước khi dựa vào cấu hình hiện tại."
+        },
+        "toolNotInstalled": {
+          "title": "{{name}} chưa được cài đặt",
+          "description": "Đây chỉ là thông tin và không được tính là một vấn đề."
+        },
+        "providerReady": {
+          "title": "{{name}} đã cấu hình dịch vụ AI",
+          "description_one": "{{count}} cấu hình dịch vụ đang được dùng.",
+          "description_other": "{{count}} cấu hình dịch vụ đang được dùng."
+        },
+        "providerMissing": {
+          "title": "{{name}} chưa cấu hình dịch vụ AI",
+          "description": "Mở API Endpoints và chọn hoặc cấu hình một dịch vụ cho công cụ này."
+        },
+        "configReadable": {
+          "title": "Có thể đọc cấu hình của {{name}}",
+          "description": "Cấu hình hiện tại đã được phân tích thành công."
+        },
+        "configMissing": {
+          "title": "{{name}} chưa được cấu hình",
+          "description": "Chưa có tệp cấu hình nào. Đây chỉ là thông tin, không phải vấn đề."
+        },
+        "configUnreadable": {
+          "title": "Không thể đọc cấu hình của {{name}}",
+          "description": "Mở cấu hình của công cụ và sửa định dạng của nó trước khi thực hiện thêm thay đổi."
+        },
+        "connectivity": {
+          "operational": {
+            "title": "{{provider}} đã phản hồi",
+            "description": "Kiểm tra thủ công của bạn cho {{name}} đã thành công trong {{ms}} ms."
+          },
+          "degraded": {
+            "title": "{{provider}} phản hồi chậm",
+            "description": "Lần kiểm tra thủ công gần nhất cho {{name}} mất {{ms}} ms."
+          },
+          "failed": {
+            "title": "{{provider}} không phản hồi",
+            "description": "Lần kiểm tra thủ công gần nhất cho {{name}} không thể kết nối."
+          },
+          "notChecked": {
+            "title": "{{provider}} chưa được kiểm tra trong phiên này",
+            "description": "Chạy Kiểm tra trong API Endpoints nếu bạn muốn thử kết nối này."
+          }
+        },
+        "mcp": {
+          "title": "{{enabled}} trên {{total}} máy chủ MCP đang bật",
+          "description": "Đây chỉ là kiểm kê. Khả năng hoạt động của máy chủ chưa được kiểm tra."
+        },
+        "mcpInventoryUnavailable": {
+          "title": "Không thể kiểm tra các kết nối MCP cục bộ",
+          "description": "Mở Extensions để thử lại việc kiểm kê cục bộ trước khi cho rằng mọi kết nối đều đang được quản lý."
+        },
+        "mcpInventoryPartial": {
+          "title": "Một số vị trí MCP cục bộ cần kiểm tra lại",
+          "description": "Số vị trí cần xem xét: {{count}}. Một vị trí được hỗ trợ không thể kiểm tra, hoặc bảng kiểm kê có giới hạn đã đầy. Xem Extensions để biết bước tiếp theo đầy đủ."
+        }
+      }
+    },
+    "import": {
+      "title": "Nhập từ CC Switch",
+      "description": "Đưa các dịch vụ AI, máy chủ MCP và skill từ CC Switch vào AI Manager. Không có gì trong CC Switch bị thay đổi.",
+      "reimport": "Nhập từ CC Switch",
+      "loading": "Đang tìm cấu hình CC Switch",
+      "retry": "Kiểm tra lại",
+      "action": "Nhập",
+      "retryAction": "Thử nhập lại",
+      "again": "Nhập lại",
+      "skip": "Bỏ qua",
+      "success": "Đã nhập cấu hình hiện có.",
+      "collision": "Nếu một dịch vụ hoặc extension đã tồn tại, phiên bản nhập vào sẽ thay thế nó. Mọi thứ khác được giữ nguyên.",
+      "sourceDetail": "Cơ sở dữ liệu CC Switch cục bộ, được mở ở chế độ chỉ đọc",
+      "prompt": {
+        "title": "Đã tìm thấy cấu hình CC Switch",
+        "description": "CC Switch đã được cài đặt trên máy này. Đưa các dịch vụ AI, máy chủ MCP và skill của nó sang đây?"
+      },
+      "confirm": {
+        "title": "Nhập cấu hình hiện có này?",
+        "description": "Xem lại những gì sẽ thay đổi trước khi AI Manager bắt đầu."
+      },
+      "safety": {
+        "title": "Cả hai cấu hình đều được giữ nguyên vẹn",
+        "sourceUntouched": "Ứng dụng gốc và cơ sở dữ liệu cục bộ của nó không bao giờ bị sửa hay xóa.",
+        "backupFirst": "AI Manager lưu một bản sao lưu an toàn của cấu hình hiện tại trước khi áp dụng việc nhập.",
+        "skipHarmless": "Bỏ qua không gây thiệt hại gì. Cấu hình của Claude Code, Codex và các công cụ khác của bạn vẫn được đọc và quản lý dù thế nào; lựa chọn này không ảnh hưởng đến nó. Bạn có thể nhập sau từ Settings."
+      },
+      "completion": {
+        "title": "Đã nhập cấu hình",
+        "description": "Các dịch vụ, máy chủ MCP và skill được hỗ trợ giờ đã có trong AI Manager.",
+        "countLabel": "Mục đã nhập",
+        "nextStepTitle": "Chọn những gì mỗi công cụ nên dùng",
+        "nextStep": "Mở API Endpoints và chọn một dịch vụ đã nhập cho mỗi công cụ khi bạn sẵn sàng.",
+        "continue": "Tiếp tục"
+      },
+      "count": {
+        "label": "Mục sẵn sàng để nhập",
+        "services_one": "{{count}} Dịch vụ AI",
+        "services_other": "{{count}} Dịch vụ AI",
+        "mcpServers_one": "{{count}} Máy chủ MCP",
+        "mcpServers_other": "{{count}} Máy chủ MCP",
+        "skills_one": "{{count}} Skill",
+        "skills_other": "{{count}} Skill"
+      },
+      "notFound": {
+        "title": "Không tìm thấy cấu hình nào có thể nhập",
+        "description": "Hiện không có gì để nhập. Bạn có thể kiểm tra lại sau."
+      },
+      "error": {
+        "title": "Không thể kiểm tra cấu hình hiện có",
+        "description": "Hãy thử lại. Ứng dụng gốc và dữ liệu cục bộ chưa bị thay đổi.",
+        "retry": "Bạn có thể thử nhập lại một cách an toàn."
+      },
+      "refreshError": {
+        "title": "Không thể làm mới cấu hình hiện có",
+        "description": "Bản tóm tắt nhập gần nhất vẫn được hiển thị. Việc nhập tạm dừng cho đến khi một lần kiểm tra mới thành công."
+      },
+      "decisionError": {
+        "title": "Không thể lưu lựa chọn này",
+        "description": "Hãy thử lại. Bước này vẫn mở cho đến khi AI Manager lưu được lựa chọn của bạn."
+      }
+    },
+    "updates": {
+      "title": "Giới thiệu và cập nhật",
+      "description": "Hiển thị phiên bản đã cài đặt và trạng thái của kênh cập nhật sản phẩm đã ký.",
+      "check": "Kiểm tra ngay",
+      "retry": "Thử lại",
+      "openDownloadPage": "Mở trang tải chính thức",
+      "note": "Không tìm thấy phiên bản đã ký mới hơn.",
+      "devBuild": "Bản dựng phát triển",
+      "devBuildNote": "Các bản dựng phát triển không kiểm tra cập nhật.",
+      "currentVersion": "Bạn đang dùng phiên bản {{version}}",
+      "availableVersion": "Phiên bản {{version}} đã sẵn sàng để tải.",
+      "checkingTitle": "Đang đọc thông tin phiên bản",
+      "checkingNote": "Đang đọc phiên bản đã cài đặt và kênh cập nhật.",
+      "retryingNote": "Mạng không phản hồi. AI Manager đang thử một nguồn đã ký khác (lần thử {{attempt}} trên {{max}}).",
+      "checking": "Đang kiểm tra",
+      "backgroundDownloading": "Đang tải trong nền",
+      "downloadProgress": "Tiến trình tải cập nhật ứng dụng",
+      "downloading": "Đang tải",
+      "downloadingTitle": "Đang tải {{version}} trong nền",
+      "downloadingNote": "Cứ tiếp tục dùng AI Manager. Sau khi tải xong và xác minh chữ ký, bạn chọn thời điểm khởi động lại.",
+      "ready": "Sẵn sàng sau khi khởi động lại",
+      "readyTitle": "Phiên bản {{version}} đã sẵn sàng",
+      "readyNote": "Gói cập nhật đã được tải và chữ ký đã được xác minh. Khởi động lại khi bạn sẵn sàng hoàn tất cập nhật.",
+      "restart": "Khởi động lại để cập nhật",
+      "available": "Có bản cập nhật",
+      "upToDate": "Đã là bản mới nhất",
+      "unknown": "Không thể kiểm tra",
+      "error": {
+        "title": "Không thể lấy trạng thái cập nhật",
+        "description": "AI Manager không thể kết nối hoặc xác minh một bản cập nhật đã ký sau số lần thử cho phép. Hãy thử lại hoặc mở trang tải chính thức; chưa có gì được cài đặt."
+      }
+    },
+    "backup": {
+      "title": "Sao lưu",
+      "automatic": "Sao lưu tự động",
+      "summaryLine_one": "AI Manager sao lưu mỗi ngày một lần và giữ lại bản mới nhất.",
+      "summaryLine_other": "AI Manager sao lưu mỗi ngày một lần và giữ lại {{count}} bản mới nhất.",
+      "automaticOff": "Sao lưu tự động đang tắt. Bạn vẫn có thể sao lưu thủ công bất cứ lúc nào.",
+      "exportToOther": "Xuất sang máy khác",
+      "importFromOther": "Nhập từ máy khác",
+      "create": "Sao lưu ngay",
+      "loading": "Đang tải bản sao lưu của bạn",
+      "retry": "Thử lại",
+      "size": "Khoảng {{size}} MB",
+      "exactSize": "{{bytes}} byte",
+      "folder": "Các bản sao lưu được giữ trong thư mục dữ liệu ứng dụng của máy này.",
+      "details": "Vị trí lưu trữ",
+      "restore": "Khôi phục",
+      "restoreNamed": "Khôi phục bản sao lưu từ {{name}}",
+      "delete": "Xóa",
+      "deleteNamed": "Xóa bản sao lưu từ {{name}}",
+      "rename": "Đổi tên",
+      "renameNamed": "Đổi tên bản sao lưu từ {{name}}",
+      "renameTitle": "Đặt tên cho điểm khôi phục từ {{name}}",
+      "renameDescription": "Đặt cho nó một tên ngắn gọn để dễ tìm sau này. Nội dung bản sao lưu không thay đổi.",
+      "renameConfirm": "Lưu tên",
+      "nameLabel": "Tên bản sao lưu",
+      "namePlaceholder": "Ví dụ: Trước khi nâng cấp Claude",
+      "nameHelp": "Dùng một tên ngắn gọn, duy nhất, không có dấu gạch chéo hoặc hai dấu chấm liên tiếp.",
+      "renameValidation": {
+        "required": "Nhập một tên.",
+        "tooLong": "Tên này quá dài. Vui lòng rút ngắn lại.",
+        "invalid": "Không dùng dấu gạch chéo, gạch chéo ngược hoặc hai dấu chấm liên tiếp.",
+        "exists": "Một bản sao lưu khác đã dùng tên này.",
+        "unchanged": "Nhập một tên khác."
+      },
+      "restoreTitle": "Khôi phục bản sao lưu từ {{name}}?",
+      "restoreDescription": "Thao tác này sẽ thay thế cấu hình AI Manager hiện tại.",
+      "restoreConfirm": "Khôi phục",
+      "deleteTitle": "Xóa bản sao lưu từ {{name}}?",
+      "deleteDescription": "Thao tác này sẽ xóa vĩnh viễn một điểm khôi phục.",
+      "deleteConfirm": "Xóa",
+      "summary": {
+        "title": "Các điểm khôi phục sẵn sàng",
+        "latest": "Mới nhất: {{name}}",
+        "count": "{{count}} sẵn có",
+        "latestBadge": "Mới nhất"
+      },
+      "completion": {
+        "created": {
+          "title": "Điểm khôi phục đã sẵn sàng",
+          "description": "Cấu hình AI Manager hiện tại của bạn đã được lưu."
+        },
+        "exported": {
+          "title": "Đã lưu bản sao có thể mang theo",
+          "description": "Giữ tệp lưu trữ cấu hình này ở nơi an toàn."
+        },
+        "imported": {
+          "title": "Đã nhập cấu hình",
+          "description": "AI Manager hiện đang dùng các dịch vụ và extension từ tệp lưu trữ đó."
+        },
+        "renamed": {
+          "title": "Đã đổi tên điểm khôi phục",
+          "description": "Giờ đây bạn có thể tìm điểm khôi phục này với tên {{name}}."
+        },
+        "restored": {
+          "title": "Khôi phục hoàn tất",
+          "description": "AI Manager hiện đang dùng điểm khôi phục từ {{name}}."
+        },
+        "deleted": {
+          "title": "Đã xóa điểm khôi phục",
+          "description": "Điểm khôi phục từ {{name}} không còn khả dụng."
+        },
+        "warning": {
+          "title": "Khôi phục hoàn tất, nhưng một công cụ cần được kiểm tra",
+          "description": "Một công cụ chưa nhận thay đổi dịch vụ. Xem lại API Endpoints và chọn lại dịch vụ bạn muốn."
+        },
+        "importWarning": {
+          "title": "Nhập hoàn tất, nhưng một công cụ cần được kiểm tra",
+          "description": "Tệp lưu trữ đã được nhập, nhưng một công cụ chưa nhận thay đổi dịch vụ. Xem lại API Endpoints và chọn lại dịch vụ bạn muốn."
+        },
+        "reviewServices": "Xem lại API Endpoints"
+      },
+      "empty": {
+        "title": "Bảo vệ cấu hình hiện tại của bạn",
+        "description": "Tạo một điểm khôi phục cục bộ trước khi thay đổi công cụ hoặc dịch vụ.",
+        "local": "Chỉ cục bộ"
+      },
+      "error": {
+        "title": "Không thể đọc bản sao lưu của bạn",
+        "description": "Hãy thử lại sau một chút.",
+        "actionRetry": "Không có gì khác bị thay đổi. Bạn có thể thử lại thao tác này."
+      },
+      "refreshError": {
+        "title": "Không thể làm mới bản sao lưu của bạn",
+        "description": "Danh sách sao lưu gần nhất vẫn được hiển thị. Các thao tác sao lưu tạm dừng cho đến khi một lần kiểm tra mới thành công."
+      },
+      "restorePoint": {
+        "replaces": "Các dịch vụ, extension và lựa chọn trong AI Manager sẽ trở về điểm khôi phục này.",
+        "installed": "Các công cụ lập trình AI đã cài đặt vẫn ở trên máy này.",
+        "followUp": "Sau khi khôi phục, AI Manager sẽ báo cho bạn nếu một công cụ cần được kiểm tra."
+      },
+      "deletePoint": {
+        "permanent": "Bạn sẽ không thể lấy lại bản sao lưu này."
+      },
+      "transfer": {
+        "secretTitle": "Coi tệp lưu trữ này như một mật khẩu",
+        "secretDescription": "Một bản sao có thể mang theo có thể chứa khóa dịch vụ và các cấu hình riêng tư khác. Hãy lưu trữ an toàn và chỉ chia sẻ với người bạn tin tưởng.",
+        "confirmTitle": "Nhập tệp lưu trữ cấu hình này?",
+        "confirmDescription": "Chỉ chọn tệp lưu trữ sau khi đã xem lại những gì sẽ thay đổi.",
+        "confirmReplace": "Các dịch vụ, extension và lịch sử đã lưu trữ đang được quản lý sẽ bị thay thế bởi tệp lưu trữ này.",
+        "confirmSafety": "AI Manager tạo một điểm khôi phục cục bộ trước khi thay thế dữ liệu hiện tại.",
+        "confirmTrust": "Chỉ nhập một tệp lưu trữ do bạn tạo ra hoặc nhận từ người bạn tin tưởng.",
+        "confirmInstalled": "Các công cụ lập trình AI đã cài đặt vẫn ở trên máy này.",
+        "chooseAndImport": "Chọn tệp lưu trữ và nhập",
+        "errorHint": "Không có gì khác bị thay đổi. Xem lại tệp lưu trữ và thử lại."
+      }
+    }
+  },
+  "data": {
+    "title": "Dữ liệu cục bộ",
+    "description": "Các phiên làm việc cục bộ và bộ nhớ cục bộ của từng công cụ, tất cả ở một nơi.",
+    "overview": {
+      "eyebrow": "Tổng quan dữ liệu cục bộ",
+      "title": "Dữ liệu cục bộ trên mọi công cụ",
+      "description": "Tổng số liệu từ cùng một lần quét cục bộ như bảng lưu trữ bên dưới, được cộng dồn trên mọi công cụ có bộ nhớ cục bộ.",
+      "metric": {
+        "totalBytes": "Dữ liệu cục bộ đã liệt kê",
+        "conversationBytes": "Dung lượng dữ liệu hội thoại"
+      },
+      "measuring": "Đang đo…",
+      "unavailable": "Tổng số liệu cần danh sách công cụ đã cài đặt, nhưng danh sách này không đọc được.",
+      "partial": "Một số công cụ không thể đo được, nên các tổng số liệu này chỉ là giới hạn dưới.",
+      "limited": "Các thư mục lớn hoặc không đọc được sẽ được tính theo giới hạn dưới an toàn."
+    },
+    "scope": {
+      "all": "Tất cả",
+      "label": "Xem theo công cụ",
+      "unsupportedShort": "Chưa tích hợp",
+      "unsupportedTitle": "AI Manager chưa tích hợp dữ liệu cục bộ của {{tool}}",
+      "unsupportedDescription": "Điều này có nghĩa là AI Manager chưa có bộ đọc an toàn, không có nghĩa là {{tool}} không có dữ liệu cục bộ. Công cụ đã cài đặt vẫn được hiển thị để rõ ràng."
+    },
+    "storage": {
+      "title": "Ngữ cảnh và bộ nhớ cục bộ",
+      "description": "Nơi mỗi công cụ lưu trữ tệp của mình, và chúng chiếm bao nhiêu dung lượng.",
+      "loading": "Đang đọc xem công cụ nào lưu dữ liệu trên thiết bị này",
+      "empty": {
+        "title": "Chưa có công cụ nào để hiển thị bộ nhớ cục bộ",
+        "description": "Hãy cài đặt một công cụ trước, sau đó các tệp cục bộ của nó sẽ hiện ở đây."
+      }
+    },
+    "inventory": {
+      "error": {
+        "title": "Không thể đọc các công cụ đã cài đặt",
+        "description": "Các phiên làm việc cục bộ vẫn hoạt động. Chi tiết bộ nhớ sẽ quay lại khi đọc được các công cụ đã cài đặt."
+      },
+      "refreshError": {
+        "title": "Không thể làm mới các công cụ đã cài đặt",
+        "description": "Chi tiết bộ nhớ được biết gần nhất vẫn được hiển thị."
+      },
+      "retry": "Thử lại"
+    }
+  },
+  "deeplink": {
+    "resource": {
+      "provider": "Một điểm cuối API",
+      "mcp": "Máy chủ MCP",
+      "prompt": "Một prompt toàn cục",
+      "skill": "Một kỹ năng"
+    },
+    "origin": {
+      "argv": "Liên kết này được mở từ bên ngoài AI Manager. Hãy chắc chắn bạn biết nó đến từ đâu.",
+      "paste": "Bạn đã tự dán liên kết này. Hãy chắc chắn nó đến từ nhà cung cấp mà bạn tin tưởng."
+    },
+    "credential": {
+      "apiKey": "Liên kết này mang theo một khóa. Khóa được lưu cùng điểm cuối API và không bao giờ hiển thị trên màn hình này.",
+      "config": "Liên kết này mang theo một khóa bên trong cài đặt của nó. Khóa được lưu cùng điểm cuối API và không bao giờ hiển thị trên màn hình này."
+    },
+    "blocked": {
+      "noSupportedTool": "AI Manager không quản lý ứng dụng mà liên kết này dành cho, nên không có gì để thêm.",
+      "credentialRequired": "Liên kết này không có khóa, và không thể lưu điểm cuối API nếu thiếu khóa. Hãy hỏi nhà cung cấp một liên kết có kèm khóa."
+    },
+    "summary": {
+      "label": "Liên kết này sẽ thêm gì",
+      "resource": "Thêm",
+      "name": "Tên",
+      "targets": "Dành cho",
+      "items": "Nội dung",
+      "separator": ", ",
+      "unmanagedTarget": "Một ứng dụng mà AI Manager không quản lý"
+    },
+    "confirm": {
+      "title": "Thêm mục này từ liên kết?",
+      "description": "Không có gì được lưu cho đến khi bạn chọn Thêm.",
+      "action": "Thêm",
+      "retry": "Thử lại",
+      "cancel": "Bỏ qua"
+    },
+    "error": {
+      "retry": "Không có gì được lưu. Hãy thử lại, hoặc hỏi nhà cung cấp một liên kết mới."
+    },
+    "toast": {
+      "imported_one": "Đã thêm 1 mục.",
+      "imported_other": "Đã thêm {{count}} mục."
+    },
+    "paste": {
+      "title": "Thêm từ liên kết",
+      "description": "Dán liên kết một chạm từ nhà cung cấp. Liên kết bạn tự dán có thể chứa khóa của bạn; liên kết mở từ bên ngoài có thể không.",
+      "label": "Liên kết",
+      "hint": "AI Manager đọc liên kết và yêu cầu bạn xác nhận trước khi lưu bất cứ điều gì.",
+      "placeholder": "aimanager://v1/import?...",
+      "action": "Đọc liên kết"
+    }
+  }
+}

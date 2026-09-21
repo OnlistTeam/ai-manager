@@ -154,6 +154,15 @@ describe("ServicesPage", () => {
           },
         }),
       ),
+      // The test dialog reads the catalogue as soon as it opens.
+      http.post(`${TAURI_ENDPOINT}/app_provider_models_list`, () =>
+        HttpResponse.json({
+          protocol: "anthropic",
+          models: [{ id: "claude-sonnet-5", kind: "text" }],
+          truncated: false,
+          rejection: null,
+        }),
+      ),
     );
     i18n.addResourceBundle(
       "en",
@@ -1582,8 +1591,20 @@ describe("ServicesPage", () => {
         name: en.services.action.testNamed.replace("{{name}}", "My Relay"),
       }),
     );
+
+    // The address check is the test dialog's first line, and it writes to the
+    // same connectivity cache the card reads, so closing leaves the badge behind.
+    const dialog = await screen.findByRole("dialog");
     expect(
-      await screen.findByText(en.services.test.operational),
+      await within(dialog).findByText(en.services.test.operational),
+    ).toBeInTheDocument();
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: en.ds.action.close }),
+    );
+
+    const card = await screen.findByRole("article", { name: "My Relay" });
+    expect(
+      within(card).getByText(en.services.test.operational),
     ).toBeInTheDocument();
   });
 
@@ -1624,7 +1645,8 @@ describe("ServicesPage", () => {
       }),
     );
 
-    const alert = await screen.findByRole("alert", {
+    const dialog = await screen.findByRole("dialog");
+    const alert = await within(dialog).findByRole("alert", {
       name: "Could not check the address for My Relay",
     });
     expect(alert).toHaveTextContent(en.error.provider.testFailed);
@@ -1633,16 +1655,14 @@ describe("ServicesPage", () => {
     expect(alert).not.toHaveTextContent("never-render");
     expect(toastMocks.error).not.toHaveBeenCalled();
 
-    const retry = screen.getByRole("button", {
-      name: "Check My Relay again",
-    });
-    expect(retry).toHaveFocus();
-    await userEvent.click(retry);
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: "Check My Relay again" }),
+    );
     expect(
-      await screen.findByText(en.services.test.operational),
+      await within(dialog).findByText(en.services.test.operational),
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("alert", {
+      within(dialog).queryByRole("alert", {
         name: "Could not check the address for My Relay",
       }),
     ).not.toBeInTheDocument();
@@ -2549,26 +2569,42 @@ describe("ServicesPage", () => {
     );
 
     const relayA = await screen.findByRole("article", { name: "Relay A" });
-    const relayB = screen.getByRole("article", { name: "Relay B" });
     await userEvent.click(
       within(relayA).getByRole("button", {
         name: en.services.action.testNamed.replace("{{name}}", "Relay A"),
       }),
     );
-    expect(
-      await within(relayA).findByText(en.services.test.operational),
-    ).toBeInTheDocument();
+    const firstDialog = await screen.findByRole("dialog");
+    await within(firstDialog).findByText(en.services.test.operational);
+    await userEvent.click(
+      within(firstDialog).getByRole("button", {
+        name: en.ds.action.close,
+      }),
+    );
 
+    const relayB = await screen.findByRole("article", { name: "Relay B" });
     await userEvent.click(
       within(relayB).getByRole("button", {
         name: en.services.action.testNamed.replace("{{name}}", "Relay B"),
       }),
     );
+    const secondDialog = await screen.findByRole("dialog");
+    await within(secondDialog).findByText(en.services.test.degraded);
+    await userEvent.click(
+      within(secondDialog).getByRole("button", {
+        name: en.ds.action.close,
+      }),
+    );
+
     expect(
-      await within(relayB).findByText(en.services.test.degraded),
+      within(await screen.findByRole("article", { name: "Relay B" })).getByText(
+        en.services.test.degraded,
+      ),
     ).toBeInTheDocument();
     expect(
-      within(relayA).getByText(en.services.test.operational),
+      within(screen.getByRole("article", { name: "Relay A" })).getByText(
+        en.services.test.operational,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -2633,11 +2669,22 @@ describe("ServicesPage", () => {
         ),
       }),
     );
+    const probeDialog = await screen.findByRole("dialog");
+    await within(probeDialog).findByText(en.services.test.failed);
+    await userEvent.click(
+      within(probeDialog).getByRole("button", {
+        name: en.ds.action.close,
+      }),
+    );
+
+    const checked = await screen.findByRole("article", {
+      name: "Anthropic Official",
+    });
     expect(
-      await within(card).findByText(en.services.test.unreachableHint),
+      within(checked).getByText(en.services.test.unreachableHint),
     ).toBeVisible();
     await userEvent.click(
-      within(card).getByRole("button", {
+      within(checked).getByRole("button", {
         name: en.services.test.browseCompatibleNamed.replace(
           "{{name}}",
           "Anthropic Official",

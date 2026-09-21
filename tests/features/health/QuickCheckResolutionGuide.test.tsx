@@ -93,7 +93,7 @@ describe("QuickCheckResolutionGuide", () => {
     await i18n.changeLanguage("en");
   });
 
-  it("leads with the most urgent step and folds the rest", async () => {
+  it("lists every finding as a peer row, most urgent first", async () => {
     const props = mount(
       [tool({ status: "updateAvailable", latestVersion: "2.0.0" })],
       snapshot({
@@ -108,17 +108,21 @@ describe("QuickCheckResolutionGuide", () => {
         configs: [{ tool: "claude-code", status: "unreadable" }],
       }),
     );
+
+    // Nothing is folded away, and the order runs from action through
+    // attention to information.
+    const rows = screen.getAllByRole("listitem");
+    for (const row of rows) expect(row).toBeVisible();
+    // Three findings, each with a next step. The MCP inventory count is also
+    // non-ready but has no action, so it is not a finding and is not listed.
+    expect(rows.map((row) => row.dataset.status)).toEqual([
+      "action",
+      "attention",
+      "info",
+    ]);
     expect(
       screen.getByText("Claude Code configuration could not be read"),
     ).toBeVisible();
-    const more = screen.getByText("2 more");
-    expect(more.closest("details")).not.toHaveAttribute("open");
-    for (const item of screen.getAllByRole("listitem")) {
-      expect(item).not.toBeVisible();
-    }
-
-    await userEvent.click(more);
-    expect(more.closest("details")).toHaveAttribute("open");
     expect(screen.getByText("Claude Code has an update")).toBeVisible();
     expect(
       screen.getByText("Claude Code has no AI service configured"),
@@ -129,6 +133,28 @@ describe("QuickCheckResolutionGuide", () => {
     );
     expect(props.onOpenServices).toHaveBeenCalledWith("claude-code");
     expect(props.onOpenTools).not.toHaveBeenCalled();
+  });
+
+  /** The informational rows carry their offer too, not just the problems. */
+  it("offers to connect a service from the row that reports none", async () => {
+    const props = mount(
+      [tool()],
+      snapshot({
+        providers: [
+          {
+            tool: "claude-code",
+            configured: false,
+            configuredCount: 0,
+            checkTargets: [],
+          },
+        ],
+      }),
+    );
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "Connect a service" }),
+    );
+    expect(props.onOpenServices).toHaveBeenCalledWith("claude-code");
   });
 
   it("previews the selected tool before starting an update", async () => {

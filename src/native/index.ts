@@ -306,6 +306,39 @@ export {
   providerTestResultSchema,
 } from "./schemas/provider";
 export {
+  MAX_PROBE_MODELS,
+  MAX_PROBE_PROMPT_CHARS,
+  modelCatalogRejectionSchema,
+  modelCatalogSchema,
+  modelProbeOutcomeSchema,
+  modelProbeReplySchema,
+  modelProbeRequestSchema,
+  probeModelKindSchema,
+  probeModelSchema,
+  providerWireProtocolSchema,
+} from "./schemas/modelProbe";
+export type {
+  ModelCatalog,
+  ModelCatalogRejection,
+  ModelProbeOutcome,
+  ModelProbeReply,
+  ModelProbeRequest,
+  ProbeModel,
+  ProbeModelKind,
+  ProviderWireProtocol,
+} from "./schemas/modelProbe";
+export {
+  shellVariableLocationListSchema,
+  shellVariableLocationSchema,
+  shellVariableUpdateSchema,
+  shellVariableWrittenSchema,
+} from "./schemas/shellVariable";
+export type {
+  ShellVariableLocation,
+  ShellVariableUpdate,
+  ShellVariableWritten,
+} from "./schemas/shellVariable";
+export {
   routingOverviewSchema,
   routingProviderSchema,
   routingTargetSchema,

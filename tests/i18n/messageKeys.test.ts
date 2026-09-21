@@ -1,8 +1,18 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { APP_LANGUAGES, type AppLanguage } from "@/i18n";
+import de from "@/i18n/locales/de.json";
 import en from "@/i18n/locales/en.json";
+import es from "@/i18n/locales/es.json";
+import fr from "@/i18n/locales/fr.json";
+import id from "@/i18n/locales/id.json";
+import itIT from "@/i18n/locales/it.json";
 import ja from "@/i18n/locales/ja.json";
+import ko from "@/i18n/locales/ko.json";
+import ptBR from "@/i18n/locales/pt-BR.json";
+import ru from "@/i18n/locales/ru.json";
+import vi from "@/i18n/locales/vi.json";
 import zhTW from "@/i18n/locales/zh-TW.json";
 import zh from "@/i18n/locales/zh.json";
 
@@ -81,19 +91,66 @@ const LOCALES = [
   ["zh", zh],
   ["ja", ja],
   ["zh-TW", zhTW],
-] as const;
+  ["ko", ko],
+  ["de", de],
+  ["fr", fr],
+  ["es", es],
+  ["pt-BR", ptBR],
+  ["it", itIT],
+  ["ru", ru],
+  ["vi", vi],
+  ["id", id],
+] as const satisfies ReadonlyArray<readonly [AppLanguage, unknown]>;
 
-/** i18next pluralization: `a_one` / `a_other` both count as covering `a`. */
+const PLURAL_CATEGORIES = ["zero", "one", "two", "few", "many", "other"];
+const PLURAL_SUFFIX = new RegExp(`_(${PLURAL_CATEGORIES.join("|")})$`);
+
+/**
+ * `a_one` and `a_few` are the same logical string in two grammars, so key-set
+ * comparisons across locales work on the name without the category.
+ */
+function logicalKey(key: string): string {
+  return key.replace(PLURAL_SUFFIX, "");
+}
+
+function isProductKey(key: string): boolean {
+  return PRODUCT_NAMESPACES.some((ns) => key.startsWith(`${ns}.`));
+}
+
+/**
+ * The plural categories a locale can actually select for a count this product
+ * can show. French and Spanish have a `many` category, but it only applies from
+ * a million upward; demanding a translation for a case no screen can reach
+ * would be busywork, while Russian's `few` and `many` start at 2 and 5 and are
+ * therefore required.
+ */
+function reachablePluralCategories(locale: string): Set<string> {
+  const rules = new Intl.PluralRules(locale);
+  const reachable = new Set<string>();
+  for (let count = 0; count <= 2000; count += 1) {
+    reachable.add(rules.select(count));
+  }
+  return reachable;
+}
+
+/** i18next pluralization: any plural category counts as covering the base key. */
 function resolvable(flat: Map<string, string>, key: string): boolean {
-  return flat.has(key) || flat.has(`${key}_one`) || flat.has(`${key}_other`);
+  if (flat.has(key)) return true;
+  return PLURAL_CATEGORIES.some((category) => flat.has(`${key}_${category}`));
 }
 
 function productKeys(tree: unknown): string[] {
-  return [...flatten(tree).keys()]
-    .filter((key) =>
-      PRODUCT_NAMESPACES.some((ns) => key === ns || key.startsWith(`${ns}.`)),
-    )
-    .sort();
+  return [
+    ...new Set(
+      [...flatten(tree).keys()]
+        .filter((key) =>
+          PRODUCT_NAMESPACES.some(
+            (ns) => key === ns || key.startsWith(`${ns}.`),
+          ),
+        )
+        .map(logicalKey),
+    ),
+  ].sort();
 }
 
 describe("message key coverage", () => {
@@ -114,6 +171,89 @@ describe("message key coverage", () => {
     for (const [name, tree] of LOCALES) {
       expect(productKeys(tree), `${name} diverged`).toEqual(reference);
     }
+  });
+
+  it("ships a locale file for every language the picker offers", () => {
+    expect(LOCALES.map(([name]) => name).sort()).toEqual(
+      [...APP_LANGUAGES].sort(),
+    );
+  });
+
+  /**
+   * A count rendered with the wrong plural form is the failure mode nobody
+   * notices in review and every native reader notices immediately: Russian
+   * needs four forms for ordinary numbers, Korean one, German two. Asserting
+   * against `Intl.PluralRules` means the expectation comes from CLDR rather
+   * than from whatever the translator assumed.
+   */
+  it.each(LOCALES)(
+    "carries the plural forms %s actually uses",
+    (name, tree) => {
+      const expected = reachablePluralCategories(name);
+      const flat = flatten(tree);
+      const groups = new Set(
+        [...flatten(en).keys()]
+          .filter((key) => PLURAL_SUFFIX.test(key) && isProductKey(key))
+          .map(logicalKey),
+      );
+      expect(groups.size).toBeGreaterThan(0);
+
+      const wrong: string[] = [];
+      for (const group of groups) {
+        for (const category of expected) {
+          if (!flat.has(`${group}_${category}`)) {
+            wrong.push(`${group}_${category} missing`);
+          }
+        }
+      }
+      expect(wrong, `${name} has wrong plural coverage`).toEqual([]);
+    },
+  );
+
+  /**
+   * A dropped `{{name}}` renders as a sentence with a hole in it, and a renamed
+   * one renders the placeholder verbatim. Neither shows up until someone reads
+   * that screen in that language.
+   *
+   * Plural siblings are the one place a translation may legitimately differ:
+   * English writes "the latest one" without a count where Chinese writes
+   * "最近 1 份" with one. So a sibling only has to stay inside the placeholders
+   * the English group uses, while `_other`, which every language selects, has
+   * to match exactly.
+   */
+  it.each(LOCALES)("preserves every interpolation in %s", (name, tree) => {
+    const tokens = (text: string) =>
+      [...text.matchAll(/\{\{\s*([^}]+?)\s*\}\}/g)].map(([, token]) => token);
+
+    const english = flatten(en);
+    const groupTokens = new Map<string, Set<string>>();
+    for (const [key, value] of english) {
+      const group = logicalKey(key);
+      const seen = groupTokens.get(group) ?? new Set<string>();
+      for (const token of tokens(value)) seen.add(token);
+      groupTokens.set(group, seen);
+    }
+
+    const broken: string[] = [];
+    for (const [key, value] of flatten(tree)) {
+      if (!isProductKey(key)) continue;
+      const reference = english.get(key);
+      if (reference === undefined) continue;
+
+      const isSibling = PLURAL_SUFFIX.test(key) && !key.endsWith("_other");
+      if (isSibling) {
+        const allowed = groupTokens.get(logicalKey(key)) ?? new Set<string>();
+        const extra = tokens(value).filter((token) => !allowed.has(token));
+        if (extra.length > 0) broken.push(`${key}: unknown {{${extra}}}`);
+        continue;
+      }
+
+      const want = [...tokens(reference)].sort().join(",");
+      const got = [...tokens(value)].sort().join(",");
+      if (want !== got)
+        broken.push(`${key}: expected {{${want}}} got {{${got}}}`);
+    }
+    expect(broken, `${name} lost interpolations`).toEqual([]);
   });
 
   it.each(LOCALES)("leaves no blank product copy in %s", (_name, tree) => {

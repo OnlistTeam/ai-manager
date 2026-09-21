@@ -577,7 +577,12 @@ describe("HomePage", () => {
     expect(onOpenTools).toHaveBeenCalledTimes(1);
   });
 
-  it("takes a user with no service straight to AI Services", async () => {
+  /**
+   * A tool with no service saved here is usually a tool running on its own
+   * vendor login, so the hero must not call the environment unhealthy over it.
+   * The offer to connect one still belongs on the row that reports it.
+   */
+  it("offers to connect a service without calling it a problem", async () => {
     const onOpenServices = vi.fn();
     const onOpenExtensions = vi.fn();
     mount(
@@ -599,18 +604,19 @@ describe("HomePage", () => {
       onOpenServices,
     );
 
-    // The hero itself only carries the count and the primary action; the
-    // health-check list below names the specific problem, including when
-    // there is exactly one of them.
-    const services = await screen.findByRole("button", {
-      name: en.home.card.actions.services,
+    const guide = await screen.findByRole("region", {
+      name: en.home.health.title,
     });
-    const guide = screen.getByRole("region", { name: en.home.health.title });
     expect(
       within(guide).getByText("Claude Code has no AI service configured"),
     ).toBeInTheDocument();
-    await userEvent.click(services);
-    expect(onOpenServices).toHaveBeenCalledOnce();
+    expect(screen.queryByText(/needs attention/)).not.toBeInTheDocument();
+
+    await userEvent.click(
+      within(guide).getByRole("button", {
+        name: en.preferences.check.guide.action.connectService,
+      }),
+    );
     expect(onOpenServices).toHaveBeenCalledWith("claude-code");
     expect(onOpenExtensions).not.toHaveBeenCalled();
   });
@@ -1309,10 +1315,10 @@ describe("HomePage", () => {
     mount([tool()]);
     expect(await screen.findByText(en.home.card.allGood)).toBeVisible();
     expect(screen.getByText(/Last checked/)).toBeVisible();
-    // Nothing repeats the headline below the hero when all is well.
-    expect(
-      screen.queryByRole("region", { name: en.home.health.title }),
-    ).toBeNull();
+    // The headline is stated once. The list below may still carry
+    // informational rows, but it never repeats the verdict.
+    expect(screen.getAllByText(en.home.card.allGood)).toHaveLength(1);
+    expect(screen.queryByText(/needs attention|need attention/)).toBeNull();
     expect(screen.queryByText(/local signal|Based on/)).toBeNull();
   });
 
@@ -1371,7 +1377,7 @@ describe("HomePage", () => {
     );
   });
 
-  it("lists the remaining problems only when there is more than one", async () => {
+  it("lists every problem as its own row with its own action", async () => {
     const onOpenServices = vi.fn();
     mount(
       [tool({ status: "updateAvailable", latestVersion: "1.1.0" })],
@@ -1391,14 +1397,16 @@ describe("HomePage", () => {
       },
       onOpenServices,
     );
-    // Three problems earn a list of their own; the hero states the count.
-    expect(await screen.findByText("3 items need attention")).toBeVisible();
+    // The unreadable config and the pending update; the absent service is
+    // informational and is not counted.
+    expect(await screen.findByText("2 items need attention")).toBeVisible();
     const health = await screen.findByRole("region", {
       name: en.home.health.title,
     });
-    expect(
-      within(health).getByText("2 more").closest("details"),
-    ).not.toHaveAttribute("open");
+    // Every row is present and actionable without unfolding anything.
+    for (const row of within(health).getAllByRole("listitem")) {
+      expect(row).toBeVisible();
+    }
     await userEvent.click(
       within(health).getByRole("button", { name: "Review API Endpoints" }),
     );
@@ -1423,7 +1431,7 @@ describe("HomePage", () => {
       mcp: { total: 2, enabled: 1 },
     });
     expect(
-      await screen.findByText("3 items need attention"),
+      await screen.findByText("2 items need attention"),
     ).toBeInTheDocument();
     expect(await screen.findByText(en.ds.status.action)).toBeInTheDocument();
   });

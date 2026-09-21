@@ -17,8 +17,6 @@ describe("Home health check locale contract", () => {
         ["allGood", health.allGood],
         ["issues_one", health.issues_one],
         ["issues_other", health.issues_other],
-        ["more_one", health.more_one],
-        ["more_other", health.more_other],
         ["lastChecked", health.lastChecked],
         ["connectionError", health.connectionError],
         ["noTools.title", health.noTools.title],
@@ -27,7 +25,6 @@ describe("Home health check locale contract", () => {
         expect(value.trim(), `${locale}.home.health.${key}`).not.toBe("");
       }
       expect(health.issues_other).toContain("{{count}}");
-      expect(health.more_other).toContain("{{count}}");
       expect(health.lastChecked).toContain("{{time}}");
       // The card must never collide with Home's stale-refresh retry label.
       expect(health.recheck).not.toBe(messages.home.refreshError.action);

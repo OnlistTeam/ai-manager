@@ -41,6 +41,11 @@ interface ServicesProviderGridProps {
   checkFailure?: ProviderCheckFailure;
   onUse: (providerId: string) => void;
   onTest: (providerId: string) => void;
+  /** Tests the connection in force when it is not one of the saved services. */
+  onTestExternal?: () => void;
+  /** Edits the start-up line behind it, when one could be pinned down. */
+  onEditExternalVariable?: () => void;
+  externalVariableName?: string;
   onTryNext: (providerId: string) => void;
   onBrowseCompatible?: () => void;
   onEdit: (provider: Provider) => void;
@@ -63,6 +68,9 @@ export function ServicesProviderGrid({
   checkFailure,
   onUse,
   onTest,
+  onTestExternal,
+  onEditExternalVariable,
+  externalVariableName,
   onTryNext,
   onBrowseCompatible,
   onEdit,
@@ -91,6 +99,10 @@ export function ServicesProviderGrid({
           toolName={toolName}
           tool={tool}
           configResource={configResource}
+          onTest={onTestExternal}
+          onEditVariable={onEditExternalVariable}
+          editVariableName={externalVariableName}
+          actionsBlocked={busy}
         />
       ) : null}
       {ordered.map((provider) => {

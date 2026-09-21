@@ -3,8 +3,9 @@
 //!
 //! The rules come from ADR-0035 and section 1 of the 2026-09-07 plan. Tool differences are
 //! concentrated in the `match ToolId` here (AI_RULES rule 8); presentation only sees
-//! `EffectiveConnection`. Credential values are used only to decide "is there one" and never
-//! enter the return value.
+//! `EffectiveConnection`, which carries whether a credential exists and never the credential
+//! itself. The value is read for one other caller only — the model probe (ADR-0041), which
+//! needs it to build a request in the backend — and `resolve_effective_connection` drops it.
 
 use std::collections::HashMap;
 use std::path::Path;
@@ -23,7 +24,7 @@ mod opencode;
 #[cfg(test)]
 use opencode::resolve_opencode;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub(super) struct Resolution {
     pub selection: EffectiveSelection,
     pub model: Option<String>,
@@ -31,12 +32,64 @@ pub(super) struct Resolution {
     pub endpoint_source: EffectiveConnectionSource,
     pub credential: EffectiveCredential,
     pub credential_source: EffectiveConnectionSource,
+    /// The credential itself, when this resolver could read it.
+    ///
+    /// `Some` for a key written in a config file or exported by the shell;
+    /// `None` when a credential exists but is not a usable bearer token (an
+    /// OAuth login) or when there is none at all. It is kept only so the model
+    /// probe can build one request in the backend: it never crosses IPC, never
+    /// reaches a log, and `EffectiveConnection` drops it on the way out.
+    pub credential_value: Option<String>,
     /// OpenCode learns the provider id in use directly from the `model` field.
     pub provider_hint: Option<String>,
 }
 
+/// Hand-written so a credential cannot reach a log through a `{:?}`.
+impl std::fmt::Debug for Resolution {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Resolution")
+            .field("selection", &self.selection)
+            .field("model", &self.model)
+            .field("endpoint", &self.endpoint)
+            .field("endpoint_source", &self.endpoint_source)
+            .field("credential", &self.credential)
+            .field("credential_source", &self.credential_source)
+            .field(
+                "credential_value",
+                &self.credential_value.as_ref().map(|_| "<redacted>"),
+            )
+            .field("provider_hint", &self.provider_hint)
+            .finish()
+    }
+}
+
 type Endpoint = Option<(String, EffectiveConnectionSource)>;
-type Credential = Option<EffectiveConnectionSource>;
+/// The credential's source, and its value when this resolver could read one.
+type Credential = Option<(Option<String>, EffectiveConnectionSource)>;
+
+/// Address and credential of the connection the next launch will use, for the
+/// model probe (ADR-0041). Returns `None` when there is no address to test or
+/// no readable credential to test it with.
+pub(super) fn resolve_probe_target(
+    tool: ToolId,
+    environment: &ToolEnvironment,
+) -> Option<(String, String)> {
+    probe_target_from(resolve(tool, environment)?)
+}
+
+fn probe_target_from(resolution: Resolution) -> Option<(String, String)> {
+    let endpoint = resolution.endpoint?;
+    // An empty key is legitimate — a loopback gateway usually wants none — so
+    // only a credential this resolver could not read at all disqualifies the
+    // connection. A tool's own OAuth login is exactly that case: it is
+    // `Configured` for display, but there is no bearer token to replay.
+    let key = match resolution.credential {
+        EffectiveCredential::Configured => resolution.credential_value?,
+        EffectiveCredential::Missing => String::new(),
+        EffectiveCredential::ToolLogin | EffectiveCredential::Unknown => return None,
+    };
+    Some((endpoint, key))
+}
 
 pub(super) fn resolve_effective_connection(
     tool: ToolId,
@@ -44,6 +97,21 @@ pub(super) fn resolve_effective_connection(
     providers: &IndexMap<String, UpstreamProvider>,
     current_id: &str,
 ) -> Option<EffectiveConnection> {
+    let resolution = resolve(tool, environment)?;
+    let provider_id = match_provider(tool, &resolution, providers, current_id);
+    Some(EffectiveConnection {
+        selection: resolution.selection,
+        model: resolution.model,
+        endpoint: resolution.endpoint,
+        endpoint_source: resolution.endpoint_source,
+        credential: resolution.credential,
+        credential_source: resolution.credential_source,
+        provider_id,
+        shell_inspected: environment.shell_inspected(),
+    })
+}
+
+fn resolve(tool: ToolId, environment: &ToolEnvironment) -> Option<Resolution> {
     let resolution = match tool {
         ToolId::ClaudeCode => {
             let path = crate::config::get_claude_settings_path();
@@ -60,7 +128,7 @@ pub(super) fn resolve_effective_connection(
                 && (!matches!(config_path.try_exists(), Ok(false))
                     || !matches!(auth_path.try_exists(), Ok(false)))
             {
-                return Some(unknown_connection(environment));
+                return Some(unknown());
             }
             let auth = live
                 .as_ref()
@@ -86,7 +154,7 @@ pub(super) fn resolve_effective_connection(
             let path = crate::grok_config::get_grok_config_path();
             let live = crate::grok_config::read_grok_live_settings().ok();
             if live.is_none() && !matches!(path.try_exists(), Ok(false)) {
-                return Some(unknown_connection(environment));
+                return Some(unknown());
             }
             let config = live
                 .and_then(|value| {
@@ -103,17 +171,7 @@ pub(super) fn resolve_effective_connection(
             return None
         }
     };
-    let provider_id = match_provider(tool, &resolution, providers, current_id);
-    Some(EffectiveConnection {
-        selection: resolution.selection,
-        model: resolution.model,
-        endpoint: resolution.endpoint,
-        endpoint_source: resolution.endpoint_source,
-        credential: resolution.credential,
-        credential_source: resolution.credential_source,
-        provider_id,
-        shell_inspected: environment.shell_inspected(),
-    })
+    Some(resolution)
 }
 
 fn read_json_or_empty(path: &Path) -> Option<Value> {
@@ -131,20 +189,6 @@ fn unknown() -> Resolution {
     result.selection = EffectiveSelection::Unknown;
     result.credential = EffectiveCredential::Unknown;
     result
-}
-
-fn unknown_connection(environment: &ToolEnvironment) -> EffectiveConnection {
-    let result = unknown();
-    EffectiveConnection {
-        selection: result.selection,
-        model: None,
-        endpoint: None,
-        endpoint_source: result.endpoint_source,
-        credential: result.credential,
-        credential_source: result.credential_source,
-        provider_id: None,
-        shell_inspected: environment.shell_inspected(),
-    }
 }
 
 fn live(path: &Path) -> EffectiveConnectionSource {
@@ -171,14 +215,16 @@ fn finish(endpoint: Endpoint, credential: Credential) -> Resolution {
         Some((url, source)) => (safe_endpoint(&url), source),
         None => (None, EffectiveConnectionSource::ToolDefault),
     };
-    let (credential, credential_source) = match credential {
-        Some(source) => (EffectiveCredential::Configured, source),
+    let (credential, credential_value, credential_source) = match credential {
+        Some((value, source)) => (EffectiveCredential::Configured, value, source),
         None if matches!(endpoint_source, EffectiveConnectionSource::ToolDefault) => (
             EffectiveCredential::ToolLogin,
+            None,
             EffectiveConnectionSource::ToolDefault,
         ),
         None => (
             EffectiveCredential::Missing,
+            None,
             EffectiveConnectionSource::ToolDefault,
         ),
     };
@@ -189,6 +235,7 @@ fn finish(endpoint: Endpoint, credential: Credential) -> Resolution {
         endpoint_source,
         credential,
         credential_source,
+        credential_value,
         provider_hint: None,
     }
 }
@@ -220,11 +267,11 @@ pub(super) fn resolve_claude(
     };
     let credential_for = |name: &str| -> Credential {
         match file_value(name) {
-            Some(Some(_)) => Some(live(settings_path)),
+            Some(Some(value)) => Some((Some(value), live(settings_path))),
             Some(None) => None,
             None => environment
                 .lookup(name)
-                .map(|variable| from_variable(&variable)),
+                .map(|variable| (Some(variable.value.clone()), from_variable(&variable))),
         }
     };
     let credential: Credential =
@@ -237,7 +284,7 @@ pub(super) fn resolve_claude(
 struct CodexProviderTable {
     base_url: Option<String>,
     env_key: Option<String>,
-    has_bearer_token: bool,
+    bearer_token: Option<String>,
     requires_openai_auth: bool,
     builtin_openai: bool,
 }
@@ -268,10 +315,12 @@ fn codex_provider_table(config_toml: &str) -> CodexProviderTable {
                 .get("env_key")
                 .and_then(toml::Value::as_str)
                 .map(str::to_string),
-            has_bearer_token: table
+            bearer_token: table
                 .get("experimental_bearer_token")
                 .and_then(toml::Value::as_str)
-                .is_some_and(|token| !token.trim().is_empty()),
+                .map(str::trim)
+                .filter(|token| !token.is_empty())
+                .map(str::to_string),
             requires_openai_auth: table
                 .get("requires_openai_auth")
                 .and_then(toml::Value::as_bool)
@@ -283,18 +332,28 @@ fn codex_provider_table(config_toml: &str) -> CodexProviderTable {
         None => CodexProviderTable {
             base_url: None,
             env_key: (provider_id == "openai").then(|| "OPENAI_API_KEY".to_string()),
-            has_bearer_token: false,
+            bearer_token: None,
             requires_openai_auth: provider_id == "openai",
             builtin_openai: provider_id == "openai",
         },
     }
 }
 
-fn codex_auth_present(auth: &Value) -> bool {
-    auth.get("OPENAI_API_KEY")
+/// What `auth.json` can contribute: `Some(Some(key))` a readable key,
+/// `Some(None)` an OAuth login that is present but cannot be replayed as a
+/// bearer token, `None` nothing at all.
+fn codex_auth(auth: &Value) -> Option<Option<String>> {
+    if let Some(key) = auth
+        .get("OPENAI_API_KEY")
         .and_then(Value::as_str)
-        .is_some_and(|key| !key.trim().is_empty())
-        || auth.get("tokens").is_some_and(|tokens| !tokens.is_null())
+        .map(str::trim)
+        .filter(|key| !key.is_empty())
+    {
+        return Some(Some(key.to_string()));
+    }
+    auth.get("tokens")
+        .filter(|tokens| !tokens.is_null())
+        .map(|_| None)
 }
 
 pub(super) fn resolve_codex(
@@ -315,18 +374,18 @@ pub(super) fn resolve_codex(
     };
 
     let credential: Credential = if let Some(variable) = environment.lookup("CODEX_API_KEY") {
-        Some(from_variable(&variable))
+        Some((Some(variable.value.clone()), from_variable(&variable)))
     } else if let Some(env_key) = table.env_key.as_deref() {
         match environment.lookup(env_key) {
-            Some(variable) => Some(from_variable(&variable)),
+            Some(variable) => Some((Some(variable.value.clone()), from_variable(&variable))),
             // A custom table names a variable but does not set it: Codex reports an EnvVar error outright and does not fall back to auth.json.
             None if !table.builtin_openai => None,
-            None => codex_auth_present(auth).then(|| live(auth_path)),
+            None => codex_auth(auth).map(|value| (value, live(auth_path))),
         }
-    } else if table.has_bearer_token {
-        Some(live(config_path))
+    } else if let Some(token) = table.bearer_token.clone() {
+        Some((Some(token), live(config_path)))
     } else if table.requires_openai_auth {
-        codex_auth_present(auth).then(|| live(auth_path))
+        codex_auth(auth).map(|value| (value, live(auth_path)))
     } else {
         None
     };
@@ -353,7 +412,7 @@ pub(super) fn resolve_gemini(
     let endpoint = pick("GOOGLE_GEMINI_BASE_URL");
     let credential = pick("GEMINI_API_KEY")
         .or_else(|| pick("GOOGLE_API_KEY"))
-        .map(|(_, source)| source);
+        .map(|(value, source)| (Some(value), source));
     finish(endpoint, credential)
 }
 
@@ -368,16 +427,17 @@ pub(super) fn resolve_grok(
         return finish(None, None);
     };
     let endpoint: Endpoint = Some((model.base_url.clone(), live(config_path)));
-    let credential: Credential = if model
+    let credential: Credential = if let Some(key) = model
         .api_key
         .as_deref()
-        .is_some_and(|key| !key.trim().is_empty())
+        .map(str::trim)
+        .filter(|key| !key.is_empty())
     {
-        Some(live(config_path))
+        Some((Some(key.to_string()), live(config_path)))
     } else if let Some(env_key) = model.env_key.as_deref() {
         environment
             .lookup(env_key)
-            .map(|variable| from_variable(&variable))
+            .map(|variable| (Some(variable.value.clone()), from_variable(&variable)))
     } else {
         None
     };
@@ -474,7 +534,7 @@ mod tests {
     use serde_json::json;
 
     use super::{
-        codex_provider_table, match_provider, resolve_claude, resolve_codex,
+        codex_provider_table, match_provider, probe_target_from, resolve_claude, resolve_codex,
         resolve_effective_connection, resolve_gemini, resolve_grok, resolve_opencode,
     };
     use crate::compat::ccswitch::provider_runtime::environment::ToolEnvironment;
@@ -1165,5 +1225,138 @@ context_window = 100000
             match_provider(ToolId::ClaudeCode, &shell_only, &providers, "default"),
             None
         );
+    }
+
+    // ---------- The probe target (ADR-0041) ----------
+    //
+    // Everything a saved service's probe needs is in the database; this
+    // connection's is spread across a shell profile and the tool's own
+    // configuration file, so these tests pin the one rule that matters: the
+    // probe must send the same key the tool itself would send, and must refuse
+    // rather than guess when it cannot read one.
+
+    #[test]
+    #[serial_test::serial]
+    fn the_probe_target_carries_the_key_the_shell_exports() {
+        let path = claude_settings_path();
+        let resolution = resolve_claude(
+            &path,
+            &json!({}),
+            &env(&[
+                ("ANTHROPIC_BASE_URL", "https://relay.example.test"),
+                ("ANTHROPIC_AUTH_TOKEN", "sk-from-the-shell"),
+            ]),
+        );
+        assert_eq!(
+            probe_target_from(resolution),
+            Some((
+                "https://relay.example.test/".to_string(),
+                "sk-from-the-shell".to_string()
+            ))
+        );
+    }
+
+    #[test]
+    #[serial_test::serial]
+    fn the_settings_file_beats_the_shell_for_the_probe_too() {
+        let path = claude_settings_path();
+        let resolution = resolve_claude(
+            &path,
+            &json!({"env": {
+                "ANTHROPIC_BASE_URL": "https://from-the-file.example.test",
+                "ANTHROPIC_AUTH_TOKEN": "sk-from-the-file",
+            }}),
+            &env(&[
+                ("ANTHROPIC_BASE_URL", "https://from-the-shell.example.test"),
+                ("ANTHROPIC_AUTH_TOKEN", "sk-from-the-shell"),
+            ]),
+        );
+        // Claude Code reads settings.json first, so a probe that used the shell
+        // value here would report on a connection the tool never uses.
+        assert_eq!(
+            probe_target_from(resolution),
+            Some((
+                "https://from-the-file.example.test/".to_string(),
+                "sk-from-the-file".to_string()
+            ))
+        );
+    }
+
+    #[test]
+    #[serial_test::serial]
+    fn an_address_with_no_key_is_still_testable() {
+        let path = claude_settings_path();
+        let resolution = resolve_claude(
+            &path,
+            &json!({}),
+            &env(&[("ANTHROPIC_BASE_URL", "http://127.0.0.1:8080")]),
+        );
+        // A loopback gateway usually wants no key at all; refusing to test it
+        // would make the most local setup the only untestable one.
+        assert_eq!(
+            probe_target_from(resolution),
+            Some(("http://127.0.0.1:8080/".to_string(), String::new()))
+        );
+    }
+
+    #[test]
+    #[serial_test::serial]
+    fn an_oauth_login_gives_no_probe_target() {
+        let resolution = resolve_codex(
+            &codex_config_path(),
+            &codex_auth_path(),
+            "",
+            &json!({"tokens": {"access_token": "at"}}),
+            &env(&[("OPENAI_BASE_URL", "https://api.example.test")]),
+        );
+        // The credential is real enough to display as configured, but there is
+        // no bearer token to replay, so no probe could succeed.
+        assert_eq!(resolution.credential, EffectiveCredential::Configured);
+        assert_eq!(probe_target_from(resolution), None);
+    }
+
+    #[test]
+    #[serial_test::serial]
+    fn a_bearer_token_in_the_codex_config_becomes_the_probe_key() {
+        let resolution = resolve_codex(
+            &codex_config_path(),
+            &codex_auth_path(),
+            "model_provider = \"relay\"\n[model_providers.relay]\nbase_url = \"https://relay.example.test/v1\"\nexperimental_bearer_token = \"sk-bearer\"\n",
+            &json!({}),
+            &env(&[]),
+        );
+        assert_eq!(
+            probe_target_from(resolution),
+            Some((
+                "https://relay.example.test/v1".to_string(),
+                "sk-bearer".to_string()
+            ))
+        );
+    }
+
+    #[test]
+    #[serial_test::serial]
+    fn a_tool_running_on_its_own_login_has_nothing_to_probe() {
+        let path = claude_settings_path();
+        let resolution = resolve_claude(&path, &json!({"env": {}}), &env(&[]));
+        assert_eq!(resolution.credential, EffectiveCredential::ToolLogin);
+        assert_eq!(probe_target_from(resolution), None);
+    }
+
+    #[test]
+    #[serial_test::serial]
+    fn a_resolution_debug_rendering_never_carries_the_key() {
+        let path = claude_settings_path();
+        let resolution = resolve_claude(
+            &path,
+            &json!({}),
+            &env(&[
+                ("ANTHROPIC_BASE_URL", "https://relay.example.test"),
+                ("ANTHROPIC_AUTH_TOKEN", "sk-must-not-be-logged"),
+            ]),
+        );
+        let rendered = format!("{resolution:?}");
+        assert!(!rendered.contains("sk-must-not-be-logged"), "{rendered}");
+        assert!(rendered.contains("<redacted>"), "{rendered}");
     }
 }

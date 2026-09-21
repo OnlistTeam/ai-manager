@@ -153,6 +153,25 @@ fn probe_target_for(tool: ToolId, raw: &UpstreamProvider) -> Result<Option<Strin
     Ok(advanced::safe_base_url(base_url))
 }
 
+/// Backend-only probe credentials (ADR-0041).
+///
+/// Unlike `probe_target_for` this also carries the key, so the result stays
+/// inside the backend: it is assembled, used for one outbound request and
+/// dropped. It never becomes part of a product model or an IPC payload.
+///
+/// An empty key is not an error. Local gateways commonly accept unauthenticated
+/// requests, and the caller simply omits the credential header.
+pub(super) fn probe_credentials_for(
+    tool: ToolId,
+    raw: &UpstreamProvider,
+) -> Result<Option<(String, String)>, AppError> {
+    let Some(target) = probe_target_for(tool, raw)? else {
+        return Ok(None);
+    };
+    let (_, api_key) = raw.resolve_usage_credentials(&app_type_for(tool));
+    Ok(Some((target, api_key.trim().to_string())))
+}
+
 fn log_switch_warnings(tool: ToolId, id: &str, warnings: &[String]) {
     // Upstream warnings are bare localized strings that may contain addresses or
     // parameters. As with a normal switch, only the redacted and truncated diagnostic goes

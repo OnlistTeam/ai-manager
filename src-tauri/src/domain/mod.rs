@@ -9,6 +9,7 @@ pub mod health;
 pub mod import;
 pub mod mcp;
 pub mod message_keys;
+pub mod model_probe;
 pub mod network_proxy;
 pub mod openclaw_workspace;
 pub mod operation;
@@ -19,6 +20,7 @@ pub mod provider_runtime;
 pub mod routing;
 pub mod session;
 pub mod settings;
+pub mod shell_variable;
 pub mod skill;
 pub mod tool;
 pub mod tool_update;
@@ -52,6 +54,11 @@ pub use health::{
 };
 pub use import::{ImportOutcome, ImportPreview, ImportSummary};
 pub use mcp::{McpConnectionDraft, McpInstallDraft};
+pub use model_probe::{
+    ModelCatalog, ModelCatalogRejection, ModelProbeOutcome, ModelProbeReply, ModelProbeRequest,
+    ProbeModel, ProbeModelKind, ProviderWireProtocol, MAX_PROBE_IMAGE_BASE64_BYTES,
+    MAX_PROBE_MODELS, MAX_PROBE_PROMPT_CHARS, MAX_PROBE_REPLY_CHARS,
+};
 pub use network_proxy::NetworkProxySettings;
 pub use openclaw_workspace::{
     OpenClawDailyMemoryDocument, OpenClawDailyMemoryList, OpenClawDailyMemorySummary,
@@ -84,6 +91,7 @@ pub use provider_runtime::{
 pub use routing::{RoutingOverview, RoutingProvider, RoutingTarget};
 pub use session::{SessionList, SessionMessage, SessionMessageRole, SessionSummary, SessionThread};
 pub use settings::{DownloadStrategy, ProductSettings, TerminalAppId};
+pub use shell_variable::{ShellVariableLocation, ShellVariableUpdate, ShellVariableWritten};
 pub use skill::{
     SkillBackup, SkillCatalogItem, SkillRepository, SkillRepositoryDraft, SkillSource, SkillUpdate,
     SkillZipInstallOutcome,

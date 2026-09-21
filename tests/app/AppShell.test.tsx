@@ -582,17 +582,19 @@ describe("AppShell", () => {
     );
     renderShell();
 
-    // The hero itself only carries the count and the primary action; the
-    // health-check list below names the specific problem, including when
-    // there is exactly one of them.
-    const services = await screen.findByRole("button", {
-      name: en.home.card.actions.services,
+    // The health-check list names the tool, and its own row button carries
+    // that tool to the services page.
+    const guide = await screen.findByRole("region", {
+      name: en.home.health.title,
     });
-    const guide = screen.getByRole("region", { name: en.home.health.title });
     expect(
       within(guide).getByText("Claude Code has no AI service configured"),
     ).toBeInTheDocument();
-    await userEvent.click(services);
+    await userEvent.click(
+      within(guide).getByRole("button", {
+        name: en.preferences.check.guide.action.connectService,
+      }),
+    );
 
     expect(
       await screen.findByRole("tab", { name: "Claude Code" }),
@@ -705,9 +707,12 @@ describe("AppShell", () => {
     renderShell();
 
     // Home hands the page a one-shot tool intent; the page consumes it once.
+    const guide = await screen.findByRole("region", {
+      name: en.home.health.title,
+    });
     await userEvent.click(
-      await screen.findByRole("button", {
-        name: en.home.card.actions.services,
+      within(guide).getByRole("button", {
+        name: en.preferences.check.guide.action.connectService,
       }),
     );
     const claudeTab = await screen.findByRole("tab", { name: "Claude Code" });

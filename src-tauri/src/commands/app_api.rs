@@ -5,11 +5,13 @@ use tauri_plugin_dialog::DialogExt;
 use crate::application::extension_directory::ExtensionDirectory;
 use crate::application::mcp_installation::{McpInstallRequest, McpInstallationService};
 use crate::application::mcp_removal::{McpRemovalRequest, McpRemovalService};
+use crate::application::model_probe::ModelProbeService;
 use crate::application::product_settings::ProductSettingsService;
 use crate::application::prompt_directory::PromptDirectory;
 use crate::application::provider_batch_test::ProviderBatchTestService;
 use crate::application::provider_directory::ProviderDirectory;
 use crate::application::provider_preflight::ProviderPreflightService;
+use crate::application::shell_variable::ShellVariableService;
 use crate::application::skill_installation::{SkillInstallRequest, SkillInstallationService};
 use crate::application::skill_removal::{SkillRemovalRequest, SkillRemovalService};
 use crate::application::tool_launch::ToolLaunchService;
@@ -22,13 +24,14 @@ use crate::compat::ccswitch::tool_version_storage::ToolVersionStore;
 use crate::database::Database;
 use crate::domain::{
     AppError, DetectedSkillResourceAction, DetectedSkillResourceOpenOutcome, ErrorCode, Extension,
-    ExtensionKind, ExtensionScope, LocalExtensionInventory, McpInstallDraft, Operation,
-    OperationId, PromptDetail, PromptDraft, Provider, ProviderConnectionProfile,
-    ProviderCreateDraft, ProviderCreateResult, ProviderCustomCreateDraft, ProviderDraft,
-    ProviderEditProfile, ProviderEndpointCandidate, ProviderEndpointTestResult,
-    ProviderPreflightOutcome, ProviderPreflightStatus, ProviderRuntimeContext,
-    ProviderRuntimeResourceOpenOutcome, ProviderTestResult, SkillCatalogItem, Tool, ToolId,
-    ToolLaunchOutcome, ToolUninstallPreview, ToolUpdatePreview, ToolVersionCatalog,
+    ExtensionKind, ExtensionScope, LocalExtensionInventory, McpInstallDraft, ModelCatalog,
+    ModelProbeOutcome, ModelProbeRequest, Operation, OperationId, PromptDetail, PromptDraft,
+    Provider, ProviderConnectionProfile, ProviderCreateDraft, ProviderCreateResult,
+    ProviderCustomCreateDraft, ProviderDraft, ProviderEditProfile, ProviderEndpointCandidate,
+    ProviderEndpointTestResult, ProviderPreflightOutcome, ProviderPreflightStatus,
+    ProviderRuntimeContext, ProviderRuntimeResourceOpenOutcome, ProviderTestResult,
+    ShellVariableLocation, ShellVariableUpdate, ShellVariableWritten, SkillCatalogItem, Tool,
+    ToolId, ToolLaunchOutcome, ToolUninstallPreview, ToolUpdatePreview, ToolVersionCatalog,
     UninstallOptions,
 };
 use crate::infrastructure::OperationManager;
@@ -432,6 +435,78 @@ pub async fn app_provider_presets_test(
     tool: String,
 ) -> Result<Vec<ProviderEndpointTestResult>, AppError> {
     ProviderDirectory::test_presets(parse_tool(&tool)?).await
+}
+
+/// Lists the models the saved service actually serves (ADR-0041).
+///
+/// The renderer supplies no address and no key: both are resolved in the
+/// backend from the saved record.
+#[tauri::command]
+pub async fn app_provider_models_list(
+    app_handle: tauri::AppHandle,
+    tool: String,
+    provider: String,
+) -> Result<ModelCatalog, AppError> {
+    let tool = parse_tool(&tool)?;
+    ModelProbeService::list_models(&app_handle, tool, &provider).await
+}
+
+/// Sends one real request to the saved service and reports what came back.
+///
+/// This is the one probe in the product that spends the user's quota, so it
+/// only ever runs from an explicit click on one named service.
+#[tauri::command]
+pub async fn app_provider_model_probe(
+    app_handle: tauri::AppHandle,
+    tool: String,
+    provider: String,
+    request: ModelProbeRequest,
+) -> Result<ModelProbeOutcome, AppError> {
+    let tool = parse_tool(&tool)?;
+    ModelProbeService::probe(&app_handle, tool, &provider, request).await
+}
+
+/// Lists the models the connection in force actually serves, when that
+/// connection is not a saved service (ADR-0041).
+///
+/// A connection a shell profile exports, or one written straight into the
+/// tool's configuration file, is the connection the next launch will use. It
+/// gets the same test the saved services get; the renderer names only the tool.
+#[tauri::command]
+pub async fn app_provider_effective_models_list(tool: String) -> Result<ModelCatalog, AppError> {
+    ModelProbeService::list_models_for_effective(parse_tool(&tool)?).await
+}
+
+/// Sends one real request to the connection in force and reports what came back.
+#[tauri::command]
+pub async fn app_provider_effective_model_probe(
+    tool: String,
+    request: ModelProbeRequest,
+) -> Result<ModelProbeOutcome, AppError> {
+    ModelProbeService::probe_effective(parse_tool(&tool)?, request).await
+}
+
+/// The start-up lines behind this tool's connection variables (ADR-0042).
+///
+/// Only the variables the tool itself reads are searched, and only assignments
+/// this product could safely rewrite are marked editable.
+#[tauri::command]
+pub async fn app_shell_variables_locate(
+    tool: String,
+) -> Result<Vec<ShellVariableLocation>, AppError> {
+    ShellVariableService::locate(parse_tool(&tool)?)
+}
+
+/// Replaces one value on one line of a start-up file.
+///
+/// The caller passes the value it last showed the user; a line that changed in
+/// the meantime is refused rather than overwritten.
+#[tauri::command]
+pub async fn app_shell_variable_write(
+    tool: String,
+    update: ShellVariableUpdate,
+) -> Result<ShellVariableWritten, AppError> {
+    ShellVariableService::write(parse_tool(&tool)?, update)
 }
 
 #[tauri::command]

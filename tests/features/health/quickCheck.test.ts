@@ -70,7 +70,13 @@ describe("aggregateQuickCheck", () => {
     expect(notInstalled.items[0]?.status).toBe("info");
   });
 
-  it("counts a missing provider selection as one actionable item", () => {
+  /**
+   * `configured` counts services saved in this application and nothing else.
+   * Every tool here can also authenticate with its own vendor login, so a tool
+   * with none saved is usually a tool that works. It stays on the list, with
+   * its offer to connect one, but it is information rather than a warning.
+   */
+  it("does not treat a tool with no saved service as a problem", () => {
     const result = aggregateQuickCheck(
       [tool("claude-code")],
       snapshot({
@@ -86,12 +92,13 @@ describe("aggregateQuickCheck", () => {
       }),
       {},
     );
-    expect(result.attentionCount).toBe(1);
-    expect(result.status).toBe("attention");
+    expect(result.attentionCount).toBe(0);
+    expect(result.status).toBe("ready");
     expect(result.items.find((item) => item.kind === "provider")).toMatchObject(
       {
-        status: "attention",
+        status: "info",
         toolId: "claude-code",
+        resolution: "connectService",
       },
     );
   });
@@ -323,7 +330,9 @@ describe("aggregateQuickCheck", () => {
       }),
       {},
     );
-    expect(result.attentionCount).toBe(3);
+    // The pending update and the unreadable config; the absent service is
+    // informational and must not inflate the count.
+    expect(result.attentionCount).toBe(2);
     expect(result.items.filter((item) => item.kind === "tool")).toHaveLength(1);
     expect(
       result.items.filter((item) => item.kind === "provider"),

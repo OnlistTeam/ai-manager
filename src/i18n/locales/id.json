@@ -1,0 +1,2958 @@
+{
+  "about": {
+    "title": "Lisensi dan sumber",
+    "description": "Cara build ini dilisensikan dan tempat mendapatkan kode sumbernya.",
+    "product": "AI Manager",
+    "version": "Versi {{version}}",
+    "versionUnknown": "Versi tidak tersedia",
+    "copyright": "Hak cipta © 2026 Kontributor AI Manager",
+    "license": "Dilisensikan di bawah GNU Affero General Public License, versi 3 atau yang lebih baru. Program ini disediakan tanpa jaminan apa pun.",
+    "upstream": "Menyertakan kode turunan dari CC Switch, digunakan berdasarkan Lisensi MIT. Hak cipta (c) 2025 Jason Young.",
+    "sourceCode": "Kode sumber",
+    "licenseText": "Baca lisensinya"
+  },
+  "common": {
+    "add": "Tambah",
+    "edit": "Ubah",
+    "delete": "Hapus",
+    "save": "Simpan",
+    "saving": "Menyimpan...",
+    "cancel": "Batal",
+    "confirm": "Konfirmasi",
+    "close": "Tutup",
+    "done": "Selesai",
+    "settings": "Pengaturan",
+    "about": "Tentang",
+    "version": "Versi",
+    "loading": "Memuat...",
+    "detecting": "Memeriksa…",
+    "notInstalled": "Belum terinstal",
+    "success": "Berhasil",
+    "error": "Error",
+    "unknown": "Tidak diketahui",
+    "enterValidValue": "Masukkan nilai yang valid",
+    "clear": "Bersihkan",
+    "format": "Format",
+    "formatSuccess": "Berhasil diformat",
+    "formatError": "Format gagal: {{error}}",
+    "copy": "Salin",
+    "view": "Lihat",
+    "back": "Kembali",
+    "refresh": "Segarkan",
+    "refreshing": "Menyegarkan...",
+    "import": "Impor",
+    "all": "Semua",
+    "search": "Cari",
+    "enableAllForApp": "Aktifkan semua untuk {{app}}",
+    "disableAllForApp": "Nonaktifkan semua untuk {{app}}",
+    "bulkToggleFailed": "Gagal memperbarui {{count}} item",
+    "reset": "Reset",
+    "actions": "Tindakan",
+    "deleting": "Menghapus...",
+    "auto": "Otomatis",
+    "enabled": "Aktif",
+    "notSet": "Belum Diatur"
+  },
+  "providerForm": {
+    "supplierName": "Nama Penyedia",
+    "supplierNameRequired": "Nama Penyedia *",
+    "supplierNamePlaceholder": "mis., Anthropic Resmi",
+    "websiteUrl": "URL Situs Web",
+    "websiteUrlPlaceholder": "https://example.com (opsional)",
+    "apiEndpoint": "Endpoint API",
+    "apiEndpointPlaceholder": "https://endpoint-api-anda.com",
+    "codexApiEndpointPlaceholder": "https://endpoint-api-anda.com/v1",
+    "manageAndTest": "Kelola & Uji",
+    "configContent": "Isi Konfigurasi",
+    "officialNoApiKey": "Login resmi tidak memerlukan API Key, langsung simpan",
+    "codexOfficialNoApiKey": "Resmi tidak memerlukan API Key, langsung simpan",
+    "codexApiKeyAutoFill": "Cukup isi di sini, auth.json di bawah akan terisi otomatis",
+    "apiKeyAutoFill": "Cukup isi di sini, config di bawah akan terisi otomatis",
+    "cnOfficialApiKeyHint": "💡 Cukup isi API Key, endpoint sudah ditetapkan",
+    "aggregatorApiKeyHint": "💡 Cukup isi API Key, endpoint sudah ditetapkan",
+    "thirdPartyApiKeyHint": "💡 Cukup isi API Key, endpoint sudah ditetapkan",
+    "customApiKeyHint": "💡 Konfigurasi kustom memerlukan pengisian manual semua bidang yang diperlukan",
+    "omoHint": "💡 Konfigurasi OMO mengelola penetapan model Agent dan mendukung oh-my-openagent.jsonc maupun oh-my-opencode.jsonc",
+    "officialHint": "💡 Penyedia resmi menggunakan login browser, tidak perlu API Key",
+    "providerKeyStatusLoading": "Status pengenal penyedia masih dimuat. Coba lagi sesaat lagi.",
+    "getApiKey": "Dapatkan API Key",
+    "presets": {
+      "ucloud": "Compshare",
+      "ucloudCoding": "Compshare Coding Plan",
+      "shengsuanyun": "Shengsuanyun",
+      "qiniu": "Qiniu",
+      "openrouter": "OpenRouter",
+      "deepseek": "DeepSeek",
+      "together": "Together AI"
+    },
+    "parameterConfig": "Konfigurasi Parameter - {{name}} *",
+    "mainModel": "Model Utama (opsional)",
+    "mainModelPlaceholder": "mis., GLM-4.6",
+    "fastModel": "Model Cepat (opsional)",
+    "fastModelPlaceholder": "mis., GLM-4.5-Air",
+    "modelHint": "💡 Biarkan kosong untuk menggunakan model default penyedia",
+    "apiHint": "💡 Isi endpoint layanan yang kompatibel dengan Claude API, hindari garis miring di akhir",
+    "apiHintOAI": "💡 Isi endpoint layanan yang kompatibel dengan OpenAI Chat Completions, hindari garis miring di akhir",
+    "apiHintGeminiNative": "💡 Sebaiknya gunakan base URL Gemini Native seperti https://generativelanguage.googleapis.com atau https://generativelanguage.googleapis.com/v1beta; proxy akan menambahkan models/*:generateContent secara otomatis",
+    "codexApiHint": "💡 Isi endpoint layanan yang kompatibel dengan format OpenAI Response",
+    "fillSupplierName": "Isi nama penyedia",
+    "fillConfigContent": "Isi konten konfigurasi",
+    "fillParameter": "Isi {{label}}",
+    "fillTemplateValue": "Isi {{label}}",
+    "endpointRequired": "Endpoint API wajib diisi untuk penyedia non-resmi",
+    "apiKeyRequired": "API Key wajib diisi untuk penyedia non-resmi",
+    "softValidation": {
+      "title": "Konfigurasi memiliki masalah berikut",
+      "hint": "Tetap simpan? Beralih ke penyedia ini bisa gagal; Anda dapat mengisinya nanti.",
+      "saveAnyway": "Tetap simpan"
+    },
+    "configJsonError": "Format JSON konfigurasi error, periksa sintaksnya",
+    "authJsonRequired": "auth.json harus berupa objek JSON",
+    "authJsonError": "Format auth.json error, periksa sintaks JSON-nya",
+    "fillAuthJson": "Isi konfigurasi auth.json",
+    "fillApiKey": "Isi OPENAI_API_KEY",
+    "visitWebsite": "Kunjungi {{url}}",
+    "anthropicModel": "Model Utama",
+    "anthropicSmallFastModel": "Model Cepat",
+    "apiFormat": "Format Upstream",
+    "apiFormatHint": "Pilih Anthropic Messages jika penyedia Anda secara native adalah API Anthropic Messages (langsung, tanpa konversi format); pilih Chat jika menggunakan Chat Completions; pilih Responses jika menggunakan Responses API; pilih Gemini Native jika menggunakan Gemini generateContent. Chat, Responses, dan Gemini Native memerlukan pengambilalihan perutean untuk dikonversi ke Anthropic Messages.",
+    "customUserAgent": "User-Agent Kustom",
+    "customUserAgentHint": "Hanya berlaku saat pengambilalihan perutean/proxy lokal diaktifkan; menggantikan User-Agent pada permintaan yang diteruskan ke API penyedia.",
+    "customUserAgentInvalid": "User-Agent tidak boleh berisi karakter kontrol (mis. jeda baris); jika ada, karakter tersebut akan diabaikan.",
+    "customUserAgentPresets": "Preset",
+    "localProxyRequestOverrides": "Override permintaan proxy lokal",
+    "localProxyRequestOverridesHint": "Hanya berlaku setelah pengambilalihan perutean/proxy lokal; diterapkan pada permintaan upstream yang telah dikonversi.",
+    "localProxyRequestOverridesInvalid": "Format override permintaan proxy lokal error: {{error}}",
+    "localProxyHeaderOverrides": "Override header",
+    "localProxyHeaderOverridesInvalidDetail": "Format override header error: {{error}}",
+    "localProxyBodyOverrides": "Override body",
+    "localProxyBodyOverridesInvalidDetail": "Format override body error: {{error}}",
+    "fullUrlLabel": "URL Lengkap",
+    "fullUrlEnabled": "Mode URL Lengkap",
+    "fullUrlDisabled": "Tandai sebagai URL Lengkap",
+    "fullUrlHint": "💡 Masukkan URL permintaan lengkap. Mode ini memerlukan perutean diaktifkan, dan perutean akan menggunakan URL apa adanya tanpa menambahkan jalur",
+    "fullUrlHintGeminiNative": "💡 Dalam mode URL lengkap Gemini Native, dua jenis input didukung: 1. URL Gemini resmi/terstruktur, yang tetap akan dinormalisasi sesuai model dan metode streaming yang diminta; 2. URL relay kustom buram, yang digunakan hampir apa adanya dengan hanya parameter kueri yang ditambahkan",
+    "apiFormatAnthropic": "Anthropic Messages (Native)",
+    "apiFormatOpenAIChat": "OpenAI Chat Completions (Memerlukan perutean)",
+    "apiFormatOpenAIResponses": "OpenAI Responses API (Memerlukan perutean)",
+    "apiFormatGeminiNative": "Gemini Native generateContent (Memerlukan perutean)",
+    "codexApiFormatResponses": "OpenAI Responses API (Native)",
+    "codexApiFormatOpenAIChat": "OpenAI Chat Completions (Memerlukan perutean)",
+    "codexApiFormatHint": "Pilih format API Codex yang benar-benar didukung penyedia ini; konfigurasi tetap pada Responses untuk versi Codex yang lebih baru, sedangkan Chat Completions dikonversi melalui perutean lokal.",
+    "authField": "Bidang Autentikasi",
+    "authFieldAuthToken": "ANTHROPIC_AUTH_TOKEN (Default)",
+    "authFieldApiKey": "ANTHROPIC_API_KEY",
+    "authFieldHint": "Pilih nama variabel lingkungan autentikasi untuk konfigurasi ini",
+    "apiHintResponses": "💡 Isi endpoint layanan yang kompatibel dengan OpenAI Responses API, hindari garis miring di akhir",
+    "anthropicDefaultHaikuModel": "Model Haiku Default",
+    "anthropicDefaultSonnetModel": "Model Sonnet Default",
+    "anthropicDefaultOpusModel": "Model Opus Default",
+    "modelPlaceholder": "",
+    "smallModelPlaceholder": "",
+    "haikuModelPlaceholder": "",
+    "modelHelper": "Opsional: Tentukan model Claude default yang digunakan, biarkan kosong untuk menggunakan default sistem.",
+    "modelMappingLabel": "Pemetaan Model",
+    "modelMappingHint": "Nama tampilan hanya memengaruhi menu /model; 1M hanya merupakan deklarasi kapabilitas konteks Claude Code.",
+    "modelRoleLabel": "Peran model",
+    "modelRoleSonnet": "Sonnet",
+    "modelRoleOpus": "Opus",
+    "modelRoleFable": "Fable",
+    "modelRoleHaiku": "Haiku",
+    "modelRoleSubagent": "Subagent",
+    "modelDisplayNameLabel": "Nama tampilan",
+    "modelDisplayNamePlaceholder": "mis. DeepSeek V4 Pro",
+    "modelNoDisplayName": "Tidak ditampilkan di /model",
+    "requestModelLabel": "Model yang diminta",
+    "modelOneMHeader": "Deklarasikan 1M",
+    "modelOneMLabel": "1M",
+    "fallbackModelLabel": "Model fallback default",
+    "fallbackModelHint": "Fallback untuk permintaan yang tidak jelas terpetakan ke Sonnet, Opus, Fable, atau Haiku. Direkomendasikan untuk endpoint pihak ketiga/relay. Jika tidak, permintaan semacam itu (termasuk subtugas latar belakang Haiku) diteruskan dengan nama model Claude aslinya dan bisa gagal jika upstream tidak menghostingnya. Aman dibiarkan kosong untuk endpoint resmi.",
+    "quickSetModels": "Atur Cepat",
+    "quickSetSuccess": "Nama model diterapkan ke semua peran",
+    "advancedOptionsToggle": "Opsi Lanjutan",
+    "advancedOptionsHint": "Mencakup format API, bidang autentikasi, dan pemetaan model. Default sudah cocok untuk sebagian besar kasus penggunaan.",
+    "categoryOfficial": "Resmi",
+    "categoryCnOfficial": "Resmi Open Source",
+    "categoryAggregation": "Agregasi",
+    "categoryThirdParty": "Pihak Ketiga",
+    "fetchModels": "Ambil Model",
+    "fetchingModels": "Mengambil...",
+    "searchModelPlaceholder": "Cari model...",
+    "searchModelEmpty": "Tidak ada model yang cocok.",
+    "searchModelAriaLabel": "Pilih model",
+    "fetchModelsSuccess": "Ditemukan {{count}} model",
+    "fetchModelsFailed": "Gagal mengambil model",
+    "fetchModelsEmpty": "Tidak ada model ditemukan",
+    "fetchModelsNeedApiKey": "Isi API Key terlebih dahulu",
+    "fetchModelsNeedEndpoint": "Isi endpoint API terlebih dahulu",
+    "fetchModelsNeedConfig": "Isi endpoint API dan API Key terlebih dahulu",
+    "fetchModelsAuthFailed": "API Key tidak valid atau tidak memiliki izin",
+    "fetchModelsNotSupported": "Penyedia ini tidak mendukung pengambilan daftar model",
+    "fetchModelsEndpointNotFound": "Tidak ditemukan endpoint model yang dapat dijangkau. Periksa Base URL atau pastikan apakah penyedia menyediakan API ini.",
+    "fetchModelsTimeout": "Permintaan melewati batas waktu, periksa koneksi jaringan",
+    "requiredFields": "Isi nama penyedia, endpoint API, API Key, dan model"
+  },
+  "usage": {
+    "title": "Penggunaan & Biaya",
+    "description": "Tampilan lokal dan privat tentang bagaimana alat coding AI Anda telah digunakan.",
+    "loading": "Memuat penggunaan lokal",
+    "hero": {
+      "eyebrow": "{{days}} hari terakhir",
+      "cost": "Perkiraan biaya",
+      "estimate": "Dihitung dari catatan token lokal dan harga model. Invoice dari penyedia Anda bisa berbeda.",
+      "metric": {
+        "tokens": "Token",
+        "requests": "Permintaan",
+        "success": "Tingkat keberhasilan",
+        "cache": "Cache hit"
+      }
+    },
+    "trend": {
+      "eyebrow": "Aktivitas lokal",
+      "title": "Penggunaan token harian",
+      "total": "{{value}} token dalam periode ini",
+      "label": "Tren token harian dengan total {{value}} token"
+    },
+    "tools": {
+      "eyebrow": "Rincian",
+      "title": "Penggunaan per alat AI",
+      "requests": "{{value}} permintaan",
+      "tokens": "{{value}} token"
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "opencode": "OpenCode",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build",
+      "openclaw": "OpenClaw",
+      "hermes": "Hermes",
+      "pi": "Pi"
+    },
+    "sync": {
+      "running": "Menyinkronkan penggunaan lokal",
+      "runningHint": "Memindai sesi lokal. Anda dapat meninggalkan halaman ini; sinkronisasi akan terus berjalan.",
+      "largeHistory": "Sinkronisasi pertama atau riwayat yang besar dapat memakan waktu beberapa menit. Tidak perlu memulai sinkronisasi lain; ringkasan tersimpan tetap terlihat dan akan diperbarui setelah selesai.",
+      "elapsed": "Waktu berjalan: {{seconds}} detik",
+      "action": "Sinkronkan penggunaan lokal",
+      "success": "Memindai {{filesScanned}} file lokal dan menambahkan {{recordsImported}} catatan baru.",
+      "partial": "Memindai {{filesScanned}} file lokal dan menambahkan {{recordsImported}} catatan. {{sourceIssues}} pemeriksaan sumber tidak dapat diselesaikan; data yang ada tetap ditampilkan.",
+      "errorTitle": "Tidak dapat menyinkronkan penggunaan lokal",
+      "errorHint": "Ringkasan tersimpan tidak dihapus. Coba lagi."
+    },
+    "privacy": {
+      "title": "Agregat dan lokal sejak dirancang",
+      "description": "Halaman ini tidak pernah menampilkan prompt, respons, ID permintaan, jalur, pengaturan penyedia, atau kredensial. Sinkronisasi membaca file sesi CLI yang didukung di komputer ini dan tidak menghubungi vendor mana pun."
+    },
+    "empty": {
+      "title": "Belum ada catatan penggunaan lokal",
+      "description": "Sinkronkan sesi CLI yang didukung untuk membuat tampilan agregat pertama. Tidak ada yang diunggah."
+    },
+    "error": {
+      "title": "Tidak dapat membaca penggunaan lokal",
+      "description": "Catatan tersimpan Anda masih ada di komputer ini. Coba baca ringkasan lagi.",
+      "retry": "Coba lagi"
+    },
+    "stale": {
+      "title": "Tidak dapat menyegarkan ringkasan",
+      "description": "Snapshot lokal terakhir tetap terlihat sampai pembacaan baru berhasil."
+    }
+  },
+  "dbUpgrade": {
+    "title": "Versi database terlalu baru",
+    "description": "Database ini dibuat oleh AI Manager versi yang lebih baru atau klien yang kompatibel. Build ini tidak dapat membukanya, dan data Anda tidak berubah.",
+    "versionInfo": "Database v{{db}} · Aplikasi mendukung v{{supported}}",
+    "dbPath": "File database",
+    "channelUnavailableTitle": "Kanal pembaruan bertanda tangan tidak tersedia",
+    "channelUnavailableDescription": "AI Manager tidak dapat mengambil atau menginstal build yang lebih baru dengan aman sampai endpoint pembaruan produk dan kunci penandatanganannya disetujui. Cadangkan folder ini, lalu keluar dan gunakan build kompatibel yang disetujui.",
+    "openConfigDir": "Buka folder data aplikasi",
+    "quit": "Keluar"
+  },
+  "errors": {
+    "usage_query_failed": "Kueri penggunaan gagal",
+    "configFallbackPath": "Data aplikasi AI Manager/config.json",
+    "configLoadFailedTitle": "Gagal Memuat Konfigurasi",
+    "configLoadFailedMessage": "Tidak dapat membaca file konfigurasi:\n{{path}}\n\nDetail error:\n{{detail}}\n\nPeriksa apakah JSON valid, atau pulihkan dari file cadangan (misalnya, config.json.bak) di direktori yang sama.\n\nAplikasi akan keluar agar Anda dapat memperbaikinya.",
+    "frontendCrashTitle": "Terjadi masalah pada antarmuka",
+    "frontendCrashMessage": "Sistem telah mencoba menulis error ini ke log diagnostik aplikasi. Muat ulang antarmuka, dan lampirkan log tersebut saat membuka issue jika masalah berlanjut.",
+    "reloadInterface": "Muat ulang antarmuka"
+  },
+  "hermes": {
+    "form": {
+      "baseUrl": "Endpoint API",
+      "baseUrlHint": "URL endpoint API untuk penyedia ini.",
+      "providerKey": "Kunci Penyedia",
+      "providerKeyPlaceholder": "penyedia-saya",
+      "providerKeyHint": "Hanya huruf kecil, angka, dan tanda hubung. Digunakan sebagai nama penyedia di config.yaml.",
+      "providerKeyLockedHint": "Penyedia ini ada di config Hermes; kunci terkunci.",
+      "providerKeyRequired": "Kunci penyedia wajib diisi",
+      "providerKeyInvalid": "Kunci penyedia hanya boleh berisi huruf kecil, angka, dan tanda hubung",
+      "providerKeyDuplicate": "Kunci penyedia ini sudah ada",
+      "apiMode": "Mode API",
+      "apiModeHint": "Protokol API penyedia. Pilih format yang sesuai dengan endpoint Anda.",
+      "apiModeChatCompletions": "OpenAI Chat Completions",
+      "apiModeAnthropicMessages": "Anthropic Messages",
+      "apiModeCodexResponses": "OpenAI Responses",
+      "apiModeBedrockConverse": "AWS Bedrock Converse",
+      "baseUrlRequired": "Endpoint API wajib diisi",
+      "baseUrlScheme": "Gunakan alamat http:// atau https://",
+      "baseUrlInvalid": "Endpoint API bukan URL yang valid",
+      "models": "Model",
+      "addModel": "Tambah model",
+      "noModels": "Belum ada model yang dikonfigurasi. Beralih ke penyedia ini tidak akan mengubah model default.",
+      "modelId": "ID Model",
+      "modelIdPlaceholder": "anthropic/claude-opus-5",
+      "modelName": "Nama tampilan",
+      "modelNamePlaceholder": "Claude Opus 5",
+      "contextLength": "Panjang konteks",
+      "toggleModelDetails": "Perluas atau ciutkan detail model",
+      "removeModel": "Hapus model",
+      "modelsHint": "Saat diaktifkan, model pertama menjadi default Hermes.",
+      "rateLimitDelay": "Jeda batas laju (detik)",
+      "rateLimitDelayHint": "Jeda minimum dalam detik antar permintaan berturut-turut (opsional). Kosongkan jika tanpa batas."
+    },
+    "webui": {
+      "open": "Buka Hermes Web UI",
+      "offline": "Hermes Web UI belum berjalan. Jalankan dengan `hermes dashboard` terlebih dahulu.",
+      "openFailed": "Gagal membuka Hermes Web UI",
+      "launchConfirmTitle": "Hermes Dashboard belum berjalan",
+      "launchConfirmMessage": "Buka terminal dan jalankan sekarang dengan `hermes dashboard`?\n\nBrowser akan terbuka otomatis setelah startup selesai.\n\nJika terminal melaporkan `hermes` tidak ditemukan atau ekstra web tidak ada, jalankan dulu:\npip install hermes-agent[web]",
+      "launchConfirmAction": "Buka terminal & jalankan",
+      "launching": "`hermes dashboard` telah dijalankan di terminal.",
+      "launchFailed": "Gagal membuka terminal"
+    },
+    "memory": {
+      "title": "Memori",
+      "agentTab": "Memori Agen (MEMORY.md)",
+      "userTab": "Profil Pengguna (USER.md)",
+      "usage": "{{current}} / {{limit}} karakter",
+      "overLimit": "Melebihi batas, Hermes akan memotongnya saat pemuatan berikutnya",
+      "enableOn": "Aktif",
+      "enableOff": "Nonaktif",
+      "disabledHint": "Hermes akan melewati memori ini sampai diaktifkan kembali",
+      "toggleFailed": "Gagal mengubah status memori",
+      "saveSuccess": "Memori disimpan",
+      "saveFailed": "Gagal menyimpan memori",
+      "loadFailed": "Gagal membaca file memori",
+      "openConfig": "Sesuaikan batas di Hermes Web UI",
+      "runtimeNote": "Perubahan berlaku setelah Hermes dimulai ulang atau sesi baru."
+    }
+  },
+  "ds": {
+    "status": {
+      "ready": "Siap",
+      "attention": "Perlu Perhatian",
+      "action": "Tindakan Diperlukan"
+    },
+    "action": {
+      "install": "Instal",
+      "configure": "Tambahkan ke alat",
+      "readOnly": "Hanya baca",
+      "update": "Perbarui",
+      "versions": "Ganti versi",
+      "open": "Buka",
+      "remove": "Hapus",
+      "check": "Periksa",
+      "fix": "Perbaiki",
+      "connect": "Hubungkan",
+      "retry": "Coba lagi",
+      "copyNamed": "Salin {{name}}",
+      "copied": "Disalin",
+      "use": "Gunakan",
+      "inUse": "Saat Ini",
+      "cancel": "Batalkan",
+      "close": "Tutup",
+      "named": {
+        "install": "Instal {{name}}",
+        "update": "Perbarui {{name}}",
+        "versions": "Ganti versi {{name}}",
+        "open": "Buka {{name}}",
+        "remove": "Hapus {{name}}",
+        "check": "Periksa {{name}}",
+        "fix": "Perbaiki {{name}}"
+      }
+    },
+    "tool": {
+      "notInstalled": "Belum terinstal",
+      "installed": "Terinstal",
+      "updateAvailable": "Pembaruan tersedia",
+      "broken": "Perlu diperbaiki",
+      "unknown": "Belum diperiksa",
+      "installUnavailable": "Instalasi otomatis tidak tersedia untuk alat ini.",
+      "openUnavailable": "AI Manager tidak dapat membuka alat ini secara otomatis.",
+      "updateUnavailable": "Pembaruan otomatis tidak tersedia untuk alat ini.",
+      "repairUnavailable": "Perbaikan otomatis tidak tersedia. AI Manager tidak akan mengubah alat ini tanpa perbaikan yang aman."
+    },
+    "service": {
+      "currentlyUsedBy": "Sedang Digunakan oleh",
+      "notUsed": "Tidak digunakan",
+      "nowActive": "Kini aktif"
+    },
+    "task": {
+      "queued": "Menunggu",
+      "running": "Berjalan",
+      "success": "Selesai",
+      "failed": "Gagal",
+      "cancelled": "Dihentikan",
+      "progressLabel": "Progres tugas"
+    },
+    "sidebar": {
+      "primary": "Navigasi utama",
+      "expand": "Perluas bilah sisi",
+      "collapse": "Ciutkan bilah sisi"
+    }
+  },
+  "operation": {
+    "phase": {
+      "preparing": "Mempersiapkan",
+      "downloading": "Mengunduh",
+      "cancelling": "Membatalkan dengan aman",
+      "cancelled": "Dibatalkan",
+      "installing": "Menginstal",
+      "configuring": "Mengonfigurasi",
+      "removing": "Menghapus",
+      "checking": "Memeriksa",
+      "ready": "Siap",
+      "removed": "Dihapus"
+    },
+    "log": {
+      "started": "Tugas dimulai",
+      "cancellationRequested": "Pembatalan diminta; menunggu proses yang sedang berjalan untuk berhenti",
+      "cancelled": "Tugas dibatalkan setelah prosesnya berhenti",
+      "commandSucceeded": "Perintah selesai",
+      "commandFailed": "Perintah gagal",
+      "commandFailureIgnored": "Perintah mengembalikan status bukan nol; melanjutkan sesuai rencana",
+      "tryingFallback": "Mencoba metode aman berikutnya",
+      "usingConfiguredProxy": "Menggunakan proxy keluar yang dikonfigurasi",
+      "usingCommunityMirror": "Mencoba ulang unduhan yang kompatibel dengan npm ini melalui mirror komunitas",
+      "nativeSupply": {
+        "start": "Kanal pembaruan resmi tidak tersedia; mengambil program resmi yang sama dari sumber unduhan",
+        "done": "Program resmi telah diperbarui dan kepemilikan instalasinya tidak berubah"
+      },
+      "succeeded": "Tugas selesai",
+      "failed": "Tugas gagal",
+      "truncated": "Output sebelumnya terpotong"
+    }
+  },
+  "error": {
+    "about": {
+      "openLinkFailed": "Tidak dapat membuka halaman tersebut di browser Anda."
+    },
+    "appUpdate": {
+      "installFailed": "Tidak dapat menginstal pembaruan aplikasi ini.",
+      "notReady": "Pembaruan aplikasi belum siap.",
+      "openDownloadFailed": "Tidak dapat membuka halaman unduhan resmi AI Manager."
+    },
+    "backup": {
+      "createFailed": "Tidak dapat menyimpan cadangan.",
+      "deleteFailed": "Tidak dapat menghapus cadangan tersebut.",
+      "exportFailed": "Tidak dapat menyimpan salinan konfigurasi portabel.",
+      "exportLocationRefused": "Pilih folder lain dan simpan salinan portabel sebagai arsip konfigurasi.",
+      "importFailed": "Tidak dapat mengimpor arsip konfigurasi tersebut. Pengaturan Anda saat ini tidak berubah.",
+      "importTooLarge": "Arsip konfigurasi tersebut terlalu besar untuk diimpor dengan aman.",
+      "listFailed": "Tidak dapat membaca cadangan Anda.",
+      "nameExists": "Nama tersebut sudah digunakan cadangan lain.",
+      "nameInvalid": "Nama cadangan tersebut berisi karakter yang tidak didukung.",
+      "nameRequired": "Masukkan nama cadangan.",
+      "nameTooLong": "Nama cadangan tersebut terlalu panjang.",
+      "noDatabase": "Belum ada apa pun untuk dicadangkan.",
+      "notFound": "Cadangan tersebut tidak lagi ada di sini.",
+      "renameFailed": "Tidak dapat mengganti nama cadangan tersebut.",
+      "restoreFailed": "Tidak dapat memulihkan cadangan tersebut. Tidak ada yang berubah.",
+      "scheduleSaveFailed": "Tidak dapat menyimpan pengaturan cadangan otomatis.",
+      "selectionUnavailable": "Lokasi yang dipilih tidak tersedia sebagai file lokal.",
+      "storeUnavailable": "Aplikasi masih dalam proses memulai."
+    },
+    "command": {
+      "joinFailed": "Tugas berhenti secara tak terduga.",
+      "permissionDenied": "AI Manager tidak diizinkan melakukan ini di komputer Anda.",
+      "programNotFound": "Program yang dibutuhkan AI Manager tidak ada.",
+      "spawnFailed": "Program yang dibutuhkan AI Manager tidak dapat dimulai.",
+      "timeout": "Ini memakan waktu terlalu lama, sehingga AI Manager menghentikannya."
+    },
+    "commandSpec": {
+      "argContainsNul": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "envContainsNul": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "envKeyInvalid": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "scriptNotSealed": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "bashRequiresSingleScript": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "programPathMismatch": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "programPathNotAbsolute": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "sensitiveIndexOutOfRange": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "terminalTargetInvalid": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "terminalTargetNotAnchored": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "terminalWorkingDirectoryNotAbsolute": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "wslDistroInvalid": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan.",
+      "timeoutZero": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan."
+    },
+    "deepLink": {
+      "credentialBlocked": "Tautan ini membawa kunci. Tautan yang dibuka dari luar AI Manager tidak diizinkan melakukannya, karena komputer Anda akan melihat kunci tersebut saat masuk. Salin tautannya dan tempel di Pengaturan sebagai gantinya.",
+      "credentialRequired": "Tautan ini tidak memiliki kunci, dan endpoint API tidak dapat disimpan tanpanya. Minta tautan yang menyertakannya dari penyedia.",
+      "duplicateParameter": "Tautan ini mengulangi salah satu bidangnya, sehingga tidak dapat dibaca.",
+      "endpointRequired": "Tautan ini tidak menyebutkan alamat untuk endpoint API.",
+      "invalidEncoding": "Detail yang dikemas dalam tautan ini rusak dan tidak dapat dibaca.",
+      "invalidLink": "Ini bukan tautan yang dapat dibaca AI Manager.",
+      "mcpUnsupportedFields": "Tautan ini ingin mengatur nilai lingkungan atau header permintaan untuk server MCP. AI Manager tidak menambahkannya untuk Anda, sehingga tidak dapat menggunakan tautan ini.",
+      "missingParameter": "Tautan ini kehilangan sesuatu yang dibutuhkan AI Manager untuk mengimpornya.",
+      "notPending": "Tautan ini tidak lagi menunggu. Mungkin sudah kedaluwarsa, atau mungkin sudah dijawab.",
+      "tooLarge": "Tautan ini terlalu panjang untuk dibaca dengan aman.",
+      "toolUnavailable": "AI Manager tidak mengelola aplikasi yang dituju tautan ini.",
+      "unknownParameter": "Tautan ini berisi bidang yang tidak dikenali AI Manager.",
+      "unsupportedResource": "Tautan ini meminta sesuatu yang tidak dapat diimpor AI Manager.",
+      "unsupportedScheme": "Tautan ini bukan milik AI Manager.",
+      "unsupportedVersion": "Tautan ini menggunakan format yang lebih baru daripada yang dipahami versi AI Manager ini.",
+      "valueTooLong": "Salah satu nilai dalam tautan ini jauh lebih panjang dari seharusnya."
+    },
+    "desktopApp": {
+      "inventoryFailed": "AI Manager tidak dapat memeriksa aplikasi desktop di komputer ini.",
+      "launchFailed": "Aplikasi desktop tidak dapat dibuka.",
+      "launchUnsupported": "Aplikasi desktop tidak dapat dibuka di sistem ini.",
+      "notFound": "Aplikasi desktop tersebut tidak lagi terinstal.",
+      "officialDownloadFailed": "Installer resmi vendor tidak dapat dibuka.",
+      "officialDownloadUnsupported": "Vendor tidak menerbitkan installer untuk sistem dan arsitektur ini.",
+      "uninstallHandoffFailed": "Kontrol uninstall sistem operasi tidak dapat dibuka.",
+      "uninstallHandoffUnsupported": "AI Manager tidak dapat menyerahkan aplikasi ini ke uninstaller sistem di sini."
+    },
+    "desktopPreferences": {
+      "invalid": "Jaga tray tetap terlihat sebelum memulai tersembunyi atau membiarkan aplikasi tetap berjalan setelah jendelanya ditutup.",
+      "readFailed": "AI Manager tidak dapat membaca preferensi desktop di komputer ini.",
+      "saveFailed": "AI Manager tidak dapat menerapkan preferensi desktop dengan aman."
+    },
+    "extension": {
+      "adoptFailed": "AI Manager tidak dapat menambahkan ekstensi yang ditemukan dengan aman.",
+      "adoptUnsupported": "Jenis ekstensi ini tidak dapat ditambahkan dari salinan lokal yang sudah ada.",
+      "cannotDisable": "Satu set instruksi selalu tetap digunakan, sehingga yang ini tidak dapat dinonaktifkan. Pilih yang lain sebagai gantinya.",
+      "copyFailed": "Skill tidak dapat disalin.",
+      "detectedReadOnly": "AI Manager menemukan ekstensi ini di Mac Anda tetapi belum mengelolanya, sehingga membiarkan salinan lokalnya tidak berubah.",
+      "listFailed": "Tidak dapat membaca ekstensi untuk alat ini.",
+      "notFound": "Ekstensi tersebut tidak lagi ada di sini.",
+      "resourceOpenFailed": "Tidak dapat membuka file lokal Skill ini.",
+      "storeUnavailable": "Aplikasi masih dalam proses memulai.",
+      "toggleFailed": "Tidak dapat menyelesaikan perubahan ini. Sakelar mungkin tidak cocok dengan apa yang dilihat alat.",
+      "unknownKind": "AI Manager tidak mengenali jenis ekstensi ini.",
+      "unsupportedScope": "AI Manager belum mengintegrasikan jenis ekstensi ini untuk target ini."
+    },
+    "health": {
+      "snapshotFailed": "Tidak dapat membaca status pengaturan Anda.",
+      "storeUnavailable": "Aplikasi masih dalam proses memulai."
+    },
+    "import": {
+      "invalidSource": "Pengaturan kompatibel tersebut tidak dapat diimpor dengan aman.",
+      "mergeFailed": "Tidak dapat mengimpor pengaturan yang ada. Tidak ada yang berubah.",
+      "newerVersion": "Pengaturan ini menggunakan format kompatibel yang lebih baru. Perbarui AI Manager, lalu coba lagi.",
+      "notFound": "Sumber impor tersebut tidak lagi ada di sini.",
+      "readFailed": "Tidak dapat membaca pengaturan yang ada tersebut.",
+      "storeUnavailable": "Aplikasi masih dalam proses memulai."
+    },
+    "mcp": {
+      "actionPanicked": "Ada yang salah saat menambahkan koneksi MCP ini.",
+      "argumentsInvalid": "Argumen perintah tersebut tidak dapat ditambahkan dengan aman.",
+      "commandInvalid": "Perintah tersebut tidak dapat ditambahkan dengan aman.",
+      "commandRequired": "Masukkan program yang harus dijalankan koneksi ini.",
+      "descriptionTooLong": "Jaga deskripsi hingga 240 karakter atau kurang.",
+      "installCleanupFailed": "Koneksi tidak dapat ditambahkan, dan AI Manager tidak dapat sepenuhnya membersihkan perubahan yang dicoba.",
+      "installFailed": "Koneksi MCP tidak dapat ditambahkan.",
+      "nameInvalid": "Nama koneksi tersebut berisi karakter yang tidak didukung.",
+      "nameRequired": "Beri nama koneksi ini terlebih dahulu.",
+      "nameTooLong": "Jaga nama koneksi hingga 80 karakter atau kurang.",
+      "notInstalled": "Koneksi MCP tersebut tidak lagi ada di sini.",
+      "removeFailed": "Koneksi MCP tidak dapat dihapus dengan aman.",
+      "removePanicked": "Ada yang salah saat menghapus koneksi MCP ini.",
+      "removeRestoreFailed": "Koneksi tidak dapat dihapus, dan AI Manager tidak dapat memastikan pengaturan sebelumnya sepenuhnya dipulihkan.",
+      "removeVerifyFailed": "AI Manager tidak dapat memastikan koneksi MCP telah dihapus.",
+      "unsupportedScope": "AI Manager belum mengintegrasikan koneksi MCP untuk target ini.",
+      "urlCredentials": "Jangan masukkan nama pengguna atau kata sandi dalam alamat server.",
+      "urlInsecure": "Gunakan HTTPS untuk server jarak jauh. HTTP hanya diizinkan untuk komputer ini.",
+      "urlInvalid": "Masukkan alamat server HTTP atau HTTPS lengkap tanpa fragmen.",
+      "urlRequired": "Masukkan alamat server MCP.",
+      "verifyFailed": "AI Manager tidak dapat memastikan koneksi MCP telah ditambahkan."
+    },
+    "native": {
+      "responseSchemaMismatch": "AI Manager menerima balasan yang tidak dipahaminya. Coba lagi.",
+      "unrecognized": "Ada yang salah. Coba lagi."
+    },
+    "networkProxy": {
+      "invalid": "Gunakan proxy lokal tanpa autentikasi seperti http://127.0.0.1:7890 atau socks5://localhost:1080.",
+      "readFailed": "AI Manager tidak dapat membaca pengaturan proxy unduhan.",
+      "saveFailed": "AI Manager tidak dapat menerapkan proxy unduhan dengan aman.",
+      "storeUnavailable": "Pengaturan proxy unduhan belum siap."
+    },
+    "openclawWorkspace": {
+      "contentInvalid": "File workspace ini bukan teks UTF-8 yang valid.",
+      "contentTooLarge": "File workspace ini melebihi batas aman 1 MiB.",
+      "dateInvalid": "Pilih tanggal yang valid dalam format YYYY-MM-DD.",
+      "deleteFailed": "AI Manager tidak dapat menghapus memori harian tersebut dengan aman.",
+      "directoryOpenFailed": "Folder workspace tidak dapat dibuka di file manager sistem.",
+      "invalidTarget": "Target workspace OpenClaw tersebut tidak didukung.",
+      "listFailed": "AI Manager tidak dapat membaca inventaris workspace OpenClaw.",
+      "queryInvalid": "Jaga pencarian workspace hingga 200 karakter atau kurang.",
+      "readFailed": "AI Manager tidak dapat membaca file workspace OpenClaw tersebut.",
+      "restoreFailed": "Perubahan workspace gagal dan file asli tidak dapat dipulihkan secara otomatis.",
+      "saveFailed": "AI Manager tidak dapat menyimpan file workspace OpenClaw tersebut dengan aman.",
+      "unsafeEntry": "Entri workspace ini adalah tautan atau jenis file yang tidak didukung, sehingga AI Manager membiarkannya tidak tersentuh.",
+      "verifyFailed": "AI Manager tidak dapat memverifikasi perubahan workspace OpenClaw."
+    },
+    "operation": {
+      "cancelFailed": "AI Manager tidak dapat menghentikan tugas ini dengan aman. Ia menunggu proses keluar dan menandai tugas sebagai gagal.",
+      "cancelNotRequested": "Pembatalan tidak diminta untuk tugas ini.",
+      "cancelPending": "Tugas ini sedang dibatalkan.",
+      "cancelUnconfirmed": "AI Manager belum memastikan tugas ini berhenti.",
+      "cancelled": "Tugas ini dibatalkan.",
+      "invalidId": "Referensi tugas tersebut tidak valid.",
+      "invalidTransition": "Tugas ini sudah selesai.",
+      "notCancellable": "Tugas ini tidak mendukung pembatalan.",
+      "notCancellableNow": "Tugas ini telah mencapai tahap yang tidak dapat dihentikan dengan aman.",
+      "notFound": "Tugas tersebut tidak lagi tersedia.",
+      "notRunning": "Tugas tersebut tidak sedang berjalan.",
+      "toolBusy": "Tugas lain sudah berjalan untuk alat ini. Tunggu sampai selesai.",
+      "desktopAppBusy": "Tugas lain sudah berjalan untuk aplikasi desktop ini. Tunggu sampai selesai."
+    },
+    "prompt": {
+      "contentInvalid": "Instruksi tersebut berisi karakter yang tidak dapat disimpan dengan aman.",
+      "contentRequired": "Tulis instruksi yang harus diikuti alat ini.",
+      "contentTooLong": "Jaga instruksi di bawah 1 MB.",
+      "descriptionInvalid": "Deskripsi tersebut berisi karakter yang tidak didukung.",
+      "descriptionTooLong": "Jaga deskripsi hingga 500 karakter atau kurang.",
+      "importEmpty": "File instruksi aktif alat ini kosong.",
+      "importFailed": "Tidak dapat mengimpor instruksi aktif alat ini.",
+      "importMissing": "Alat ini belum memiliki file instruksi aktif.",
+      "liveInvalid": "File instruksi aktif alat ini bukan teks yang dapat dibaca, sehingga AI Manager membiarkannya tidak berubah.",
+      "nameInvalid": "Nama instruksi tersebut berisi karakter yang tidak didukung.",
+      "nameRequired": "Beri nama untuk instruksi ini terlebih dahulu.",
+      "nameTooLong": "Jaga nama instruksi hingga 80 karakter atau kurang.",
+      "notFound": "Instruksi tersebut tidak lagi ada di sini.",
+      "readFailed": "Tidak dapat membaca instruksi tersebut.",
+      "removeActive": "Beralih ke set instruksi lain sebelum menghapus yang ini.",
+      "removeFailed": "Instruksi tersebut tidak dapat dihapus dengan aman.",
+      "removeRestoreFailed": "Instruksi tidak dapat dihapus, dan AI Manager tidak dapat memastikan salinan tersimpan dipulihkan.",
+      "saveFailed": "Tidak dapat menyimpan instruksi tersebut.",
+      "saveRestoreFailed": "Instruksi tidak dapat disimpan, dan AI Manager tidak dapat memastikan versi sebelumnya sepenuhnya dipulihkan.",
+      "saveVerifyFailed": "AI Manager tidak dapat memastikan instruksi telah tersimpan dengan benar.",
+      "unsupportedTool": "AI Manager belum mengintegrasikan instruksi tetap untuk alat ini."
+    },
+    "provider": {
+      "createFailed": "Tidak dapat menghubungkan layanan ini.",
+      "listFailed": "Tidak dapat membaca layanan untuk alat ini.",
+      "modelProbeImageTooLarge": "Gambar yang dihasilkan terlalu besar untuk ditampilkan.",
+      "modelProbeModelInvalid": "Masukkan nama model terlebih dahulu.",
+      "modelProbePromptInvalid": "Masukkan prompt 200 karakter atau kurang.",
+      "modelProbeTimeout": "Layanan tidak menjawab tepat waktu.",
+      "modelProbeUnreachable": "Tidak dapat menjangkau layanan ini.",
+      "modelProbeUnreadable": "Layanan menjawab dengan sesuatu yang tidak dapat dibaca aplikasi ini.",
+      "nameRequired": "Beri nama untuk layanan ini terlebih dahulu.",
+      "notFound": "Layanan tersebut tidak lagi ada di sini.",
+      "notTestable": "Layanan ini tidak memiliki alamat untuk diperiksa.",
+      "removeActive": "Beralih ke layanan lain sebelum menghapus yang ini.",
+      "removeFailed": "Layanan tersebut tidak dapat dihapus dengan aman.",
+      "removePanicked": "Ada yang salah saat menghapus layanan ini.",
+      "removeRestoreFailed": "Layanan tidak dapat dihapus, dan AI Manager tidak dapat memastikan pengaturan sebelumnya sepenuhnya dipulihkan.",
+      "removeUnsupported": "Layanan ini menggunakan pengaturan khusus alat dan tidak dapat dihapus di sini.",
+      "removeVerifyFailed": "AI Manager tidak dapat memastikan layanan telah dihapus.",
+      "runtimeContextFailed": "Tidak dapat memeriksa sumber konfigurasi alat ini.",
+      "runtimeResourceNotFound": "Sumber daya lokal tersebut tidak lagi tersedia.",
+      "runtimeResourceOpenFailed": "Tidak dapat membuka sumber daya lokal tersebut.",
+      "saveFailed": "Tidak dapat menyimpan perubahan pada layanan ini.",
+      "saveRestoreFailed": "Layanan tidak dapat disimpan, dan AI Manager tidak dapat memastikan pengaturan sebelumnya sepenuhnya dipulihkan.",
+      "settingsPreserveFailed": "Endpoint telah diganti, tetapi pengaturan lain alat ini tidak dapat dipertahankan.",
+      "storeUnavailable": "Aplikasi masih dalam proses memulai.",
+      "switchFailed": "Tidak dapat beralih ke layanan ini.",
+      "testFailed": "Pemeriksaan tidak dapat dijalankan.",
+      "unsupportedTool": "AI Manager belum mengintegrasikan layanan AI untuk alat ini."
+    },
+    "remediation": {
+      "chooseAnotherService": "Pilih layanan lain untuk alat ini, lalu coba lagi.",
+      "checkConnectionSettings": "Periksa nama, API key, dan model, lalu coba lagi.",
+      "checkInternetConnection": "Periksa koneksi internet Anda, lalu coba lagi.",
+      "checkLocalFileAccess": "Pastikan Skill masih berada di lokasi aslinya dan sistem Anda dapat membukanya, lalu coba lagi.",
+      "checkServiceRegion": "Periksa wilayah yang didukung vendor. AI Manager tidak akan melewati pembatasan akun atau wilayah layanan.",
+      "checkMcpSettings": "Tinjau nama MCP dan detail koneksi, lalu coba lagi.",
+      "checkPromptSettings": "Tinjau nama dan isi instruksi, lalu coba lagi.",
+      "checkPermissions": "Pastikan AI Manager boleh mengubah file di folder home Anda, lalu coba lagi.",
+      "checkServiceSettings": "Periksa nama dan kuncinya, lalu coba lagi.",
+      "configureInstallNetwork": "Tinjau log proses. Jika unduhan vendor tidak dapat dijangkau, konfigurasikan proxy lokal di Pengaturan dan coba lagi; alat milik npm sudah otomatis menggunakan fallback mirror resmi-terlebih-dahulu.",
+      "chooseListedVersion": "Pilih salah satu versi dalam daftar registry dan coba lagi.",
+      "installManually": "Anda dapat menginstal alat ini sendiri dari situs web resminya.",
+      "uninstallDesktopAppManually": "Gunakan kontrol aplikasi sistem operasi Anda untuk menghapus aplikasi desktop ini.",
+      "openDesktopAppManually": "Buka aplikasi dari daftar aplikasi sistem operasi Anda.",
+      "chooseAnotherFolder": "Pilih folder proyek lain dan coba lagi.",
+      "chooseAnotherPrompt": "Pilih set instruksi lain terlebih dahulu, lalu coba lagi.",
+      "openToolManually": "Buka terminal di folder proyek Anda dan mulai alatnya di sana.",
+      "refreshSessions": "Segarkan daftar sesi dan pilih percakapannya lagi.",
+      "recheckUpdate": "Periksa detail pembaruan lagi sebelum melanjutkan.",
+      "removeInTool": "Hapus layanan ini dari pengaturan khusus alatnya.",
+      "retryOrViewDetails": "Coba lagi, atau buka Lihat Detail untuk melihat apa yang terjadi.",
+      "useOriginalUpdateChannel": "Gunakan updater asli instalasi ini, atau hapus secara eksplisit sebelum menginstal melalui npm.",
+      "uninstallManually": "Anda dapat menghapus file yang tersisa sendiri, lalu jalankan Periksa lagi.",
+      "pasteDeepLink": "Salin tautannya dan tempel di Pengaturan untuk melanjutkan."
+    },
+    "routing": {
+      "changeFailed": "AI Manager tidak dapat menyelesaikan perubahan perutean tersebut dengan aman.",
+      "providerNotEligible": "Layanan tersebut tidak dapat berpartisipasi dalam failover otomatis.",
+      "providerUnavailable": "Layanan tersebut tidak lagi tersedia untuk perutean.",
+      "queueLocked": "Nonaktifkan failover otomatis sebelum menghapus layanan aktif atau terakhir ini.",
+      "readFailed": "AI Manager tidak dapat membaca status perutean lokal.",
+      "storeUnavailable": "Perutean lokal belum siap.",
+      "takeoverRequired": "Aktifkan pengambilalihan perutean untuk alat ini terlebih dahulu.",
+      "unsupportedTool": "AI Manager belum mengintegrasikan data plane perutean lokal untuk alat ini."
+    },
+    "session": {
+      "notFound": "Sesi lokal tersebut tidak lagi tersedia.",
+      "queryInvalid": "Jaga pencarian sesi hingga 200 karakter atau kurang.",
+      "readFailed": "AI Manager tidak dapat membaca percakapan lokal tersebut.",
+      "resumeUnsupported": "Alat ini tidak mendukung melanjutkan sesi dari Terminal."
+    },
+    "settings": {
+      "loadFailed": "Tidak dapat membaca pengaturan Anda.",
+      "saveFailed": "Tidak dapat menyimpan perubahan tersebut.",
+      "storeUnavailable": "Aplikasi masih dalam proses memulai."
+    },
+    "skill": {
+      "actionPanicked": "Ada yang salah saat menginstal Skill ini.",
+      "alreadyInstalled": "Skill tersebut sudah terinstal.",
+      "backupConflict": "Skill tersebut sudah terinstal, sehingga salinan pemulihan ini belum dapat dipulihkan.",
+      "backupDeleteFailed": "Salinan pemulihan Skill tidak dapat dihapus dengan aman.",
+      "backupListFailed": "AI Manager tidak dapat membaca salinan pemulihan Skill.",
+      "backupNotFound": "Salinan pemulihan Skill tersebut tidak lagi tersedia.",
+      "backupRestoreFailed": "Skill tidak dapat dipulihkan dari salinan pemulihan tersebut.",
+      "backupVerifyFailed": "AI Manager tidak dapat memastikan Skill yang dipulihkan siap digunakan.",
+      "catalogFailed": "Tidak dapat memuat katalog Skill.",
+      "conflict": "Skill terinstal lain menggunakan folder yang sama.",
+      "downloadFailed": "Skill tidak dapat diunduh.",
+      "installFailed": "Instalasi Skill tidak selesai.",
+      "invalidSource": "Sumber Skill tersebut tidak dapat diinstal dengan aman.",
+      "notInstalled": "Skill tersebut tidak lagi terinstal.",
+      "removeFailed": "Skill tidak dapat dihapus dengan aman.",
+      "removePanicked": "Ada yang salah saat menghapus Skill ini.",
+      "removeVerifyFailed": "AI Manager tidak dapat memastikan Skill telah dihapus.",
+      "repositoryInvalid": "Sumber Skill GitHub tersebut tidak valid.",
+      "repositoryListFailed": "AI Manager tidak dapat membaca sumber Skill yang dikonfigurasi.",
+      "repositoryNotFound": "Sumber Skill tersebut tidak lagi dikonfigurasi.",
+      "repositoryRemoveFailed": "Sumber Skill tidak dapat dihapus.",
+      "repositorySaveFailed": "Sumber Skill tidak dapat disimpan.",
+      "storeUnavailable": "Aplikasi masih dalam proses memulai.",
+      "unsupportedTool": "AI Manager belum mengintegrasikan Skill untuk alat ini.",
+      "updateCheckFailed": "AI Manager tidak dapat menyelesaikan pemeriksaan pembaruan Skill.",
+      "updateDownloadFailed": "Pembaruan Skill tidak dapat diunduh.",
+      "updateFailed": "Pembaruan Skill tidak selesai.",
+      "updatePanicked": "Ada yang salah saat memperbarui Skill ini.",
+      "updateSourceInvalid": "Sumber pembaruan Skill tersebut tidak dapat digunakan dengan aman.",
+      "updateUnsupported": "Skill ini tidak memiliki repositori asli untuk diperbarui.",
+      "updateVerifyFailed": "AI Manager tidak dapat memastikan Skill telah diperbarui.",
+      "verifyFailed": "AI Manager tidak dapat memastikan Skill telah terinstal.",
+      "zipInstallFailed": "Skill dalam ZIP tersebut tidak dapat diinstal dengan aman.",
+      "zipInvalid": "File tersebut bukan ZIP Skill yang valid dan aman.",
+      "zipNoNewSkills": "ZIP tersebut tidak berisi Skill baru untuk diinstal.",
+      "zipNoSkills": "ZIP tersebut tidak berisi Skill dengan SKILL.md.",
+      "zipSelectionUnavailable": "ZIP yang dipilih tidak tersedia sebagai file lokal.",
+      "zipVerifyFailed": "AI Manager tidak dapat memastikan Skill dari ZIP tersebut telah terinstal."
+    },
+    "system": {
+      "revealFailed": "Tidak dapat menampilkan lokasi ini di file manager."
+    },
+    "tool": {
+      "actionPanicked": "Ada yang salah di dalam AI Manager.",
+      "actionUnsupported": "Alat ini tidak mendukung tindakan tersebut.",
+      "downloadAccessDenied": "Endpoint unduhan menolak permintaan ini.",
+      "downloadNetworkFailed": "Endpoint unduhan tidak dapat dijangkau.",
+      "downloadRegistryUnavailable": "Sumber perangkat lunak saat ini menolak atau membatasi permintaan ini.",
+      "installFailed": "Instalasi tidak selesai.",
+      "launchFailed": "Alat tidak dapat dibuka di Terminal.",
+      "nativeSupplyIntegrity": "Program resmi yang diunduh tidak cocok dengan checksum yang diterbitkan oleh sumber unduhan, sehingga AI Manager membuangnya.",
+      "nativeSupplyLayout": "Paket yang diunduh tidak berisi program yang dapat digunakan, atau folder instalasi resmi tidak dapat ditulisi.",
+      "nativeSupplySignature": "Program resmi yang diunduh gagal pemeriksaan tanda tangan vendor, sehingga AI Manager menghapusnya.",
+      "nativeSupplySwitchFailed": "Versi baru telah diunduh, tetapi launcher tidak dapat diganti; program saat ini tidak berubah.",
+      "nativeSupplyUnavailable": "Sumber unduhan tidak menyediakan versi program resmi ini.",
+      "nativeSupplyUnsupported": "AI Manager tidak dapat menyediakan instalasi resmi ini di komputer ini.",
+      "nativeSupplyVerifyFailed": "Program resmi yang baru diunduh tidak melaporkan versi yang diharapkan, sehingga AI Manager menghapusnya.",
+      "notFound": "AI Manager tidak mendukung alat ini.",
+      "notInstalled": "Alat ini tidak terinstal.",
+      "projectFolderUnavailable": "Folder proyek tersebut tidak lagi tersedia.",
+      "removePathDenied": "AI Manager mungkin tidak boleh menghapus salah satu file alat ini.",
+      "removePathRefused": "Target ini berada di luar batas keamanan penghapusan otomatis, sehingga AI Manager berhenti sebelum menghapus apa pun.",
+      "serviceRegionUnavailable": "Vendor melaporkan bahwa layanan ini tidak tersedia di wilayah saat ini.",
+      "uninstallFailed": "Penghapusan tidak selesai.",
+      "uninstallIncomplete": "Beberapa file alat ini masih ada di komputer Anda.",
+      "uninstallStrategyUnknown": "AI Manager tidak dapat mengetahui bagaimana alat ini diinstal, sehingga tidak dapat menghapusnya.",
+      "updateFailed": "Pembaruan tidak selesai.",
+      "updatePreviewStale": "Metode pembaruan berubah sebelum pembaruan dimulai.",
+      "updatePreviewUnavailable": "AI Manager tidak dapat memastikan metode pembaruan yang aman saat ini.",
+      "versionCatalogFailed": "Tidak dapat memuat daftar versi yang diterbitkan.",
+      "versionHistoryReadFailed": "Tidak dapat memuat riwayat versi lokal alat ini.",
+      "versionHistoryWriteFailed": "Perubahan alat telah diverifikasi, tetapi AI Manager tidak dapat menyimpan riwayat versinya.",
+      "versionInvalid": "Versi tersebut tidak dapat diinstal dengan aman.",
+      "versionSourceUnsupported": "Instalasi ini harus tetap menggunakan kanal pembaruan aslinya.",
+      "verifyFailed": "AI Manager tidak dapat memastikan alat ini berfungsi."
+    },
+    "usage": {
+      "readFailed": "AI Manager tidak dapat membaca ringkasan penggunaan lokal.",
+      "storeUnavailable": "Data penggunaan belum siap."
+    },
+    "shellVariable": {
+      "movedOn": "Baris itu sudah tidak sama seperti tadi, jadi tidak ada yang diubah. Periksa lagi lalu coba lagi.",
+      "notAConnectionVariable": "Alat ini tidak membaca variabel itu.",
+      "notRewritable": "Baris itu menyusun nilainya dengan menjalankan sebuah perintah; menggantinya dengan teks biasa akan mengubah perilakunya.",
+      "outsideHome": "Baris itu ada di berkas sistem di luar folder rumah Anda, dan aplikasi ini tidak mengubahnya.",
+      "valueInvalid": "Nilai itu tidak muat dalam satu baris berkas pengaturan terminal.",
+      "writeFailed": "Berkas pengaturan terminal tidak dapat ditulis. Berkas aslinya tidak berubah."
+    }
+  },
+  "nav": {
+    "appName": "AI Manager",
+    "starting": "Memulai AI Manager",
+    "loadingPage": "Membuka halaman ini",
+    "home": "Beranda",
+    "tools": "Perangkat Lunak",
+    "services": "Endpoint API",
+    "routing": "Perutean Lokal",
+    "extensions": "Skill",
+    "usage": "Penggunaan",
+    "workspace": "OpenClaw",
+    "settings": "Pengaturan",
+    "localFirst": "Konfigurasi Anda tetap ada di komputer ini",
+    "data": "Sesi",
+    "mcp": "MCP",
+    "prompts": "Prompt Global"
+  },
+  "openClawWorkspace": {
+    "title": "Workspace OpenClaw",
+    "description": "Bentuk identitas, instruksi, dan memori OpenClaw tanpa mengedit jalur secara manual.",
+    "loading": "Membaca workspace OpenClaw",
+    "openFolder": "Buka workspace",
+    "refresh": "Segarkan workspace",
+    "retry": "Coba lagi",
+    "error": {
+      "title": "Workspace tidak dapat dibaca",
+      "description": "Periksa izin workspace OpenClaw, lalu coba lagi."
+    },
+    "overview": {
+      "title": "Workspace sekilas",
+      "description": "Tampilan yang hanya lokal atas instruksi dan memori OpenClaw.",
+      "files": "File inti",
+      "filesValue": "{{ready}} dari {{total}}",
+      "memories": "Memori harian",
+      "storage": "Penyimpanan lokal",
+      "limited": "Workspace ini berukuran tidak biasa, sehingga ringkasan ini dibatasi."
+    },
+    "files": {
+      "title": "File inti workspace",
+      "description": "OpenClaw membaca file Markdown ini untuk memahami peran, preferensi, dan rutinitasnya.",
+      "status": {
+        "ready": "Siap",
+        "missing": "Belum dibuat",
+        "unavailable": "Tidak tersedia"
+      },
+      "descriptionById": {
+        "agents": "Instruksi dan aturan operasi agen",
+        "soul": "Kepribadian dan gaya komunikasi",
+        "user": "Profil dan preferensi pengguna",
+        "identity": "Identitas dan presentasi asisten",
+        "tools": "Catatan tentang alat dan alur kerja lokal",
+        "memory": "Memori jangka panjang dan keputusan yang dikurasi",
+        "heartbeat": "Pemeriksaan berkala dan rutinitas heartbeat",
+        "bootstrap": "Instruksi pengaturan pertama kali",
+        "boot": "Daftar periksa restart gateway"
+      }
+    },
+    "editor": {
+      "fileTitle": "Edit {{filename}}",
+      "memoryTitle": "Memori harian · {{date}}",
+      "description": "Markdown disimpan langsung ke workspace lokal OpenClaw.",
+      "contentLabel": "Markdown Workspace",
+      "loading": "Membaca file workspace ini",
+      "safety": "Sebelum mengganti file yang sudah ada, AI Manager menyimpan salinan pemulihan pribadi dan memverifikasi byte yang disimpan.",
+      "save": "Simpan perubahan",
+      "saved": "Workspace disimpan",
+      "backupCreated": "Salinan pemulihan lokal disimpan sebelum perubahan.",
+      "size": "{{current}} dari {{maximum}} byte",
+      "tooLarge": "File ini lebih besar dari batas aman 1 MiB."
+    },
+    "memories": {
+      "title": "Memori harian",
+      "description": "Telusuri, cari, dan kelola catatan memori OpenClaw berdasarkan tanggal.",
+      "openFolder": "Buka folder memori",
+      "today": "Memori hari ini",
+      "searchLabel": "Cari memori harian",
+      "searchPlaceholder": "Cari tanggal dan teks catatan",
+      "search": "Cari",
+      "loading": "Membaca memori harian",
+      "empty": "Belum ada memori harian",
+      "emptySearch": "Tidak ada memori yang cocok dengan pencarian ini",
+      "emptyDescription": "Buat catatan hari ini atau sesuaikan pencarian.",
+      "clearSearch": "Bersihkan pencarian",
+      "matches_one": "{{count}} kecocokan",
+      "matches_other": "{{count}} kecocokan",
+      "noPreview": "Catatan kosong",
+      "limited": "Hanya hasil teraman dan terbaru yang ditampilkan.",
+      "deleteLabel": "Hapus memori untuk {{date}}",
+      "deleteTitle": "Hapus memori untuk {{date}}?",
+      "deleteDescription": "Catatan ini akan hilang dari OpenClaw. AI Manager menyimpan salinan pemulihan lokal terlebih dahulu.",
+      "deleteConfirm": "Hapus memori",
+      "deleted": "Memori harian dihapus",
+      "deleteBackup": "Salinan pemulihan lokal disimpan."
+    }
+  },
+  "tool": {
+    "claude-code": {
+      "description": "Agen coding AI resmi dari Anthropic untuk terminal Anda."
+    },
+    "codex": {
+      "description": "Agen terminal dari OpenAI. Aplikasi desktop ChatGPT / Codex menggunakan pengaturan Codex yang sama."
+    },
+    "opencode": {
+      "description": "Agen coding AI open source yang dapat Anda arahkan ke model apa pun."
+    },
+    "gemini-cli": {
+      "description": "Agen coding AI dari Google untuk terminal Anda."
+    },
+    "grok-build": {
+      "description": "Alat coding agentic dari xAI untuk terminal Anda."
+    },
+    "openclaw": {
+      "description": "Asisten AI pribadi yang menghubungkan model, alat, dan kanal pesan."
+    },
+    "hermes": {
+      "description": "Agen terbuka dari Nous Research untuk alur kerja terminal."
+    },
+    "pi": {
+      "description": "Agen coding yang ringkas dan dapat diperluas untuk terminal Anda."
+    },
+    "kimi-code": {
+      "description": "Agen coding resmi dari Moonshot AI untuk terminal Anda."
+    },
+    "deepseek-dsh": {
+      "description": "Harness coding pratinjau developer dari DeepSeek, dijalankan dari terminal dengan antarmuka web lokal."
+    }
+  },
+  "tools": {
+    "details": {
+      "action": "Detail",
+      "title": "Detail {{name}}",
+      "description": "Lihat konfigurasi lokal, memori, dan penyimpanan. Kelola prompt global di halamannya sendiri."
+    },
+    "title": "Manajer Perangkat Lunak",
+    "description": "Instal, perbarui, hapus, atau ganti versi perangkat lunak coding AI Anda.",
+    "loading": "Memeriksa alat Anda",
+    "refresh": "Periksa lagi",
+    "scan": "Periksa lagi",
+    "upToDate": "Sudah terbaru",
+    "checkingVersion": "Membaca informasi versi",
+    "actions": {
+      "moreNamed": "Tindakan lain untuk {{name}}"
+    },
+    "discovery": {
+      "eyebrow": "Pilih berdasarkan tujuan",
+      "title": "Belum yakin apa yang harus diinstal?",
+      "description": "Bandingkan alat yang belum terinstal berdasarkan apa yang ingin Anda lakukan. Ini adalah kecocokan skenario, bukan penempatan berbayar atau peringkat.",
+      "scenarioLabel": "Pilih apa yang ingin Anda lakukan",
+      "scenario": {
+        "officialCoding": "Gunakan alat coding resmi dari vendor",
+        "modelChoice": "Pilih di antara model dan penyedia",
+        "personalAutomation": "Bangun asisten pribadi atau otomatisasi"
+      },
+      "publisher": "Diterbitkan oleh {{publisher}}",
+      "access": {
+        "vendorOrProvider": "Mungkin memerlukan paket berbayar, login, atau kredit API dari vendor; vendor menentukan akses dan harganya.",
+        "provider": "Memerlukan penyedia model atau model lokal. Beberapa penyedia mengenakan biaya untuk kredit API."
+      },
+      "choose": "Tampilkan {{name}}",
+      "costNote": "AI Manager tidak menjual akun atau kredit. Pastikan kelayakan dan harga saat ini dengan penerbit atau penyedia sebelum menginstal."
+    },
+    "version": {
+      "title": "Kelola versi {{name}}",
+      "description": "Instalasi dan pembaruan normal otomatis menggunakan rilis stabil terbaru yang direkomendasikan. Gunakan ini hanya untuk kompatibilitas, rollback, atau memilih versi terbit secara manual.",
+      "loading": "Memuat versi yang diterbitkan",
+      "current": "Versi saat ini",
+      "notInstalled": "Belum terinstal",
+      "sourceLabel": "Sumber instalasi",
+      "target": "Ganti ke",
+      "defaultOption": "{{version}} (terbaru yang direkomendasikan)",
+      "defaultGroup": "Terbaru yang direkomendasikan",
+      "taggedOption": "{{version}} (kanal {{tags}})",
+      "taggedGroup": "Kanal bertanda lainnya",
+      "otherPublishedGroup": "Versi terbit lainnya",
+      "confirm": "Ganti ke versi ini",
+      "unchanged": "Versi ini sudah terinstal.",
+      "currentDefault": "Versi terbaru yang direkomendasikan sudah terinstal.",
+      "nonDefaultWarning": "Anda sedang memilih secara manual versi yang tidak direkomendasikan. Gunakan hanya untuk kompatibilitas atau rollback setelah memastikan versi yang Anda butuhkan.",
+      "defaultChannelNote": "Instalasi dan pembaruan normal otomatis menggunakan rilis stabil terbaru yang direkomendasikan, {{version}}. Tidak perlu pemilihan manual.",
+      "ownerPreserved": "AI Manager akan menggunakan package manager pemilik CLI ini. Downgrade mengubah executable tetapi mempertahankan pengaturan alat Anda.",
+      "mirrorUsed": "Registry default tidak merespons, sehingga daftar ini dimuat melalui mirror komunitas. Tidak ada pengaturan package manager global yang diubah.",
+      "restrictedTitle": "Pergantian versi otomatis dinonaktifkan untuk instalasi ini",
+      "source": {
+        "notInstalled": "Belum terinstal · registry paket akan digunakan",
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "bun": "bun",
+        "volta": "Volta",
+        "uv": "uv tool",
+        "pipx": "pipx",
+        "brew": "Homebrew",
+        "nativeInstaller": "Installer resmi",
+        "unmanaged": "Tidak diketahui atau dikelola manual"
+      },
+      "restriction": {
+        "nativeInstaller": "Salinan ini berasal dari installer resmi. AI Manager memperbaruinya dengan program resmi yang sama dan tidak pernah menginstal salinan kedua.",
+        "brew": "Homebrew memiliki salinan ini. Gunakan tindakan Perbarui biasa; mengalihkannya ke versi yang dikelola terpisah akan meninggalkan dua instalasi.",
+        "unmanaged": "AI Manager tidak dapat memastikan package manager mana yang memiliki salinan ini, sehingga tidak akan menginstal versi lain di atasnya."
+      }
+    },
+    "updateRecovery": {
+      "title": "Pembaruan ini memerlukan pemulihan",
+      "available": "Pembaruan membuat alat ini rusak. AI Manager dapat memulihkan versi terverifikasi {{version}} melalui package manager yang sama.",
+      "action": "Pulihkan {{version}}",
+      "namedAction": "Pulihkan {{name}} ke {{version}}",
+      "confirmTitle": "Pulihkan {{name}} ke {{version}}?",
+      "confirmBody": "AI Manager akan menginstal ulang versi terverifikasi terakhir yang cocok melalui package manager yang sama, lalu memeriksa versi persis tersebut. Pengaturan alat Anda tetap ada.",
+      "confirm": "Pulihkan {{version}}",
+      "advisory": {
+        "historyUnavailable": "Tidak ada versi terverifikasi yang cocok tercatat sebelum pembaruan ini. Gunakan installer normal alat ini atau package manager pemiliknya untuk memperbaikinya.",
+        "ownershipChanged": "Pemilik instalasi tidak lagi cocok dengan riwayat terverifikasi, sehingga pemulihan otomatis tetap nonaktif. Perbaiki dengan package manager atau installer yang memiliki salinan ini.",
+        "ownerUnsupported": "Sumber instalasi ini tidak mendukung pemulihan versi otomatis yang aman. Gunakan installer normalnya atau alur pemulihan package manager.",
+        "inspectionFailed": "AI Manager tidak dapat memverifikasi riwayat versi atau pemilik instalasi dengan aman. Pemulihan otomatis tetap nonaktif; periksa detailnya dan gunakan alur pemulihan normal alat ini."
+      }
+    },
+    "summary": {
+      "eyebrow": "Di komputer ini",
+      "title": "Ringkasan alat Anda",
+      "description": "AI Manager memeriksa setiap alat secara lokal dan menempatkan langkah berikutnya yang paling berguna pada kartunya.",
+      "current": "Sudah terbaru",
+      "attention": "Perlu perhatian",
+      "available": "Tersedia untuk diinstal"
+    },
+    "coverage": {
+      "eyebrow": "10 alat command-line · 15 permukaan penggunaan",
+      "title": "Status CLI dan aplikasi desktop tetap terpisah",
+      "description": "Kartu di bawah mengelola sepuluh alat command-line yang didukung. Aplikasi desktop memiliki kanal instalasi dan pembaruannya sendiri.",
+      "codex": {
+        "title": "ChatGPT / Codex + Codex CLI",
+        "description": "Aplikasi desktop OpenAI menyertakan Codex dan berbagi pengaturan Codex dengan CLI. Tindakan pada kartu hanya memperbarui CLI; aplikasi desktop tetap pada kanal pembaruan resminya."
+      },
+      "claude": {
+        "title": "Claude Desktop + Claude Code",
+        "description": "Keduanya adalah permukaan konfigurasi terpisah dan tidak berbagi satu status instalasi."
+      }
+    },
+    "appRelationship": {
+      "sharedConfiguration": {
+        "description": "{{app}} berbagi pengaturan CLI ini. Perubahan konfigurasi dapat memengaruhi kedua permukaan.",
+        "manage": "Kelola pengaturan bersama"
+      },
+      "separateConfiguration": {
+        "description": "{{app}} memiliki pengaturan terpisah. Perubahan pada CLI ini tidak mengonfigurasi aplikasi desktop.",
+        "manage": "Kelola pengaturan CLI"
+      },
+      "viewApp": "Lihat {{app}}",
+      "viewAppNamed": "Lihat kartu aplikasi desktop {{app}}"
+    },
+    "desktopApps": {
+      "title": "Aplikasi desktop",
+      "description": "AI Manager memeriksa aplikasi desktop bertanda tangan vendor secara terpisah dari alat command-line-nya. AI Manager memilih paket resmi tetap atau halaman unduhan untuk sistem operasi dan chip ini; browser dan installer sistem Anda menyelesaikan unduhan dan instalasi.",
+      "loading": "Memeriksa aplikasi desktop",
+      "refresh": "Segarkan aplikasi",
+      "refreshError": "Pemeriksaan aplikasi terakhir masih ditampilkan. Segarkan lagi sebelum mengandalkannya.",
+      "opened": "{{name}} sedang dibuka.",
+      "officialInstallerOpened": "Unduhan installer resmi {{name}} terbuka di browser Anda. Setelah selesai, buka file yang diunduh dan ikuti perintah sistem.",
+      "officialDownloadOpened": "Halaman unduhan resmi {{name}} terbuka di browser Anda.",
+      "officialDownloadNetworkHint": "Jika browser Anda tidak dapat menjangkau alamat tersebut, atur proxy untuk browser atau sistem Anda terlebih dahulu.",
+      "uninstallHandoffOpened": "Lokasi sistem untuk menghapus instalan {{name}} sudah terbuka.",
+      "items": {
+        "codex-app": {
+          "surface": "Aplikasi desktop OpenAI · ChatGPT / Codex",
+          "description": "Gunakan ChatGPT atau Codex dalam pengalaman desktop grafis OpenAI sambil menjaga instalasi dan pembaruan Codex CLI tetap terpisah."
+        },
+        "claude-desktop": {
+          "surface": "Aplikasi desktop Anthropic",
+          "description": "Gunakan pengalaman desktop grafis Claude secara independen dari Claude Code di Terminal."
+        },
+        "cursor": {
+          "surface": "Editor kode AI Cursor",
+          "description": "Gunakan Cursor sebagai editor kode grafis mandiri. Instalasi, akun, ekstensi, dan pembaruannya tetap dimiliki vendor."
+        },
+        "zcode": {
+          "surface": "Aplikasi coding desktop Z.ai",
+          "description": "Gunakan ZCode sebagai aplikasi coding grafis mandiri. Instalasi dan pengaturannya tetap dimiliki vendor."
+        },
+        "cherry-studio": {
+          "surface": "Aplikasi desktop Cherry Studio",
+          "description": "Gunakan Cherry Studio sebagai klien desktop multi-model mandiri, terpisah dari setiap CLI yang dikelola."
+        }
+      },
+      "status": {
+        "installed": "Terinstal",
+        "updateAvailable": "Pembaruan tersedia",
+        "notInstalled": "Belum terinstal",
+        "unsupported": "Tidak didukung di sini",
+        "unknown": "Perlu diperiksa"
+      },
+      "details": {
+        "version": "Versi aplikasi",
+        "versionUnavailable": "Tidak dilaporkan",
+        "updates": "Pembaruan",
+        "vendorManagedUpdates": "Dikelola vendor setelah instalasi",
+        "officialUpdateAvailable": "Versi resmi {{version}} tersedia",
+        "updateUnavailable": "Tidak ada kanal pembaruan yang dikelola",
+        "rollback": "Rollback",
+        "rollbackAvailable": "Didukung oleh vendor",
+        "rollbackUnavailable": "Tidak ada versi rollback publik",
+        "cliRelationship": "CLI terkait"
+      },
+      "relationship": {
+        "sharedConfiguration": "Berbagi pengaturan dengan {{tool}}",
+        "separateConfiguration": "Terpisah dari {{tool}}",
+        "standaloneApplication": "Aplikasi desktop mandiri"
+      },
+      "relatedTools": {
+        "codex": "Codex CLI",
+        "claude-code": "Claude Code"
+      },
+      "vendorUpdates": "Updater vendor tetap menjadi acuan utama. \"Unduh terbaru\" adalah jalur pemulihan, bukan bukti bahwa versi yang lebih baru ada. Gunakan browser atau proxy sistem Anda jika perlu; AI Manager tidak mem-mirror paket atau melewati pembatasan regional.",
+      "action": {
+        "open": "Buka aplikasi",
+        "openNamed": "Buka {{name}}",
+        "uninstall": "Hapus instalan",
+        "uninstallNamed": "Hapus instalan {{name}} melalui sistem",
+        "downloadLatest": "Unduh installer terbaru",
+        "downloadLatestNamed": "Unduh installer resmi terbaru untuk {{name}}",
+        "downloadUpdate": "Unduh pembaruan",
+        "downloadUpdateNamed": "Unduh pembaruan resmi untuk {{name}}",
+        "downloadInstaller": "Unduh installer resmi",
+        "installOfficially": "Buka unduhan resmi",
+        "installOfficiallyNamed": "Buka unduhan resmi untuk {{name}}",
+        "moreNamed": "Tindakan lain untuk {{name}}",
+        "downloadHelp": "Bantuan unduhan",
+        "unsupported": "Tidak tersedia di sistem ini",
+        "unsupportedNamed": "{{name}} tidak tersedia di sistem ini",
+        "unavailable": "Buka tidak tersedia",
+        "unavailableNamed": "{{name}} tidak dapat dibuka",
+        "viewRelatedTool": "Lihat {{tool}}",
+        "viewRelatedToolNamed": "Lihat kartu {{tool}}",
+        "sharedConfiguration": {
+          "manageTool": "Kelola pengaturan bersama"
+        },
+        "separateConfiguration": {
+          "manageTool": "Kelola pengaturan {{tool}}"
+        },
+        "manageAppMcp": "Kelola MCP {{app}}"
+      },
+      "downloadHelp": {
+        "title": "Unduh {{name}}",
+        "directDescription": "AI Manager membuka installer resmi vendor untuk komputer ini secara langsung, tanpa mengarahkan Anda ke halaman produk asing terlebih dahulu.",
+        "pageDescription": "Tidak ada installer tetap untuk sistem ini, sehingga AI Manager hanya dapat membuka halaman unduhan resmi vendor.",
+        "architecture": "AI Manager mengenali sistem dan chip secara lokal, sehingga Anda tidak perlu memilih Intel, Apple silicon, x64, atau Arm64.",
+        "systemOwned": "Browser Anda mengunduh filenya dan installer sistem memverifikasi tanda tangannya. AI Manager tidak pernah menginstalnya secara diam-diam.",
+        "restrictedNetwork": "Jika alamat resmi tidak dapat dijangkau di jaringan Anda, konfigurasikan proxy browser atau sistem dan coba lagi. Proxy unduhan CLI AI Manager tidak mengontrol browser, dan AI Manager tidak mem-mirror installer pihak ketiga atau melewati pembatasan regional.",
+        "retry": "Coba lagi unduhan resmi"
+      },
+      "uninstall": {
+        "title": "Hapus instalan {{name}} melalui sistem?",
+        "description": "AI Manager akan membuka Finder atau halaman aplikasi terinstal sistem operasi. Anda menyelesaikan penghapusan di sana.",
+        "confirm": "Buka penghapusan instalan sistem",
+        "handoff": "AI Manager tidak menghapus aplikasi desktop itu sendiri dan tidak pernah menjalankan perintah uninstall tersembunyi.",
+        "data": "Vendor mengontrol apakah pengaturan aplikasi, data akun, dan percakapan tetap ada. AI Manager tidak menghapusnya.",
+        "refresh": "Setelah selesai di sistem, kembali ke sini dan pilih Segarkan aplikasi."
+      },
+      "error": {
+        "title": "Tidak dapat memeriksa aplikasi desktop",
+        "description": "AI Manager tidak dapat membaca inventaris aplikasi sistem operasi saat ini."
+      }
+    },
+    "empty": {
+      "title": "Tidak ada alat untuk ditampilkan",
+      "description": "AI Manager tidak dapat menemukan alat yang didukung di komputer ini."
+    },
+    "error": {
+      "title": "Tidak dapat membaca alat Anda",
+      "description": "AI Manager tidak dapat memeriksa komputer ini saat ini."
+    },
+    "refreshError": {
+      "title": "Tidak dapat menyegarkan alat Anda",
+      "description": "Pemeriksaan terakhir masih ditampilkan. Tindakan alat tetap tertunda sampai pemeriksaan baru berhasil."
+    },
+    "action": {
+      "unavailable": "Ini akan hadir di pembaruan mendatang."
+    },
+    "open": {
+      "title": "Buka {{name}}",
+      "description": "Mulai {{name}} di folder default, atau pilih folder proyek terlebih dahulu.",
+      "localTitle": "Proyek Anda tetap pribadi",
+      "localHint": "Memilih folder tidak mengunggah, memindai, atau mengubah filenya.",
+      "confirm": "Mulai sekarang",
+      "launchDefault": "Mulai sekarang",
+      "chooseFolder": "Pilih folder",
+      "launched": "{{name}} terbuka di Terminal.",
+      "providerUnreachable": "{{name}} tidak merespons",
+      "providerUnreachableHint": "Tidak ada yang dibuka dan konfigurasi tersimpan tidak diubah. Periksa lagi atau coba layanan kompatibel tersimpan lainnya.",
+      "noSavedAlternative": "Tidak ada layanan kompatibel tersimpan lain yang tersedia untuk diperiksa.",
+      "retry": "Coba lagi",
+      "retryNamed": "Coba buka {{name}} lagi"
+    },
+    "confirm": {
+      "install": {
+        "title": "Instal {{name}}?",
+        "body": "AI Manager akan menginstal semua yang diperlukan.",
+        "confirm": "Instal"
+      },
+      "update": {
+        "title": "Perbarui {{name}}?",
+        "body": "AI Manager akan mengunduh dan menginstal versi terbaru.",
+        "confirm": "Perbarui"
+      },
+      "repair": {
+        "title": "Perbaiki {{name}}?",
+        "body": "AI Manager akan menghapus paket command-line yang rusak dan menginstalnya ulang melalui package manager yang sama. Pengaturan Anda tetap ada.",
+        "confirm": "Perbaiki"
+      }
+    },
+    "updatePreview": {
+      "singleDescription": "Tinjau cara instalasi ini akan diperbarui sebelum memulai.",
+      "loading": "Memeriksa detail pembaruan",
+      "loadingHint": "AI Manager sedang memeriksa instalasi aktif dan metode pembaruan aslinya.",
+      "refreshing": "Memeriksa ulang detail pembaruan",
+      "error": {
+        "title": "Tidak dapat memeriksa detail pembaruan",
+        "description": "Tidak ada yang akan diperbarui sampai AI Manager dapat memastikan metode yang aman."
+      },
+      "recheck": "Periksa lagi",
+      "ready": "{{name}} akan diperbarui",
+      "targetVersion": "Diperbarui ke versi {{version}}",
+      "skipped": "{{name}} akan dilewati",
+      "needsReview": "Perlu ditinjau",
+      "checked": "Jalur pembaruan diperiksa",
+      "multipleInstallations_one": "{{count}} instalasi terdeteksi",
+      "multipleInstallations_other": "{{count}} instalasi terdeteksi",
+      "currentDefault": "Default command-line saat ini",
+      "version": "Versi {{version}}",
+      "technicalDetails": "Detail teknis",
+      "commands": "Perintah yang direncanakan",
+      "installations": "Instalasi yang terdeteksi",
+      "otherInstallation": "Instalasi lain",
+      "rechecked": "AI Manager memeriksa instalasi dan rencana pembaruan lagi sebelum memulai. Jika ada perubahan, prosesnya berhenti dan meminta Anda meninjau lagi.",
+      "paused": "Pembaruan tertunda selagi AI Manager menyegarkan status alat dan tugas.",
+      "method": {
+        "nativeSelfUpdate": "Menggunakan updater {{name}} sendiri",
+        "toolSelfUpdate": "Menggunakan updater {{name}} sendiri",
+        "officialInstaller": "Menggunakan installer resmi vendor",
+        "homebrew": "Diperbarui melalui Homebrew",
+        "npm": "Diperbarui melalui package manager pemilik instalasi ini",
+        "pnpm": "Diperbarui melalui package manager pemilik instalasi ini",
+        "bun": "Diperbarui melalui instalasi Bun saat ini",
+        "volta": "Diperbarui melalui instalasi Volta saat ini",
+        "uv": "Diperbarui melalui instalasi uv saat ini",
+        "pipx": "Diperbarui melalui instalasi pipx saat ini"
+      },
+      "fallback": {
+        "nativeSelfUpdate": "Jika tidak selesai, AI Manager mencoba lagi dengan updater alat ini sendiri.",
+        "toolSelfUpdate": "Jika tidak selesai, AI Manager mencoba lagi dengan updater alat ini sendiri.",
+        "officialInstaller": "Jika tidak selesai, AI Manager mencoba lagi dengan installer resmi vendor.",
+        "homebrew": "Jika tidak selesai, AI Manager mencoba lagi melalui Homebrew.",
+        "npm": "Jika tidak selesai, AI Manager mencoba lagi melalui npm.",
+        "pnpm": "Jika tidak selesai, AI Manager mencoba lagi melalui pnpm.",
+        "bun": "Jika tidak selesai, AI Manager mencoba lagi melalui Bun.",
+        "volta": "Jika tidak selesai, AI Manager mencoba lagi melalui Volta.",
+        "uv": "Jika tidak selesai, AI Manager mencoba lagi melalui uv.",
+        "pipx": "Jika tidak selesai, AI Manager mencoba lagi melalui pipx."
+      },
+      "blocked": {
+        "notInstalled": "Alat ini tidak lagi terinstal, sehingga tidak ada yang perlu diperbarui.",
+        "ambiguousInstallation": "Lebih dari satu instalasi ditemukan, tetapi AI Manager tidak dapat memastikan mana yang sedang digunakan command line Anda. AI Manager tidak akan menebak.",
+        "unsupportedInstallation": "Instalasi ini tidak memiliki metode pembaruan otomatis yang aman.",
+        "inspectionFailed": "AI Manager tidak dapat menyelesaikan pemeriksaan instalasi ini."
+      },
+      "source": {
+        "notInstalled": "Belum terinstal",
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "bun": "Bun",
+        "volta": "Volta",
+        "uv": "uv",
+        "pipx": "pipx",
+        "brew": "Homebrew",
+        "nativeInstaller": "Instalasi resmi",
+        "unmanaged": "Instalasi tidak terkelola"
+      }
+    },
+    "uninstall": {
+      "title": "Hapus {{name}}?",
+      "description": "Pilih apa yang akan dihapus. Secara default hanya aplikasinya yang dihapus.",
+      "submit": "Hapus",
+      "back": "Kembali",
+      "confirm": "Hapus permanen",
+      "confirmTitle": "Hapus permanen ini?",
+      "confirmDescription": "Tindakan ini tidak dapat dibatalkan.",
+      "keepSettings": "Pertahankan pengaturan Anda",
+      "keepSettingsHint": "Pengaturan dan percakapan tersimpan Anda tetap ada di komputer ini, sehingga menginstal lagi akan melanjutkan dari sebelumnya.",
+      "option": {
+        "app": "Hapus Instalan Aplikasi",
+        "appHint": "Selalu diproses. Perintah atau jalur program persis untuk instalasi yang terdeteksi ditampilkan di bawah.",
+        "settings": "Hapus Pengaturan",
+        "settingsHint": "Menghapus folder pengaturan alat ini.",
+        "cache": "Hapus Cache",
+        "cacheHint": "Menghapus percakapan tersimpan dan status lokal."
+      },
+      "preview": {
+        "loading": "Memeriksa perintah dan jalur yang persis…",
+        "none": "Tidak ada jalur terpisah; opsi ini tidak akan menghapus file tambahan apa pun.",
+        "protected": "Ini berada di luar batas keamanan penghapusan otomatis, sehingga AI Manager tidak akan menyentuhnya.",
+        "rechecked": "Pemilik instalasi dan jalurnya diperiksa lagi sebelum eksekusi. Nilai yang ditampilkan tidak pernah dikirim kembali sebagai instruksi penghapusan.",
+        "kind": {
+          "command": "Perintah",
+          "directory": "Folder",
+          "file": "File",
+          "symbolicLink": "Tautan simbolis",
+          "missingPath": "Jalur (saat ini tidak ada)"
+        },
+        "reveal": "Tampilkan di file manager",
+        "revealNamed": "Tampilkan {{path}} di file manager"
+      },
+      "impact": {
+        "app": "Aplikasi {{name}}",
+        "settings": "Pengaturan {{name}} Anda",
+        "cache": "Percakapan {{name}} tersimpan Anda"
+      },
+      "warning": {
+        "sessionsInsideSettings": "Alat ini menyimpan percakapan tersimpan di dalam folder pengaturannya, sehingga menghapus pengaturan juga menghapus percakapan tersebut.",
+        "outsideHome": "File yang disimpan di luar folder home Anda tidak pernah dihapus. Jika alat ini menyimpan pengaturannya di sana, AI Manager berhenti sebelum menghapus apa pun dan tidak ada yang hilang. Kosongkan kotak ini dan coba lagi untuk hanya menghapus aplikasinya."
+      },
+      "reason": {
+        "nothingToRemove": "Alat ini tidak menyimpan file terpisah dari jenis ini, sehingga tidak ada yang perlu dihapus di sini.",
+        "protected": "Lokasi ini berada di luar folder home Anda, sehingga AI Manager tidak akan menghapusnya."
+      }
+    }
+  },
+  "home": {
+    "pageLabel": "Beranda",
+    "greeting": {
+      "morning": "Selamat pagi",
+      "afternoon": "Selamat siang",
+      "evening": "Selamat malam"
+    },
+    "subtitle": {
+      "ready": "Konfigurasi coding AI Anda sudah siap.",
+      "checking": "Memeriksa konfigurasi Anda sebelum menyarankan langkah berikutnya.",
+      "stale": "Menampilkan pemeriksaan terakhir selagi Beranda menyegarkan.",
+      "attention": "Ada beberapa hal yang perlu diperiksa.",
+      "action": "Ada yang perlu perhatian Anda."
+    },
+    "card": {
+      "title": "Lingkungan AI",
+      "description": "Alat, layanan, dan ekstensi diperiksa di satu tempat",
+      "checking": "Memeriksa lingkungan AI Anda",
+      "toolsInstalled_one": "{{count}} alat terinstal",
+      "toolsInstalled_other": "{{count}} alat terinstal",
+      "updatesAvailable_one": "{{count}} pembaruan tersedia",
+      "updatesAvailable_other": "{{count}} pembaruan tersedia",
+      "needAttention_one": "{{count}} item perlu perhatian",
+      "needAttention_other": "{{count}} item perlu perhatian",
+      "allGood": "Semua sudah terbaru",
+      "nothingInstalled": "Belum ada alat yang terinstal",
+      "review": "Tinjau",
+      "startTool": "Mulai dengan {{name}}",
+      "startHint": "Pilih folder proyek. Layanan Anda akan memverifikasi akses saat pertama kali digunakan.",
+      "inventory": {
+        "label": "Detail konfigurasi yang siap",
+        "servicesConfigured_one": "{{count}} layanan AI dikonfigurasi",
+        "servicesConfigured_other": "{{count}} layanan AI dikonfigurasi",
+        "mcpEnabled": "MCP aktif: {{enabled}} dari {{total}}",
+        "noMcp": "Belum ada koneksi MCP"
+      },
+      "actions": {
+        "tools": "Buka Perangkat Lunak AI",
+        "services": "Buka Endpoint API",
+        "extensions": "Buka Skill & MCP"
+      }
+    },
+    "health": {
+      "title": "Pemeriksaan kesehatan",
+      "recheck": "Periksa ulang",
+      "allGood": "Semuanya terlihat baik",
+      "issues_one": "{{count}} masalah ditemukan",
+      "issues_other": "{{count}} masalah ditemukan",
+      "lastChecked": "Terakhir diperiksa {{time}}",
+      "checkingConnections": "Memeriksa koneksi layanan",
+      "connectionError": "Pemeriksaan koneksi tidak dapat dimulai. Coba lagi.",
+      "noTools": {
+        "title": "Mulai dengan alat coding AI",
+        "description": "Setelah satu terinstal, pemeriksaan kesehatan akan mencakupnya.",
+        "action": "Jelajahi Perangkat Lunak AI"
+      }
+    },
+    "quickActions": {
+      "title": "Tindakan cepat",
+      "installTool": "Instal Alat AI",
+      "installDescription": "Tambahkan Claude Code, Codex, atau OpenCode",
+      "updateAll": "Perbarui Semua",
+      "updateDescription": "Jaga alat yang terinstal tetap pada versi terbaru",
+      "connectService": "Hubungkan Layanan AI",
+      "connectDescription": "Kelola layanan dan kunci yang digunakan alat Anda",
+      "laterHint": "Akan hadir di pembaruan mendatang"
+    },
+    "updateAll": {
+      "title_one": "Perbarui {{count}} alat?",
+      "title_other": "Perbarui {{count}} alat?",
+      "reviewTitle_one": "Tinjau {{count}} pembaruan alat",
+      "reviewTitle_other": "Tinjau {{count}} pembaruan alat",
+      "description": "{{names, list}} akan diperbarui di latar belakang. Anda tetap dapat menggunakan AI Manager dan memantau progresnya di Tugas.",
+      "previewSummary": "{{ready}} dapat diperbarui sekarang. {{skipped}} akan dilewati sampai instalasinya ditinjau.",
+      "skippedSummary_one": "{{count}} alat dilewati karena metode pembaruannya tidak dapat dipastikan.",
+      "skippedSummary_other": "{{count}} alat dilewati karena metode pembaruannya tidak dapat dipastikan.",
+      "confirm_one": "Perbarui {{count}} alat",
+      "confirm_other": "Perbarui {{count}} alat",
+      "retry_one": "Coba lagi alat",
+      "retry_other": "Coba lagi sisanya",
+      "failure": {
+        "partial": {
+          "title": "Beberapa pembaruan kini sedang berjalan",
+          "description_one": "{{count}} pembaruan dimulai di Tugas. Hanya alat yang tidak dimulai yang tetap terpilih.",
+          "description_other": "{{count}} pembaruan dimulai di Tugas. Hanya alat yang tidak dimulai yang tetap terpilih."
+        },
+        "all": {
+          "title": "Pembaruan tidak dapat dimulai",
+          "description_one": "Tidak ada tugas pembaruan yang dibuat. Coba lagi akan memeriksa alat ini sekali lagi sebelum memulai apa pun.",
+          "description_other": "Tidak ada tugas pembaruan yang dibuat. Coba lagi akan memeriksa alat-alat ini sekali lagi sebelum memulai apa pun."
+        }
+      },
+      "hints": {
+        "current": "Semua sudah versi terbaru",
+        "running": "Pembaruan sudah berjalan di Tugas",
+        "checking": "Memeriksa apa yang dapat diperbarui",
+        "unavailable": "Status pembaruan saat ini tidak tersedia",
+        "review": "Tinjau pembaruan ini di Perangkat Lunak AI"
+      }
+    },
+    "error": {
+      "title": "Tidak dapat memeriksa konfigurasi Anda",
+      "description": "AI Manager tidak dapat memeriksa komputer ini saat ini."
+    },
+    "refreshError": {
+      "title": "Beranda tidak dapat disegarkan",
+      "description": "Konfigurasi terakhir yang diperiksa masih ditampilkan. Memulai dan memperbarui alat tetap tertunda sampai pemeriksaan baru berhasil.",
+      "action": "Periksa lagi"
+    },
+    "refreshing": {
+      "title": "Memeriksa Beranda lagi",
+      "description": "Memulai dan memperbarui alat akan dilanjutkan setelah pemeriksaan ini selesai."
+    }
+  },
+  "taskCenter": {
+    "open": "Aktivitas",
+    "openUnavailable": "Aktivitas, status tidak tersedia",
+    "openRefreshError": "Aktivitas, menampilkan status terakhir yang diketahui",
+    "openRunning_one": "Aktivitas, {{count}} operasi berjalan",
+    "openRunning_other": "Aktivitas, {{count}} operasi berjalan",
+    "title": "Aktivitas",
+    "running_one": "{{count}} aktivitas berjalan",
+    "running_other": "{{count}} aktivitas berjalan",
+    "idle": "Tidak ada aktivitas yang berjalan",
+    "loading": {
+      "summary": "Memeriksa status aktivitas",
+      "label": "Memuat aktivitas…"
+    },
+    "unavailable": {
+      "summary": "Status aktivitas tidak tersedia",
+      "title": "Aktivitas tidak dapat dimuat",
+      "description": "Coba lagi untuk menyegarkan aktivitas terbaru.",
+      "retry": "Coba lagi"
+    },
+    "refreshError": {
+      "summary": "Menampilkan status aktivitas terakhir yang diketahui",
+      "title": "Aktivitas tidak dapat disegarkan",
+      "description": "Aktivitas terakhir yang diketahui masih ditampilkan. Progres baru mungkin tidak muncul.",
+      "retry": "Segarkan aktivitas"
+    },
+    "toolAuthority": {
+      "openLabel": "Aktivitas: {{status}}; tindakan alat tidak tersedia",
+      "unavailableTitle": "Tindakan alat tidak tersedia",
+      "unavailableDescription": "Riwayat tugas masih ditampilkan, tetapi AI Manager tidak dapat memastikan alat mana yang bisa dibuka.",
+      "refreshTitle": "Tidak dapat menyegarkan alat Anda",
+      "refreshDescription": "Detail alat terakhir masih ditampilkan. Membuka alat yang sudah selesai tetap tertunda sampai pemeriksaan baru berhasil.",
+      "retry": "Periksa alat lagi",
+      "pausedTitle": "Membuka alat sedang tertunda",
+      "pausedDescription": "AI Manager harus memastikan alat saat ini sebelum dapat memilih folder proyek. Batalkan jendela ini, lalu periksa alat Anda lagi di Aktivitas.",
+      "changedTitle": "Alat ini tidak lagi siap dibuka",
+      "changedDescription": "Pemeriksaan terbaru tidak lagi menunjukkan alat ini sebagai instalasi yang dapat dijalankan. Batalkan jendela ini dan tinjau Perangkat Lunak AI."
+    },
+    "empty": {
+      "title": "Belum ada aktivitas",
+      "description": "Instalasi, pembaruan, penghapusan, dan pemeriksaan lingkungan akan muncul di sini."
+    },
+    "sections": {
+      "active": "Sedang berlangsung",
+      "recent": "Aktivitas terbaru"
+    },
+    "kind": {
+      "install": "Instal {{name}}",
+      "update": "Perbarui {{name}}",
+      "uninstall": "Hapus {{name}}",
+      "repair": "Perbaiki {{name}}",
+      "changeVersion": "Ubah versi {{name}}",
+      "testProviders": "Periksa layanan {{name}}",
+      "scan": "Pemeriksaan sistem"
+    },
+    "extension": {
+      "mcp": {
+        "install": "Tambahkan koneksi MCP {{name}}",
+        "uninstall": "Hapus koneksi MCP {{name}}"
+      },
+      "skill": {
+        "install": "Instal Skill {{name}}",
+        "update": "Perbarui Skill {{name}}",
+        "uninstall": "Hapus Skill {{name}}"
+      }
+    },
+    "logs": {
+      "title": "Log proses ({{count}})",
+      "toggle": "Tampilkan atau sembunyikan log proses, {{count}} entri",
+      "privacy": "Hanya disimpan dalam memori. Output dibatasi dan kredensial yang diketahui disamarkan.",
+      "kind": {
+        "phase": "Fase",
+        "command": "Perintah",
+        "stdout": "stdout",
+        "stderr": "Diagnostik",
+        "warning": "Peringatan",
+        "system": "Sistem"
+      }
+    },
+    "viewDetails": "Lihat Detail",
+    "viewDetailsFor": "Lihat detail: {{name}}",
+    "details": {
+      "title": "Detail tugas",
+      "code": "Kode error",
+      "reference": "Referensi",
+      "technical": "Detail teknis",
+      "noTechnical": "Tidak ada detail tambahan untuk ini."
+    }
+  },
+  "services": {
+    "action": {
+      "add": "Tambah endpoint",
+      "configureNamed": "Tambahkan {{name}} ke alat",
+      "edit": "Ubah",
+      "editNamed": "Ubah {{name}}",
+      "remove": "Hapus",
+      "removeNamed": "Hapus {{name}}",
+      "test": "Uji",
+      "testAll": "Periksa semua alamat",
+      "testNamed": "Uji {{name}}",
+      "useNamed": "Gunakan {{name}}"
+    },
+    "card": {
+      "custom": "Layanan kustom",
+      "saved": "Tersimpan",
+      "defaultModel": "Model default",
+      "recentModel": "Terakhir digunakan",
+      "unknown": "Penggunaan tidak terkonfirmasi",
+      "inUse": "Sedang digunakan",
+      "noKey": "Belum ada kunci tersimpan",
+      "notInEffect": "Dipilih, tetapi belum berlaku",
+      "official": "Layanan resmi",
+      "overriddenBy": "Dipilih, tetapi ditimpa oleh {{source}}",
+      "savedEndpoint": "Endpoint tersimpan di AI Manager",
+      "toolSignIn": "Menggunakan login {{tool}}"
+    },
+    "connect": {
+      "accountHint": "Gunakan kunci dari akun {{service}} Anda sendiri. Akses API dan biayanya tetap ditanggung oleh layanan tersebut.",
+      "activateNow": "Gunakan sekarang",
+      "activateQuestion": "Gunakan ini di {{tool}} sekarang?",
+      "compatible": "Kompatibel",
+      "compatibleServices": "Layanan kompatibel",
+      "backToPresets": "Gunakan preset layanan",
+      "customBaseUrl": "Base URL HTTPS",
+      "customBaseUrlHint": "Jalur diperbolehkan. Kredensial, parameter kueri, fragmen, dan HTTP biasa ditolak.",
+      "customBaseUrlInvalid": "Masukkan Base URL HTTPS tanpa kredensial.",
+      "customCompatibility": "Gunakan endpoint yang mengimplementasikan bentuk API yang diharapkan {{tool}}. AI Manager mengonfigurasi alat ini, tetapi tidak menerjemahkan protokol API.",
+      "customDescription": "Masukkan endpoint HTTPS, kunci, dan model yang harus digunakan {{tool}}.",
+      "customEntry": "Endpoint kustom",
+      "customEntryHint": "Butuh layanan yang tidak ada di daftar preset yang telah ditinjau?",
+      "customTitle": "Tambah endpoint API",
+      "address": {
+        "degraded": "{{name}} tersimpan, tetapi alamat layanannya merespons lambat",
+        "failed": "{{name}} tersimpan, tetapi alamat layanannya tidak merespons",
+        "operational": "{{name}} tersimpan dan alamat layanannya merespons"
+      },
+      "addressRetry": "Konfigurasi tetap tersimpan. Periksa jaringan Anda, lalu jalankan Periksa alamat lagi.",
+      "afterSave": "Setelah disimpan, AI Manager hanya memeriksa alamat layanan. {{tool}} memverifikasi kunci dan model saat pertama kali digunakan.",
+      "description": "Tambahkan layanan API untuk {{tool}}. AI Manager akan mengonfigurasinya untuk Anda.",
+      "errorTitle": "Tidak dapat menyelesaikan koneksi layanan ini",
+      "firstUse": "{{tool}} akan memverifikasi kunci API dan model saat pertama kali digunakan.",
+      "forTool": "Terhubung ke {{tool}}",
+      "getKey": "Dapatkan kunci API",
+      "key": "Kunci API",
+      "keyHint": "Disimpan secara lokal. Anda dapat melihat dan menyalin kunci ini di kartu endpoint dan editor.",
+      "keyPlaceholder": "Tempelkan kunci API Anda",
+      "keyRequired": "Tempelkan kunci API.",
+      "model": "Model",
+      "modelRequired": "Masukkan sebuah model.",
+      "measuredServices": "Diukur di komputer ini",
+      "name": "Nama",
+      "nameRequired": "Masukkan sebuah nama.",
+      "noPresetMatch": "Tidak ada layanan yang cocok.",
+      "official": "Resmi",
+      "officialServices": "Layanan resmi",
+      "openProvider": "Buka layanan",
+      "preset": "Preset layanan",
+      "presetHint": "Pilih templat resmi atau kompatibel. Layanan kompatibel dicantumkan demi kemudahan pengaturan; AI Manager tidak mendukung atau menjual kembali layanan tersebut.",
+      "profileError": "AI Manager tidak dapat memuat templat koneksi amannya. Layanan tersimpan Anda tidak berubah.",
+      "profileErrorTitle": "Tidak dapat menyiapkan koneksi baru",
+      "profileRetry": "Muat pengaturan koneksi lagi",
+      "retryConnect": "Coba hubungkan layanan ini lagi",
+      "retryHint": "AI Manager telah menyegarkan status layanan tersimpan. Detail Anda masih di sini; tinjau, lalu coba hubungkan lagi.",
+      "responseTime": "{{latency}} md",
+      "searchPresets": "Cari layanan…",
+      "saved": "{{name}} tersimpan",
+      "speedSorted": "Diurutkan berdasarkan pengukuran terbaru komputer ini.",
+      "speedTest": "Uji mana yang merespons tercepat",
+      "speedTestAgain": "Uji lagi",
+      "speedTestFailed": "Tidak dapat mengukur layanan ini. Periksa jaringan Anda dan coba lagi.",
+      "speedTesting": "Menguji alamat layanan…",
+      "title": "Hubungkan {{service}}",
+      "unreachable": "Tidak terjangkau"
+    },
+    "description": "Pilih alat, lalu tambahkan, alihkan, dan periksa endpoint API-nya.",
+    "effective": {
+      "selection": {
+        "defaultModel": "Model default global: {{model}}. Pengaturan proyek, flag command-line, atau sesi saat ini dapat menimpanya.",
+        "recentModel": "Model yang baru digunakan: {{model}}. Ini adalah riwayat lokal, bukan sesi saat ini atau jaminan pilihan berikutnya.",
+        "unknown": "Endpoint aktif tidak dapat dikonfirmasi. Entri tersimpan bukan bukti penggunaan. Periksa konfigurasi alat dan pilihan model."
+      },
+      "credential": {
+        "unknown": "Status kredensial tidak terkonfirmasi",
+        "configured": "Kunci dikonfigurasi",
+        "missing": "Belum ada kunci",
+        "toolLogin": "Menggunakan login {{tool}} sendiri"
+      },
+      "refresh": "Periksa lagi",
+      "shellNotInspected": "Hanya file konfigurasi yang diperiksa. Jika Anda mengatur variabel lingkungan di terminal, koneksi sebenarnya mungkin berbeda dari yang ditampilkan di bawah.",
+      "source": {
+        "environment": "Dari variabel lingkungan terminal {{variable}}",
+        "liveConfig": "Dari {{path}}",
+        "shellFile": "Dari {{variable}} di {{path}}",
+        "toolDefault": "Tidak ada pengaturan kustom; alat ini menggunakan alamat defaultnya sendiri"
+      },
+      "errorTitle": "Tidak dapat membaca koneksi mana yang berlaku",
+      "errorDescription": "Daftar di bawah masih akurat, tetapi saat ini kami tidak dapat memastikan entri mana yang sebenarnya digunakan.",
+      "shellNotInspectedTitle": "Tidak dapat membaca lingkungan terminal"
+    },
+    "external": {
+      "badge": "Diatur di luar aplikasi",
+      "endpoint": "Endpoint yang berlaku sekarang",
+      "overrides": "{{name}} akan memakai alamat ini. Alamat ini mengalahkan apa pun yang Anda pilih di bawah."
+    },
+    "endpoints": {
+      "title": "Endpoint {{tool}}",
+      "count_one": "{{count}} endpoint tersimpan",
+      "count_other": "{{count}} endpoint tersimpan"
+    },
+    "empty": {
+      "description": "Hubungkan layanan API dan AI Manager akan menyiapkan alat ini untuk Anda.",
+      "title": "Belum ada apa pun di sini"
+    },
+    "error": {
+      "description": "Coba lagi, atau buka alat ini sekali lalu kembali.",
+      "title": "Tidak dapat membaca layanan"
+    },
+    "refreshError": {
+      "description": "Layanan tersimpan terakhir masih ditampilkan. Tindakan layanan tetap tertunda sampai pemeriksaan baru berhasil.",
+      "title": "Tidak dapat menyegarkan Layanan AI"
+    },
+    "form": {
+      "addHeader": "Tambah header",
+      "addModel": "Tambah model",
+      "advancedHint": "Hanya pengaturan umum yang didukung alat ini yang ditampilkan. Bidang lain tetap tidak tersentuh.",
+      "advancedManaged": "Layanan ini dikelola oleh alat atau login akun. Pengaturan endpoint-nya tetap hanya-baca di sini.",
+      "advancedTitle": "Pengaturan lanjutan",
+      "baseUrl": "Base URL",
+      "baseUrlHint": "Gunakan HTTPS, atau HTTP hanya untuk localhost. Mengosongkan ini menghapus endpoint kustom sehingga alat dapat menggunakan defaultnya sendiri.",
+      "routeAdd": "Tambah rute",
+      "routeAddLabel": "Rute layanan baru",
+      "routeAddPlaceholder": "https://api.example.com/v1",
+      "routeDuplicate": "Rute itu sudah ada di layanan ini.",
+      "routeEmpty": "Tambahkan atau masukkan setidaknya satu rute sebelum menguji.",
+      "routeFixed": "Tetap",
+      "routeInvalid": "Gunakan URL HTTPS tanpa kredensial, atau HTTP hanya untuk localhost.",
+      "routeLatency": "{{latency}} md",
+      "routeLimit": "Simpan maksimal 32 rute, termasuk yang saat ini.",
+      "routeRemove": "Hapus rute {{route}}",
+      "routeUnreachable": "Tidak terjangkau",
+      "routes": "Rute layanan",
+      "routesAuto": "Pilih rute tercepat setelah setiap pengujian",
+      "routesAutoHint": "Ini memperbarui Base URL di draf ini. Tidak memantau di latar belakang.",
+      "routesHint": "Simpan Base URL alternatif untuk layanan ini. Pengujian hanya dimulai saat Anda memintanya.",
+      "routesTest": "Uji rute",
+      "routesTestFailed": "Tidak dapat menguji rute ini. Periksa jaringan Anda dan coba lagi.",
+      "routesTesting": "Menguji rute…",
+      "description": "Ubah nama, kunci, atau model.",
+      "errorTitle": "Tidak dapat menyelesaikan penyimpanan layanan ini",
+      "headerKeepValue": "Biarkan kosong untuk mempertahankan nilai tersimpan",
+      "headerNameNamed": "Nama header {{index}}",
+      "headerNamePlaceholder": "X-Tenant-ID",
+      "headerRequired": "Setiap header baru memerlukan nama dan nilai yang valid.",
+      "headers": "Header permintaan",
+      "headersHint": "Nilai tersimpan tidak pernah ditampilkan kembali. Biarkan nilai yang ada kosong untuk mempertahankannya; hapus barisnya untuk menghapusnya.",
+      "headerValueNamed": "Nilai untuk {{name}}",
+      "headerValuePlaceholder": "Nilai header",
+      "key": "Kunci API",
+      "keyHint": "Biarkan kosong untuk mempertahankan kunci yang sudah tersimpan.",
+      "keyHintEmpty": "Tempelkan kunci yang Anda dapatkan dari layanan ini.",
+      "modelNamed": "Model {{index}}",
+      "modelRequired": "Masukkan ID model atau hapus baris yang belum selesai.",
+      "models": "Model",
+      "modelsHintMultiple": "Pemetaan model OpenCode yang ada mempertahankan pengaturan lengkapnya. Hapus baris hanya jika Anda memang ingin menghapus pemetaan itu.",
+      "modelsHintSingle": "Biarkan kosong agar alat menggunakan model defaultnya sendiri.",
+      "name": "Nama",
+      "nameHint": "Hanya ditampilkan di sini, dalam aplikasi ini.",
+      "nameRequired": "Masukkan sebuah nama.",
+      "retryHint": "AI Manager telah menyegarkan status layanan tersimpan. Tinjau perubahan Anda, lalu coba simpan lagi.",
+      "retrySave": "Coba simpan layanan ini lagi",
+      "removeHeaderNamed": "Hapus header {{name}}",
+      "removeModelNamed": "Hapus model {{model}}",
+      "save": "Simpan",
+      "settingsLoading": "Memuat pengaturan layanan yang aman…",
+      "settingsUnavailable": "Pengaturan tambahan tidak dapat dibaca. Anda tetap dapat menyimpan nama atau mengganti kunci; pengaturan tersebut akan tetap tidak tersentuh.",
+      "title": "Ubah layanan"
+    },
+    "loading": "Memuat layanan",
+    "runtime": {
+      "description": "Lihat di mana alat ini sebenarnya membaca instruksi global, memori, konfigurasi, dan sesi proyek.",
+      "loading": "Memeriksa sumber konfigurasi",
+      "localOnlyNote": "Hanya lokasi dan ukuran file lokal. Isi file tidak diunggah.",
+      "notCreated": "Belum dibuat",
+      "openConfigFolder": "Buka folder konfigurasi",
+      "openConfigFile": "Buka file konfigurasi",
+      "projectUsageNote": "File tingkat pengguna dicantumkan di sini. Kelola aturan khusus proyek di masing-masing folder proyek.",
+      "refresh": "Segarkan konteks lokal",
+      "action": {
+        "browse": "Buka lokasi",
+        "create": "Buat dan ubah",
+        "edit": "Buka dan ubah",
+        "manage": "Kelola"
+      },
+      "openOutcome": {
+        "editorOpened": "Dibuka di editor default",
+        "folderOpened": "Dibuka di file manager"
+      },
+      "resource": {
+        "configuration": {
+          "description": "Endpoint, login, dan pengaturan alat. File yang ada dibuka di aplikasi default; file yang belum ada membuka foldernya.",
+          "title": "Konfigurasi runtime"
+        },
+        "instructions": {
+          "description": "Prompt global tingkat pengguna yang digunakan alat ini untuk setiap proyek. Buat file secara langsung saat belum ada.",
+          "managedDescription": "Prompt yang aktif. Ubah atau alihkan di halaman Prompt Global.",
+          "title": "Prompt global"
+        },
+        "memory": {
+          "description": "Memori yang disimpan alat ini secara lokal dan dapat digunakan kembali dalam percakapan berikutnya.",
+          "title": "Memori"
+        },
+        "sessionData": {
+          "description": "Sesi proyek lokal, riwayat percakapan, dan status alat.",
+          "title": "Data sesi proyek"
+        },
+        "userProfile": {
+          "description": "Profil pengguna lokal dan preferensi jangka panjang yang digunakan alat ini untuk memahami Anda.",
+          "title": "Profil pengguna"
+        }
+      },
+      "scope": {
+        "global": "Global",
+        "project": "Proyek"
+      },
+      "storage": {
+        "conversationBytes": "Data percakapan",
+        "limited": "Folder yang besar atau tidak dapat dibaca ditampilkan sebagai batas bawah yang aman.",
+        "resourceSize": "Ukuran lokal: {{size}}",
+        "sizeUnavailable": "Ukuran tidak tersedia",
+        "total": "Data lokal yang terdaftar"
+      },
+      "title": "Konteks dan penyimpanan lokal"
+    },
+    "noTools": {
+      "description": "Instal alat terlebih dahulu, lalu layanannya akan muncul di sini.",
+      "title": "Belum ada alat untuk disiapkan"
+    },
+    "refresh": "Segarkan",
+    "remove": {
+      "activeHint": "Pilih layanan lain sebelum menghapus yang ini.",
+      "confirm": "Hapus Layanan",
+      "description": "Ini akan menghapus layanan tersimpan dari AI Manager dan {{tool}}.",
+      "errorTitle": "Tidak dapat menyelesaikan penghapusan layanan ini",
+      "errorRetry": "Tinjau layanan ini dan coba lagi.",
+      "managedHint": "Layanan ini menggunakan pengaturan khusus alat dan tidak dapat dihapus di sini.",
+      "point": {
+        "account": "Akun Anda tidak dihapus, dan kuncinya tidak dicabut oleh layanan tersebut.",
+        "local": "Layanan dan kunci tersimpan akan dihapus dari {{tool}}.",
+        "otherTools": "Alat AI lain dan layanannya tidak terpengaruh."
+      },
+      "removed": "{{name}} dihapus",
+      "retryNamed": "Coba hapus {{name}} lagi",
+      "title": "Hapus {{name}}?"
+    },
+    "scope": "Alat AI",
+    "scopeUnsupportedShort": "Belum terintegrasi",
+    "scopeSharedShort": "Dibagikan dengan aplikasi desktop",
+    "scopeUnsupportedTitle": "AI Manager belum mengintegrasikan pengaturan layanan {{tool}}",
+    "scopeUnsupportedDescription": "Ini berarti AI Manager belum memiliki adapter yang aman untuk ini; bukan berarti {{tool}} tidak bisa menggunakan layanan kustom. Alat yang terinstal tetap ditampilkan agar jelas.",
+    "scopeSave": {
+      "errorDescription": "Anda masih melihat {{tool}}. Coba lagi agar alat ini terbuka di sini lain kali.",
+      "errorTitle": "Tampilan alat tidak tersimpan",
+      "retry": "Coba lagi",
+      "saving": "Menyimpan alat ini"
+    },
+    "switch": {
+      "configuredNamed": "{{name}} ditambahkan ke konfigurasi alat",
+      "chooseModelHint": "Model default tidak berubah. Pilih model yang Anda inginkan di {{tool}}.",
+      "appliedNamed": "Beralih ke {{name}}",
+      "errorNamed": "Tidak dapat menyelesaikan peralihan ke {{name}}",
+      "openNow": "Buka sekarang",
+      "reopenHint": "{{tool}} yang sudah berjalan tetap menggunakan endpoint lamanya sampai Anda membukanya kembali.",
+      "retryHint": "AI Manager telah menyegarkan status layanan tersimpan. Coba peralihan yang sama lagi.",
+      "retryNamed": "Coba beralih ke {{name}} lagi",
+      "switchingNamed": "Beralih ke {{name}}"
+    },
+    "failover": {
+      "tryNext": "Coba layanan tersedia berikutnya",
+      "tryNextNamed": "Coba layanan tersimpan tersedia berikutnya untuk {{name}}",
+      "noneAvailable": "Tidak ada layanan tersimpan lain yang merespons. Konfigurasi saat ini tidak diubah.",
+      "automaticSuccess": "{{from}} tidak merespons. Beralih ke {{to}}.",
+      "manualSuccess": "Beralih dari {{from}} ke layanan tersedia {{to}}.",
+      "unknownService": "Layanan tidak dikenal"
+    },
+    "summary": {
+      "activeTitle": "{{service}} aktif untuk {{tool}}",
+      "checked": "Alamat diperiksa",
+      "description": "Alihkan layanan atau periksa apakah alamatnya merespons. AI Manager menangani pengaturannya untuk Anda.",
+      "eyebrow": "Ringkasan koneksi",
+      "noActiveTitle": "Layanan tersimpan untuk {{tool}}",
+      "saved": "Tersimpan",
+      "testable": "Dapat memeriksa alamat"
+    },
+    "start": {
+      "action": "Mulai {{tool}}",
+      "description": "Pilih folder proyek. {{tool}} akan terbuka di sana di Terminal; layanan memverifikasi kunci dan model tersimpan saat pertama kali digunakan.",
+      "eyebrow": "Langkah berikutnya",
+      "title": "Konfigurasi Anda tersimpan. Mulai di {{tool}}"
+    },
+    "test": {
+      "browseCompatible": "Jelajahi layanan kompatibel",
+      "browseCompatibleNamed": "Jelajahi layanan kompatibel untuk {{name}}",
+      "checkingNamed": "Memeriksa {{name}}",
+      "degraded": "Alamat merespons lambat",
+      "errorNamed": "Tidak dapat memeriksa alamat untuk {{name}}",
+      "failed": "Alamat tidak merespons",
+      "latency": "{{ms}} md",
+      "operational": "Alamat terjangkau",
+      "retry": "Coba lagi",
+      "retryHint": "Pemeriksaan yang gagal tidak mengubah layanan ini. Coba pemeriksaan yang sama lagi.",
+      "retryNamed": "Periksa {{name}} lagi",
+      "unreachableHint": "Alamat ini tidak dapat dijangkau dari jaringan Anda saat ini. Anda dapat memilih layanan kompatibel lain."
+    },
+    "probe": {
+      "title": "Uji {{name}}",
+      "addressChecking": "Memeriksa alamat…",
+      "model": "Model",
+      "modelCount": "{{count}} model tersedia",
+      "modelLoading": "Membaca daftar model…",
+      "modelReload": "Muat ulang",
+      "modelManual": "Nama model",
+      "modelManualHint": "Layanan ini tidak menerbitkan daftar model, jadi ketik nama modelnya sendiri.",
+      "modelRefused": "Layanan menolak daftar model (HTTP {{status}}).",
+      "modelTruncated": "Menampilkan {{count}} pertama.",
+      "kind": "Kirim",
+      "kindText": "Teks",
+      "kindImage": "Gambar",
+      "kindHint": "Ditebak dari nama model. Ganti jika itu salah.",
+      "prompt": "Prompt",
+      "send": "Kirim",
+      "sending": "Menunggu layanan…",
+      "cost": "Ini mengirim satu permintaan sungguhan dan menggunakan kuota Anda.",
+      "result": "Hasil",
+      "resultMeta": "HTTP {{status}} · {{ms}} md",
+      "replyEmpty": "Layanan merespons tetapi tidak mengembalikan apa pun.",
+      "replyRefused": "Layanan menolak permintaan ini.",
+      "replyImageLinkOnly": "Layanan mengembalikan tautan, bukan data gambar, sehingga gambar tidak dapat ditampilkan di sini.",
+      "imageAlt": "Gambar yang dihasilkan oleh {{model}}",
+      "adopt": "Gunakan model ini",
+      "adopted": "Tersimpan ke layanan ini.",
+      "adoptFailed": "Tidak dapat menyimpan model.",
+      "effectiveNote": "Koneksi ini tidak punya catatan tersimpan di sini, jadi tidak ada pemeriksaan alamat yang bisa dijalankan lebih dulu."
+    },
+    "title": "Endpoint API",
+    "toolsError": {
+      "description": "AI Manager tidak dapat memeriksa alat apa yang Anda miliki. Coba lagi untuk melihat layanannya.",
+      "title": "Tidak dapat membaca alat Anda"
+    },
+    "toolsRefreshError": {
+      "title": "Tidak dapat menyegarkan alat Anda",
+      "description": "Pemeriksaan alat dan layanan terakhir masih ditampilkan. Menghubungkan, beralih, memeriksa, mengubah, menghapus, dan memulai tetap tertunda sampai pemeriksaan alat baru berhasil.",
+      "action": "Periksa alat lagi"
+    },
+    "actionsPaused": {
+      "title": "Tindakan layanan tertunda",
+      "description": "AI Manager harus memastikan alat dan status layanan saat ini sebelum dapat membuat perubahan lain atau memulai alat."
+    },
+    "shellVariable": {
+      "at": "Baris {{line}} dari {{path}}",
+      "editNamed": "Edit {{variable}} di tempat terminal Anda mengaturnya",
+      "nothingChanged": "Tidak ada yang berubah. Periksa lagi lalu coba lagi.",
+      "openTerminalsKeepTheOldValue": "Terminal yang sudah terbuka tetap memakai nilai lama sampai dijalankan ulang.",
+      "save": "Simpan",
+      "saved": "Tersimpan.",
+      "title": "Edit {{variable}}",
+      "value": "Nilai"
+    }
+  },
+  "extensions": {
+    "help": "Bantuan",
+    "location": {
+      "action": "Tampilkan di file manager",
+      "description": "Temukan file aktif perangkat lunak ini, atau folder terdekat yang sudah ada jika belum dibuat.",
+      "promptNote": "Prompt tersimpan yang tidak aktif tidak memiliki file terpisah."
+    },
+    "title": "Skill, MCP & Prompt Global",
+    "description": "Tambahkan Skill, hubungkan MCP, dan kelola prompt global untuk setiap alat AI.",
+    "refresh": "Segarkan",
+    "loading": "Memuat ekstensi",
+    "addLater": "Anda dapat mengelola ekstensi yang sudah Anda miliki. Menambahkan yang baru hadir di pembaruan mendatang.",
+    "addLaterTitle": "Menambahkan ekstensi",
+    "kindScope": "Jenis ekstensi",
+    "toolScope": "Alat AI",
+    "scope": {
+      "unsupportedShort": "Belum terintegrasi",
+      "unsupportedTitle": "AI Manager belum mengintegrasikan {{kind}} untuk {{tool}}",
+      "unsupportedDescription": "AI Manager saat ini tidak memiliki adaptor pengelolaan yang aman untuk entri ini. Ini tidak berarti {{tool}} tidak memiliki fitur tersebut. Alat yang terinstal tetap ditampilkan agar jelas."
+    },
+    "adoption": {
+      "kind": {
+        "skill": "Skill",
+        "mcp": "koneksi MCP",
+        "prompt": "prompt"
+      },
+      "kindPlural": {
+        "skill": "Skill",
+        "mcp": "koneksi MCP",
+        "prompt": "prompt"
+      },
+      "noticeTitle": "Ditemukan di Mac ini: {{count}}",
+      "noticeDescription": "Ini sudah berfungsi di {{tool}}. Tambahkan ke AI Manager sebelum mengubah atau menghapusnya di sini.",
+      "openOne": "Tambahkan 1 {{kind}} yang ditemukan ke AI Manager",
+      "openMany": "Tambahkan {{count}} {{kind}} yang ditemukan ke AI Manager",
+      "titleOne": "Kelola {{kind}} yang ditemukan di Mac ini?",
+      "titleMany": "Kelola {{count}} {{kind}} yang ditemukan di Mac ini?",
+      "description": "Tinjau apa yang berubah sebelum AI Manager mulai mengelola item ini.",
+      "originalUnchanged": {
+        "skill": "File Skill saat ini tetap di tempatnya dan tidak ditulis ulang saat impor.",
+        "mcp": "Konfigurasi MCP saat ini tetap di tempatnya dan tidak ditulis ulang saat impor.",
+        "prompt": "File instruksi saat ini tetap di tempatnya dan tidak ditulis ulang saat impor."
+      },
+      "managedCopy": "AI Manager menyimpan salinan terkelolanya di Mac ini.",
+      "mcpPrivate": "Perintah koneksi, argumen, dan kredensial tetap di Mac ini dan tidak pernah ditampilkan di jendela ini.",
+      "futureChanges": "Setelah impor, menonaktifkan atau menghapus item dapat mengubah salinan terkelola di alat yang didukung.",
+      "confirm": "Tambahkan ke AI Manager",
+      "retry": "Coba lagi",
+      "errorTitle": "Tidak dapat menambahkan item yang ditemukan",
+      "errorRetry": "AI Manager menyegarkan apa yang dapat dibacanya. Tinjau pesannya dan coba lagi."
+    },
+    "scopeSave": {
+      "saving": "Mengingat tampilan ini",
+      "errorTitle": "Tampilan ini tidak diingat",
+      "errorDescription": "Anda tetap dapat bekerja di sini. Coba lagi agar AI Manager membuka tampilan ekstensi yang sama lain kali.",
+      "retry": "Coba lagi"
+    },
+    "inventory": {
+      "detected": {
+        "title": "Ditemukan di alat ini",
+        "description": "Dibaca langsung dari {{tool}} di Mac ini; isinya tetap di lokasi aslinya.",
+        "rescan": "Pindai lagi"
+      },
+      "managed": {
+        "title": "Dikelola oleh AI Manager",
+        "description": "Disimpan secara lokal oleh AI Manager dan tersedia untuk dikelola di sini."
+      }
+    },
+    "copy": {
+      "title": "Salin \"{{name}}\" ke aplikasi lain",
+      "description": "AI Manager menyalin folder Skill tersebut. Yang asli tetap di tempatnya, dan kedua salinan menjadi independen sejak saat itu.",
+      "targetsLabel": "Salin ke aplikasi ini",
+      "confirm": "Salin",
+      "alreadyHas": "Sudah memilikinya",
+      "copied": "Tersalin",
+      "failed": "Tidak tersalin",
+      "independent": "Tersalin. Salinan ini berkembang sendiri mulai sekarang; mengubahnya tidak akan memengaruhi yang asli.",
+      "noTargets": "Setiap aplikasi lain yang dapat menggunakan Skill sudah memiliki yang ini."
+    },
+    "card": {
+      "itemLabel": "{{name}}, item {{position}} dari {{total}}",
+      "detected": "Ditemukan di Mac ini",
+      "detectedDescription": "Sudah digunakan oleh alat ini. AI Manager hanya menampilkannya di sini dan tidak menyalin atau menulis ulangnya.",
+      "onlyIn": "Hanya {{tool}} yang memiliki Skill ini",
+      "alsoIn": "{{tools, list}} memiliki Skill ini",
+      "openLocation": "Buka lokasi",
+      "openLocationNamed": "Buka lokasi {{name}}",
+      "editDocument": "Edit SKILL.md",
+      "editDocumentNamed": "Edit SKILL.md untuk {{name}}",
+      "copyTo": "Salin ke…",
+      "copyToNamed": "Salin {{name}} ke aplikasi lain",
+      "locationOpened": "Lokasi {{name}} sudah terbuka.",
+      "documentOpened": "SKILL.md untuk {{name}} terbuka di editor default Anda.",
+      "resourceOpenErrorNamed": "Tidak dapat membuka {{name}}",
+      "on": "Aktif",
+      "off": "Nonaktif",
+      "noDescription": "Belum ada deskripsi.",
+      "expandDescription": "Tampilkan selengkapnya",
+      "collapseDescription": "Tampilkan lebih sedikit",
+      "edit": "Edit",
+      "editNamed": "Edit {{name}}, item {{position}} dari {{total}}",
+      "remove": "Hapus",
+      "removeNamed": "Hapus {{name}}, item {{position}} dari {{total}}",
+      "enableErrorNamed": "Tidak dapat mengaktifkan {{name}}",
+      "disableErrorNamed": "Tidak dapat menonaktifkan {{name}}",
+      "retry": "Coba lagi",
+      "retryEnableNamed": "Coba aktifkan {{name}} lagi, item {{position}} dari {{total}}",
+      "retryDisableNamed": "Coba nonaktifkan {{name}} lagi, item {{position}} dari {{total}}",
+      "retryHint": "AI Manager menyegarkan status yang dapat dibacanya. Coba perubahan yang sama lagi.",
+      "updateAvailable": "Pembaruan tersedia",
+      "update": "Perbarui",
+      "updateNamed": "Perbarui {{name}}, item {{position}} dari {{total}}",
+      "updating": "Memperbarui",
+      "useNamed": "Gunakan {{name}}, item {{position}} dari {{total}}"
+    },
+    "error": {
+      "title": "Tidak dapat membaca ekstensi",
+      "description": "Coba lagi, atau buka alatnya sekali lalu kembali."
+    },
+    "refreshError": {
+      "title": "Tidak dapat menyegarkan ekstensi ini",
+      "description": "Daftar terakhir masih ditampilkan. Tindakan ekstensi tetap tertunda sampai pemeriksaan baru berhasil."
+    },
+    "toolsError": {
+      "title": "Tidak dapat membaca alat Anda",
+      "description": "AI Manager tidak dapat memeriksa alat apa yang Anda miliki, sehingga tidak dapat menampilkan ekstensinya. Coba lagi."
+    },
+    "toolsRefreshError": {
+      "title": "Tidak dapat menyegarkan alat Anda",
+      "description": "Pemeriksaan alat dan ekstensi terakhir masih ditampilkan. Menambah, mengubah, dan menghapus ekstensi tetap tertunda sampai pemeriksaan alat baru berhasil.",
+      "action": "Periksa alat lagi"
+    },
+    "actionsPaused": {
+      "title": "Perubahan ekstensi dijeda",
+      "description": "AI Manager harus memastikan status alat dan tugas saat ini sebelum dapat membuat perubahan lain."
+    },
+    "noTools": {
+      "title": "Belum ada alat untuk ini",
+      "description": "Instal alat yang mendukung ini, lalu kembali lagi."
+    },
+    "skill": {
+      "title": "Skill",
+      "explainer": "Pengetahuan siap pakai yang dapat diikuti alat AI Anda untuk tugas tertentu.",
+      "catalog": {
+        "add": "Tambah Skill",
+        "title": "Tambahkan Skill",
+        "description": "Pilih pengetahuan siap pakai untuk {{tool}}. Katalog dimuat dari GitHub selama jendela ini terbuka, dengan transport cadangan terverifikasi untuk gangguan sementara.",
+        "searchLabel": "Cari katalog Skill",
+        "searchPlaceholder": "Cari Skill atau repositori",
+        "trustNote": "Repositori GitHub yang ditampilkan di setiap baris tetap menjadi sumbernya. Kanal jsDelivr tepercaya hanya boleh mentransportasikan file publiknya yang terverifikasi ukuran dan SHA-256-nya.",
+        "loading": "Memuat katalog Skill dari sumber GitHub-nya…",
+        "errorTitle": "Tidak dapat memuat katalog Skill",
+        "errorDescription": "Coba lagi. Jika kedua jalur sumber tetap tidak dapat dijangkau, buka Pengaturan dan konfigurasikan Proxy unduhan lokal.",
+        "refreshingTitle": "Memeriksa katalog Skill terbaru",
+        "refreshingDescription": "Anda tetap dapat menelusuri katalog terakhir. Instal tersedia setelah pemeriksaan selesai.",
+        "refreshErrorTitle": "Tidak dapat menyegarkan katalog Skill",
+        "refreshErrorDescription": "Katalog terakhir masih ditampilkan. Instalasi tetap tertunda sampai pemeriksaan baru berhasil; jika perlu, konfigurasikan Proxy unduhan lokal di Pengaturan.",
+        "mirrorTitle": "Katalog dimuat melalui cadangan tepercaya",
+        "mirrorDescription": "GitHub tidak merespons pemeriksaan ini, sehingga AI Manager menggunakan jsDelivr untuk mentransportasikan snapshot yang terverifikasi ukuran dan SHA-256-nya. Repositori GitHub tetap menjadi acuan utama, dan tidak ada pengaturan global yang diubah.",
+        "retry": "Coba lagi",
+        "empty": "Tidak ada Skill yang tersedia",
+        "noResults": "Tidak ada Skill yang cocok dengan pencarian tersebut",
+        "noResultsDescription": "Coba nama atau repositori lain.",
+        "emptyDescription": "Periksa koneksi dan sumber Skill yang diaktifkan, lalu coba lagi.",
+        "source": "Dari {{source}}",
+        "installed": "Terinstal",
+        "installedNamed": "{{name}} terinstal",
+        "install": "Instal",
+        "installNamed": "Instal {{name}}",
+        "installErrorNamed": "Tidak dapat memulai instalasi {{name}}",
+        "retryInstallNamed": "Coba instal {{name}} lagi",
+        "queued": "Menginstal {{name}}",
+        "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas."
+      },
+      "zip": {
+        "action": "Instal ZIP",
+        "title": "Instal Skill dari ZIP",
+        "description": "Pilih arsip lokal untuk {{tool}}. File tersebut tetap di komputer ini.",
+        "choose": "Pilih ZIP dan instal",
+        "trustTitle": "Gunakan arsip yang Anda percaya",
+        "trustDescription": "AI Manager membaca arsip secara lokal dan menolak jalur yang tidak aman serta ekstraksi berukuran berlebihan. Filenya tetap dapat mengubah perilaku alat AI Anda.",
+        "formatTitle": "Yang dibutuhkan arsip",
+        "formatDescription": "Gunakan file .zip dengan setidaknya satu folder Skill yang berisi SKILL.md.",
+        "syncTitle": "Yang terjadi selanjutnya",
+        "syncDescription": "Skill baru yang tidak berkonflik ditambahkan ke penyimpanan terkelola dan disinkronkan ke alat ini.",
+        "partialNote": "Jika Skill berikutnya dalam arsip gagal, Skill sebelumnya mungkin sudah terinstal. Tugas menampilkan hasilnya dan daftar Skill menyegarkan otomatis.",
+        "queued": "Menginstal Skill dari ZIP",
+        "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas.",
+        "errorHint": "Tinjau pesannya, pilih arsip lagi, lalu coba lagi."
+      },
+      "backups": {
+        "action": "Salinan pemulihan",
+        "title": "Salinan pemulihan Skill",
+        "description": "Pulihkan atau hapus salinan lokal yang dibuat sebelum Skill terkelola dihapus. Memulihkan mengaktifkannya untuk {{tool}}.",
+        "localTitle": "Hanya disimpan di komputer ini",
+        "localDescription": "AI Manager menyimpan hingga 20 salinan terbaru. File dan jalurnya tidak pernah meninggalkan perangkat ini.",
+        "refresh": "Segarkan",
+        "loading": "Membaca salinan pemulihan Skill",
+        "errorTitle": "Tidak dapat membaca salinan pemulihan Skill",
+        "errorDescription": "Daftar terakhir yang diketahui mungkin tidak lengkap. Segarkan sebelum memulihkan atau menghapus salinan.",
+        "empty": "Belum ada salinan pemulihan. AI Manager membuat satu sebelum menghapus Skill terkelola.",
+        "createdAt": "Disimpan {{date}}",
+        "alreadyInstalled": "Sudah terinstal",
+        "restore": "Pulihkan",
+        "restoreNamed": "Pulihkan {{name}} dari salinan pemulihan ini",
+        "restoreQueued": "Memulihkan {{name}}",
+        "restoreQueuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas.",
+        "delete": "Hapus",
+        "deleteNamed": "Hapus salinan pemulihan untuk {{name}}",
+        "deleteTitle": "Hapus salinan pemulihan untuk {{name}}?",
+        "deleteDescription": "Ini menghapus permanen hanya salinan pemulihan ini. Skill yang terinstal dan salinan lain tidak berubah.",
+        "deleteConfirm": "Hapus salinan",
+        "deleteSuccess": "Salinan pemulihan untuk {{name}} dihapus",
+        "mutationErrorHint": "Daftar disegarkan dari disk. Tinjau pesannya dan coba lagi."
+      },
+      "repositories": {
+        "manage": "Kelola sumber",
+        "title": "Sumber Skill",
+        "description": "Pilih repositori GitHub tepercaya mana yang memasok katalog Skill. Skill yang terinstal dikelola secara terpisah.",
+        "back": "Kembali ke katalog",
+        "location": "Repositori GitHub",
+        "locationPlaceholder": "pemilik/repositori atau https://github.com/pemilik/repositori",
+        "branch": "Branch (opsional)",
+        "branchPlaceholder": "Deteksi main atau master secara otomatis",
+        "validation": {
+          "location": "Masukkan nama pemilik/repositori atau URL repositori GitHub HTTPS lengkap."
+        },
+        "add": "Tambah sumber",
+        "loading": "Membaca sumber Skill yang dikonfigurasi",
+        "errorTitle": "Tidak dapat membaca sumber Skill",
+        "errorDescription": "Sumber terakhir yang diketahui mungkin tidak lengkap. Coba baca lagi sebelum membuat perubahan.",
+        "retry": "Baca lagi",
+        "empty": "Belum ada sumber Skill yang dikonfigurasi. Tambahkan repositori GitHub tepercaya di atas.",
+        "defaultBranch": "Branch default",
+        "branchValue": "Branch: {{branch}}",
+        "enableNamed": "Aktifkan sumber Skill {{name}}",
+        "disableNamed": "Nonaktifkan sumber Skill {{name}}",
+        "remove": "Hapus",
+        "removeNamed": "Hapus sumber Skill {{name}}",
+        "removeTitle": "Hapus {{name}} dari sumber Skill?",
+        "removeDescription": "Ini akan hilang dari katalog. Skill yang sudah terinstal darinya tetap terinstal.",
+        "removeConfirm": "Hapus sumber",
+        "mutationErrorHint": "Daftar sumber sebelumnya tidak berubah. Tinjau entrinya dan coba lagi."
+      },
+      "remove": {
+        "title": "Hapus {{name}}?",
+        "description": "Ini menghapus Skill terkelola dari AI Manager dan setiap alat AI tempat Skill ini diaktifkan.",
+        "point": {
+          "everywhere": "Skill akan dihapus di mana pun saat ini diaktifkan.",
+          "recovery": "AI Manager akan mencoba menyimpan salinan pemulihan sebelum menghapus file terkelola.",
+          "external": "Salinan eksternal yang tidak dikenali dan pengaturan alat lain Anda tidak diganggu."
+        },
+        "confirm": "Hapus Skill",
+        "queued": "Menghapus {{name}}",
+        "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas.",
+        "errorRetry": "Tinjau pesannya dan coba lagi."
+      },
+      "update": {
+        "checking": "Memeriksa pembaruan untuk Skill yang terinstal",
+        "knownCount_one": "{{count}} pembaruan Skill yang diketahui tersedia",
+        "knownCount_other": "{{count}} pembaruan Skill yang diketahui tersedia",
+        "checkErrorTitle": "Tidak dapat menyelesaikan pemeriksaan pembaruan Skill",
+        "checkErrorDescription": "Beberapa sumber Skill mungkin tidak dapat dijangkau. Skill yang ada tetap berfungsi, tetapi ini bukan bukti bahwa semuanya sudah terbaru.",
+        "retry": "Periksa lagi",
+        "title": "Perbarui {{name}}?",
+        "description": "AI Manager menggunakan repositori asli Skill dan alur pembaruan lokal yang tervalidasi.",
+        "point": {
+          "download": "Unduh salinan terbaru dari repositori Skill yang tercatat.",
+          "backup": "Simpan salinan pemulihan sebelum mengganti file terkelola.",
+          "tools": "Sinkronkan Skill yang diperbarui ke setiap alat tempat Skill ini diaktifkan."
+        },
+        "confirm": "Perbarui Skill",
+        "queued": "Memperbarui {{name}}",
+        "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas.",
+        "errorRetry": "Tinjau pesannya dan coba lagi."
+      },
+      "empty": {
+        "title": "Belum ada skill",
+        "description": "Pilih Tambah Skill untuk menginstal pengetahuan siap pakai untuk alat ini."
+      }
+    },
+    "mcp": {
+      "title": "MCP",
+      "explainer": "Hubungkan alat AI ke file, browser, dan layanan lain.",
+      "install": {
+        "add": "Tambah MCP",
+        "title": "Tambahkan koneksi MCP",
+        "description": "Hubungkan {{tool}} tanpa menempelkan JSON konfigurasi.",
+        "confirm": "Tambah Koneksi",
+        "name": "Nama koneksi",
+        "nameHint": "Gunakan nama yang akan Anda kenali di Ekstensi.",
+        "optionalDescription": "Deskripsi (opsional)",
+        "transport": {
+          "label": "Bagaimana ini terhubung?",
+          "stdio": {
+            "label": "Perintah lokal",
+            "description": "Menjalankan program di komputer ini."
+          },
+          "http": {
+            "label": "HTTP",
+            "description": "Terhubung ke endpoint MCP yang aman."
+          },
+          "sse": {
+            "label": "SSE",
+            "description": "Terhubung ke aliran peristiwa yang aman."
+          }
+        },
+        "command": "Program",
+        "commandHint": "Masukkan hanya nama atau jalur program. Letakkan setiap argumen di kolom berikutnya.",
+        "commandPlaceholder": "npx",
+        "arguments": "Argumen",
+        "argumentsHint": "Masukkan satu argumen per baris.",
+        "argumentsPlaceholder": "-y\n@modelcontextprotocol/server-filesystem",
+        "url": "URL Server",
+        "urlHint": "Gunakan HTTPS. HTTP hanya diterima untuk komputer ini.",
+        "urlPlaceholder": "https://mcp.example.com",
+        "trustLocal": "Ini menjalankan program yang disebutkan di komputer Anda. Tambahkan hanya perangkat lunak yang Anda percaya.",
+        "trustRemote": "Ini mengirim lalu lintas MCP ke alamat di atas. Tambahkan hanya layanan yang Anda percaya.",
+        "noSecrets": "Formulir terpandu ini tidak memiliki kolom untuk kata sandi, header, atau variabel lingkungan.",
+        "queued": "Menambahkan {{name}}",
+        "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas."
+      },
+      "remove": {
+        "title": "Hapus {{name}}?",
+        "description": "Ini menghapus koneksi tersimpan dari AI Manager dan setiap alat AI tempat koneksi ini diaktifkan.",
+        "point": {
+          "everywhere": "Koneksi akan dihapus dari setiap alat AI tempat koneksi ini saat ini aktif.",
+          "keepsTargets": "Program, file, browser, atau layanan jarak jauh yang dihubungkannya tidak diganggu.",
+          "noUndo": "Ini tidak dapat dibatalkan di sini. Anda dapat menambahkan koneksinya lagi nanti."
+        },
+        "confirm": "Hapus Koneksi",
+        "queued": "Menghapus {{name}}",
+        "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas.",
+        "errorRetry": "Periksa detail tugas sebelum mencoba lagi."
+      },
+      "empty": {
+        "title": "Belum ada koneksi",
+        "description": "Pilih Tambah MCP untuk menghubungkan alat ini ke program lokal atau layanan yang aman."
+      }
+    },
+    "prompt": {
+      "title": "Prompt Global",
+      "explainer": "Instruksi tetap yang dibaca alat setiap kali dimulai.",
+      "exclusive": "Satu set instruksi digunakan pada satu waktu. Memilih yang lain akan menggantikannya.",
+      "editor": {
+        "add": "Prompt Baru",
+        "createTitle": "Buat instruksi tetap",
+        "editTitle": "Edit {{name}}",
+        "description": "Simpan instruksi yang dapat digunakan kembali untuk {{tool}} tanpa membuka file konfigurasinya.",
+        "save": "Simpan Instruksi",
+        "activeBackup": "Instruksi ini sedang digunakan sekarang. Sebelum mengubah file aktif, AI Manager menyimpan salinan pemulihan bertanda waktu dan memverifikasi penggantinya.",
+        "readErrorTitle": "Tidak dapat membuka instruksi ini",
+        "retryRead": "Baca lagi",
+        "saveErrorTitle": "Tidak dapat menyimpan instruksi ini",
+        "name": "Nama instruksi",
+        "optionalDescription": "Deskripsi (opsional)",
+        "content": "Instruksi",
+        "contentHint": "Tulis teks biasa atau Markdown. Instruksi ini dapat dikirim ke alat AI dalam percakapan mendatang.",
+        "validation": {
+          "name": {
+            "required": "Beri nama untuk instruksi ini.",
+            "tooLong": "Gunakan 80 karakter atau kurang.",
+            "invalid": "Gunakan nama satu baris tanpa karakter kontrol."
+          },
+          "description": {
+            "tooLong": "Gunakan 500 karakter atau kurang.",
+            "invalid": "Gunakan deskripsi satu baris tanpa karakter kontrol."
+          },
+          "content": {
+            "required": "Tulis instruksi yang harus diikuti alat ini.",
+            "invalid": "Hapus karakter kontrol yang tidak didukung.",
+            "tooLarge": "Jaga instruksi di bawah 1 MB."
+          }
+        }
+      },
+      "import": {
+        "open": "Impor Saat Ini",
+        "title": "Impor instruksi saat ini?",
+        "description": "AI Manager akan membaca file instruksi yang sudah digunakan {{tool}}.",
+        "confirm": "Impor Instruksi",
+        "point": {
+          "reads": "Teks saat ini ditambahkan sebagai item tidak aktif yang dapat Anda tinjau di sini.",
+          "unchanged": "File saat ini milik alat tidak ditulis ulang selama impor.",
+          "duplicate": "Jika teks yang persis sama sudah tersimpan, tidak ada duplikat yang dibuat."
+        },
+        "errorTitle": "Tidak dapat mengimpor instruksi saat ini"
+      },
+      "remove": {
+        "title": "Hapus {{name}}?",
+        "description": "Ini menghapus salinan tersimpan yang tidak aktif dari AI Manager.",
+        "confirm": "Hapus Instruksi",
+        "point": {
+          "current": "Instruksi yang sedang digunakan tetap terpilih dan tidak berubah.",
+          "file": "File instruksi aktif milik alat dan pengaturan lain Anda tidak diganggu.",
+          "undo": "Ini tidak dapat dibatalkan di sini, tetapi Anda dapat membuat atau mengimpornya lagi nanti."
+        },
+        "active": "Instruksi yang sedang digunakan tidak dapat dihapus. Pilih set lain terlebih dahulu.",
+        "errorTitle": "Tidak dapat menghapus instruksi ini"
+      },
+      "empty": {
+        "title": "Belum ada instruksi",
+        "description": "Buat instruksi yang dapat digunakan kembali, atau impor file yang sudah digunakan alat ini."
+      }
+    }
+  },
+  "routing": {
+    "toolScope": "Perangkat lunak AI",
+    "title": "Perutean Lokal",
+    "description": "Teruskan permintaan secara lokal, dengan failover otomatis opsional ke endpoint cadangan.",
+    "summary": {
+      "inactive": "Perutean lokal nonaktif. Alat tetap menggunakan koneksi yang ada.",
+      "needsRestore": "Perutean berhenti, tetapi alat masih mengarah ke sana. Pulihkan pengaturannya.",
+      "stats": "Statistik"
+    },
+    "refresh": "Segarkan status",
+    "loading": "Memuat perutean lokal",
+    "hero": {
+      "title": "Satu rute lokal, lebih sedikit gangguan",
+      "description": "AI Manager mencadangkan konfigurasi aktif tiap alat sebelum pengambilalihan, menjaga lalu lintas tetap di komputer ini, dan memulihkan konfigurasi asli saat perutean berhenti.",
+      "running": "Perutean sedang berjalan",
+      "stopped": "Siap saat Anda membutuhkannya",
+      "localOnly": "Hanya loopback lokal",
+      "takeovers_one": "{{count}} alat dialihkan",
+      "takeovers_other": "{{count}} alat dialihkan",
+      "metric": {
+        "requests": "Permintaan",
+        "success": "Berhasil",
+        "failures": "Gagal",
+        "failovers": "Failover"
+      }
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build"
+    },
+    "target": {
+      "routed": "Dialihkan",
+      "direct": "Langsung",
+      "current": "Layanan saat ini: {{name}}",
+      "noProvider": "Pilih layanan saat ini di Endpoint API terlebih dahulu."
+    },
+    "takeover": {
+      "title": "Pengambilalihan perutean",
+      "description": "Cadangkan dan arahkan konfigurasi aktif alat ini ke rute lokal.",
+      "label": "Pengambilalihan perutean untuk {{name}}",
+      "confirmTitle": "Arahkan {{name}} secara lokal?",
+      "confirmDescription": "AI Manager akan mencadangkan konfigurasi aktif saat ini, mengganti hanya bidang perutean, dan memulihkan cadangan saat pengambilalihan dimatikan.",
+      "confirm": "Aktifkan perutean"
+    },
+    "failover": {
+      "title": "Failover otomatis",
+      "description": "Coba layanan yang sehat dengan urutan P1, P2 saat permintaan gagal.",
+      "label": "Failover otomatis untuk {{name}}"
+    },
+    "queue": {
+      "title": "Urutan failover",
+      "description": "P1 dipilih saat failover dimulai.",
+      "count_one": "{{count}} layanan",
+      "count_other": "{{count}} layanan",
+      "empty": "Tambahkan layanan, atau aktifkan failover untuk menggunakan layanan saat ini sebagai P1.",
+      "selectLabel": "Layanan untuk ditambahkan ke failover",
+      "selectLabelNamed": "Layanan untuk ditambahkan ke failover {{name}}",
+      "selectPlaceholder": "Pilih layanan",
+      "add": "Tambah",
+      "addNamed": "Tambahkan layanan terpilih ke failover {{name}}"
+    },
+    "provider": {
+      "current": "Saat ini",
+      "healthy": "Sehat",
+      "unhealthy": "{{count}} kegagalan berturut-turut",
+      "switch": "Ganti",
+      "switchLabel": "Ganti perutean ke {{name}}",
+      "removeLabel": "Hapus {{name}} dari failover"
+    },
+    "stop": {
+      "action": "Hentikan dan pulihkan semua",
+      "title": "Hentikan semua perutean lokal?",
+      "description": "AI Manager akan menghentikan server lokal dan memulihkan konfigurasi aktif tiap alat yang telah dicadangkan. Urutan failover disimpan untuk lain waktu.",
+      "confirm": "Hentikan dan pulihkan"
+    },
+    "error": {
+      "title": "Tidak dapat membaca perutean lokal",
+      "description": "Tidak ada konfigurasi yang diubah. Coba baca status saat ini lagi.",
+      "retry": "Coba lagi"
+    },
+    "stale": "Snapshot perutean terakhir masih ditampilkan karena penyegaran terbaru belum selesai.",
+    "actionError": {
+      "title": "Perubahan perutean tidak selesai"
+    }
+  },
+  "sessions": {
+    "inventoryError": "Daftar perangkat lunak tidak dapat disegarkan. Sesi yang ada masih tersedia.",
+    "title": "Sesi Lokal",
+    "description": "Cari percakapan yang disimpan oleh alat coding AI Anda dan lanjutkan sesi yang didukung dengan aman di Terminal.",
+    "loading": "Memuat sesi lokal",
+    "refresh": "Segarkan",
+    "hero": {
+      "local": "Dibaca secara lokal, hanya saat Anda memintanya",
+      "limited": "Menampilkan 500 sesi terbaru dari {{count}} sesi yang cocok.",
+      "metric": {
+        "visible": "Ditampilkan",
+        "tools": "Alat",
+        "resumable": "Dapat dilanjutkan"
+      }
+    },
+    "search": {
+      "label": "Cari sesi lokal",
+      "placeholder": "Cari judul, pratinjau, proyek, atau ID sesi persis"
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "opencode": "OpenCode",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build",
+      "openclaw": "OpenClaw",
+      "hermes": "Hermes",
+      "pi": "Pi",
+      "kimi-code": "Kimi Code",
+      "deepseek-dsh": "DeepSeek DSH"
+    },
+    "list": {
+      "title": "Percakapan",
+      "count_one": "{{count}} sesi",
+      "count_other": "{{count}} sesi",
+      "untitled": "Sesi tanpa judul",
+      "resumable": "Dapat dilanjutkan di Terminal",
+      "loadMore": "Tampilkan {{count}} lagi"
+    },
+    "thread": {
+      "title": "Pratinjau percakapan",
+      "emptyTitle": "Pilih percakapan",
+      "emptyDescription": "Isi pesan hanya dibaca setelah Anda secara eksplisit memilih sesi lokal.",
+      "loading": "Memuat percakapan",
+      "errorTitle": "Tidak dapat membaca percakapan ini",
+      "retry": "Coba lagi",
+      "limited": "Hanya menampilkan bagian terbaru ({{count}} pesan secara total).",
+      "noMessages": "Tidak ditemukan pesan yang dapat dibaca dalam sesi ini.",
+      "messages": "Pesan sesi",
+      "messageTruncated": "Pesan panjang ini dipersingkat agar dapat ditampilkan dengan aman."
+    },
+    "resume": {
+      "action": "Lanjutkan di Terminal",
+      "success": "Sesi telah diserahkan ke Terminal.",
+      "error": "Sesi tidak dapat dilanjutkan.",
+      "manualHint": "Atau tempelkan ini sendiri ke terminal:",
+      "manualLabel": "perintah lanjutkan",
+      "title": "Lanjutkan sesi ini",
+      "terminal": {
+        "label": "Buka di",
+        "system": "Terminal Sistem",
+        "iterm2": "iTerm2",
+        "ghostty": "Ghostty",
+        "kitty": "kitty",
+        "wezterm": "WezTerm",
+        "alacritty": "Alacritty"
+      },
+      "launch": "Buka di terminal sekarang"
+    },
+    "reveal": {
+      "action": "Tampilkan di file manager",
+      "actionNamed": "Tampilkan {{title}} di file manager"
+    },
+    "role": {
+      "user": "Anda",
+      "assistant": "Asisten",
+      "system": "Sistem",
+      "tool": "Alat",
+      "other": "Lainnya"
+    },
+    "empty": {
+      "title": "Tidak ada sesi lokal ditemukan",
+      "description": "Jalankan alat coding AI yang didukung sekali, lalu segarkan halaman ini.",
+      "search": "Tidak ada sesi yang cocok dengan pencarian dan filter alat ini."
+    },
+    "error": {
+      "title": "Tidak dapat memindai sesi lokal",
+      "description": "Tidak ada file sesi yang diubah. Coba segarkan indeks lokal."
+    }
+  },
+  "preferences": {
+    "title": "Pengaturan",
+    "description": "Preferensi untuk AI Manager itu sendiri.",
+    "loading": "Memuat pengaturan Anda",
+    "retry": "Coba lagi",
+    "error": {
+      "title": "Tidak dapat membaca pengaturan Anda",
+      "description": "Coba lagi sesaat lagi."
+    },
+    "groups": {
+      "general": "Umum",
+      "network": "Jaringan",
+      "backup": "Cadangan dan pemulihan",
+      "about": "Tentang"
+    },
+    "experience": {
+      "eyebrow": "Pengalaman aplikasi",
+      "title": "Jadikan AI Manager milik Anda",
+      "description": "Preferensi bahasa dan tampilan tetap tersimpan di komputer ini.",
+      "instant": "Berlaku seketika",
+      "language": {
+        "label": "Bahasa",
+        "description": "Pilih bahasa yang digunakan di seluruh AI Manager."
+      }
+    },
+    "advanced": {
+      "label": "Mode Lanjutan",
+      "description": "Menampilkan detail teknis seperti lokasi penyimpanan file. Alat yang lebih lanjut akan hadir di pembaruan mendatang.",
+      "saving": "Menyimpan…",
+      "saved": "Tersimpan",
+      "error": "Tidak tersimpan",
+      "errorHint": "Pengaturan sebelumnya telah dipulihkan. Gunakan sakelar ini lagi untuk mencoba ulang."
+    },
+    "providerFailover": {
+      "label": "Coba endpoint yang tersedia sebelum membuka atau beralih",
+      "description": "Hanya saat Anda mengklik Buka atau Gunakan di AI Manager: jika gagal, coba endpoint kompatibel tersimpan lainnya. Nonaktif secara default; tidak ada perutean lalu lintas. Konfigurasikan failover saat permintaan di Endpoint API → Perutean Lokal."
+    },
+    "desktop": {
+      "title": "Perilaku desktop",
+      "description": "Pilih cara AI Manager dimulai, ditutup, dan tetap tersedia di komputer ini.",
+      "loading": "Membaca preferensi desktop",
+      "menuBar": "bilah menu",
+      "systemTray": "baki sistem",
+      "requiresTray": "Aktifkan dulu Tampilkan AI Manager di {{location}} agar Anda dapat membuka kembali jendelanya.",
+      "error": {
+        "title": "Tidak dapat membaca preferensi desktop",
+        "description": "Tidak ada yang diubah. Coba lagi sesaat lagi."
+      },
+      "launch": {
+        "label": "Buka AI Manager saat saya masuk",
+        "description": "Menggunakan mekanisme aplikasi mulai otomatis sistem untuk berjalan setelah Anda masuk.",
+        "descriptionMac": "Menambahkan item login macOS untuk berjalan setelah Anda masuk ke Mac Anda."
+      },
+      "silent": {
+        "label": "Mulai di latar belakang",
+        "description": "Sembunyikan jendela utama setiap kali dimulai. Buka dari {{location}}.",
+        "requiresLaunch": "Aktifkan dulu Buka AI Manager saat saya masuk."
+      },
+      "tray": {
+        "label": "Tampilkan AI Manager di {{location}}",
+        "description": "Pertahankan entri di {{location}}. Menonaktifkan ini juga menonaktifkan mulai otomatis di latar belakang dan tetap berjalan setelah jendela ditutup."
+      },
+      "close": {
+        "label": "Tetap berjalan saat jendela ditutup",
+        "description": "Tetap berjalan setelah jendela ditutup; buka kembali dari {{location}}. Keluar dari aplikasi tetap menghentikannya."
+      }
+    },
+    "network": {
+      "proxy": {
+        "title": "Proxy unduhan lokal",
+        "description": "Untuk pembaruan AI Manager bertanda tangan, pembaruan Claude native, dan unduhan CLI resmi lain yang tidak dapat dibantu oleh mirror registry, alihkan lalu lintas keluar melalui proxy yang sudah berjalan di komputer ini.",
+        "active": "Aktif",
+        "protected": "Pengaturan terlindungi",
+        "protectedHint": "Proxy yang sudah ada berisi kredensial atau alamat jarak jauh, sehingga AI Manager akan menggunakannya tetapi tidak akan menampilkannya di sini. Ganti dengan alamat lokal atau kosongkan.",
+        "label": "Alamat proxy lokal",
+        "hint": "HTTP, HTTPS, SOCKS5, atau SOCKS5H pada localhost/127.0.0.1/::1 dengan port eksplisit. Kredensial dan host jarak jauh tidak diterima di sini.",
+        "loading": "Membaca proxy unduhan",
+        "readError": "Tidak dapat membaca proxy unduhan saat ini.",
+        "save": "Gunakan proxy ini"
+      }
+    },
+    "check": {
+      "guide": {
+        "action": {
+          "updateTool": "Perbarui sekarang",
+          "repairTool": "Perbaiki sekarang",
+          "reviewTool": "Tinjau Perangkat Lunak AI",
+          "connectService": "Hubungkan layanan",
+          "reviewService": "Tinjau Endpoint API",
+          "reviewExtensions": "Tinjau Ekstensi"
+        }
+      },
+      "item": {
+        "toolReady": {
+          "title": "{{name}} terinstal",
+          "description": "Versi {{version}} tersedia di komputer ini."
+        },
+        "toolUpdate": {
+          "title": "{{name}} memiliki pembaruan",
+          "description": "Versi {{version}} terinstal; {{latestVersion}} tersedia."
+        },
+        "toolBroken": {
+          "title": "{{name}} perlu perhatian",
+          "description": "Instalasi ditemukan, tetapi AI Manager tidak dapat menggunakannya secara normal."
+        },
+        "toolUnknown": {
+          "title": "AI Manager tidak dapat mengenali status {{name}}",
+          "description": "Periksa alat ini lagi sebelum mengandalkan konfigurasi ini."
+        },
+        "toolNotInstalled": {
+          "title": "{{name}} belum terinstal",
+          "description": "Ini hanya informasi dan tidak dihitung sebagai masalah."
+        },
+        "providerReady": {
+          "title": "{{name}} memiliki layanan AI yang dikonfigurasi",
+          "description_one": "{{count}} konfigurasi layanan sedang digunakan.",
+          "description_other": "{{count}} konfigurasi layanan sedang digunakan."
+        },
+        "providerMissing": {
+          "title": "{{name}} belum memiliki layanan AI yang dikonfigurasi",
+          "description": "Buka Endpoint API dan pilih atau konfigurasikan layanan untuk alat ini."
+        },
+        "configReadable": {
+          "title": "Konfigurasi {{name}} dapat dibaca",
+          "description": "Konfigurasi aktif berhasil diurai."
+        },
+        "configMissing": {
+          "title": "{{name}} belum dikonfigurasi",
+          "description": "Belum ada file konfigurasi. Ini hanya informasi, bukan masalah."
+        },
+        "configUnreadable": {
+          "title": "Konfigurasi {{name}} tidak dapat dibaca",
+          "description": "Buka konfigurasi alat ini dan perbaiki formatnya sebelum membuat perubahan lain."
+        },
+        "connectivity": {
+          "operational": {
+            "title": "{{provider}} merespons",
+            "description": "Pemeriksaan manual Anda untuk {{name}} berhasil dalam {{ms}} md."
+          },
+          "degraded": {
+            "title": "{{provider}} merespons lambat",
+            "description": "Pemeriksaan manual terakhir untuk {{name}} memakan waktu {{ms}} md."
+          },
+          "failed": {
+            "title": "{{provider}} tidak merespons",
+            "description": "Pemeriksaan manual terakhir untuk {{name}} tidak dapat terhubung."
+          },
+          "notChecked": {
+            "title": "{{provider}} belum diperiksa pada sesi ini",
+            "description": "Jalankan Periksa di Endpoint API jika Anda ingin menguji koneksi ini."
+          }
+        },
+        "mcp": {
+          "title": "{{enabled}} dari {{total}} server MCP aktif",
+          "description": "Ini hanya inventaris. Ketersediaan server belum diperiksa."
+        },
+        "mcpInventoryUnavailable": {
+          "title": "Koneksi MCP lokal tidak dapat diperiksa",
+          "description": "Buka Ekstensi untuk mencoba lagi inventaris lokal sebelum menganggap semua koneksi terkelola."
+        },
+        "mcpInventoryPartial": {
+          "title": "Beberapa lokasi MCP lokal perlu diperiksa lagi",
+          "description": "Lokasi yang perlu ditinjau: {{count}}. Satu lokasi yang didukung tidak dapat diperiksa, atau inventaris yang dibatasi sudah penuh. Tinjau Ekstensi untuk langkah selanjutnya secara lengkap."
+        }
+      }
+    },
+    "import": {
+      "title": "Impor dari CC Switch",
+      "description": "Bawa layanan AI, server MCP, dan skill dari CC Switch ke AI Manager. Tidak ada yang berubah di CC Switch.",
+      "reimport": "Impor dari CC Switch",
+      "loading": "Mencari konfigurasi CC Switch",
+      "retry": "Periksa lagi",
+      "action": "Impor",
+      "retryAction": "Coba impor lagi",
+      "again": "Impor lagi",
+      "skip": "Lewati",
+      "success": "Konfigurasi yang ada berhasil diimpor.",
+      "collision": "Jika layanan atau ekstensi yang sama sudah ada, versi yang diimpor akan menggantikannya. Sisanya tetap sama.",
+      "sourceDetail": "Database CC Switch lokal, dibuka hanya-baca",
+      "prompt": {
+        "title": "Ditemukan konfigurasi CC Switch",
+        "description": "CC Switch telah terinstal di komputer ini. Bawa layanan AI, server MCP, dan skill-nya ke sini?"
+      },
+      "confirm": {
+        "title": "Impor konfigurasi yang ada ini?",
+        "description": "Tinjau apa yang akan berubah sebelum AI Manager memulai."
+      },
+      "safety": {
+        "title": "Kedua konfigurasi tetap utuh",
+        "sourceUntouched": "Aplikasi asli dan database lokalnya tidak pernah diedit atau dihapus.",
+        "backupFirst": "AI Manager menyimpan cadangan keamanan dari konfigurasi saat ini sebelum menerapkan impor.",
+        "skipHarmless": "Melewati ini tidak merugikan Anda. Konfigurasi Claude Code, Codex, dan alat lain Anda tetap dibaca dan dikelola apa pun pilihan Anda; pilihan ini tidak memengaruhinya. Anda dapat mengimpor nanti dari Pengaturan."
+      },
+      "completion": {
+        "title": "Konfigurasi diimpor",
+        "description": "Layanan, server MCP, dan skill yang didukung kini ada di AI Manager.",
+        "countLabel": "Item yang diimpor",
+        "nextStepTitle": "Pilih yang akan digunakan tiap alat",
+        "nextStep": "Buka Endpoint API dan pilih layanan yang diimpor untuk tiap alat saat Anda siap.",
+        "continue": "Lanjutkan"
+      },
+      "count": {
+        "label": "Item siap diimpor",
+        "services_one": "{{count}} Layanan AI",
+        "services_other": "{{count}} Layanan AI",
+        "mcpServers_one": "{{count}} Server MCP",
+        "mcpServers_other": "{{count}} Server MCP",
+        "skills_one": "{{count}} Skill",
+        "skills_other": "{{count}} Skill"
+      },
+      "notFound": {
+        "title": "Tidak ditemukan konfigurasi yang dapat diimpor",
+        "description": "Tidak ada yang bisa diimpor saat ini. Anda dapat memeriksa lagi nanti."
+      },
+      "error": {
+        "title": "Tidak dapat memeriksa konfigurasi yang ada",
+        "description": "Coba lagi. Aplikasi asli dan data lokal tidak berubah.",
+        "retry": "Anda dapat mencoba impor lagi dengan aman."
+      },
+      "refreshError": {
+        "title": "Tidak dapat menyegarkan konfigurasi yang ada",
+        "description": "Ringkasan impor terakhir masih ditampilkan. Impor tetap tertunda sampai pemeriksaan baru berhasil."
+      },
+      "decisionError": {
+        "title": "Tidak dapat menyimpan pilihan ini",
+        "description": "Coba lagi. Langkah ini tetap terbuka sampai AI Manager menyimpan pilihan Anda."
+      }
+    },
+    "updates": {
+      "title": "Tentang dan pembaruan",
+      "description": "Menampilkan versi yang terinstal dan status kanal pembaruan produk bertanda tangan.",
+      "check": "Periksa sekarang",
+      "retry": "Coba lagi",
+      "openDownloadPage": "Buka unduhan resmi",
+      "note": "Tidak ditemukan versi bertanda tangan yang lebih baru.",
+      "devBuild": "Build pengembangan",
+      "devBuildNote": "Build pengembangan tidak memeriksa pembaruan.",
+      "currentVersion": "Anda menggunakan versi {{version}}",
+      "availableVersion": "Versi {{version}} siap diunduh.",
+      "checkingTitle": "Membaca detail versi",
+      "checkingNote": "Membaca versi yang terinstal dan kanal pembaruan.",
+      "retryingNote": "Jaringan tidak merespons. AI Manager sedang mencoba sumber bertanda tangan lain (percobaan {{attempt}} dari {{max}}).",
+      "checking": "Memeriksa",
+      "backgroundDownloading": "Mengunduh di latar belakang",
+      "downloadProgress": "Progres unduhan pembaruan aplikasi",
+      "downloading": "Mengunduh",
+      "downloadingTitle": "Mengunduh {{version}} di latar belakang",
+      "downloadingNote": "Tetap gunakan AI Manager. Setelah unduhan dan verifikasi tanda tangan selesai, Anda memilih kapan mulai ulang.",
+      "ready": "Siap setelah mulai ulang",
+      "readyTitle": "Versi {{version}} sudah siap",
+      "readyNote": "Paket pembaruan telah diunduh dan tanda tangannya diverifikasi. Mulai ulang saat Anda siap menyelesaikan pembaruan.",
+      "restart": "Mulai ulang untuk memperbarui",
+      "available": "Pembaruan tersedia",
+      "upToDate": "Sudah terbaru",
+      "unknown": "Tidak dapat diperiksa",
+      "error": {
+        "title": "Status pembaruan tidak tersedia",
+        "description": "AI Manager tidak dapat menjangkau atau memverifikasi pembaruan bertanda tangan setelah percobaan yang diizinkan. Coba lagi atau buka halaman unduhan resmi; tidak ada yang terinstal."
+      }
+    },
+    "backup": {
+      "title": "Cadangan",
+      "automatic": "Cadangan otomatis",
+      "summaryLine_one": "AI Manager mencadangkan sekali sehari dan menyimpan yang terbaru.",
+      "summaryLine_other": "AI Manager mencadangkan sekali sehari dan menyimpan {{count}} yang terbaru.",
+      "automaticOff": "Cadangan otomatis nonaktif. Anda tetap dapat mencadangkan secara manual kapan saja.",
+      "exportToOther": "Ekspor ke komputer lain",
+      "importFromOther": "Impor dari komputer lain",
+      "create": "Cadangkan sekarang",
+      "loading": "Memuat cadangan Anda",
+      "retry": "Coba lagi",
+      "size": "Sekitar {{size}} MB",
+      "exactSize": "{{bytes}} byte",
+      "folder": "Cadangan disimpan di folder data aplikasi komputer ini.",
+      "details": "Lokasi penyimpanan",
+      "restore": "Pulihkan",
+      "restoreNamed": "Pulihkan cadangan dari {{name}}",
+      "delete": "Hapus",
+      "deleteNamed": "Hapus cadangan dari {{name}}",
+      "rename": "Ganti nama",
+      "renameNamed": "Ganti nama cadangan dari {{name}}",
+      "renameTitle": "Beri nama titik pemulihan dari {{name}}",
+      "renameDescription": "Beri nama singkat agar lebih mudah ditemukan nanti. Isi cadangan tidak berubah.",
+      "renameConfirm": "Simpan nama",
+      "nameLabel": "Nama cadangan",
+      "namePlaceholder": "Misalnya, Sebelum memperbarui Claude",
+      "nameHelp": "Gunakan nama singkat dan unik tanpa garis miring atau dua titik berturut-turut.",
+      "renameValidation": {
+        "required": "Masukkan nama.",
+        "tooLong": "Nama itu terlalu panjang. Silakan persingkat.",
+        "invalid": "Jangan gunakan garis miring, garis miring terbalik, atau dua titik berturut-turut.",
+        "exists": "Cadangan lain sudah menggunakan nama itu.",
+        "unchanged": "Masukkan nama yang berbeda."
+      },
+      "restoreTitle": "Pulihkan cadangan dari {{name}}?",
+      "restoreDescription": "Ini akan menggantikan konfigurasi AI Manager saat ini.",
+      "restoreConfirm": "Pulihkan",
+      "deleteTitle": "Hapus cadangan dari {{name}}?",
+      "deleteDescription": "Ini akan menghapus satu titik pemulihan secara permanen.",
+      "deleteConfirm": "Hapus",
+      "summary": {
+        "title": "Titik pemulihan siap",
+        "latest": "Terbaru: {{name}}",
+        "count": "{{count}} tersedia",
+        "latestBadge": "Terbaru"
+      },
+      "completion": {
+        "created": {
+          "title": "Titik pemulihan siap",
+          "description": "Konfigurasi AI Manager Anda saat ini telah disimpan."
+        },
+        "exported": {
+          "title": "Salinan portabel disimpan",
+          "description": "Simpan arsip konfigurasi ini di tempat yang aman."
+        },
+        "imported": {
+          "title": "Konfigurasi diimpor",
+          "description": "AI Manager kini menggunakan layanan dan ekstensi dari arsip tersebut."
+        },
+        "renamed": {
+          "title": "Titik pemulihan diganti namanya",
+          "description": "Anda kini dapat menemukan titik pemulihan ini sebagai {{name}}."
+        },
+        "restored": {
+          "title": "Pemulihan selesai",
+          "description": "AI Manager kini menggunakan titik pemulihan dari {{name}}."
+        },
+        "deleted": {
+          "title": "Titik pemulihan dihapus",
+          "description": "Titik pemulihan dari {{name}} tidak lagi tersedia."
+        },
+        "warning": {
+          "title": "Pemulihan selesai, tetapi satu alat perlu perhatian",
+          "description": "Satu alat tidak menerapkan perubahan layanan. Tinjau Endpoint API dan pilih lagi layanan yang Anda inginkan."
+        },
+        "importWarning": {
+          "title": "Impor selesai, tetapi satu alat perlu perhatian",
+          "description": "Arsip telah diimpor, tetapi satu alat tidak menerapkan perubahan layanan. Tinjau Endpoint API dan pilih lagi layanan yang Anda inginkan."
+        },
+        "reviewServices": "Tinjau Endpoint API"
+      },
+      "empty": {
+        "title": "Lindungi konfigurasi Anda saat ini",
+        "description": "Buat titik pemulihan lokal sebelum mengubah alat atau layanan.",
+        "local": "Hanya lokal"
+      },
+      "error": {
+        "title": "Tidak dapat membaca cadangan Anda",
+        "description": "Coba lagi sesaat lagi.",
+        "actionRetry": "Tidak ada yang lain berubah. Anda dapat mencoba tindakan ini lagi."
+      },
+      "refreshError": {
+        "title": "Tidak dapat menyegarkan cadangan Anda",
+        "description": "Daftar cadangan terakhir masih ditampilkan. Tindakan cadangan tetap tertunda sampai pemeriksaan baru berhasil."
+      },
+      "restorePoint": {
+        "replaces": "Layanan, ekstensi, dan pilihan di AI Manager akan kembali ke titik pemulihan ini.",
+        "installed": "Alat coding AI yang terinstal tetap ada di komputer ini.",
+        "followUp": "Setelah pemulihan, AI Manager akan memberi tahu Anda jika ada alat yang perlu perhatian."
+      },
+      "deletePoint": {
+        "permanent": "Anda tidak akan dapat mengembalikan cadangan ini."
+      },
+      "transfer": {
+        "secretTitle": "Perlakukan arsip ini seperti kata sandi",
+        "secretDescription": "Salinan portabel dapat berisi kunci layanan dan konfigurasi pribadi lainnya. Simpan dengan aman dan bagikan hanya kepada orang yang Anda percaya.",
+        "confirmTitle": "Impor arsip konfigurasi ini?",
+        "confirmDescription": "Pilih arsip hanya setelah meninjau apa yang akan berubah.",
+        "confirmReplace": "Layanan yang dikelola, ekstensi, dan riwayat tersimpan akan digantikan oleh arsip ini.",
+        "confirmSafety": "AI Manager membuat titik pemulihan lokal sebelum mengganti data saat ini.",
+        "confirmTrust": "Impor hanya arsip yang Anda buat sendiri atau terima dari orang yang Anda percaya.",
+        "confirmInstalled": "Alat coding AI yang terinstal tetap ada di komputer ini.",
+        "chooseAndImport": "Pilih arsip dan impor",
+        "errorHint": "Tidak ada yang lain berubah. Tinjau arsip ini dan coba lagi."
+      }
+    }
+  },
+  "data": {
+    "title": "Data Lokal",
+    "description": "Sesi lokal dan penyimpanan lokal masing-masing alat, semuanya di satu tempat.",
+    "overview": {
+      "eyebrow": "Ringkasan data lokal",
+      "title": "Data lokal di semua alat",
+      "description": "Total dari pemindaian lokal yang sama dengan panel penyimpanan di bawah, dijumlahkan dari semua alat yang memiliki penyimpanan lokal.",
+      "metric": {
+        "totalBytes": "Data lokal yang terdaftar",
+        "conversationBytes": "Volume data percakapan"
+      },
+      "measuring": "Mengukur…",
+      "unavailable": "Total memerlukan daftar alat yang terinstal, yang tidak dapat dibaca.",
+      "partial": "Beberapa alat tidak dapat diukur, sehingga total ini adalah batas bawah.",
+      "limited": "Folder yang besar atau tidak dapat dibaca dihitung sebagai batas bawah yang aman."
+    },
+    "scope": {
+      "all": "Semua",
+      "label": "Lihat per alat",
+      "unsupportedShort": "Belum terintegrasi",
+      "unsupportedTitle": "AI Manager belum mengintegrasikan data lokal {{tool}}",
+      "unsupportedDescription": "Ini berarti AI Manager belum memiliki pembaca yang aman untuk ini, bukan berarti {{tool}} tidak memiliki data lokal. Alat yang terinstal tetap ditampilkan agar jelas."
+    },
+    "storage": {
+      "title": "Konteks dan penyimpanan lokal",
+      "description": "Tempat masing-masing alat menyimpan filenya, dan berapa banyak ruang yang digunakan.",
+      "loading": "Membaca alat mana yang menyimpan data di perangkat ini",
+      "empty": {
+        "title": "Belum ada alat untuk ditampilkan penyimpanan lokalnya",
+        "description": "Instal alat terlebih dahulu, lalu file lokalnya akan muncul di sini."
+      }
+    },
+    "inventory": {
+      "error": {
+        "title": "Alat yang terinstal tidak dapat dibaca",
+        "description": "Sesi lokal masih berfungsi. Detail penyimpanan akan kembali setelah alat yang terinstal dapat dibaca lagi."
+      },
+      "refreshError": {
+        "title": "Tidak dapat menyegarkan alat yang terinstal",
+        "description": "Detail penyimpanan terakhir yang diketahui masih ditampilkan."
+      },
+      "retry": "Coba lagi"
+    }
+  },
+  "deeplink": {
+    "resource": {
+      "provider": "Sebuah endpoint API",
+      "mcp": "Server MCP",
+      "prompt": "Sebuah prompt global",
+      "skill": "Sebuah skill"
+    },
+    "origin": {
+      "argv": "Tautan ini dibuka dari luar AI Manager. Pastikan Anda tahu asalnya.",
+      "paste": "Anda menempelkan tautan ini sendiri. Pastikan tautan ini berasal dari penyedia yang Anda percaya."
+    },
+    "credential": {
+      "apiKey": "Tautan ini membawa kunci. Kunci ini disimpan bersama endpoint API dan tidak pernah ditampilkan di layar ini.",
+      "config": "Tautan ini membawa kunci di dalam pengaturannya. Kunci ini disimpan bersama endpoint API dan tidak pernah ditampilkan di layar ini."
+    },
+    "blocked": {
+      "noSupportedTool": "AI Manager tidak mengelola aplikasi yang dituju tautan ini, jadi tidak ada yang bisa ditambahkan.",
+      "credentialRequired": "Tautan ini tidak memiliki kunci, dan endpoint API tidak dapat disimpan tanpanya. Minta penyedia untuk memberikan tautan yang menyertakannya."
+    },
+    "summary": {
+      "label": "Yang ditambahkan tautan ini",
+      "resource": "Menambahkan",
+      "name": "Nama",
+      "targets": "Untuk",
+      "items": "Isi",
+      "separator": ", ",
+      "unmanagedTarget": "Aplikasi yang tidak dikelola AI Manager"
+    },
+    "confirm": {
+      "title": "Tambahkan dari tautan ini?",
+      "description": "Tidak ada yang disimpan sampai Anda memilih Tambah.",
+      "action": "Tambah",
+      "retry": "Coba lagi",
+      "cancel": "Buang"
+    },
+    "error": {
+      "retry": "Tidak ada yang disimpan. Coba lagi, atau minta tautan baru dari penyedia."
+    },
+    "toast": {
+      "imported_one": "1 item ditambahkan.",
+      "imported_other": "{{count}} item ditambahkan."
+    },
+    "paste": {
+      "title": "Tambah dari tautan",
+      "description": "Tempelkan tautan sekali klik dari penyedia. Tautan yang Anda tempel sendiri mungkin menyertakan kunci Anda; tautan yang dibuka dari luar mungkin tidak.",
+      "label": "Tautan",
+      "hint": "AI Manager membaca tautan ini dan meminta konfirmasi Anda sebelum ada yang disimpan.",
+      "placeholder": "aimanager://v1/import?...",
+      "action": "Baca tautan"
+    }
+  }
+}

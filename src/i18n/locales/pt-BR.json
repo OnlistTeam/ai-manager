@@ -1,0 +1,2958 @@
+{
+  "about": {
+    "title": "Licença e código-fonte",
+    "description": "Como esta versão é licenciada e onde encontrar o código-fonte.",
+    "product": "AI Manager",
+    "version": "Versão {{version}}",
+    "versionUnknown": "Versão não disponível",
+    "copyright": "Copyright © 2026 Contribuidores do AI Manager",
+    "license": "Licenciado sob a GNU Affero General Public License, versão 3 ou posterior. Este programa não possui absolutamente nenhuma garantia.",
+    "upstream": "Inclui código derivado do CC Switch, usado sob a Licença MIT. Copyright (c) 2025 Jason Young.",
+    "sourceCode": "Código-fonte",
+    "licenseText": "Ler a licença"
+  },
+  "common": {
+    "add": "Adicionar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "save": "Salvar",
+    "saving": "Salvando...",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Fechar",
+    "done": "Concluído",
+    "settings": "Configurações",
+    "about": "Sobre",
+    "version": "Versão",
+    "loading": "Carregando...",
+    "detecting": "Verificando…",
+    "notInstalled": "Não instalado",
+    "success": "Sucesso",
+    "error": "Erro",
+    "unknown": "Desconhecido",
+    "enterValidValue": "Insira um valor válido",
+    "clear": "Limpar",
+    "format": "Formatar",
+    "formatSuccess": "Formatado com sucesso",
+    "formatError": "Falha ao formatar: {{error}}",
+    "copy": "Copiar",
+    "view": "Ver",
+    "back": "Voltar",
+    "refresh": "Atualizar",
+    "refreshing": "Atualizando...",
+    "import": "Importar",
+    "all": "Todos",
+    "search": "Buscar",
+    "enableAllForApp": "Ativar tudo para {{app}}",
+    "disableAllForApp": "Desativar tudo para {{app}}",
+    "bulkToggleFailed": "Falha ao atualizar {{count}} item(ns)",
+    "reset": "Redefinir",
+    "actions": "Ações",
+    "deleting": "Excluindo...",
+    "auto": "Automático",
+    "enabled": "Ativado",
+    "notSet": "Não definido"
+  },
+  "providerForm": {
+    "supplierName": "Nome do provedor",
+    "supplierNameRequired": "Nome do provedor *",
+    "supplierNamePlaceholder": "ex.: Anthropic Official",
+    "websiteUrl": "URL do site",
+    "websiteUrlPlaceholder": "https://exemplo.com (opcional)",
+    "apiEndpoint": "Endpoint de API",
+    "apiEndpointPlaceholder": "https://seu-endpoint-de-api.com",
+    "codexApiEndpointPlaceholder": "https://seu-endpoint-de-api.com/v1",
+    "manageAndTest": "Gerenciar e testar",
+    "configContent": "Conteúdo da configuração",
+    "officialNoApiKey": "O login oficial não exige API Key, salve diretamente",
+    "codexOfficialNoApiKey": "O oficial não exige API Key, salve diretamente",
+    "codexApiKeyAutoFill": "Basta preencher aqui; o auth.json abaixo será preenchido automaticamente",
+    "apiKeyAutoFill": "Basta preencher aqui; a configuração abaixo será preenchida automaticamente",
+    "cnOfficialApiKeyHint": "💡 Só é preciso preencher a API Key; o endpoint já vem predefinido",
+    "aggregatorApiKeyHint": "💡 Só é preciso preencher a API Key; o endpoint já vem predefinido",
+    "thirdPartyApiKeyHint": "💡 Só é preciso preencher a API Key; o endpoint já vem predefinido",
+    "customApiKeyHint": "💡 A configuração personalizada exige preencher manualmente todos os campos necessários",
+    "omoHint": "💡 A configuração OMO gerencia as atribuições de modelo do agente e suporta tanto oh-my-openagent.jsonc quanto oh-my-opencode.jsonc",
+    "officialHint": "💡 O provedor oficial usa login pelo navegador; não é necessária API Key",
+    "providerKeyStatusLoading": "O status do identificador do provedor ainda está carregando. Tente novamente em instantes.",
+    "getApiKey": "Obter API Key",
+    "presets": {
+      "ucloud": "Compshare",
+      "ucloudCoding": "Compshare Coding Plan",
+      "shengsuanyun": "Shengsuanyun",
+      "qiniu": "Qiniu",
+      "openrouter": "OpenRouter",
+      "deepseek": "DeepSeek",
+      "together": "Together AI"
+    },
+    "parameterConfig": "Configuração de parâmetros - {{name}} *",
+    "mainModel": "Modelo principal (opcional)",
+    "mainModelPlaceholder": "ex.: GLM-4.6",
+    "fastModel": "Modelo rápido (opcional)",
+    "fastModelPlaceholder": "ex.: GLM-4.5-Air",
+    "modelHint": "💡 Deixe em branco para usar o modelo padrão do provedor",
+    "apiHint": "💡 Preencha o endpoint de serviço compatível com a API Claude, evitando barra no final",
+    "apiHintOAI": "💡 Preencha o endpoint de serviço compatível com OpenAI Chat Completions, evitando barra no final",
+    "apiHintGeminiNative": "💡 Prefira uma URL base Gemini Native, como https://generativelanguage.googleapis.com ou https://generativelanguage.googleapis.com/v1beta; o proxy anexará models/*:generateContent automaticamente",
+    "codexApiHint": "💡 Preencha o endpoint de serviço compatível com o formato OpenAI Response",
+    "fillSupplierName": "Preencha o nome do provedor",
+    "fillConfigContent": "Preencha o conteúdo da configuração",
+    "fillParameter": "Preencha {{label}}",
+    "fillTemplateValue": "Preencha {{label}}",
+    "endpointRequired": "O endpoint de API é obrigatório para provedores não oficiais",
+    "apiKeyRequired": "A API Key é obrigatória para provedores não oficiais",
+    "softValidation": {
+      "title": "A configuração apresenta os seguintes problemas",
+      "hint": "Salvar mesmo assim? Trocar para este provedor pode falhar; você pode preencher isso depois.",
+      "saveAnyway": "Salvar mesmo assim"
+    },
+    "configJsonError": "Erro de formato no JSON de configuração, verifique a sintaxe",
+    "authJsonRequired": "auth.json deve ser um objeto JSON",
+    "authJsonError": "Erro de formato no auth.json, verifique a sintaxe JSON",
+    "fillAuthJson": "Preencha a configuração do auth.json",
+    "fillApiKey": "Preencha OPENAI_API_KEY",
+    "visitWebsite": "Visitar {{url}}",
+    "anthropicModel": "Modelo principal",
+    "anthropicSmallFastModel": "Modelo rápido",
+    "apiFormat": "Formato upstream",
+    "apiFormatHint": "Escolha Anthropic Messages quando seu provedor for nativamente uma API Anthropic Messages (direto, sem conversão de formato); escolha Chat quando usar Chat Completions; escolha Responses quando usar a API Responses; escolha Gemini Native quando usar o generateContent do Gemini. Chat, Responses e Gemini Native exigem a assunção de roteamento para converter para Anthropic Messages.",
+    "customUserAgent": "User-Agent personalizado",
+    "customUserAgentHint": "Só tem efeito quando o roteamento local/assunção de proxy está ativado; substitui o User-Agent nas requisições encaminhadas para a API do provedor.",
+    "customUserAgentInvalid": "O User-Agent não deve conter caracteres de controle (por exemplo, quebras de linha); caso contrário, será ignorado.",
+    "customUserAgentPresets": "Predefinições",
+    "localProxyRequestOverrides": "Substituições de requisição do proxy local",
+    "localProxyRequestOverridesHint": "Só tem efeito após a assunção de roteamento/proxy local; aplicado à requisição upstream já transformada.",
+    "localProxyRequestOverridesInvalid": "Erro de formato nas substituições de requisição do proxy local: {{error}}",
+    "localProxyHeaderOverrides": "Substituições de cabeçalho",
+    "localProxyHeaderOverridesInvalidDetail": "Erro de formato nas substituições de cabeçalho: {{error}}",
+    "localProxyBodyOverrides": "Substituições de corpo",
+    "localProxyBodyOverridesInvalidDetail": "Erro de formato nas substituições de corpo: {{error}}",
+    "fullUrlLabel": "URL completa",
+    "fullUrlEnabled": "Modo de URL completa",
+    "fullUrlDisabled": "Marcar como URL completa",
+    "fullUrlHint": "💡 Informe a URL completa da requisição. Este modo exige que o roteamento esteja ativado, e o roteamento usará a URL como está, sem anexar um caminho",
+    "fullUrlHintGeminiNative": "💡 No modo de URL completa do Gemini Native, duas entradas são suportadas: 1. URLs oficiais/estruturadas do Gemini, que ainda serão normalizadas para o modelo e o método de streaming solicitados; 2. URLs de relay personalizadas e opacas, que serão usadas quase como estão, apenas com parâmetros de consulta anexados",
+    "apiFormatAnthropic": "Anthropic Messages (Nativo)",
+    "apiFormatOpenAIChat": "OpenAI Chat Completions (requer roteamento)",
+    "apiFormatOpenAIResponses": "OpenAI Responses API (requer roteamento)",
+    "apiFormatGeminiNative": "Gemini Native generateContent (requer roteamento)",
+    "codexApiFormatResponses": "OpenAI Responses API (Nativo)",
+    "codexApiFormatOpenAIChat": "OpenAI Chat Completions (requer roteamento)",
+    "codexApiFormatHint": "Selecione o formato de API do Codex realmente suportado por este provedor; a configuração permanece em Responses para versões mais recentes do Codex, enquanto o Chat Completions é convertido via roteamento local.",
+    "authField": "Campo de autenticação",
+    "authFieldAuthToken": "ANTHROPIC_AUTH_TOKEN (padrão)",
+    "authFieldApiKey": "ANTHROPIC_API_KEY",
+    "authFieldHint": "Selecione o nome da variável de ambiente de autenticação para a configuração",
+    "apiHintResponses": "💡 Preencha o endpoint de serviço compatível com a API OpenAI Responses, evitando barra no final",
+    "anthropicDefaultHaikuModel": "Modelo Haiku padrão",
+    "anthropicDefaultSonnetModel": "Modelo Sonnet padrão",
+    "anthropicDefaultOpusModel": "Modelo Opus padrão",
+    "modelPlaceholder": "",
+    "smallModelPlaceholder": "",
+    "haikuModelPlaceholder": "",
+    "modelHelper": "Opcional: especifique o modelo Claude padrão a usar; deixe em branco para usar o padrão do sistema.",
+    "modelMappingLabel": "Mapeamento de modelo",
+    "modelMappingHint": "Os nomes de exibição afetam apenas o menu /model; 1M é apenas uma declaração de capacidade de contexto do Claude Code.",
+    "modelRoleLabel": "Papel do modelo",
+    "modelRoleSonnet": "Sonnet",
+    "modelRoleOpus": "Opus",
+    "modelRoleFable": "Fable",
+    "modelRoleHaiku": "Haiku",
+    "modelRoleSubagent": "Subagente",
+    "modelDisplayNameLabel": "Nome de exibição",
+    "modelDisplayNamePlaceholder": "ex.: DeepSeek V4 Pro",
+    "modelNoDisplayName": "Não exibido em /model",
+    "requestModelLabel": "Modelo solicitado",
+    "modelOneMHeader": "Declarar 1M",
+    "modelOneMLabel": "1M",
+    "fallbackModelLabel": "Modelo de fallback padrão",
+    "fallbackModelHint": "Um fallback para requisições que não mapeiam claramente para Sonnet, Opus, Fable ou Haiku. Recomendado para endpoints de terceiros/relay. Caso contrário, essas requisições (incluindo subtarefas de segundo plano do Haiku) são encaminhadas com o nome de modelo Claude original e podem falhar se o upstream não o hospedar. Pode ficar em branco com segurança para endpoints oficiais.",
+    "quickSetModels": "Definir rapidamente",
+    "quickSetSuccess": "Nome do modelo aplicado a todos os papéis",
+    "advancedOptionsToggle": "Opções avançadas",
+    "advancedOptionsHint": "Inclui formato de API, campo de autenticação e mapeamento de modelo. Os padrões funcionam para a maioria dos casos de uso.",
+    "categoryOfficial": "Oficial",
+    "categoryCnOfficial": "Oficial de código aberto",
+    "categoryAggregation": "Agregador",
+    "categoryThirdParty": "Terceiros",
+    "fetchModels": "Buscar modelos",
+    "fetchingModels": "Buscando...",
+    "searchModelPlaceholder": "Buscar modelos...",
+    "searchModelEmpty": "Nenhum modelo correspondente.",
+    "searchModelAriaLabel": "Selecionar modelo",
+    "fetchModelsSuccess": "{{count}} modelos encontrados",
+    "fetchModelsFailed": "Falha ao buscar modelos",
+    "fetchModelsEmpty": "Nenhum modelo encontrado",
+    "fetchModelsNeedApiKey": "Preencha a API Key primeiro",
+    "fetchModelsNeedEndpoint": "Preencha o endpoint de API primeiro",
+    "fetchModelsNeedConfig": "Preencha o endpoint de API e a API Key primeiro",
+    "fetchModelsAuthFailed": "A API Key é inválida ou não tem permissão",
+    "fetchModelsNotSupported": "Este provedor não suporta a busca da lista de modelos",
+    "fetchModelsEndpointNotFound": "Nenhum endpoint de modelos acessível foi encontrado. Verifique a Base URL ou confirme se o provedor expõe esta API.",
+    "fetchModelsTimeout": "A requisição expirou; verifique a conexão de rede",
+    "requiredFields": "Preencha o nome do provedor, o endpoint de API, a API Key e o modelo"
+  },
+  "usage": {
+    "title": "Uso e custo",
+    "description": "Uma visão privada e local de como suas ferramentas de programação com IA têm sido usadas.",
+    "loading": "Carregando uso local",
+    "hero": {
+      "eyebrow": "Últimos {{days}} dias",
+      "cost": "Custo estimado",
+      "estimate": "Calculado a partir dos registros locais de tokens e dos preços dos modelos. A fatura do seu provedor pode ser diferente.",
+      "metric": {
+        "tokens": "Tokens",
+        "requests": "Requisições",
+        "success": "Taxa de sucesso",
+        "cache": "Acerto de cache"
+      }
+    },
+    "trend": {
+      "eyebrow": "Atividade local",
+      "title": "Uso diário de tokens",
+      "total": "{{value}} tokens neste período",
+      "label": "Tendência diária de tokens totalizando {{value}} tokens"
+    },
+    "tools": {
+      "eyebrow": "Detalhamento",
+      "title": "Uso por ferramenta de IA",
+      "requests": "{{value}} requisições",
+      "tokens": "{{value}} tokens"
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "opencode": "OpenCode",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build",
+      "openclaw": "OpenClaw",
+      "hermes": "Hermes",
+      "pi": "Pi"
+    },
+    "sync": {
+      "running": "Sincronizando uso local",
+      "runningHint": "Examinando sessões locais. Você pode sair desta página; a sincronização continuará.",
+      "largeHistory": "Uma primeira sincronização ou um histórico grande pode levar vários minutos. Não é preciso iniciar outra sincronização; o resumo salvo continua visível e é atualizado ao terminar.",
+      "elapsed": "Decorrido: {{seconds}} segundos",
+      "action": "Sincronizar uso local",
+      "success": "{{filesScanned}} arquivos locais examinados e {{recordsImported}} novos registros adicionados.",
+      "partial": "{{filesScanned}} arquivos locais examinados e {{recordsImported}} registros adicionados. {{sourceIssues}} verificações de origem não puderam terminar; os dados existentes continuam sendo exibidos.",
+      "errorTitle": "Não foi possível sincronizar o uso local",
+      "errorHint": "O resumo salvo não foi removido. Tente novamente."
+    },
+    "privacy": {
+      "title": "Agregado e local por natureza",
+      "description": "Esta página nunca mostra prompts, respostas, IDs de requisição, caminhos, configurações de provedores ou credenciais. A sincronização lê arquivos de sessão de CLIs compatíveis neste computador e não contata nenhum fornecedor."
+    },
+    "empty": {
+      "title": "Ainda não há registros de uso local",
+      "description": "Sincronize sessões de CLIs compatíveis para construir a primeira visão agregada. Nada é enviado para a nuvem."
+    },
+    "error": {
+      "title": "Não foi possível ler o uso local",
+      "description": "Seus registros salvos ainda estão neste computador. Tente ler o resumo novamente.",
+      "retry": "Tentar novamente"
+    },
+    "stale": {
+      "title": "Não foi possível atualizar o resumo",
+      "description": "O último instantâneo local permanece visível até que uma nova leitura seja bem-sucedida."
+    }
+  },
+  "dbUpgrade": {
+    "title": "A versão do banco de dados é muito recente",
+    "description": "Este banco de dados foi criado por uma versão mais recente do AI Manager ou de um cliente compatível. Esta versão não consegue abri-lo, e seus dados não foram alterados.",
+    "versionInfo": "Banco de dados v{{db}} · O aplicativo suporta v{{supported}}",
+    "dbPath": "Arquivo do banco de dados",
+    "channelUnavailableTitle": "Canal de atualização assinado indisponível",
+    "channelUnavailableDescription": "O AI Manager não pode buscar ou instalar com segurança uma versão mais recente até que seu endpoint de atualização do produto e a chave de assinatura sejam aprovados. Faça backup desta pasta, depois saia e use uma versão compatível aprovada.",
+    "openConfigDir": "Abrir pasta de dados do aplicativo",
+    "quit": "Sair"
+  },
+  "errors": {
+    "usage_query_failed": "Falha na consulta de uso",
+    "configFallbackPath": "Dados do aplicativo AI Manager/config.json",
+    "configLoadFailedTitle": "Falha ao carregar a configuração",
+    "configLoadFailedMessage": "Não foi possível ler o arquivo de configuração:\n{{path}}\n\nDetalhes do erro:\n{{detail}}\n\nVerifique se o JSON é válido ou restaure a partir de um arquivo de backup (por exemplo, config.json.bak) na mesma pasta.\n\nO aplicativo será encerrado para que você possa corrigir isso.",
+    "frontendCrashTitle": "Algo deu errado na interface",
+    "frontendCrashMessage": "Foi feita uma tentativa de gravar o erro no log de diagnóstico do aplicativo. Recarregue a interface e anexe o log ao abrir um chamado, caso o problema continue.",
+    "reloadInterface": "Recarregar interface"
+  },
+  "hermes": {
+    "form": {
+      "baseUrl": "Endpoint de API",
+      "baseUrlHint": "A URL do endpoint de API deste provedor.",
+      "providerKey": "Chave do provedor",
+      "providerKeyPlaceholder": "meu-provedor",
+      "providerKeyHint": "Apenas letras minúsculas, números e hifens. Usada como nome do provedor no config.yaml.",
+      "providerKeyLockedHint": "Este provedor está na configuração do Hermes; a chave está bloqueada.",
+      "providerKeyRequired": "A chave do provedor é obrigatória",
+      "providerKeyInvalid": "A chave do provedor só pode conter letras minúsculas, números e hifens",
+      "providerKeyDuplicate": "Esta chave de provedor já existe",
+      "apiMode": "Modo de API",
+      "apiModeHint": "Protocolo de API do provedor. Escolha o formato que corresponde ao seu endpoint.",
+      "apiModeChatCompletions": "OpenAI Chat Completions",
+      "apiModeAnthropicMessages": "Anthropic Messages",
+      "apiModeCodexResponses": "OpenAI Responses",
+      "apiModeBedrockConverse": "AWS Bedrock Converse",
+      "baseUrlRequired": "O endpoint de API é obrigatório",
+      "baseUrlScheme": "Use um endereço http:// ou https://",
+      "baseUrlInvalid": "O endpoint de API não é uma URL válida",
+      "models": "Modelos",
+      "addModel": "Adicionar modelo",
+      "noModels": "Nenhum modelo configurado. Trocar para este provedor não mudará o modelo padrão.",
+      "modelId": "ID do modelo",
+      "modelIdPlaceholder": "anthropic/claude-opus-5",
+      "modelName": "Nome de exibição",
+      "modelNamePlaceholder": "Claude Opus 5",
+      "contextLength": "Tamanho do contexto",
+      "toggleModelDetails": "Expandir ou recolher detalhes do modelo",
+      "removeModel": "Remover modelo",
+      "modelsHint": "Quando ativado, o primeiro modelo se torna o padrão do Hermes.",
+      "rateLimitDelay": "Atraso de limite de taxa (segundos)",
+      "rateLimitDelayHint": "Atraso mínimo em segundos entre requisições consecutivas (opcional). Deixe em branco para não ter limite."
+    },
+    "webui": {
+      "open": "Abrir a interface web do Hermes",
+      "offline": "A interface web do Hermes não está em execução. Inicie-a primeiro com `hermes dashboard`.",
+      "openFailed": "Falha ao abrir a interface web do Hermes",
+      "launchConfirmTitle": "O Hermes Dashboard não está em execução",
+      "launchConfirmMessage": "Abrir um terminal e iniciá-lo agora com `hermes dashboard`?\n\nO navegador abrirá automaticamente assim que a inicialização terminar.\n\nSe o terminal informar que `hermes` não foi encontrado ou que os extras web estão faltando, execute primeiro:\npip install hermes-agent[web]",
+      "launchConfirmAction": "Abrir terminal e iniciar",
+      "launching": "`hermes dashboard` iniciado em um terminal.",
+      "launchFailed": "Falha ao abrir o terminal"
+    },
+    "memory": {
+      "title": "Memória",
+      "agentTab": "Memória do agente (MEMORY.md)",
+      "userTab": "Perfil do usuário (USER.md)",
+      "usage": "{{current}} / {{limit}} caracteres",
+      "overLimit": "Acima do limite; o Hermes truncará no próximo carregamento",
+      "enableOn": "Ativada",
+      "enableOff": "Desativada",
+      "disabledHint": "O Hermes ignorará esta memória até que seja reativada",
+      "toggleFailed": "Falha ao alternar a memória",
+      "saveSuccess": "Memória salva",
+      "saveFailed": "Falha ao salvar a memória",
+      "loadFailed": "Falha ao ler o arquivo de memória",
+      "openConfig": "Ajuste os limites na interface web do Hermes",
+      "runtimeNote": "As alterações se aplicam ao reiniciar o Hermes ou em uma nova sessão."
+    }
+  },
+  "ds": {
+    "status": {
+      "ready": "Pronto",
+      "attention": "Requer atenção",
+      "action": "Ação necessária"
+    },
+    "action": {
+      "install": "Instalar",
+      "configure": "Adicionar à ferramenta",
+      "readOnly": "Somente leitura",
+      "update": "Atualizar",
+      "versions": "Trocar versão",
+      "open": "Abrir",
+      "remove": "Remover",
+      "check": "Verificar",
+      "fix": "Corrigir",
+      "connect": "Conectar",
+      "retry": "Tentar novamente",
+      "copyNamed": "Copiar {{name}}",
+      "copied": "Copiado",
+      "use": "Usar",
+      "inUse": "Atual",
+      "cancel": "Cancelar",
+      "close": "Fechar",
+      "named": {
+        "install": "Instalar {{name}}",
+        "update": "Atualizar {{name}}",
+        "versions": "Trocar versão de {{name}}",
+        "open": "Abrir {{name}}",
+        "remove": "Remover {{name}}",
+        "check": "Verificar {{name}}",
+        "fix": "Corrigir {{name}}"
+      }
+    },
+    "tool": {
+      "notInstalled": "Não instalado",
+      "installed": "Instalado",
+      "updateAvailable": "Atualização disponível",
+      "broken": "Precisa de correção",
+      "unknown": "Ainda não verificado",
+      "installUnavailable": "A instalação automática não está disponível para esta ferramenta.",
+      "openUnavailable": "O AI Manager não consegue abrir esta ferramenta automaticamente.",
+      "updateUnavailable": "As atualizações automáticas não estão disponíveis para esta ferramenta.",
+      "repairUnavailable": "O reparo automático não está disponível. O AI Manager não alterará esta ferramenta sem uma correção segura."
+    },
+    "service": {
+      "currentlyUsedBy": "Atualmente usado por",
+      "notUsed": "Não está em uso",
+      "nowActive": "Agora ativo"
+    },
+    "task": {
+      "queued": "Aguardando",
+      "running": "Em execução",
+      "success": "Concluído",
+      "failed": "Falhou",
+      "cancelled": "Interrompido",
+      "progressLabel": "Progresso da tarefa"
+    },
+    "sidebar": {
+      "primary": "Navegação principal",
+      "expand": "Expandir barra lateral",
+      "collapse": "Recolher barra lateral"
+    }
+  },
+  "operation": {
+    "phase": {
+      "preparing": "Preparando",
+      "downloading": "Baixando",
+      "cancelling": "Cancelando com segurança",
+      "cancelled": "Cancelado",
+      "installing": "Instalando",
+      "configuring": "Configurando",
+      "removing": "Removendo",
+      "checking": "Verificando",
+      "ready": "Pronto",
+      "removed": "Removido"
+    },
+    "log": {
+      "started": "Tarefa iniciada",
+      "cancellationRequested": "Cancelamento solicitado; aguardando o processo em execução parar",
+      "cancelled": "Tarefa cancelada após o processo parar",
+      "commandSucceeded": "Comando concluído",
+      "commandFailed": "Falha no comando",
+      "commandFailureIgnored": "O comando retornou um status diferente de zero; continuando conforme planejado",
+      "tryingFallback": "Tentando o próximo método seguro",
+      "usingConfiguredProxy": "Usando o proxy de saída configurado",
+      "usingCommunityMirror": "Tentando novamente este download compatível com npm através do espelho da comunidade",
+      "nativeSupply": {
+        "start": "O canal oficial de atualização está indisponível; buscando o mesmo programa oficial na fonte de download",
+        "done": "O programa oficial foi atualizado e sua propriedade de instalação permanece inalterada"
+      },
+      "succeeded": "Tarefa concluída",
+      "failed": "Falha na tarefa",
+      "truncated": "A saída anterior foi truncada"
+    }
+  },
+  "error": {
+    "about": {
+      "openLinkFailed": "Não foi possível abrir essa página no seu navegador."
+    },
+    "appUpdate": {
+      "installFailed": "Não foi possível instalar esta atualização do aplicativo.",
+      "notReady": "A atualização do aplicativo ainda não está pronta.",
+      "openDownloadFailed": "Não foi possível abrir a página oficial de download do AI Manager."
+    },
+    "backup": {
+      "createFailed": "Não foi possível salvar um backup.",
+      "deleteFailed": "Não foi possível excluir esse backup.",
+      "exportFailed": "Não foi possível salvar a cópia portátil de configuração.",
+      "exportLocationRefused": "Escolha uma pasta diferente e mantenha a cópia portátil como um arquivo de configuração.",
+      "importFailed": "Não foi possível importar esse arquivo de configuração. Sua configuração atual não foi alterada.",
+      "importTooLarge": "Esse arquivo de configuração é grande demais para ser importado com segurança.",
+      "listFailed": "Não foi possível ler seus backups.",
+      "nameExists": "Outro backup já usa esse nome.",
+      "nameInvalid": "Esse nome de backup contém caracteres não suportados.",
+      "nameRequired": "Digite um nome para o backup.",
+      "nameTooLong": "Esse nome de backup é muito longo.",
+      "noDatabase": "Ainda não há nada para fazer backup.",
+      "notFound": "Esse backup não está mais aqui.",
+      "renameFailed": "Não foi possível renomear esse backup.",
+      "restoreFailed": "Não foi possível restaurar esse backup. Nada foi alterado.",
+      "scheduleSaveFailed": "Não foi possível salvar a configuração de backup automático.",
+      "selectionUnavailable": "O local selecionado não está disponível como um arquivo local.",
+      "storeUnavailable": "O aplicativo ainda está iniciando."
+    },
+    "command": {
+      "joinFailed": "A tarefa parou inesperadamente.",
+      "permissionDenied": "O AI Manager não tem permissão para fazer isso neste computador.",
+      "programNotFound": "Um programa de que o AI Manager precisa está ausente.",
+      "spawnFailed": "Um programa de que o AI Manager precisa não pôde ser iniciado.",
+      "timeout": "Isso demorou demais, então o AI Manager parou o processo."
+    },
+    "commandSpec": {
+      "argContainsNul": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "envContainsNul": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "envKeyInvalid": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "scriptNotSealed": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "bashRequiresSingleScript": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "programPathMismatch": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "programPathNotAbsolute": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "sensitiveIndexOutOfRange": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "terminalTargetInvalid": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "terminalTargetNotAnchored": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "terminalWorkingDirectoryNotAbsolute": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "wslDistroInvalid": "O AI Manager não conseguiu fazer isso com segurança, então parou.",
+      "timeoutZero": "O AI Manager não conseguiu fazer isso com segurança, então parou."
+    },
+    "deepLink": {
+      "credentialBlocked": "Este link contém uma chave. Um link aberto de fora do AI Manager não tem permissão para isso, porque seu computador veria a chave no caminho. Copie o link e cole-o em Configurações.",
+      "credentialRequired": "Este link não tem chave, e um endpoint de API não pode ser salvo sem uma. Peça ao provedor um link que a inclua.",
+      "duplicateParameter": "Este link repete um de seus campos, então não pode ser lido.",
+      "endpointRequired": "Este link não indica um endereço para o endpoint de API.",
+      "invalidEncoding": "Os dados empacotados neste link estão corrompidos e não podem ser lidos.",
+      "invalidLink": "Este não é um link que o AI Manager consegue ler.",
+      "mcpUnsupportedFields": "Este link quer definir valores de ambiente ou cabeçalhos de requisição para um servidor MCP. O AI Manager não adiciona isso por você, então não pode usar este link.",
+      "missingParameter": "Falta neste link algo de que o AI Manager precisa para importá-lo.",
+      "notPending": "Este link não está mais aguardando. Ele pode ter expirado ou já ter sido respondido.",
+      "tooLarge": "Este link é longo demais para ser lido com segurança.",
+      "toolUnavailable": "O AI Manager não gerencia o aplicativo ao qual este link se destina.",
+      "unknownParameter": "Este link contém um campo que o AI Manager não reconhece.",
+      "unsupportedResource": "Este link solicita algo que o AI Manager não consegue importar.",
+      "unsupportedScheme": "Este link não pertence ao AI Manager.",
+      "unsupportedVersion": "Este link usa um formato mais novo do que esta versão do AI Manager entende.",
+      "valueTooLong": "Um dos valores neste link é muito mais longo do que deveria."
+    },
+    "desktopApp": {
+      "inventoryFailed": "O AI Manager não conseguiu verificar os aplicativos desktop neste computador.",
+      "launchFailed": "O aplicativo desktop não pôde ser aberto.",
+      "launchUnsupported": "Aplicativos desktop não podem ser abertos neste sistema.",
+      "notFound": "Esse aplicativo desktop não está mais instalado.",
+      "officialDownloadFailed": "O instalador oficial do fornecedor não pôde ser aberto.",
+      "officialDownloadUnsupported": "O fornecedor não publica um instalador para este sistema e arquitetura.",
+      "uninstallHandoffFailed": "Os controles de desinstalação do sistema operacional não puderam ser abertos.",
+      "uninstallHandoffUnsupported": "O AI Manager não pode encaminhar este aplicativo para o desinstalador do sistema aqui."
+    },
+    "desktopPreferences": {
+      "invalid": "Mantenha a bandeja visível antes de iniciar oculto ou de manter o aplicativo em execução após o fechamento da janela.",
+      "readFailed": "O AI Manager não conseguiu ler as preferências de desktop neste computador.",
+      "saveFailed": "O AI Manager não conseguiu aplicar as preferências de desktop com segurança."
+    },
+    "extension": {
+      "adoptFailed": "O AI Manager não conseguiu adicionar as extensões encontradas com segurança.",
+      "adoptUnsupported": "Este tipo de extensão não pode ser adicionado a partir de uma cópia local existente.",
+      "cannotDisable": "Um conjunto de instruções sempre permanece em uso, então este não pode ser desativado. Escolha outro conjunto.",
+      "copyFailed": "Não foi possível copiar a Habilidade.",
+      "detectedReadOnly": "O AI Manager encontrou esta extensão no seu Mac, mas ainda não a gerencia, então deixou a cópia local inalterada.",
+      "listFailed": "Não foi possível ler as extensões desta ferramenta.",
+      "notFound": "Essa extensão não está mais aqui.",
+      "resourceOpenFailed": "Não foi possível abrir os arquivos locais desta Habilidade.",
+      "storeUnavailable": "O aplicativo ainda está iniciando.",
+      "toggleFailed": "Não foi possível concluir esta alteração. O estado do botão pode não corresponder ao que a ferramenta vê.",
+      "unknownKind": "O AI Manager não reconhece este tipo de extensão.",
+      "unsupportedScope": "O AI Manager ainda não integrou este tipo de extensão para este alvo."
+    },
+    "health": {
+      "snapshotFailed": "Não foi possível ler o status da sua configuração.",
+      "storeUnavailable": "O aplicativo ainda está iniciando."
+    },
+    "import": {
+      "invalidSource": "Essa configuração compatível não pôde ser importada com segurança.",
+      "mergeFailed": "Não foi possível importar a configuração existente. Nada foi alterado.",
+      "newerVersion": "Esta configuração usa um formato compatível mais novo. Atualize o AI Manager e tente novamente.",
+      "notFound": "A origem da importação não está mais aqui.",
+      "readFailed": "Não foi possível ler essa configuração existente.",
+      "storeUnavailable": "O aplicativo ainda está iniciando."
+    },
+    "mcp": {
+      "actionPanicked": "Algo deu errado ao adicionar esta conexão MCP.",
+      "argumentsInvalid": "Esses argumentos de comando não puderam ser adicionados com segurança.",
+      "commandInvalid": "Esse comando não pôde ser adicionado com segurança.",
+      "commandRequired": "Informe o programa que esta conexão deve executar.",
+      "descriptionTooLong": "Mantenha a descrição em 240 caracteres ou menos.",
+      "installCleanupFailed": "A conexão não pôde ser adicionada, e o AI Manager não conseguiu desfazer completamente a alteração tentada.",
+      "installFailed": "A conexão MCP não pôde ser adicionada.",
+      "nameInvalid": "Esse nome de conexão contém caracteres não suportados.",
+      "nameRequired": "Dê um nome a esta conexão primeiro.",
+      "nameTooLong": "Mantenha o nome da conexão em 80 caracteres ou menos.",
+      "notInstalled": "Essa conexão MCP não está mais aqui.",
+      "removeFailed": "A conexão MCP não pôde ser removida com segurança.",
+      "removePanicked": "Algo deu errado ao remover esta conexão MCP.",
+      "removeRestoreFailed": "A conexão não pôde ser removida, e o AI Manager não conseguiu confirmar que a configuração anterior foi totalmente restaurada.",
+      "removeVerifyFailed": "O AI Manager não conseguiu confirmar que a conexão MCP foi removida.",
+      "unsupportedScope": "O AI Manager ainda não integrou conexões MCP para este alvo.",
+      "urlCredentials": "Não coloque um nome de usuário ou senha no endereço do servidor.",
+      "urlInsecure": "Use HTTPS para servidores remotos. HTTP só é permitido para este computador.",
+      "urlInvalid": "Informe um endereço de servidor HTTP ou HTTPS completo, sem fragmento.",
+      "urlRequired": "Informe o endereço do servidor MCP.",
+      "verifyFailed": "O AI Manager não conseguiu confirmar que a conexão MCP foi adicionada."
+    },
+    "native": {
+      "responseSchemaMismatch": "O AI Manager recebeu uma resposta que não entendeu. Tente novamente.",
+      "unrecognized": "Algo deu errado. Tente novamente."
+    },
+    "networkProxy": {
+      "invalid": "Use um proxy local sem autenticação, como http://127.0.0.1:7890 ou socks5://localhost:1080.",
+      "readFailed": "O AI Manager não conseguiu ler a configuração do proxy de download.",
+      "saveFailed": "O AI Manager não conseguiu aplicar o proxy de download com segurança.",
+      "storeUnavailable": "A configuração do proxy de download ainda não está pronta."
+    },
+    "openclawWorkspace": {
+      "contentInvalid": "Este arquivo do workspace não é texto UTF-8 válido.",
+      "contentTooLarge": "Este arquivo do workspace excede o limite de segurança de 1 MiB.",
+      "dateInvalid": "Escolha uma data real no formato AAAA-MM-DD.",
+      "deleteFailed": "O AI Manager não conseguiu excluir essa memória diária com segurança.",
+      "directoryOpenFailed": "A pasta do workspace não pôde ser aberta no gerenciador de arquivos do sistema.",
+      "invalidTarget": "Esse alvo do workspace do OpenClaw não é compatível.",
+      "listFailed": "O AI Manager não conseguiu ler o inventário do workspace do OpenClaw.",
+      "queryInvalid": "Mantenha as buscas do workspace em 200 caracteres ou menos.",
+      "readFailed": "O AI Manager não conseguiu ler esse arquivo do workspace do OpenClaw.",
+      "restoreFailed": "A alteração do workspace falhou e o arquivo original não pôde ser restaurado automaticamente.",
+      "saveFailed": "O AI Manager não conseguiu salvar esse arquivo do workspace do OpenClaw com segurança.",
+      "unsafeEntry": "Esta entrada do workspace é um link ou um tipo de arquivo não suportado, então o AI Manager a deixou intocada.",
+      "verifyFailed": "O AI Manager não conseguiu verificar a alteração do workspace do OpenClaw."
+    },
+    "operation": {
+      "cancelFailed": "O AI Manager não conseguiu parar esta tarefa com segurança. Ele aguardou o processo encerrar e marcou a tarefa como falha.",
+      "cancelNotRequested": "O cancelamento não foi solicitado para esta tarefa.",
+      "cancelPending": "Esta tarefa já está sendo cancelada.",
+      "cancelUnconfirmed": "O AI Manager ainda não confirmou que esta tarefa parou.",
+      "cancelled": "Esta tarefa foi cancelada.",
+      "invalidId": "Essa referência de tarefa é inválida.",
+      "invalidTransition": "Esta tarefa já foi concluída.",
+      "notCancellable": "Esta tarefa não suporta cancelamento.",
+      "notCancellableNow": "Esta tarefa chegou a um estágio que não pode ser interrompido com segurança.",
+      "notFound": "Essa tarefa não está mais disponível.",
+      "notRunning": "Essa tarefa não está em execução.",
+      "toolBusy": "Outra tarefa já está em execução para esta ferramenta. Aguarde ela terminar.",
+      "desktopAppBusy": "Outra tarefa já está em execução para este aplicativo desktop. Aguarde ela terminar."
+    },
+    "prompt": {
+      "contentInvalid": "Essas instruções contêm um caractere que não pode ser salvo com segurança.",
+      "contentRequired": "Escreva as instruções que esta ferramenta deve seguir.",
+      "contentTooLong": "Mantenha as instruções abaixo de 1 MB.",
+      "descriptionInvalid": "Essa descrição contém caracteres não suportados.",
+      "descriptionTooLong": "Mantenha a descrição em 500 caracteres ou menos.",
+      "importEmpty": "O arquivo de instruções atual da ferramenta está vazio.",
+      "importFailed": "Não foi possível importar as instruções atuais da ferramenta.",
+      "importMissing": "Esta ferramenta ainda não tem um arquivo de instruções atual.",
+      "liveInvalid": "O arquivo de instruções atual da ferramenta não é texto legível, então o AI Manager o deixou inalterado.",
+      "nameInvalid": "Esse nome de instrução contém caracteres não suportados.",
+      "nameRequired": "Dê um nome a estas instruções primeiro.",
+      "nameTooLong": "Mantenha o nome da instrução em 80 caracteres ou menos.",
+      "notFound": "Essas instruções não estão mais aqui.",
+      "readFailed": "Não foi possível ler essas instruções.",
+      "removeActive": "Troque para outro conjunto de instruções antes de remover este.",
+      "removeFailed": "Essas instruções não puderam ser removidas com segurança.",
+      "removeRestoreFailed": "As instruções não puderam ser removidas, e o AI Manager não conseguiu confirmar que a cópia salva foi restaurada.",
+      "saveFailed": "Não foi possível salvar essas instruções.",
+      "saveRestoreFailed": "As instruções não puderam ser salvas, e o AI Manager não conseguiu confirmar que a versão anterior foi totalmente restaurada.",
+      "saveVerifyFailed": "O AI Manager não conseguiu confirmar que as instruções foram salvas corretamente.",
+      "unsupportedTool": "O AI Manager ainda não integrou instruções permanentes para esta ferramenta."
+    },
+    "provider": {
+      "createFailed": "Não foi possível conectar este serviço.",
+      "listFailed": "Não foi possível ler os serviços desta ferramenta.",
+      "modelProbeImageTooLarge": "A imagem gerada era grande demais para ser exibida.",
+      "modelProbeModelInvalid": "Informe um nome de modelo primeiro.",
+      "modelProbePromptInvalid": "Informe um prompt de 200 caracteres ou menos.",
+      "modelProbeTimeout": "O serviço não respondeu a tempo.",
+      "modelProbeUnreachable": "Não foi possível alcançar este serviço.",
+      "modelProbeUnreadable": "O serviço respondeu com algo que este aplicativo não conseguiu ler.",
+      "nameRequired": "Dê um nome a este serviço primeiro.",
+      "notFound": "Esse serviço não está mais aqui.",
+      "notTestable": "Este serviço não tem endereço para verificar.",
+      "removeActive": "Troque para outro serviço antes de remover este.",
+      "removeFailed": "O serviço não pôde ser removido com segurança.",
+      "removePanicked": "Algo deu errado ao remover este serviço.",
+      "removeRestoreFailed": "O serviço não pôde ser removido, e o AI Manager não conseguiu confirmar que a configuração anterior foi totalmente restaurada.",
+      "removeUnsupported": "Este serviço usa uma configuração específica da ferramenta e não pode ser removido aqui.",
+      "removeVerifyFailed": "O AI Manager não conseguiu confirmar que o serviço foi removido.",
+      "runtimeContextFailed": "Não foi possível inspecionar as fontes de configuração desta ferramenta.",
+      "runtimeResourceNotFound": "Esse recurso local não está mais disponível.",
+      "runtimeResourceOpenFailed": "Não foi possível abrir esse recurso local.",
+      "saveFailed": "Não foi possível salvar as alterações neste serviço.",
+      "saveRestoreFailed": "O serviço não pôde ser salvo, e o AI Manager não conseguiu confirmar que a configuração anterior foi totalmente restaurada.",
+      "settingsPreserveFailed": "O endpoint foi trocado, mas as outras configurações desta ferramenta não puderam ser preservadas.",
+      "storeUnavailable": "O aplicativo ainda está iniciando.",
+      "switchFailed": "Não foi possível trocar para este serviço.",
+      "testFailed": "Não foi possível executar a verificação.",
+      "unsupportedTool": "O AI Manager ainda não integrou serviços de IA para esta ferramenta."
+    },
+    "remediation": {
+      "chooseAnotherService": "Escolha outro serviço para esta ferramenta e tente novamente.",
+      "checkConnectionSettings": "Verifique o nome, a chave de API e o modelo, depois tente novamente.",
+      "checkInternetConnection": "Verifique sua conexão com a internet e tente novamente.",
+      "checkLocalFileAccess": "Verifique se a Habilidade ainda está em seu local original e se o seu sistema consegue abri-la, depois tente novamente.",
+      "checkServiceRegion": "Verifique as regiões compatíveis do fornecedor. O AI Manager não vai contornar restrições de conta ou de região do serviço.",
+      "checkMcpSettings": "Revise o nome do MCP e os detalhes da conexão, depois tente novamente.",
+      "checkPromptSettings": "Revise o nome e o conteúdo da instrução, depois tente novamente.",
+      "checkPermissions": "Verifique se o AI Manager tem permissão para alterar arquivos na sua pasta pessoal, depois tente novamente.",
+      "checkServiceSettings": "Verifique o nome e a chave, depois tente novamente.",
+      "configureInstallNetwork": "Revise o log do processo. Se um download do fornecedor estiver inacessível, configure um proxy local em Configurações e tente novamente; ferramentas gerenciadas pelo npm já usam automaticamente o fallback do espelho oficial primeiro.",
+      "chooseListedVersion": "Escolha uma das versões na lista do registro e tente novamente.",
+      "installManually": "Você pode instalar esta ferramenta você mesmo a partir do site oficial dela.",
+      "uninstallDesktopAppManually": "Use os controles de aplicativos do seu sistema operacional para remover este aplicativo desktop.",
+      "openDesktopAppManually": "Abra o aplicativo pela lista de aplicativos do seu sistema operacional.",
+      "chooseAnotherFolder": "Escolha outra pasta de projeto e tente novamente.",
+      "chooseAnotherPrompt": "Escolha outro conjunto de instruções primeiro e depois tente novamente.",
+      "openToolManually": "Abra um terminal na sua pasta de projeto e inicie a ferramenta lá.",
+      "refreshSessions": "Atualize a lista de sessões e escolha a conversa novamente.",
+      "recheckUpdate": "Verifique os detalhes da atualização novamente antes de continuar.",
+      "removeInTool": "Remova este serviço de sua configuração específica da ferramenta.",
+      "retryOrViewDetails": "Tente novamente, ou abra Ver detalhes para saber o que aconteceu.",
+      "useOriginalUpdateChannel": "Use o atualizador original desta instalação, ou remova-a explicitamente antes de instalar pelo npm.",
+      "uninstallManually": "Você pode excluir os arquivos restantes você mesmo e depois executar Verificar novamente.",
+      "pasteDeepLink": "Copie o link e cole-o em Configurações para continuar."
+    },
+    "routing": {
+      "changeFailed": "O AI Manager não conseguiu concluir essa alteração de roteamento com segurança.",
+      "providerNotEligible": "Esse serviço não pode participar do failover automático.",
+      "providerUnavailable": "Esse serviço não está mais disponível para roteamento.",
+      "queueLocked": "Desative o failover automático antes de remover este serviço ativo ou final.",
+      "readFailed": "O AI Manager não conseguiu ler o estado do roteamento local.",
+      "storeUnavailable": "O roteamento local ainda não está pronto.",
+      "takeoverRequired": "Ative a assunção de roteamento para esta ferramenta primeiro.",
+      "unsupportedTool": "O AI Manager ainda não integrou um plano de dados de roteamento local para esta ferramenta."
+    },
+    "session": {
+      "notFound": "Essa sessão local não está mais disponível.",
+      "queryInvalid": "Mantenha a busca de sessão em 200 caracteres ou menos.",
+      "readFailed": "O AI Manager não conseguiu ler essa conversa local.",
+      "resumeUnsupported": "Esta ferramenta não suporta retomar uma sessão a partir do Terminal."
+    },
+    "settings": {
+      "loadFailed": "Não foi possível ler suas configurações.",
+      "saveFailed": "Não foi possível salvar essa alteração.",
+      "storeUnavailable": "O aplicativo ainda está iniciando."
+    },
+    "skill": {
+      "actionPanicked": "Algo deu errado ao instalar esta Habilidade.",
+      "alreadyInstalled": "Essa Habilidade já está instalada.",
+      "backupConflict": "Essa Habilidade já está instalada, então esta cópia de recuperação ainda não pode ser restaurada.",
+      "backupDeleteFailed": "A cópia de recuperação da Habilidade não pôde ser excluída com segurança.",
+      "backupListFailed": "O AI Manager não conseguiu ler as cópias de recuperação de Habilidades.",
+      "backupNotFound": "Essa cópia de recuperação de Habilidade não está mais disponível.",
+      "backupRestoreFailed": "A Habilidade não pôde ser restaurada a partir dessa cópia de recuperação.",
+      "backupVerifyFailed": "O AI Manager não conseguiu confirmar que a Habilidade restaurada está pronta.",
+      "catalogFailed": "Não foi possível carregar o catálogo de Habilidades.",
+      "conflict": "Outra Habilidade instalada está usando a mesma pasta.",
+      "downloadFailed": "Não foi possível baixar a Habilidade.",
+      "installFailed": "A instalação da Habilidade não terminou.",
+      "invalidSource": "Essa origem de Habilidade não pôde ser instalada com segurança.",
+      "notInstalled": "Essa Habilidade não está mais instalada.",
+      "removeFailed": "A Habilidade não pôde ser removida com segurança.",
+      "removePanicked": "Algo deu errado ao remover esta Habilidade.",
+      "removeVerifyFailed": "O AI Manager não conseguiu confirmar que a Habilidade foi removida.",
+      "repositoryInvalid": "Essa origem de Habilidade do GitHub não é válida.",
+      "repositoryListFailed": "O AI Manager não conseguiu ler as fontes de Habilidades configuradas.",
+      "repositoryNotFound": "Essa fonte de Habilidade não está mais configurada.",
+      "repositoryRemoveFailed": "A fonte de Habilidade não pôde ser removida.",
+      "repositorySaveFailed": "A fonte de Habilidade não pôde ser salva.",
+      "storeUnavailable": "O aplicativo ainda está iniciando.",
+      "unsupportedTool": "O AI Manager ainda não integrou Habilidades para esta ferramenta.",
+      "updateCheckFailed": "O AI Manager não conseguiu terminar de verificar as atualizações de Habilidades.",
+      "updateDownloadFailed": "Não foi possível baixar a atualização da Habilidade.",
+      "updateFailed": "A atualização da Habilidade não terminou.",
+      "updatePanicked": "Algo deu errado ao atualizar esta Habilidade.",
+      "updateSourceInvalid": "Essa origem de atualização de Habilidade não pôde ser usada com segurança.",
+      "updateUnsupported": "Esta Habilidade não tem um repositório original para atualizar a partir dele.",
+      "updateVerifyFailed": "O AI Manager não conseguiu confirmar que a Habilidade foi atualizada.",
+      "verifyFailed": "O AI Manager não conseguiu confirmar que a Habilidade foi instalada.",
+      "zipInstallFailed": "As Habilidades nesse ZIP não puderam ser instaladas com segurança.",
+      "zipInvalid": "Esse arquivo não é um ZIP de Habilidade válido e seguro.",
+      "zipNoNewSkills": "Esse ZIP não continha nenhuma Habilidade nova para instalar.",
+      "zipNoSkills": "Esse ZIP não continha uma Habilidade com SKILL.md.",
+      "zipSelectionUnavailable": "O ZIP selecionado não está disponível como um arquivo local.",
+      "zipVerifyFailed": "O AI Manager não conseguiu confirmar que as Habilidades desse ZIP foram instaladas."
+    },
+    "system": {
+      "revealFailed": "Não foi possível mostrar este local no gerenciador de arquivos."
+    },
+    "tool": {
+      "actionPanicked": "Algo deu errado dentro do AI Manager.",
+      "actionUnsupported": "Esta ferramenta não suporta essa ação.",
+      "downloadAccessDenied": "O endpoint de download negou esta requisição.",
+      "downloadNetworkFailed": "Não foi possível alcançar o endpoint de download.",
+      "downloadRegistryUnavailable": "A origem de software atual negou ou restringiu esta requisição.",
+      "installFailed": "A instalação não terminou.",
+      "launchFailed": "A ferramenta não pôde ser aberta no Terminal.",
+      "nativeSupplyIntegrity": "O programa oficial baixado não correspondeu ao checksum publicado pela fonte de download, então o AI Manager o descartou.",
+      "nativeSupplyLayout": "O pacote baixado não continha um programa utilizável, ou a pasta de instalação oficial não pôde ser gravada.",
+      "nativeSupplySignature": "O programa oficial baixado falhou na verificação de assinatura do fornecedor, então o AI Manager o excluiu.",
+      "nativeSupplySwitchFailed": "A nova versão foi baixada, mas o iniciador não pôde ser trocado; o programa atual permanece inalterado.",
+      "nativeSupplyUnavailable": "A fonte de download não oferece esta versão do programa oficial.",
+      "nativeSupplyUnsupported": "O AI Manager não pode fornecer esta instalação oficial neste computador.",
+      "nativeSupplyVerifyFailed": "O programa oficial recém-baixado não relatou a versão esperada, então o AI Manager o excluiu.",
+      "notFound": "O AI Manager não suporta esta ferramenta.",
+      "notInstalled": "Esta ferramenta não está instalada.",
+      "projectFolderUnavailable": "Essa pasta de projeto não está mais disponível.",
+      "removePathDenied": "O AI Manager pode não ter permissão para excluir um dos arquivos desta ferramenta.",
+      "removePathRefused": "Este alvo está fora do limite de segurança de remoção automática, então o AI Manager parou antes de excluir qualquer coisa.",
+      "serviceRegionUnavailable": "O fornecedor informa que este serviço está indisponível na região atual.",
+      "uninstallFailed": "A remoção não terminou.",
+      "uninstallIncomplete": "Alguns arquivos desta ferramenta ainda estão no seu computador.",
+      "uninstallStrategyUnknown": "O AI Manager não consegue determinar como esta ferramenta foi instalada, então não pode removê-la.",
+      "updateFailed": "A atualização não terminou.",
+      "updatePreviewStale": "O método de atualização mudou antes de a atualização começar.",
+      "updatePreviewUnavailable": "O AI Manager não consegue confirmar um método de atualização seguro no momento.",
+      "versionCatalogFailed": "Não foi possível carregar a lista de versões publicadas.",
+      "versionHistoryReadFailed": "Não foi possível carregar o histórico de versões local desta ferramenta.",
+      "versionHistoryWriteFailed": "A alteração da ferramenta foi verificada, mas o AI Manager não conseguiu salvar seu histórico de versões.",
+      "versionInvalid": "Essa versão não pode ser instalada com segurança.",
+      "versionSourceUnsupported": "Esta instalação deve permanecer em seu canal de atualização original.",
+      "verifyFailed": "O AI Manager não conseguiu confirmar que esta ferramenta funciona."
+    },
+    "usage": {
+      "readFailed": "O AI Manager não conseguiu ler o resumo de uso local.",
+      "storeUnavailable": "Os dados de uso ainda não estão prontos."
+    },
+    "shellVariable": {
+      "movedOn": "Essa linha não é mais a de um instante atrás, então nada foi alterado. Confira novamente e tente de novo.",
+      "notAConnectionVariable": "Esta ferramenta não lê essa variável.",
+      "notRewritable": "Essa linha monta o valor executando um comando; trocá-la por texto simples mudaria o que ela faz.",
+      "outsideHome": "Essa linha está em um arquivo de sistema fora da sua pasta pessoal, e este aplicativo não o altera.",
+      "valueInvalid": "Esse valor não cabe em uma linha de um arquivo de configurações do terminal.",
+      "writeFailed": "Não foi possível gravar o arquivo de configurações do terminal. O original está intacto."
+    }
+  },
+  "nav": {
+    "appName": "AI Manager",
+    "starting": "Iniciando o AI Manager",
+    "loadingPage": "Abrindo esta página",
+    "home": "Início",
+    "tools": "Programas",
+    "services": "Endpoints de API",
+    "routing": "Roteamento local",
+    "extensions": "Habilidades",
+    "usage": "Uso",
+    "workspace": "OpenClaw",
+    "settings": "Configurações",
+    "localFirst": "Sua configuração permanece neste computador",
+    "data": "Sessões",
+    "mcp": "MCP",
+    "prompts": "Prompts globais"
+  },
+  "openClawWorkspace": {
+    "title": "Workspace do OpenClaw",
+    "description": "Molde a identidade, as instruções e a memória do OpenClaw sem editar caminhos manualmente.",
+    "loading": "Lendo o workspace do OpenClaw",
+    "openFolder": "Abrir workspace",
+    "refresh": "Atualizar workspace",
+    "retry": "Tentar novamente",
+    "error": {
+      "title": "Não foi possível ler o workspace",
+      "description": "Verifique as permissões do workspace do OpenClaw e tente novamente."
+    },
+    "overview": {
+      "title": "Visão geral do workspace",
+      "description": "Uma visão somente local das instruções e da memória do OpenClaw.",
+      "files": "Arquivos principais",
+      "filesValue": "{{ready}} de {{total}}",
+      "memories": "Memórias diárias",
+      "storage": "Armazenamento local",
+      "limited": "O workspace está incomumente grande, então este resumo tem um limite."
+    },
+    "files": {
+      "title": "Arquivos principais do workspace",
+      "description": "O OpenClaw lê estes arquivos Markdown para entender seu papel, preferências e rotinas.",
+      "status": {
+        "ready": "Pronto",
+        "missing": "Não criado",
+        "unavailable": "Indisponível"
+      },
+      "descriptionById": {
+        "agents": "Instruções e regras de operação do agente",
+        "soul": "Personalidade e estilo de comunicação",
+        "user": "Perfil e preferências do usuário",
+        "identity": "Identidade e apresentação do assistente",
+        "tools": "Notas sobre ferramentas e fluxos de trabalho locais",
+        "memory": "Memória de longo prazo e decisões selecionadas",
+        "heartbeat": "Verificações recorrentes e rotina de heartbeat",
+        "bootstrap": "Instruções de configuração da primeira execução",
+        "boot": "Checklist de reinicialização do gateway"
+      }
+    },
+    "editor": {
+      "fileTitle": "Editar {{filename}}",
+      "memoryTitle": "Memória diária · {{date}}",
+      "description": "O Markdown é salvo diretamente no workspace local do OpenClaw.",
+      "contentLabel": "Markdown do workspace",
+      "loading": "Lendo este arquivo do workspace",
+      "safety": "Antes de substituir um arquivo existente, o AI Manager mantém uma cópia de recuperação privada e verifica os bytes salvos.",
+      "save": "Salvar alterações",
+      "saved": "Workspace salvo",
+      "backupCreated": "Uma cópia de recuperação local foi mantida antes da alteração.",
+      "size": "{{current}} de {{maximum}} bytes",
+      "tooLarge": "Este arquivo é maior que o limite de segurança de 1 MiB."
+    },
+    "memories": {
+      "title": "Memória diária",
+      "description": "Navegue, busque e mantenha as notas de memória do OpenClaw organizadas por data.",
+      "openFolder": "Abrir pasta de memória",
+      "today": "Memória de hoje",
+      "searchLabel": "Buscar memória diária",
+      "searchPlaceholder": "Buscar datas e texto das notas",
+      "search": "Buscar",
+      "loading": "Lendo memória diária",
+      "empty": "Ainda não há memórias diárias",
+      "emptySearch": "Nenhuma memória corresponde a esta busca",
+      "emptyDescription": "Crie a nota de hoje ou ajuste a busca.",
+      "clearSearch": "Limpar busca",
+      "matches_one": "{{count}} correspondência",
+      "matches_other": "{{count}} correspondências",
+      "noPreview": "Nota vazia",
+      "limited": "Apenas os resultados seguros mais recentes são exibidos.",
+      "deleteLabel": "Excluir memória de {{date}}",
+      "deleteTitle": "Excluir memória de {{date}}?",
+      "deleteDescription": "A nota vai desaparecer do OpenClaw. O AI Manager mantém antes uma cópia de recuperação local.",
+      "deleteConfirm": "Excluir memória",
+      "deleted": "Memória diária excluída",
+      "deleteBackup": "Uma cópia de recuperação local foi mantida."
+    }
+  },
+  "tool": {
+    "claude-code": {
+      "description": "O agente oficial de programação com IA da Anthropic para o seu terminal."
+    },
+    "codex": {
+      "description": "O agente de terminal da OpenAI. O aplicativo desktop ChatGPT / Codex compartilha suas configurações do Codex."
+    },
+    "opencode": {
+      "description": "Um agente de programação com IA de código aberto que você pode apontar para qualquer modelo."
+    },
+    "gemini-cli": {
+      "description": "O agente de programação com IA do Google para o seu terminal."
+    },
+    "grok-build": {
+      "description": "A ferramenta de programação agêntica da xAI para o seu terminal."
+    },
+    "openclaw": {
+      "description": "Um assistente pessoal de IA que conecta modelos, ferramentas e canais de mensagens."
+    },
+    "hermes": {
+      "description": "O agente aberto da Nous Research para fluxos de trabalho no terminal."
+    },
+    "pi": {
+      "description": "Um agente de programação compacto e extensível para o seu terminal."
+    },
+    "kimi-code": {
+      "description": "O agente de programação oficial da Moonshot AI para o seu terminal."
+    },
+    "deepseek-dsh": {
+      "description": "O ambiente de programação em prévia para desenvolvedores da DeepSeek, iniciado pelo terminal com uma interface web local."
+    }
+  },
+  "tools": {
+    "details": {
+      "action": "Detalhes",
+      "title": "Detalhes de {{name}}",
+      "description": "Veja a configuração local, a memória e o armazenamento. Gerencie os prompts globais na página dedicada."
+    },
+    "title": "Gerenciador de programas",
+    "description": "Instale, atualize, remova ou troque de versão dos seus programas de programação com IA.",
+    "loading": "Verificando suas ferramentas",
+    "refresh": "Verificar novamente",
+    "scan": "Verificar novamente",
+    "upToDate": "Atualizado",
+    "checkingVersion": "Lendo informações de versão",
+    "actions": {
+      "moreNamed": "Mais ações para {{name}}"
+    },
+    "discovery": {
+      "eyebrow": "Escolha pelo objetivo",
+      "title": "Não sabe o que instalar?",
+      "description": "Compare ferramentas ainda não instaladas pelo que você quer fazer. São correspondências de cenário, não posições pagas ou rankings.",
+      "scenarioLabel": "Escolha o que você quer fazer",
+      "scenario": {
+        "officialCoding": "Usar a ferramenta oficial de programação de um fornecedor",
+        "modelChoice": "Escolher entre modelos e provedores",
+        "personalAutomation": "Criar um assistente pessoal ou automação"
+      },
+      "publisher": "Publicado por {{publisher}}",
+      "access": {
+        "vendorOrProvider": "Pode exigir o plano pago do fornecedor, login ou créditos de API; o fornecedor define o acesso e o preço.",
+        "provider": "Precisa de um provedor de modelo ou modelo local. Alguns provedores cobram por créditos de API."
+      },
+      "choose": "Mostrar {{name}}",
+      "costNote": "O AI Manager não vende contas nem créditos. Confirme a elegibilidade e o preço atuais com o publicador ou provedor antes de instalar."
+    },
+    "version": {
+      "title": "Gerenciar versões de {{name}}",
+      "description": "Instalações e atualizações normais usam automaticamente a versão estável mais recente recomendada. Use isto apenas para compatibilidade, reversão ou para escolher manualmente uma versão publicada.",
+      "loading": "Carregando versões publicadas",
+      "current": "Versão atual",
+      "notInstalled": "Não instalado",
+      "sourceLabel": "Origem da instalação",
+      "target": "Trocar para",
+      "defaultOption": "{{version}} (mais recente recomendada)",
+      "defaultGroup": "Mais recente recomendada",
+      "taggedOption": "{{version}} (canal {{tags}})",
+      "taggedGroup": "Outros canais marcados",
+      "otherPublishedGroup": "Outras versões publicadas",
+      "confirm": "Trocar para esta versão",
+      "unchanged": "Esta versão já está instalada.",
+      "currentDefault": "A versão mais recente recomendada já está instalada.",
+      "nonDefaultWarning": "Você está selecionando manualmente uma versão não recomendada. Use isso apenas para compatibilidade ou reversão, depois de confirmar a versão de que precisa.",
+      "defaultChannelNote": "Instalações e atualizações normais usam automaticamente a versão estável mais recente recomendada, {{version}}. Nenhuma seleção manual é necessária.",
+      "ownerPreserved": "O AI Manager usará o gerenciador de pacotes que possui esta CLI. Fazer downgrade altera o executável, mas mantém as configurações da sua ferramenta.",
+      "mirrorUsed": "O registro padrão não respondeu, então esta lista foi carregada pelo espelho da comunidade. Nenhuma configuração global do gerenciador de pacotes foi alterada.",
+      "restrictedTitle": "A troca automática de versão está desativada para esta instalação",
+      "source": {
+        "notInstalled": "Não instalado · o registro de pacotes será usado",
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "bun": "bun",
+        "volta": "Volta",
+        "uv": "uv tool",
+        "pipx": "pipx",
+        "brew": "Homebrew",
+        "nativeInstaller": "Instalador oficial",
+        "unmanaged": "Desconhecido ou gerenciado manualmente"
+      },
+      "restriction": {
+        "nativeInstaller": "Esta cópia veio do instalador oficial. O AI Manager a atualiza com o mesmo programa oficial e nunca instala uma segunda cópia.",
+        "brew": "O Homebrew é o dono desta cópia. Use a ação normal Atualizar; trocá-la para uma versão gerenciada separadamente deixaria duas instalações.",
+        "unmanaged": "O AI Manager não consegue comprovar qual gerenciador de pacotes é dono desta cópia, então não instalará outra versão sobre ela."
+      }
+    },
+    "updateRecovery": {
+      "title": "Esta atualização precisa de recuperação",
+      "available": "A atualização deixou esta ferramenta quebrada. O AI Manager pode restaurar a versão verificada {{version}} pelo mesmo gerenciador de pacotes.",
+      "action": "Restaurar {{version}}",
+      "namedAction": "Restaurar {{name}} para {{version}}",
+      "confirmTitle": "Restaurar {{name}} para {{version}}?",
+      "confirmBody": "O AI Manager vai reinstalar a última versão verificada correspondente pelo mesmo gerenciador de pacotes e depois verificar exatamente essa versão. As configurações da sua ferramenta permanecem inalteradas.",
+      "confirm": "Restaurar {{version}}",
+      "advisory": {
+        "historyUnavailable": "Nenhuma versão verificada correspondente foi registrada antes desta atualização. Use o instalador normal da ferramenta ou o gerenciador de pacotes responsável para repará-la.",
+        "ownershipChanged": "O dono da instalação não corresponde mais ao histórico verificado, então a restauração automática permanece desativada. Repare com o gerenciador de pacotes ou instalador que é dono desta cópia.",
+        "ownerUnsupported": "Esta origem de instalação não suporta uma restauração automática segura de versão. Use seu instalador normal ou o fluxo de recuperação do gerenciador de pacotes.",
+        "inspectionFailed": "O AI Manager não conseguiu verificar com segurança o histórico de versões ou o dono da instalação. A restauração automática permanece desativada; inspecione os detalhes e use o fluxo normal de recuperação da ferramenta."
+      }
+    },
+    "summary": {
+      "eyebrow": "Neste computador",
+      "title": "Suas ferramentas em resumo",
+      "description": "O AI Manager verifica cada ferramenta localmente e coloca o próximo passo mais útil no cartão dela.",
+      "current": "Atualizado",
+      "attention": "Precisa de atenção",
+      "available": "Disponível para instalar"
+    },
+    "coverage": {
+      "eyebrow": "10 ferramentas de linha de comando · 15 superfícies de uso",
+      "title": "Status da CLI e aplicativos desktop permanecem distintos",
+      "description": "Os cartões abaixo gerenciam dez ferramentas de linha de comando compatíveis. Os aplicativos desktop mantêm seus próprios canais de instalação e atualização.",
+      "codex": {
+        "title": "ChatGPT / Codex + Codex CLI",
+        "description": "O aplicativo desktop da OpenAI inclui o Codex e compartilha as configurações do Codex com a CLI. As ações do cartão atualizam apenas a CLI; o aplicativo desktop permanece em seu próprio canal oficial de atualização."
+      },
+      "claude": {
+        "title": "Claude Desktop + Claude Code",
+        "description": "São superfícies de configuração separadas e não compartilham um único status de instalação."
+      }
+    },
+    "appRelationship": {
+      "sharedConfiguration": {
+        "description": "{{app}} compartilha as configurações desta CLI. Uma mudança de configuração pode afetar ambas as superfícies.",
+        "manage": "Gerenciar configurações compartilhadas"
+      },
+      "separateConfiguration": {
+        "description": "{{app}} mantém configurações separadas. Mudanças nesta CLI não configuram o aplicativo desktop.",
+        "manage": "Gerenciar configurações da CLI"
+      },
+      "viewApp": "Ver {{app}}",
+      "viewAppNamed": "Ver o cartão do aplicativo desktop {{app}}"
+    },
+    "desktopApps": {
+      "title": "Aplicativos desktop",
+      "description": "O AI Manager verifica os aplicativos desktop assinados pelo fornecedor separadamente de suas ferramentas de linha de comando. Ele seleciona um pacote oficial fixo ou página de download para este sistema operacional e chip; seu navegador e o instalador do sistema concluem o download e a instalação.",
+      "loading": "Verificando aplicativos desktop",
+      "refresh": "Atualizar aplicativos",
+      "refreshError": "A última verificação de aplicativo continua sendo exibida. Atualize novamente antes de confiar nela.",
+      "opened": "{{name}} está abrindo.",
+      "officialInstallerOpened": "O download do instalador oficial de {{name}} abriu no seu navegador. Quando terminar, abra o arquivo baixado e siga as instruções do sistema.",
+      "officialDownloadOpened": "A página oficial de download de {{name}} abriu no seu navegador.",
+      "officialDownloadNetworkHint": "Se o seu navegador não conseguir alcançar o endereço, configure um proxy para o navegador ou o sistema primeiro.",
+      "uninstallHandoffOpened": "O local do sistema para desinstalar {{name}} está aberto.",
+      "items": {
+        "codex-app": {
+          "surface": "Aplicativo desktop da OpenAI · ChatGPT / Codex",
+          "description": "Use o ChatGPT ou o Codex na experiência gráfica de desktop da OpenAI, mantendo a instalação e as atualizações do Codex CLI separadas."
+        },
+        "claude-desktop": {
+          "surface": "Aplicativo desktop da Anthropic",
+          "description": "Use a experiência gráfica de desktop do Claude de forma independente do Claude Code no Terminal."
+        },
+        "cursor": {
+          "surface": "Editor de código com IA Cursor",
+          "description": "Use o Cursor como um editor de código gráfico independente. Sua instalação, conta, extensões e atualizações permanecem de responsabilidade do fornecedor."
+        },
+        "zcode": {
+          "surface": "Aplicativo desktop de programação da Z.ai",
+          "description": "Use o ZCode como um aplicativo gráfico de programação independente. Sua instalação e configurações permanecem de responsabilidade do fornecedor."
+        },
+        "cherry-studio": {
+          "surface": "Aplicativo desktop Cherry Studio",
+          "description": "Use o Cherry Studio como um cliente desktop multimodelo independente, separado de qualquer CLI gerenciada."
+        }
+      },
+      "status": {
+        "installed": "Instalado",
+        "updateAvailable": "Atualização disponível",
+        "notInstalled": "Não instalado",
+        "unsupported": "Não suportado aqui",
+        "unknown": "Verificação necessária"
+      },
+      "details": {
+        "version": "Versão do aplicativo",
+        "versionUnavailable": "Não informado",
+        "updates": "Atualizações",
+        "vendorManagedUpdates": "Gerenciadas pelo fornecedor após a instalação",
+        "officialUpdateAvailable": "A versão oficial {{version}} está disponível",
+        "updateUnavailable": "Nenhum canal de atualização gerenciado",
+        "rollback": "Reversão",
+        "rollbackAvailable": "Suportada pelo fornecedor",
+        "rollbackUnavailable": "Nenhuma versão pública de reversão",
+        "cliRelationship": "CLI relacionada"
+      },
+      "relationship": {
+        "sharedConfiguration": "Compartilha configurações com {{tool}}",
+        "separateConfiguration": "Separado de {{tool}}",
+        "standaloneApplication": "Aplicativo desktop independente"
+      },
+      "relatedTools": {
+        "codex": "Codex CLI",
+        "claude-code": "Claude Code"
+      },
+      "vendorUpdates": "O atualizador do fornecedor continua sendo a autoridade. \"Baixar a mais recente\" é uma medida de recuperação, não prova de que existe uma versão mais nova. Use seu navegador ou proxy do sistema se necessário; o AI Manager não espelha pacotes nem contorna restrições regionais.",
+      "action": {
+        "open": "Abrir aplicativo",
+        "openNamed": "Abrir {{name}}",
+        "uninstall": "Desinstalar",
+        "uninstallNamed": "Desinstalar {{name}} pelo sistema",
+        "downloadLatest": "Baixar o instalador mais recente",
+        "downloadLatestNamed": "Baixar o instalador oficial mais recente para {{name}}",
+        "downloadUpdate": "Baixar atualização",
+        "downloadUpdateNamed": "Baixar a atualização oficial para {{name}}",
+        "downloadInstaller": "Baixar instalador oficial",
+        "installOfficially": "Abrir download oficial",
+        "installOfficiallyNamed": "Abrir o download oficial de {{name}}",
+        "moreNamed": "Mais ações para {{name}}",
+        "downloadHelp": "Ajuda com o download",
+        "unsupported": "Indisponível neste sistema",
+        "unsupportedNamed": "{{name}} está indisponível neste sistema",
+        "unavailable": "Abrir indisponível",
+        "unavailableNamed": "{{name}} não pode ser aberto",
+        "viewRelatedTool": "Ver {{tool}}",
+        "viewRelatedToolNamed": "Ver o cartão de {{tool}}",
+        "sharedConfiguration": {
+          "manageTool": "Gerenciar configurações compartilhadas"
+        },
+        "separateConfiguration": {
+          "manageTool": "Gerenciar configurações de {{tool}}"
+        },
+        "manageAppMcp": "Gerenciar MCP de {{app}}"
+      },
+      "downloadHelp": {
+        "title": "Baixar {{name}}",
+        "directDescription": "O AI Manager abre o instalador oficial do fornecedor para este computador diretamente, sem passar por uma página de produto de terceiros antes.",
+        "pageDescription": "Não há um instalador fixo para este sistema, então o AI Manager só pode abrir a página oficial de download do fornecedor.",
+        "architecture": "O AI Manager identifica o sistema e o chip localmente, então você não precisa escolher entre Intel, Apple silicon, x64 ou Arm64.",
+        "systemOwned": "Seu navegador baixa o arquivo e o instalador do sistema verifica sua assinatura. O AI Manager nunca o instala silenciosamente.",
+        "restrictedNetwork": "Se o endereço oficial estiver inacessível na sua rede, configure um proxy no navegador ou no sistema e tente novamente. O proxy de download de CLI do AI Manager não controla o navegador, e o AI Manager não espelha instaladores de terceiros nem contorna restrições regionais.",
+        "retry": "Tentar novamente o download oficial"
+      },
+      "uninstall": {
+        "title": "Desinstalar {{name}} pelo sistema?",
+        "description": "O AI Manager abrirá o Finder ou a página de aplicativos instalados do sistema operacional. Você conclui a remoção lá.",
+        "confirm": "Abrir desinstalação do sistema",
+        "handoff": "O AI Manager não remove o aplicativo desktop diretamente e nunca executa um comando oculto de desinstalação.",
+        "data": "O fornecedor controla se as configurações do aplicativo, dados da conta e conversas permanecem. O AI Manager não os exclui.",
+        "refresh": "Depois de concluir no sistema, volte aqui e selecione Atualizar aplicativos."
+      },
+      "error": {
+        "title": "Não foi possível verificar os aplicativos desktop",
+        "description": "O AI Manager não conseguiu ler o inventário de aplicativos do sistema operacional agora."
+      }
+    },
+    "empty": {
+      "title": "Nenhuma ferramenta para mostrar",
+      "description": "O AI Manager não encontrou nenhuma ferramenta compatível neste computador."
+    },
+    "error": {
+      "title": "Não foi possível ler suas ferramentas",
+      "description": "O AI Manager não conseguiu examinar este computador agora."
+    },
+    "refreshError": {
+      "title": "Não foi possível atualizar suas ferramentas",
+      "description": "A última verificação continua sendo exibida. As ações de ferramenta permanecem pausadas até que uma nova verificação seja bem-sucedida."
+    },
+    "action": {
+      "unavailable": "Isso chega em uma atualização futura."
+    },
+    "open": {
+      "title": "Abrir {{name}}",
+      "description": "Inicie {{name}} na pasta padrão, ou escolha uma pasta de projeto primeiro.",
+      "localTitle": "Seu projeto permanece privado",
+      "localHint": "Escolher uma pasta não envia, examina ou altera seus arquivos.",
+      "confirm": "Iniciar agora",
+      "launchDefault": "Iniciar agora",
+      "chooseFolder": "Escolher pasta",
+      "launched": "{{name}} foi aberto no Terminal.",
+      "providerUnreachable": "{{name}} não respondeu",
+      "providerUnreachableHint": "Nada foi aberto e a configuração salva não foi alterada. Verifique novamente ou tente outro serviço compatível salvo.",
+      "noSavedAlternative": "Nenhum outro serviço compatível salvo está disponível para verificar.",
+      "retry": "Tentar novamente",
+      "retryNamed": "Tentar abrir {{name}} novamente"
+    },
+    "confirm": {
+      "install": {
+        "title": "Instalar {{name}}?",
+        "body": "O AI Manager instalará tudo o que for necessário.",
+        "confirm": "Instalar"
+      },
+      "update": {
+        "title": "Atualizar {{name}}?",
+        "body": "O AI Manager baixará e instalará a versão mais recente.",
+        "confirm": "Atualizar"
+      },
+      "repair": {
+        "title": "Reparar {{name}}?",
+        "body": "O AI Manager removerá o pacote de linha de comando danificado e o reinstalará pelo mesmo gerenciador de pacotes. Suas configurações permanecem inalteradas.",
+        "confirm": "Reparar"
+      }
+    },
+    "updatePreview": {
+      "singleDescription": "Revise como esta instalação será atualizada antes de começar.",
+      "loading": "Verificando detalhes da atualização",
+      "loadingHint": "O AI Manager está verificando a instalação ativa e seu método de atualização original.",
+      "refreshing": "Verificando os detalhes da atualização novamente",
+      "error": {
+        "title": "Não foi possível verificar os detalhes da atualização",
+        "description": "Nada será atualizado até que o AI Manager consiga confirmar um método seguro."
+      },
+      "recheck": "Verificar novamente",
+      "ready": "{{name}} será atualizado",
+      "targetVersion": "Atualiza para a versão {{version}}",
+      "skipped": "{{name}} será ignorado",
+      "needsReview": "Precisa de revisão",
+      "checked": "Caminho de atualização verificado",
+      "multipleInstallations_one": "{{count}} instalação detectada",
+      "multipleInstallations_other": "{{count}} instalações detectadas",
+      "currentDefault": "Padrão atual da linha de comando",
+      "version": "Versão {{version}}",
+      "technicalDetails": "Detalhes técnicos",
+      "commands": "Comandos planejados",
+      "installations": "Instalações detectadas",
+      "otherInstallation": "Outra instalação",
+      "rechecked": "O AI Manager verifica a instalação e o plano de atualização novamente antes de começar. Se algo mudar, ele para e pede para você revisar de novo.",
+      "paused": "As atualizações ficam pausadas enquanto o AI Manager atualiza o status da ferramenta e da tarefa.",
+      "method": {
+        "nativeSelfUpdate": "Usa o próprio atualizador de {{name}}",
+        "toolSelfUpdate": "Usa o próprio atualizador de {{name}}",
+        "officialInstaller": "Usa o instalador oficial do fornecedor",
+        "homebrew": "Atualiza pelo Homebrew",
+        "npm": "Atualiza pelo gerenciador de pacotes dono desta instalação",
+        "pnpm": "Atualiza pelo gerenciador de pacotes dono desta instalação",
+        "bun": "Atualiza pela instalação atual do Bun",
+        "volta": "Atualiza pela instalação atual do Volta",
+        "uv": "Atualiza pela instalação atual do uv",
+        "pipx": "Atualiza pela instalação atual do pipx"
+      },
+      "fallback": {
+        "nativeSelfUpdate": "Se isso não puder concluir, o AI Manager tenta novamente com o próprio atualizador da ferramenta.",
+        "toolSelfUpdate": "Se isso não puder concluir, o AI Manager tenta novamente com o próprio atualizador da ferramenta.",
+        "officialInstaller": "Se isso não puder concluir, o AI Manager tenta novamente com o instalador oficial do fornecedor.",
+        "homebrew": "Se isso não puder concluir, o AI Manager tenta novamente pelo Homebrew.",
+        "npm": "Se isso não puder concluir, o AI Manager tenta novamente pelo npm.",
+        "pnpm": "Se isso não puder concluir, o AI Manager tenta novamente pelo pnpm.",
+        "bun": "Se isso não puder concluir, o AI Manager tenta novamente pelo Bun.",
+        "volta": "Se isso não puder concluir, o AI Manager tenta novamente pelo Volta.",
+        "uv": "Se isso não puder concluir, o AI Manager tenta novamente pelo uv.",
+        "pipx": "Se isso não puder concluir, o AI Manager tenta novamente pelo pipx."
+      },
+      "blocked": {
+        "notInstalled": "A ferramenta não está mais instalada, então não há nada para atualizar.",
+        "ambiguousInstallation": "Mais de uma instalação foi encontrada, mas o AI Manager não consegue dizer qual a sua linha de comando usa atualmente. Ele não vai adivinhar.",
+        "unsupportedInstallation": "Esta instalação não tem um método de atualização automática seguro.",
+        "inspectionFailed": "O AI Manager não conseguiu terminar de verificar esta instalação."
+      },
+      "source": {
+        "notInstalled": "Não instalado",
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "bun": "Bun",
+        "volta": "Volta",
+        "uv": "uv",
+        "pipx": "pipx",
+        "brew": "Homebrew",
+        "nativeInstaller": "Instalação oficial",
+        "unmanaged": "Instalação não gerenciada"
+      }
+    },
+    "uninstall": {
+      "title": "Remover {{name}}?",
+      "description": "Escolha o que remover. Por padrão, apenas o aplicativo é removido.",
+      "submit": "Remover",
+      "back": "Voltar",
+      "confirm": "Excluir permanentemente",
+      "confirmTitle": "Excluir isto permanentemente?",
+      "confirmDescription": "Isso não pode ser desfeito.",
+      "keepSettings": "Manter suas configurações",
+      "keepSettingsHint": "Suas configurações e conversas salvas permanecem neste computador, então instalar de novo continua de onde você parou.",
+      "option": {
+        "app": "Desinstalar aplicativo",
+        "appHint": "Sempre tratado. O comando exato ou os caminhos do programa da instalação detectada são mostrados abaixo.",
+        "settings": "Remover configurações",
+        "settingsHint": "Exclui a pasta de configurações desta ferramenta.",
+        "cache": "Remover cache",
+        "cacheHint": "Exclui conversas salvas e estado local."
+      },
+      "preview": {
+        "loading": "Verificando o comando e os caminhos exatos…",
+        "none": "Nenhum caminho separado; esta opção não excluirá nenhum arquivo adicional.",
+        "protected": "Isto está fora do limite de segurança de remoção automática, então o AI Manager não vai tocar nisso.",
+        "rechecked": "O dono da instalação e os caminhos são verificados novamente antes da execução. Os valores exibidos nunca são reenviados como instruções de exclusão.",
+        "kind": {
+          "command": "Comando",
+          "directory": "Pasta",
+          "file": "Arquivo",
+          "symbolicLink": "Link simbólico",
+          "missingPath": "Caminho (atualmente ausente)"
+        },
+        "reveal": "Mostrar no gerenciador de arquivos",
+        "revealNamed": "Mostrar {{path}} no gerenciador de arquivos"
+      },
+      "impact": {
+        "app": "O aplicativo {{name}}",
+        "settings": "Suas configurações de {{name}}",
+        "cache": "Suas conversas salvas de {{name}}"
+      },
+      "warning": {
+        "sessionsInsideSettings": "Esta ferramenta mantém as conversas salvas dentro da pasta de configurações, então remover as configurações também as exclui.",
+        "outsideHome": "Arquivos mantidos fora da sua pasta pessoal nunca são excluídos. Se esta ferramenta armazena suas configurações lá, o AI Manager para antes de excluir qualquer coisa e nada é perdido. Desmarque estas caixas e tente novamente para remover apenas o aplicativo."
+      },
+      "reason": {
+        "nothingToRemove": "Esta ferramenta não mantém arquivos separados deste tipo, então não há nada aqui para excluir.",
+        "protected": "Estes locais ficam fora da sua pasta pessoal, então o AI Manager não os excluirá."
+      }
+    }
+  },
+  "home": {
+    "pageLabel": "Início",
+    "greeting": {
+      "morning": "Bom dia",
+      "afternoon": "Boa tarde",
+      "evening": "Boa noite"
+    },
+    "subtitle": {
+      "ready": "Sua configuração de programação com IA está pronta.",
+      "checking": "Verificando sua configuração antes de sugerir o próximo passo.",
+      "stale": "Mostrando a última verificação enquanto o Início é atualizado.",
+      "attention": "Algumas coisas merecem uma olhada.",
+      "action": "Algo precisa da sua atenção."
+    },
+    "card": {
+      "title": "Ambiente de IA",
+      "description": "Ferramentas, serviços e extensões verificados em um só lugar",
+      "checking": "Verificando seu ambiente de IA",
+      "toolsInstalled_one": "{{count}} ferramenta instalada",
+      "toolsInstalled_other": "{{count}} ferramentas instaladas",
+      "updatesAvailable_one": "{{count}} atualização disponível",
+      "updatesAvailable_other": "{{count}} atualizações disponíveis",
+      "needAttention_one": "{{count}} item precisa de atenção",
+      "needAttention_other": "{{count}} itens precisam de atenção",
+      "allGood": "Tudo está atualizado",
+      "nothingInstalled": "Ainda não há ferramentas instaladas",
+      "review": "Revisar",
+      "startTool": "Começar com {{name}}",
+      "startHint": "Escolha uma pasta de projeto. Seu serviço verifica o acesso no primeiro uso.",
+      "inventory": {
+        "label": "Detalhes da configuração pronta",
+        "servicesConfigured_one": "{{count}} serviço de IA configurado",
+        "servicesConfigured_other": "{{count}} serviços de IA configurados",
+        "mcpEnabled": "MCP ativado: {{enabled}} de {{total}}",
+        "noMcp": "Ainda não há conexões MCP"
+      },
+      "actions": {
+        "tools": "Abrir Ferramentas de IA",
+        "services": "Abrir Endpoints de API",
+        "extensions": "Abrir Habilidades e MCP"
+      }
+    },
+    "health": {
+      "title": "Verificação de integridade",
+      "recheck": "Verificar novamente",
+      "allGood": "Tudo parece bem",
+      "issues_one": "{{count}} problema encontrado",
+      "issues_other": "{{count}} problemas encontrados",
+      "lastChecked": "Última verificação {{time}}",
+      "checkingConnections": "Verificando conexões de serviço",
+      "connectionError": "Não foi possível iniciar a verificação de conexão. Tente novamente.",
+      "noTools": {
+        "title": "Comece com uma ferramenta de programação com IA",
+        "description": "Assim que uma for instalada, a verificação de integridade passa a cobri-la.",
+        "action": "Explorar Ferramentas de IA"
+      }
+    },
+    "quickActions": {
+      "title": "Ações rápidas",
+      "installTool": "Instalar ferramenta de IA",
+      "installDescription": "Adicione Claude Code, Codex ou OpenCode",
+      "updateAll": "Atualizar tudo",
+      "updateDescription": "Mantenha as ferramentas instaladas na versão mais recente",
+      "connectService": "Conectar serviço de IA",
+      "connectDescription": "Gerencie os serviços e chaves usados pelas suas ferramentas",
+      "laterHint": "Chega em uma atualização futura"
+    },
+    "updateAll": {
+      "title_one": "Atualizar {{count}} ferramenta?",
+      "title_other": "Atualizar {{count}} ferramentas?",
+      "reviewTitle_one": "Revisar {{count}} atualização de ferramenta",
+      "reviewTitle_other": "Revisar {{count}} atualizações de ferramentas",
+      "description": "{{names, list}} serão atualizadas em segundo plano. Você pode continuar usando o AI Manager e acompanhar o progresso em Tarefas.",
+      "previewSummary": "{{ready}} podem ser atualizadas agora. {{skipped}} serão ignoradas até que sua instalação seja revisada.",
+      "skippedSummary_one": "{{count}} ferramenta foi ignorada porque seu método de atualização não pôde ser confirmado.",
+      "skippedSummary_other": "{{count}} ferramentas foram ignoradas porque seus métodos de atualização não puderam ser confirmados.",
+      "confirm_one": "Atualizar {{count}} ferramenta",
+      "confirm_other": "Atualizar {{count}} ferramentas",
+      "retry_one": "Tentar novamente",
+      "retry_other": "Tentar restantes novamente",
+      "failure": {
+        "partial": {
+          "title": "Algumas atualizações agora estão em execução",
+          "description_one": "{{count}} atualização iniciada em Tarefas. Apenas a ferramenta que não iniciou continua selecionada.",
+          "description_other": "{{count}} atualizações iniciadas em Tarefas. Apenas as ferramentas que não iniciaram continuam selecionadas."
+        },
+        "all": {
+          "title": "Não foi possível iniciar as atualizações",
+          "description_one": "Nenhuma tarefa de atualização foi criada. Tentar novamente verifica esta ferramenta de novo antes de iniciar qualquer coisa.",
+          "description_other": "Nenhuma tarefa de atualização foi criada. Tentar novamente verifica estas ferramentas de novo antes de iniciar qualquer coisa."
+        }
+      },
+      "hints": {
+        "current": "Tudo já está atualizado",
+        "running": "As atualizações já estão em execução em Tarefas",
+        "checking": "Verificando o que pode ser atualizado",
+        "unavailable": "O status de atualização está indisponível no momento",
+        "review": "Revise esta atualização em Ferramentas de IA"
+      }
+    },
+    "error": {
+      "title": "Não foi possível verificar sua configuração",
+      "description": "O AI Manager não conseguiu examinar este computador agora."
+    },
+    "refreshError": {
+      "title": "Não foi possível atualizar o Início",
+      "description": "A última configuração verificada continua sendo exibida. Iniciar e atualizar ferramentas permanece pausado até que uma nova verificação seja bem-sucedida.",
+      "action": "Verificar novamente"
+    },
+    "refreshing": {
+      "title": "Verificando o Início novamente",
+      "description": "Iniciar e atualizar ferramentas será retomado quando esta verificação terminar."
+    }
+  },
+  "taskCenter": {
+    "open": "Atividade",
+    "openUnavailable": "Atividade, status indisponível",
+    "openRefreshError": "Atividade, mostrando o último status conhecido",
+    "openRunning_one": "Atividade, {{count}} operação em execução",
+    "openRunning_other": "Atividade, {{count}} operações em execução",
+    "title": "Atividade",
+    "running_one": "{{count}} atividade em execução",
+    "running_other": "{{count}} atividades em execução",
+    "idle": "Nenhuma atividade em execução",
+    "loading": {
+      "summary": "Verificando o status da atividade",
+      "label": "Carregando atividade…"
+    },
+    "unavailable": {
+      "summary": "O status da atividade está indisponível",
+      "title": "Não foi possível carregar a atividade",
+      "description": "Tente novamente para atualizar a atividade recente.",
+      "retry": "Tentar novamente"
+    },
+    "refreshError": {
+      "summary": "Mostrando o último status de atividade conhecido",
+      "title": "Não foi possível atualizar a atividade",
+      "description": "A última atividade conhecida continua sendo exibida. Um novo progresso pode estar faltando.",
+      "retry": "Atualizar atividade"
+    },
+    "toolAuthority": {
+      "openLabel": "Atividade: {{status}}; ações de ferramenta indisponíveis",
+      "unavailableTitle": "As ações de ferramenta estão indisponíveis",
+      "unavailableDescription": "O histórico de tarefas continua sendo exibido, mas o AI Manager não conseguiu confirmar quais ferramentas podem ser abertas.",
+      "refreshTitle": "Não foi possível atualizar suas ferramentas",
+      "refreshDescription": "Os últimos detalhes de ferramentas conhecidos continuam sendo exibidos. Abrir uma ferramenta concluída permanece pausado até que uma nova verificação seja bem-sucedida.",
+      "retry": "Verificar ferramentas novamente",
+      "pausedTitle": "A abertura de ferramentas está pausada",
+      "pausedDescription": "O AI Manager precisa confirmar a ferramenta atual antes de poder escolher uma pasta de projeto. Cancele esta janela e verifique suas ferramentas novamente em Atividade.",
+      "changedTitle": "Esta ferramenta não está mais pronta para ser aberta",
+      "changedDescription": "A verificação mais recente não mostra mais esta ferramenta como uma instalação que pode ser aberta. Cancele esta janela e revise Ferramentas de IA."
+    },
+    "empty": {
+      "title": "Ainda não há atividade",
+      "description": "Instalações, atualizações, remoções e verificações de ambiente aparecem aqui."
+    },
+    "sections": {
+      "active": "Em andamento",
+      "recent": "Atividade recente"
+    },
+    "kind": {
+      "install": "Instalar {{name}}",
+      "update": "Atualizar {{name}}",
+      "uninstall": "Remover {{name}}",
+      "repair": "Reparar {{name}}",
+      "changeVersion": "Alterar versão de {{name}}",
+      "testProviders": "Verificar serviços de {{name}}",
+      "scan": "Verificação do sistema"
+    },
+    "extension": {
+      "mcp": {
+        "install": "Adicionar conexão MCP {{name}}",
+        "uninstall": "Remover conexão MCP {{name}}"
+      },
+      "skill": {
+        "install": "Instalar habilidade {{name}}",
+        "update": "Atualizar habilidade {{name}}",
+        "uninstall": "Remover habilidade {{name}}"
+      }
+    },
+    "logs": {
+      "title": "Log do processo ({{count}})",
+      "toggle": "Mostrar ou ocultar o log do processo, {{count}} entradas",
+      "privacy": "Mantido apenas na memória. A saída é limitada e credenciais conhecidas são ocultadas.",
+      "kind": {
+        "phase": "Fase",
+        "command": "Comando",
+        "stdout": "stdout",
+        "stderr": "Diagnóstico",
+        "warning": "Aviso",
+        "system": "Sistema"
+      }
+    },
+    "viewDetails": "Ver detalhes",
+    "viewDetailsFor": "Ver detalhes: {{name}}",
+    "details": {
+      "title": "Detalhes da tarefa",
+      "code": "Código de erro",
+      "reference": "Referência",
+      "technical": "Detalhes técnicos",
+      "noTechnical": "Não há detalhes extras para este item."
+    }
+  },
+  "services": {
+    "action": {
+      "add": "Adicionar endpoint",
+      "configureNamed": "Adicionar {{name}} à ferramenta",
+      "edit": "Editar",
+      "editNamed": "Editar {{name}}",
+      "remove": "Remover",
+      "removeNamed": "Remover {{name}}",
+      "test": "Testar",
+      "testAll": "Verificar todos os endereços",
+      "testNamed": "Testar {{name}}",
+      "useNamed": "Usar {{name}}"
+    },
+    "card": {
+      "custom": "Serviço personalizado",
+      "saved": "Salvo",
+      "defaultModel": "Modelo padrão",
+      "recentModel": "Usado recentemente",
+      "unknown": "Uso não confirmado",
+      "inUse": "Em uso",
+      "noKey": "Ainda sem chave salva",
+      "notInEffect": "Selecionado, mas não em vigor",
+      "official": "Serviço oficial",
+      "overriddenBy": "Selecionado, mas substituído por {{source}}",
+      "savedEndpoint": "Endpoint salvo no AI Manager",
+      "toolSignIn": "Usa o login de {{tool}}"
+    },
+    "connect": {
+      "accountHint": "Use uma chave da sua própria conta {{service}}. O acesso à API e as cobranças ficam com esse serviço.",
+      "activateNow": "Usar agora",
+      "activateQuestion": "Usar isso em {{tool}} agora?",
+      "compatible": "Compatível",
+      "compatibleServices": "Serviços compatíveis",
+      "backToPresets": "Usar uma predefinição de serviço",
+      "customBaseUrl": "URL base HTTPS",
+      "customBaseUrlHint": "Caminhos são permitidos. Credenciais, parâmetros de consulta, fragmentos e HTTP simples são rejeitados.",
+      "customBaseUrlInvalid": "Informe uma URL base HTTPS sem credenciais.",
+      "customCompatibility": "Use um endpoint que implemente o formato de API esperado por {{tool}}. O AI Manager configura a ferramenta, mas não traduz protocolos de API.",
+      "customDescription": "Informe o endpoint HTTPS, a chave e o modelo que {{tool}} deve usar.",
+      "customEntry": "Endpoint personalizado",
+      "customEntryHint": "Precisa de um serviço que não está na lista de predefinições revisadas?",
+      "customTitle": "Adicionar endpoint de API",
+      "address": {
+        "degraded": "{{name}} foi salvo, mas o endereço do serviço respondeu lentamente",
+        "failed": "{{name}} foi salvo, mas o endereço do serviço não respondeu",
+        "operational": "{{name}} foi salvo e o endereço do serviço respondeu"
+      },
+      "addressRetry": "A configuração é mantida. Verifique sua rede e execute Verificar endereço novamente.",
+      "afterSave": "Depois de salvar, o AI Manager verifica apenas o endereço do serviço. {{tool}} verifica a chave e o modelo no primeiro uso.",
+      "description": "Adicione um serviço de API para {{tool}}. O AI Manager vai configurá-lo para você.",
+      "errorTitle": "Não foi possível concluir a conexão deste serviço",
+      "firstUse": "{{tool}} verificará a chave de API e o modelo no primeiro uso.",
+      "forTool": "Conecta-se a {{tool}}",
+      "getKey": "Obter chave de API",
+      "key": "Chave de API",
+      "keyHint": "Salva localmente. Você pode ver e copiar a chave no cartão do endpoint e no editor.",
+      "keyPlaceholder": "Cole sua chave de API",
+      "keyRequired": "Cole uma chave de API.",
+      "model": "Modelo",
+      "modelRequired": "Informe um modelo.",
+      "measuredServices": "Medido neste computador",
+      "name": "Nome",
+      "nameRequired": "Informe um nome.",
+      "noPresetMatch": "Nenhum serviço correspondente.",
+      "official": "Oficial",
+      "officialServices": "Serviço oficial",
+      "openProvider": "Abrir serviço",
+      "preset": "Predefinição de serviço",
+      "presetHint": "Escolha um modelo oficial ou compatível. Os serviços compatíveis são listados por conveniência de configuração; o AI Manager não os endossa nem os revende.",
+      "profileError": "O AI Manager não conseguiu carregar seu modelo seguro de conexão. Seus serviços salvos não foram alterados.",
+      "profileErrorTitle": "Não foi possível preparar uma nova conexão",
+      "profileRetry": "Carregar configuração de conexão novamente",
+      "retryConnect": "Tentar conectar este serviço novamente",
+      "retryHint": "O AI Manager atualizou o estado do serviço salvo. Seus dados ainda estão aqui; revise-os e tente conectar novamente.",
+      "responseTime": "{{latency}} ms",
+      "searchPresets": "Buscar serviços…",
+      "saved": "{{name}} foi salvo",
+      "speedSorted": "Ordenado pela medição mais recente deste computador.",
+      "speedTest": "Testar qual responde mais rápido",
+      "speedTestAgain": "Testar novamente",
+      "speedTestFailed": "Não foi possível medir estes serviços. Verifique sua rede e tente novamente.",
+      "speedTesting": "Testando endereços de serviço…",
+      "title": "Conectar {{service}}",
+      "unreachable": "Inacessível"
+    },
+    "description": "Escolha uma ferramenta e depois adicione, troque e verifique seus endpoints de API.",
+    "effective": {
+      "selection": {
+        "defaultModel": "Modelo padrão global: {{model}}. Configurações do projeto, flags de linha de comando ou a sessão atual podem substituí-lo.",
+        "recentModel": "Modelo usado recentemente: {{model}}. Isto é histórico local, não a sessão atual nem uma garantia da próxima seleção.",
+        "unknown": "Não foi possível confirmar o endpoint ativo. As entradas salvas não são evidência de uso. Verifique a configuração da ferramenta e a seleção de modelo."
+      },
+      "credential": {
+        "unknown": "Status da credencial não confirmado",
+        "configured": "Chave configurada",
+        "missing": "Ainda sem chave",
+        "toolLogin": "Usa o próprio login de {{tool}}"
+      },
+      "refresh": "Verificar novamente",
+      "shellNotInspected": "Apenas os arquivos de configuração foram verificados. Se você definiu variáveis de ambiente no seu terminal, a conexão real pode ser diferente do que é mostrado abaixo.",
+      "source": {
+        "environment": "Da variável de ambiente do terminal {{variable}}",
+        "liveConfig": "De {{path}}",
+        "shellFile": "De {{variable}} em {{path}}",
+        "toolDefault": "Nenhuma configuração personalizada; a ferramenta usa seu próprio endereço padrão"
+      },
+      "errorTitle": "Não foi possível ler qual conexão está em vigor",
+      "errorDescription": "A lista abaixo ainda está correta, mas por enquanto não conseguimos dizer qual entrada está realmente sendo usada.",
+      "shellNotInspectedTitle": "Não foi possível ler o ambiente do terminal"
+    },
+    "external": {
+      "badge": "Fora deste aplicativo",
+      "endpoint": "Endpoint em vigor agora",
+      "overrides": "{{name}} vai usar este endereço. Ele tem prioridade sobre o que você escolher abaixo."
+    },
+    "endpoints": {
+      "title": "Endpoints de {{tool}}",
+      "count_one": "{{count}} endpoint salvo",
+      "count_other": "{{count}} endpoints salvos"
+    },
+    "empty": {
+      "description": "Conecte um serviço de API e o AI Manager configurará esta ferramenta para você.",
+      "title": "Ainda não há nada aqui"
+    },
+    "error": {
+      "description": "Tente novamente, ou abra a ferramenta uma vez e volte.",
+      "title": "Não foi possível ler os serviços"
+    },
+    "refreshError": {
+      "description": "Os últimos serviços salvos continuam sendo exibidos. As ações de serviço permanecem pausadas até que uma nova verificação seja bem-sucedida.",
+      "title": "Não foi possível atualizar os Endpoints de API"
+    },
+    "form": {
+      "addHeader": "Adicionar cabeçalho",
+      "addModel": "Adicionar modelo",
+      "advancedHint": "Apenas as configurações comuns compatíveis com esta ferramenta são exibidas. Outros campos permanecem intocados.",
+      "advancedManaged": "Este serviço é gerenciado pela ferramenta ou por um login de conta. As configurações de endpoint permanecem somente leitura aqui.",
+      "advancedTitle": "Configurações avançadas",
+      "baseUrl": "URL base",
+      "baseUrlHint": "Use HTTPS, ou HTTP apenas para localhost. Limpar este campo remove o endpoint personalizado para que a ferramenta use seu próprio padrão.",
+      "routeAdd": "Adicionar rota",
+      "routeAddLabel": "Nova rota de serviço",
+      "routeAddPlaceholder": "https://api.exemplo.com/v1",
+      "routeDuplicate": "Essa rota já está neste serviço.",
+      "routeEmpty": "Adicione ou informe pelo menos uma rota antes de testar.",
+      "routeFixed": "Fixa",
+      "routeInvalid": "Use uma URL HTTPS sem credenciais, ou HTTP apenas para localhost.",
+      "routeLatency": "{{latency}} ms",
+      "routeLimit": "Mantenha no máximo 32 rotas, incluindo a atual.",
+      "routeRemove": "Remover rota {{route}}",
+      "routeUnreachable": "Inacessível",
+      "routes": "Rotas de serviço",
+      "routesAuto": "Selecionar a rota mais rápida após cada teste",
+      "routesAutoHint": "Isso atualiza a URL base neste rascunho. Não faz monitoramento em segundo plano.",
+      "routesHint": "Mantenha URLs base alternativas para este serviço. O teste só começa quando você pedir.",
+      "routesTest": "Testar rotas",
+      "routesTestFailed": "Não foi possível testar estas rotas. Verifique sua rede e tente novamente.",
+      "routesTesting": "Testando rotas…",
+      "description": "Altere o nome, a chave ou o modelo.",
+      "errorTitle": "Não foi possível concluir o salvamento deste serviço",
+      "headerKeepValue": "Deixe em branco para manter o valor salvo",
+      "headerNameNamed": "Nome do cabeçalho {{index}}",
+      "headerNamePlaceholder": "X-Tenant-ID",
+      "headerRequired": "Todo cabeçalho novo precisa de um nome e um valor válidos.",
+      "headers": "Cabeçalhos da requisição",
+      "headersHint": "Os valores salvos nunca são exibidos novamente. Deixe um valor existente em branco para mantê-lo; remova sua linha para excluí-lo.",
+      "headerValueNamed": "Valor de {{name}}",
+      "headerValuePlaceholder": "Valor do cabeçalho",
+      "key": "Chave de API",
+      "keyHint": "Deixe em branco para manter a chave já salva.",
+      "keyHintEmpty": "Cole a chave que você recebeu deste serviço.",
+      "modelNamed": "Modelo {{index}}",
+      "modelRequired": "Informe um ID de modelo ou remova a linha incompleta.",
+      "models": "Modelos",
+      "modelsHintMultiple": "Os mapeamentos de modelo existentes do OpenCode mantêm suas configurações completas. Remova uma linha somente quando pretender excluir esse mapeamento.",
+      "modelsHintSingle": "Deixe em branco para deixar a ferramenta usar seu próprio modelo padrão.",
+      "name": "Nome",
+      "nameHint": "Exibido apenas aqui, neste aplicativo.",
+      "nameRequired": "Informe um nome.",
+      "retryHint": "O AI Manager atualizou o estado do serviço salvo. Revise suas alterações e tente salvar novamente.",
+      "retrySave": "Tentar salvar este serviço novamente",
+      "removeHeaderNamed": "Remover cabeçalho {{name}}",
+      "removeModelNamed": "Remover modelo {{model}}",
+      "save": "Salvar",
+      "settingsLoading": "Carregando configurações seguras do serviço…",
+      "settingsUnavailable": "Não foi possível ler as configurações extras. Você ainda pode salvar o nome ou substituir a chave; essas configurações permanecerão intocadas.",
+      "title": "Editar serviço"
+    },
+    "loading": "Carregando serviços",
+    "runtime": {
+      "description": "Veja onde esta ferramenta realmente lê instruções globais, memória, configuração e sessões de projeto.",
+      "loading": "Verificando fontes de configuração",
+      "localOnlyNote": "Apenas locais e tamanhos de arquivos locais. O conteúdo dos arquivos não é enviado.",
+      "notCreated": "Não criado",
+      "openConfigFolder": "Abrir pasta de configuração",
+      "openConfigFile": "Abrir arquivo de configuração",
+      "projectUsageNote": "Os arquivos em nível de usuário são listados aqui. Gerencie regras específicas de projeto em cada pasta de projeto.",
+      "refresh": "Atualizar contexto local",
+      "action": {
+        "browse": "Abrir local",
+        "create": "Criar e editar",
+        "edit": "Abrir e editar",
+        "manage": "Gerenciar"
+      },
+      "openOutcome": {
+        "editorOpened": "Aberto no editor padrão",
+        "folderOpened": "Aberto no gerenciador de arquivos"
+      },
+      "resource": {
+        "configuration": {
+          "description": "Endpoints, login e configurações da ferramenta. Arquivos existentes abrem no aplicativo padrão; arquivos ausentes abrem a pasta deles.",
+          "title": "Configuração de execução"
+        },
+        "instructions": {
+          "description": "Um prompt global em nível de usuário usado por esta ferramenta em todo projeto. Crie o arquivo diretamente quando ele estiver ausente.",
+          "managedDescription": "O prompt ativo. Edite ou troque-o na página Prompts globais.",
+          "title": "Prompt global"
+        },
+        "memory": {
+          "description": "Memória que a ferramenta armazena localmente e pode reutilizar em conversas futuras.",
+          "title": "Memória"
+        },
+        "sessionData": {
+          "description": "Sessões de projeto locais, histórico de conversas e estado da ferramenta.",
+          "title": "Dados de sessão do projeto"
+        },
+        "userProfile": {
+          "description": "O perfil de usuário local e as preferências de longo prazo que esta ferramenta usa para entender você.",
+          "title": "Perfil do usuário"
+        }
+      },
+      "scope": {
+        "global": "Global",
+        "project": "Projeto"
+      },
+      "storage": {
+        "conversationBytes": "Dados de conversas",
+        "limited": "Pastas grandes ou ilegíveis são mostradas como um limite inferior seguro.",
+        "resourceSize": "Tamanho local: {{size}}",
+        "sizeUnavailable": "Tamanho indisponível",
+        "total": "Dados locais listados"
+      },
+      "title": "Contexto e armazenamento locais"
+    },
+    "noTools": {
+      "description": "Instale uma ferramenta primeiro; os serviços dela aparecerão aqui.",
+      "title": "Ainda não há ferramenta para configurar"
+    },
+    "refresh": "Atualizar",
+    "remove": {
+      "activeHint": "Escolha outro serviço antes de remover este.",
+      "confirm": "Remover serviço",
+      "description": "Isso remove o serviço salvo do AI Manager e de {{tool}}.",
+      "errorTitle": "Não foi possível concluir a remoção deste serviço",
+      "errorRetry": "Revise o serviço e tente novamente.",
+      "managedHint": "Este serviço usa uma configuração específica da ferramenta e não pode ser removido aqui.",
+      "point": {
+        "account": "Sua conta não é excluída, e a chave não é revogada pelo serviço.",
+        "local": "O serviço e a chave salvos serão removidos de {{tool}}.",
+        "otherTools": "Outras ferramentas de IA e seus serviços permanecem inalterados."
+      },
+      "removed": "{{name}} removido",
+      "retryNamed": "Tentar remover {{name}} novamente",
+      "title": "Remover {{name}}?"
+    },
+    "scope": "Ferramenta de IA",
+    "scopeUnsupportedShort": "Não integrado",
+    "scopeSharedShort": "Compartilhado com um aplicativo desktop",
+    "scopeUnsupportedTitle": "O AI Manager ainda não integrou a configuração de serviço de {{tool}}",
+    "scopeUnsupportedDescription": "Isso significa que o AI Manager ainda não tem um adaptador seguro; não significa necessariamente que {{tool}} não possa usar serviços personalizados. A ferramenta instalada permanece visível para maior clareza.",
+    "scopeSave": {
+      "errorDescription": "Você ainda está vendo {{tool}}. Tente novamente para abrir esta ferramenta aqui da próxima vez.",
+      "errorTitle": "Visualização da ferramenta não lembrada",
+      "retry": "Tentar novamente",
+      "saving": "Lembrando esta ferramenta"
+    },
+    "switch": {
+      "configuredNamed": "{{name}} adicionado à configuração da ferramenta",
+      "chooseModelHint": "O modelo padrão não mudou. Escolha o modelo desejado em {{tool}}.",
+      "appliedNamed": "Trocado para {{name}}",
+      "errorNamed": "Não foi possível concluir a troca para {{name}}",
+      "openNow": "Abrir agora",
+      "reopenHint": "{{tool}} que já está em execução mantém seu endpoint anterior até que você a reabra.",
+      "retryHint": "O AI Manager atualizou o estado do serviço salvo. Tente a mesma troca novamente.",
+      "retryNamed": "Tentar trocar para {{name}} novamente",
+      "switchingNamed": "Trocando para {{name}}"
+    },
+    "failover": {
+      "tryNext": "Tentar o próximo serviço disponível",
+      "tryNextNamed": "Tentar o próximo serviço salvo disponível para {{name}}",
+      "noneAvailable": "Nenhum outro serviço salvo respondeu. A configuração atual não foi alterada.",
+      "automaticSuccess": "{{from}} não respondeu. Trocado para {{to}}.",
+      "manualSuccess": "Trocado de {{from}} para o serviço disponível {{to}}.",
+      "unknownService": "Serviço desconhecido"
+    },
+    "summary": {
+      "activeTitle": "{{service}} está ativo para {{tool}}",
+      "checked": "Endereços verificados",
+      "description": "Troque de serviço ou verifique se seus endereços respondem. O AI Manager cuida da configuração para você.",
+      "eyebrow": "Visão geral da conexão",
+      "noActiveTitle": "Serviços salvos para {{tool}}",
+      "saved": "Salvo",
+      "testable": "Pode verificar endereço"
+    },
+    "start": {
+      "action": "Iniciar {{tool}}",
+      "description": "Escolha uma pasta de projeto. {{tool}} abre lá no Terminal; o serviço verifica a chave e o modelo salvos no primeiro uso.",
+      "eyebrow": "Próximo passo",
+      "title": "Sua configuração está salva. Comece em {{tool}}"
+    },
+    "test": {
+      "browseCompatible": "Explorar serviços compatíveis",
+      "browseCompatibleNamed": "Explorar serviços compatíveis para {{name}}",
+      "checkingNamed": "Verificando {{name}}",
+      "degraded": "O endereço respondeu lentamente",
+      "errorNamed": "Não foi possível verificar o endereço de {{name}}",
+      "failed": "O endereço não respondeu",
+      "latency": "{{ms}} ms",
+      "operational": "Endereço alcançado",
+      "retry": "Tentar novamente",
+      "retryHint": "A verificação que falhou não alterou este serviço. Tente a mesma verificação novamente.",
+      "retryNamed": "Verificar {{name}} novamente",
+      "unreachableHint": "Não foi possível alcançar este endereço a partir da sua rede atual. Você pode escolher outro serviço compatível."
+    },
+    "probe": {
+      "title": "Testar {{name}}",
+      "addressChecking": "Verificando o endereço…",
+      "model": "Modelo",
+      "modelCount": "{{count}} modelos disponíveis",
+      "modelLoading": "Lendo a lista de modelos…",
+      "modelReload": "Recarregar",
+      "modelManual": "Nome do modelo",
+      "modelManualHint": "Este serviço não publica uma lista de modelos, então digite o nome do modelo você mesmo.",
+      "modelRefused": "O serviço recusou a lista de modelos (HTTP {{status}}).",
+      "modelTruncated": "Mostrando os primeiros {{count}}.",
+      "kind": "Enviar",
+      "kindText": "Texto",
+      "kindImage": "Imagem",
+      "kindHint": "Deduzido a partir do nome do modelo. Troque se estiver errado.",
+      "prompt": "Prompt",
+      "send": "Enviar",
+      "sending": "Aguardando o serviço…",
+      "cost": "Isto envia uma requisição real e usa sua cota.",
+      "result": "Resultado",
+      "resultMeta": "HTTP {{status}} · {{ms}} ms",
+      "replyEmpty": "O serviço respondeu, mas não retornou nada.",
+      "replyRefused": "O serviço recusou esta requisição.",
+      "replyImageLinkOnly": "O serviço retornou um link em vez de dados de imagem, então a imagem não pode ser exibida aqui.",
+      "imageAlt": "Imagem gerada por {{model}}",
+      "adopt": "Usar este modelo",
+      "adopted": "Salvo neste serviço.",
+      "adoptFailed": "Não foi possível salvar o modelo.",
+      "effectiveNote": "Esta conexão não tem nenhum registro salvo aqui, então não há verificação de endereço para rodar antes."
+    },
+    "title": "Endpoints de API",
+    "toolsError": {
+      "description": "O AI Manager não conseguiu verificar quais ferramentas você tem. Tente novamente para ver seus serviços.",
+      "title": "Não foi possível ler suas ferramentas"
+    },
+    "toolsRefreshError": {
+      "title": "Não foi possível atualizar suas ferramentas",
+      "description": "A última verificação de ferramentas e serviços continua sendo exibida. Conectar, trocar, verificar, editar, remover e iniciar permanecem pausados até que uma nova verificação de ferramenta seja bem-sucedida.",
+      "action": "Verificar ferramentas novamente"
+    },
+    "actionsPaused": {
+      "title": "As ações de serviço estão pausadas",
+      "description": "O AI Manager precisa confirmar a ferramenta atual e o estado do serviço antes de poder fazer outra alteração ou iniciar a ferramenta."
+    },
+    "shellVariable": {
+      "at": "Linha {{line}} de {{path}}",
+      "editNamed": "Editar {{variable}} onde seu terminal a define",
+      "nothingChanged": "Nada foi alterado. Confira novamente e tente de novo.",
+      "openTerminalsKeepTheOldValue": "Um terminal já aberto mantém o valor antigo até ser reiniciado.",
+      "save": "Salvar",
+      "saved": "Salvo.",
+      "title": "Editar {{variable}}",
+      "value": "Valor"
+    }
+  },
+  "extensions": {
+    "help": "Ajuda",
+    "location": {
+      "action": "Mostrar no gerenciador de arquivos",
+      "description": "Localize o arquivo ativo deste software, ou sua pasta existente mais próxima se ainda não foi criado.",
+      "promptNote": "Prompts salvos e inativos não têm arquivos separados."
+    },
+    "title": "Habilidades, MCP e Prompts globais",
+    "description": "Adicione Habilidades, conecte MCP e gerencie prompts globais para cada ferramenta de IA.",
+    "refresh": "Atualizar",
+    "loading": "Carregando extensões",
+    "addLater": "Você pode gerenciar as extensões que já tem. Adicionar novas chega em uma atualização futura.",
+    "addLaterTitle": "Adicionar extensões",
+    "kindScope": "Tipo de extensão",
+    "toolScope": "Ferramenta de IA",
+    "scope": {
+      "unsupportedShort": "Não integrado",
+      "unsupportedTitle": "O AI Manager ainda não integrou {{kind}} para {{tool}}",
+      "unsupportedDescription": "O AI Manager atualmente não tem um adaptador de gerenciamento seguro para esta entrada. Isso não significa necessariamente que {{tool}} não tenha o recurso. A ferramenta instalada permanece visível para maior clareza."
+    },
+    "adoption": {
+      "kind": {
+        "skill": "Habilidade",
+        "mcp": "conexão MCP",
+        "prompt": "prompt"
+      },
+      "kindPlural": {
+        "skill": "Habilidades",
+        "mcp": "conexões MCP",
+        "prompt": "prompts"
+      },
+      "noticeTitle": "Encontrado(s) neste Mac: {{count}}",
+      "noticeDescription": "Isto já funciona em {{tool}}. Adicione ao AI Manager antes de alterar ou remover aqui.",
+      "openOne": "Adicionar 1 {{kind}} encontrada ao AI Manager",
+      "openMany": "Adicionar {{count}} {{kind}} encontradas ao AI Manager",
+      "titleOne": "Gerenciar a {{kind}} encontrada neste Mac?",
+      "titleMany": "Gerenciar as {{count}} {{kind}} encontradas neste Mac?",
+      "description": "Revise o que vai mudar antes de o AI Manager começar a gerenciar estes itens.",
+      "originalUnchanged": {
+        "skill": "Os arquivos de Habilidade atuais permanecem no lugar e não são reescritos durante a importação.",
+        "mcp": "A configuração MCP atual permanece no lugar e não é reescrita durante a importação.",
+        "prompt": "Os arquivos de instrução atuais permanecem no lugar e não são reescritos durante a importação."
+      },
+      "managedCopy": "O AI Manager mantém sua cópia gerenciada neste Mac.",
+      "mcpPrivate": "Comandos de conexão, argumentos e credenciais permanecem neste Mac e nunca são exibidos nesta janela.",
+      "futureChanges": "Após a importação, desativar ou remover itens pode alterar as cópias gerenciadas em ferramentas compatíveis.",
+      "confirm": "Adicionar ao AI Manager",
+      "retry": "Tentar novamente",
+      "errorTitle": "Não foi possível adicionar os itens encontrados",
+      "errorRetry": "O AI Manager atualizou o que consegue ler. Revise a mensagem e tente novamente."
+    },
+    "scopeSave": {
+      "saving": "Lembrando esta visualização",
+      "errorTitle": "Esta visualização não foi lembrada",
+      "errorDescription": "Você pode continuar trabalhando aqui. Tente novamente para que o AI Manager abra a mesma visualização de extensão da próxima vez.",
+      "retry": "Tentar novamente"
+    },
+    "inventory": {
+      "detected": {
+        "title": "Encontrado nesta ferramenta",
+        "description": "Lido diretamente de {{tool}} neste Mac; o conteúdo permanece em seu local original.",
+        "rescan": "Verificar novamente"
+      },
+      "managed": {
+        "title": "Gerenciado pelo AI Manager",
+        "description": "Salvo localmente pelo AI Manager e disponível para gerenciar aqui."
+      }
+    },
+    "copy": {
+      "title": "Copiar \"{{name}}\" para outro aplicativo",
+      "description": "O AI Manager copia a pasta da Habilidade. O original permanece onde está, e as duas cópias passam a ser independentes a partir daí.",
+      "targetsLabel": "Copiar para estes aplicativos",
+      "confirm": "Copiar",
+      "alreadyHas": "Já tem",
+      "copied": "Copiado",
+      "failed": "Não copiado",
+      "independent": "Copiado. Esta cópia evolui por conta própria a partir de agora; alterá-la não afetará o original.",
+      "noTargets": "Todo outro aplicativo que pode usar Habilidades já tem esta."
+    },
+    "card": {
+      "itemLabel": "{{name}}, item {{position}} de {{total}}",
+      "detected": "Encontrado neste Mac",
+      "detectedDescription": "Já usado por esta ferramenta. O AI Manager apenas o exibe aqui e não o copia nem o reescreve.",
+      "onlyIn": "Somente {{tool}} tem esta Habilidade",
+      "alsoIn": "{{tools, list}} também têm esta Habilidade",
+      "openLocation": "Abrir local",
+      "openLocationNamed": "Abrir o local de {{name}}",
+      "editDocument": "Editar SKILL.md",
+      "editDocumentNamed": "Editar o SKILL.md de {{name}}",
+      "copyTo": "Copiar para…",
+      "copyToNamed": "Copiar {{name}} para outro aplicativo",
+      "locationOpened": "O local de {{name}} está aberto.",
+      "documentOpened": "O SKILL.md de {{name}} está aberto no seu editor padrão.",
+      "resourceOpenErrorNamed": "Não foi possível abrir {{name}}",
+      "on": "Ativado",
+      "off": "Desativado",
+      "noDescription": "Ainda sem descrição.",
+      "expandDescription": "Mostrar mais",
+      "collapseDescription": "Mostrar menos",
+      "edit": "Editar",
+      "editNamed": "Editar {{name}}, item {{position}} de {{total}}",
+      "remove": "Remover",
+      "removeNamed": "Remover {{name}}, item {{position}} de {{total}}",
+      "enableErrorNamed": "Não foi possível ativar {{name}}",
+      "disableErrorNamed": "Não foi possível desativar {{name}}",
+      "retry": "Tentar novamente",
+      "retryEnableNamed": "Tentar ativar {{name}} novamente, item {{position}} de {{total}}",
+      "retryDisableNamed": "Tentar desativar {{name}} novamente, item {{position}} de {{total}}",
+      "retryHint": "O AI Manager atualizou o status que consegue ler. Tente a mesma alteração novamente.",
+      "updateAvailable": "Atualização disponível",
+      "update": "Atualizar",
+      "updateNamed": "Atualizar {{name}}, item {{position}} de {{total}}",
+      "updating": "Atualizando",
+      "useNamed": "Usar {{name}}, item {{position}} de {{total}}"
+    },
+    "error": {
+      "title": "Não foi possível ler as extensões",
+      "description": "Tente novamente, ou abra a ferramenta uma vez e volte."
+    },
+    "refreshError": {
+      "title": "Não foi possível atualizar estas extensões",
+      "description": "A última lista continua sendo exibida. As ações de extensão permanecem pausadas até que uma nova verificação seja bem-sucedida."
+    },
+    "toolsError": {
+      "title": "Não foi possível ler suas ferramentas",
+      "description": "O AI Manager não conseguiu verificar quais ferramentas você tem, então não pode mostrar suas extensões. Tente novamente."
+    },
+    "toolsRefreshError": {
+      "title": "Não foi possível atualizar suas ferramentas",
+      "description": "A última verificação de ferramentas e extensões continua sendo exibida. Adicionar, alterar e remover extensões permanece pausado até que uma nova verificação de ferramenta seja bem-sucedida.",
+      "action": "Verificar ferramentas novamente"
+    },
+    "actionsPaused": {
+      "title": "As alterações de extensão estão pausadas",
+      "description": "O AI Manager precisa confirmar a ferramenta atual e o estado da tarefa antes de poder fazer outra alteração."
+    },
+    "noTools": {
+      "title": "Ainda não há ferramenta para isto",
+      "description": "Instale uma ferramenta compatível com isto e depois volte."
+    },
+    "skill": {
+      "title": "Habilidades",
+      "explainer": "Conhecimento pronto que suas ferramentas de IA podem seguir para uma tarefa específica.",
+      "catalog": {
+        "add": "Adicionar Habilidade",
+        "title": "Adicionar uma Habilidade",
+        "description": "Escolha conhecimento pronto para {{tool}}. O catálogo é carregado do GitHub enquanto esta janela está aberta, com um transporte verificado alternativo para interrupções temporárias.",
+        "searchLabel": "Buscar no catálogo de Habilidades",
+        "searchPlaceholder": "Buscar Habilidades ou repositórios",
+        "trustNote": "O repositório do GitHub exibido em cada linha continua sendo a fonte. Um canal confiável do jsDelivr pode apenas transportar seus arquivos públicos verificados por tamanho e SHA-256.",
+        "loading": "Carregando o catálogo de Habilidades de suas fontes do GitHub…",
+        "errorTitle": "Não foi possível carregar o catálogo de Habilidades",
+        "errorDescription": "Tente novamente. Se ambos os caminhos de origem continuarem inacessíveis, abra Configurações e configure o Proxy local de download.",
+        "refreshingTitle": "Verificando o catálogo de Habilidades mais recente",
+        "refreshingDescription": "Você pode continuar explorando o último catálogo. Instalar fica disponível quando a verificação terminar.",
+        "refreshErrorTitle": "Não foi possível atualizar o catálogo de Habilidades",
+        "refreshErrorDescription": "O último catálogo continua sendo exibido. A instalação permanece pausada até que uma nova verificação seja bem-sucedida; se necessário, configure o Proxy local de download em Configurações.",
+        "mirrorTitle": "Catálogo carregado por um transporte alternativo confiável",
+        "mirrorDescription": "O GitHub não respondeu a esta verificação, então o AI Manager usou o jsDelivr para transportar um snapshot verificado por tamanho e SHA-256. O repositório do GitHub continua sendo a autoridade, e nenhuma configuração global foi alterada.",
+        "retry": "Tentar novamente",
+        "empty": "Nenhuma Habilidade está disponível",
+        "noResults": "Nenhuma Habilidade corresponde a essa busca",
+        "noResultsDescription": "Tente um nome ou repositório diferente.",
+        "emptyDescription": "Verifique sua conexão e as fontes de Habilidades ativadas e tente novamente.",
+        "source": "De {{source}}",
+        "installed": "Instalada",
+        "installedNamed": "{{name}} está instalada",
+        "install": "Instalar",
+        "installNamed": "Instalar {{name}}",
+        "installErrorNamed": "Não foi possível iniciar a instalação de {{name}}",
+        "retryInstallNamed": "Tentar instalar {{name}} novamente",
+        "queued": "Instalando {{name}}",
+        "queuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas."
+      },
+      "zip": {
+        "action": "Instalar ZIP",
+        "title": "Instalar Habilidades a partir de um ZIP",
+        "description": "Escolha um arquivo local para {{tool}}. O arquivo permanece neste computador.",
+        "choose": "Escolher ZIP e instalar",
+        "trustTitle": "Use um arquivo de sua confiança",
+        "trustDescription": "O AI Manager lê o arquivo localmente e rejeita caminhos inseguros e extrações com tamanho excessivo. Seus arquivos ainda podem alterar o comportamento da sua ferramenta de IA.",
+        "formatTitle": "O que o arquivo precisa ter",
+        "formatDescription": "Use um arquivo .zip com pelo menos uma pasta de Habilidade contendo SKILL.md.",
+        "syncTitle": "O que acontece em seguida",
+        "syncDescription": "Habilidades novas e sem conflito são adicionadas ao armazenamento gerenciado e sincronizadas com esta ferramenta.",
+        "partialNote": "Se uma Habilidade posterior no arquivo falhar, Habilidades anteriores podem já estar instaladas. Tarefas mostra o resultado e a lista de Habilidades é atualizada automaticamente.",
+        "queued": "Instalando Habilidades a partir de um ZIP",
+        "queuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas.",
+        "errorHint": "Revise a mensagem, escolha o arquivo novamente e tente de novo."
+      },
+      "backups": {
+        "action": "Cópias de recuperação",
+        "title": "Cópias de recuperação de Habilidades",
+        "description": "Restaure ou remova cópias locais feitas antes de uma Habilidade gerenciada ser removida. Restaurar a ativa para {{tool}}.",
+        "localTitle": "Armazenadas apenas neste computador",
+        "localDescription": "O AI Manager mantém até 20 cópias recentes. Seus arquivos e caminhos nunca saem deste dispositivo.",
+        "refresh": "Atualizar",
+        "loading": "Lendo cópias de recuperação de Habilidades",
+        "errorTitle": "Não foi possível ler as cópias de recuperação de Habilidades",
+        "errorDescription": "A última lista conhecida pode estar incompleta. Atualize antes de restaurar ou excluir uma cópia.",
+        "empty": "Ainda não há cópias de recuperação. O AI Manager cria uma antes de remover uma Habilidade gerenciada.",
+        "createdAt": "Salva em {{date}}",
+        "alreadyInstalled": "Já instalada",
+        "restore": "Restaurar",
+        "restoreNamed": "Restaurar {{name}} a partir desta cópia de recuperação",
+        "restoreQueued": "Restaurando {{name}}",
+        "restoreQueuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas.",
+        "delete": "Excluir",
+        "deleteNamed": "Excluir a cópia de recuperação de {{name}}",
+        "deleteTitle": "Excluir a cópia de recuperação de {{name}}?",
+        "deleteDescription": "Isso exclui permanentemente apenas esta cópia de recuperação. Uma Habilidade instalada e outras cópias permanecem inalteradas.",
+        "deleteConfirm": "Excluir cópia",
+        "deleteSuccess": "Cópia de recuperação de {{name}} excluída",
+        "mutationErrorHint": "A lista é atualizada a partir do disco. Revise a mensagem e tente novamente."
+      },
+      "repositories": {
+        "manage": "Gerenciar fontes",
+        "title": "Fontes de Habilidades",
+        "description": "Escolha quais repositórios confiáveis do GitHub fornecem o catálogo de Habilidades. As Habilidades instaladas são gerenciadas separadamente.",
+        "back": "Voltar ao catálogo",
+        "location": "Repositório do GitHub",
+        "locationPlaceholder": "proprietario/repositorio ou https://github.com/proprietario/repositorio",
+        "branch": "Branch (opcional)",
+        "branchPlaceholder": "Detectar main ou master automaticamente",
+        "validation": {
+          "location": "Informe um nome proprietario/repositorio ou uma URL completa de repositório do GitHub em HTTPS."
+        },
+        "add": "Adicionar fonte",
+        "loading": "Lendo fontes de Habilidades configuradas",
+        "errorTitle": "Não foi possível ler as fontes de Habilidades",
+        "errorDescription": "As últimas fontes conhecidas podem estar incompletas. Tente lê-las novamente antes de fazer alterações.",
+        "retry": "Ler novamente",
+        "empty": "Nenhuma fonte de Habilidades está configurada. Adicione um repositório confiável do GitHub acima.",
+        "defaultBranch": "Branch padrão",
+        "branchValue": "Branch: {{branch}}",
+        "enableNamed": "Ativar fonte de Habilidades {{name}}",
+        "disableNamed": "Desativar fonte de Habilidades {{name}}",
+        "remove": "Remover",
+        "removeNamed": "Remover fonte de Habilidades {{name}}",
+        "removeTitle": "Remover {{name}} das fontes de Habilidades?",
+        "removeDescription": "Ela desaparece do catálogo. Habilidades já instaladas a partir dela permanecem instaladas.",
+        "removeConfirm": "Remover fonte",
+        "mutationErrorHint": "A lista de fontes anterior não foi alterada. Revise a entrada e tente novamente."
+      },
+      "remove": {
+        "title": "Remover {{name}}?",
+        "description": "Isso remove a Habilidade gerenciada do AI Manager e de todas as ferramentas de IA onde está ativada.",
+        "point": {
+          "everywhere": "A Habilidade será removida de todos os lugares onde está ativada atualmente.",
+          "recovery": "O AI Manager tentará manter uma cópia de recuperação antes de remover os arquivos gerenciados.",
+          "external": "Cópias externas não reconhecidas e as configurações das suas outras ferramentas não são afetadas."
+        },
+        "confirm": "Remover Habilidade",
+        "queued": "Removendo {{name}}",
+        "queuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas.",
+        "errorRetry": "Revise a mensagem e tente novamente."
+      },
+      "update": {
+        "checking": "Verificando atualizações das Habilidades instaladas",
+        "knownCount_one": "{{count}} atualização de Habilidade conhecida está disponível",
+        "knownCount_other": "{{count}} atualizações de Habilidades conhecidas estão disponíveis",
+        "checkErrorTitle": "Não foi possível terminar de verificar as atualizações de Habilidades",
+        "checkErrorDescription": "Algumas fontes de Habilidades podem estar inacessíveis. As Habilidades existentes ainda funcionam, mas isso não é prova de que tudo está atualizado.",
+        "retry": "Verificar novamente",
+        "title": "Atualizar {{name}}?",
+        "description": "O AI Manager usa o repositório original da Habilidade e um fluxo de atualização local validado.",
+        "point": {
+          "download": "Baixa a cópia mais recente do repositório registrado da Habilidade.",
+          "backup": "Mantém uma cópia de recuperação antes de substituir os arquivos gerenciados.",
+          "tools": "Sincroniza a Habilidade atualizada com todas as ferramentas onde está ativada."
+        },
+        "confirm": "Atualizar Habilidade",
+        "queued": "Atualizando {{name}}",
+        "queuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas.",
+        "errorRetry": "Revise a mensagem e tente novamente."
+      },
+      "empty": {
+        "title": "Ainda não há habilidades",
+        "description": "Escolha Adicionar Habilidade para instalar conhecimento pronto para esta ferramenta."
+      }
+    },
+    "mcp": {
+      "title": "MCP",
+      "explainer": "Conecte ferramentas de IA a arquivos, navegadores e outros serviços.",
+      "install": {
+        "add": "Adicionar MCP",
+        "title": "Adicionar uma conexão MCP",
+        "description": "Conecte {{tool}} sem colar JSON de configuração.",
+        "confirm": "Adicionar conexão",
+        "name": "Nome da conexão",
+        "nameHint": "Use um nome que você reconhecerá em Extensões.",
+        "optionalDescription": "Descrição (opcional)",
+        "transport": {
+          "label": "Como ela se conecta?",
+          "stdio": {
+            "label": "Comando local",
+            "description": "Executa um programa neste computador."
+          },
+          "http": {
+            "label": "HTTP",
+            "description": "Conecta-se a um endpoint MCP seguro."
+          },
+          "sse": {
+            "label": "SSE",
+            "description": "Conecta-se a um fluxo de eventos seguro."
+          }
+        },
+        "command": "Programa",
+        "commandHint": "Informe apenas o nome ou caminho do programa. Coloque cada argumento no campo seguinte.",
+        "commandPlaceholder": "npx",
+        "arguments": "Argumentos",
+        "argumentsHint": "Informe um argumento por linha.",
+        "argumentsPlaceholder": "-y\n@modelcontextprotocol/server-filesystem",
+        "url": "URL do servidor",
+        "urlHint": "Use HTTPS. HTTP só é aceito para este computador.",
+        "urlPlaceholder": "https://mcp.exemplo.com",
+        "trustLocal": "Isso executa o programa indicado no seu computador. Adicione apenas software de sua confiança.",
+        "trustRemote": "Isso envia tráfego MCP para o endereço acima. Adicione apenas serviços de sua confiança.",
+        "noSecrets": "Este formulário guiado não tem campos para senhas, cabeçalhos ou variáveis de ambiente.",
+        "queued": "Adicionando {{name}}",
+        "queuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas."
+      },
+      "remove": {
+        "title": "Remover {{name}}?",
+        "description": "Isso remove a conexão salva do AI Manager e de todas as ferramentas de IA onde está ativada.",
+        "point": {
+          "everywhere": "A conexão será removida de todas as ferramentas de IA onde está ativada atualmente.",
+          "keepsTargets": "O programa, os arquivos, o navegador ou o serviço remoto ao qual ela se conecta não são afetados.",
+          "noUndo": "Isso não pode ser desfeito aqui. Você pode adicionar a conexão novamente mais tarde."
+        },
+        "confirm": "Remover conexão",
+        "queued": "Removendo {{name}}",
+        "queuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas.",
+        "errorRetry": "Verifique os detalhes da tarefa antes de tentar novamente."
+      },
+      "empty": {
+        "title": "Ainda não há conexões",
+        "description": "Escolha Adicionar MCP para conectar esta ferramenta a um programa local ou serviço seguro."
+      }
+    },
+    "prompt": {
+      "title": "Prompts globais",
+      "explainer": "As instruções permanentes que uma ferramenta lê toda vez que inicia.",
+      "exclusive": "Apenas um conjunto de instruções está em uso por vez. Escolher outro faz a troca.",
+      "editor": {
+        "add": "Novo prompt",
+        "createTitle": "Criar instruções permanentes",
+        "editTitle": "Editar {{name}}",
+        "description": "Mantenha instruções reutilizáveis para {{tool}} sem abrir seus arquivos de configuração.",
+        "save": "Salvar instruções",
+        "activeBackup": "Estas instruções estão em uso agora. Antes de alterar o arquivo ativo, o AI Manager salva uma cópia de recuperação com data e hora e verifica a substituição.",
+        "readErrorTitle": "Não foi possível abrir estas instruções",
+        "retryRead": "Ler novamente",
+        "saveErrorTitle": "Não foi possível salvar estas instruções",
+        "name": "Nome da instrução",
+        "optionalDescription": "Descrição (opcional)",
+        "content": "Instruções",
+        "contentHint": "Escreva texto simples ou Markdown. Estas instruções podem ser enviadas para a ferramenta de IA em conversas futuras.",
+        "validation": {
+          "name": {
+            "required": "Dê um nome a estas instruções.",
+            "tooLong": "Use 80 caracteres ou menos.",
+            "invalid": "Use um nome de uma linha, sem caracteres de controle."
+          },
+          "description": {
+            "tooLong": "Use 500 caracteres ou menos.",
+            "invalid": "Use uma descrição de uma linha, sem caracteres de controle."
+          },
+          "content": {
+            "required": "Escreva as instruções que esta ferramenta deve seguir.",
+            "invalid": "Remova caracteres de controle não suportados.",
+            "tooLarge": "Mantenha as instruções abaixo de 1 MB."
+          }
+        }
+      },
+      "import": {
+        "open": "Importar atual",
+        "title": "Importar as instruções atuais?",
+        "description": "O AI Manager lerá o arquivo de instruções que {{tool}} já usa.",
+        "confirm": "Importar instruções",
+        "point": {
+          "reads": "O texto atual é adicionado como um item inativo que você pode revisar aqui.",
+          "unchanged": "O arquivo atual da ferramenta não é reescrito durante a importação.",
+          "duplicate": "Se o mesmo texto exato já estiver salvo, nenhuma duplicata é criada."
+        },
+        "errorTitle": "Não foi possível importar as instruções atuais"
+      },
+      "remove": {
+        "title": "Remover {{name}}?",
+        "description": "Isso remove a cópia salva e inativa do AI Manager.",
+        "confirm": "Remover instruções",
+        "point": {
+          "current": "As instruções em uso atualmente permanecem selecionadas e inalteradas.",
+          "file": "O arquivo de instruções ativo da ferramenta e suas outras configurações não são afetados.",
+          "undo": "Isso não pode ser desfeito aqui, mas você pode criá-las ou importá-las novamente mais tarde."
+        },
+        "active": "Instruções em uso não podem ser removidas. Escolha outro conjunto primeiro.",
+        "errorTitle": "Não foi possível remover estas instruções"
+      },
+      "empty": {
+        "title": "Ainda não há instruções",
+        "description": "Crie instruções reutilizáveis ou importe o arquivo que esta ferramenta já usa."
+      }
+    }
+  },
+  "routing": {
+    "toolScope": "Programas de IA",
+    "title": "Roteamento local",
+    "description": "Encaminhe requisições localmente, com failover automático opcional para endpoints de backup.",
+    "summary": {
+      "inactive": "O roteamento local está desligado. As ferramentas mantêm suas conexões atuais.",
+      "needsRestore": "O roteamento parou, mas as ferramentas ainda apontam para ele. Restaure suas configurações.",
+      "stats": "Estatísticas"
+    },
+    "refresh": "Atualizar status",
+    "loading": "Carregando roteamento local",
+    "hero": {
+      "title": "Uma rota local, menos interrupções",
+      "description": "O AI Manager faz backup da configuração ativa de cada ferramenta antes de assumir, mantém o tráfego neste computador e restaura a configuração original quando o roteamento para.",
+      "running": "O roteamento está em execução",
+      "stopped": "Pronto para quando você precisar",
+      "localOnly": "Somente loopback local",
+      "takeovers_one": "{{count}} ferramenta roteada",
+      "takeovers_other": "{{count}} ferramentas roteadas",
+      "metric": {
+        "requests": "Requisições",
+        "success": "Bem-sucedidas",
+        "failures": "Falharam",
+        "failovers": "Failovers"
+      }
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build"
+    },
+    "target": {
+      "routed": "Roteado",
+      "direct": "Direto",
+      "current": "Serviço atual: {{name}}",
+      "noProvider": "Escolha um serviço atual em Endpoints de API primeiro."
+    },
+    "takeover": {
+      "title": "Assumir roteamento",
+      "description": "Faça backup e aponte a configuração ativa desta ferramenta para a rota local.",
+      "label": "Assumir roteamento para {{name}}",
+      "confirmTitle": "Rotear {{name}} localmente?",
+      "confirmDescription": "O AI Manager fará backup da configuração ativa atual, substituirá apenas os campos de roteamento e restaurará o backup quando você desativar a assunção do roteamento.",
+      "confirm": "Ativar roteamento"
+    },
+    "failover": {
+      "title": "Failover automático",
+      "description": "Tenta serviços saudáveis na ordem P1, P2 quando uma requisição falha.",
+      "label": "Failover automático para {{name}}"
+    },
+    "queue": {
+      "title": "Ordem de failover",
+      "description": "P1 é selecionado quando o failover começa.",
+      "count_one": "{{count}} serviço",
+      "count_other": "{{count}} serviços",
+      "empty": "Adicione um serviço ou ative o failover para usar o serviço atual como P1.",
+      "selectLabel": "Serviço a adicionar ao failover",
+      "selectLabelNamed": "Serviço a adicionar ao failover de {{name}}",
+      "selectPlaceholder": "Escolha um serviço",
+      "add": "Adicionar",
+      "addNamed": "Adicionar o serviço selecionado ao failover de {{name}}"
+    },
+    "provider": {
+      "current": "Atual",
+      "healthy": "Saudável",
+      "unhealthy": "{{count}} falhas consecutivas",
+      "switch": "Trocar",
+      "switchLabel": "Trocar roteamento para {{name}}",
+      "removeLabel": "Remover {{name}} do failover"
+    },
+    "stop": {
+      "action": "Parar e restaurar tudo",
+      "title": "Parar todo o roteamento local?",
+      "description": "O AI Manager vai parar o servidor local e restaurar a configuração ativa salva em backup de cada ferramenta. A ordem de failover é mantida para a próxima vez.",
+      "confirm": "Parar e restaurar"
+    },
+    "error": {
+      "title": "Não foi possível ler o roteamento local",
+      "description": "Nenhuma configuração foi alterada. Tente ler o estado atual novamente.",
+      "retry": "Tentar novamente"
+    },
+    "stale": "O último instantâneo de roteamento continua sendo exibido porque a atualização mais recente não terminou.",
+    "actionError": {
+      "title": "A alteração de roteamento não terminou"
+    }
+  },
+  "sessions": {
+    "inventoryError": "Não foi possível atualizar a lista de programas. As sessões existentes continuam disponíveis.",
+    "title": "Sessões locais",
+    "description": "Busque conversas salvas pelas suas ferramentas de programação com IA e retome com segurança sessões compatíveis no Terminal.",
+    "loading": "Carregando sessões locais",
+    "refresh": "Atualizar",
+    "hero": {
+      "local": "Lido localmente, só quando você pedir",
+      "limited": "Mostrando as 500 sessões correspondentes mais recentes, de {{count}}.",
+      "metric": {
+        "visible": "Exibidas",
+        "tools": "Ferramentas",
+        "resumable": "Retomáveis"
+      }
+    },
+    "search": {
+      "label": "Buscar sessões locais",
+      "placeholder": "Busque por título, prévia, projeto ou ID exato da sessão"
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "opencode": "OpenCode",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build",
+      "openclaw": "OpenClaw",
+      "hermes": "Hermes",
+      "pi": "Pi",
+      "kimi-code": "Kimi Code",
+      "deepseek-dsh": "DeepSeek DSH"
+    },
+    "list": {
+      "title": "Conversas",
+      "count_one": "{{count}} sessão",
+      "count_other": "{{count}} sessões",
+      "untitled": "Sessão sem título",
+      "resumable": "Pode ser retomada no Terminal",
+      "loadMore": "Mostrar mais {{count}}"
+    },
+    "thread": {
+      "title": "Prévia da conversa",
+      "emptyTitle": "Escolha uma conversa",
+      "emptyDescription": "O conteúdo das mensagens só é lido depois que você seleciona explicitamente uma sessão local.",
+      "loading": "Carregando conversa",
+      "errorTitle": "Não foi possível ler esta conversa",
+      "retry": "Tentar novamente",
+      "limited": "Mostrando apenas a parte mais recente ({{count}} mensagens no total).",
+      "noMessages": "Nenhuma mensagem legível foi encontrada nesta sessão.",
+      "messages": "Mensagens da sessão",
+      "messageTruncated": "Esta mensagem longa foi reduzida para exibição segura."
+    },
+    "resume": {
+      "action": "Retomar no Terminal",
+      "success": "A sessão foi transferida para o Terminal.",
+      "error": "Não foi possível retomar a sessão.",
+      "manualHint": "Ou cole isto em um terminal manualmente:",
+      "manualLabel": "comando de retomada",
+      "title": "Retomar esta sessão",
+      "terminal": {
+        "label": "Abrir em",
+        "system": "Terminal do sistema",
+        "iterm2": "iTerm2",
+        "ghostty": "Ghostty",
+        "kitty": "kitty",
+        "wezterm": "WezTerm",
+        "alacritty": "Alacritty"
+      },
+      "launch": "Abrir no terminal agora"
+    },
+    "reveal": {
+      "action": "Mostrar no gerenciador de arquivos",
+      "actionNamed": "Mostrar {{title}} no gerenciador de arquivos"
+    },
+    "role": {
+      "user": "Você",
+      "assistant": "Assistente",
+      "system": "Sistema",
+      "tool": "Ferramenta",
+      "other": "Outro"
+    },
+    "empty": {
+      "title": "Nenhuma sessão local encontrada",
+      "description": "Inicie uma ferramenta de programação com IA compatível uma vez e depois atualize esta página.",
+      "search": "Nenhuma sessão corresponde a esta busca e a este filtro de ferramenta."
+    },
+    "error": {
+      "title": "Não foi possível examinar as sessões locais",
+      "description": "Nenhum arquivo de sessão foi alterado. Tente atualizar o índice local."
+    }
+  },
+  "preferences": {
+    "title": "Configurações",
+    "description": "Preferências do próprio AI Manager.",
+    "loading": "Carregando suas configurações",
+    "retry": "Tentar novamente",
+    "error": {
+      "title": "Não foi possível ler suas configurações",
+      "description": "Tente novamente em instantes."
+    },
+    "groups": {
+      "general": "Geral",
+      "network": "Rede",
+      "backup": "Backup e restauração",
+      "about": "Sobre"
+    },
+    "experience": {
+      "eyebrow": "Experiência do aplicativo",
+      "title": "Deixe o AI Manager do seu jeito",
+      "description": "As preferências de idioma e aparência permanecem neste computador.",
+      "instant": "Aplica-se instantaneamente",
+      "language": {
+        "label": "Idioma",
+        "description": "Escolha o idioma usado em todo o AI Manager."
+      }
+    },
+    "advanced": {
+      "label": "Modo avançado",
+      "description": "Mostra detalhes técnicos, como onde os arquivos são mantidos. Mais ferramentas avançadas chegam em atualizações futuras.",
+      "saving": "Salvando…",
+      "saved": "Salvo",
+      "error": "Não salvo",
+      "errorHint": "A configuração anterior foi restaurada. Use o botão novamente para tentar de novo."
+    },
+    "providerFailover": {
+      "label": "Tentar endpoints disponíveis antes de abrir ou trocar",
+      "description": "Somente quando você clica em Abrir ou Usar no AI Manager: em caso de falha, tenta outros endpoints compatíveis salvos. Desativado por padrão; nenhum roteamento de tráfego. Configure o failover durante as requisições em Endpoints de API → Roteamento local."
+    },
+    "desktop": {
+      "title": "Comportamento do desktop",
+      "description": "Escolha como o AI Manager inicia, fecha e permanece disponível neste computador.",
+      "loading": "Lendo as preferências de desktop",
+      "menuBar": "barra de menu",
+      "systemTray": "bandeja do sistema",
+      "requiresTray": "Primeiro ative Mostrar o AI Manager na {{location}} para poder reabrir a janela.",
+      "error": {
+        "title": "Não foi possível ler as preferências de desktop",
+        "description": "Nada foi alterado. Tente novamente em instantes."
+      },
+      "launch": {
+        "label": "Abrir o AI Manager quando eu entrar na sessão",
+        "description": "Usa o mecanismo de aplicativos de inicialização do sistema para iniciar após você entrar na sessão.",
+        "descriptionMac": "Adiciona um item de login do macOS para iniciar depois que você entra na sessão do seu Mac."
+      },
+      "silent": {
+        "label": "Iniciar em segundo plano",
+        "description": "Oculta a janela principal em cada inicialização. Abra-a pela {{location}}.",
+        "requiresLaunch": "Primeiro ative Abrir o AI Manager quando eu entrar na sessão."
+      },
+      "tray": {
+        "label": "Mostrar o AI Manager na {{location}}",
+        "description": "Mantém uma entrada na {{location}}. Desativar isso também desativa a inicialização em segundo plano e a execução após o fechamento da janela."
+      },
+      "close": {
+        "label": "Continuar em execução ao fechar a janela",
+        "description": "Continua em execução após fechar a janela; reabra-a pela {{location}}. Sair do aplicativo ainda o encerra."
+      }
+    },
+    "network": {
+      "proxy": {
+        "title": "Proxy local de download",
+        "description": "Para atualizações assinadas do AI Manager, atualizações nativas do Claude e outros downloads oficiais de CLI que um espelho de registro não consegue ajudar, encaminhe o tráfego de saída por um proxy já em execução neste computador.",
+        "active": "Ativo",
+        "protected": "Configuração protegida",
+        "protectedHint": "Um proxy pré-existente contém credenciais ou um endereço remoto, então o AI Manager vai usá-lo, mas não vai revelá-lo aqui. Substitua-o por um endereço local ou limpe-o.",
+        "label": "Endereço do proxy local",
+        "hint": "HTTP, HTTPS, SOCKS5 ou SOCKS5H em localhost/127.0.0.1/::1 com uma porta explícita. Credenciais e hosts remotos não são aceitos aqui.",
+        "loading": "Lendo o proxy de download",
+        "readError": "Não foi possível ler o proxy de download atual.",
+        "save": "Usar este proxy"
+      }
+    },
+    "check": {
+      "guide": {
+        "action": {
+          "updateTool": "Atualizar agora",
+          "repairTool": "Corrigir agora",
+          "reviewTool": "Revisar Ferramentas de IA",
+          "connectService": "Conectar um serviço",
+          "reviewService": "Revisar Endpoints de API",
+          "reviewExtensions": "Revisar Extensões"
+        }
+      },
+      "item": {
+        "toolReady": {
+          "title": "{{name}} está instalado",
+          "description": "A versão {{version}} está disponível neste computador."
+        },
+        "toolUpdate": {
+          "title": "{{name}} tem uma atualização",
+          "description": "A versão {{version}} está instalada; a {{latestVersion}} está disponível."
+        },
+        "toolBroken": {
+          "title": "{{name}} precisa de atenção",
+          "description": "A instalação foi encontrada, mas o AI Manager não conseguiu usá-la normalmente."
+        },
+        "toolUnknown": {
+          "title": "O AI Manager não conseguiu identificar o estado de {{name}}",
+          "description": "Verifique a ferramenta novamente antes de confiar nesta configuração."
+        },
+        "toolNotInstalled": {
+          "title": "{{name}} não está instalado",
+          "description": "Isso é apenas informativo e não é contado como um problema."
+        },
+        "providerReady": {
+          "title": "{{name}} tem um serviço de IA configurado",
+          "description_one": "{{count}} configuração de serviço está em uso.",
+          "description_other": "{{count}} configurações de serviço estão em uso."
+        },
+        "providerMissing": {
+          "title": "{{name}} não tem nenhum serviço de IA configurado",
+          "description": "Abra Endpoints de API e escolha ou configure um serviço para esta ferramenta."
+        },
+        "configReadable": {
+          "title": "A configuração de {{name}} pode ser lida",
+          "description": "A configuração ativa foi interpretada com sucesso."
+        },
+        "configMissing": {
+          "title": "{{name}} ainda não está configurado",
+          "description": "Ainda não existe nenhum arquivo de configuração. Isso é informativo, não um problema."
+        },
+        "configUnreadable": {
+          "title": "Não foi possível ler a configuração de {{name}}",
+          "description": "Abra a configuração da ferramenta e corrija seu formato antes de fazer mais alterações."
+        },
+        "connectivity": {
+          "operational": {
+            "title": "{{provider}} respondeu",
+            "description": "Sua verificação manual de {{name}} foi bem-sucedida em {{ms}} ms."
+          },
+          "degraded": {
+            "title": "{{provider}} respondeu lentamente",
+            "description": "A última verificação manual de {{name}} levou {{ms}} ms."
+          },
+          "failed": {
+            "title": "{{provider}} não respondeu",
+            "description": "A última verificação manual de {{name}} não conseguiu se conectar."
+          },
+          "notChecked": {
+            "title": "{{provider}} ainda não foi verificado nesta sessão",
+            "description": "Execute Verificar em Endpoints de API se quiser testar esta conexão."
+          }
+        },
+        "mcp": {
+          "title": "{{enabled}} de {{total}} servidores MCP ativados",
+          "description": "Isto é apenas um inventário. A disponibilidade do servidor não foi verificada."
+        },
+        "mcpInventoryUnavailable": {
+          "title": "Não foi possível inspecionar as conexões MCP locais",
+          "description": "Abra Extensões para tentar novamente o inventário local antes de presumir que toda conexão está gerenciada."
+        },
+        "mcpInventoryPartial": {
+          "title": "Alguns locais MCP locais precisam de outra verificação",
+          "description": "Locais que precisam de revisão: {{count}}. Um local compatível não pôde ser inspecionado, ou o inventário limitado ficou cheio. Revise Extensões para o próximo passo completo."
+        }
+      }
+    },
+    "import": {
+      "title": "Importar do CC Switch",
+      "description": "Traga os serviços de IA, servidores MCP e habilidades do CC Switch para o AI Manager. Nada no CC Switch é alterado.",
+      "reimport": "Importar do CC Switch",
+      "loading": "Procurando uma configuração do CC Switch",
+      "retry": "Verificar novamente",
+      "action": "Importar",
+      "retryAction": "Tentar importar novamente",
+      "again": "Importar novamente",
+      "skip": "Pular",
+      "success": "Configuração existente importada.",
+      "collision": "Se o mesmo serviço ou extensão já existir, a versão importada o substitui. Tudo o mais permanece.",
+      "sourceDetail": "O banco de dados local do CC Switch, aberto somente leitura",
+      "prompt": {
+        "title": "Configuração do CC Switch encontrada",
+        "description": "O CC Switch foi instalado neste computador. Trazer seus serviços de IA, servidores MCP e habilidades?"
+      },
+      "confirm": {
+        "title": "Importar esta configuração existente?",
+        "description": "Revise o que vai mudar antes de o AI Manager começar."
+      },
+      "safety": {
+        "title": "Ambas as configurações permanecem intactas",
+        "sourceUntouched": "O aplicativo original e seu banco de dados local nunca são editados ou excluídos.",
+        "backupFirst": "O AI Manager salva um backup de segurança da configuração atual antes de aplicar a importação.",
+        "skipHarmless": "Pular não custa nada. A configuração do Claude Code, do Codex e das suas outras ferramentas é lida e gerenciada de qualquer forma; esta escolha não afeta isso. Você pode importar depois em Configurações."
+      },
+      "completion": {
+        "title": "Configuração importada",
+        "description": "Os serviços, servidores MCP e habilidades compatíveis agora estão no AI Manager.",
+        "countLabel": "Itens importados",
+        "nextStepTitle": "Escolha o que cada ferramenta deve usar",
+        "nextStep": "Abra Endpoints de API e selecione um serviço importado para cada ferramenta quando estiver pronto.",
+        "continue": "Continuar"
+      },
+      "count": {
+        "label": "Itens prontos para importar",
+        "services_one": "{{count}} serviço de IA",
+        "services_other": "{{count}} serviços de IA",
+        "mcpServers_one": "{{count}} servidor MCP",
+        "mcpServers_other": "{{count}} servidores MCP",
+        "skills_one": "{{count}} habilidade",
+        "skills_other": "{{count}} habilidades"
+      },
+      "notFound": {
+        "title": "Nenhuma configuração importável encontrada",
+        "description": "Não há nada para importar no momento. Você pode verificar novamente mais tarde."
+      },
+      "error": {
+        "title": "Não foi possível verificar a configuração existente",
+        "description": "Tente novamente. O aplicativo original e os dados locais não foram alterados.",
+        "retry": "Você pode tentar a importação novamente com segurança."
+      },
+      "refreshError": {
+        "title": "Não foi possível atualizar a configuração existente",
+        "description": "O último resumo de importação continua sendo exibido. A importação permanece pausada até que uma nova verificação seja bem-sucedida."
+      },
+      "decisionError": {
+        "title": "Não foi possível salvar esta escolha",
+        "description": "Tente novamente. Esta etapa permanece aberta até que o AI Manager salve sua escolha."
+      }
+    },
+    "updates": {
+      "title": "Sobre e atualizações",
+      "description": "Mostra a versão instalada e o estado do canal de atualização assinado do produto.",
+      "check": "Verificar agora",
+      "retry": "Tentar novamente",
+      "openDownloadPage": "Abrir download oficial",
+      "note": "Nenhuma versão assinada mais recente foi encontrada.",
+      "devBuild": "Compilação de desenvolvimento",
+      "devBuildNote": "Compilações de desenvolvimento não verificam atualizações.",
+      "currentVersion": "Você tem a versão {{version}}",
+      "availableVersion": "A versão {{version}} está pronta para download.",
+      "checkingTitle": "Lendo os detalhes da versão",
+      "checkingNote": "Lendo a versão instalada e o canal de atualização.",
+      "retryingNote": "A rede não respondeu. O AI Manager está tentando outra fonte assinada (tentativa {{attempt}} de {{max}}).",
+      "checking": "Verificando",
+      "backgroundDownloading": "Baixando em segundo plano",
+      "downloadProgress": "Progresso do download da atualização do aplicativo",
+      "downloading": "Baixando",
+      "downloadingTitle": "Baixando {{version}} em segundo plano",
+      "downloadingNote": "Continue usando o AI Manager. Depois que o download e a verificação de assinatura terminarem, você escolhe quando reiniciar.",
+      "ready": "Pronto após reiniciar",
+      "readyTitle": "A versão {{version}} está pronta",
+      "readyNote": "O pacote de atualização foi baixado e sua assinatura foi verificada. Reinicie quando estiver pronto para concluir a atualização.",
+      "restart": "Reiniciar para atualizar",
+      "available": "Atualização disponível",
+      "upToDate": "Atualizado",
+      "unknown": "Não foi possível verificar",
+      "error": {
+        "title": "Status de atualização indisponível",
+        "description": "O AI Manager não conseguiu alcançar ou verificar uma atualização assinada após as tentativas permitidas. Tente novamente ou abra a página oficial de download; nada foi instalado."
+      }
+    },
+    "backup": {
+      "title": "Backups",
+      "automatic": "Backups automáticos",
+      "summaryLine_one": "O AI Manager faz backup uma vez por dia e mantém o mais recente.",
+      "summaryLine_other": "O AI Manager faz backup uma vez por dia e mantém os {{count}} mais recentes.",
+      "automaticOff": "Os backups automáticos estão desativados. Você ainda pode fazer backup manualmente a qualquer momento.",
+      "exportToOther": "Exportar para outro computador",
+      "importFromOther": "Importar de outro computador",
+      "create": "Fazer backup agora",
+      "loading": "Carregando seus backups",
+      "retry": "Tentar novamente",
+      "size": "Cerca de {{size}} MB",
+      "exactSize": "{{bytes}} bytes",
+      "folder": "Os backups ficam na pasta de dados do aplicativo deste computador.",
+      "details": "Local de armazenamento",
+      "restore": "Restaurar",
+      "restoreNamed": "Restaurar backup de {{name}}",
+      "delete": "Excluir",
+      "deleteNamed": "Excluir backup de {{name}}",
+      "rename": "Renomear",
+      "renameNamed": "Renomear backup de {{name}}",
+      "renameTitle": "Nomeie o ponto de restauração de {{name}}",
+      "renameDescription": "Dê um nome curto para facilitar encontrá-lo depois. O conteúdo do backup não muda.",
+      "renameConfirm": "Salvar nome",
+      "nameLabel": "Nome do backup",
+      "namePlaceholder": "Por exemplo, Antes de atualizar o Claude",
+      "nameHelp": "Use um nome curto e único, sem barras nem dois pontos consecutivos.",
+      "renameValidation": {
+        "required": "Digite um nome.",
+        "tooLong": "Esse nome é muito longo. Encurte-o.",
+        "invalid": "Não use barras, contrabarras ou dois pontos consecutivos.",
+        "exists": "Outro backup já usa esse nome.",
+        "unchanged": "Digite um nome diferente."
+      },
+      "restoreTitle": "Restaurar o backup de {{name}}?",
+      "restoreDescription": "Isso substitui a configuração atual do AI Manager.",
+      "restoreConfirm": "Restaurar",
+      "deleteTitle": "Excluir o backup de {{name}}?",
+      "deleteDescription": "Isso remove permanentemente um ponto de restauração.",
+      "deleteConfirm": "Excluir",
+      "summary": {
+        "title": "Pontos de restauração prontos",
+        "latest": "Mais recente: {{name}}",
+        "count": "{{count}} disponíveis",
+        "latestBadge": "Mais recente"
+      },
+      "completion": {
+        "created": {
+          "title": "Ponto de restauração pronto",
+          "description": "Sua configuração atual do AI Manager foi salva."
+        },
+        "exported": {
+          "title": "Cópia portátil salva",
+          "description": "Guarde o arquivo de configuração em um local seguro."
+        },
+        "imported": {
+          "title": "Configuração importada",
+          "description": "O AI Manager agora está usando os serviços e extensões desse arquivo."
+        },
+        "renamed": {
+          "title": "Ponto de restauração renomeado",
+          "description": "Agora você pode encontrar este ponto de restauração como {{name}}."
+        },
+        "restored": {
+          "title": "Restauração concluída",
+          "description": "O AI Manager agora está usando o ponto de restauração de {{name}}."
+        },
+        "deleted": {
+          "title": "Ponto de restauração excluído",
+          "description": "O ponto de restauração de {{name}} não está mais disponível."
+        },
+        "warning": {
+          "title": "Restauração concluída, mas uma ferramenta precisa de atenção",
+          "description": "Uma ferramenta não captou a mudança de serviço. Revise Endpoints de API e escolha novamente o serviço desejado."
+        },
+        "importWarning": {
+          "title": "Importação concluída, mas uma ferramenta precisa de atenção",
+          "description": "O arquivo foi importado, mas uma ferramenta não captou a mudança de serviço. Revise Endpoints de API e escolha novamente o serviço desejado."
+        },
+        "reviewServices": "Revisar Endpoints de API"
+      },
+      "empty": {
+        "title": "Proteja sua configuração atual",
+        "description": "Crie um ponto de restauração local antes de alterar ferramentas ou serviços.",
+        "local": "Somente local"
+      },
+      "error": {
+        "title": "Não foi possível ler seus backups",
+        "description": "Tente novamente em instantes.",
+        "actionRetry": "Nada mais foi alterado. Você pode tentar a ação novamente."
+      },
+      "refreshError": {
+        "title": "Não foi possível atualizar seus backups",
+        "description": "A última lista de backups continua sendo exibida. As ações de backup permanecem pausadas até que uma nova verificação seja bem-sucedida."
+      },
+      "restorePoint": {
+        "replaces": "Serviços, extensões e escolhas no AI Manager voltam a este ponto de restauração.",
+        "installed": "As ferramentas de programação com IA instaladas permanecem neste computador.",
+        "followUp": "Depois da restauração, o AI Manager avisa se uma ferramenta precisa de atenção."
+      },
+      "deletePoint": {
+        "permanent": "Você não poderá recuperar este backup."
+      },
+      "transfer": {
+        "secretTitle": "Trate o arquivo como uma senha",
+        "secretDescription": "Uma cópia portátil pode conter chaves de serviço e outras configurações privadas. Guarde-a com segurança e compartilhe-a apenas com pessoas de confiança.",
+        "confirmTitle": "Importar este arquivo de configuração?",
+        "confirmDescription": "Escolha o arquivo somente depois de revisar o que vai mudar.",
+        "confirmReplace": "Os serviços gerenciados, extensões e o histórico armazenado serão substituídos pelo arquivo.",
+        "confirmSafety": "O AI Manager cria um ponto de restauração local antes de substituir seus dados atuais.",
+        "confirmTrust": "Importe apenas um arquivo que você criou ou recebeu de alguém de confiança.",
+        "confirmInstalled": "As ferramentas de programação com IA instaladas permanecem neste computador.",
+        "chooseAndImport": "Escolher arquivo e importar",
+        "errorHint": "Nada mais foi alterado. Revise o arquivo e tente novamente."
+      }
+    }
+  },
+  "data": {
+    "title": "Dados locais",
+    "description": "Sessões locais e o armazenamento local de cada ferramenta, tudo em um só lugar.",
+    "overview": {
+      "eyebrow": "Visão geral dos dados locais",
+      "title": "Dados locais em todas as ferramentas",
+      "description": "Totais da mesma varredura local do painel de armazenamento abaixo, somados entre todas as ferramentas com armazenamento local.",
+      "metric": {
+        "totalBytes": "Dados locais listados",
+        "conversationBytes": "Volume de dados de conversas"
+      },
+      "measuring": "Medindo…",
+      "unavailable": "Os totais precisam da lista de ferramentas instaladas, que não pôde ser lida.",
+      "partial": "Algumas ferramentas não puderam ser medidas, então estes totais são um limite inferior.",
+      "limited": "Pastas grandes ou ilegíveis são contadas como um limite inferior seguro."
+    },
+    "scope": {
+      "all": "Todas",
+      "label": "Ver por ferramenta",
+      "unsupportedShort": "Não integrado",
+      "unsupportedTitle": "O AI Manager ainda não integrou os dados locais de {{tool}}",
+      "unsupportedDescription": "Isso significa que o AI Manager ainda não tem um leitor seguro; não significa que {{tool}} não tenha dados locais. A ferramenta instalada permanece visível para maior clareza."
+    },
+    "storage": {
+      "title": "Contexto e armazenamento locais",
+      "description": "Onde cada ferramenta guarda seus arquivos e quanto espaço eles ocupam.",
+      "loading": "Lendo quais ferramentas guardam dados neste dispositivo",
+      "empty": {
+        "title": "Ainda não há ferramenta para mostrar o armazenamento local",
+        "description": "Instale uma ferramenta primeiro; os arquivos locais dela aparecerão aqui."
+      }
+    },
+    "inventory": {
+      "error": {
+        "title": "Não foi possível ler as ferramentas instaladas",
+        "description": "As sessões locais continuam funcionando. Os detalhes de armazenamento voltam assim que as ferramentas instaladas puderem ser lidas novamente."
+      },
+      "refreshError": {
+        "title": "Não foi possível atualizar as ferramentas instaladas",
+        "description": "Os últimos detalhes de armazenamento conhecidos ainda são exibidos."
+      },
+      "retry": "Tentar novamente"
+    }
+  },
+  "deeplink": {
+    "resource": {
+      "provider": "Um endpoint de API",
+      "mcp": "Servidores MCP",
+      "prompt": "Um prompt global",
+      "skill": "Uma habilidade"
+    },
+    "origin": {
+      "argv": "Este link foi aberto de fora do AI Manager. Certifique-se de saber de onde ele veio.",
+      "paste": "Você colou este link manualmente. Certifique-se de que ele veio de um provedor confiável."
+    },
+    "credential": {
+      "apiKey": "O link contém uma chave. Ela é salva com o endpoint de API e nunca é exibida nesta tela.",
+      "config": "O link contém uma chave dentro de suas configurações. Ela é salva com o endpoint de API e nunca é exibida nesta tela."
+    },
+    "blocked": {
+      "noSupportedTool": "O AI Manager não gerencia o aplicativo ao qual este link se destina, portanto não há nada a adicionar.",
+      "credentialRequired": "Este link não tem chave, e um endpoint de API não pode ser salvo sem uma. Peça ao provedor um link que a inclua."
+    },
+    "summary": {
+      "label": "O que este link adiciona",
+      "resource": "Adiciona",
+      "name": "Nome",
+      "targets": "Para",
+      "items": "Conteúdo",
+      "separator": ", ",
+      "unmanagedTarget": "Um aplicativo que o AI Manager não gerencia"
+    },
+    "confirm": {
+      "title": "Adicionar isso a partir de um link?",
+      "description": "Nada é salvo até que você escolha Adicionar.",
+      "action": "Adicionar",
+      "retry": "Tentar novamente",
+      "cancel": "Descartar"
+    },
+    "error": {
+      "retry": "Nada foi salvo. Tente novamente ou peça ao provedor um link novo."
+    },
+    "toast": {
+      "imported_one": "1 item adicionado.",
+      "imported_other": "{{count}} itens adicionados."
+    },
+    "paste": {
+      "title": "Adicionar a partir de um link",
+      "description": "Cole um link de um clique de um provedor. Um link que você mesmo cola pode incluir sua chave; um link aberto de fora pode não incluir.",
+      "label": "Link",
+      "hint": "O AI Manager lê o link e pede sua confirmação antes que algo seja salvo.",
+      "placeholder": "aimanager://v1/import?...",
+      "action": "Ler link"
+    }
+  }
+}

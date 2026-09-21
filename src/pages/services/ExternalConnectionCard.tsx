@@ -1,4 +1,11 @@
-import { AlertTriangle, Globe2, KeyRound, PlugZap } from "lucide-react";
+import {
+  AlertTriangle,
+  FileCog,
+  Globe2,
+  KeyRound,
+  PlugZap,
+  Radio,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type {
   EffectiveConnection,
@@ -6,6 +13,7 @@ import type {
 } from "@/entities/provider";
 import type { ToolId } from "@/entities/tool";
 import { Badge } from "@/shared/ui/Badge";
+import { Button } from "@/shared/ui/Button";
 import { CopyButton } from "@/shared/ui/CopyButton";
 import { ServiceCard } from "@/shared/ui/ServiceCard";
 import { credentialCopy, describeSource } from "./effectiveConnectionCopy";
@@ -18,6 +26,18 @@ export interface ExternalConnectionCardProps {
   tool: ToolId;
   /** Which file this connection was read from, if any; when present, gives a direct entry to open it. */
   configResource?: ProviderRuntimeResource;
+  /** Opens the test dialog. Absent when this tool cannot be tested at all. */
+  onTest?: () => void;
+  /**
+   * Opens the edit dialog for the start-up line behind this connection. Absent
+   * when no line could be pinned down, which is the honest state for a
+   * variable something set in a way this product does not model: guessing at
+   * which line to rewrite in someone's shell profile is not an option.
+   */
+  onEditVariable?: () => void;
+  /** The variable whose line the edit button would change, for its label. */
+  editVariableName?: string;
+  actionsBlocked?: boolean;
 }
 
 /** Host name as the title, full address in the detail — same reading pattern as a saved-endpoint card. */
@@ -40,12 +60,23 @@ export function ExternalConnectionCard({
   toolName,
   tool,
   configResource,
+  onTest,
+  onEditVariable,
+  editVariableName,
+  actionsBlocked = false,
 }: ExternalConnectionCardProps) {
   const { t } = useTranslation();
   const endpoint = connection.endpoint;
   if (endpoint === null) return null;
 
   const credentialMissing = connection.credential === "missing";
+  // A credential this backend cannot read back — a tool's own OAuth login — has
+  // nothing to send as a bearer token, so no test could succeed and no button
+  // is offered. Everything else is testable, including an endpoint with no key.
+  const testable =
+    onTest !== undefined &&
+    (connection.credential === "configured" ||
+      connection.credential === "missing");
 
   return (
     <ServiceCard
@@ -75,7 +106,35 @@ export function ExternalConnectionCard({
       }
       compact
       actions={
-        <ServicesOpenConfigAction tool={tool} resource={configResource} />
+        <>
+          {testable ? (
+            <Button
+              variant="ghost"
+              disabled={actionsBlocked}
+              aria-label={t("services.action.testNamed", {
+                name: hostOf(endpoint),
+              })}
+              onClick={onTest}
+            >
+              <Radio className="h-4 w-4" aria-hidden="true" />
+              {t("services.action.test")}
+            </Button>
+          ) : null}
+          {onEditVariable && editVariableName ? (
+            <Button
+              variant="ghost"
+              disabled={actionsBlocked}
+              aria-label={t("services.shellVariable.editNamed", {
+                variable: editVariableName,
+              })}
+              onClick={onEditVariable}
+            >
+              <FileCog className="h-4 w-4" aria-hidden="true" />
+              {t("services.action.edit")}
+            </Button>
+          ) : null}
+          <ServicesOpenConfigAction tool={tool} resource={configResource} />
+        </>
       }
       meta={
         <>
@@ -120,6 +179,12 @@ export function ExternalConnectionCard({
             <span className={credentialMissing ? "text-warning" : undefined}>
               {credentialCopy(connection.credential, toolName, t)}
             </span>
+          </p>
+          {/* Replaces the old "not saved here" wording: what matters is not
+              where the record lives but that this address wins over anything
+              chosen in the list below. */}
+          <p className="text-caption text-content-muted">
+            {t("services.external.overrides", { name: toolName })}
           </p>
         </div>
       }

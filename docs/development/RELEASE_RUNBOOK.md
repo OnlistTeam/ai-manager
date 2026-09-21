@@ -25,7 +25,7 @@ use are recorded outside the repository.
 ## 1. Current release state
 
 `v0.1.0` is the first stable release. What is still missing is evidence that an
-*installed* build updates itself, and clean-machine validation on native
+_installed_ build updates itself, and clean-machine validation on native
 Windows and Linux hardware:
 
 - `origin` is the `OnlistTeam/ai-manager` repository; `upstream` remains the
@@ -445,10 +445,11 @@ The workflow is manual only. In GitHub Actions:
 
    **The prerelease identifier must be numeric.** SemVer permits `-rc.1`, the
    MSI bundler does not: it fails the Windows job with `optional pre-release
-   identifier in app version must be numeric-only and cannot be greater than
-   65535`. Number the prerelease series instead — `v0.1.0-1`, `v0.1.0-2` — and
+identifier in app version must be numeric-only and cannot be greater than
+65535`. Number the prerelease series instead — `v0.1.0-1`, `v0.1.0-2` — and
    keep `package.json`, `src-tauri/Cargo.toml` and `src-tauri/tauri.conf.json`
    on the same value, because preflight compares all three against the tag.
+
 4. Start the workflow.
 5. Confirm preflight passes before approving protected build jobs.
 6. Approve the `release` environment only after verifying the commit SHA,

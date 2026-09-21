@@ -9,8 +9,12 @@ import {
 } from "@/entities/provider";
 import type { ToolId } from "@/entities/tool";
 import {
+  ProviderTestModal,
+  ShellVariableEditModal,
   useProviderConnectionFlow,
   useRemoveProvider,
+  useShellVariables,
+  type ProbeSubject,
 } from "@/features/provider-management";
 import {
   isToolLaunchable,
@@ -57,6 +61,9 @@ export function ServicesEndpointsPanel({
     retryTools,
   } = useServicesToolRecovery();
   const [removing, setRemoving] = useState<Provider | null>(null);
+  // The test dialog owns the whole check, so the card only has to name its subject.
+  const [probing, setProbing] = useState<ProbeSubject | null>(null);
+  const [editingVariable, setEditingVariable] = useState<string | null>(null);
   const scope = useServiceScope(tools.data ?? [], preferredToolId);
   const installed = scope.installed;
   const activeTool = scope.activeTool;
@@ -110,6 +117,17 @@ export function ServicesEndpointsPanel({
     !connection.data &&
     (connection.isError || (connection.isFetching && connection.isFetched));
   const effectiveUnavailable = managedActive !== null && runtime.isError;
+  // The start-up lines behind this tool's connection. Only looked up when the
+  // card that would offer the edit is on screen, and only one of them can be
+  // pinned to the address in force, which is the one the button edits.
+  const externalConnection =
+    runtime.data?.effectiveConnection?.providerId === null &&
+    runtime.data?.effectiveConnection?.endpoint !== null;
+  const shellVariables = useShellVariables(
+    managedActive,
+    Boolean(externalConnection),
+  );
+  const editableVariable = shellVariables.data?.find((entry) => entry.editable);
   // When the shell environment couldn't be inspected, the check below only
   // looked at the config file and may miss an external override.
   const shellNotInspected =
@@ -259,9 +277,28 @@ export function ServicesEndpointsPanel({
             checkFailure={connectionFlow.checkFailure ?? undefined}
             onUse={switchFlow.switchProvider}
             onTryNext={switchFlow.tryNextHealthy}
-            onTest={(providerId) =>
-              connectionFlow.checkProvider({ tool: managedActive, providerId })
+            onTest={(providerId) => {
+              const provider = providerData.find(
+                (entry) => entry.id === providerId,
+              );
+              setProbing(provider ? { kind: "provider", provider } : null);
+            }}
+            onTestExternal={
+              managedActive === null
+                ? undefined
+                : () =>
+                    setProbing({
+                      kind: "effective",
+                      tool: managedActive,
+                      name: activeName,
+                    })
             }
+            onEditExternalVariable={
+              editableVariable === undefined
+                ? undefined
+                : () => setEditingVariable(editableVariable.variable)
+            }
+            externalVariableName={editableVariable?.variable}
             onBrowseCompatible={
               canConnect ? connectionFlow.openCompatibleConnection : undefined
             }
@@ -273,6 +310,26 @@ export function ServicesEndpointsPanel({
           />
         </div>
       ) : null}
+
+      <ProviderTestModal
+        subject={probing}
+        mutationsBlocked={busy || authorityActionsBlocked}
+        onOpenChange={(open) => {
+          if (!open) setProbing(null);
+        }}
+      />
+
+      <ShellVariableEditModal
+        location={
+          shellVariables.data?.find(
+            (entry) => entry.variable === editingVariable,
+          ) ?? null
+        }
+        tool={managedActive}
+        onOpenChange={(open) => {
+          if (!open) setEditingVariable(null);
+        }}
+      />
 
       <ServicesDialogs
         editing={editFlow.provider}

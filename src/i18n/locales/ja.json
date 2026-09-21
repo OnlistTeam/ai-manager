@@ -633,6 +633,12 @@
     "provider": {
       "createFailed": "このサービスに接続できませんでした。",
       "listFailed": "このツールのサービス一覧を読み込めませんでした。",
+      "modelProbeImageTooLarge": "生成された画像が大きすぎて表示できません。",
+      "modelProbeModelInvalid": "先にモデル名を入力してください。",
+      "modelProbePromptInvalid": "プロンプトは 200 文字以内で入力してください。",
+      "modelProbeTimeout": "サービスから時間内に応答がありませんでした。",
+      "modelProbeUnreachable": "このサービスに接続できませんでした。",
+      "modelProbeUnreadable": "サービスの応答をこのアプリでは読み取れませんでした。",
       "nameRequired": "このサービスに名前を付けてください。",
       "notFound": "そのサービスはもうありません。",
       "notTestable": "このサービスには確認できるアドレスがありません。",
@@ -780,6 +786,14 @@
     "usage": {
       "readFailed": "ローカルの使用量概要を読み取れませんでした。",
       "storeUnavailable": "使用量データはまだ準備できていません。"
+    },
+    "shellVariable": {
+      "movedOn": "その行は少し前とは変わっているため、何も変更していません。もう一度確認してからやり直してください。",
+      "notAConnectionVariable": "その変数はこのツールが読む変数ではありません。",
+      "notRewritable": "その行はコマンドを実行して値を作っているため、ただの文字列に置き換えると動作が変わってしまいます。",
+      "outsideHome": "その行はホームフォルダーの外にあるシステムファイルの中なので、このアプリは変更しません。",
+      "valueInvalid": "その値はターミナル設定ファイルの 1 行に収められません。",
+      "writeFailed": "ターミナル設定ファイルに書き込めませんでした。元のファイルは変わっていません。"
     }
   },
   "nav": {
@@ -910,7 +924,7 @@
   },
   "tools": {
     "details": {
-      "action": "ソフトウェアの詳細",
+      "action": "詳細",
       "title": "{{name}} の詳細",
       "description": "ローカル設定、メモリ、ストレージを確認します。グローバルプロンプトは専用ページで管理します。"
     },
@@ -1352,8 +1366,6 @@
       "allGood": "すべて正常です",
       "issues_one": "{{count}} 件の問題が見つかりました",
       "issues_other": "{{count}} 件の問題が見つかりました",
-      "more_one": "他 {{count}} 件",
-      "more_other": "他 {{count}} 件",
       "lastChecked": "最終チェック {{time}}",
       "checkingConnections": "サービス接続を確認しています",
       "connectionError": "接続チェックを開始できませんでした。もう一度お試しください。",
@@ -1517,9 +1529,9 @@
       "editNamed": "{{name}}を編集",
       "remove": "削除",
       "removeNamed": "{{name}}を削除",
-      "test": "アドレスを確認",
+      "test": "テスト",
       "testAll": "すべてのアドレスを確認",
-      "testNamed": "{{name}} のアドレスを確認",
+      "testNamed": "{{name}} をテスト",
       "useNamed": "{{name}}を使用"
     },
     "card": {
@@ -1620,8 +1632,9 @@
       "shellNotInspectedTitle": "ターミナル環境を読み取れませんでした"
     },
     "external": {
-      "badge": "未保存の接続",
-      "endpoint": "現在有効なアドレス"
+      "badge": "アプリの外で設定",
+      "endpoint": "現在有効なアドレス",
+      "overrides": "{{name}} は実際にこのアドレスを使います。下で選んだサービスより優先されます。"
     },
     "endpoints": {
       "title": "{{tool}} のエンドポイント",
@@ -1832,6 +1845,36 @@
       "retryNamed": "{{name}} をもう一度確認する",
       "unreachableHint": "現在のネットワークからこのアドレスに到達できませんでした。別の互換サービスを選択できます。"
     },
+    "probe": {
+      "title": "{{name}} をテスト",
+      "addressChecking": "アドレスを確認しています…",
+      "model": "モデル",
+      "modelCount": "利用できるモデル {{count}} 件",
+      "modelLoading": "モデル一覧を読み込んでいます…",
+      "modelReload": "再読み込み",
+      "modelManual": "モデル名",
+      "modelManualHint": "このサービスはモデル一覧を公開していません。モデル名を入力してください。",
+      "modelRefused": "サービスがモデル一覧を拒否しました（HTTP {{status}}）。",
+      "modelTruncated": "先頭の {{count}} 件のみ表示しています。",
+      "kind": "送信内容",
+      "kindText": "テキスト",
+      "kindImage": "画像",
+      "kindHint": "モデル名から推測しています。違う場合は切り替えてください。",
+      "prompt": "プロンプト",
+      "send": "送信",
+      "sending": "サービスの応答を待っています…",
+      "cost": "実際にリクエストを 1 回送信し、残量を消費します。",
+      "result": "結果",
+      "resultMeta": "HTTP {{status}} · {{ms}} ミリ秒",
+      "replyEmpty": "サービスは応答しましたが、内容がありませんでした。",
+      "replyRefused": "サービスがこのリクエストを拒否しました。",
+      "replyImageLinkOnly": "サービスは画像データではなくリンクを返したため、ここでは表示できません。",
+      "imageAlt": "{{model}} が生成した画像",
+      "adopt": "このモデルを使う",
+      "adopted": "このサービスに保存しました。",
+      "adoptFailed": "モデルを保存できませんでした。",
+      "effectiveNote": "この接続にはアプリ内の記録がないため、先に実行できるアドレス確認はありません。"
+    },
     "title": "API エンドポイント",
     "toolsError": {
       "description": "ツールを確認できなかったため、サービスも表示できません。もう一度お試しください。",
@@ -1845,6 +1888,16 @@
     "actionsPaused": {
       "title": "サービス操作は一時停止中です",
       "description": "設定の変更やツールの起動を続けるには、AI Manager が現在のツールとサービスの状態を確認する必要があります。"
+    },
+    "shellVariable": {
+      "at": "{{path}} の {{line}} 行目",
+      "editNamed": "ターミナルが設定している場所で {{variable}} を編集",
+      "nothingChanged": "何も変更されていません。もう一度確認してからやり直してください。",
+      "openTerminalsKeepTheOldValue": "すでに開いているターミナルは、再起動するまで古い値を使い続けます。",
+      "save": "保存",
+      "saved": "保存しました。",
+      "title": "{{variable}} を編集",
+      "value": "値"
     }
   },
   "extensions": {
@@ -2451,13 +2504,7 @@
       "instant": "すぐに反映",
       "language": {
         "label": "言語",
-        "description": "AI Manager 全体で使用する言語を選びます。",
-        "options": {
-          "zh": "简体中文",
-          "zhTw": "繁體中文",
-          "en": "English",
-          "ja": "日本語"
-        }
+        "description": "AI Manager 全体で使用する言語を選びます。"
       }
     },
     "advanced": {

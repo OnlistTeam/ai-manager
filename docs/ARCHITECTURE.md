@@ -27,13 +27,13 @@ the user interface, the product API, and the safety layers around every write ar
 
 ### 2.1 Six layers
 
-| Layer          | Lives in                                                               | Responsibility                                                              |
-| -------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| Presentation   | `src/` (React)                                                         | Display, interaction, forms, motion, state feedback. Nothing else.          |
-| Application    | `src-tauri/src/application/`                                           | Use cases: orchestration, capability gates, transactions, task registration |
-| Domain         | `src-tauri/src/domain/`                                                | Product models, error model, message keys. No Tauri, no OS API.             |
-| Infrastructure | `src-tauri/src/infrastructure/`, `src-tauri/src/repositories/`         | Product data directory, logging limits, OperationManager, product tables    |
-| Platform       | `src-tauri/src/platform/`                                              | `cfg(target_os)` concentration: commands, executor, terminals, redaction    |
+| Layer          | Lives in                                                             | Responsibility                                                              |
+| -------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Presentation   | `src/` (React)                                                       | Display, interaction, forms, motion, state feedback. Nothing else.          |
+| Application    | `src-tauri/src/application/`                                         | Use cases: orchestration, capability gates, transactions, task registration |
+| Domain         | `src-tauri/src/domain/`                                              | Product models, error model, message keys. No Tauri, no OS API.             |
+| Infrastructure | `src-tauri/src/infrastructure/`, `src-tauri/src/repositories/`       | Product data directory, logging limits, OperationManager, product tables    |
+| Platform       | `src-tauri/src/platform/`                                            | `cfg(target_os)` concentration: commands, executor, terminals, redaction    |
 | Compatibility  | `src-tauri/src/compat/ccswitch/` (facade) over the inherited modules | The only code allowed to see CC Switch types, services, and the database    |
 
 Adapters (`src-tauri/src/adapters/`) sit between Application and Compatibility/Platform: they implement
@@ -122,16 +122,18 @@ src-tauri/src/
   application/             One service per use case: tool_lifecycle, tool_launch, tool_*_preview,
                            deep_link_import,
                            tool_version_*, provider_directory, provider_preflight,
-                           provider_batch_test, extension_directory, mcp_*, skill_*,
+                           provider_batch_test, model_probe, extension_directory, mcp_*, skill_*,
                            prompt_directory, product_settings, backup_*, import_existing,
                            health_check, app_update, network_proxy, desktop_*, session_directory,
                            usage_overview, routing_control, openclaw_workspace, reveal
-  domain/                  tool, provider, provider_endpoint, provider_runtime, extension, mcp,
-                           prompt, skill, operation, health, import, backup, settings, session,
-                           usage, routing, desktop_app, app_update, deep_link, error, message_keys
+  domain/                  tool, provider, provider_endpoint, provider_runtime, model_probe,
+                           extension, mcp, prompt, skill, operation, health, import, backup,
+                           settings, session, usage, routing, desktop_app, app_update, deep_link,
+                           error, message_keys
   adapters/                tool_adapter.rs (trait + contexts), registry.rs (AdapterRegistry,
                            UpstreamToolAdapter), lifecycle_runner.rs, uninstall_runner.rs,
-                           version_catalog_runner.rs, native_supply.rs
+                           version_catalog_runner.rs, native_supply.rs,
+                           model_probe/ (outbound model catalogue and probe, ADR-0041)
   platform/                mod.rs (Platform), command.rs (CommandSpec, AllowedProgram),
                            executor.rs (+ cancellation), plan.rs, redact.rs,
                            shell_environment.rs, terminal.rs (+ macos.rs, linux.rs),
@@ -158,13 +160,13 @@ src-tauri/src/
 
 ### 3.3 Boundary rules (enforced by `pnpm check:boundaries`)
 
-| Rule | Scope                                                           | Statement                                                                                                                                                                                                           |
-| ---- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R1   | `domain/`, `platform/`                                          | May reference only product crate roots (`domain`, `platform`, `adapters`, `application`, `repositories`, `infrastructure`, `upstream`); `domain` must not mention `tauri`                                           |
+| Rule | Scope                                                           | Statement                                                                                                                                                                                                         |
+| ---- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R1   | `domain/`, `platform/`                                          | May reference only product crate roots (`domain`, `platform`, `adapters`, `application`, `repositories`, `infrastructure`, `upstream`); `domain` must not mention `tauri`                                         |
 | R2   | `application/`, `adapters/`, `repositories/`, `infrastructure/` | Same allowlist; every inherited module is reached through `crate::compat::ccswitch`. One documented exemption: `infrastructure/paths.rs` reads `crate::config` to locate the CC Switch source database (ADR-0002) |
-| R3   | `compat/ccswitch/`                                            | The only directory that may `use crate::services`, `crate::database`, `crate::store`, and the other inherited modules                                                                                               |
-| R4   | `src/` except `src/native/`                                     | Must not import `@tauri-apps/*`. Allowlisted bootstrap exceptions: `src/main.tsx`, `src/components/DatabaseUpgrade.tsx`, `src/lib/frontendLogger.ts`, `src/lib/windowActivity.ts`                                   |
-| R5   | `src/app/`, `src/pages/`                                        | Must not import `@/native`; they reach the backend only through entity and feature hooks                                                                                                                            |
+| R3   | `compat/ccswitch/`                                              | The only directory that may `use crate::services`, `crate::database`, `crate::store`, and the other inherited modules                                                                                             |
+| R4   | `src/` except `src/native/`                                     | Must not import `@tauri-apps/*`. Allowlisted bootstrap exceptions: `src/main.tsx`, `src/components/DatabaseUpgrade.tsx`, `src/lib/frontendLogger.ts`, `src/lib/windowActivity.ts`                                 |
+| R5   | `src/app/`, `src/pages/`                                        | Must not import `@/native`; they reach the backend only through entity and feature hooks                                                                                                                          |
 
 Rules that are reviewed rather than linted:
 

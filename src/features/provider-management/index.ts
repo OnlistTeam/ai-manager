@@ -6,6 +6,21 @@ export { ProviderFormModal } from "./ProviderFormModal";
 export type { ProviderFormModalProps } from "./ProviderFormModal";
 export { ProviderRemovalModal } from "./ProviderRemovalModal";
 export type { ProviderRemovalModalProps } from "./ProviderRemovalModal";
+export { ProviderTestModal } from "./ProviderTestModal";
+export {
+  nextModels,
+  useAdoptModel,
+  useModelCatalog,
+  useProbeModel,
+} from "./useProviderModelProbe";
+export type {
+  AdoptModelVariables,
+  ModelProbeVariables,
+  ProbeSubject,
+} from "./useProviderModelProbe";
+export { ShellVariableEditModal } from "./ShellVariableEditModal";
+export type { ShellVariableEditModalProps } from "./ShellVariableEditModal";
+export { useShellVariables, useWriteShellVariable } from "./useShellVariables";
 export { ServiceActionsPausedNotice } from "./ServiceActionsPausedNotice";
 export { describeReachability } from "./testPresentation";
 export type { ReachabilityCopy } from "./testPresentation";

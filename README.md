@@ -48,8 +48,11 @@ updating those stays with each vendor's signed channel.
 **API Endpoints** connects a tool to an AI service from a reviewed preset
 catalogue or a custom HTTPS endpoint, then shows the effective connection:
 the endpoint the tool will really use, and why, including environment
-variable overrides. Your shell environment is never edited. Local Routing and
-a 30 day local usage overview are secondary tabs.
+variable overrides. Testing a service reads the models it actually serves,
+sends one real request to the one you pick, and shows the reply or the
+generated image, so a rejected key no longer reads as a healthy address. Your
+shell environment is never edited. Local Routing and a 30 day local usage
+overview are secondary tabs.
 
 **Skills** scans every supported local scope in one overview, installs from
 trusted GitHub catalogues or a local ZIP, copies a Skill to another tool, and

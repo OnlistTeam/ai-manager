@@ -9,6 +9,7 @@ pub mod install_probe;
 pub mod lifecycle;
 pub mod lifecycle_specs;
 mod lifecycle_windows;
+pub mod model_probe;
 pub mod native_supply;
 pub mod network_proxy;
 pub mod paths;

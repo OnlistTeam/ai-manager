@@ -7,7 +7,13 @@ import {
 } from "lucide-react";
 import { useId, type ComponentType, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { resolveAppLanguage, setAppLanguage, type AppLanguage } from "@/i18n";
+import {
+  APP_LANGUAGES,
+  LANGUAGE_ENDONYMS,
+  resolveAppLanguage,
+  setAppLanguage,
+  type AppLanguage,
+} from "@/i18n";
 import { Card } from "@/shared/ui/Card";
 import { Switch } from "@/shared/ui/Switch";
 import {
@@ -93,15 +99,10 @@ export function AppExperienceCard({
   const languages: readonly {
     value: AppLanguage;
     label: string;
-  }[] = [
-    { value: "zh", label: t("preferences.experience.language.options.zh") },
-    {
-      value: "zh-TW",
-      label: t("preferences.experience.language.options.zhTw"),
-    },
-    { value: "en", label: t("preferences.experience.language.options.en") },
-    { value: "ja", label: t("preferences.experience.language.options.ja") },
-  ];
+  }[] = APP_LANGUAGES.map((value) => ({
+    value,
+    label: LANGUAGE_ENDONYMS[value],
+  }));
   return (
     <section aria-labelledby={headingId}>
       <Card

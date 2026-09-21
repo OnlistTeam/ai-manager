@@ -10,7 +10,9 @@
 //! later), so the value is attributed to `Shell` alone.
 
 use std::collections::BTreeMap;
+use std::path::PathBuf;
 
+use super::shell_files;
 use crate::domain::ToolId;
 use crate::platform::{probe_shell_environment, ShellEnvironment, ShellEnvironmentSource};
 use crate::services::env_checker::{check_env_conflicts, EnvConflict};
@@ -66,6 +68,10 @@ pub(crate) struct ResolvedVariable {
 pub(crate) struct ToolEnvironment {
     shell: ShellEnvironment,
     declared_in_files: Vec<EnvConflict>,
+    /// The home directory whose start-up files are searched for the line
+    /// responsible for a value. Held rather than read on demand so tests can
+    /// point it at a fixture tree instead of the developer's own dotfiles.
+    home: PathBuf,
 }
 
 impl ToolEnvironment {
@@ -87,16 +93,34 @@ impl ToolEnvironment {
             // not turn up anything anyway.
             ShellEnvironment::new(BTreeMap::new(), ShellEnvironmentSource::LoginShell)
         };
-        Ok(Self::from_parts(shell, conflicts))
+        Ok(Self::from_parts_in(
+            shell,
+            conflicts,
+            crate::config::get_home_dir(),
+        ))
     }
 
+    /// Without a home directory the start-up tree is not searched at all, so
+    /// attribution falls back to the upstream scanner's results. Tests that
+    /// only care about that fallback use this; tests about the search itself
+    /// pass a fixture tree to `from_parts_in`.
+    #[cfg(test)]
     pub(crate) fn from_parts(shell: ShellEnvironment, conflicts: Vec<EnvConflict>) -> Self {
+        Self::from_parts_in(shell, conflicts, PathBuf::new())
+    }
+
+    pub(crate) fn from_parts_in(
+        shell: ShellEnvironment,
+        conflicts: Vec<EnvConflict>,
+        home: PathBuf,
+    ) -> Self {
         Self {
             shell,
             declared_in_files: conflicts
                 .into_iter()
                 .filter(|conflict| conflict.source_type == "file")
                 .collect(),
+            home,
         }
     }
 
@@ -104,16 +128,33 @@ impl ToolEnvironment {
         self.shell.inspected_login_shell()
     }
 
+    /// The start-up line responsible for a value the shell reports, following
+    /// `source` so a variable kept in a sourced secrets file is attributed to
+    /// that file rather than reported as coming from nowhere in particular.
+    fn responsible_line(&self, name: &str, value: &str) -> Option<String> {
+        if self.home.as_os_str().is_empty() {
+            return None;
+        }
+        shell_files::responsible_site(&self.home, name, value)
+            .map(|site| format!("{}:{}", site.path.display(), site.line))
+    }
+
     pub(crate) fn lookup(&self, name: &str) -> Option<ResolvedVariable> {
         if let Some(value) = self.shell.get(name) {
             let origin = self
-                .declared_in_files
-                .iter()
-                .find(|conflict| {
-                    conflict.var_name.eq_ignore_ascii_case(name)
-                        && conflict.var_value.trim() == value
+                .responsible_line(name, value)
+                .or_else(|| {
+                    // Anything the search above does not cover: the upstream
+                    // scanner reads a few files this one does not follow into.
+                    self.declared_in_files
+                        .iter()
+                        .find(|conflict| {
+                            conflict.var_name.eq_ignore_ascii_case(name)
+                                && conflict.var_value.trim() == value
+                        })
+                        .map(|conflict| conflict.source_path.clone())
                 })
-                .map(|conflict| VariableOrigin::ShellFile(conflict.source_path.clone()))
+                .map(VariableOrigin::ShellFile)
                 .unwrap_or(VariableOrigin::Shell);
             return Some(ResolvedVariable {
                 name: name.to_string(),
