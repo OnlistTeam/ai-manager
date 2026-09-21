@@ -1,8 +1,9 @@
 # AI Manager desktop release runbook
 
-> Status: `v0.1.0-1` published as a prerelease on 2026-09-21 with all four
-> targets and the staging manifest live; installed updater round trip,
-> clean-machine evidence, and the formal stable matrix pending ·
+> Status: repository recreated on 2026-09-21 with a single-commit history and
+> a rotated updater key; `v0.1.0` is the first stable release, built for all
+> four targets. Installed updater round trip and clean-machine evidence
+> pending ·
 > Workflow: `.github/workflows/release.yml` · Scope: macOS Apple Silicon,
 > macOS Intel, Windows x64, Linux x64
 
@@ -23,24 +24,22 @@ use are recorded outside the repository.
 
 ## 1. Current release state
 
-The first prerelease has shipped. What is still missing before a stable release
-is evidence that an *installed* build updates itself, and clean-machine
-validation on native Windows and Linux hardware:
+`v0.1.0` is the first stable release. What is still missing is evidence that an
+*installed* build updates itself, and clean-machine validation on native
+Windows and Linux hardware:
 
 - `origin` is the `OnlistTeam/ai-manager` repository; `upstream` remains the
   CC Switch remote.
-- `main` is pushed. The product repository carries one tag, `v0.1.0-1`;
+- `main` is pushed. The product repository carries one tag, `v0.1.0`;
   inherited upstream tags remain local and are never pushed.
 - package, Cargo, Tauri bundle, repository, and updater public-key identity are
-  product-owned and aligned at version 0.1.0-1. A prerelease identifier must be
-  numeric; see section 7.
+  product-owned and aligned at version 0.1.0.
 - stable builds read one product path,
   `https://dl.aimanager.tools/ai-manager/latest.json`, provisioned on Cloudflare
   R2. ADR-0018 was revised on 2026-09-20 to drop the never-provisioned second
   channel; the update channel is now a single point of failure by accepted
-  decision. Only verified release artifacts may enter the public prefix. That
-  stable manifest does not exist yet, by design: no stable release has been
-  promoted.
+  decision. Only verified release artifacts may enter the public prefix, and
+  the stable manifest serves the four `v0.1.0` platform keys.
 - ADR-0013 registers the updater only behind three narrow product commands.
   `channelReady` is true only for the signed HTTPS channel and a binary compiled
   by the protected workflow with `AI_MANAGER_UPDATE_CHANNEL_ENABLED=1` plus an
@@ -50,15 +49,18 @@ validation on native Windows and Linux hardware:
   retain the reserved URLs for contract validation but remain `unconfigured`
   and make no updater request. Startup checks and downloads in the background,
   while installation remains an explicit user restart action.
-- the permanent updater private key is held outside Git; the key and its
-  password are stored only as `release` environment secrets.
+- the permanent updater private key is held outside Git. It exists as a
+  `release` environment secret and in two controlled locations outside this
+  repository, so deleting the repository can no longer destroy it. See the
+  rotation note in section 6 for why that matters.
 - Apple Developer Program membership, the exact ONLIST Developer ID Application
   identity, App Store Connect notarization key, and protected CI inputs are ready.
 - production root manifests are updated only after a GitHub release is promoted
   to stable. Prerelease SemVer builds are compiled for the isolated staging
   channel and may update only `ai-manager/staging/latest.json`; they never read
-  or replace either stable root manifest. The staging manifest is live and
-  serves the four `v0.1.0-1` platform keys.
+  or replace either stable root manifest. A staging manifest published before
+  the key rotation still exists and is stale; nothing reads it, because no
+  staging build carries the current public key.
 - the fixed manual fallback `https://aimanager.tools/download` is reserved in
   the native boundary and reachable. It shares a domain with the update
   channel, so a user who cannot reach one generally cannot reach the other.
@@ -198,9 +200,9 @@ Obtain a new explicit decision before:
   procurement dependency;
 - re-introducing any second distribution source, which ADR-0018 item 7 now
   requires a new ADR for;
-- promoting any build to a stable, non-prerelease release. The first
-  prerelease, `v0.1.0-1`, was published on 2026-09-21 under the owner
-  authorization recorded above.
+- promoting any build to a stable, non-prerelease release. The owner
+  authorized the first stable release, `v0.1.0`, on 2026-09-21; that decision
+  covers this version only.
 
 The identifier migration is implemented in the same commit as the stable
 identity. It never changes or deletes the inherited source directory.
@@ -215,7 +217,7 @@ Repository setup status:
 
 1. **Complete:** product repository created without generated files.
 2. **Complete:** `origin` added; `upstream` retained.
-3. **Complete:** `main` pushed explicitly; the one product tag `v0.1.0-1` is
+3. **Complete:** `main` pushed explicitly; the one product tag `v0.1.0` is
    pushed and inherited upstream tags stay local.
 4. **Complete:** branch protection on `main` requires a linear history, forbids
    force pushes and deletions, requires conversation resolution, and requires
@@ -354,17 +356,19 @@ release-critical design decision.
 
 ### Rotation of 2026-09-21
 
-The key generated for `v0.1.0-1` existed only as a `release` environment
+The key generated for the withdrawn `v0.1.0-1` prerelease existed only as a
+`release` environment
 secret. GitHub secrets cannot be read back, so recreating the repository would
 have destroyed it, and step 3 above — a separately controlled recovery copy —
 had not actually been carried out. It was rotated rather than extracted:
 reading a signing key out through a workflow would have written it to CI logs
 and artifacts, which is worse than the problem.
 
-The consequence is recorded here because it is not reversible: `v0.1.0-1`
-carries the retired public key `68E633826E335767` and **cannot be updated in
-place**. Any machine running it has to install a later build by hand. Builds
-from `v0.1.0-2` onward carry `3FB8A3FCA75D2E44`.
+The consequence is recorded here because it is not reversible: the withdrawn
+`v0.1.0-1` build carries the retired public key `68E633826E335767` and
+**cannot be updated in place**. Any machine still running it has to install
+`v0.1.0` by hand. Every release from `v0.1.0` onward carries
+`3FB8A3FCA75D2E44`.
 
 The replacement exists in two controlled locations outside this repository as
 well as in the environment secret, which is what step 3 always required.
@@ -607,12 +611,13 @@ of the same product data directory across relaunch/update.
 The first updater proof requires two signed prerelease SemVer versions. ADR-0018
 fixes their isolated manifest at
 `https://dl.aimanager.tools/ai-manager/staging/latest.json`, which is
-provisioned and currently serves `v0.1.0-1`. GitHub's
+provisioned but stale: it still describes the withdrawn `v0.1.0-1`, which no
+current build can verify. GitHub's
 `releases/latest/download/latest.json` excludes prereleases and is not a product
 updater endpoint.
 
-Version N is `v0.1.0-1`, already published. What this section still needs is
-N+1 and the evidence below.
+Version N is `v0.1.0`, already published on the stable channel. What this
+section still needs is N+1 and the evidence below.
 
 1. Install and launch version N from its installer on each clean target.
 2. Publish a signed N+1 prerelease with the same product identity and updater

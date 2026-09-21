@@ -14,14 +14,12 @@ or hand-edited configuration files. It is a local-first desktop application
 built with Tauri 2 and React 18, released under the GNU AGPL-3.0-or-later.
 
 > [!NOTE]
-> AI Manager is in release hardening. The current build is the `v0.1.0-1`
-> prerelease on the
-> [Releases page](https://github.com/OnlistTeam/ai-manager/releases); GitHub
-> reserves "Latest release" for stable versions, so a prerelease does not
-> appear there or under `/releases/latest`. Every installer passes the signing
-> and verification gates in the
-> [release runbook](docs/development/RELEASE_RUNBOOK.md) before it is published.
-> A local build is not a release and must not be redistributed as one.
+> Every installer on the
+> [Releases page](https://github.com/OnlistTeam/ai-manager/releases) passes the
+> signing and verification gates in the
+> [release runbook](docs/development/RELEASE_RUNBOOK.md) before it is
+> published. A local build is not a release and must not be redistributed as
+> one.
 
 ## Who it is for
 
