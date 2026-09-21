@@ -1,9 +1,8 @@
 # AI Manager desktop release runbook
 
-> Status: repository recreated on 2026-09-21 with a single-commit history and
-> a rotated updater key; `v0.1.0` is the first stable release, built for all
-> four targets. Installed updater round trip and clean-machine evidence
-> pending ·
+> Status: `v0.2.0` is the current stable release, built for all four targets.
+> Installed updater round trip and clean-machine evidence still pending; see
+> the invariant 12 exception in section 1 ·
 > Workflow: `.github/workflows/release.yml` · Scope: macOS Apple Silicon,
 > macOS Intel, Windows x64, Linux x64
 
@@ -24,9 +23,19 @@ use are recorded outside the repository.
 
 ## 1. Current release state
 
-`v0.1.0` is the first stable release. What is still missing is evidence that an
-_installed_ build updates itself, and clean-machine validation on native
+`v0.2.0` is the current stable release. What is still missing is evidence that
+an _installed_ build updates itself, and clean-machine validation on native
 Windows and Linux hardware:
+
+> **Invariant 12 exception, 2026-09-21.** Invariant 12 says no formal release
+> is approved until the N → N+1 installed updater test passes on one clean
+> machine for every target. That test has still never run. The owner was shown
+> this, along with the fact that the 2026-09-21 key rotation already leaves
+> `v0.1.0-1` unable to update in place, and authorized `v0.2.0` as a stable
+> release anyway. The consequence is accepted rather than fixed: nobody
+> receives `v0.2.0` automatically, and whether `v0.2.0 → v0.2.1` will work is
+> still unproven. Publishing `v0.2.1` as stable requires running that test or
+> recording the exception again.
 
 - `origin` is the `OnlistTeam/ai-manager` repository; `upstream` remains the
   CC Switch remote.
@@ -188,7 +197,7 @@ Completed owner checkpoints:
 
 - permanent bundle identifier `tools.aimanager.desktop`;
 - product repository `OnlistTeam/ai-manager`;
-- first product version `0.1.0`;
+- first product version `0.1.0`, and `0.2.0` as the second stable release;
 - permanent Tauri updater key pair;
 - ONLIST Developer ID identity and App Store Connect notarization credential.
 - public Cloudflare R2 channel at `dl.aimanager.tools/ai-manager`.
@@ -201,8 +210,8 @@ Obtain a new explicit decision before:
 - re-introducing any second distribution source, which ADR-0018 item 7 now
   requires a new ADR for;
 - promoting any build to a stable, non-prerelease release. The owner
-  authorized the first stable release, `v0.1.0`, on 2026-09-21; that decision
-  covers this version only.
+  authorized `v0.1.0` and then `v0.2.0` as stable releases on 2026-09-21; each
+  decision covers one version only.
 
 The identifier migration is implemented in the same commit as the stable
 identity. It never changes or deletes the inherited source directory.
