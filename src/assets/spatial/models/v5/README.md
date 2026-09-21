@@ -2,13 +2,13 @@
 
 The home page's terminal is a **real 3D model** now, not a spinning image anymore.
 
-| Asset                     | Purpose                                              |
-| ------------------------- | ----------------------------------------------------- |
+| Asset                     | Purpose                                                                  |
+| ------------------------- | ------------------------------------------------------------------------ |
 | `terminal.blend.py`       | Full source of the modeling + lighting + render pipeline (Blender ≥ 5.0) |
-| `terminal-turntable.webp` | The 25-frame turntable sprite sheet for the home page hero |
-| `terminal.png`            | Single shadowless front frame, source for the app icon |
-| `mark.png`                | Sidebar top-left mark, a thumbnail of the front frame |
-| `app-icon.png`            | White-background squircle icon source, fed into `tauri icon` |
+| `terminal-turntable.webp` | The 25-frame turntable sprite sheet for the home page hero               |
+| `terminal.png`            | Single shadowless front frame, source for the app icon                   |
+| `mark.png`                | Sidebar top-left mark, a thumbnail of the front frame                    |
+| `app-icon.png`            | White-background squircle icon source, fed into `tauri icon`             |
 
 ## Why not a texture, and not Three.js
 
@@ -148,12 +148,12 @@ the plate bbox, inset it by 4.5% to exclude the squircle's own
 anti-aliasing edge, then take the bounding box of pixels with "distance from
 white > 30" as the subject bbox.
 
-|                          | CleanMyMac                    | Ours                          |
-| ------------------------ | ------------------------------ | ------------------------------ |
-| Plate / canvas           | 0.8047                        | 0.8047                        |
-| Subject width / plate    | 0.840                         | 0.790                         |
-| Ink area / plate         | 0.4245                        | 0.5496                        |
-| Plate top → bottom       | (249,247,252) → (254,254,255) | (247,250,248) → (255,255,255) |
+|                       | CleanMyMac                    | Ours                          |
+| --------------------- | ----------------------------- | ----------------------------- |
+| Plate / canvas        | 0.8047                        | 0.8047                        |
+| Subject width / plate | 0.840                         | 0.790                         |
+| Ink area / plate      | 0.4245                        | 0.5496                        |
+| Plate top → bottom    | (249,247,252) → (254,254,255) | (247,250,248) → (255,255,255) |
 
 Two places deliberately not copied verbatim:
 
@@ -179,7 +179,12 @@ the dock instead of white.
 
 `src-tauri/icons/tray/macos/statusbar_template_3x.png` is **not part of this
 pipeline**. The macOS menu bar icon must be a monochrome template image,
-recolored by the system for light/dark mode.
+recolored by the system for light/dark mode, so it is drawn by hand from
+`statusbar_template.svg` beside it rather than rendered from the model. It is
+the mark reduced to what survives at 18pt: the screen filled solid with the
+prompt and cursor knocked out of it. Regenerate it with any SVG rasterizer at
+72×72 on a transparent background, keeping every pixel pure black plus alpha —
+`scripts/brand-assets.node.mjs` asserts the size and the alpha channel.
 
 The asset is decorative in the UI: the page title and status copy remain the
 sole source of truth for accessibility.

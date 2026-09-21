@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72">
+  <!--
+    macOS menu bar template icon: one opaque shape plus knockouts, no colour.
+    The system recolours it for light and dark, so anything but black-and-alpha
+    is discarded. Content sits inside 11..61 of a 72px canvas, which is the
+    18pt-in-a-22pt-bar proportion Apple's own status items use.
+
+    The shape is the product mark reduced to what survives at 18pt: the CRT
+    screen filled solid, with the prompt and cursor knocked out of it. An
+    outlined monitor with two small glyphs inside turns to mush at this size.
+  -->
+  <defs>
+    <mask id="prompt">
+      <rect width="72" height="72" fill="#fff"/>
+      <path d="M26 23 L35.5 31 L26 39" fill="none" stroke="#000"
+            stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="41" y="27.5" width="7.5" height="7.5" rx="1.5" fill="#000"/>
+    </mask>
+  </defs>
+  <rect x="11" y="13" width="50" height="36" rx="7" fill="#000" mask="url(#prompt)"/>
+  <rect x="31.5" y="49" width="9" height="5" fill="#000"/>
+  <rect x="19" y="54" width="34" height="6" rx="3" fill="#000"/>
+</svg>
