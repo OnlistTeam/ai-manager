@@ -1,0 +1,191 @@
+name: Windows Installer QA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-installer-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+  PNPM_VERSION: "10.12.3"
+
+jobs:
+  installer-qa:
+    name: Native MSI install, launch, and uninstall
+    runs-on: windows-2025
+    timeout-minutes: 75
+    steps:
+      - name: Checkout tested commit
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Setup Rust target
+        uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate release and QA contracts
+        run: pnpm test:release
+
+      - name: Build clean Windows executable
+        shell: pwsh
+        run: >-
+          pnpm tauri build
+          --target x86_64-pc-windows-msvc
+          --no-bundle
+          --ci
+          --config '{"bundle":{"createUpdaterArtifacts":false}}'
+
+      - name: Locate clean Windows executable
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $targetRoot = 'src-tauri/target/x86_64-pc-windows-msvc/release'
+          $executables = @(Get-ChildItem -Path $targetRoot -Filter *.exe -File)
+          if ($executables.Count -ne 1) {
+            throw "Expected exactly one clean Windows executable, found $($executables.Count)"
+          }
+          "WINDOWS_QA_CLEAN_EXE=$($executables[0].FullName)" |
+            Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Bundle marker-patched MSI
+        shell: pwsh
+        run: >-
+          pnpm tauri bundle
+          --target x86_64-pc-windows-msvc
+          --bundles msi
+          --config '{"bundle":{"createUpdaterArtifacts":false}}'
+          --ci
+
+      - name: Extract and inspect the packaged MSI payload
+        id: payload
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $auditRoot = (New-Item -ItemType Directory -Force -Path windows-qa-audit).FullName
+          $msiRoot = 'src-tauri/target/x86_64-pc-windows-msvc/release/bundle/msi'
+          $installers = @(Get-ChildItem -Path $msiRoot -Filter *.msi -File -Recurse)
+          if ($installers.Count -ne 1) {
+            throw "Expected exactly one MSI, found $($installers.Count)"
+          }
+          $msi = $installers[0].FullName
+          $extractRoot = Join-Path $env:RUNNER_TEMP 'ai-manager-windows-qa-extracted'
+          New-Item -ItemType Directory -Force -Path $extractRoot | Out-Null
+          $extractLog = Join-Path $auditRoot 'msi-admin-extract.log'
+          & msiexec.exe /a $msi /qn "TARGETDIR=$extractRoot" /l*v $extractLog
+          if ($LASTEXITCODE -ne 0) {
+            throw "MSI administrative extraction failed with exit code $LASTEXITCODE"
+          }
+
+          $packagedExecutables = @(
+            Get-ChildItem -LiteralPath $extractRoot -Filter ai-manager.exe -File -Recurse
+          )
+          if ($packagedExecutables.Count -ne 1) {
+            throw "Expected one packaged ai-manager.exe, found $($packagedExecutables.Count)"
+          }
+          node scripts/verify-windows-bundle-marker.mjs `
+            $env:WINDOWS_QA_CLEAN_EXE `
+            $packagedExecutables[0].FullName `
+            msi |
+            Set-Content -LiteralPath windows-qa-audit/bundle-marker.json -Encoding utf8NoBOM
+
+          @(
+            "msi=$msi"
+            "exe=$($packagedExecutables[0].FullName)"
+          ) | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: Install, launch, and uninstall MSI
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $msi = '${{ steps.payload.outputs.msi }}'
+          $installRoot = Join-Path $env:RUNNER_TEMP 'ai-manager-installed'
+          $installLog = (Join-Path (Resolve-Path windows-qa-audit).Path 'msi-install.log')
+          $uninstallLog = (Join-Path (Resolve-Path windows-qa-audit).Path 'msi-uninstall.log')
+          $launched = $null
+          $installed = $false
+          try {
+            & msiexec.exe /i $msi /qn /norestart "INSTALLDIR=$installRoot" /l*v $installLog
+            if (@(0, 3010) -notcontains $LASTEXITCODE) {
+              throw "MSI installation failed with exit code $LASTEXITCODE"
+            }
+            $installed = $true
+
+            $installedExecutables = @(
+              Get-ChildItem -LiteralPath $installRoot -Filter ai-manager.exe -File -Recurse
+            )
+            if ($installedExecutables.Count -ne 1) {
+              throw "Expected one installed ai-manager.exe, found $($installedExecutables.Count)"
+            }
+            $installedExe = $installedExecutables[0].FullName
+
+            $launched = Start-Process -FilePath $installedExe -PassThru
+            Start-Sleep -Seconds 10
+            $launched.Refresh()
+            if ($launched.HasExited) {
+              throw "Installed AI Manager exited during launch smoke with code $($launched.ExitCode)"
+            }
+            [PSCustomObject]@{
+              InstalledExecutable = $installedExe
+              LaunchSeconds = 10
+              ProcessWasAlive = $true
+              InstallScope = 'per-user-controlled-path'
+              PublicTrust = $false
+              TrustScope = 'ephemeral-runner-only-not-public-distribution'
+            } | ConvertTo-Json |
+              Set-Content -LiteralPath windows-qa-audit/install-launch.json -Encoding utf8NoBOM
+
+            Stop-Process -Id $launched.Id -Force
+            $launched.WaitForExit(10000) | Out-Null
+            $launched = $null
+
+            & msiexec.exe /x $msi /qn /norestart /l*v $uninstallLog
+            if (@(0, 3010) -notcontains $LASTEXITCODE) {
+              throw "MSI uninstall failed with exit code $LASTEXITCODE"
+            }
+            $installed = $false
+            if (Test-Path -LiteralPath $installedExe) {
+              throw 'Installed executable remains after MSI uninstall'
+            }
+            [PSCustomObject]@{
+              Install = 'passed'
+              Launch = 'passed'
+              Uninstall = 'passed'
+              PublicTrust = $false
+            } | ConvertTo-Json |
+              Set-Content -LiteralPath windows-qa-audit/install-launch-uninstall.json -Encoding utf8NoBOM
+          } finally {
+            if ($null -ne $launched -and -not $launched.HasExited) {
+              Stop-Process -Id $launched.Id -Force -ErrorAction SilentlyContinue
+            }
+            if ($installed) {
+              & msiexec.exe /x $msi /qn /norestart /l*v $uninstallLog
+            }
+          }
+
+      - name: Upload Windows installer QA evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-installer-qa-evidence
+          path: windows-qa-audit/
+          if-no-files-found: warn
+          retention-days: 14

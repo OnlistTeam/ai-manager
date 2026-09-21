@@ -1,0 +1,81 @@
+name: "Feature request"
+description: Propose a new feature or an improvement to AI Manager.
+labels:
+  - enhancement
+body:
+  - type: checkboxes
+    attributes:
+      label: Before you start
+      options:
+        - label: I have read the README, including the current limitations.
+          required: true
+        - label: I have searched open and closed issues for this idea.
+          required: true
+
+  - type: dropdown
+    attributes:
+      label: Area
+      multiple: false
+      options:
+        - Home or Quick Check
+        - AI Tools
+        - AI Services
+        - Extensions (Skills, MCP, Prompts)
+        - Local Data
+        - Settings
+        - Installation or updater
+        - General
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Tool or desktop app involved
+      multiple: true
+      options:
+        - Claude Code
+        - Codex
+        - OpenCode
+        - Gemini CLI
+        - Grok Build
+        - OpenClaw
+        - Hermes
+        - Pi
+        - Kimi Code
+        - DeepSeek Harness (DSH)
+        - Codex App
+        - Claude Desktop
+        - Cursor
+        - ZCode
+        - Cherry Studio
+        - General / not tool-specific
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Problem or motivation
+      description: What are you trying to do, and what gets in the way today?
+      placeholder: I was trying to ... and found that ...
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Proposed solution
+      description: Describe the behaviour you would like. Mock-ups and screenshots are welcome.
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+
+  - type: checkboxes
+    attributes:
+      label: Contribution
+      options:
+        - label: I am interested in implementing this feature.
+          required: false

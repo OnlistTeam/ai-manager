@@ -1,0 +1,38 @@
+name: "Documentation issue"
+description: Report an error, outdated content, or missing information in the documentation or in-app text.
+labels:
+  - documentation
+body:
+  - type: checkboxes
+    attributes:
+      label: Before you start
+      options:
+        - label: I have searched open and closed issues for this problem.
+          required: true
+
+  - type: input
+    attributes:
+      label: Location
+      description: Which file, section, or screen is affected? Provide a link, a file path, or the page in AI Manager.
+      placeholder: "e.g. README.md#install, docs/ARCHITECTURE.md, or Settings > Backup"
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Issue type
+      options:
+        - Typo or grammar
+        - Outdated content
+        - Missing information
+        - In-app text or translation (English, Simplified Chinese, Traditional Chinese, Japanese)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: What is wrong, and what should it say instead?
+    validations:
+      required: true

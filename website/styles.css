@@ -1,0 +1,316 @@
+/*
+ * The page borrows the application's own palette: an ink-plum canvas with one
+ * mint accent. Surfaces separate themselves by being lighter than the canvas,
+ * never darker, which is the same rule the product's design tokens follow.
+ */
+:root {
+  --bg: #2a2740;
+  --bg-raised: #363252;
+  --surface: #454065;
+  --surface-hover: #514b74;
+  --text: #f6f5fb;
+  --text-muted: #b9b4cf;
+  --hairline: hsl(0 0% 100% / 0.14);
+  --accent: #6ad3ad;
+  --accent-hover: #85e0be;
+  --accent-ink: #0d1713;
+  --warning: #e8b264;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0 1.5rem 4rem;
+  background: var(--bg);
+  color: var(--text);
+  font:
+    16px/1.65 ui-sans-serif,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+code,
+pre {
+  font:
+    13px/1.6 ui-monospace,
+    SFMono-Regular,
+    "SF Mono",
+    Menlo,
+    Consolas,
+    monospace;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-color: hsl(0 0% 100% / 0.3);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration-color: currentColor;
+}
+
+.masthead,
+main,
+footer {
+  max-width: 54rem;
+  margin: 0 auto;
+}
+
+/* ---- masthead ---- */
+
+.masthead {
+  padding: 4.5rem 0 3rem;
+  text-align: center;
+}
+
+.mark {
+  display: block;
+  margin: 0 auto 1.25rem;
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 620;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  margin: 0.4rem 0 1.5rem;
+  color: var(--text-muted);
+  font-size: 1.125rem;
+}
+
+.blurb {
+  margin: 0 auto;
+  max-width: 40rem;
+  color: var(--text-muted);
+}
+
+.blurb code {
+  color: var(--text);
+}
+
+/* ---- sections ---- */
+
+section {
+  margin-top: 3.5rem;
+}
+
+h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 620;
+}
+
+.release-line {
+  margin: 0 0 1.75rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ---- downloads ---- */
+
+.recommended {
+  margin-bottom: 1.75rem;
+}
+
+.primary-download {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.95rem 1.6rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 1rem;
+  font-weight: 620;
+  text-decoration: none;
+}
+
+.primary-download:hover {
+  background: var(--accent-hover);
+  color: var(--accent-ink);
+}
+
+.primary-download .meta {
+  font-weight: 450;
+  opacity: 0.72;
+  font-size: 0.85rem;
+}
+
+.arch-choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.arch-hint {
+  margin: 0.85rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.platforms {
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.platform-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.85rem 1.1rem;
+  background: hsl(0 0% 100% / 0.04);
+  border-top: 1px solid var(--hairline);
+}
+
+.platform-row:first-child {
+  border-top: none;
+}
+
+.platform-row .name {
+  flex: 1 1 11rem;
+  font-size: 0.925rem;
+}
+
+.platform-row .size {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.platform-row .links {
+  display: flex;
+  gap: 0.9rem;
+  font-size: 0.875rem;
+}
+
+.note {
+  margin: 1.5rem 0 0;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+
+.prerelease-note {
+  border: 1px solid hsl(35 74% 65% / 0.35);
+  background: hsl(35 74% 65% / 0.08);
+  color: var(--text);
+}
+
+.prerelease-note strong {
+  color: var(--warning);
+}
+
+.fallback {
+  color: var(--text-muted);
+}
+
+/* ---- verify ---- */
+
+.verify-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.verify-grid article {
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: hsl(0 0% 100% / 0.04);
+}
+
+.verify-grid p {
+  margin: 0 0 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.verify-grid p:last-child {
+  margin-bottom: 0;
+}
+
+.verify-grid strong,
+.verify-grid code {
+  color: var(--text);
+}
+
+pre {
+  margin: 0 0 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 8px;
+  background: hsl(0 0% 0% / 0.28);
+  /* These are commands a reader is meant to copy, so they wrap rather than
+   * scroll off the edge of a card where the tail is invisible. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+pre code {
+  color: var(--text);
+}
+
+/* ---- footer ---- */
+
+footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.5rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+footer p {
+  margin: 0 0 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 34rem) {
+  .masthead {
+    padding-top: 3rem;
+  }
+
+  .masthead h1 {
+    font-size: 2rem;
+  }
+
+  .primary-download {
+    display: flex;
+    justify-content: center;
+  }
+}

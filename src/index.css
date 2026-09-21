@@ -1,0 +1,3040 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[data-tauri-drag-region] {
+  -webkit-app-region: drag;
+}
+
+[data-tauri-no-drag],
+[data-tauri-drag-region] .no-drag {
+  -webkit-app-region: no-drag;
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  -webkit-appearance: none;
+}
+
+html {
+  @apply font-sans antialiased;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  line-height: 1.5;
+  background: transparent;
+  color-scheme: dark;
+  overscroll-behavior: none;
+}
+
+body {
+  @apply m-0 p-0 text-sm;
+  position: fixed;
+  inset: 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  background: transparent;
+  color: hsl(var(--foreground));
+  overscroll-behavior: none;
+}
+
+#root {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+/*
+ * One continuous product canvas sits beneath the macOS overlay titlebar,
+ * sidebar, global status controls and every page. Each destination owns a hue;
+ * the canvas is a mid-lightness saturated wash of it, lifted by four soft
+ * blooms. It is deliberately not a "dark mode" surface — everything the product
+ * paints on top separates itself by being lighter (tokens.css lift layers),
+ * so the canvas has to stay bright enough for those films to read.
+ *
+ * Every route below sets the same six variables and nothing else:
+ *   --route-primary / --route-secondary / --route-bloom  the three bloom tints
+ *   --canvas-violet / --canvas-indigo / --canvas-deep    top / mid / bottom wash
+ * `--canvas-deep` doubles as the shadow colour for the whole route, which is
+ * why it is a darkened sibling of the hue rather than neutral black.
+ */
+.app-window-canvas {
+  --route-primary: 152 68% 44%;
+  --route-secondary: 176 62% 42%;
+  --route-bloom: 164 66% 46%;
+  --canvas-violet: 168 58% 34%;
+  --canvas-indigo: 158 62% 27%;
+  --canvas-deep: 150 66% 16%;
+  min-width: 0;
+  max-width: 100%;
+  max-height: 100%;
+  isolation: isolate;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  /* macOS already clips the WebView to the native window shape. A second,
+   * larger CSS radius exposed the dark WebView backing layer at all corners. */
+  border-radius: 0;
+  background:
+    radial-gradient(
+      ellipse 48% 44% at 0% -16%,
+      hsl(var(--route-bloom) / 0.46) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 54% 48% at 104% -10%,
+      hsl(var(--route-secondary) / 0.44) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 96% 54% at 46% 104%,
+      hsl(var(--route-primary) / 0.44) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 30% 26% at 96% 68%,
+      hsl(var(--route-bloom) / 0.22) 0%,
+      transparent 70%
+    ),
+    linear-gradient(
+      170deg,
+      hsl(var(--canvas-violet)) 0%,
+      hsl(var(--canvas-indigo)) 46%,
+      hsl(var(--canvas-deep)) 100%
+    );
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.1);
+}
+
+/*
+ * Browser-only: the design gallery runs in a square viewport, while the real
+ * window is clipped to the native rounded shape by macOS. Screenshots taken
+ * here get compared against screenshots of real apps, and a square corner in
+ * the preview reads as "this app has no rounded corners" when the shipped
+ * window does. This never applies in the desktop build, where drawing a second
+ * radius would expose the dark WebView backing layer at all four corners.
+ */
+html[data-window-preview="browser"] .app-window-canvas {
+  border-radius: 12px;
+}
+
+/* Desktop chrome should feel native, not like a selectable web document.
+ * Editable controls and explicitly disclosed technical output remain copyable. */
+.app-window-canvas
+  :is(input, textarea, [contenteditable="true"], [data-selectable-text]) {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/*
+ * A native <select> keeps macOS's own control skin — an inset light pill with
+ * its own shadow — which reads as a hole punched in the coloured canvas. Turn
+ * the skin off here, once, so every dropdown in the product is the same thin
+ * film as `Input`: one lift layer, one hairline, and a chevron we draw
+ * ourselves (the UA chevron goes with the skin).
+ */
+select {
+  @apply h-9 rounded-md border border-hairline bg-layer-1 px-3 text-body text-content;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%23e4e1f0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M1 1.5 6 6.5 11 1.5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.7rem;
+}
+
+/*
+ * The opened list is drawn by the OS, not by us — the one thing worth setting
+ * is a surface dark enough for the product's own text colour to stay legible.
+ */
+select option {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* Home — deep forest green */
+.app-window-canvas[data-route="home"] {
+  --route-primary: 152 68% 44%;
+  --route-secondary: 176 62% 42%;
+  --route-bloom: 164 66% 46%;
+  --canvas-violet: 168 58% 34%;
+  --canvas-indigo: 158 62% 27%;
+  --canvas-deep: 150 66% 16%;
+}
+
+/* Tool management — celadon blue */
+.app-window-canvas[data-route="tools"] {
+  --route-primary: 200 78% 44%;
+  --route-secondary: 220 70% 46%;
+  --route-bloom: 190 74% 46%;
+  --canvas-violet: 198 64% 34%;
+  --canvas-indigo: 208 62% 28%;
+  --canvas-deep: 224 66% 18%;
+}
+
+/* API endpoints — ochre orange */
+.app-window-canvas[data-route="services"] {
+  --route-primary: 28 78% 44%;
+  --route-secondary: 14 72% 44%;
+  --route-bloom: 38 76% 46%;
+  --canvas-violet: 30 66% 36%;
+  --canvas-indigo: 22 68% 30%;
+  --canvas-deep: 12 70% 20%;
+}
+
+/* Skills / MCP — scholar purple */
+.app-window-canvas[data-route="extensions"] {
+  --route-primary: 292 62% 48%;
+  --route-secondary: 272 60% 48%;
+  --route-bloom: 310 58% 48%;
+  --canvas-violet: 296 52% 36%;
+  --canvas-indigo: 284 54% 30%;
+  --canvas-deep: 268 58% 20%;
+}
+
+/* Extension pages keep related but distinguishable purple palettes. */
+.app-window-canvas[data-route="mcp"] {
+  --route-primary: 266 58% 48%;
+  --route-secondary: 252 56% 46%;
+  --route-bloom: 280 54% 48%;
+  --canvas-violet: 270 50% 36%;
+  --canvas-indigo: 258 50% 30%;
+  --canvas-deep: 246 54% 20%;
+}
+
+.app-window-canvas[data-route="prompts"] {
+  --route-primary: 310 52% 46%;
+  --route-secondary: 292 52% 46%;
+  --route-bloom: 322 50% 48%;
+  --canvas-violet: 306 46% 36%;
+  --canvas-indigo: 292 48% 30%;
+  --canvas-deep: 278 52% 20%;
+}
+
+/* Local data — moss green. Saturation is deliberately capped at 42% (the other
+   five sets run 54-78%): at high saturation this hue reads as neon lime, the
+   "AI-generated palette" look we want to avoid; dialing it down settles into a
+   natural moss green. */
+.app-window-canvas[data-route="data"] {
+  --route-primary: 96 42% 42%;
+  --route-secondary: 76 38% 40%;
+  --route-bloom: 112 40% 44%;
+  --canvas-violet: 92 34% 32%;
+  --canvas-indigo: 100 36% 26%;
+  --canvas-deep: 108 40% 16%;
+}
+
+/* Settings — slate blue-gray */
+.app-window-canvas[data-route="settings"] {
+  --route-primary: 212 54% 46%;
+  --route-secondary: 230 50% 46%;
+  --route-bloom: 200 50% 46%;
+  --canvas-violet: 210 42% 34%;
+  --canvas-indigo: 220 44% 28%;
+  --canvas-deep: 232 48% 18%;
+}
+
+.app-route-backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/*
+ * CSS cannot interpolate between two gradients, so a route change stacks the
+ * outgoing palette under the incoming one and dissolves between them. The
+ * timing is deliberately `linear`: any easing here makes the colour hesitate in
+ * the middle instead of travelling evenly from one hue to the next. The layers
+ * do not move — only the content above them does.
+ */
+.app-route-backdrop__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  box-shadow: none;
+}
+
+.app-route-backdrop__layer--outgoing {
+  z-index: 0;
+  animation: route-backdrop-out var(--motion-page) linear both;
+}
+
+.app-route-backdrop__layer--incoming {
+  z-index: 1;
+  animation: route-backdrop-in var(--motion-page) linear both;
+}
+
+@keyframes route-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes route-backdrop-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.app-scroll-viewport,
+.app-scroll-content {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+  scrollbar-gutter: auto;
+}
+
+.app-scroll-viewport {
+  /* Focused sections and scrollIntoView targets stop below the translucent
+   * title material instead of being hard-clipped at the WebView edge. */
+  scroll-padding-top: 96px;
+}
+
+.app-route-stage {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+.app-route-transition {
+  --page-enter-y: 88px;
+  --page-exit-y: -52px;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+  /* The first/last focusable control in a page (e.g. the leading ScopeTabs
+   * pill) sits flush against this box's own edge, with zero slack before
+   * `overflow-x: clip` bites. A keyboard focus ring (FOCUS_RING: ring-2 +
+   * ring-offset-2 = 4px past the control's border) needs that much room, or
+   * its near edge is sheared off instead of closing into a rounded ring.
+   * `.app-scroll-content` gives back the same 4px it lends here (px-6→px-5,
+   * lg:px-8→lg:px-7 in AppShell.tsx) so the page's visual inset is unchanged. */
+  padding-inline: 4px;
+  transform-origin: 50% 32%;
+}
+
+.app-route-transition[data-transition-direction="backward"] {
+  --page-enter-y: -88px;
+  --page-exit-y: 52px;
+}
+
+/*
+ * `will-change` is only added for the second the element is actually
+ * animating. Putting it on the base class instead would permanently pin the
+ * whole page as a compositing layer — wasting VRAM at rest and stripping
+ * sub-pixel anti-aliasing from any text inside the layer.
+ */
+.app-route-transition--outgoing {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  animation: route-content-out var(--motion-page) var(--ease-standard) both;
+  will-change: opacity, transform;
+}
+
+.app-route-transition--incoming {
+  position: relative;
+  z-index: 1;
+}
+
+/*
+ * The enter animation only plays on a route change, never on first paint —
+ * nothing is being replaced on first paint, so it would just scale the whole
+ * screen's text from 0.996 to 1 over a second (with the spring easing even
+ * overshooting past 1), forcing glyphs to re-rasterize every frame. The
+ * visible effect is icons and text shimmering.
+ */
+.app-route-transition--entering {
+  animation: route-content-in var(--motion-page) var(--ease-spring) both;
+  will-change: opacity, transform;
+}
+
+@keyframes route-content-in {
+  from {
+    opacity: 0.08;
+    transform: translate3d(0, var(--page-enter-y), 0) scale(0.996);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes route-content-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, var(--page-exit-y), 0) scale(0.992);
+  }
+}
+
+.app-sidebar {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none;
+  user-select: none;
+  -webkit-user-select: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* The rail is not a panel. A single hairline is all that separates it from the
+ * page; anything heavier turns the left edge into a second window.
+ *
+ * The line has to disappear well before the window's top and bottom edges. A
+ * seam that runs the full height reads as the boundary between two surfaces,
+ * which is exactly what the continuous canvas is trying not to be — it is only
+ * a hint at the waist, and nothing at all where the eye checks whether the two
+ * sides are one piece. */
+.app-sidebar::after {
+  position: absolute;
+  top: 14%;
+  right: 0;
+  bottom: 30%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    hsl(0 0% 100% / 0.075) 18%,
+    hsl(0 0% 100% / 0.075) 68%,
+    transparent 100%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.sidebar-nav-item {
+  border: 1px solid transparent;
+  transition:
+    border-color var(--motion-base) var(--ease-standard),
+    background-color var(--motion-base) var(--ease-standard),
+    color var(--motion-base) var(--ease-standard);
+}
+
+/*
+ * The selected destination is one translucent film and one hairline. It used to
+ * carry a two-stop gradient plus four shadows, which read as a floating button
+ * rather than as the quiet highlight the rail wants.
+ */
+.sidebar-nav-item[data-active="true"] {
+  border-color: var(--hairline);
+  background-color: var(--layer-2);
+  box-shadow: none;
+}
+
+.app-sidebar .sidebar-nav-item {
+  height: 52px;
+  border-radius: 18px;
+  padding-inline: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.app-sidebar .sidebar-nav-item[data-active="true"] {
+  font-weight: 620;
+}
+
+.app-sidebar .sidebar-nav-item:not([data-active="true"]) {
+  color: hsl(var(--ui-text-primary) / 0.88);
+}
+
+/*
+ * The brand mark is a clay object, not an icon on a plate: it sits on the rail
+ * by its own volume and one soft contact shadow. A bordered tile behind it
+ * would put a second, competing rectangle in the corner of the window.
+ */
+.app-logo-mark {
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px hsl(var(--canvas-deep) / 0.45));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/*
+ * The right-side controls float in the same continuous canvas as the page.
+ * Content scrolls beneath this softly masked material, so headings fade under
+ * a macOS-style title layer instead of being cut off at a separate toolbar.
+ */
+/*
+ * The top material belongs to the content area, but it can't stop abruptly at
+ * the edge touching the sidebar — that would leave a hard brightness seam
+ * near the top of the window, cutting what should read as one continuous
+ * canvas into "sidebar" and "the rest." Fading the whole layer out at its
+ * left edge reconnects the two.
+ *
+ * The mask is applied to this element rather than to ::before: ::before
+ * already handles the vertical fade, and parent/child masks multiply
+ * naturally, so there's no need for mask-composite — that property requires
+ * Safari 15.4, and this app's floor is macOS 12. The statusbar's content is
+ * fully right-aligned (justify-end), so nothing visible sits in this
+ * left-edge fade zone.
+ */
+.app-statusbar {
+  isolation: isolate;
+  mask-image: linear-gradient(90deg, transparent 0%, transparent 7%, black 30%);
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 7%,
+    black 30%
+  );
+}
+
+.app-statusbar::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      hsl(var(--canvas-deep) / 0.34) 0%,
+      hsl(var(--canvas-indigo) / 0.18) 44%,
+      transparent 100%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 0 18%,
+      hsl(var(--route-secondary) / 0.055) 62%,
+      hsl(var(--route-primary) / 0.065) 100%
+    );
+  content: "";
+  pointer-events: none;
+  backdrop-filter: blur(22px) saturate(122%);
+  -webkit-backdrop-filter: blur(22px) saturate(122%);
+  mask-image: linear-gradient(
+    180deg,
+    black 0%,
+    black 42%,
+    rgb(0 0 0 / 0.72) 66%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    black 0%,
+    black 42%,
+    rgb(0 0 0 / 0.72) 66%,
+    transparent 100%
+  );
+}
+
+.app-statusbar__controls {
+  filter: drop-shadow(0 8px 18px hsl(var(--canvas-deep) / 0.3));
+}
+
+.app-statusbar__privacy {
+  opacity: 0.82;
+  text-shadow: 0 1px 14px hsl(var(--canvas-deep) / 0.72);
+}
+
+/* Shared content cards stay quiet. Strong glass is reserved for the page hero,
+ * modal, task center and a small number of high-level context panels. */
+/*
+ * Rows inside a list group are divided by hairlines, never by their own
+ * borders — that is the whole point of collapsing a list of cards into one
+ * container. Using the adjacent-sibling selector means no row needs to know
+ * whether it is the last one.
+ */
+.ds-list-group > * + * {
+  border-top: 1px solid var(--hairline);
+}
+
+/*
+ * A card is a thin film of light over the route canvas — one lift layer, one
+ * hairline, no drop shadow. Separation comes from being brighter than what is
+ * behind it, which is what keeps a page of six cards from reading as six
+ * floating slabs.
+ */
+.ds-card {
+  border-color: var(--hairline);
+  background-color: var(--layer-1);
+  box-shadow: none;
+}
+
+/* The service card in use only gets a green ring; its background stays a
+   plain card. A fully green fill would outweigh everything else on the page,
+   and the green badge in the card header already says "this one is in use"
+   clearly enough. `.ds-card` is not inside @layer, so component-side bg-*
+   utility classes can't override it — the state color has to live next to
+   the source rule too. */
+.ds-card[data-state="in-use"] {
+  border-color: hsl(var(--ui-success) / 0.8);
+}
+
+.app-modal-overlay {
+  background: hsl(var(--canvas-deep) / 0.58);
+  backdrop-filter: blur(12px) saturate(112%);
+  -webkit-backdrop-filter: blur(12px) saturate(112%);
+}
+
+/*
+ * Spec §48 reserves the glass treatment for the surfaces that genuinely float
+ * above the page rather than lift off it: the hero, modals and the task centre.
+ * They are detached from the route canvas, so they get an opaque enough base to
+ * stay legible over any content plus a real shadow. Radius stays with each
+ * consumer, because a full-width modal and a 26rem popover need different
+ * corners for the padding they carry.
+ */
+.app-floating-surface {
+  isolation: isolate;
+  border-color: var(--hairline-strong);
+  background-color: hsl(var(--canvas-deep) / 0.88);
+  background-image: linear-gradient(
+    180deg,
+    hsl(0 0% 100% / 0.1),
+    hsl(0 0% 100% / 0.04)
+  );
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(34px) saturate(126%);
+  -webkit-backdrop-filter: blur(34px) saturate(126%);
+}
+
+.app-modal-header {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.app-modal-close {
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background-color: var(--layer-1);
+  box-shadow: none;
+}
+
+.app-modal-body {
+  padding-top: 2px;
+}
+
+.app-modal-footer {
+  padding-top: 18px;
+  border-top: 1px solid var(--hairline);
+}
+
+.provider-runtime-panel {
+  position: relative;
+  isolation: isolate;
+  border-color: var(--hairline);
+  border-radius: var(--radius-xl);
+  background-color: var(--layer-1);
+  box-shadow: none;
+}
+
+.sidebar-nav-icon {
+  color: hsl(var(--ui-text-primary) / 0.84);
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+
+.sidebar-nav-item:hover .sidebar-nav-icon {
+  color: hsl(var(--ui-text-primary));
+}
+
+.sidebar-nav-item:not([data-active="true"]):hover {
+  border-color: transparent;
+  background-color: hsl(0 0% 100% / 0.06);
+  box-shadow: none;
+}
+
+/* Selection is carried by the row's film. The icon only brightens; a coloured
+ * drop-shadow here made every rail item look like it was hovering. */
+.sidebar-nav-item[data-active="true"] .sidebar-nav-icon {
+  border-color: transparent;
+  background: transparent;
+  color: hsl(var(--ui-text-primary));
+  box-shadow: none;
+  filter: none;
+}
+
+/*
+ * Quiet macOS-style controls: restrained gradients provide material depth,
+ * while the shared 40px baseline keeps adjacent actions visually level.
+ */
+.ds-button {
+  border: 1px solid transparent;
+  box-shadow: none;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Buttons keep a soft vertical gradient so they still read as pressable, but
+ * the coloured glow underneath is gone: on a bright canvas it smeared instead
+ * of lifting.
+ */
+.ds-button-primary {
+  border-color: hsl(var(--ui-accent-foreground) / 0.16);
+  background: linear-gradient(
+    180deg,
+    hsl(var(--ui-accent-hover)) 0%,
+    hsl(var(--ui-accent)) 100%
+  );
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.24);
+}
+
+.ds-button-secondary {
+  border-color: var(--hairline-strong);
+  background-color: var(--layer-2);
+  box-shadow: none;
+}
+
+.ds-button-ghost {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.ds-button-danger {
+  border-color: hsl(var(--ui-danger) / 0.4);
+  background: linear-gradient(
+    180deg,
+    hsl(var(--ui-danger) / 0.94),
+    hsl(var(--ui-danger) / 0.8)
+  );
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.18);
+}
+
+.tools-scan-action {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: hsl(var(--ui-text-primary) / 0.18);
+  background:
+    linear-gradient(
+      180deg,
+      hsl(var(--ui-text-primary) / 0.22),
+      transparent 48%
+    ),
+    linear-gradient(
+      116deg,
+      hsl(var(--route-primary) / 0.98),
+      hsl(var(--route-secondary) / 0.9)
+    );
+  color: hsl(var(--canvas-deep));
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.018em;
+  box-shadow:
+    inset 0 1px 0 hsl(var(--ui-text-primary) / 0.36),
+    inset 0 -1px 0 hsl(var(--canvas-deep) / 0.2),
+    0 18px 38px -22px hsl(var(--route-primary) / 0.95),
+    0 7px 16px -13px hsl(var(--canvas-deep) / 0.92);
+}
+
+.tools-scan-action::before {
+  position: absolute;
+  z-index: -1;
+  inset: 1px 12% auto;
+  height: 46%;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--ui-text-primary) / 0.24),
+    transparent
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.tools-scan-action:not(:disabled):hover,
+.tools-scan-action:not(:disabled):focus-visible {
+  border-color: hsl(var(--ui-text-primary) / 0.25);
+  background:
+    linear-gradient(
+      180deg,
+      hsl(var(--ui-text-primary) / 0.28),
+      transparent 50%
+    ),
+    linear-gradient(
+      116deg,
+      hsl(var(--route-primary)),
+      hsl(var(--route-secondary) / 0.96)
+    );
+  box-shadow:
+    inset 0 1px 0 hsl(var(--ui-text-primary) / 0.42),
+    inset 0 -1px 0 hsl(var(--canvas-deep) / 0.2),
+    0 22px 44px -22px hsl(var(--route-primary) / 1),
+    0 9px 20px -14px hsl(var(--canvas-deep) / 0.95);
+}
+
+.tools-scan-action [data-slot="tools-scan-glyph"] {
+  filter: drop-shadow(0 3px 7px hsl(var(--canvas-deep) / 0.28));
+}
+
+.ds-button-primary:hover,
+.ds-button-primary:focus-visible {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--ui-accent-hover)) 0%,
+    hsl(var(--ui-accent-hover) / 0.92) 100%
+  );
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.28);
+}
+
+.ds-button-secondary:hover,
+.ds-button-secondary:focus-visible {
+  border-color: var(--hairline-strong);
+  background-color: var(--layer-3);
+}
+
+.ds-button-ghost:hover,
+.ds-button-ghost:focus-visible {
+  background-color: var(--layer-1);
+}
+
+/*
+ * Shared spatial page stage.
+ *
+ * The geometry is built from product tokens and ordinary CSS so it stays
+ * crisp on Retina/HiDPI displays, ships without a WebGL dependency, and can
+ * react to pointer direction without React re-renders. The same visual family
+ * is used on every page; model-specific geometry keeps each destination easy
+ * to recognise without creating eight unrelated illustration systems.
+ */
+.spatial-page-hero {
+  --spatial-rotate-x: 0deg;
+  --spatial-rotate-y: 0deg;
+  --spatial-shift-x: 0px;
+  --spatial-shift-y: 0px;
+  --spatial-detail-x: 0px;
+  --spatial-detail-y: 0px;
+  --spatial-glint-x: 0px;
+  --spatial-glint-y: 0px;
+  --spatial-stage-glow-x: 22%;
+  --spatial-stage-glow-y: 38%;
+  --spatial-reflection-x: 28%;
+  --spatial-reflection-y: 18%;
+  --spatial-stage-primary: var(--route-primary, var(--ui-accent));
+  --spatial-stage-secondary: var(--route-secondary, var(--ui-success));
+  --spatial-art-x: 50%;
+  --spatial-art-y: 73%;
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  overflow: visible;
+  border-color: transparent !important;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  container-name: spatial-page;
+  container-type: inline-size;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.spatial-page-hero::after {
+  display: none;
+}
+
+.spatial-page-hero[data-tone="success"] {
+  --spatial-stage-primary: var(--ui-success);
+  --spatial-stage-secondary: var(--ui-accent);
+}
+
+.spatial-page-hero[data-tone="warning"] {
+  --spatial-stage-primary: var(--ui-warning);
+  --spatial-stage-secondary: var(--ui-accent);
+}
+
+.spatial-page-hero[data-tone="danger"] {
+  --spatial-stage-primary: var(--ui-danger);
+  --spatial-stage-secondary: var(--ui-warning);
+}
+
+.spatial-page-hero[data-tone="neutral"] {
+  --spatial-stage-primary: var(--ui-text-secondary);
+  --spatial-stage-secondary: var(--ui-accent);
+}
+
+.spatial-page-hero__wash,
+.spatial-page-hero__lines {
+  position: absolute;
+  inset-block: -12%;
+  inset-inline: 0;
+  pointer-events: none;
+}
+
+.spatial-page-hero__wash {
+  z-index: -2;
+  background:
+    radial-gradient(
+      ellipse 38% 50% at var(--spatial-art-x) var(--spatial-art-y),
+      hsl(var(--route-secondary, var(--ui-success)) / 0.2),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 50% 62% at var(--spatial-art-x) var(--spatial-art-y),
+      hsl(var(--route-primary, var(--ui-accent)) / 0.2),
+      transparent 76%
+    );
+  filter: blur(8px);
+  mask-image: radial-gradient(
+    ellipse 44% 56% at var(--spatial-art-x) var(--spatial-art-y),
+    black 0 34%,
+    rgb(0 0 0 / 0.76) 54%,
+    transparent 82%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 44% 56% at var(--spatial-art-x) var(--spatial-art-y),
+    black 0 34%,
+    rgb(0 0 0 / 0.76) 54%,
+    transparent 82%
+  );
+  transition: background-position var(--motion-base) var(--ease-standard);
+}
+
+.spatial-page-hero__lines {
+  z-index: -1;
+  opacity: 0.12;
+  background-image: repeating-radial-gradient(
+    circle at var(--spatial-art-x) var(--spatial-art-y),
+    transparent 0 62px,
+    hsl(var(--ui-text-primary) / 0.075) 63px 64px,
+    transparent 65px 98px
+  );
+  mask-image: radial-gradient(
+    ellipse 40% 54% at var(--spatial-art-x) var(--spatial-art-y),
+    black,
+    transparent 78%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 40% 54% at var(--spatial-art-x) var(--spatial-art-y),
+    black,
+    transparent 78%
+  );
+  transform: translate3d(
+      calc(0px - var(--spatial-shift-x)),
+      calc(0px - var(--spatial-shift-y)),
+      0
+    )
+    scale(1.025);
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.spatial-page-hero__layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: 350px;
+  grid-template-areas:
+    "content"
+    "scene";
+  gap: 24px;
+  align-items: center;
+  padding: 24px 20px 30px;
+}
+
+.spatial-page-hero .spatial-page-hero__scene {
+  grid-area: scene;
+  justify-self: center;
+  --spatial-scene-size: 212px;
+  --spatial-core-size: 90px;
+  --spatial-orbit-width: 166px;
+  --spatial-orbit-height: 70px;
+}
+
+.spatial-page-hero__content {
+  z-index: 2;
+  grid-area: content;
+  min-width: 0;
+  max-width: 560px;
+}
+
+.spatial-page-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  color: hsl(var(--spatial-stage-secondary));
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.spatial-page-hero__title {
+  max-width: 21ch;
+  color: hsl(var(--ui-text-primary));
+  font-size: clamp(34px, 5.4cqi, 54px);
+  font-weight: 450;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.spatial-page-hero__description {
+  max-width: 54ch;
+  margin-top: 14px;
+  color: hsl(var(--ui-text-primary) / 0.72);
+  font-size: 16px;
+  line-height: 26px;
+  text-wrap: pretty;
+}
+
+.spatial-page-hero__action {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.environment-hero__update {
+  border-color: hsl(var(--ui-warning) / 0.24);
+  background:
+    linear-gradient(
+      180deg,
+      hsl(var(--ui-warning) / 0.13),
+      hsl(var(--ui-warning) / 0.075)
+    ),
+    var(--layer-1);
+  box-shadow:
+    inset 0 1px 0 hsl(var(--ui-text-primary) / 0.1),
+    0 10px 24px -20px hsl(var(--ui-warning) / 0.8);
+}
+
+.environment-hero__primary,
+.environment-hero__review {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: hsl(var(--ui-text-primary) / 0.16);
+  background: linear-gradient(
+    180deg,
+    hsl(var(--ui-accent-hover)) 0%,
+    hsl(var(--ui-accent) / 0.96) 58%,
+    hsl(var(--ui-accent) / 0.86) 100%
+  );
+  color: hsl(var(--ui-accent-foreground));
+  font-weight: 620;
+  letter-spacing: -0.015em;
+  box-shadow:
+    inset 0 1px 0 hsl(var(--ui-text-primary) / 0.3),
+    inset 0 -1px 0 hsl(var(--ui-accent-foreground) / 0.15),
+    0 18px 36px -22px hsl(var(--ui-accent) / 1),
+    0 7px 16px -12px hsl(var(--canvas-deep) / 0.9);
+}
+
+.environment-hero__primary::before,
+.environment-hero__review::before {
+  position: absolute;
+  z-index: -1;
+  inset: 1px 10% auto;
+  height: 46%;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--ui-text-primary) / 0.2),
+    transparent
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.environment-hero__primary:hover,
+.environment-hero__primary:focus-visible,
+.environment-hero__review:hover,
+.environment-hero__review:focus-visible {
+  border-color: hsl(var(--ui-text-primary) / 0.22);
+  background: linear-gradient(
+    180deg,
+    hsl(var(--ui-accent-hover)) 0%,
+    hsl(var(--ui-accent)) 66%,
+    hsl(var(--ui-accent) / 0.9) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 hsl(var(--ui-text-primary) / 0.34),
+    inset 0 -1px 0 hsl(var(--ui-accent-foreground) / 0.14),
+    0 22px 42px -22px hsl(var(--ui-accent) / 1),
+    0 8px 18px -13px hsl(var(--canvas-deep) / 0.9);
+}
+
+.environment-hero__actions {
+  min-height: 48px;
+}
+
+.quick-action-card {
+  isolation: isolate;
+  border-color: hsl(var(--ui-text-primary) / 0.07);
+  background-color: var(--layer-1);
+  box-shadow: none;
+}
+
+.quick-action-card::before {
+  position: absolute;
+  z-index: -1;
+  top: -48px;
+  right: -38px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    hsl(var(--route-primary, var(--ui-accent)) / 0.11),
+    transparent 70%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.quick-action-card__icon {
+  background: linear-gradient(
+    145deg,
+    hsl(var(--ui-accent) / 0.18),
+    hsl(var(--ui-text-primary) / 0.035)
+  );
+  box-shadow:
+    inset 0 1px 0 hsl(var(--ui-text-primary) / 0.11),
+    0 12px 26px -20px hsl(var(--ui-accent) / 0.85);
+}
+
+.quick-action-card__arrow {
+  box-shadow: inset 0 1px 0 hsl(var(--ui-text-primary) / 0.08);
+}
+
+.quick-action-card:not(:disabled):hover {
+  border-color: hsl(var(--ui-accent) / 0.24);
+  background:
+    linear-gradient(
+      140deg,
+      hsl(var(--ui-text-primary) / 0.105),
+      transparent 46%
+    ),
+    var(--layer-2);
+  box-shadow: none;
+}
+
+.quick-action-card:disabled::before {
+  opacity: 0.28;
+}
+
+/*
+ * The 900px product minimum leaves about 618px after the fixed navigation
+ * rail and page gutters. Enter the two-column composition before that exact
+ * envelope so the model does not fall below the copy at the supported minimum.
+ */
+@container spatial-page (min-width: 580px) {
+  .spatial-page-hero {
+    --spatial-art-x: 27%;
+    --spatial-art-y: 50%;
+  }
+
+  .spatial-page-hero__layout {
+    min-height: 372px;
+    grid-template-columns: minmax(250px, 0.88fr) minmax(0, 1.12fr);
+    grid-template-areas: "scene content";
+    gap: 36px;
+    padding: 18px 38px 26px 10px;
+  }
+
+  .spatial-page-hero .spatial-page-hero__scene {
+    --spatial-scene-size: 262px;
+    --spatial-core-size: 136px;
+    --spatial-orbit-width: 256px;
+    --spatial-orbit-height: 108px;
+  }
+}
+
+@container spatial-page (min-width: 820px) {
+  .spatial-page-hero__layout {
+    min-height: 402px;
+    grid-template-columns: minmax(330px, 0.84fr) minmax(0, 1.16fr);
+    gap: 48px;
+    padding: 12px 48px 30px 8px;
+  }
+
+  .spatial-page-hero .spatial-page-hero__scene {
+    --spatial-scene-size: 330px;
+    --spatial-core-size: 162px;
+    --spatial-orbit-width: 304px;
+    --spatial-orbit-height: 128px;
+  }
+}
+
+/*
+ * Short desktop windows still need to expose the page's working controls.
+ * Keep the spatial object as the focal point, but tighten its stage instead
+ * of forcing a utility page to spend almost the entire viewport on its hero.
+ */
+@media (max-height: 760px) and (min-width: 760px) {
+  .spatial-page-hero {
+    min-height: 0;
+  }
+
+  .spatial-page-hero__layout {
+    min-height: 260px;
+    gap: 28px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .spatial-page-hero .spatial-page-hero__scene {
+    --spatial-scene-size: 300px;
+    --spatial-core-size: 138px;
+    --spatial-orbit-width: 258px;
+    --spatial-orbit-height: 108px;
+  }
+
+  .spatial-page-hero__title {
+    font-size: clamp(30px, 5cqi, 48px);
+  }
+
+  .spatial-page-hero__description {
+    margin-top: 10px;
+  }
+
+  .spatial-page-hero__action {
+    margin-top: 18px;
+  }
+}
+
+@media (max-height: 650px) and (min-width: 760px) {
+  .spatial-page-hero.environment-hero {
+    min-height: 0;
+  }
+
+  .spatial-page-hero__layout {
+    min-height: 196px;
+    gap: 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .spatial-page-hero .spatial-page-hero__scene {
+    --spatial-scene-size: 178px;
+    --spatial-core-size: 84px;
+    --spatial-orbit-width: 156px;
+    --spatial-orbit-height: 68px;
+  }
+
+  .spatial-page-hero__title {
+    font-size: clamp(28px, 4.2cqi, 38px);
+  }
+
+  .spatial-page-hero__eyebrow {
+    margin-bottom: 8px;
+  }
+
+  .spatial-page-hero__description {
+    margin-top: 7px;
+    line-height: 21px;
+  }
+
+  .spatial-page-hero__action {
+    margin-top: 10px;
+  }
+
+  .environment-hero__layout {
+    min-height: 0;
+  }
+
+  .environment-hero__start,
+  .environment-hero__actions,
+  .environment-hero__review-skeleton {
+    margin-top: 12px;
+  }
+
+  .environment-hero__skeleton-lines {
+    margin-top: 10px;
+  }
+}
+
+/*
+ * Compact factual band below a spatial page stage. It deliberately avoids
+ * putting every number in another card: one quiet glass surface and hairline
+ * dividers keep status legible without competing with the page model.
+ */
+.metric-strip__surface {
+  min-width: 0;
+  overflow: hidden;
+  border-color: var(--hairline);
+  border-radius: var(--radius-lg);
+  background-color: var(--layer-1);
+  box-shadow: none;
+  container-name: metric-strip;
+  container-type: inline-size;
+}
+
+.metric-strip__row {
+  display: grid;
+  min-width: 0;
+  gap: 18px;
+  padding: 18px 20px;
+}
+
+.metric-strip__intro {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.metric-strip__leading {
+  flex: none;
+}
+
+.metric-strip__copy {
+  min-width: 0;
+  max-width: 620px;
+}
+
+.metric-strip__eyebrow {
+  display: flex;
+  min-height: 18px;
+  align-items: center;
+  gap: 7px;
+  color: hsl(var(--route-primary, var(--ui-accent)));
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.metric-strip__title {
+  margin-top: 3px;
+  color: hsl(var(--ui-text-primary));
+  font-size: 18px;
+  font-weight: 620;
+  letter-spacing: -0.018em;
+  line-height: 24px;
+  text-wrap: balance;
+}
+
+.metric-strip__highlight {
+  margin-top: 2px;
+  color: hsl(var(--ui-text-primary));
+  font-size: clamp(25px, 4cqi, 34px);
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+}
+
+.metric-strip__description {
+  max-width: 58ch;
+  margin-top: 4px;
+  color: hsl(var(--ui-text-secondary));
+  font-size: 13px;
+  line-height: 19px;
+  text-wrap: pretty;
+}
+
+.metric-strip__detail {
+  margin-top: 10px;
+}
+
+.metric-strip__metrics {
+  align-self: stretch;
+  border-top: 1px solid hsl(var(--ui-border) / 0.54);
+  padding-top: 14px;
+}
+
+.metric-strip__metric {
+  padding: 2px 12px;
+  border-left: 1px solid hsl(var(--ui-border) / 0.54);
+}
+
+.metric-strip__metric:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.metric-strip__metric:last-child {
+  padding-right: 0;
+}
+
+/*
+ * Four facts sit in a 2×2 matrix until the strip itself is genuinely wide.
+ * In the normal 1180px desktop window the intro and facts share one row, so
+ * four narrow columns would split short labels such as “Requests” mid-word.
+ */
+.metric-strip[data-metric-count="4"] .metric-strip__metric:nth-child(odd) {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.metric-strip[data-metric-count="4"] .metric-strip__metric:nth-child(even) {
+  padding-right: 0;
+}
+
+.metric-strip[data-metric-count="4"] .metric-strip__metric:nth-child(n + 3) {
+  padding-top: 11px;
+  border-top: 1px solid hsl(var(--ui-border) / 0.54);
+  margin-top: 9px;
+}
+
+.metric-strip__metric-label {
+  color: hsl(var(--ui-text-secondary));
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.metric-strip__metric-value {
+  margin-top: 5px;
+  color: hsl(var(--ui-text-primary));
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 620;
+  letter-spacing: -0.02em;
+  line-height: 24px;
+  overflow-wrap: anywhere;
+}
+
+.metric-strip__footer {
+  padding: 0 20px 18px;
+}
+
+.metric-strip__footer > :first-child {
+  margin-top: 0;
+}
+
+@container metric-strip (min-width: 760px) {
+  .metric-strip__row {
+    grid-template-columns: minmax(260px, 1.05fr) minmax(330px, 0.95fr);
+    align-items: center;
+    gap: 24px;
+    padding: 20px 24px;
+  }
+
+  .metric-strip__metrics {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .metric-strip__footer {
+    padding: 0 24px 20px;
+  }
+}
+
+@container metric-strip (min-width: 1100px) {
+  .metric-strip[data-metric-count="4"] .metric-strip__metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .metric-strip[data-metric-count="4"] .metric-strip__metric {
+    padding: 2px 12px;
+    border-top: 0;
+    border-left: 1px solid hsl(var(--ui-border) / 0.54);
+    margin-top: 0;
+  }
+
+  .metric-strip[data-metric-count="4"] .metric-strip__metric:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .metric-strip[data-metric-count="4"] .metric-strip__metric:last-child {
+    padding-right: 0;
+  }
+}
+
+/*
+ * At the supported short-window height, a fact band that still has at least
+ * 560px of its own width can use the horizontal hierarchy. Query the surface
+ * rather than the viewport so sidebar changes never become a hidden layout
+ * dependency. This block intentionally follows the base/container rules.
+ */
+@media (max-height: 650px) {
+  @container metric-strip (min-width: 560px) {
+    .metric-strip__row {
+      grid-template-columns: minmax(210px, 0.9fr) minmax(270px, 1.1fr);
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+    }
+
+    .metric-strip__metrics {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .metric-strip__footer {
+      padding: 0 16px 14px;
+    }
+  }
+}
+
+/* The model itself. All children are decorative and removed from the a11y tree. */
+.spatial-scene {
+  --spatial-primary: var(--ui-accent);
+  --spatial-secondary: var(--ui-success);
+  --spatial-highlight: var(--ui-text-primary);
+  --spatial-shadow: var(--canvas-deep, var(--ui-bg-primary));
+  --spatial-scene-size: 224px;
+  --spatial-core-size: 104px;
+  --spatial-orbit-width: 194px;
+  --spatial-orbit-height: 82px;
+  position: relative;
+  display: block;
+  width: var(--spatial-scene-size);
+  height: var(--spatial-scene-size);
+  flex: none;
+  /*
+   * The camera has to sit a fixed number of object-widths away, not a fixed
+   * number of pixels: at a flat 820px the 382px hero was viewed almost
+   * orthographically, so turning it produced no convergence and the render
+   * read as a picture being rotated. Tying the distance to the scene size
+   * keeps the same perspective strength at every breakpoint.
+   */
+  perspective: calc(var(--spatial-scene-size) * 1.55);
+}
+
+/*
+ * `:where()` keeps these at one-class specificity on purpose. They are the
+ * component's own baseline, and the page stage that hosts the model
+ * (.spatial-page-hero__scene) has to be able to resize it per container width.
+ * As plain `[data-size]` selectors they tied with the stage's rules and won on
+ * source order alone, which silently pinned every hero to 304px and threw away
+ * the whole responsive size ladder.
+ */
+.spatial-scene:where([data-size="compact"]) {
+  --spatial-scene-size: 168px;
+  --spatial-core-size: 78px;
+  --spatial-orbit-width: 146px;
+  --spatial-orbit-height: 62px;
+}
+
+.spatial-scene:where([data-size="hero"]) {
+  --spatial-scene-size: 262px;
+  --spatial-core-size: 140px;
+  --spatial-orbit-width: 264px;
+  --spatial-orbit-height: 112px;
+}
+
+.spatial-scene[data-tone="success"] {
+  --spatial-primary: var(--ui-success);
+  --spatial-secondary: var(--ui-accent);
+}
+
+.spatial-scene[data-tone="warning"] {
+  --spatial-primary: var(--ui-warning);
+  --spatial-secondary: var(--ui-accent);
+}
+
+.spatial-scene[data-tone="danger"] {
+  --spatial-primary: var(--ui-danger);
+  --spatial-secondary: var(--ui-warning);
+}
+
+.spatial-scene[data-tone="neutral"] {
+  --spatial-primary: var(--ui-text-secondary);
+  --spatial-secondary: var(--ui-accent);
+}
+
+.spatial-scene__ambient,
+.spatial-scene__floor,
+.spatial-scene__grid,
+.spatial-scene__tilt,
+.spatial-scene__object,
+.spatial-scene__core,
+.spatial-scene__glint,
+.spatial-scene__meridian,
+.spatial-scene__equator,
+.spatial-scene__glyph,
+.spatial-scene__orbit,
+.spatial-scene__satellite,
+.spatial-scene__artwork-shell,
+.spatial-scene__artwork,
+.spatial-scene__turntable,
+.spatial-scene__artwork-glint,
+.spatial-scene__motif,
+.spatial-scene__motif-part,
+.spatial-scene__sculpture,
+.spatial-scene__sculpture-piece,
+.spatial-scene__shard {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+}
+
+.spatial-scene__ambient {
+  inset: 10%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    hsl(var(--spatial-primary) / 0.28),
+    hsl(var(--spatial-secondary) / 0.1) 43%,
+    transparent 74%
+  );
+  filter: blur(22px);
+  transform: translate3d(
+    var(--spatial-shift-x, 0px),
+    var(--spatial-shift-y, 0px),
+    -20px
+  );
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.spatial-scene__floor {
+  left: 21%;
+  right: 21%;
+  bottom: 17%;
+  height: 14%;
+  border-radius: 50%;
+  background: hsl(var(--spatial-primary) / 0.24);
+  filter: blur(18px);
+  transform: translate3d(
+      var(--spatial-shift-x, 0px),
+      var(--spatial-shift-y, 0px),
+      -18px
+    )
+    rotateX(72deg) translateY(16px);
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.spatial-scene__grid {
+  inset: 13%;
+  border: 1px solid hsl(var(--spatial-primary) / 0.18);
+  border-radius: 50%;
+  background-image:
+    linear-gradient(hsl(var(--spatial-primary) / 0.13) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      hsl(var(--spatial-primary) / 0.13) 1px,
+      transparent 1px
+    );
+  background-size: 18px 18px;
+  opacity: 0.3;
+  transform: translate3d(
+      calc(0px - var(--spatial-shift-x, 0px)),
+      calc(0px - var(--spatial-shift-y, 0px)),
+      -30px
+    )
+    rotateX(64deg);
+  mask-image: radial-gradient(circle, black 18%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle, black 18%, transparent 70%);
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.spatial-scene__tilt {
+  inset: 0;
+  transform: translate3d(
+      var(--spatial-shift-x, 0px),
+      var(--spatial-shift-y, 0px),
+      0
+    )
+    rotateX(var(--spatial-rotate-x, 0deg))
+    rotateY(var(--spatial-rotate-y, 0deg));
+  transition: transform var(--motion-base) var(--ease-standard);
+  will-change: transform;
+}
+
+.spatial-scene__object {
+  inset: 0;
+  animation: spatial-float 6.8s ease-in-out infinite;
+}
+
+/*
+ * Original transparent route artwork replaces the schematic fallback while
+ * keeping the same single tilt plane. The restrained highlight and floor
+ * move at different depths, so the raster still reads as an object in space
+ * rather than a flat illustration pasted onto the page.
+ */
+.spatial-scene__artwork-shell {
+  inset: -3%;
+  /*
+   * Only the contact shadow that belongs to the object's own body stays here:
+   * this layer rotates, and a cast shadow that rotates with the thing casting
+   * it is the single clearest tell that the "object" is a flat sheet. The
+   * shadow it drops on the ground lives on .spatial-scene__floor, outside the
+   * tilt plane, where the floor stays put while the object turns above it.
+   */
+  filter: drop-shadow(0 12px 14px hsl(var(--spatial-shadow) / 0.32));
+  /*
+   * Z stays at 0: .spatial-scene__tilt is a flat plane by design (no nested
+   * preserve-3d containers), so a translateZ here buys no perspective scaling
+   * at all — it only invites geometry that silently does not exist. The x/y
+   * offsets are real: they run at a different rate to the stage behind them.
+   */
+  transform: translate3d(
+    var(--spatial-detail-x, 0px),
+    var(--spatial-detail-y, 0px),
+    0
+  );
+  transition:
+    filter var(--motion-base) var(--ease-standard),
+    transform var(--motion-base) var(--ease-standard);
+}
+
+/*
+ * The render is tightly cropped, so it needs almost no inset: the scene box and
+ * the object now coincide, which is what lets the ground shadow be positioned
+ * in plain percentages against the scene instead of guessing where in a field
+ * of transparent padding the object's feet happen to land.
+ */
+.spatial-scene[data-model="environment"] .spatial-scene__artwork-shell {
+  inset: -4%;
+}
+
+.spatial-scene__artwork {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/*
+ * Turntable: one long sprite sheet panned inside a window with overflow
+ * hidden, exposing only the current cell.
+ *
+ * Panning with `transform` rather than `background-position` is deliberate:
+ * the latter re-rasterizes the whole 2000+px-square image on every change,
+ * so a pointer move becomes continuous repainting with visible jank;
+ * `transform` runs on the compositor, where panning costs the same as not
+ * panning.
+ */
+.spatial-scene__turntable {
+  inset: 0;
+  overflow: hidden;
+}
+
+.spatial-scene__turntable-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--turntable-cols, 5) * 100%);
+  height: calc(var(--turntable-rows, 5) * 100%);
+  max-width: none;
+  /*
+   * Uses --spatial-frame-* inherited from pointer state on the stage when
+   * present; falls back to the neutral frame SpatialScene computes from its
+   * own grid when there's no pointer. The trailing 0% is only a syntax
+   * fallback — it points at the sequence's first frame, a yaw extreme, and
+   * should never actually be read.
+   */
+  transform: translate3d(
+    var(--spatial-frame-x, var(--turntable-neutral-x, 0%)),
+    var(--spatial-frame-y, var(--turntable-neutral-y, 0%)),
+    0
+  );
+  will-change: transform;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/*
+ * The blend layer is not promoted to its own compositing layer. The base
+ * layer is always visible, so pinning it is worthwhile; this layer is mostly
+ * near-transparent, and pinning another 2000+px-square texture would only
+ * eat into compositing resources — measured, frames over 20ms dropped from
+ * 14/160 to 7/160 after doing so.
+ *
+ * `auto` has to be written explicitly: with two classes sharing one element,
+ * the base class's will-change would otherwise still match here. Just
+ * omitting it from this rule doesn't stop that — the texture would still get
+ * pinned.
+ */
+.spatial-scene__turntable-strip--next {
+  transform: translate3d(
+    var(--spatial-frame-next-x, var(--turntable-neutral-next-x, 0%)),
+    var(--spatial-frame-next-y, var(--turntable-neutral-next-y, 0%)),
+    0
+  );
+  opacity: var(--spatial-frame-blend, var(--turntable-neutral-blend, 0));
+  will-change: auto;
+}
+
+/*
+ * The rendered asset's own shading is already baked into the image, so no
+ * extra close drop shadow is needed. The contact shadow on the ground is
+ * still drawn separately by the ground layer: the renderer's own shadow
+ * output is pure black, which reads as a black blob against any route color
+ * and bleeds to the edge of the frame — after being packed into the sheet
+ * and resampled, that leaks into neighboring cells, showing up on the page
+ * as a gray fringe around the model.
+ */
+.spatial-scene[data-turntable="true"] .spatial-scene__artwork-shell {
+  filter: none;
+}
+
+.spatial-scene__artwork-glint {
+  z-index: 2;
+  top: 12%;
+  left: 19%;
+  width: 30%;
+  height: 18%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    hsl(var(--spatial-highlight) / 0.2),
+    transparent 70%
+  );
+  filter: blur(9px);
+  mix-blend-mode: screen;
+  opacity: 0.4;
+  /* Still within the same tilted plane as artwork-shell, so translateZ produces no perspective effect here — see artwork-shell. */
+  transform: translate3d(
+    var(--spatial-glint-x, 0px),
+    var(--spatial-glint-y, 0px),
+    0
+  );
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.spatial-scene[data-artwork="true"] .spatial-scene__ambient {
+  inset: 10%;
+  opacity: 0.5;
+  filter: blur(34px);
+}
+
+.spatial-scene[data-artwork="true"] .spatial-scene__floor {
+  /* Must be wider than the base. The base is an opaque flat slab, so any
+   * shadow narrower than it would be fully hidden underneath — the visible
+   * contact shadow is exactly the silhouette of the part that overflows it. */
+  right: 4%;
+  bottom: 2.5%;
+  left: 4%;
+  height: 9%;
+  /* A radial gradient with built-in falloff, rather than faking the shape
+   * with a big blur: blur only pushes the edge outward, and eventually the
+   * shadow smears into a flat blob further and further from the base. */
+  background: radial-gradient(
+    ellipse at 50% 44%,
+    hsl(var(--spatial-shadow) / 0.6) 0%,
+    hsl(var(--spatial-shadow) / 0.32) 42%,
+    transparent 74%
+  );
+  opacity: 1;
+  filter: blur(5px);
+  /*
+   * A plain blurred ellipse lying under the object. It deliberately skips the
+   * rotateX the schematic model uses: this one is already flat on the ground,
+   * and it must not inherit any part of the tilt. It slides against the
+   * pointer, so turning the object slides it over its own shadow.
+   */
+  transform: translate3d(
+    calc(0px - var(--spatial-shift-x, 0px) * 0.7),
+    calc(0px - var(--spatial-shift-y, 0px) * 0.3),
+    0
+  );
+}
+
+.spatial-scene[data-artwork="true"] .spatial-scene__grid {
+  inset: 10%;
+  opacity: 0.035;
+}
+
+.spatial-scene[data-loading="true"] .spatial-scene__artwork {
+  animation: spatial-artwork-breathe 1.8s ease-in-out infinite;
+}
+
+.spatial-scene__core {
+  top: 50%;
+  left: 50%;
+  width: var(--spatial-core-size);
+  height: var(--spatial-core-size);
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid hsl(var(--spatial-highlight) / 0.58);
+  border-radius: 44% 56% 52% 48% / 48% 42% 58% 52%;
+  background:
+    radial-gradient(
+      circle at var(--spatial-reflection-x, 28%)
+        var(--spatial-reflection-y, 18%),
+      hsl(var(--spatial-highlight) / 0.86) 0%,
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 70% 78%,
+      hsl(var(--spatial-secondary) / 0.8),
+      transparent 48%
+    ),
+    linear-gradient(
+      145deg,
+      hsl(var(--spatial-primary) / 0.98),
+      hsl(var(--spatial-primary) / 0.68)
+    );
+  box-shadow:
+    inset 12px 12px 22px hsl(var(--spatial-highlight) / 0.28),
+    inset -14px -18px 26px hsl(var(--spatial-shadow) / 0.24),
+    0 26px 48px -16px hsl(var(--spatial-primary) / 0.92),
+    0 8px 22px -12px hsl(var(--spatial-shadow) / 0.42),
+    0 0 0 9px hsl(var(--spatial-primary) / 0.1);
+  transform: translate3d(-50%, -50%, 44px);
+  backface-visibility: hidden;
+}
+
+.spatial-scene__core::before,
+.spatial-scene__core::after {
+  position: absolute;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.spatial-scene__core::before {
+  inset: 2px;
+  border: 1px solid hsl(var(--spatial-highlight) / 0.22);
+  border-radius: inherit;
+  background: linear-gradient(
+    122deg,
+    hsl(var(--spatial-highlight) / 0.13),
+    transparent 34% 66%,
+    hsl(var(--spatial-shadow) / 0.08)
+  );
+  box-shadow:
+    inset 0 12px 18px -16px hsl(var(--spatial-highlight) / 0.8),
+    inset 0 -18px 24px -22px hsl(var(--spatial-shadow) / 0.56);
+}
+
+.spatial-scene__core::after {
+  right: 17%;
+  bottom: 7%;
+  left: 17%;
+  height: 15%;
+  border-radius: 50%;
+  background: hsl(var(--spatial-highlight) / 0.24);
+  filter: blur(6px);
+  opacity: 0.72;
+}
+
+.spatial-scene__glint {
+  z-index: 1;
+  top: 12%;
+  left: 18%;
+  width: 42%;
+  height: 26%;
+  border-radius: 50%;
+  background: linear-gradient(
+    145deg,
+    hsl(var(--spatial-highlight) / 0.76),
+    transparent
+  );
+  filter: blur(3px);
+  transform: translate3d(
+    var(--spatial-glint-x, 0px),
+    var(--spatial-glint-y, 0px),
+    20px
+  );
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.spatial-scene__meridian,
+.spatial-scene__equator {
+  z-index: 2;
+  inset: 7%;
+  border: 1px solid hsl(var(--spatial-highlight) / 0.36);
+  border-radius: 50%;
+}
+
+.spatial-scene__meridian {
+  transform: rotateY(67deg);
+}
+
+.spatial-scene__equator {
+  transform: rotateX(67deg);
+}
+
+.spatial-scene__glyph {
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  width: 44%;
+  height: 44%;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid hsl(var(--spatial-highlight) / 0.5);
+  border-radius: 34%;
+  background: hsl(var(--spatial-highlight) / 0.2);
+  color: hsl(var(--ui-accent-foreground));
+  box-shadow:
+    inset 0 1px 0 hsl(var(--spatial-highlight) / 0.42),
+    0 8px 18px -10px hsl(var(--spatial-shadow) / 0.56);
+  transform: translate3d(-50%, -50%, 54px);
+  backdrop-filter: blur(8px);
+}
+
+.spatial-scene__glyph svg {
+  width: 54%;
+  height: 54%;
+  stroke-width: 1.7;
+}
+
+.spatial-scene__glyph img {
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+  filter: drop-shadow(0 7px 8px hsl(var(--ui-text-primary) / 0.18));
+}
+
+.spatial-scene[data-loading="true"] .spatial-scene__glyph svg {
+  animation: spatial-glyph-spin 1.8s linear infinite;
+}
+
+.spatial-scene[data-loading="true"] .spatial-scene__glyph img {
+  animation: spatial-glyph-breathe 1.8s ease-in-out infinite;
+}
+
+.spatial-scene__orbit {
+  top: 50%;
+  left: 50%;
+  width: var(--spatial-orbit-width);
+  height: var(--spatial-orbit-height);
+  border: 1px solid hsl(var(--spatial-primary) / 0.38);
+  border-radius: 50%;
+}
+
+.spatial-scene__orbit--one {
+  transform: translate3d(-50%, -50%, 10px) rotateX(68deg);
+  animation: spatial-orbit-one 12s linear infinite;
+}
+
+.spatial-scene__orbit--two {
+  border-color: hsl(var(--spatial-secondary) / 0.32);
+  transform: translate3d(-50%, -50%, 16px) rotateY(70deg) rotateZ(18deg);
+  animation: spatial-orbit-two 16s linear infinite reverse;
+}
+
+.spatial-scene__orbit--three {
+  width: calc(var(--spatial-orbit-width) - 42px);
+  height: calc(var(--spatial-orbit-height) - 18px);
+  border-style: dashed;
+  opacity: 0.66;
+  transform: translate3d(-50%, -50%, 30px) rotateX(38deg) rotateY(54deg);
+  animation: spatial-orbit-three 19s linear infinite;
+}
+
+.spatial-scene__satellite {
+  top: -4px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border: 1px solid hsl(var(--spatial-highlight) / 0.62);
+  border-radius: 50%;
+  background: hsl(var(--spatial-secondary));
+  box-shadow: 0 0 14px hsl(var(--spatial-secondary) / 0.8);
+}
+
+.spatial-scene__motif {
+  inset: 0;
+  transform: translate3d(
+    calc(0px - var(--spatial-detail-x, 0px)),
+    calc(0px - var(--spatial-detail-y, 0px)),
+    -8px
+  );
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.spatial-scene__motif-part {
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border: 1px solid hsl(var(--spatial-highlight) / 0.5);
+  background: linear-gradient(
+    145deg,
+    hsl(var(--spatial-highlight) / 0.58),
+    hsl(var(--spatial-secondary) / 0.36)
+  );
+  box-shadow:
+    inset 0 1px 0 hsl(var(--spatial-highlight) / 0.42),
+    0 10px 24px -14px hsl(var(--spatial-primary) / 0.86);
+  opacity: 0;
+}
+
+/*
+ * The sculpture plane gives every route a recognisable silhouette while the
+ * core keeps a common product material. It sits on a separate pointer depth
+ * plane, which makes the object feel assembled instead of printed on a card.
+ */
+.spatial-scene__sculpture {
+  inset: 0;
+  pointer-events: none;
+  transform: translate3d(
+      var(--spatial-detail-x, 0px),
+      var(--spatial-detail-y, 0px),
+      18px
+    )
+    rotateZ(var(--spatial-sculpture-rotate, 0deg));
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.spatial-scene__sculpture::before,
+.spatial-scene__sculpture::after,
+.spatial-scene__sculpture-piece::before {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.spatial-scene__sculpture-piece {
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 22%;
+  height: 22%;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid hsl(var(--spatial-highlight) / 0.48);
+  background:
+    radial-gradient(
+      circle at 24% 16%,
+      hsl(var(--spatial-highlight) / 0.72),
+      transparent 30%
+    ),
+    linear-gradient(
+      145deg,
+      hsl(var(--spatial-primary) / 0.78),
+      hsl(var(--spatial-secondary) / 0.34)
+    );
+  box-shadow:
+    inset 7px 8px 15px hsl(var(--spatial-highlight) / 0.18),
+    inset -9px -12px 18px hsl(var(--spatial-shadow) / 0.14),
+    0 18px 28px -18px hsl(var(--spatial-primary) / 0.86);
+  opacity: 0;
+  backface-visibility: hidden;
+  -webkit-backdrop-filter: blur(8px) saturate(116%);
+  backdrop-filter: blur(8px) saturate(116%);
+}
+
+.spatial-scene__sculpture-piece::before {
+  inset: 2px;
+  border: 1px solid hsl(var(--spatial-highlight) / 0.19);
+  border-radius: inherit;
+  background: linear-gradient(
+    122deg,
+    hsl(var(--spatial-highlight) / 0.16),
+    transparent 42% 72%,
+    hsl(var(--spatial-shadow) / 0.08)
+  );
+  content: "";
+}
+
+/* Environment: a soft constellation surrounding the status core. */
+.spatial-scene[data-model="environment"] .spatial-scene__motif-part {
+  border-radius: 50%;
+  opacity: 0.72;
+}
+
+.spatial-scene[data-model="environment"] .spatial-scene__motif-part--one {
+  top: 27%;
+  left: 25%;
+  width: 18px;
+  height: 18px;
+  transform: translateZ(22px);
+}
+
+.spatial-scene[data-model="environment"] .spatial-scene__motif-part--two {
+  top: 23%;
+  left: auto;
+  right: 24%;
+  width: 10px;
+  height: 10px;
+  transform: translateZ(48px);
+}
+
+.spatial-scene[data-model="environment"] .spatial-scene__motif-part--three {
+  top: auto;
+  bottom: 24%;
+  left: 24%;
+  width: 9px;
+  height: 9px;
+  transform: translateZ(36px);
+}
+
+.spatial-scene[data-model="environment"] .spatial-scene__motif-part--four {
+  top: auto;
+  right: 21%;
+  bottom: 27%;
+  left: auto;
+  width: 15px;
+  height: 15px;
+  transform: translateZ(12px);
+}
+
+/* Tools: four machined trays make a compact local tool stack. */
+.spatial-scene[data-model="tools"] .spatial-scene__motif-part {
+  left: 21%;
+  width: 58%;
+  height: 16%;
+  border-radius: 18px;
+  opacity: 0.46;
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__motif-part--one {
+  top: 27%;
+  transform: translateZ(-48px) rotateX(66deg) rotateZ(-8deg);
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__motif-part--two {
+  top: 39%;
+  transform: translateZ(-34px) rotateX(66deg) rotateZ(-8deg);
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__motif-part--three {
+  top: 51%;
+  transform: translateZ(-20px) rotateX(66deg) rotateZ(-8deg);
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__motif-part--four {
+  top: 63%;
+  transform: translateZ(-6px) rotateX(66deg) rotateZ(-8deg);
+}
+
+/* Services: four endpoints orbit a connected service core. */
+.spatial-scene[data-model="services"] .spatial-scene__motif::before,
+.spatial-scene[data-model="services"] .spatial-scene__motif::after {
+  position: absolute;
+  top: 49.5%;
+  left: 25%;
+  width: 50%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--spatial-secondary) / 0.46),
+    transparent
+  );
+  content: "";
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__motif::after {
+  transform: rotate(90deg);
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__motif-part {
+  border-radius: 50%;
+  opacity: 0.88;
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__motif-part--one {
+  top: 16%;
+  left: 46%;
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__motif-part--two {
+  top: 46%;
+  left: auto;
+  right: 15%;
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__motif-part--three {
+  top: auto;
+  bottom: 15%;
+  left: 46%;
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__motif-part--four {
+  top: 46%;
+  left: 15%;
+}
+
+/* Extensions: four glass modules assemble around the diamond core. */
+.spatial-scene[data-model="extensions"] .spatial-scene__motif-part {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  opacity: 0.64;
+  transform: rotate(45deg) translateZ(18px);
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__motif-part--one {
+  top: 22%;
+  left: 26%;
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__motif-part--two {
+  top: 24%;
+  left: auto;
+  right: 24%;
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__motif-part--three {
+  top: auto;
+  bottom: 22%;
+  left: 24%;
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__motif-part--four {
+  top: auto;
+  right: 21%;
+  bottom: 27%;
+  left: auto;
+  width: 15px;
+  height: 15px;
+}
+
+/* Settings: radial glass ticks read as a calm precision control. */
+.spatial-scene[data-model="settings"] .spatial-scene__motif-part {
+  top: 15%;
+  left: 48%;
+  width: 4%;
+  height: 18%;
+  border-radius: 999px;
+  opacity: 0.68;
+  transform-origin: 50% 194%;
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__motif-part--one {
+  transform: rotate(0deg) translateZ(12px);
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__motif-part--two {
+  transform: rotate(45deg) translateZ(12px);
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__motif-part--three {
+  transform: rotate(90deg) translateZ(12px);
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__motif-part--four {
+  transform: rotate(135deg) translateZ(12px);
+}
+
+/* Environment: an organic four-lobed life form behind the healthy core. */
+.spatial-scene[data-model="environment"] .spatial-scene__sculpture {
+  --spatial-sculpture-rotate: -4deg;
+}
+
+.spatial-scene[data-model="environment"] .spatial-scene__sculpture-piece {
+  width: 32%;
+  height: 31%;
+  border-radius: 54% 46% 58% 42% / 43% 55% 45% 57%;
+  opacity: 0.5;
+}
+
+.spatial-scene[data-model="environment"] .spatial-scene__sculpture-piece--one {
+  top: 29%;
+  left: 25%;
+  transform: translateZ(-30px) rotate(-22deg);
+}
+
+.spatial-scene[data-model="environment"] .spatial-scene__sculpture-piece--two {
+  top: 25%;
+  left: 48%;
+  border-radius: 42% 58% 44% 56% / 55% 45% 55% 45%;
+  transform: translateZ(-18px) rotate(21deg);
+}
+
+.spatial-scene[data-model="environment"]
+  .spatial-scene__sculpture-piece--three {
+  top: 49%;
+  left: 24%;
+  border-radius: 46% 54% 38% 62% / 58% 43% 57% 42%;
+  transform: translateZ(-10px) rotate(18deg);
+}
+
+.spatial-scene[data-model="environment"] .spatial-scene__sculpture-piece--four {
+  top: 49%;
+  left: 49%;
+  transform: translateZ(-24px) rotate(-16deg);
+}
+
+/* Tools: a machined stack with four bevelled, weight-bearing plates. */
+.spatial-scene[data-model="tools"] .spatial-scene__sculpture {
+  --spatial-sculpture-rotate: -7deg;
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__sculpture-piece {
+  left: 26%;
+  width: 48%;
+  height: 17%;
+  border-radius: 18%;
+  opacity: 0.76;
+  clip-path: polygon(7% 0, 93% 0, 100% 32%, 94% 100%, 6% 100%, 0 68%);
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__sculpture-piece--one {
+  top: 25%;
+  transform: translateZ(-46px) rotateX(58deg);
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__sculpture-piece--two {
+  top: 36%;
+  transform: translateZ(-28px) rotateX(58deg);
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__sculpture-piece--three {
+  top: 49%;
+  transform: translateZ(-10px) rotateX(58deg);
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__sculpture-piece--four {
+  top: 62%;
+  transform: translateZ(8px) rotateX(58deg);
+}
+
+/* Services: a connected hub whose endpoint nodes visibly occupy depth. */
+.spatial-scene[data-model="services"] .spatial-scene__sculpture {
+  --spatial-sculpture-rotate: 3deg;
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__sculpture::before,
+.spatial-scene[data-model="services"] .spatial-scene__sculpture::after {
+  z-index: 0;
+  content: "";
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__sculpture::before {
+  inset: 25%;
+  border: 2px solid hsl(var(--spatial-highlight) / 0.28);
+  border-radius: 50%;
+  box-shadow: 0 0 22px hsl(var(--spatial-primary) / 0.22);
+  transform: translateZ(-22px) rotateX(66deg);
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__sculpture::after {
+  top: 19%;
+  bottom: 19%;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: linear-gradient(
+    transparent,
+    hsl(var(--spatial-secondary) / 0.52) 24% 76%,
+    transparent
+  );
+  transform: translateZ(-28px) rotate(43deg);
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__sculpture-piece {
+  width: 17%;
+  height: 17%;
+  border-radius: 50%;
+  opacity: 0.88;
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__sculpture-piece--one {
+  top: 12%;
+  left: 41.5%;
+  transform: translateZ(-8px);
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__sculpture-piece--two {
+  top: 41.5%;
+  right: 12%;
+  left: auto;
+  transform: translateZ(22px);
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__sculpture-piece--three {
+  top: auto;
+  bottom: 12%;
+  left: 41.5%;
+  transform: translateZ(6px);
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__sculpture-piece--four {
+  top: 41.5%;
+  left: 12%;
+  transform: translateZ(-16px);
+}
+
+/* Extensions: offset glass modules lock around a diamond-shaped package. */
+.spatial-scene[data-model="extensions"] .spatial-scene__sculpture {
+  --spatial-sculpture-rotate: 0deg;
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__sculpture-piece {
+  width: 22%;
+  height: 22%;
+  border-radius: 23%;
+  opacity: 0.7;
+  clip-path: polygon(
+    16% 0,
+    84% 0,
+    100% 16%,
+    100% 84%,
+    84% 100%,
+    16% 100%,
+    0 84%,
+    0 16%
+  );
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__sculpture-piece--one {
+  top: 23%;
+  left: 28%;
+  transform: translateZ(-22px) rotate(45deg);
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__sculpture-piece--two {
+  top: 19%;
+  left: 51%;
+  transform: translateZ(6px) rotate(45deg);
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__sculpture-piece--three {
+  top: 50%;
+  left: 27%;
+  transform: translateZ(12px) rotate(45deg);
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__sculpture-piece--four {
+  top: 53%;
+  left: 51%;
+  transform: translateZ(-12px) rotate(45deg);
+}
+
+/* Settings: a precision dial with a raised bezel and four tactile teeth. */
+.spatial-scene[data-model="settings"] .spatial-scene__sculpture {
+  --spatial-sculpture-rotate: 0deg;
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__sculpture::before,
+.spatial-scene[data-model="settings"] .spatial-scene__sculpture::after {
+  z-index: 0;
+  border-radius: 50%;
+  content: "";
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__sculpture::before {
+  inset: 23%;
+  border: 10px solid hsl(var(--spatial-primary) / 0.24);
+  box-shadow:
+    inset 0 2px 2px hsl(var(--spatial-highlight) / 0.26),
+    0 14px 26px -18px hsl(var(--spatial-primary) / 0.78);
+  transform: translateZ(-12px) rotateX(7deg);
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__sculpture::after {
+  inset: 31%;
+  border: 1px solid hsl(var(--spatial-highlight) / 0.34);
+  box-shadow: 0 0 0 4px hsl(var(--spatial-secondary) / 0.1);
+  transform: translateZ(22px);
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__sculpture-piece {
+  border-radius: 999px;
+  opacity: 0.78;
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__sculpture-piece--one {
+  top: 12%;
+  left: 45%;
+  width: 10%;
+  height: 19%;
+  transform: translateZ(-2px);
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__sculpture-piece--two {
+  top: 45%;
+  right: 12%;
+  left: auto;
+  width: 19%;
+  height: 10%;
+  transform: translateZ(13px);
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__sculpture-piece--three {
+  top: auto;
+  bottom: 12%;
+  left: 45%;
+  width: 10%;
+  height: 19%;
+  transform: translateZ(4px);
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__sculpture-piece--four {
+  top: 45%;
+  left: 12%;
+  width: 19%;
+  height: 10%;
+  transform: translateZ(-8px);
+}
+
+.spatial-scene__shard {
+  width: 12px;
+  height: 12px;
+  border: 1px solid hsl(var(--spatial-highlight) / 0.5);
+  border-radius: 4px;
+  background: linear-gradient(
+    145deg,
+    hsl(var(--spatial-highlight) / 0.66),
+    hsl(var(--spatial-secondary) / 0.44)
+  );
+  box-shadow: 0 8px 16px -8px hsl(var(--spatial-primary) / 0.72);
+  transform: rotate(45deg) translateZ(28px);
+}
+
+.spatial-scene__shard--one {
+  top: 24%;
+  left: 18%;
+  animation: spatial-shard 5.4s ease-in-out infinite -1s;
+}
+
+.spatial-scene__shard--two {
+  top: 21%;
+  right: 18%;
+  width: 9px;
+  height: 9px;
+  animation: spatial-shard 6.2s ease-in-out infinite -3.2s;
+}
+
+.spatial-scene__shard--three {
+  right: 22%;
+  bottom: 24%;
+  width: 7px;
+  height: 7px;
+  animation: spatial-shard 5.8s ease-in-out infinite -2.4s;
+}
+
+/* Geometry changes keep every route readable even in monochrome. */
+.spatial-scene[data-model="tools"] .spatial-scene__core {
+  width: 43%;
+  height: 31%;
+  border-radius: 25%;
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__core {
+  width: 34%;
+  height: 34%;
+  border-radius: 50%;
+}
+
+.spatial-scene[data-model="settings"] .spatial-scene__core {
+  width: 37%;
+  height: 37%;
+  border-radius: 50%;
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__core {
+  width: 35%;
+  height: 35%;
+  border-radius: 26%;
+  transform: translate3d(-50%, -50%, 44px) rotateZ(45deg);
+}
+
+.spatial-scene[data-model="extensions"] .spatial-scene__glyph {
+  transform: translate3d(-50%, -50%, 54px) rotateZ(-45deg);
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__meridian,
+.spatial-scene[data-model="tools"] .spatial-scene__equator,
+.spatial-scene[data-model="extensions"] .spatial-scene__meridian,
+.spatial-scene[data-model="extensions"] .spatial-scene__equator,
+.spatial-scene[data-model="settings"] .spatial-scene__meridian,
+.spatial-scene[data-model="settings"] .spatial-scene__equator {
+  opacity: 0.14;
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__orbit--one {
+  opacity: 0.3;
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__orbit--two,
+.spatial-scene[data-model="settings"] .spatial-scene__orbit--one,
+.spatial-scene[data-model="settings"] .spatial-scene__orbit--two {
+  opacity: 0;
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__orbit--three,
+.spatial-scene[data-model="extensions"] .spatial-scene__orbit,
+.spatial-scene[data-model="settings"] .spatial-scene__orbit--three {
+  opacity: 0.16;
+}
+
+.spatial-scene[data-model="services"] .spatial-scene__satellite {
+  border-width: 2px;
+}
+
+.spatial-scene[data-model="tools"] .spatial-scene__shard,
+.spatial-scene[data-model="services"] .spatial-scene__shard,
+.spatial-scene[data-model="settings"] .spatial-scene__shard {
+  display: none;
+}
+
+@keyframes spatial-float {
+  0%,
+  100% {
+    transform: translateY(3px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes spatial-orbit-one {
+  from {
+    transform: translate3d(-50%, -50%, 10px) rotateX(68deg) rotateZ(0deg);
+  }
+  to {
+    transform: translate3d(-50%, -50%, 10px) rotateX(68deg) rotateZ(360deg);
+  }
+}
+
+@keyframes spatial-orbit-two {
+  from {
+    transform: translate3d(-50%, -50%, 16px) rotateY(70deg) rotateZ(18deg);
+  }
+  to {
+    transform: translate3d(-50%, -50%, 16px) rotateY(70deg) rotateZ(378deg);
+  }
+}
+
+@keyframes spatial-orbit-three {
+  from {
+    transform: translate3d(-50%, -50%, 30px) rotateX(38deg) rotateY(54deg)
+      rotateZ(0deg);
+  }
+  to {
+    transform: translate3d(-50%, -50%, 30px) rotateX(38deg) rotateY(54deg)
+      rotateZ(360deg);
+  }
+}
+
+@keyframes spatial-shard {
+  0%,
+  100% {
+    margin-top: 0;
+    opacity: 0.68;
+  }
+  50% {
+    margin-top: -8px;
+    opacity: 1;
+  }
+}
+
+@keyframes spatial-glyph-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spatial-glyph-breathe {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.82;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes spatial-artwork-breathe {
+  0%,
+  100% {
+    opacity: 0.76;
+    transform: scale(0.985);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/*
+ * A desktop window that is behind another app should return to a neutral
+ * pose and stop spending animation frames on decorative motion. The native
+ * focus observer owns `data-window-active`; reduced-motion remains a separate
+ * user preference below.
+ */
+html[data-window-active="false"] .spatial-scene__object,
+html[data-window-active="false"] .spatial-scene__orbit,
+html[data-window-active="false"] .spatial-scene__shard,
+html[data-window-active="false"]
+  .spatial-scene[data-loading="true"]
+  .spatial-scene__glyph
+  svg,
+html[data-window-active="false"]
+  .spatial-scene[data-loading="true"]
+  .spatial-scene__glyph
+  img,
+html[data-window-active="false"]
+  .spatial-scene[data-loading="true"]
+  .spatial-scene__artwork {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spatial-scene__tilt,
+  .spatial-scene__ambient,
+  .spatial-scene__glint,
+  .spatial-scene__artwork-shell,
+  .spatial-scene__artwork-glint {
+    transform: none;
+    transition: none;
+  }
+
+  .spatial-page-hero {
+    --spatial-shift-x: 0px !important;
+    --spatial-shift-y: 0px !important;
+    --spatial-detail-x: 0px !important;
+    --spatial-detail-y: 0px !important;
+    --spatial-glint-x: 0px !important;
+    --spatial-glint-y: 0px !important;
+    --spatial-stage-glow-x: 22% !important;
+    --spatial-stage-glow-y: 38% !important;
+    --spatial-reflection-x: 28% !important;
+    --spatial-reflection-y: 18% !important;
+  }
+
+  .spatial-page-hero__lines,
+  .spatial-scene__motif,
+  .spatial-scene__sculpture,
+  .spatial-scene__floor,
+  .spatial-scene__grid {
+    transition: none;
+  }
+
+  .spatial-scene__object,
+  .spatial-scene__orbit,
+  .spatial-scene__shard,
+  .spatial-scene[data-loading="true"] .spatial-scene__glyph svg,
+  .spatial-scene[data-loading="true"] .spatial-scene__glyph img,
+  .spatial-scene[data-loading="true"] .spatial-scene__artwork {
+    animation: none;
+  }
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+.status-heartbeat {
+  opacity: 1;
+  transition-property: color, opacity;
+  transition-duration: 150ms, 300ms;
+  transition-timing-function: ease, ease-out;
+}
+
+html[data-window-active="true"][data-status-heartbeat="true"]
+  .status-heartbeat {
+  opacity: 0.5;
+}
+
+html[data-window-active="false"] .status-heartbeat {
+  opacity: 1;
+  transition-duration: 0s;
+}
+
+@keyframes pi-thinking-popover-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(22px, 0, 0) scale(0.94);
+  }
+  68% {
+    opacity: 1;
+    transform: translate3d(-2px, 0, 0) scale(1.008);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes pi-thinking-popover-out {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(12px, 0, 0) scale(0.97);
+  }
+}
+
+.pi-thinking-popover {
+  transform-origin: var(--radix-popover-content-transform-origin);
+  will-change: transform, opacity;
+}
+
+.pi-thinking-popover[data-state="open"] {
+  animation: pi-thinking-popover-in 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pi-thinking-popover[data-state="closed"] {
+  animation: pi-thinking-popover-out 150ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-heartbeat {
+    opacity: 1;
+    transition-property: color;
+  }
+
+  html[data-window-active="true"][data-status-heartbeat="true"]
+    .status-heartbeat {
+    opacity: 1;
+  }
+
+  .pi-thinking-popover[data-state] {
+    animation: none;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-appearance: none;
+}
+
+/*
+ * Scrolling remains available to wheel, trackpad and keyboard users without
+ * leaving a permanent rail in the product canvas. macOS uses its native
+ * overlay-scrollbar convention; other desktop surfaces reveal a narrow thumb
+ * only while the user is interacting with the scroll area.
+ */
+.scrollbar-hidden {
+  overflow-x: clip;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior: contain;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-appearance: none;
+}
+
+.scrollbar-subtle {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  -ms-overflow-style: auto;
+}
+
+.scrollbar-subtle:hover,
+.scrollbar-subtle:focus-within {
+  scrollbar-color: hsl(var(--ui-text-secondary) / 0.3) transparent;
+}
+
+.scrollbar-subtle::-webkit-scrollbar {
+  display: block !important;
+  width: 8px !important;
+  height: 0 !important;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-track,
+.scrollbar-subtle::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-thumb {
+  min-height: 36px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-color: transparent;
+  background-clip: padding-box;
+}
+
+.scrollbar-subtle:hover::-webkit-scrollbar-thumb,
+.scrollbar-subtle:focus-within::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--ui-text-secondary) / 0.3);
+}
+
+.scrollbar-subtle::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--ui-text-secondary) / 0.5);
+}
+
+*:focus-visible {
+  /* `outline` forces `outline-style: solid`; without it the browser's own
+   * `outline-style: auto` UA default wins and can substitute its own native
+   * ring rendering in place of ours.
+   *
+   * Deliberately quiet: one hairline-weight stroke at low opacity. Keyboard
+   * users still get an unambiguous ring, but clicking a field no longer lights
+   * up a saturated halo around it. */
+  @apply outline outline-1 outline-offset-2;
+  outline-color: hsl(var(--ui-accent) / 0.45);
+}
+
+@layer utilities {
+  .scroll-overlay {
+    scrollbar-gutter: stable both-edges;
+    padding-right: 0.5rem;
+    margin-right: -0.5rem;
+    overflow-x: hidden;
+  }
+
+  .border-default {
+    border-width: 1px;
+    border-color: hsl(var(--ui-border));
+  }
+
+  .border-active {
+    border-width: 2px;
+  }
+
+  .border-border-default {
+    border-color: hsl(var(--ui-border));
+  }
+
+  .border-border-active {
+    border-color: hsl(var(--primary));
+  }
+
+  .border-border-hover {
+    border-color: hsl(var(--primary) / 0.4);
+  }
+
+  .border-border-dragging {
+    border-color: hsl(var(--primary) / 0.6);
+  }
+}
+
+/*
+ * Usage date-range picker popover.
+ *
+ * The two-column layout (date fields | calendar) must depend on how much
+ * width the popover itself actually has — not on the viewport. The popover is
+ * clamped to `100vw - 2rem` and anchored to its trigger, so a viewport-based
+ * breakpoint (e.g. Tailwind `sm:`) could enable the wide layout while the
+ * popover only had room for one column, pushing the calendar off-screen.
+ *
+ * A container query keys the layout to the popover's own inline size. The base
+ * (stacked) layout is the safe fallback when container queries are
+ * unsupported, keeping the calendar fully visible at any width.
+ */
+.usage-range-popover {
+  container-type: inline-size;
+}
+
+@container (min-width: 500px) {
+  .usage-range-layout {
+    flex-direction: row;
+  }
+
+  .usage-range-fields {
+    width: 250px;
+    flex: none;
+  }
+
+  .usage-range-calendar {
+    min-width: 0;
+    flex: 1 1 0%;
+  }
+}

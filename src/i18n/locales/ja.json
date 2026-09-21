@@ -1,0 +1,2910 @@
+{
+  "about": {
+    "title": "ライセンスとソースコード",
+    "description": "このビルドのライセンスと、ソースコードの入手先です。",
+    "product": "AI Manager",
+    "version": "バージョン {{version}}",
+    "versionUnknown": "バージョンを取得できません",
+    "copyright": "Copyright © 2026 AI Manager contributors",
+    "license": "本ソフトウェアは GNU Affero 一般公衆利用許諾書バージョン 3 以降のもとで提供され、いかなる保証もありません。",
+    "upstream": "CC Switch から派生したコードを MIT ライセンスのもとで含みます。Copyright (c) 2025 Jason Young。",
+    "sourceCode": "ソースコード",
+    "licenseText": "ライセンスを読む"
+  },
+  "common": {
+    "add": "追加",
+    "edit": "編集",
+    "delete": "削除",
+    "save": "保存",
+    "saving": "保存中...",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "close": "閉じる",
+    "done": "完了",
+    "settings": "設定",
+    "about": "バージョン情報",
+    "version": "バージョン",
+    "loading": "読み込み中...",
+    "detecting": "確認中…",
+    "notInstalled": "未インストール",
+    "success": "成功",
+    "error": "エラー",
+    "unknown": "不明",
+    "enterValidValue": "有効な値を入力してください",
+    "clear": "クリア",
+    "format": "フォーマット",
+    "formatSuccess": "整形しました",
+    "formatError": "整形に失敗しました: {{error}}",
+    "copy": "コピー",
+    "view": "表示",
+    "back": "戻る",
+    "refresh": "更新",
+    "refreshing": "更新中...",
+    "import": "インポート",
+    "all": "すべて",
+    "search": "検索",
+    "enableAllForApp": "{{app}} ですべて有効化",
+    "disableAllForApp": "{{app}} ですべて無効化",
+    "bulkToggleFailed": "{{count}} 件の更新に失敗しました",
+    "reset": "リセット",
+    "actions": "操作",
+    "deleting": "削除中...",
+    "auto": "自動",
+    "enabled": "有効",
+    "notSet": "未設定"
+  },
+  "providerForm": {
+    "supplierName": "プロバイダー名",
+    "supplierNameRequired": "プロバイダー名 *",
+    "supplierNamePlaceholder": "例: Anthropic Official",
+    "websiteUrl": "Web サイト URL",
+    "websiteUrlPlaceholder": "https://example.com（任意）",
+    "apiEndpoint": "API エンドポイント",
+    "apiEndpointPlaceholder": "https://your-api-endpoint.com",
+    "codexApiEndpointPlaceholder": "https://your-api-endpoint.com/v1",
+    "manageAndTest": "管理・テスト",
+    "configContent": "設定内容",
+    "officialNoApiKey": "公式ログインは API Key 不要です。そのまま保存できます",
+    "codexOfficialNoApiKey": "公式は API Key 不要です。そのまま保存してください",
+    "codexApiKeyAutoFill": "ここに入力すれば auth.json も自動で埋まります",
+    "apiKeyAutoFill": "ここに入力すれば下の設定も自動で埋まります",
+    "cnOfficialApiKeyHint": "💡 API Key のみ入力すれば OK。エンドポイントはプリセット済みです",
+    "aggregatorApiKeyHint": "💡 API Key のみ入力すれば OK。エンドポイントはプリセット済みです",
+    "thirdPartyApiKeyHint": "💡 API Key のみ入力すれば OK。エンドポイントはプリセット済みです",
+    "customApiKeyHint": "💡 カスタム設定では必要な項目をすべて手動で入力してください",
+    "omoHint": "💡 OMO 設定は Agent のモデル割り当てを管理し、oh-my-openagent.jsonc / oh-my-opencode.jsonc の両方に対応します",
+    "officialHint": "💡 公式プロバイダーはブラウザログインで、API Key は不要です",
+    "providerKeyStatusLoading": "プロバイダー識別子の状態を読み込んでいます。しばらくしてからもう一度お試しください",
+    "getApiKey": "API Key を取得",
+    "presets": {
+      "ucloud": "Compshare",
+      "ucloudCoding": "Compshare Coding Plan",
+      "shengsuanyun": "Shengsuanyun",
+      "qiniu": "Qiniu",
+      "openrouter": "OpenRouter",
+      "deepseek": "DeepSeek",
+      "together": "Together AI"
+    },
+    "parameterConfig": "パラメーター設定 - {{name}} *",
+    "mainModel": "メインモデル（任意）",
+    "mainModelPlaceholder": "例: GLM-4.6",
+    "fastModel": "高速モデル（任意）",
+    "fastModelPlaceholder": "例: GLM-4.5-Air",
+    "modelHint": "💡 空欄ならプロバイダーのデフォルトモデルを使用します",
+    "apiHint": "💡 Claude API 互換サービスのエンドポイントを入力してください。末尾にスラッシュを付けないでください",
+    "apiHintOAI": "💡 OpenAI Chat Completions 互換サービスのエンドポイントを入力してください。末尾にスラッシュを付けないでください",
+    "apiHintGeminiNative": "💡 Gemini Native では https://generativelanguage.googleapis.com または https://generativelanguage.googleapis.com/v1beta のような base URL を推奨します。プロキシが models/*:generateContent を自動補完します",
+    "codexApiHint": "💡 OpenAI Response 互換のサービスエンドポイントを入力してください",
+    "fillSupplierName": "プロバイダー名を入力してください",
+    "fillConfigContent": "設定内容を入力してください",
+    "fillParameter": "{{label}} を入力してください",
+    "fillTemplateValue": "{{label}} を入力してください",
+    "endpointRequired": "公式以外は API エンドポイントが必須です",
+    "apiKeyRequired": "公式以外は API Key が必須です",
+    "softValidation": {
+      "title": "設定に以下の問題があります",
+      "hint": "それでも保存しますか？保存後、このプロバイダーへの切り替えが失敗する可能性がありますが、後から補完できます。",
+      "saveAnyway": "それでも保存"
+    },
+    "configJsonError": "Config JSON の形式が正しくありません。構文を確認してください",
+    "authJsonRequired": "auth.json は JSON オブジェクトで入力してください",
+    "authJsonError": "auth.json の形式が正しくありません。JSON を確認してください",
+    "fillAuthJson": "auth.json の設定を入力してください",
+    "fillApiKey": "OPENAI_API_KEY を入力してください",
+    "visitWebsite": "{{url}} を開く",
+    "anthropicModel": "メインモデル",
+    "anthropicSmallFastModel": "高速モデル",
+    "apiFormat": "上流フォーマット",
+    "apiFormatHint": "プロバイダーがネイティブ Anthropic Messages API なら Anthropic Messages を選択（直結、フォーマット変換なし）。Chat Completions プロトコルなら Chat、Responses API なら Responses、Gemini generateContent プロトコルなら Gemini Native を選択。Chat、Responses、Gemini Native は Anthropic Messages への変換にルーティング引き継ぎの有効化が必要です。",
+    "customUserAgent": "カスタム User-Agent",
+    "customUserAgentHint": "ローカルルーティング/プロキシ引き継ぎが有効な場合にのみ適用され、プロバイダー API へ転送するリクエストの User-Agent を置き換えます。",
+    "customUserAgentInvalid": "User-Agent に制御文字（改行など）を含めることはできません。含まれている場合は無視されます。",
+    "customUserAgentPresets": "プリセット",
+    "localProxyRequestOverrides": "ローカルプロキシのリクエスト上書き",
+    "localProxyRequestOverridesHint": "ローカルルーティング/プロキシ引き継ぎ後にのみ有効で、変換後の上流リクエストへ適用されます。",
+    "localProxyRequestOverridesInvalid": "ローカルプロキシのリクエスト上書き形式エラー: {{error}}",
+    "localProxyHeaderOverrides": "Header 上書き",
+    "localProxyHeaderOverridesInvalidDetail": "Header 上書きの形式エラー: {{error}}",
+    "localProxyBodyOverrides": "Body 上書き",
+    "localProxyBodyOverridesInvalidDetail": "Body 上書きの形式エラー: {{error}}",
+    "fullUrlLabel": "フル URL",
+    "fullUrlEnabled": "フル URL モード",
+    "fullUrlDisabled": "フル URL として設定",
+    "fullUrlHint": "💡 完全なリクエスト URL を入力してください。このモードはルーティングを有効にして使用する必要があり、ルーティングはこの URL をそのまま使用し、パスを追加しません",
+    "fullUrlHintGeminiNative": "💡 Gemini Native のフル URL モードでは 2 種類の入力を扱えます。1. 公式/構造化された Gemini URL は、要求されたモデルやストリーミング方式に合わせて正規化されます。2. カスタム relay の opaque な完全 URL は、主にそのまま使用され、必要なクエリだけ追加されます",
+    "apiFormatAnthropic": "Anthropic Messages（ネイティブ）",
+    "apiFormatOpenAIChat": "OpenAI Chat Completions（ルーティングが必要）",
+    "apiFormatOpenAIResponses": "OpenAI Responses API（ルーティングが必要）",
+    "apiFormatGeminiNative": "Gemini Native generateContent（ルーティングが必要）",
+    "codexApiFormatResponses": "OpenAI Responses API（ネイティブ）",
+    "codexApiFormatOpenAIChat": "OpenAI Chat Completions（ルーティングが必要）",
+    "codexApiFormatHint": "このプロバイダーが実際に対応している Codex API フォーマットを選択します。新しい Codex との互換性のため設定は Responses のままにし、Chat Completions はローカルルーティングで変換します。",
+    "authField": "認証フィールド",
+    "authFieldAuthToken": "ANTHROPIC_AUTH_TOKEN（デフォルト）",
+    "authFieldApiKey": "ANTHROPIC_API_KEY",
+    "authFieldHint": "設定に書き込む認証環境変数名を選択",
+    "apiHintResponses": "💡 OpenAI Responses API 互換サービスのエンドポイントを入力してください。末尾にスラッシュを付けないでください",
+    "anthropicDefaultHaikuModel": "既定 Haiku モデル",
+    "anthropicDefaultSonnetModel": "既定 Sonnet モデル",
+    "anthropicDefaultOpusModel": "既定 Opus モデル",
+    "modelPlaceholder": "",
+    "smallModelPlaceholder": "",
+    "haikuModelPlaceholder": "",
+    "modelHelper": "任意: 既定で使いたい Claude モデルを指定。空欄ならシステム既定を使用します。",
+    "modelMappingLabel": "モデルマッピング",
+    "modelMappingHint": "表示名は /model メニューだけに影響します。1M は Claude Code へのコンテキスト能力宣言です。",
+    "modelRoleLabel": "モデル役割",
+    "modelRoleSonnet": "Sonnet",
+    "modelRoleOpus": "Opus",
+    "modelRoleFable": "Fable",
+    "modelRoleHaiku": "Haiku",
+    "modelRoleSubagent": "Subagent",
+    "modelDisplayNameLabel": "表示名",
+    "modelDisplayNamePlaceholder": "例: DeepSeek V4 Pro",
+    "modelNoDisplayName": "/model には表示されません",
+    "requestModelLabel": "リクエストモデル",
+    "modelOneMHeader": "1M 対応を宣言",
+    "modelOneMLabel": "1M",
+    "fallbackModelLabel": "既定フォールバックモデル",
+    "fallbackModelHint": "Sonnet・Opus・Fable・Haiku のいずれにも明確に対応しないリクエストのフォールバックです。サードパーティ/中継エンドポイントでは設定を推奨します。設定しないと、これらのリクエスト（Haiku のバックグラウンドサブタスクを含む）が元の Claude モデル名のまま上流へ転送され、上流に該当モデルが無い場合は失敗することがあります。公式エンドポイントでは空欄で構いません。",
+    "quickSetModels": "一括設定",
+    "quickSetSuccess": "モデル名をすべての役割に適用しました",
+    "advancedOptionsToggle": "高級オプション",
+    "advancedOptionsHint": "API フォーマット、認証フィールド、モデルマッピングの設定を含みます。通常はデフォルトのままで問題ありません。",
+    "categoryOfficial": "公式",
+    "categoryCnOfficial": "オープンソース公式",
+    "categoryAggregation": "アグリゲーター",
+    "categoryThirdParty": "サードパーティ",
+    "fetchModels": "モデル一覧を取得",
+    "fetchingModels": "取得中...",
+    "searchModelPlaceholder": "モデルを検索...",
+    "searchModelEmpty": "一致するモデルがありません",
+    "searchModelAriaLabel": "モデルを選択",
+    "fetchModelsSuccess": "{{count}}件のモデルを取得",
+    "fetchModelsFailed": "モデル一覧の取得に失敗しました",
+    "fetchModelsEmpty": "モデルが見つかりません",
+    "fetchModelsNeedApiKey": "先に API Key を入力してください",
+    "fetchModelsNeedEndpoint": "先に API エンドポイントを入力してください",
+    "fetchModelsNeedConfig": "先に API エンドポイントと API Key を入力してください",
+    "fetchModelsAuthFailed": "API Key が無効か、権限がありません",
+    "fetchModelsNotSupported": "このプロバイダーはモデル一覧の取得に対応していません",
+    "fetchModelsEndpointNotFound": "利用可能なモデル一覧エンドポイントが見つかりません。Base URL を確認するか、プロバイダーが該当 API を公開しているかご確認ください",
+    "fetchModelsTimeout": "リクエストがタイムアウトしました。ネットワーク接続を確認してください",
+    "requiredFields": "プロバイダー名、API エンドポイント、API Key、モデルを入力してください"
+  },
+  "usage": {
+    "title": "使用量とコスト",
+    "description": "AI コーディングツールの使用状況を、この Mac だけで確認します。",
+    "loading": "ローカルの使用量を読み込んでいます",
+    "hero": {
+      "eyebrow": "過去 {{days}} 日間",
+      "cost": "推定コスト",
+      "estimate": "ローカルのトークン記録とモデル料金から算出した推定値です。サービス事業者の請求とは異なる場合があります。",
+      "metric": {
+        "tokens": "トークン",
+        "requests": "リクエスト",
+        "success": "成功率",
+        "cache": "キャッシュヒット"
+      }
+    },
+    "trend": {
+      "eyebrow": "ローカルのアクティビティ",
+      "title": "日別トークン使用量",
+      "total": "この期間に {{value}} トークン",
+      "label": "合計 {{value}} トークンの日別推移"
+    },
+    "tools": {
+      "eyebrow": "内訳",
+      "title": "AI ツール別の使用量",
+      "requests": "{{value}} リクエスト",
+      "tokens": "{{value}} トークン"
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "opencode": "OpenCode",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build",
+      "openclaw": "OpenClaw",
+      "hermes": "Hermes",
+      "pi": "Pi"
+    },
+    "sync": {
+      "running": "ローカル使用量を同期中",
+      "runningHint": "ローカルセッションを読み取り中です。別のページに移動しても同期は続きます。",
+      "largeHistory": "初回や履歴が多い場合は数分かかることがあります。再度同期する必要はありません。保存済みの集計は表示されたまま、完了時に更新されます。",
+      "elapsed": "経過時間：{{seconds}} 秒",
+      "action": "ローカル使用量を同期",
+      "success": "ローカルファイル {{filesScanned}} 件を確認し、新しい記録 {{recordsImported}} 件を追加しました。",
+      "partial": "ローカルファイル {{filesScanned}} 件を確認し、{{recordsImported}} 件を追加しました。{{sourceIssues}} 件のソース確認は完了しませんでしたが、既存データは表示されます。",
+      "errorTitle": "ローカル使用量を同期できませんでした",
+      "errorHint": "保存済みの概要は削除されていません。もう一度お試しください。"
+    },
+    "privacy": {
+      "title": "集計のみ、ローカルのみ",
+      "description": "プロンプト、応答、リクエスト ID、パス、サービス設定、認証情報は表示しません。同期はこの Mac 上の対応 CLI セッションだけを読み、事業者には接続しません。"
+    },
+    "empty": {
+      "title": "ローカル使用記録はまだありません",
+      "description": "対応 CLI のセッションを同期すると、最初の集計表示を作成できます。アップロードは行いません。"
+    },
+    "error": {
+      "title": "ローカル使用量を読み取れませんでした",
+      "description": "保存済みの記録はこの Mac に残っています。概要をもう一度読み取ってください。",
+      "retry": "もう一度試す"
+    },
+    "stale": {
+      "title": "概要を更新できませんでした",
+      "description": "新しい読み取りが成功するまで、最後のローカルスナップショットを表示します。"
+    }
+  },
+  "dbUpgrade": {
+    "title": "データベースのバージョンが新しすぎます",
+    "description": "このデータベースは新しい AI Manager または互換クライアントで作成されました。このビルドでは開けず、元のデータは変更されていません。",
+    "versionInfo": "データベース v{{db}} · アプリ対応 v{{supported}}",
+    "dbPath": "データベースファイル",
+    "channelUnavailableTitle": "署名付き更新チャンネルを利用できません",
+    "channelUnavailableDescription": "製品の更新エンドポイントと署名公開鍵が承認されるまで、AI Manager は新しいビルドを安全に取得・インストールできません。このフォルダをバックアップして終了し、承認済みの互換ビルドを使用してください。",
+    "openConfigDir": "アプリデータフォルダを開く",
+    "quit": "終了"
+  },
+  "errors": {
+    "usage_query_failed": "利用状況の取得に失敗しました",
+    "configFallbackPath": "AI Manager アプリデータ/config.json",
+    "configLoadFailedTitle": "設定の読み込みに失敗しました",
+    "configLoadFailedMessage": "設定ファイルを読み込めません:\n{{path}}\n\nエラー詳細:\n{{detail}}\n\nJSON が正しいか確認するか、同じディレクトリのバックアップファイル（config.json.bak など）から復元してください。\n\nアプリを終了して修正してください。",
+    "frontendCrashTitle": "画面で問題が発生しました",
+    "frontendCrashMessage": "エラー情報をアプリ診断ログに保存しようとしました。画面を再読み込みし、問題が続く場合は Issue にログを添付してください。",
+    "reloadInterface": "画面を再読み込み"
+  },
+  "hermes": {
+    "form": {
+      "baseUrl": "API エンドポイント",
+      "baseUrlHint": "プロバイダーの API エンドポイント URL。",
+      "providerKey": "プロバイダーキー",
+      "providerKeyPlaceholder": "my-provider",
+      "providerKeyHint": "小文字、数字、ハイフンのみ。config.yaml のプロバイダー名として使用されます。",
+      "providerKeyLockedHint": "このプロバイダーは Hermes 設定に追加済みのため、キーは変更できません。",
+      "providerKeyRequired": "プロバイダーキーは必須です",
+      "providerKeyInvalid": "プロバイダーキーは小文字、数字、ハイフンのみ使用できます",
+      "providerKeyDuplicate": "このプロバイダーキーは既に存在します",
+      "apiMode": "API モード",
+      "apiModeHint": "プロバイダーの API プロトコル。エンドポイントに合わせて正しい形式を選択してください。",
+      "apiModeChatCompletions": "OpenAI Chat Completions",
+      "apiModeAnthropicMessages": "Anthropic Messages",
+      "apiModeCodexResponses": "OpenAI Responses",
+      "apiModeBedrockConverse": "AWS Bedrock Converse",
+      "baseUrlRequired": "API エンドポイントは必須です",
+      "baseUrlScheme": "http:// または https:// で始まるアドレスを指定してください",
+      "baseUrlInvalid": "API エンドポイントは有効な URL ではありません",
+      "models": "モデル一覧",
+      "addModel": "モデルを追加",
+      "noModels": "モデル未設定。このプロバイダーに切り替えてもデフォルトモデルは更新されません。",
+      "modelId": "モデル ID",
+      "modelIdPlaceholder": "anthropic/claude-opus-5",
+      "modelName": "表示名",
+      "modelNamePlaceholder": "Claude Opus 5",
+      "contextLength": "コンテキスト長",
+      "toggleModelDetails": "モデル詳細を展開または折りたたむ",
+      "removeModel": "モデルを削除",
+      "modelsHint": "現在のプロバイダーとして有効にすると、最初のモデルが Hermes のデフォルトモデルになります。",
+      "rateLimitDelay": "リクエスト間隔（秒）",
+      "rateLimitDelayHint": "連続したリクエスト間の最小待機秒数（任意）。空欄の場合は制限なし。"
+    },
+    "webui": {
+      "open": "Hermes Web UI を開く",
+      "offline": "Hermes Web UI が起動していません。まず `hermes dashboard` を実行してください。",
+      "openFailed": "Hermes Web UI を開けませんでした",
+      "launchConfirmTitle": "Hermes Dashboard が起動していません",
+      "launchConfirmMessage": "ターミナルを開いて `hermes dashboard` を実行しますか？\n\n起動完了後、ブラウザが自動的に開きます。\n\nターミナルに `hermes` が見つからない、または web 依存が不足するというエラーが表示される場合は、まず次を実行してください：\npip install hermes-agent[web]",
+      "launchConfirmAction": "ターミナルを開いて起動",
+      "launching": "ターミナルで hermes dashboard を起動しました。",
+      "launchFailed": "ターミナルを開けませんでした"
+    },
+    "memory": {
+      "title": "メモリ",
+      "agentTab": "エージェント記憶 (MEMORY.md)",
+      "userTab": "ユーザープロファイル (USER.md)",
+      "usage": "{{current}} / {{limit}} 文字",
+      "overLimit": "上限を超えました。Hermes は次回読み込み時に切り詰めます",
+      "enableOn": "有効",
+      "enableOff": "無効",
+      "disabledHint": "再度有効化するまで Hermes はこの記憶をスキップします",
+      "toggleFailed": "メモリの切り替えに失敗しました",
+      "saveSuccess": "記憶を保存しました",
+      "saveFailed": "記憶の保存に失敗しました",
+      "loadFailed": "記憶ファイルの読み込みに失敗しました",
+      "openConfig": "Hermes Web UI で上限を調整",
+      "runtimeNote": "変更は Hermes の再起動または新規セッション時に反映されます。"
+    }
+  },
+  "ds": {
+    "status": {
+      "ready": "準備完了",
+      "attention": "要確認",
+      "action": "対応が必要"
+    },
+    "action": {
+      "install": "インストール",
+      "configure": "ツールに追加",
+      "readOnly": "読み取り専用",
+      "update": "アップデート",
+      "versions": "バージョン切替",
+      "open": "開く",
+      "remove": "削除",
+      "check": "確認",
+      "fix": "修復",
+      "connect": "接続",
+      "retry": "もう一度試す",
+      "copyNamed": "{{name}}をコピー",
+      "copied": "コピーしました",
+      "use": "使用",
+      "inUse": "選択中",
+      "cancel": "キャンセル",
+      "close": "閉じる",
+      "named": {
+        "install": "{{name}}をインストール",
+        "update": "{{name}}をアップデート",
+        "versions": "{{name}} のバージョンを切り替え",
+        "open": "{{name}}を開く",
+        "remove": "{{name}}を削除",
+        "check": "{{name}}を確認",
+        "fix": "{{name}}を修復"
+      }
+    },
+    "tool": {
+      "notInstalled": "未インストール",
+      "installed": "インストール済み",
+      "updateAvailable": "更新あり",
+      "broken": "要修復",
+      "unknown": "未確認",
+      "installUnavailable": "このツールはまだ自動インストールできません。",
+      "openUnavailable": "このツールはAI Managerから自動で開けません。",
+      "updateUnavailable": "このツールは自動更新できません。",
+      "repairUnavailable": "自動修復はまだ利用できません。安全な修復方法がない限り、AI Managerはこのツールを変更しません。"
+    },
+    "service": {
+      "currentlyUsedBy": "現在の利用者",
+      "notUsed": "未使用",
+      "nowActive": "有効"
+    },
+    "task": {
+      "queued": "待機中",
+      "running": "実行中",
+      "success": "完了",
+      "failed": "失敗",
+      "cancelled": "停止しました",
+      "progressLabel": "タスクの進捗"
+    },
+    "sidebar": {
+      "primary": "メインナビゲーション",
+      "expand": "サイドバーを展開",
+      "collapse": "サイドバーを折りたたむ"
+    }
+  },
+  "operation": {
+    "phase": {
+      "preparing": "準備中",
+      "downloading": "ダウンロード中",
+      "cancelling": "安全にキャンセル中",
+      "cancelled": "キャンセル済み",
+      "installing": "インストール中",
+      "configuring": "設定中",
+      "removing": "削除中",
+      "checking": "確認中",
+      "ready": "準備完了",
+      "removed": "削除済み"
+    },
+    "log": {
+      "started": "タスクを開始しました",
+      "cancellationRequested": "キャンセルを要求しました。実行中のプロセスが停止するまで待機しています",
+      "cancelled": "プロセスの停止を確認してタスクをキャンセルしました",
+      "commandSucceeded": "コマンドが完了しました",
+      "commandFailed": "コマンドが失敗しました",
+      "commandFailureIgnored": "コマンドはゼロ以外の状態を返しました。予定どおり続行します",
+      "tryingFallback": "次の安全な方法を試しています",
+      "usingConfiguredProxy": "設定済みの送信プロキシを使用しています",
+      "usingCommunityMirror": "コミュニティミラーで npm 互換ダウンロードを再試行しています",
+      "nativeSupply": {
+        "start": "公式の更新経路が使えないため、ダウンロード元から同じ公式プログラムを取得しています",
+        "done": "公式プログラムを更新しました。インストールの所有関係は変わりません"
+      },
+      "succeeded": "タスクが完了しました",
+      "failed": "タスクが失敗しました",
+      "truncated": "以前の出力は切り詰められました"
+    }
+  },
+  "error": {
+    "about": {
+      "openLinkFailed": "このページをブラウザーで開けませんでした。"
+    },
+    "appUpdate": {
+      "installFailed": "このアプリ更新をインストールできませんでした。",
+      "notReady": "アプリ更新の準備がまだできていません。",
+      "openDownloadFailed": "AI Manager の公式ダウンロードページを開けませんでした。"
+    },
+    "backup": {
+      "createFailed": "バックアップを保存できませんでした。",
+      "deleteFailed": "このバックアップを削除できませんでした。",
+      "exportFailed": "持ち運び用の設定コピーを保存できませんでした。",
+      "exportLocationRefused": "別のフォルダーを選び、持ち運び用コピーを設定アーカイブとして保存してください。",
+      "importFailed": "この設定アーカイブを読み込めませんでした。現在の設定は変更されていません。",
+      "importTooLarge": "この設定アーカイブは大きすぎるため、安全に読み込めません。",
+      "listFailed": "バックアップを読み取れませんでした。",
+      "nameExists": "別のバックアップがすでにこの名前を使用しています。",
+      "nameInvalid": "バックアップ名に使用できない文字が含まれています。",
+      "nameRequired": "バックアップ名を入力してください。",
+      "nameTooLong": "バックアップ名が長すぎます。",
+      "noDatabase": "まだバックアップできる内容がありません。",
+      "notFound": "このバックアップはもうありません。",
+      "renameFailed": "このバックアップの名前を変更できませんでした。",
+      "restoreFailed": "このバックアップを復元できませんでした。何も変更されていません。",
+      "scheduleSaveFailed": "自動バックアップの設定を保存できませんでした。",
+      "selectionUnavailable": "選択した場所はローカルファイルとして利用できません。",
+      "storeUnavailable": "アプリはまだ起動中です。"
+    },
+    "command": {
+      "joinFailed": "処理が予期せず中断されました。",
+      "permissionDenied": "このパソコンでは AI Manager にその操作が許可されていません。",
+      "programNotFound": "AI Manager に必要なプログラムが見つかりません。",
+      "spawnFailed": "AI Manager に必要なプログラムを起動できませんでした。",
+      "timeout": "時間がかかりすぎたため、AI Manager が中止しました。"
+    },
+    "commandSpec": {
+      "argContainsNul": "安全のため、AI Manager はこの操作を中止しました。",
+      "envContainsNul": "安全のため、AI Manager はこの操作を中止しました。",
+      "envKeyInvalid": "安全のため、AI Manager はこの操作を中止しました。",
+      "scriptNotSealed": "安全のため、AI Manager はこの操作を中止しました。",
+      "bashRequiresSingleScript": "安全のため、AI Manager はこの操作を中止しました。",
+      "programPathMismatch": "安全のため、AI Manager はこの操作を中止しました。",
+      "programPathNotAbsolute": "安全のため、AI Manager はこの操作を中止しました。",
+      "sensitiveIndexOutOfRange": "安全のため、AI Manager はこの操作を中止しました。",
+      "terminalTargetInvalid": "安全のため、AI Manager はこの操作を中止しました。",
+      "terminalTargetNotAnchored": "安全のため、AI Manager はこの操作を中止しました。",
+      "terminalWorkingDirectoryNotAbsolute": "安全のため、AI Manager はこの操作を中止しました。",
+      "wslDistroInvalid": "安全のため、AI Manager はこの操作を中止しました。",
+      "timeoutZero": "安全のため、AI Manager はこの操作を中止しました。"
+    },
+    "deepLink": {
+      "credentialBlocked": "このリンクにはキーが含まれています。AI Manager の外から開かれたリンクにキーを含めることはできません。途中でお使いのコンピューターにキーが見えてしまうためです。リンクをコピーして、設定に貼り付けてください。",
+      "credentialRequired": "このリンクにはキーがありません。キーのない API 接続先は保存できません。キーを含むリンクを提供元に依頼してください。",
+      "duplicateParameter": "このリンクには同じ項目が重複しているため、読み取れません。",
+      "endpointRequired": "このリンクには API 接続先のアドレスが書かれていません。",
+      "invalidEncoding": "リンクに埋め込まれた内容が壊れていて読み取れません。",
+      "invalidLink": "AI Manager が理解できるリンクではありません。",
+      "mcpUnsupportedFields": "このリンクは MCP サーバーに環境値やリクエストヘッダーを設定しようとしています。AI Manager はそれらを代わりに追加しないため、このリンクは使えません。",
+      "missingParameter": "このリンクには取り込みに必要な項目が足りません。",
+      "notPending": "このリンクはもう待機していません。期限が切れたか、すでに処理されています。",
+      "tooLarge": "このリンクは長すぎて安全に読み取れません。",
+      "toolUnavailable": "このリンクが対象とするアプリは AI Manager の管理対象ではありません。",
+      "unknownParameter": "このリンクには AI Manager が認識できない項目が含まれています。",
+      "unsupportedResource": "このリンクが取り込もうとしているものには対応していません。",
+      "unsupportedScheme": "このリンクは AI Manager のものではありません。",
+      "unsupportedVersion": "このリンクは、このバージョンの AI Manager が理解できない新しい形式です。",
+      "valueTooLong": "このリンクの値のひとつが、想定よりはるかに長くなっています。"
+    },
+    "desktopApp": {
+      "inventoryFailed": "このパソコンのデスクトップアプリを確認できませんでした。",
+      "launchFailed": "デスクトップアプリを開けませんでした。",
+      "launchUnsupported": "このシステムではデスクトップアプリを開けません。",
+      "notFound": "このデスクトップアプリはもうインストールされていません。",
+      "officialDownloadFailed": "ベンダーの公式インストーラーを開けませんでした。",
+      "officialDownloadUnsupported": "ベンダーはこのシステムとアーキテクチャ向けのインストーラーを公開していません。",
+      "uninstallHandoffFailed": "OS のアンインストール画面を開けませんでした。",
+      "uninstallHandoffUnsupported": "この環境では AI Manager からシステムのアンインストール機能へ引き渡せません。"
+    },
+    "desktopPreferences": {
+      "invalid": "非表示で起動する場合やウィンドウを閉じた後も実行する場合は、トレイを表示してください。",
+      "readFailed": "このコンピューターのデスクトップ設定を読み込めませんでした。",
+      "saveFailed": "デスクトップ設定を安全に適用できませんでした。"
+    },
+    "extension": {
+      "adoptFailed": "検出した拡張機能を安全に AI Manager へ追加できませんでした。",
+      "adoptUnsupported": "この種類の拡張機能は、既存のローカルコピーから追加できません。",
+      "cannotDisable": "説明は常に 1 つが使われている状態です。これはオフにできないので、別のものに切り替えてください。",
+      "copyFailed": "このスキルをコピーできませんでした。",
+      "detectedReadOnly": "AI Manager はこの Mac で拡張機能を検出しましたが、まだ管理していないため、ローカルコピーは変更しませんでした。",
+      "listFailed": "このツールの拡張機能を読み取れませんでした。",
+      "notFound": "この拡張機能はもうありません。",
+      "resourceOpenFailed": "この Skill のローカルファイルを開けませんでした。",
+      "storeUnavailable": "アプリはまだ起動中です。",
+      "toggleFailed": "この変更を最後まで適用できませんでした。表示中のオン/オフがツール側と一致していない可能性があります。",
+      "unknownKind": "AI Manager はこの種類の拡張機能を認識できません。",
+      "unsupportedScope": "AI Manager はこの対象の拡張機能と未連携です。"
+    },
+    "health": {
+      "snapshotFailed": "セットアップの状態を読み取れませんでした。",
+      "storeUnavailable": "アプリはまだ起動中です。"
+    },
+    "import": {
+      "invalidSource": "この互換設定は安全にインポートできません。",
+      "mergeFailed": "既存設定をインポートできませんでした。現在の内容は変更されていません。",
+      "newerVersion": "この設定は新しい互換形式で作成されています。AI Manager を更新してから、もう一度お試しください。",
+      "notFound": "インポート元はもう存在しません。",
+      "readFailed": "この既存設定を読み込めませんでした。",
+      "storeUnavailable": "アプリはまだ起動中です。"
+    },
+    "mcp": {
+      "actionPanicked": "この MCP 接続の追加中に問題が発生しました。",
+      "argumentsInvalid": "この引数を安全に追加できませんでした。",
+      "commandInvalid": "このプログラムを安全に追加できませんでした。",
+      "commandRequired": "この接続で実行するプログラムを入力してください。",
+      "descriptionTooLong": "説明は 240 文字以内にしてください。",
+      "installCleanupFailed": "接続を追加できず、変更を完全に取り消すこともできませんでした。",
+      "installFailed": "MCP 接続を追加できませんでした。",
+      "nameInvalid": "接続名に対応していない文字が含まれています。",
+      "nameRequired": "先にこの接続の名前を入力してください。",
+      "nameTooLong": "接続名は 80 文字以内にしてください。",
+      "notInstalled": "その MCP 接続はもうありません。",
+      "removeFailed": "MCP 接続を安全に削除できませんでした。",
+      "removePanicked": "この MCP 接続の削除中に問題が発生しました。",
+      "removeRestoreFailed": "接続を削除できず、以前の設定が完全に復元されたことも確認できませんでした。",
+      "removeVerifyFailed": "MCP 接続が削除されたことを確認できませんでした。",
+      "unsupportedScope": "AI Manager はこの対象の MCP 接続と未連携です。",
+      "urlCredentials": "サーバー URL にユーザー名やパスワードを含めないでください。",
+      "urlInsecure": "リモートサーバーには HTTPS を使用してください。HTTP はこのコンピューター内の接続だけで使用できます。",
+      "urlInvalid": "フラグメントを含まない完全な HTTP または HTTPS のサーバー URL を入力してください。",
+      "urlRequired": "MCP サーバーの URL を入力してください。",
+      "verifyFailed": "MCP 接続が追加されたことを確認できませんでした。"
+    },
+    "native": {
+      "responseSchemaMismatch": "AI Manager が解釈できない応答を受け取りました。もう一度お試しください。",
+      "unrecognized": "問題が発生しました。もう一度お試しください。"
+    },
+    "networkProxy": {
+      "invalid": "http://127.0.0.1:7890 や socks5://localhost:1080 のような、認証情報を含まないローカルプロキシを入力してください。",
+      "readFailed": "ダウンロードプロキシ設定を読み取れませんでした。",
+      "saveFailed": "ダウンロードプロキシを安全に適用できませんでした。",
+      "storeUnavailable": "ダウンロードプロキシ設定はまだ準備できていません。"
+    },
+    "openclawWorkspace": {
+      "contentInvalid": "このワークスペースファイルは有効な UTF-8 テキストではありません。",
+      "contentTooLarge": "このワークスペースファイルは 1 MiB の安全上限を超えています。",
+      "dateInvalid": "YYYY-MM-DD 形式の実在する日付を選んでください。",
+      "deleteFailed": "日次メモリーを安全に削除できませんでした。",
+      "directoryOpenFailed": "システムのファイル管理アプリでワークスペースを開けませんでした。",
+      "invalidTarget": "その OpenClaw ワークスペース対象には対応していません。",
+      "listFailed": "OpenClaw ワークスペースの一覧を読み取れませんでした。",
+      "queryInvalid": "ワークスペース検索は 200 文字以内にしてください。",
+      "readFailed": "その OpenClaw ワークスペースファイルを読み取れませんでした。",
+      "restoreFailed": "ワークスペースの変更に失敗し、元のファイルも自動復元できませんでした。",
+      "saveFailed": "OpenClaw ワークスペースファイルを安全に保存できませんでした。",
+      "unsafeEntry": "この項目はリンクまたは未対応のファイル形式なので、AI Manager は変更しませんでした。",
+      "verifyFailed": "OpenClaw ワークスペースの変更を検証できませんでした。"
+    },
+    "operation": {
+      "cancelFailed": "AI Manager はこのタスクを安全に停止できませんでした。プロセスの終了を待ち、タスクを失敗として記録しました。",
+      "cancelNotRequested": "このタスクにはキャンセル要求がありません。",
+      "cancelPending": "このタスクはキャンセル処理中です。",
+      "cancelUnconfirmed": "AI Manager はこのタスクの停止をまだ確認できていません。",
+      "cancelled": "このタスクはキャンセルされました。",
+      "invalidId": "タスクの参照が無効です。",
+      "invalidTransition": "このタスクはすでに完了しています。",
+      "notCancellable": "このタスクはキャンセルに対応していません。",
+      "notCancellableNow": "このタスクは安全に停止できない段階に進んでいます。",
+      "notFound": "このタスクは見つかりません。",
+      "notRunning": "このタスクは実行中ではありません。",
+      "toolBusy": "このツールでは別のタスクが実行中です。終わるまでお待ちください。",
+      "desktopAppBusy": "このデスクトップアプリでは別のタスクが実行中です。終わるまでお待ちください。"
+    },
+    "prompt": {
+      "contentInvalid": "この指示には安全に保存できない文字が含まれています。",
+      "contentRequired": "ツールに守らせる指示を入力してください。",
+      "contentTooLong": "指示は 1 MB 未満にしてください。",
+      "descriptionInvalid": "説明に対応していない文字が含まれています。",
+      "descriptionTooLong": "説明は 500 文字以内にしてください。",
+      "importEmpty": "ツールの現在の指示ファイルは空です。",
+      "importFailed": "ツールの現在の指示を取り込めませんでした。",
+      "importMissing": "このツールには現在の指示ファイルがまだありません。",
+      "liveInvalid": "ツールの現在の指示ファイルをテキストとして読めないため、変更しませんでした。",
+      "nameInvalid": "指示の名前に対応していない文字が含まれています。",
+      "nameRequired": "この指示に名前を付けてください。",
+      "nameTooLong": "指示の名前は 80 文字以内にしてください。",
+      "notFound": "この指示はもうありません。",
+      "readFailed": "この指示を読み取れませんでした。",
+      "removeActive": "先に別の指示へ切り替えてから、この指示を削除してください。",
+      "removeFailed": "この指示を安全に削除できませんでした。",
+      "removeRestoreFailed": "指示を削除できず、保存済みのコピーが復元されたことも確認できませんでした。",
+      "saveFailed": "この指示を保存できませんでした。",
+      "saveRestoreFailed": "指示を保存できず、以前の版が完全に復元されたことも確認できませんでした。",
+      "saveVerifyFailed": "指示が正しく保存されたことを確認できませんでした。",
+      "unsupportedTool": "AI Manager はこのツールの常設指示と未連携です。"
+    },
+    "provider": {
+      "createFailed": "このサービスに接続できませんでした。",
+      "listFailed": "このツールのサービス一覧を読み込めませんでした。",
+      "nameRequired": "このサービスに名前を付けてください。",
+      "notFound": "そのサービスはもうありません。",
+      "notTestable": "このサービスには確認できるアドレスがありません。",
+      "removeActive": "先に別のサービスへ切り替えてから、このサービスを削除してください。",
+      "removeFailed": "このサービスを安全に削除できませんでした。",
+      "removePanicked": "このサービスの削除中に問題が発生しました。",
+      "removeRestoreFailed": "サービスを削除できず、以前の設定が完全に復元されたことも確認できませんでした。",
+      "removeUnsupported": "このサービスはツール固有の設定を使用しているため、ここでは削除できません。",
+      "removeVerifyFailed": "このサービスが削除されたことを確認できませんでした。",
+      "runtimeContextFailed": "このツールの設定元を確認できませんでした。",
+      "runtimeResourceNotFound": "そのローカルリソースは利用できなくなりました。",
+      "runtimeResourceOpenFailed": "そのローカルリソースを開けませんでした。",
+      "saveFailed": "このサービスの変更を保存できませんでした。",
+      "saveRestoreFailed": "サービスを保存できず、以前の設定が完全に復元されたことも確認できませんでした。",
+      "settingsPreserveFailed": "エンドポイントは切り替わりましたが、このツールの他の設定を保持できませんでした。",
+      "storeUnavailable": "アプリはまだ起動中です。",
+      "switchFailed": "このサービスに切り替えられませんでした。",
+      "testFailed": "確認を実行できませんでした。",
+      "unsupportedTool": "AI Manager はこのツールの AI サービスと未連携です。"
+    },
+    "remediation": {
+      "chooseAnotherService": "このツールで別のサービスを選び、もう一度お試しください。",
+      "checkConnectionSettings": "名前、API キー、モデルを確認して、もう一度お試しください。",
+      "checkInternetConnection": "インターネット接続を確認して、もう一度お試しください。",
+      "checkLocalFileAccess": "Skill が元の場所に残っていて、OS から開けることを確認して、もう一度お試しください。",
+      "checkServiceRegion": "ベンダーの対応地域を確認してください。AI Manager はアカウントやサービスの地域制限を回避しません。",
+      "checkMcpSettings": "MCP の名前と接続情報を確認して、もう一度お試しください。",
+      "checkPromptSettings": "指示の名前と内容を確認して、もう一度お試しください。",
+      "checkPermissions": "AI Manager がホームフォルダー内のファイルを変更できるか確認してから、もう一度お試しください。",
+      "checkServiceSettings": "名前とキーを確認して、もう一度お試しください。",
+      "configureInstallNetwork": "処理ログを確認してください。配布元へ接続できない場合は設定でローカルプロキシを指定して再試行してください。npm 管理のツールには公式優先の互換ミラー再試行が自動で適用されます。",
+      "chooseListedVersion": "一覧にあるバージョンを選んで、もう一度お試しください。",
+      "installManually": "このツールの公式サイトからご自分でインストールできます。",
+      "uninstallDesktopAppManually": "OS のアプリ管理機能を使って、このデスクトップアプリを削除してください。",
+      "openDesktopAppManually": "OS のアプリ一覧から手動で開いてください。",
+      "chooseAnotherFolder": "別のプロジェクトフォルダーを選んで、もう一度お試しください。",
+      "chooseAnotherPrompt": "先に別の指示を選んでから、もう一度お試しください。",
+      "openToolManually": "プロジェクトフォルダーでターミナルを開き、このツールを手動で起動してください。",
+      "refreshSessions": "セッション一覧を更新し、会話をもう一度選んでください。",
+      "recheckUpdate": "続行する前に更新方法をもう一度確認してください。",
+      "removeInTool": "このツール固有の設定からサービスを削除してください。",
+      "retryOrViewDetails": "もう一度試すか、「詳細を表示」で状況を確認してください。",
+      "useOriginalUpdateChannel": "このインストール元の更新機能を使うか、明示的に削除してから npm でインストールしてください。",
+      "uninstallManually": "残ったファイルはご自分で削除し、もう一度確認してください。",
+      "pasteDeepLink": "リンクをコピーして設定に貼り付けると続行できます。"
+    },
+    "routing": {
+      "changeFailed": "AI Manager はこのルーティング変更を安全に完了できませんでした。",
+      "providerNotEligible": "このサービスは自動フェイルオーバーに参加できません。",
+      "providerUnavailable": "このサービスはルーティングに利用できなくなりました。",
+      "queueLocked": "現在または最後のサービスを外す前に、自動フェイルオーバーを無効にしてください。",
+      "readFailed": "AI Manager はローカルルーティングの状態を読み取れませんでした。",
+      "storeUnavailable": "ローカルルーティングはまだ準備できていません。",
+      "takeoverRequired": "先にこのツールのルーティング引き継ぎを有効にしてください。",
+      "unsupportedTool": "AI Manager はこのツールのローカルルーティング経路と未連携です。"
+    },
+    "session": {
+      "notFound": "そのローカルセッションは利用できなくなりました。",
+      "queryInvalid": "セッション検索は 200 文字以内にしてください。",
+      "readFailed": "AI Manager はそのローカル会話を読み取れませんでした。",
+      "resumeUnsupported": "このツールはターミナルからのセッション再開に対応していません。"
+    },
+    "settings": {
+      "loadFailed": "設定を読み取れませんでした。",
+      "saveFailed": "この変更を保存できませんでした。",
+      "storeUnavailable": "アプリはまだ起動中です。"
+    },
+    "skill": {
+      "actionPanicked": "このスキルのインストール中に問題が発生しました。",
+      "alreadyInstalled": "このスキルはすでにインストールされています。",
+      "backupConflict": "このスキルはすでにインストールされているため、今はこのコピーを復元できません。",
+      "backupDeleteFailed": "スキルの復元用コピーを安全に削除できませんでした。",
+      "backupListFailed": "スキルの復元用コピーを読み取れませんでした。",
+      "backupNotFound": "そのスキルの復元用コピーはもう利用できません。",
+      "backupRestoreFailed": "その復元用コピーからスキルを復元できませんでした。",
+      "backupVerifyFailed": "復元したスキルが使用可能か確認できませんでした。",
+      "catalogFailed": "スキルカタログを読み込めませんでした。",
+      "conflict": "別のインストール済みスキルが同じフォルダーを使っています。",
+      "downloadFailed": "このスキルをダウンロードできませんでした。",
+      "installFailed": "スキルのインストールが完了しませんでした。",
+      "invalidSource": "このスキルの配布元を安全にインストールできませんでした。",
+      "notInstalled": "このスキルはすでにインストールされていません。",
+      "removeFailed": "このスキルを安全に削除できませんでした。",
+      "removePanicked": "このスキルの削除中に問題が発生しました。",
+      "removeVerifyFailed": "スキルが削除されたことを確認できませんでした。",
+      "repositoryInvalid": "この GitHub スキル配布元は無効です。",
+      "repositoryListFailed": "設定済みのスキル配布元を読み取れませんでした。",
+      "repositoryNotFound": "このスキル配布元はすでに設定されていません。",
+      "repositoryRemoveFailed": "スキル配布元を削除できませんでした。",
+      "repositorySaveFailed": "スキル配布元を保存できませんでした。",
+      "storeUnavailable": "アプリはまだ起動中です。",
+      "unsupportedTool": "AI Manager はこのツールの Skills と未連携です。",
+      "updateCheckFailed": "スキルの更新確認を完了できませんでした。",
+      "updateDownloadFailed": "スキルの更新をダウンロードできませんでした。",
+      "updateFailed": "スキルの更新が完了しませんでした。",
+      "updatePanicked": "このスキルの更新中に問題が発生しました。",
+      "updateSourceInvalid": "このスキルの更新元を安全に使用できませんでした。",
+      "updateUnsupported": "このスキルには更新に使える元のリポジトリがありません。",
+      "updateVerifyFailed": "スキルが更新されたことを確認できませんでした。",
+      "verifyFailed": "スキルがインストールされたことを確認できませんでした。",
+      "zipInstallFailed": "その ZIP 内のスキルを安全にインストールできませんでした。",
+      "zipInvalid": "そのファイルは有効で安全なスキル ZIP ではありません。",
+      "zipNoNewSkills": "その ZIP には新しくインストールできるスキルがありませんでした。",
+      "zipNoSkills": "その ZIP には SKILL.md を含むスキルがありませんでした。",
+      "zipSelectionUnavailable": "選択した ZIP をローカルファイルとして利用できません。",
+      "zipVerifyFailed": "その ZIP のスキルがインストールされたことを確認できませんでした。"
+    },
+    "system": {
+      "revealFailed": "この場所をファイルマネージャーで表示できませんでした。"
+    },
+    "tool": {
+      "actionPanicked": "AI Manager の内部で問題が発生しました。",
+      "actionUnsupported": "このツールはその操作に対応していません。",
+      "downloadAccessDenied": "ダウンロード先がこのリクエストを拒否しました。",
+      "downloadNetworkFailed": "ダウンロード先に接続できませんでした。",
+      "downloadRegistryUnavailable": "現在のソフトウェア配布元がこのリクエストを拒否または制限しました。",
+      "installFailed": "インストールが完了しませんでした。",
+      "launchFailed": "このツールをターミナルで開けませんでした。",
+      "nativeSupplyIntegrity": "ダウンロードした公式プログラムがダウンロード元の公開チェックサムと一致しなかったため、破棄しました。",
+      "nativeSupplyLayout": "ダウンロードしたパッケージに利用できるプログラムがないか、公式インストール先に書き込めませんでした。",
+      "nativeSupplySignature": "ダウンロードした公式プログラムがベンダー署名の検証に失敗したため、削除しました。",
+      "nativeSupplySwitchFailed": "新しいバージョンはダウンロードされましたが、ランチャーを切り替えられませんでした。現在のプログラムはそのままです。",
+      "nativeSupplyUnavailable": "ダウンロード元にこのバージョンの公式プログラムがありません。",
+      "nativeSupplyUnsupported": "この公式インストールには、このパソコンでは補給できません。",
+      "nativeSupplyVerifyFailed": "新しくダウンロードした公式プログラムが想定のバージョンを報告しなかったため、削除しました。",
+      "notFound": "AI Manager はこのツールに対応していません。",
+      "notInstalled": "このツールはインストールされていません。",
+      "projectFolderUnavailable": "そのプロジェクトフォルダーは使用できません。",
+      "removePathDenied": "AI Manager にはこのツールのファイルを削除する権限がありません。",
+      "removePathRefused": "この対象は自動削除の安全範囲外にあるため、AI Manager は何も削除せずに中止しました。",
+      "serviceRegionUnavailable": "ベンダーによると、現在の地域ではこのサービスを利用できません。",
+      "uninstallFailed": "削除が完了しませんでした。",
+      "uninstallIncomplete": "このツールのファイルがまだパソコンに残っています。",
+      "uninstallStrategyUnknown": "このツールのインストール方法を判別できないため、削除できません。",
+      "updateFailed": "アップデートが完了しませんでした。",
+      "updatePreviewStale": "更新を開始する前に、検出された更新方法が変わりました。",
+      "updatePreviewUnavailable": "現在、安全な更新方法を確認できません。",
+      "versionCatalogFailed": "公開済みバージョン一覧を読み込めませんでした。",
+      "versionHistoryReadFailed": "このツールのローカルバージョン履歴を読み込めませんでした。",
+      "versionHistoryWriteFailed": "ツールの変更は確認できましたが、AI Manager はバージョン履歴を保存できませんでした。",
+      "versionInvalid": "このバージョンを安全にインストールできません。",
+      "versionSourceUnsupported": "このインストールは元の更新経路を使う必要があります。",
+      "verifyFailed": "このツールが正しく動作するか確認できませんでした。"
+    },
+    "usage": {
+      "readFailed": "ローカルの使用量概要を読み取れませんでした。",
+      "storeUnavailable": "使用量データはまだ準備できていません。"
+    }
+  },
+  "nav": {
+    "appName": "AI Manager",
+    "starting": "AI Manager を起動しています",
+    "loadingPage": "このページを開いています",
+    "home": "ホーム",
+    "tools": "ソフトウェア管理",
+    "services": "API エンドポイント",
+    "routing": "ルーティング",
+    "extensions": "スキル",
+    "usage": "使用量",
+    "workspace": "OpenClaw",
+    "settings": "設定",
+    "localFirst": "設定はこのパソコンだけに保存されます",
+    "data": "セッション",
+    "mcp": "MCP",
+    "prompts": "グローバルプロンプト"
+  },
+  "openClawWorkspace": {
+    "title": "OpenClaw ワークスペース",
+    "description": "パスを手作業で探さずに、OpenClaw の人格、指示、記憶をまとめて管理します。",
+    "loading": "OpenClaw ワークスペースを読み取っています",
+    "openFolder": "ワークスペースを開く",
+    "refresh": "ワークスペースを再読み込み",
+    "retry": "再試行",
+    "error": {
+      "title": "ワークスペースを読み取れませんでした",
+      "description": "OpenClaw ワークスペースのアクセス権を確認して、もう一度お試しください。"
+    },
+    "overview": {
+      "title": "ワークスペースの概要",
+      "description": "OpenClaw の指示と記憶をこのパソコン内だけで読み取ります。",
+      "files": "主要ファイル",
+      "filesValue": "{{ready}} / {{total}}",
+      "memories": "日次メモリー",
+      "storage": "ローカル使用量",
+      "limited": "ワークスペースが非常に大きいため、概要の走査範囲を制限しました。"
+    },
+    "files": {
+      "title": "主要ワークスペースファイル",
+      "description": "OpenClaw はこれらの Markdown から役割、好み、動作方法を理解します。",
+      "status": {
+        "ready": "準備完了",
+        "missing": "未作成",
+        "unavailable": "利用不可"
+      },
+      "descriptionById": {
+        "agents": "Agent の操作指示とルール",
+        "soul": "人格とコミュニケーションスタイル",
+        "user": "ユーザープロフィールと好み",
+        "identity": "アシスタントの識別情報と表示方法",
+        "tools": "ローカルツールとワークフローの説明",
+        "memory": "整理された長期記憶と判断",
+        "heartbeat": "定期チェックとハートビート処理",
+        "bootstrap": "初回実行時のセットアップ指示",
+        "boot": "ゲートウェイ再起動チェックリスト"
+      }
+    },
+    "editor": {
+      "fileTitle": "{{filename}} を編集",
+      "memoryTitle": "日次メモリー · {{date}}",
+      "description": "Markdown は OpenClaw のローカルワークスペースへ直接保存されます。",
+      "contentLabel": "ワークスペース Markdown",
+      "loading": "ワークスペースファイルを読み取っています",
+      "safety": "既存ファイルを置き換える前に、AI Manager は非公開の復元コピーを保存し、書き込み結果を検証します。",
+      "save": "変更を保存",
+      "saved": "ワークスペースを保存しました",
+      "backupCreated": "変更前のローカル復元コピーを保存しました。",
+      "size": "{{current}} / {{maximum}} バイト",
+      "tooLarge": "このファイルは 1 MiB の安全上限を超えています。"
+    },
+    "memories": {
+      "title": "日次メモリー",
+      "description": "OpenClaw が日付ごとに保存する記憶メモを閲覧、検索、編集します。",
+      "openFolder": "メモリーフォルダーを開く",
+      "today": "今日のメモリー",
+      "searchLabel": "日次メモリーを検索",
+      "searchPlaceholder": "日付またはメモ本文を検索",
+      "search": "検索",
+      "loading": "日次メモリーを読み取っています",
+      "empty": "日次メモリーはまだありません",
+      "emptySearch": "検索に一致するメモリーはありません",
+      "emptyDescription": "今日のメモを作成するか、検索内容を変更してください。",
+      "clearSearch": "検索をクリア",
+      "matches": "{{count}} 件一致",
+      "noPreview": "空のメモ",
+      "limited": "安全に読み取れる新しい結果のみ表示しています。",
+      "deleteLabel": "{{date}} のメモリーを削除",
+      "deleteTitle": "{{date}} のメモリーを削除しますか？",
+      "deleteDescription": "このメモは OpenClaw から削除されます。先にローカル復元コピーを保存します。",
+      "deleteConfirm": "メモリーを削除",
+      "deleted": "日次メモリーを削除しました",
+      "deleteBackup": "ローカル復元コピーを保存しました。"
+    }
+  },
+  "tool": {
+    "claude-code": {
+      "description": "Anthropic 公式のターミナル向け AI コーディングエージェント。"
+    },
+    "codex": {
+      "description": "OpenAI のターミナル向けエージェント。ChatGPT / Codex デスクトップアプリと Codex 設定を共有します。"
+    },
+    "opencode": {
+      "description": "どのモデルにもつなげるオープンソースの AI コーディングエージェント。"
+    },
+    "gemini-cli": {
+      "description": "Google のターミナル向け AI コーディングエージェント。"
+    },
+    "grok-build": {
+      "description": "xAI のターミナル向けエージェント型コーディングツール。"
+    },
+    "openclaw": {
+      "description": "モデル、ツール、メッセージチャンネルをつなぐ個人向け AI アシスタント。"
+    },
+    "hermes": {
+      "description": "Nous Research のオープンなターミナル向けエージェント。"
+    },
+    "pi": {
+      "description": "軽量で拡張可能なターミナル向けコーディングエージェント。"
+    },
+    "kimi-code": {
+      "description": "Moonshot AI 公式のターミナル向けコーディングエージェント。"
+    },
+    "deepseek-dsh": {
+      "description": "DeepSeek の開発者プレビュー版コーディングハーネス。ターミナルからローカル Web UI を起動します。"
+    }
+  },
+  "tools": {
+    "details": {
+      "action": "ソフトウェアの詳細",
+      "title": "{{name}} の詳細",
+      "description": "ローカル設定、メモリ、ストレージを確認します。グローバルプロンプトは専用ページで管理します。"
+    },
+    "title": "ソフトウェア管理",
+    "description": "AI コーディングソフトウェアのインストール、更新、削除、バージョン切替を行います。",
+    "loading": "ツールを確認しています",
+    "refresh": "もう一度確認",
+    "scan": "もう一度確認",
+    "upToDate": "最新です",
+    "checkingVersion": "バージョン情報を読み込み中",
+    "actions": {
+      "moreNamed": "{{name}} のその他の操作"
+    },
+    "discovery": {
+      "eyebrow": "目的から選ぶ",
+      "title": "どれをインストールするか迷っていますか？",
+      "description": "やりたいことに合わせて、まだインストールされていないツールを比較します。これは用途との一致を示すもので、有料掲載や順位ではありません。",
+      "scenarioLabel": "やりたいことを選択",
+      "scenario": {
+        "officialCoding": "ベンダー公式のコーディングツールを使う",
+        "modelChoice": "モデルやプロバイダーを自由に選ぶ",
+        "personalAutomation": "パーソナルアシスタントや自動化を作る"
+      },
+      "publisher": "提供元：{{publisher}}",
+      "access": {
+        "vendorOrProvider": "ベンダーの有料プラン、ログイン、または API クレジットが必要な場合があります。利用条件と価格はベンダーが定めます。",
+        "provider": "モデルプロバイダーまたはローカルモデルが必要です。一部のプロバイダーでは API クレジットが有料です。"
+      },
+      "choose": "{{name}} を表示",
+      "costNote": "AI Manager はアカウントやクレジットを販売しません。インストール前に、提供元またはプロバイダーで現在の利用条件と価格を確認してください。"
+    },
+    "version": {
+      "title": "{{name}} のバージョン管理",
+      "description": "通常のインストールと更新では、推奨される最新安定版を自動で使用します。ここは互換性、ロールバック、または公開済みバージョンを手動選択する場合だけ使います。",
+      "loading": "公開済みバージョンを読み込んでいます",
+      "current": "現在のバージョン",
+      "notInstalled": "未インストール",
+      "sourceLabel": "インストール元",
+      "target": "切り替え先",
+      "defaultOption": "{{version}}（推奨最新版）",
+      "defaultGroup": "推奨最新版",
+      "taggedOption": "{{version}}（{{tags}} チャンネル）",
+      "taggedGroup": "その他のタグ付きチャンネル",
+      "otherPublishedGroup": "その他の公開済みバージョン",
+      "confirm": "このバージョンへ切り替え",
+      "unchanged": "このバージョンはすでにインストール済みです。",
+      "currentDefault": "推奨最新版がすでにインストールされています。",
+      "nonDefaultWarning": "推奨外のバージョンを手動で選択しています。互換性またはロールバックが必要な場合だけ、必要な版を確認して使用してください。",
+      "defaultChannelNote": "通常のインストールと更新では、推奨される最新安定版 {{version}} を自動で使用します。手動選択は不要です。",
+      "ownerPreserved": "AI Manager は現在の CLI を所有するパッケージマネージャーを使います。ダウングレードしてもツール設定は削除されません。",
+      "mirrorUsed": "既定の registry が応答しなかったため、コミュニティミラーから一覧を取得しました。グローバル npm 設定は変更していません。",
+      "restrictedTitle": "このインストールでは自動バージョン切り替えを利用できません",
+      "source": {
+        "notInstalled": "未インストール · npm を使用",
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "bun": "bun",
+        "volta": "Volta",
+        "uv": "uv tool",
+        "pipx": "pipx",
+        "brew": "Homebrew",
+        "nativeInstaller": "公式インストーラー",
+        "unmanaged": "不明または手動管理"
+      },
+      "restriction": {
+        "nativeInstaller": "公式インストーラー版です。同じ公式プログラムで更新し、別のコピーは作成しません。",
+        "brew": "Homebrew が管理しています。通常の「更新」を使ってください。npm 版へ切り替えると二重インストールになります。",
+        "unmanaged": "どのパッケージマネージャーが所有するか確認できないため、別バージョンを上書きしません。"
+      }
+    },
+    "updateRecovery": {
+      "title": "この更新には復旧が必要です",
+      "available": "更新後にツールが壊れています。同じパッケージマネージャーで検証済みバージョン {{version}} に復元できます。",
+      "action": "{{version}} に復元",
+      "namedAction": "{{name}} を {{version}} に復元",
+      "confirmTitle": "{{name}} を {{version}} に復元しますか？",
+      "confirmBody": "更新前に一致していた検証済みバージョンを同じパッケージマネージャーで再インストールし、そのバージョンを厳密に確認します。ツール設定は保持されます。",
+      "confirm": "{{version}} に復元",
+      "advisory": {
+        "historyUnavailable": "更新前に一致する検証済みバージョンが記録されていません。通常のインストーラーまたは所有元のパッケージマネージャーで修復してください。",
+        "ownershipChanged": "現在のインストール所有元が検証済み履歴と一致しないため、自動復元は無効のままです。このコピーを管理するパッケージマネージャーまたはインストーラーで修復してください。",
+        "ownerUnsupported": "このインストール元では安全な自動バージョン復元を利用できません。通常のインストーラーまたはパッケージマネージャーの復旧手順を使用してください。",
+        "inspectionFailed": "バージョン履歴またはインストール所有元を安全に確認できませんでした。自動復元は無効のままです。詳細を確認し、通常の復旧手順を使用してください。"
+      }
+    },
+    "summary": {
+      "eyebrow": "このコンピューター",
+      "title": "ツールの状態をひと目で確認",
+      "description": "AI Manager は各ツールをローカルで確認し、次に行う操作をカードに表示します。",
+      "current": "最新",
+      "attention": "要確認",
+      "available": "インストール可能"
+    },
+    "coverage": {
+      "eyebrow": "10 CLI · 15 の利用面",
+      "title": "CLI の状態とデスクトップ App を分けて表示",
+      "description": "下のカードでは、対応する 10 種類の CLI を管理します。デスクトップ App はそれぞれ独自のインストール・更新経路を維持します。",
+      "codex": {
+        "title": "ChatGPT / Codex + Codex CLI",
+        "description": "OpenAI のデスクトップアプリには Codex が含まれ、Codex CLI と設定を共有します。カードが更新するのは CLI のみで、デスクトップアプリは公式更新経路を使います。"
+      },
+      "claude": {
+        "title": "Claude Desktop + Claude Code",
+        "description": "別々の設定面であり、同じインストール状態は共有しません。"
+      }
+    },
+    "appRelationship": {
+      "sharedConfiguration": {
+        "description": "{{app}} はこの CLI と設定を共有します。共有設定の変更は両方に影響する場合があります。",
+        "manage": "共有設定を管理"
+      },
+      "separateConfiguration": {
+        "description": "{{app}} は別の設定を使います。この CLI を変更してもデスクトップ App は設定されません。",
+        "manage": "CLI 設定を管理"
+      },
+      "viewApp": "{{app}} を表示",
+      "viewAppNamed": "{{app}} のデスクトップ App カードを表示"
+    },
+    "desktopApps": {
+      "title": "デスクトップアプリ",
+      "description": "AI Manager はベンダー署名済みのデスクトップ App と CLI を別々に確認し、この OS とチップに合う固定の公式パッケージまたはダウンロードページを選びます。ダウンロードとインストールはブラウザーとシステムインストーラーが完了します。",
+      "loading": "デスクトップアプリを確認しています",
+      "refresh": "App を再確認",
+      "refreshError": "前回の App 確認結果を表示しています。利用前にもう一度確認してください。",
+      "opened": "{{name}} を開いています。",
+      "officialInstallerOpened": "{{name}} の公式インストーラーのダウンロードをブラウザーで開きました。完了したらダウンロードしたファイルを開き、システムの案内に従ってください。",
+      "officialDownloadOpened": "{{name}} の公式インストールページをブラウザーで開きました。",
+      "officialDownloadNetworkHint": "ブラウザーからこのアドレスに接続できない場合は、先にブラウザーまたはシステムにプロキシを設定してください。",
+      "uninstallHandoffOpened": "{{name}} をアンインストールするシステム上の場所を開きました。",
+      "items": {
+        "codex-app": {
+          "surface": "OpenAI デスクトップアプリ · ChatGPT / Codex",
+          "description": "OpenAI のデスクトップ画面で ChatGPT または Codex を使いながら、Codex CLI のインストールと更新は分けて管理します。"
+        },
+        "claude-desktop": {
+          "surface": "Anthropic デスクトップアプリ",
+          "description": "Claude のデスクトップ体験を、ターミナルの Claude Code とは別に利用します。"
+        },
+        "cursor": {
+          "surface": "Cursor AI コードエディター",
+          "description": "Cursor を独立したグラフィカルコードエディターとして利用します。インストール、アカウント、拡張機能、更新はベンダーが管理します。"
+        },
+        "zcode": {
+          "surface": "Z.ai デスクトップコーディングアプリ",
+          "description": "ZCode を独立したグラフィカルコーディングアプリとして利用します。インストールと設定はベンダーが管理します。"
+        },
+        "cherry-studio": {
+          "surface": "Cherry Studio デスクトップアプリ",
+          "description": "Cherry Studio を独立したマルチモデルデスクトップクライアントとして利用し、管理対象 CLI とは分けて扱います。"
+        }
+      },
+      "status": {
+        "installed": "インストール済み",
+        "updateAvailable": "更新あり",
+        "notInstalled": "未インストール",
+        "unsupported": "この環境は非対応",
+        "unknown": "確認が必要"
+      },
+      "details": {
+        "version": "App バージョン",
+        "versionUnavailable": "未報告",
+        "updates": "更新方法",
+        "vendorManagedUpdates": "インストール後はベンダーが自動更新",
+        "officialUpdateAvailable": "公式バージョン {{version}} に更新できます",
+        "updateUnavailable": "管理された更新経路なし",
+        "rollback": "ロールバック",
+        "rollbackAvailable": "ベンダーが対応",
+        "rollbackUnavailable": "公開された旧バージョンなし",
+        "cliRelationship": "関連 CLI"
+      },
+      "relationship": {
+        "sharedConfiguration": "{{tool}} と設定を共有",
+        "separateConfiguration": "{{tool}} とは別の設定",
+        "standaloneApplication": "独立したデスクトップアプリ"
+      },
+      "relatedTools": {
+        "codex": "Codex CLI",
+        "claude-code": "Claude Code"
+      },
+      "vendorUpdates": "App の自動更新は引き続きベンダーが管理します。「最新インストーラーをダウンロード」は復旧用の引き渡しであり、新しいバージョンを検出したという意味ではありません。必要に応じてブラウザーまたはシステムプロキシを使ってください。パッケージのミラーや地域制限の回避は行いません。",
+      "action": {
+        "open": "App を開く",
+        "openNamed": "{{name}}を開く",
+        "uninstall": "アンインストール",
+        "uninstallNamed": "システムから {{name}} をアンインストール",
+        "downloadLatest": "最新インストーラーをダウンロード",
+        "downloadLatestNamed": "{{name}} の最新公式インストーラーをダウンロード",
+        "downloadUpdate": "更新をダウンロード",
+        "downloadUpdateNamed": "{{name}} の公式更新をダウンロード",
+        "downloadInstaller": "公式インストーラーをダウンロード",
+        "installOfficially": "公式インストールページを開く",
+        "installOfficiallyNamed": "{{name}} の公式ダウンロードを開く",
+        "moreNamed": "{{name}} のその他の操作",
+        "downloadHelp": "ダウンロードのヘルプ",
+        "unsupported": "このシステムでは利用不可",
+        "unsupportedNamed": "{{name}}はこのシステムでは利用できません",
+        "unavailable": "開けません",
+        "unavailableNamed": "{{name}}を開けません",
+        "viewRelatedTool": "{{tool}} を表示",
+        "viewRelatedToolNamed": "{{tool}} カードを表示",
+        "sharedConfiguration": {
+          "manageTool": "共有設定を管理"
+        },
+        "separateConfiguration": {
+          "manageTool": "{{tool}} の設定を管理"
+        },
+        "manageAppMcp": "{{app}} の MCP を管理"
+      },
+      "downloadHelp": {
+        "title": "{{name}} をダウンロード",
+        "directDescription": "AI Manager は海外の製品紹介ページを経由せず、このコンピューター向けのベンダー公式インストーラーを直接開きます。",
+        "pageDescription": "このシステム向けの固定インストーラーがないため、ベンダーの公式ダウンロードページを開きます。",
+        "architecture": "システムとチップは AI Manager がローカルで判定するため、Intel、Apple シリコン、x64、Arm64 を選ぶ必要はありません。",
+        "systemOwned": "ブラウザーがダウンロードし、OS のインストーラーが署名を確認します。AI Manager が非表示でインストールすることはありません。",
+        "restrictedNetwork": "現在のネットワークから公式アドレスへ接続できない場合は、ブラウザーまたはシステムのプロキシを設定して再試行してください。AI Manager の CLI ダウンロード用プロキシはブラウザーを制御せず、第三者インストーラーのミラーや地域制限の回避も行いません。",
+        "retry": "公式ダウンロードを再試行"
+      },
+      "uninstall": {
+        "title": "システムから {{name}} をアンインストールしますか？",
+        "description": "AI Manager は Finder または OS の「インストールされているアプリ」ページを開きます。削除はそこで完了してください。",
+        "confirm": "システムのアンインストール画面を開く",
+        "handoff": "AI Manager 自体はデスクトップ App を削除せず、非表示のアンインストールコマンドも実行しません。",
+        "data": "App 設定、アカウントデータ、会話が残るかどうかはベンダーが管理します。AI Manager はそれらを削除しません。",
+        "refresh": "システムで完了した後、ここに戻って「App を再確認」を選んでください。"
+      },
+      "error": {
+        "title": "デスクトップ App を確認できませんでした",
+        "description": "今は OS のアプリ一覧を読み取れませんでした。"
+      }
+    },
+    "empty": {
+      "title": "表示できるツールがありません",
+      "description": "このパソコンで対応しているツールは見つかりませんでした。"
+    },
+    "error": {
+      "title": "ツールを読み取れませんでした",
+      "description": "今このパソコンを確認できませんでした。"
+    },
+    "refreshError": {
+      "title": "ツールを再確認できませんでした",
+      "description": "前回の確認結果を表示しています。新しい確認が成功するまで、ツール操作は一時停止します。"
+    },
+    "action": {
+      "unavailable": "この機能は今後のアップデートで追加されます。"
+    },
+    "open": {
+      "title": "{{name}} を開く",
+      "description": "既定のフォルダーから直接起動するか、プロジェクトフォルダーを選んで {{name}} を起動できます。",
+      "localTitle": "プロジェクトはこのパソコンに留まります",
+      "localHint": "フォルダーを選んでも、ファイルのアップロード、スキャン、変更は行いません。",
+      "confirm": "今すぐ起動",
+      "launchDefault": "今すぐ起動",
+      "chooseFolder": "フォルダーを選ぶ",
+      "launched": "{{name}} をターミナルで開きました。",
+      "providerUnreachable": "{{name}} が応答しませんでした",
+      "providerUnreachableHint": "ツールは開かれておらず、保存済みの設定も変更されていません。再確認するか、別の保存済み互換サービスをお試しください。",
+      "noSavedAlternative": "確認できる別の保存済み互換サービスがありません。",
+      "retry": "もう一度試す",
+      "retryNamed": "{{name}} をもう一度開く"
+    },
+    "confirm": {
+      "install": {
+        "title": "{{name}} をインストールしますか？",
+        "body": "必要なものは AI Manager がまとめてインストールします。",
+        "confirm": "インストール"
+      },
+      "update": {
+        "title": "{{name}} を更新しますか？",
+        "body": "最新バージョンをダウンロードしてインストールします。",
+        "confirm": "更新"
+      },
+      "repair": {
+        "title": "{{name}} を修復しますか？",
+        "body": "壊れたコマンドラインパッケージを削除し、同じ npm から再インストールします。設定は残ります。",
+        "confirm": "修復"
+      }
+    },
+    "updatePreview": {
+      "singleDescription": "開始する前に、このインストールがどの方法で更新されるか確認してください。",
+      "loading": "更新の詳細を確認中",
+      "loadingHint": "現在使われているインストールと元の更新方法を確認しています。",
+      "refreshing": "更新の詳細を再確認中",
+      "error": {
+        "title": "更新の詳細を確認できませんでした",
+        "description": "安全な更新方法を確認できるまで、更新は開始しません。"
+      },
+      "recheck": "もう一度確認",
+      "ready": "{{name}} を更新します",
+      "targetVersion": "バージョン {{version}} に更新します",
+      "skipped": "{{name}} はスキップされます",
+      "needsReview": "確認が必要",
+      "checked": "更新経路を確認済み",
+      "multipleInstallations_one": "{{count}} 件のインストールを検出",
+      "multipleInstallations_other": "{{count}} 件のインストールを検出",
+      "currentDefault": "現在のコマンドライン既定",
+      "version": "バージョン {{version}}",
+      "technicalDetails": "技術的な詳細",
+      "commands": "実行予定のコマンド",
+      "installations": "検出したインストール",
+      "otherInstallation": "その他のインストール",
+      "rechecked": "開始直前にインストールと更新計画をもう一度確認します。変更があれば停止し、再確認を求めます。",
+      "paused": "ツールとタスクの状態を更新している間、更新は一時停止します。",
+      "method": {
+        "nativeSelfUpdate": "{{name}} の内蔵更新機能を使います",
+        "toolSelfUpdate": "{{name}} の内蔵更新機能を使います",
+        "officialInstaller": "ベンダーの公式インストーラーを使います",
+        "homebrew": "現在の Homebrew インストールから更新します",
+        "npm": "このインストールを管理するパッケージマネージャーから更新します",
+        "pnpm": "このインストールを管理するパッケージマネージャーから更新します",
+        "bun": "現在の Bun インストールから更新します",
+        "volta": "現在の Volta インストールから更新します",
+        "uv": "現在の uv インストールから更新します",
+        "pipx": "現在の pipx インストールから更新します"
+      },
+      "fallback": {
+        "nativeSelfUpdate": "完了できない場合は、ツールの内蔵更新機能でもう一度試します。",
+        "toolSelfUpdate": "完了できない場合は、ツールの内蔵更新機能でもう一度試します。",
+        "officialInstaller": "完了できない場合は、ベンダーの公式インストーラーでもう一度試します。",
+        "homebrew": "完了できない場合は、Homebrew でもう一度試します。",
+        "npm": "完了できない場合は、npm でもう一度試します。",
+        "pnpm": "完了できない場合は、pnpm でもう一度試します。",
+        "bun": "完了できない場合は、Bun でもう一度試します。",
+        "volta": "完了できない場合は、Volta でもう一度試します。",
+        "uv": "完了できない場合は、uv でもう一度試します。",
+        "pipx": "完了できない場合は、pipx でもう一度試します。"
+      },
+      "blocked": {
+        "notInstalled": "このツールはすでにインストールされていないため、更新するものがありません。",
+        "ambiguousInstallation": "複数のインストールが見つかりましたが、コマンドラインが現在使っているものを特定できません。推測では更新しません。",
+        "unsupportedInstallation": "このインストールには安全に自動実行できる更新方法がありません。",
+        "inspectionFailed": "このインストールの確認を完了できませんでした。"
+      },
+      "source": {
+        "notInstalled": "未インストール",
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "bun": "Bun",
+        "volta": "Volta",
+        "uv": "uv",
+        "pipx": "pipx",
+        "brew": "Homebrew",
+        "nativeInstaller": "公式インストール",
+        "unmanaged": "管理対象外のインストール"
+      }
+    },
+    "uninstall": {
+      "title": "{{name}} を削除しますか？",
+      "description": "削除する内容を選んでください。既定ではアプリ本体だけを削除します。",
+      "submit": "削除",
+      "back": "戻る",
+      "confirm": "完全に削除",
+      "confirmTitle": "これらを完全に削除しますか？",
+      "confirmDescription": "元に戻すことはできません。",
+      "keepSettings": "設定はそのまま残します",
+      "keepSettingsHint": "設定と保存された会話はこのパソコンに残るので、入れ直しても続きから使えます。",
+      "option": {
+        "app": "アプリを削除",
+        "appHint": "必ず処理されます。検出したインストールに対応する実際のコマンドまたはプログラムパスを以下に表示します。",
+        "settings": "設定を削除",
+        "settingsHint": "このツールの設定フォルダーを削除します。",
+        "cache": "キャッシュを削除",
+        "cacheHint": "保存された会話とローカルの状態を削除します。"
+      },
+      "preview": {
+        "loading": "実際のコマンドとパスを確認しています…",
+        "none": "独立したパスはありません。この項目で追加のファイルは削除されません。",
+        "protected": "自動削除の安全範囲外のため、AI Manager はこのパスを処理しません。",
+        "rechecked": "実行直前にインストール元とパスを再確認します。表示内容が削除指示として送り返されることはありません。",
+        "kind": {
+          "command": "コマンド",
+          "directory": "フォルダー",
+          "file": "ファイル",
+          "symbolicLink": "シンボリックリンク",
+          "missingPath": "パス（現在は存在しません）"
+        },
+        "reveal": "場所を開く",
+        "revealNamed": "{{path}} の場所を開く"
+      },
+      "impact": {
+        "app": "{{name}} アプリ",
+        "settings": "{{name}} の設定",
+        "cache": "保存された {{name}} の会話"
+      },
+      "warning": {
+        "sessionsInsideSettings": "このツールは保存した会話を設定フォルダーの中に保管しているため、設定を削除すると会話も一緒に削除されます。",
+        "outsideHome": "ホームフォルダーの外にあるファイルは削除されません。このツールの設定がそこにある場合、AI Manager は何も削除せずに中止するので失われるものはありません。チェックを外してもう一度実行すると、アプリだけを削除できます。"
+      },
+      "reason": {
+        "nothingToRemove": "このツールはこの種のファイルを個別に持たないため、削除するものはありません。",
+        "protected": "これらの場所はホームフォルダの外にあるため、AI マネージャーは削除しません。"
+      }
+    }
+  },
+  "home": {
+    "pageLabel": "ホーム",
+    "greeting": {
+      "morning": "おはようございます",
+      "afternoon": "こんにちは",
+      "evening": "こんばんは"
+    },
+    "subtitle": {
+      "ready": "AI コーディング環境は正常です",
+      "checking": "環境を確認してから、次に行うことをご案内します",
+      "stale": "ホームを再確認する間、前回の結果を表示しています",
+      "attention": "いくつか確認したいことがあります",
+      "action": "対応が必要な項目があります"
+    },
+    "card": {
+      "title": "AI 環境",
+      "description": "ツール、サービス、拡張機能の状態をひと目で確認",
+      "checking": "AI 環境を確認しています",
+      "toolsInstalled_one": "{{count}} 個のツールが使えます",
+      "toolsInstalled_other": "{{count}} 個のツールが使えます",
+      "updatesAvailable_one": "{{count}} 件の更新があります",
+      "updatesAvailable_other": "{{count}} 件の更新があります",
+      "needAttention_one": "{{count}} 件の確認が必要です",
+      "needAttention_other": "{{count}} 件の確認が必要です",
+      "allGood": "すべて最新です",
+      "nothingInstalled": "まだツールがありません",
+      "review": "確認する",
+      "startTool": "{{name}} で始める",
+      "startHint": "プロジェクトフォルダーを選択してください。アクセス権は初回利用時にサービス側で検証されます。",
+      "inventory": {
+        "label": "準備済み環境の詳細",
+        "servicesConfigured_one": "AI サービスを {{count}} 件設定済み",
+        "servicesConfigured_other": "AI サービスを {{count}} 件設定済み",
+        "mcpEnabled": "MCP 有効：{{enabled}} / {{total}}",
+        "noMcp": "MCP 接続はまだありません"
+      },
+      "actions": {
+        "tools": "AI ツールを開く",
+        "services": "API エンドポイントを開く",
+        "extensions": "Skills / MCP を開く"
+      }
+    },
+    "health": {
+      "title": "ヘルスチェック",
+      "recheck": "再チェック",
+      "allGood": "すべて正常です",
+      "issues_one": "{{count}} 件の問題が見つかりました",
+      "issues_other": "{{count}} 件の問題が見つかりました",
+      "more_one": "他 {{count}} 件",
+      "more_other": "他 {{count}} 件",
+      "lastChecked": "最終チェック {{time}}",
+      "checkingConnections": "サービス接続を確認しています",
+      "connectionError": "接続チェックを開始できませんでした。もう一度お試しください。",
+      "noTools": {
+        "title": "まず AI コーディングツールを選んでください",
+        "description": "インストールすると、ヘルスチェックの対象になります。",
+        "action": "AI ツールを見る"
+      }
+    },
+    "quickActions": {
+      "title": "クイック操作",
+      "installTool": "AI ツールをインストール",
+      "installDescription": "Claude Code、Codex、OpenCode を追加",
+      "updateAll": "すべて更新",
+      "updateDescription": "インストール済みのツールを最新に保つ",
+      "connectService": "AI サービスに接続",
+      "connectDescription": "ツールが使うサービスとキーをまとめて管理",
+      "laterHint": "今後のアップデートで追加されます"
+    },
+    "updateAll": {
+      "title_one": "{{count}} 個のツールを更新しますか？",
+      "title_other": "{{count}} 個のツールを更新しますか？",
+      "reviewTitle_one": "{{count}} 個のツール更新を確認",
+      "reviewTitle_other": "{{count}} 個のツール更新を確認",
+      "description": "{{names, list}} はバックグラウンドで更新されます。AI Manager を使い続けながら、タスクで進行状況を確認できます。",
+      "previewSummary": "{{ready}} 個は今すぐ更新できます。{{skipped}} 個はインストールを確認するまでスキップされます。",
+      "skippedSummary_one": "更新方法を確認できないため、{{count}} 個のツールをスキップしました。",
+      "skippedSummary_other": "更新方法を確認できないため、{{count}} 個のツールをスキップしました。",
+      "confirm_one": "{{count}} 個のツールを更新",
+      "confirm_other": "{{count}} 個のツールを更新",
+      "retry_one": "このツールを再試行",
+      "retry_other": "未開始の項目を再試行",
+      "failure": {
+        "partial": {
+          "title": "一部の更新を開始しました",
+          "description_one": "{{count}} 件の更新をタスクで開始しました。開始できなかったツールだけが選択されたままです。",
+          "description_other": "{{count}} 件の更新をタスクで開始しました。開始できなかったツールだけが選択されたままです。"
+        },
+        "all": {
+          "title": "更新を開始できませんでした",
+          "description_one": "更新タスクは作成されませんでした。再試行すると、このツールをもう一度確認してから開始します。",
+          "description_other": "更新タスクは作成されませんでした。再試行すると、これらのツールをもう一度確認してから開始します。"
+        }
+      },
+      "hints": {
+        "current": "すべて最新です",
+        "running": "更新はタスクですでに実行中です",
+        "checking": "更新できるツールを確認しています",
+        "unavailable": "現在、更新状態を確認できません",
+        "review": "AI ツールでこの更新を確認してください"
+      }
+    },
+    "error": {
+      "title": "環境を確認できませんでした",
+      "description": "今このパソコンを確認できませんでした。"
+    },
+    "refreshError": {
+      "title": "ホームを更新できませんでした",
+      "description": "前回の確認結果を表示しています。新しい確認が成功するまで、ツールの開始と一括更新は一時停止します。",
+      "action": "もう一度確認"
+    },
+    "refreshing": {
+      "title": "ホームを再確認しています",
+      "description": "確認が終わると、ツールの開始と一括更新を再開できます。"
+    }
+  },
+  "taskCenter": {
+    "open": "アクティビティ",
+    "openUnavailable": "アクティビティ、状態を取得できません",
+    "openRefreshError": "アクティビティ、前回の状態を表示中",
+    "openRunning_one": "アクティビティ、{{count}} 件を実行中",
+    "openRunning_other": "アクティビティ、{{count}} 件を実行中",
+    "title": "アクティビティ",
+    "running_one": "{{count}} 件のアクティビティを実行中",
+    "running_other": "{{count}} 件のアクティビティを実行中",
+    "idle": "実行中のアクティビティはありません",
+    "loading": {
+      "summary": "アクティビティの状態を確認しています",
+      "label": "アクティビティを読み込んでいます…"
+    },
+    "unavailable": {
+      "summary": "タスクの状態を取得できません",
+      "title": "タスクを読み込めませんでした",
+      "description": "もう一度試してタスク一覧を更新してください。",
+      "retry": "もう一度試す"
+    },
+    "refreshError": {
+      "summary": "前回確認したタスク状態を表示しています",
+      "title": "タスクを更新できませんでした",
+      "description": "前回確認した履歴を表示しています。新しい進捗がまだ反映されていない可能性があります。",
+      "retry": "タスクを更新"
+    },
+    "toolAuthority": {
+      "openLabel": "アクティビティ：{{status}}。ツール操作は利用できません",
+      "unavailableTitle": "ツール操作を利用できません",
+      "unavailableDescription": "タスク履歴は引き続き表示されますが、どのツールを開けるか確認できませんでした。",
+      "refreshTitle": "ツールの状態を更新できませんでした",
+      "refreshDescription": "前回確認したツール情報を表示しています。新しい確認が成功するまで、完了したタスクからツールを開く操作は一時停止します。",
+      "retry": "ツールを再確認",
+      "pausedTitle": "ツールを開く操作は一時停止中です",
+      "pausedDescription": "プロジェクトフォルダーを選ぶ前に、現在のツール状態を確認する必要があります。この画面をキャンセルし、「アクティビティ」でツールを再確認してください。",
+      "changedTitle": "このツールは現在開けません",
+      "changedDescription": "最新の確認では、起動できるインストール済みツールとして認識されませんでした。この画面をキャンセルし、「AI ツール」で状態を確認してください。"
+    },
+    "empty": {
+      "title": "アクティビティはまだありません",
+      "description": "インストール、更新、削除、環境チェックがここに表示されます。"
+    },
+    "sections": {
+      "active": "進行中",
+      "recent": "最近の履歴"
+    },
+    "kind": {
+      "install": "{{name}} をインストール",
+      "update": "{{name}} を更新",
+      "uninstall": "{{name}} を削除",
+      "repair": "{{name}} を修復",
+      "changeVersion": "{{name}} のバージョンを変更",
+      "testProviders": "{{name}} のサービスを確認",
+      "scan": "環境チェック"
+    },
+    "extension": {
+      "mcp": {
+        "install": "{{name}} の MCP 接続を追加",
+        "uninstall": "{{name}} の MCP 接続を削除"
+      },
+      "skill": {
+        "install": "スキル {{name}} をインストール",
+        "update": "スキル {{name}} を更新",
+        "uninstall": "スキル {{name}} を削除"
+      }
+    },
+    "logs": {
+      "title": "処理ログ（{{count}}）",
+      "toggle": "処理ログ（{{count}} 件）を開閉",
+      "privacy": "ログはメモリ内にのみ保持されます。出力には上限があり、既知の認証情報はマスクされます。",
+      "kind": {
+        "phase": "段階",
+        "command": "コマンド",
+        "stdout": "標準出力",
+        "stderr": "診断出力",
+        "warning": "警告",
+        "system": "システム"
+      }
+    },
+    "viewDetails": "詳細を表示",
+    "viewDetailsFor": "「{{name}}」の詳細を表示",
+    "details": {
+      "title": "タスクの詳細",
+      "code": "エラーコード",
+      "reference": "参照番号",
+      "technical": "技術的な詳細",
+      "noTechnical": "追加の詳細はありません。"
+    }
+  },
+  "services": {
+    "action": {
+      "add": "エンドポイントを追加",
+      "configureNamed": "{{name}} をツールに追加",
+      "edit": "編集",
+      "editNamed": "{{name}}を編集",
+      "remove": "削除",
+      "removeNamed": "{{name}}を削除",
+      "test": "アドレスを確認",
+      "testAll": "すべてのアドレスを確認",
+      "testNamed": "{{name}} のアドレスを確認",
+      "useNamed": "{{name}}を使用"
+    },
+    "card": {
+      "custom": "カスタムサービス",
+      "saved": "保存済み",
+      "defaultModel": "既定のモデル",
+      "recentModel": "最近使用",
+      "unknown": "使用状況は未確認",
+      "inUse": "使用中",
+      "noKey": "キーはまだ保存されていません",
+      "notInEffect": "選択済みですが、現在は有効ではありません",
+      "official": "公式サービス",
+      "overriddenBy": "選択済みですが {{source}} に上書きされています",
+      "savedEndpoint": "AI Manager に保存されたエンドポイント",
+      "toolSignIn": "{{tool}} のサインインを使用"
+    },
+    "connect": {
+      "accountHint": "ご自身の {{service}} アカウントで発行したキーを使います。API の利用権限と料金はサービス側で管理されます。",
+      "activateNow": "今すぐ使う",
+      "activateQuestion": "今すぐ {{tool}} で使いますか？",
+      "compatible": "互換",
+      "compatibleServices": "互換サービス",
+      "backToPresets": "サービスプリセットを使う",
+      "customBaseUrl": "HTTPS Base URL",
+      "customBaseUrlHint": "パスは使用できます。認証情報、クエリ、フラグメント、平文 HTTP は拒否されます。",
+      "customBaseUrlInvalid": "認証情報を含まない HTTPS Base URL を入力してください。",
+      "customCompatibility": "{{tool}} が必要とする API 形式を実装したエンドポイントを使用してください。AI Manager はツールを設定しますが、API プロトコルは変換しません。",
+      "customDescription": "{{tool}} で使う HTTPS エンドポイント、キー、モデルを入力します。",
+      "customEntry": "カスタムエンドポイント",
+      "customEntryHint": "審査済みプリセット一覧にないサービスを接続しますか？",
+      "customTitle": "API エンドポイントを追加",
+      "address": {
+        "degraded": "{{name}}を保存しましたが、サービスのアドレスの応答が遅れています",
+        "failed": "{{name}}を保存しましたが、サービスのアドレスが応答しませんでした",
+        "operational": "{{name}}を保存し、サービスのアドレスに到達できました"
+      },
+      "addressRetry": "設定は保存されています。ネットワークを確認してから、もう一度「アドレスを確認」を実行してください。",
+      "afterSave": "保存後、AI Manager が確認するのはサービスのアドレスが応答するかどうかだけです。キーとモデルの権限は、{{tool}} の初回利用時に検証されます。",
+      "description": "{{tool}} に API サービスを追加します。設定は AI Manager におまかせください。",
+      "errorTitle": "このサービスへの接続を完了できませんでした",
+      "firstUse": "{{tool}} の初回利用時に、API キーとモデルの権限が検証されます。",
+      "forTool": "{{tool}} に接続",
+      "getKey": "API キーを取得",
+      "key": "API キー",
+      "keyHint": "この端末に保存され、接続先カードと編集画面で表示・コピーできます。",
+      "keyPlaceholder": "API キーを貼り付け",
+      "keyRequired": "API キーを貼り付けてください。",
+      "model": "モデル",
+      "modelRequired": "モデルを入力してください。",
+      "measuredServices": "このコンピューターでの測定",
+      "name": "名前",
+      "nameRequired": "名前を入力してください。",
+      "noPresetMatch": "一致するサービスがありません。",
+      "official": "公式",
+      "officialServices": "公式サービス",
+      "openProvider": "サービスを開く",
+      "preset": "サービスプリセット",
+      "presetHint": "公式または互換テンプレートを選択します。互換サービスは設定を簡単にするための一覧であり、AI Manager が推奨または再販するものではありません。",
+      "profileError": "安全な接続テンプレートを読み込めませんでした。保存済みのサービスは変更されていません。",
+      "profileErrorTitle": "新しい接続を準備できませんでした",
+      "profileRetry": "接続テンプレートを再読み込み",
+      "retryConnect": "このサービスへの接続をもう一度試す",
+      "retryHint": "AI Manager が確認できる保存済みサービスの状態を読み直しました。入力内容は残っています。確認して、もう一度接続してください。",
+      "responseTime": "応答 {{latency}} ms",
+      "searchPresets": "サービスを検索…",
+      "saved": "{{name}}を保存しました",
+      "speedSorted": "このコンピューターでの最新の測定結果順です。",
+      "speedTest": "応答が最も速いサービスを測定",
+      "speedTestAgain": "再測定",
+      "speedTestFailed": "サービスを測定できませんでした。ネットワークを確認して再試行してください。",
+      "speedTesting": "サービスのアドレスを測定中…",
+      "title": "{{service}} に接続",
+      "unreachable": "到達不可"
+    },
+    "description": "ツールを選び、使用する API エンドポイントを追加・切り替え・確認します。",
+    "effective": {
+      "selection": {
+        "defaultModel": "全体の既定モデル：{{model}}。プロジェクト設定、起動引数、現在のセッションで上書きされる場合があります。",
+        "recentModel": "最近使用したモデル：{{model}}。これはローカル履歴であり、現在のセッションや次回の選択を示すものではありません。",
+        "unknown": "使用中の接続先を確認できません。保存済みの一覧からは推測しません。ツールの設定とモデル選択を確認してください。"
+      },
+      "credential": {
+        "unknown": "認証情報の状態は未確認",
+        "configured": "キー設定済み",
+        "missing": "キーがまだありません",
+        "toolLogin": "{{tool}} 自身のサインインを使用"
+      },
+      "refresh": "再確認",
+      "shellNotInspected": "設定ファイルのみを確認しました。ターミナルで環境変数を設定している場合、実際の接続は下の表示と異なることがあります。",
+      "source": {
+        "environment": "ターミナルの環境変数 {{variable}} から",
+        "liveConfig": "{{path}} から",
+        "shellFile": "{{path}} の {{variable}} から",
+        "toolDefault": "カスタム設定はなく、ツール既定のアドレスを使用"
+      },
+      "errorTitle": "現在有効な接続を読み取れませんでした",
+      "errorDescription": "下のリスト自体は正しいままですが、どれが実際に使われているかは今のところ分かりません。",
+      "shellNotInspectedTitle": "ターミナル環境を読み取れませんでした"
+    },
+    "external": {
+      "badge": "未保存の接続",
+      "endpoint": "現在有効なアドレス"
+    },
+    "endpoints": {
+      "title": "{{tool}} のエンドポイント",
+      "count_one": "{{count}} 件のエンドポイントを保存済み",
+      "count_other": "{{count}} 件のエンドポイントを保存済み"
+    },
+    "empty": {
+      "description": "API サービスに接続すると、AI Manager がこのツールを設定します。",
+      "title": "まだ何もありません"
+    },
+    "error": {
+      "description": "もう一度お試しいただくか、一度ツールを開いてから戻ってきてください。",
+      "title": "サービス一覧を読み込めませんでした"
+    },
+    "refreshError": {
+      "description": "前回保存したサービスを引き続き表示しています。新しい確認が完了するまで、サービス操作は一時停止します。",
+      "title": "AI サービスを更新できませんでした"
+    },
+    "form": {
+      "addHeader": "ヘッダーを追加",
+      "addModel": "モデルを追加",
+      "advancedHint": "このツールが実際に対応している一般的な設定だけを表示します。ほかの項目は変更しません。",
+      "advancedManaged": "このサービスはツールまたはアカウントログインで管理されています。エンドポイント設定はここでは読み取り専用です。",
+      "advancedTitle": "詳細設定",
+      "baseUrl": "Base URL",
+      "baseUrlHint": "HTTPS を使用してください。HTTP は localhost だけで使用できます。空にするとカスタムエンドポイントを削除し、ツール独自のデフォルトを使います。",
+      "routeAdd": "ルートを追加",
+      "routeAddLabel": "新しいサービスルート",
+      "routeAddPlaceholder": "https://api.example.com/v1",
+      "routeDuplicate": "このサービスには同じルートがすでにあります。",
+      "routeEmpty": "テストする前にルートを 1 つ以上追加または入力してください。",
+      "routeFixed": "固定済み",
+      "routeInvalid": "認証情報を含まない HTTPS URL を使用してください。HTTP は localhost だけで使用できます。",
+      "routeLatency": "{{latency}} ms",
+      "routeLimit": "現在のルートを含め、最大 32 件まで保存できます。",
+      "routeRemove": "ルート {{route}} を削除",
+      "routeUnreachable": "到達不可",
+      "routes": "サービスルート",
+      "routesAuto": "テストのたびに最速ルートを選択",
+      "routesAutoHint": "この下書きの Base URL だけを更新します。バックグラウンド監視は行いません。",
+      "routesHint": "同じサービスの代替 Base URL を保存できます。テストは明示的に実行したときだけ開始します。",
+      "routesTest": "ルートをテスト",
+      "routesTestFailed": "ルートをテストできませんでした。ネットワークを確認して、もう一度お試しください。",
+      "routesTesting": "ルートをテスト中…",
+      "description": "名前、キー、モデルを変更します。",
+      "errorTitle": "このサービスの保存を完了できませんでした",
+      "headerKeepValue": "空のままなら保存済みの値を維持",
+      "headerNameNamed": "ヘッダー {{index}} の名前",
+      "headerNamePlaceholder": "X-Tenant-ID",
+      "headerRequired": "新しいヘッダーには有効な名前と値が必要です。",
+      "headers": "リクエストヘッダー",
+      "headersHint": "保存済みの値は再表示されません。既存の値は空のままで維持し、行を削除するとヘッダー自体を削除します。",
+      "headerValueNamed": "{{name}} の値",
+      "headerValuePlaceholder": "ヘッダー値",
+      "key": "API キー",
+      "keyHint": "空のままにすると、保存済みのキーをそのまま使います。",
+      "keyHintEmpty": "このサービスから受け取ったキーを貼り付けてください。",
+      "modelNamed": "モデル {{index}}",
+      "modelRequired": "モデル ID を入力するか、未完成の行を削除してください。",
+      "models": "モデル",
+      "modelsHintMultiple": "既存の OpenCode モデルマッピングは詳細設定ごと保持されます。マッピングを削除する場合だけ行を削除してください。",
+      "modelsHintSingle": "空のままならツール独自のデフォルトモデルを使います。",
+      "name": "名前",
+      "nameHint": "このアプリの中だけで表示されます。",
+      "nameRequired": "名前を入力してください。",
+      "retryHint": "AI Manager が確認できる保存済みサービスの状態を読み直しました。変更内容を確認して、もう一度保存してください。",
+      "retrySave": "このサービスの保存をもう一度試す",
+      "removeHeaderNamed": "ヘッダー {{name}} を削除",
+      "removeModelNamed": "モデル {{model}} を削除",
+      "save": "保存",
+      "settingsLoading": "安全なサービス設定を読み込んでいます…",
+      "settingsUnavailable": "追加設定を読み込めませんでした。名前の保存やキーの差し替えは可能で、ほかの設定は変更されません。",
+      "title": "サービスを編集"
+    },
+    "loading": "サービスを読み込んでいます",
+    "runtime": {
+      "description": "このツールが実際に読み取るグローバル指示、メモリ、設定、プロジェクトセッションの場所を確認します。",
+      "loading": "設定元を確認中",
+      "localOnlyNote": "ローカルファイルの場所と容量のみを表示し、内容はアップロードしません。",
+      "notCreated": "未作成",
+      "openConfigFolder": "設定フォルダを開く",
+      "openConfigFile": "設定ファイルを開く",
+      "projectUsageNote": "ユーザー単位のファイルを表示しています。プロジェクト固有のルールは各プロジェクト内で管理してください。",
+      "refresh": "ローカル情報を更新",
+      "action": {
+        "browse": "保存場所を開く",
+        "create": "作成して編集",
+        "edit": "開いて編集",
+        "manage": "管理する"
+      },
+      "openOutcome": {
+        "editorOpened": "既定のエディターで開きました",
+        "folderOpened": "ファイルマネージャーで開きました"
+      },
+      "resource": {
+        "configuration": {
+          "description": "接続先、ログイン、ツール設定です。既存ファイルは既定のアプリで、未作成の場合は保存先フォルダーを開きます。",
+          "title": "実行時設定"
+        },
+        "instructions": {
+          "description": "このツールがすべてのプロジェクトで使うユーザー単位のグローバルプロンプトです。未作成なら直接作成できます。",
+          "managedDescription": "現在有効なプロンプトです。「グローバルプロンプト」ページで編集・切り替えます。",
+          "title": "グローバルプロンプト"
+        },
+        "memory": {
+          "description": "ツールがローカルに保存し、今後の会話で再利用できるメモリです。",
+          "title": "メモリ"
+        },
+        "sessionData": {
+          "description": "プロジェクト単位のローカルセッション、会話履歴、ツール状態です。",
+          "title": "プロジェクトセッションデータ"
+        },
+        "userProfile": {
+          "description": "ツールがあなたを理解するためのローカルプロフィールと長期的な設定です。",
+          "title": "ユーザープロフィール"
+        }
+      },
+      "scope": {
+        "global": "グローバル",
+        "project": "プロジェクト"
+      },
+      "storage": {
+        "conversationBytes": "会話データ",
+        "limited": "大きすぎるフォルダーや読み取れない項目は、安全な下限値として表示されます。",
+        "resourceSize": "ローカルサイズ: {{size}}",
+        "sizeUnavailable": "サイズを取得できません",
+        "total": "表示中のローカルデータ"
+      },
+      "title": "ローカルコンテキストと保存先"
+    },
+    "noTools": {
+      "description": "先にツールを入れると、そのサービスがここに出ます。",
+      "title": "設定できるツールがまだありません"
+    },
+    "refresh": "再読み込み",
+    "remove": {
+      "activeHint": "先に別のサービスへ切り替えてから、このサービスを削除してください。",
+      "confirm": "サービスを削除",
+      "description": "保存済みのサービスを AI Manager と {{tool}} から削除します。",
+      "errorTitle": "このサービスの削除を完了できませんでした",
+      "errorRetry": "サービスを確認して、もう一度お試しください。",
+      "managedHint": "このサービスはツール固有の設定を使用しているため、ここでは削除できません。",
+      "point": {
+        "account": "サービスのアカウントは削除されず、キーもサービス側では無効化されません。",
+        "local": "保存済みのサービスとキーが {{tool}} から削除されます。",
+        "otherTools": "ほかの AI ツールとそのサービスは変更されません。"
+      },
+      "removed": "{{name}}を削除しました",
+      "retryNamed": "{{name}}の削除をもう一度試す",
+      "title": "{{name}}を削除しますか？"
+    },
+    "scope": "AI ツール",
+    "scopeUnsupportedShort": "未連携",
+    "scopeSharedShort": "デスクトップアプリと共用",
+    "scopeUnsupportedTitle": "AI Manager は {{tool}} のサービス設定と未連携です",
+    "scopeUnsupportedDescription": "AI Manager に安全なアダプターがまだないという意味で、{{tool}} 自体がカスタムサービスに非対応とは限りません。インストール済みの確認のため、ツールは表示しています。",
+    "scopeSave": {
+      "errorDescription": "現在も {{tool}} を表示しています。再試行すると、次回もここから開けます。",
+      "errorTitle": "このツール画面を記憶できませんでした",
+      "retry": "もう一度試す",
+      "saving": "このツールを記憶しています"
+    },
+    "switch": {
+      "configuredNamed": "{{name}} をツール設定に追加しました",
+      "chooseModelHint": "既定のモデルは変更していません。{{tool}} で使用するモデルを選んでください。",
+      "appliedNamed": "{{name}} に切り替えました",
+      "errorNamed": "{{name}} への切り替えを完了できませんでした",
+      "openNow": "今すぐ開く",
+      "reopenHint": "実行中の {{tool}} は自動では切り替わりません。開き直すと新しい接続先を使います。",
+      "retryHint": "AI Manager が確認できる保存済みサービスの状態を読み直しました。同じ切り替えをもう一度お試しください。",
+      "retryNamed": "{{name}} への切り替えをもう一度試す",
+      "switchingNamed": "{{name}} に切り替えています"
+    },
+    "failover": {
+      "tryNext": "次の利用可能なサービスを試す",
+      "tryNextNamed": "{{name}} の次の保存済み利用可能サービスを試す",
+      "noneAvailable": "応答する別の保存済みサービスはありませんでした。現在の設定は変更されていません。",
+      "automaticSuccess": "{{from}} が応答しなかったため、{{to}} に切り替えました。",
+      "manualSuccess": "{{from}} から利用可能な {{to}} に切り替えました。",
+      "unknownService": "不明なサービス"
+    },
+    "summary": {
+      "activeTitle": "{{tool}} は {{service}} を使用中",
+      "checked": "確認済みのアドレス",
+      "description": "ここでサービスを切り替えたり、アドレスが応答するか確認したりできます。設定は AI Manager におまかせください。",
+      "eyebrow": "接続の概要",
+      "noActiveTitle": "{{tool}} のサービスを保存しました",
+      "saved": "保存済み",
+      "testable": "アドレス確認可能"
+    },
+    "start": {
+      "action": "{{tool}} を起動",
+      "description": "プロジェクトフォルダーを選択してください。{{tool}} がターミナルで開き、保存したキーとモデルは最初のリクエスト時にサービス側で検証されます。",
+      "eyebrow": "次のステップ",
+      "title": "設定を保存しました。{{tool}} を始めましょう"
+    },
+    "test": {
+      "browseCompatible": "互換サービスを見る",
+      "browseCompatibleNamed": "{{name}} の互換サービスを見る",
+      "checkingNamed": "{{name}} を確認しています",
+      "degraded": "アドレスの応答が遅れています",
+      "errorNamed": "{{name}} のアドレスを確認できませんでした",
+      "failed": "アドレスが応答しませんでした",
+      "latency": "{{ms}} ミリ秒",
+      "operational": "アドレスに到達できました",
+      "retry": "もう一度試す",
+      "retryHint": "確認に失敗しても、このサービスは変更されていません。同じ確認をもう一度お試しください。",
+      "retryNamed": "{{name}} をもう一度確認する",
+      "unreachableHint": "現在のネットワークからこのアドレスに到達できませんでした。別の互換サービスを選択できます。"
+    },
+    "title": "API エンドポイント",
+    "toolsError": {
+      "description": "ツールを確認できなかったため、サービスも表示できません。もう一度お試しください。",
+      "title": "ツールを読み取れませんでした"
+    },
+    "toolsRefreshError": {
+      "title": "ツールの状態を更新できませんでした",
+      "description": "前回確認したツールとサービスを表示しています。新しいツール確認に成功するまで、接続・切り替え・確認・編集・削除・起動は一時停止します。",
+      "action": "ツールを再確認"
+    },
+    "actionsPaused": {
+      "title": "サービス操作は一時停止中です",
+      "description": "設定の変更やツールの起動を続けるには、AI Manager が現在のツールとサービスの状態を確認する必要があります。"
+    }
+  },
+  "extensions": {
+    "help": "説明",
+    "location": {
+      "action": "保存場所を表示",
+      "description": "使用中のローカルファイルを表示します。未作成の場合は最も近い既存フォルダを開きます。",
+      "promptNote": "保存済みで未使用のプロンプトには個別のファイルはありません。"
+    },
+    "title": "Skills・MCP・グローバルプロンプト",
+    "description": "各 AI ツールに Skills を追加し、MCP に接続して、グローバルプロンプトを管理します。",
+    "refresh": "更新",
+    "loading": "拡張機能を読み込んでいます",
+    "addLater": "すでにある拡張機能を管理できます。新しく追加する機能は今後のアップデートで加わります。",
+    "addLaterTitle": "拡張機能の追加",
+    "kindScope": "拡張機能の種類",
+    "toolScope": "AI ツール",
+    "scope": {
+      "unsupportedShort": "未連携",
+      "unsupportedTitle": "AI Manager は {{tool}} の{{kind}}と未連携です",
+      "unsupportedDescription": "AI Manager に安全な管理アダプターがまだないという意味で、{{tool}} 自体に機能がないとは限りません。インストール済みの確認のため、ツールは表示しています。"
+    },
+    "adoption": {
+      "kind": {
+        "skill": "スキル",
+        "mcp": "MCP 接続",
+        "prompt": "プロンプト"
+      },
+      "kindPlural": {
+        "skill": "スキル",
+        "mcp": "MCP 接続",
+        "prompt": "プロンプト"
+      },
+      "noticeTitle": "この Mac で {{count}} 件見つかりました",
+      "noticeDescription": "これらはすでに {{tool}} で使えます。ここで変更または削除する前に AI Manager へ追加してください。",
+      "openOne": "見つかった 1 件の{{kind}}を AI Manager に追加",
+      "openMany": "見つかった {{count}} 件の{{kind}}を AI Manager に追加",
+      "titleOne": "この Mac で見つかった{{kind}}を管理しますか？",
+      "titleMany": "この Mac で見つかった {{count}} 件の{{kind}}を管理しますか？",
+      "description": "AI Manager が管理を始める前に、変更内容を確認してください。",
+      "originalUnchanged": {
+        "skill": "インポート中も現在のスキルファイルは元の場所に残り、書き換えられません。",
+        "mcp": "インポート中も現在の MCP 設定は元の場所に残り、書き換えられません。",
+        "prompt": "インポート中も現在の指示ファイルは元の場所に残り、書き換えられません。"
+      },
+      "managedCopy": "AI Manager は管理対象のコピーをこの Mac に保存します。",
+      "mcpPrivate": "接続コマンド、引数、認証情報はこの Mac だけに保存され、この画面には表示されません。",
+      "futureChanges": "インポート後に項目をオフまたは削除すると、対応ツール内の管理対象コピーが変わることがあります。",
+      "confirm": "AI Manager に追加",
+      "retry": "もう一度試す",
+      "errorTitle": "見つかった項目を追加できませんでした",
+      "errorRetry": "AI Manager が確認できる状態を読み直しました。メッセージを確認して、もう一度お試しください。"
+    },
+    "scopeSave": {
+      "saving": "この画面を記憶しています",
+      "errorTitle": "この画面を記憶できませんでした",
+      "errorDescription": "このまま操作を続けられます。再試行すると、次回も同じ拡張機能画面から開けます。",
+      "retry": "もう一度試す"
+    },
+    "inventory": {
+      "detected": {
+        "title": "このツールで検出",
+        "description": "この Mac の {{tool}} から直接読み取りました。内容は元の場所に残ります。",
+        "rescan": "再スキャン"
+      },
+      "managed": {
+        "title": "AI Manager が管理",
+        "description": "AI Manager がこの Mac に保存し、ここで管理できる項目です。"
+      }
+    },
+    "copy": {
+      "title": "「{{name}}」を他のアプリにコピー",
+      "description": "AI Manager がこのスキルのフォルダをコピーします。元のフォルダはそのまま残り、コピー後は両者が独立します。",
+      "targetsLabel": "コピー先のアプリ",
+      "confirm": "コピー",
+      "alreadyHas": "すでにあります",
+      "copied": "コピーしました",
+      "failed": "コピーできませんでした",
+      "independent": "コピーしました。この複製はここから独立して変化します。編集しても元のスキルには影響しません。",
+      "noTargets": "スキルを使える他のアプリには、すでにこのスキルがあります。"
+    },
+    "card": {
+      "itemLabel": "{{name}}、全 {{total}} 件中 {{position}} 件目",
+      "detected": "この Mac で検出",
+      "detectedDescription": "このツールですでに使われています。AI Manager は表示だけを行い、コピーや書き換えはしません。",
+      "onlyIn": "このスキルがあるのは {{tool}} だけです",
+      "alsoIn": "{{tools, list}} にこのスキルがあります",
+      "openLocation": "保存場所を開く",
+      "openLocationNamed": "{{name}} の保存場所を開く",
+      "editDocument": "SKILL.md を編集",
+      "editDocumentNamed": "{{name}} の SKILL.md を編集",
+      "copyTo": "他のアプリへコピー",
+      "copyToNamed": "{{name}} を他のアプリにコピー",
+      "locationOpened": "{{name}} の保存場所を開きました。",
+      "documentOpened": "{{name}} の SKILL.md を既定のエディターで開きました。",
+      "resourceOpenErrorNamed": "{{name}} を開けませんでした",
+      "on": "オン",
+      "off": "オフ",
+      "noDescription": "説明はまだありません。",
+      "expandDescription": "もっと見る",
+      "collapseDescription": "折りたたむ",
+      "edit": "編集",
+      "editNamed": "{{name}} を編集、全 {{total}} 件中 {{position}} 件目",
+      "remove": "削除",
+      "removeNamed": "{{name}} を削除、全 {{total}} 件中 {{position}} 件目",
+      "enableErrorNamed": "{{name}} をオンにできませんでした",
+      "disableErrorNamed": "{{name}} をオフにできませんでした",
+      "retry": "もう一度試す",
+      "retryEnableNamed": "{{name}} をもう一度オンにする、全 {{total}} 件中 {{position}} 件目",
+      "retryDisableNamed": "{{name}} をもう一度オフにする、全 {{total}} 件中 {{position}} 件目",
+      "retryHint": "AI Manager が確認できる現在の状態を読み直しました。同じ変更をもう一度お試しください。",
+      "updateAvailable": "アップデートがあります",
+      "update": "更新",
+      "updateNamed": "{{name}} を更新、全 {{total}} 件中 {{position}} 件目",
+      "updating": "更新しています",
+      "useNamed": "{{name}} を使用、全 {{total}} 件中 {{position}} 件目"
+    },
+    "error": {
+      "title": "拡張機能を読み取れませんでした",
+      "description": "もう一度試すか、ツールを一度開いてから戻ってください。"
+    },
+    "refreshError": {
+      "title": "拡張機能を更新できませんでした",
+      "description": "前回の一覧を表示しています。新しい確認に成功するまで、拡張機能の操作は一時停止します。"
+    },
+    "toolsError": {
+      "title": "ツールを読み取れませんでした",
+      "description": "AI Manager はこのパソコンのツールを確認できなかったため、拡張機能を表示できません。もう一度試してください。"
+    },
+    "toolsRefreshError": {
+      "title": "ツールを更新できませんでした",
+      "description": "前回のツール確認と拡張機能を表示しています。新しい確認に成功するまで、追加・切り替え・削除は一時停止します。",
+      "action": "ツールを再確認"
+    },
+    "actionsPaused": {
+      "title": "拡張機能の変更は一時停止中です",
+      "description": "変更を続けるには、AI Manager が現在のツールとタスクの状態を確認する必要があります。"
+    },
+    "noTools": {
+      "title": "対応するツールがまだありません",
+      "description": "対応するツールを入れてから、ここに戻ってきてください。"
+    },
+    "skill": {
+      "title": "スキル",
+      "explainer": "特定の作業のために用意された、AI ツールがそのまま使える手順です。",
+      "catalog": {
+        "add": "スキルを追加",
+        "title": "スキルを追加",
+        "description": "{{tool}} で使う既成の手順を選びます。画面を開くと GitHub から読み込み、一時的な障害時は検証済みの転送フォールバックで復旧します。",
+        "searchLabel": "スキルカタログを検索",
+        "searchPlaceholder": "スキルまたはリポジトリを検索",
+        "trustNote": "各行の GitHub リポジトリが常にコンテンツの配布元です。信頼済みの jsDelivr 経路は、サイズと SHA-256 を検証した公開ファイルの転送だけに使われます。",
+        "loading": "GitHub の配布元からスキルカタログを読み込んでいます…",
+        "errorTitle": "スキルカタログを読み込めませんでした",
+        "errorDescription": "もう一度お試しください。両方の経路に接続できない場合は、設定で「ローカルダウンロードプロキシ」を構成してください。",
+        "refreshingTitle": "最新のスキルカタログを確認しています",
+        "refreshingDescription": "前回のカタログは引き続き閲覧できます。確認が完了するとインストールできるようになります。",
+        "refreshErrorTitle": "スキルカタログを更新できませんでした",
+        "refreshErrorDescription": "前回のカタログを表示しています。新しい確認が成功するまでインストールは一時停止します。必要に応じて設定でローカルダウンロードプロキシを構成してください。",
+        "mirrorTitle": "信頼済みのフォールバックでカタログを読み込みました",
+        "mirrorDescription": "今回 GitHub が応答しなかったため、AI Manager は jsDelivr 経由でスナップショットを転送し、サイズと SHA-256 を検証しました。GitHub リポジトリが引き続き正規の配布元で、グローバル設定は変更していません。",
+        "retry": "もう一度試す",
+        "empty": "利用できるスキルがありません",
+        "noResults": "検索に一致するスキルがありません",
+        "noResultsDescription": "別の名前またはリポジトリでお試しください。",
+        "emptyDescription": "接続と有効なスキル配布元を確認して、もう一度お試しください。",
+        "source": "配布元: {{source}}",
+        "installed": "インストール済み",
+        "installedNamed": "{{name}} はインストール済みです",
+        "install": "インストール",
+        "installNamed": "{{name}} をインストール",
+        "installErrorNamed": "{{name}} のインストールを開始できませんでした",
+        "retryInstallNamed": "{{name}} のインストールを再試行",
+        "queued": "{{name}} をインストールしています",
+        "queuedDescription": "そのまま作業を続け、タスクで進捗を確認できます。"
+      },
+      "zip": {
+        "action": "ZIP からインストール",
+        "title": "ZIP からスキルをインストール",
+        "description": "{{tool}} 用のローカルアーカイブを選びます。ファイルはこのコンピューター内だけで処理されます。",
+        "choose": "ZIP を選んでインストール",
+        "trustTitle": "信頼できるアーカイブを使用してください",
+        "trustDescription": "AI Manager はアーカイブをローカルで読み取り、危険なパスや過大な展開を拒否します。ただし、中のファイルは AI ツールの動作を変える可能性があります。",
+        "formatTitle": "アーカイブに必要な内容",
+        "formatDescription": "SKILL.md を含むスキルフォルダーが 1 つ以上入った .zip ファイルを選んでください。",
+        "syncTitle": "次に行われること",
+        "syncDescription": "新しく、フォルダー名が競合しないスキルを管理対象に追加し、このツールへ同期します。",
+        "partialNote": "アーカイブ内の後続スキルで失敗した場合、前のスキルはすでにインストール済みのことがあります。結果はタスクに表示され、スキル一覧も自動更新されます。",
+        "queued": "ZIP からスキルをインストールしています",
+        "queuedDescription": "そのまま作業を続け、タスクで進捗を確認できます。",
+        "errorHint": "メッセージを確認し、アーカイブを選び直してもう一度お試しください。"
+      },
+      "backups": {
+        "action": "復元用コピー",
+        "title": "スキルの復元用コピー",
+        "description": "管理対象スキルを削除する前に作成されたローカルコピーを復元または削除します。復元すると {{tool}} で有効になります。",
+        "localTitle": "このコンピューター内だけに保存",
+        "localDescription": "AI Manager は最新 20 件までを保持します。ファイルやパスがこのデバイス外へ送られることはありません。",
+        "refresh": "更新",
+        "loading": "スキルの復元用コピーを読み取っています",
+        "errorTitle": "スキルの復元用コピーを読み取れませんでした",
+        "errorDescription": "前回の一覧が不完全な可能性があります。復元または削除する前に更新してください。",
+        "empty": "復元用コピーはまだありません。管理対象スキルを削除する前に AI Manager が自動作成します。",
+        "createdAt": "保存日時: {{date}}",
+        "alreadyInstalled": "インストール済み",
+        "restore": "復元",
+        "restoreNamed": "復元用コピーから {{name}} を復元",
+        "restoreQueued": "{{name}} を復元しています",
+        "restoreQueuedDescription": "そのまま作業を続け、タスクで進捗を確認できます。",
+        "delete": "削除",
+        "deleteNamed": "{{name}} の復元用コピーを削除",
+        "deleteTitle": "{{name}} の復元用コピーを削除しますか？",
+        "deleteDescription": "この復元用コピーだけを完全に削除します。インストール済みスキルと他のコピーは変更されません。",
+        "deleteConfirm": "コピーを削除",
+        "deleteSuccess": "{{name}} の復元用コピーを削除しました",
+        "mutationErrorHint": "一覧はディスクから再読み込みされます。メッセージを確認してもう一度お試しください。"
+      },
+      "repositories": {
+        "manage": "配布元を管理",
+        "title": "スキル配布元",
+        "description": "信頼できる GitHub リポジトリをスキルカタログの配布元として選びます。インストール済みスキルは別に管理されます。",
+        "back": "カタログに戻る",
+        "location": "GitHub リポジトリ",
+        "locationPlaceholder": "owner/repository または https://github.com/owner/repository",
+        "branch": "ブランチ（任意）",
+        "branchPlaceholder": "main または master を自動判定",
+        "validation": {
+          "location": "owner/repository、または完全な HTTPS GitHub リポジトリ URL を入力してください。"
+        },
+        "add": "配布元を追加",
+        "loading": "設定済みのスキル配布元を読み取っています",
+        "errorTitle": "スキル配布元を読み取れませんでした",
+        "errorDescription": "前回の配布元一覧が不完全な可能性があります。変更する前にもう一度読み取ってください。",
+        "retry": "もう一度読み取る",
+        "empty": "スキル配布元はまだ設定されていません。信頼できる GitHub リポジトリを上で追加してください。",
+        "defaultBranch": "デフォルトブランチ",
+        "branchValue": "ブランチ: {{branch}}",
+        "enableNamed": "スキル配布元 {{name}} を有効化",
+        "disableNamed": "スキル配布元 {{name}} を無効化",
+        "remove": "削除",
+        "removeNamed": "スキル配布元 {{name}} を削除",
+        "removeTitle": "{{name}} をスキル配布元から削除しますか？",
+        "removeDescription": "カタログには表示されなくなります。ここからインストール済みのスキルは残ります。",
+        "removeConfirm": "配布元を削除",
+        "mutationErrorHint": "以前の配布元一覧は変更されていません。内容を確認してもう一度お試しください。"
+      },
+      "remove": {
+        "title": "{{name}} を削除しますか？",
+        "description": "AI Manager と、この管理対象スキルが有効なすべての AI ツールから削除します。",
+        "point": {
+          "everywhere": "現在有効になっているすべての場所からスキルを削除します。",
+          "recovery": "管理対象ファイルを削除する前に、AI Manager は復元用コピーの保存を試みます。",
+          "external": "認識されていない外部コピーや、ツールのその他の設定は変更しません。"
+        },
+        "confirm": "スキルを削除",
+        "queued": "{{name}} を削除しています",
+        "queuedDescription": "そのまま作業を続け、タスクで進捗を確認できます。",
+        "errorRetry": "メッセージを確認して、もう一度お試しください。"
+      },
+      "update": {
+        "checking": "インストール済みスキルの更新を確認しています",
+        "knownCount_one": "確認済みのスキル更新が {{count}} 件あります",
+        "knownCount_other": "確認済みのスキル更新が {{count}} 件あります",
+        "checkErrorTitle": "スキルの更新確認を完了できませんでした",
+        "checkErrorDescription": "一部のスキル配布元に接続できない可能性があります。既存のスキルは使えますが、すべてが最新版とは断定できません。",
+        "retry": "もう一度確認",
+        "title": "{{name}} を更新しますか？",
+        "description": "AI Manager はスキルの元のリポジトリを使い、検証済みのローカル更新手順で更新します。",
+        "point": {
+          "download": "記録されている元のリポジトリから最新版をダウンロードします。",
+          "backup": "管理対象ファイルを置き換える前に復元用コピーを保存します。",
+          "tools": "更新したスキルを、現在有効なすべてのツールに同期します。"
+        },
+        "confirm": "スキルを更新",
+        "queued": "{{name}} を更新しています",
+        "queuedDescription": "そのまま作業を続け、タスクで進捗を確認できます。",
+        "errorRetry": "メッセージを確認して、もう一度お試しください。"
+      },
+      "empty": {
+        "title": "スキルはまだありません",
+        "description": "「スキルを追加」から、このツールで使う既成の手順をインストールできます。"
+      }
+    },
+    "mcp": {
+      "title": "MCP",
+      "explainer": "AI ツールをファイルやブラウザー、その他のサービスにつなぎます。",
+      "install": {
+        "add": "MCP を追加",
+        "title": "MCP 接続を追加",
+        "description": "設定 JSON を貼り付けずに、{{tool}} をローカルプログラムまたはリモートサービスにつなぎます。",
+        "confirm": "接続を追加",
+        "name": "接続名",
+        "nameHint": "拡張機能の一覧で見分けやすい名前を付けてください。",
+        "optionalDescription": "説明（任意）",
+        "transport": {
+          "label": "接続方法",
+          "stdio": {
+            "label": "ローカルコマンド",
+            "description": "このコンピューターでプログラムを実行します。"
+          },
+          "http": {
+            "label": "HTTP",
+            "description": "安全な MCP エンドポイントに接続します。"
+          },
+          "sse": {
+            "label": "SSE",
+            "description": "安全なイベントストリームに接続します。"
+          }
+        },
+        "command": "実行プログラム",
+        "commandHint": "プログラム名またはパスだけを入力し、引数は次の欄に分けてください。",
+        "commandPlaceholder": "npx",
+        "arguments": "引数",
+        "argumentsHint": "1 行に 1 つずつ入力してください。",
+        "argumentsPlaceholder": "-y\n@modelcontextprotocol/server-filesystem",
+        "url": "サーバー URL",
+        "urlHint": "HTTPS を使用してください。HTTP はこのコンピューター内の接続だけで使用できます。",
+        "urlPlaceholder": "https://mcp.example.com",
+        "trustLocal": "上に入力したプログラムがこのコンピューターで実行されます。信頼できるソフトウェアだけを追加してください。",
+        "trustRemote": "MCP のデータが上の URL に送信されます。信頼できるサービスだけを追加してください。",
+        "noSecrets": "この案内フォームには、パスワード、ヘッダー、環境変数の入力欄はありません。",
+        "queued": "{{name}} を追加中",
+        "queuedDescription": "作業を続けながら、「タスク」で進行状況を確認できます。"
+      },
+      "remove": {
+        "title": "{{name}} を削除しますか？",
+        "description": "保存された接続を AI Manager と、その接続が有効なすべての AI ツールから削除します。",
+        "point": {
+          "everywhere": "現在有効になっているすべての AI ツールから接続が削除されます。",
+          "keepsTargets": "接続先のプログラム、ファイル、ブラウザー、リモートサービスは削除されません。",
+          "noUndo": "ここでは元に戻せません。必要なら後でもう一度追加できます。"
+        },
+        "confirm": "接続を削除",
+        "queued": "{{name}} を削除しています",
+        "queuedDescription": "作業を続けながら、「タスク」で進行状況を確認できます。",
+        "errorRetry": "もう一度試す前に、「タスク」で詳細を確認してください。"
+      },
+      "empty": {
+        "title": "接続はまだありません",
+        "description": "「MCP を追加」を選び、このツールをローカルプログラムまたは安全なリモートサービスにつなぎます。"
+      }
+    },
+    "prompt": {
+      "title": "グローバルプロンプト",
+      "explainer": "ツールが起動するたびに読み込む共通の指示です。",
+      "exclusive": "使えるプロンプトは同時に 1 つだけです。別のものを選ぶと切り替わります。",
+      "editor": {
+        "add": "新しいプロンプト",
+        "createTitle": "常設指示を作成",
+        "editTitle": "{{name}} を編集",
+        "description": "{{tool}} の設定ファイルを開かずに、繰り返し使う指示を管理します。",
+        "save": "指示を保存",
+        "activeBackup": "この指示は現在使用中です。ライブファイルを変更する前に、AI Manager が時刻付きの復元用コピーを保存し、置換結果を検証します。",
+        "readErrorTitle": "この指示を開けませんでした",
+        "retryRead": "もう一度読み取る",
+        "saveErrorTitle": "この指示を保存できませんでした",
+        "name": "指示の名前",
+        "optionalDescription": "説明（任意）",
+        "content": "指示",
+        "contentHint": "プレーンテキストまたは Markdown で入力します。今後の会話で、この内容が AI ツールへ送られる場合があります。",
+        "validation": {
+          "name": {
+            "required": "この指示に名前を付けてください。",
+            "tooLong": "80 文字以内にしてください。",
+            "invalid": "制御文字を含まない 1 行の名前にしてください。"
+          },
+          "description": {
+            "tooLong": "500 文字以内にしてください。",
+            "invalid": "制御文字を含まない 1 行の説明にしてください。"
+          },
+          "content": {
+            "required": "ツールに守らせる指示を入力してください。",
+            "invalid": "対応していない制御文字を削除してください。",
+            "tooLarge": "指示は 1 MB 未満にしてください。"
+          }
+        }
+      },
+      "import": {
+        "open": "現在の指示を取り込む",
+        "title": "現在の指示を取り込みますか？",
+        "description": "{{tool}} が現在使っている指示ファイルを AI Manager が読み取ります。",
+        "confirm": "指示を取り込む",
+        "point": {
+          "reads": "現在の内容を、確認できる未使用の項目として追加します。",
+          "unchanged": "取り込み中にツールの現在のファイルは書き換えません。",
+          "duplicate": "まったく同じ内容が保存済みなら、重複して追加しません。"
+        },
+        "errorTitle": "現在の指示を取り込めませんでした"
+      },
+      "remove": {
+        "title": "{{name}} を削除しますか？",
+        "description": "AI Manager から、未使用の保存済みコピーを削除します。",
+        "confirm": "指示を削除",
+        "point": {
+          "current": "現在使用中の指示は選択されたままで、内容も変わりません。",
+          "file": "ツールのライブ指示ファイルとその他の設定は変更しません。",
+          "undo": "ここでは元に戻せませんが、後でもう一度作成または取り込めます。"
+        },
+        "active": "使用中の指示は削除できません。先に別の指示を選んでください。",
+        "errorTitle": "この指示を削除できませんでした"
+      },
+      "empty": {
+        "title": "プロンプトはまだありません",
+        "description": "繰り返し使う指示を作成するか、このツールが現在使っているファイルを取り込みます。"
+      }
+    }
+  },
+  "routing": {
+    "toolScope": "AI ソフトウェア",
+    "title": "ローカルルーティング",
+    "description": "リクエストをローカル転送し、障害時の予備接続先への自動切り替えを設定できます。",
+    "summary": {
+      "inactive": "ローカルルーティングはオフです。各ツールは元の接続を使用します。",
+      "needsRestore": "ルーティングは停止しましたが、ツールの接続先は変更されたままです。設定を復元してください。",
+      "stats": "統計"
+    },
+    "refresh": "状態を更新",
+    "loading": "ローカルルーティングを読み込み中",
+    "hero": {
+      "title": "ひとつのローカル経路で、中断を減らす",
+      "description": "引き継ぎ前に各ツールの Live 設定をバックアップします。通信はこのコンピューター内に留まり、停止時に元の設定へ復元されます。",
+      "running": "ルーティング実行中",
+      "stopped": "必要なときに開始できます",
+      "localOnly": "ローカルループバックのみ",
+      "takeovers_one": "{{count}} 個のツールを引き継ぎ中",
+      "takeovers_other": "{{count}} 個のツールを引き継ぎ中",
+      "metric": {
+        "requests": "リクエスト",
+        "success": "成功",
+        "failures": "失敗",
+        "failovers": "フェイルオーバー"
+      }
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build"
+    },
+    "target": {
+      "routed": "ルーティング中",
+      "direct": "直接接続",
+      "current": "現在のサービス：{{name}}",
+      "noProvider": "先に AI サービスで現在のサービスを選択してください。"
+    },
+    "takeover": {
+      "title": "ルーティング引き継ぎ",
+      "description": "Live 設定をバックアップし、このツールをローカル経路へ向けます。",
+      "label": "{{name}} のルーティング引き継ぎ",
+      "confirmTitle": "{{name}} をローカル経路へ切り替えますか？",
+      "confirmDescription": "AI Manager は現在の Live 設定をバックアップし、ルーティング項目だけを置き換えます。無効にするとバックアップを復元します。",
+      "confirm": "ルーティングを開始"
+    },
+    "failover": {
+      "title": "自動フェイルオーバー",
+      "description": "失敗時に正常なサービスを P1、P2 の順で試します。",
+      "label": "{{name}} の自動フェイルオーバー"
+    },
+    "queue": {
+      "title": "フェイルオーバー順序",
+      "description": "開始時に P1 が選択されます。",
+      "count_one": "{{count}} サービス",
+      "count_other": "{{count}} サービス",
+      "empty": "サービスを追加するか、フェイルオーバーを有効にして現在のサービスを P1 にします。",
+      "selectLabel": "フェイルオーバーへ追加するサービス",
+      "selectLabelNamed": "{{name}} のフェイルオーバーへ追加するサービス",
+      "selectPlaceholder": "サービスを選択",
+      "add": "追加",
+      "addNamed": "選択したサービスを {{name}} のフェイルオーバーへ追加"
+    },
+    "provider": {
+      "current": "現在",
+      "healthy": "正常",
+      "unhealthy": "連続 {{count}} 回失敗",
+      "switch": "切り替え",
+      "switchLabel": "ルーティングを {{name}} へ切り替え",
+      "removeLabel": "{{name}} をフェイルオーバーから外す"
+    },
+    "stop": {
+      "action": "すべて停止して復元",
+      "title": "すべてのローカルルーティングを停止しますか？",
+      "description": "ローカルサーバーを停止し、各ツールのバックアップ済み Live 設定を復元します。順序は次回のために保持されます。",
+      "confirm": "停止して復元"
+    },
+    "error": {
+      "title": "ローカルルーティングを読み取れませんでした",
+      "description": "設定は変更されていません。現在の状態をもう一度読み取ってください。",
+      "retry": "もう一度試す"
+    },
+    "stale": "最新の更新が完了しなかったため、前回のルーティング状態を表示しています。",
+    "actionError": {
+      "title": "ルーティング変更は完了しませんでした"
+    }
+  },
+  "sessions": {
+    "inventoryError": "ソフトウェア一覧を更新できませんでした。既存のセッションは引き続き閲覧できます。",
+    "title": "ローカルセッション",
+    "description": "AI コーディングツールがこの Mac に保存した会話を検索し、対応セッションを安全にターミナルで再開します。",
+    "loading": "ローカルセッションを読み込んでいます",
+    "refresh": "更新",
+    "hero": {
+      "local": "必要なときだけローカルで読み取り",
+      "limited": "一致した {{count}} 件のうち、新しい 500 件を表示しています。",
+      "metric": {
+        "visible": "表示中",
+        "tools": "ツール",
+        "resumable": "再開可能"
+      }
+    },
+    "search": {
+      "label": "ローカルセッションを検索",
+      "placeholder": "タイトル、概要、プロジェクト、正確なセッション ID を検索"
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "opencode": "OpenCode",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build",
+      "openclaw": "OpenClaw",
+      "hermes": "Hermes",
+      "pi": "Pi",
+      "kimi-code": "Kimi Code",
+      "deepseek-dsh": "DeepSeek DSH"
+    },
+    "list": {
+      "title": "会話",
+      "count_one": "{{count}} セッション",
+      "count_other": "{{count}} セッション",
+      "untitled": "無題のセッション",
+      "resumable": "ターミナルで再開可能",
+      "loadMore": "さらに {{count}} 件を表示"
+    },
+    "thread": {
+      "title": "会話プレビュー",
+      "emptyTitle": "会話を選択してください",
+      "emptyDescription": "ローカルセッションを明示的に選択した後にのみ、メッセージ内容を読み取ります。",
+      "loading": "会話を読み込んでいます",
+      "errorTitle": "この会話を読み取れませんでした",
+      "retry": "もう一度試す",
+      "limited": "直近の一部だけを表示しています（全 {{count}} 件）。",
+      "noMessages": "このセッションには読み取れるメッセージがありません。",
+      "messages": "セッションメッセージ",
+      "messageTruncated": "この長いメッセージは安全な表示のため短縮されました。"
+    },
+    "resume": {
+      "action": "ターミナルで再開",
+      "success": "セッションをターミナルへ引き渡しました。",
+      "error": "このセッションを再開できませんでした。",
+      "manualHint": "または、この 1 行を自分でターミナルに貼り付けてください：",
+      "manualLabel": "再開コマンド",
+      "title": "このセッションを再開",
+      "terminal": {
+        "label": "どのターミナルで開くか",
+        "system": "システムのターミナル",
+        "iterm2": "iTerm2",
+        "ghostty": "Ghostty",
+        "kitty": "kitty",
+        "wezterm": "WezTerm",
+        "alacritty": "Alacritty"
+      },
+      "launch": "そのままターミナルで開く"
+    },
+    "reveal": {
+      "action": "フォルダを表示",
+      "actionNamed": "{{title}}のフォルダを表示"
+    },
+    "role": {
+      "user": "あなた",
+      "assistant": "アシスタント",
+      "system": "システム",
+      "tool": "ツール",
+      "other": "その他"
+    },
+    "empty": {
+      "title": "ローカルセッションが見つかりません",
+      "description": "対応する AI コーディングツールを一度実行してから、このページを更新してください。",
+      "search": "現在の検索条件とツールに一致するセッションはありません。"
+    },
+    "error": {
+      "title": "ローカルセッションをスキャンできませんでした",
+      "description": "セッションファイルは変更されていません。ローカル一覧を更新してください。"
+    }
+  },
+  "preferences": {
+    "title": "設定",
+    "description": "AI Manager 自体の設定です。",
+    "loading": "設定を読み込んでいます",
+    "retry": "もう一度試す",
+    "error": {
+      "title": "設定を読み取れませんでした",
+      "description": "少ししてからもう一度お試しください。"
+    },
+    "groups": {
+      "general": "一般",
+      "network": "ネットワーク",
+      "backup": "バックアップと復元",
+      "about": "このアプリについて"
+    },
+    "experience": {
+      "eyebrow": "アプリの使い心地",
+      "title": "AI Manager を自分らしく",
+      "description": "言語と外観の設定は、このコンピューターだけに保存されます。",
+      "instant": "すぐに反映",
+      "language": {
+        "label": "言語",
+        "description": "AI Manager 全体で使用する言語を選びます。",
+        "options": {
+          "zh": "简体中文",
+          "zhTw": "繁體中文",
+          "en": "English",
+          "ja": "日本語"
+        }
+      }
+    },
+    "advanced": {
+      "label": "高度モード",
+      "description": "ファイルの保存場所などの技術的な情報を表示します。さらに高度な機能は今後のアップデートで追加されます。",
+      "saving": "保存中…",
+      "saved": "保存済み",
+      "error": "未保存",
+      "errorHint": "前の設定に戻しました。もう一度スイッチを操作すると再試行できます。"
+    },
+    "providerFailover": {
+      "label": "起動・切り替え前に利用可能な接続先を自動試行",
+      "description": "AI Manager で「開く」「使用」を押した際に失敗すると、保存済みの互換接続先を試します。初期設定はオフで、通信は中継しません。リクエスト中の障害切り替えは「API エンドポイント → ローカルルーティング」で設定します。"
+    },
+    "desktop": {
+      "title": "デスクトップの動作",
+      "description": "このコンピューターでの起動、終了、常駐方法を選びます。",
+      "loading": "デスクトップ設定を読み込み中",
+      "menuBar": "メニューバー",
+      "systemTray": "システムトレイ",
+      "requiresTray": "ウィンドウを再度開けるよう、先に「AI Manager を{{location}}に表示」を有効にしてください。",
+      "error": {
+        "title": "デスクトップ設定を読み込めませんでした",
+        "description": "何も変更されていません。しばらくしてから再試行してください。"
+      },
+      "launch": {
+        "label": "サインイン時に AI Manager を開く",
+        "description": "システムのスタートアップ機能で、サインイン後に自動起動します。",
+        "descriptionMac": "macOS のログイン項目に追加し、Mac へのサインイン後に自動起動します。"
+      },
+      "silent": {
+        "label": "バックグラウンドで起動",
+        "description": "起動するたびにメインウィンドウを非表示にします。{{location}}から開けます。",
+        "requiresLaunch": "先に「サインイン時に AI Manager を開く」を有効にしてください。"
+      },
+      "tray": {
+        "label": "AI Manager を{{location}}に表示",
+        "description": "{{location}}にアイコンを表示します。オフにすると、バックグラウンド起動とウィンドウを閉じた後の実行も無効になります。"
+      },
+      "close": {
+        "label": "ウィンドウを閉じても実行を継続",
+        "description": "ウィンドウを閉じても実行を続け、{{location}}から再度開けます。アプリを終了すると停止します。"
+      }
+    },
+    "network": {
+      "proxy": {
+        "title": "ローカルダウンロードプロキシ",
+        "description": "AI Manager の署名付き更新、ネイティブ版 Claude の更新など、registry ミラーでは解決できない公式 CLI ダウンロードを、このコンピューター上で動作中のプロキシへ通します。",
+        "active": "有効",
+        "protected": "保護された設定",
+        "protectedHint": "既存のプロキシに認証情報またはリモートアドレスが含まれるため、引き続き使用しますがここには表示しません。ローカルアドレスへ置き換えるか、消去できます。",
+        "label": "ローカルプロキシアドレス",
+        "hint": "localhost、127.0.0.1、::1 上の明示的なポートを持つ HTTP、HTTPS、SOCKS5、SOCKS5H に対応します。認証情報とリモートホストは受け付けません。",
+        "loading": "ダウンロードプロキシを読み込み中",
+        "readError": "現在のダウンロードプロキシを読み取れませんでした。",
+        "save": "このプロキシを使用"
+      }
+    },
+    "check": {
+      "guide": {
+        "action": {
+          "updateTool": "今すぐ更新",
+          "repairTool": "今すぐ修復",
+          "reviewTool": "AI ツールを確認",
+          "connectService": "サービスを接続",
+          "reviewService": "AI サービスを確認",
+          "reviewExtensions": "拡張機能を確認"
+        }
+      },
+      "item": {
+        "toolReady": {
+          "title": "{{name}} はインストール済みです",
+          "description": "このコンピューターではバージョン {{version}} を利用できます。"
+        },
+        "toolUpdate": {
+          "title": "{{name}} のアップデートがあります",
+          "description": "現在は {{version}}、利用可能なバージョンは {{latestVersion}} です。"
+        },
+        "toolBroken": {
+          "title": "{{name}} の確認が必要です",
+          "description": "インストールは見つかりましたが、AI Manager が正常に利用できません。"
+        },
+        "toolUnknown": {
+          "title": "{{name}} の状態を判定できませんでした",
+          "description": "このセットアップを使う前に、ツールをもう一度確認してください。"
+        },
+        "toolNotInstalled": {
+          "title": "{{name}} はインストールされていません",
+          "description": "これは情報表示であり、問題として数えられません。"
+        },
+        "providerReady": {
+          "title": "{{name}} に AI サービスが設定されています",
+          "description_one": "{{count}} 件のサービス設定を使用しています。",
+          "description_other": "{{count}} 件のサービス設定を使用しています。"
+        },
+        "providerMissing": {
+          "title": "{{name}} に AI サービスが設定されていません",
+          "description": "「API エンドポイント」を開き、このツールで使うサービスを選択または設定してください。"
+        },
+        "configReadable": {
+          "title": "{{name}} の設定を読み取れます",
+          "description": "現在使われている設定を正常に解析できました。"
+        },
+        "configMissing": {
+          "title": "{{name}} はまだ設定されていません",
+          "description": "設定ファイルはまだありません。これは情報であり、問題としては数えません。"
+        },
+        "configUnreadable": {
+          "title": "{{name}} の設定を読み取れません",
+          "description": "変更を続ける前に、ツールの設定を開いて形式を修正してください。"
+        },
+        "connectivity": {
+          "operational": {
+            "title": "{{provider}} から応答がありました",
+            "description": "{{name}} の手動チェックは {{ms}} ミリ秒で成功しました。"
+          },
+          "degraded": {
+            "title": "{{provider}} の応答が遅くなっています",
+            "description": "{{name}} の直近の手動チェックには {{ms}} ミリ秒かかりました。"
+          },
+          "failed": {
+            "title": "{{provider}} から応答がありませんでした",
+            "description": "{{name}} の直近の手動チェックでは接続できませんでした。"
+          },
+          "notChecked": {
+            "title": "このセッションでは {{provider}} をまだ確認していません",
+            "description": "接続を試す場合は「API エンドポイント」で「確認」を実行してください。"
+          }
+        },
+        "mcp": {
+          "title": "MCP サーバー {{total}} 件中 {{enabled}} 件が有効です",
+          "description": "ここで表示するのは一覧情報だけです。サーバーが利用可能かは確認していません。"
+        },
+        "mcpInventoryUnavailable": {
+          "title": "ローカル MCP 接続を確認できませんでした",
+          "description": "すべて管理済みと判断せず、「拡張機能」を開いてローカル一覧を再確認してください。"
+        },
+        "mcpInventoryPartial": {
+          "title": "一部のローカル MCP 保存場所を再確認してください",
+          "description": "対応する保存場所 {{count}} 件を確認できなかったか、件数上限に達しました。「拡張機能」で次の手順を確認してください。"
+        }
+      }
+    },
+    "import": {
+      "title": "CC Switch からインポート",
+      "description": "CC Switch にある AI サービス、MCP サーバー、スキルを AI Manager に取り込みます。CC Switch 側は変更されません。",
+      "reimport": "CC Switch からインポート",
+      "loading": "CC Switch の設定を探しています",
+      "retry": "もう一度確認",
+      "action": "インポート",
+      "retryAction": "もう一度インポート",
+      "again": "もう一度インポート",
+      "skip": "スキップ",
+      "success": "既存設定をインポートしました。",
+      "collision": "同じサービスまたは拡張機能がある場合は、インポート元の内容に置き換わります。それ以外はそのまま残ります。",
+      "sourceDetail": "CC Switch のローカルデータベース（読み取り専用）",
+      "prompt": {
+        "title": "CC Switch の設定が見つかりました",
+        "description": "このコンピューターには CC Switch がインストールされています。その AI サービス、MCP サーバー、スキルを取り込みますか？"
+      },
+      "confirm": {
+        "title": "この既存設定をインポートしますか？",
+        "description": "開始前に、取り込む内容と保護方法を確認してください。"
+      },
+      "safety": {
+        "title": "どちらの設定もそのまま保たれます",
+        "sourceUntouched": "元のアプリとローカルデータベースを編集・削除することはありません。",
+        "backupFirst": "AI Manager は適用前に現在の設定を安全バックアップします。",
+        "skipHarmless": "スキップしても失うものはありません。Claude Code や Codex など各ツール自身の設定は、この選択に関係なく AI Manager が読み取って管理します。あとから設定画面でインポートすることもできます。"
+      },
+      "completion": {
+        "title": "設定をインポートしました",
+        "description": "対応する AI サービス、MCP サーバー、スキルを AI Manager に取り込みました。",
+        "countLabel": "インポートした項目",
+        "nextStepTitle": "次に使うサービスを選びます",
+        "nextStep": "準備ができたら「API エンドポイント」を開き、各ツールで取り込んだサービスを選んでください。",
+        "continue": "続ける"
+      },
+      "count": {
+        "label": "インポートできる項目",
+        "services_one": "AI サービス {{count}} 件",
+        "services_other": "AI サービス {{count}} 件",
+        "mcpServers_one": "MCP サーバー {{count}} 件",
+        "mcpServers_other": "MCP サーバー {{count}} 件",
+        "skills_one": "スキル {{count}} 件",
+        "skills_other": "スキル {{count}} 件"
+      },
+      "notFound": {
+        "title": "インポートできる設定が見つかりません",
+        "description": "今はインポートできる内容がありません。後でもう一度確認できます。"
+      },
+      "error": {
+        "title": "既存設定を確認できませんでした",
+        "description": "もう一度お試しください。元のアプリとローカルデータは変更されていません。",
+        "retry": "安全にもう一度試せます。"
+      },
+      "refreshError": {
+        "title": "既存設定を更新できませんでした",
+        "description": "前回のインポート概要を引き続き表示しています。新しい確認が完了するまで、インポートは一時停止します。"
+      },
+      "decisionError": {
+        "title": "この選択を保存できませんでした",
+        "description": "もう一度お試しください。AI Manager が選択を保存するまで、この手順は開いたままになります。"
+      }
+    },
+    "updates": {
+      "title": "バージョンとアップデート",
+      "description": "インストール済みバージョンと製品の署名付き更新チャンネルの状態を表示します。",
+      "check": "今すぐ確認",
+      "retry": "もう一度試す",
+      "openDownloadPage": "公式ダウンロードを開く",
+      "note": "新しい署名済みバージョンは見つかりませんでした。",
+      "devBuild": "開発版",
+      "devBuildNote": "開発版は更新を確認しません。",
+      "currentVersion": "現在のバージョンは {{version}} です",
+      "availableVersion": "バージョン {{version}} をダウンロードできます。",
+      "checkingTitle": "バージョン情報を読み込んでいます",
+      "checkingNote": "インストール済みバージョンと更新チャンネルを読み込んでいます。",
+      "retryingNote": "ネットワークが応答しないため、別の署名済み配信元を試しています（{{attempt}}/{{max}} 回目）。",
+      "checking": "確認中",
+      "backgroundDownloading": "バックグラウンドでダウンロード中",
+      "downloadProgress": "アプリ更新のダウンロード進捗",
+      "downloading": "ダウンロード中",
+      "downloadingTitle": "{{version}} をバックグラウンドでダウンロード中",
+      "downloadingNote": "AI Manager はそのまま使えます。ダウンロードと署名検証が完了したら、再起動するタイミングを選べます。",
+      "ready": "再起動後に更新",
+      "readyTitle": "バージョン {{version}} の準備ができました",
+      "readyNote": "更新パッケージのダウンロードと署名検証が完了しました。準備ができたら再起動して更新を完了してください。",
+      "restart": "再起動して更新",
+      "available": "新しいバージョンあり",
+      "upToDate": "最新です",
+      "unknown": "確認できませんでした",
+      "error": {
+        "title": "更新状態を確認できません",
+        "description": "許可された回数内に署名済み更新へ接続または検証できませんでした。もう一度試すか公式ダウンロードページを開いてください。何もインストールされていません。"
+      }
+    },
+    "backup": {
+      "title": "バックアップ",
+      "automatic": "自動バックアップ",
+      "summaryLine_one": "AI Manager は 1 日 1 回自動でバックアップし、最新 {{count}} 件を保持します。",
+      "summaryLine_other": "AI Manager は 1 日 1 回自動でバックアップし、最新 {{count}} 件を保持します。",
+      "automaticOff": "自動バックアップはオフです。手動でのバックアップはいつでもできます。",
+      "exportToOther": "別のコンピューターに書き出す",
+      "importFromOther": "別のコンピューターから読み込む",
+      "create": "今すぐバックアップ",
+      "loading": "バックアップを読み込んでいます",
+      "retry": "もう一度試す",
+      "size": "約 {{size}} MB",
+      "exactSize": "{{bytes}} バイト",
+      "folder": "バックアップはこのパソコンのアプリデータフォルダーに保存されます。",
+      "details": "保存場所",
+      "restore": "復元",
+      "restoreNamed": "{{name}}のバックアップを復元",
+      "delete": "削除",
+      "deleteNamed": "{{name}}のバックアップを削除",
+      "rename": "名前を変更",
+      "renameNamed": "{{name}} のバックアップ名を変更",
+      "renameTitle": "{{name}} の復元ポイントに名前を付ける",
+      "renameDescription": "後で見つけやすい短い名前を付けます。バックアップの内容は変わりません。",
+      "renameConfirm": "名前を保存",
+      "nameLabel": "バックアップ名",
+      "namePlaceholder": "例：Claude を更新する前",
+      "nameHelp": "スラッシュや連続する 2 つのピリオドを使わず、短く固有の名前を入力してください。",
+      "renameValidation": {
+        "required": "名前を入力してください。",
+        "tooLong": "名前が長すぎます。短くしてください。",
+        "invalid": "スラッシュ、バックスラッシュ、連続する 2 つのピリオドは使用できません。",
+        "exists": "別のバックアップがすでにこの名前を使用しています。",
+        "unchanged": "別の名前を入力してください。"
+      },
+      "restoreTitle": "{{name}} のバックアップを復元しますか？",
+      "restoreDescription": "現在の AI Manager の設定が置き換わります。",
+      "restoreConfirm": "復元",
+      "deleteTitle": "{{name}} のバックアップを削除しますか？",
+      "deleteDescription": "この復元ポイントを完全に削除します。",
+      "deleteConfirm": "削除",
+      "summary": {
+        "title": "復元ポイントの準備ができています",
+        "latest": "最新：{{name}}",
+        "count": "{{count}} 件利用可能",
+        "latestBadge": "最新"
+      },
+      "completion": {
+        "created": {
+          "title": "復元ポイントを作成しました",
+          "description": "現在の AI Manager の設定を保存しました。"
+        },
+        "exported": {
+          "title": "持ち運び用コピーを保存しました",
+          "description": "設定アーカイブを安全な場所に保管してください。"
+        },
+        "imported": {
+          "title": "設定を読み込みました",
+          "description": "AI Manager はこのアーカイブのサービスと拡張機能を使用しています。"
+        },
+        "renamed": {
+          "title": "復元ポイントの名前を変更しました",
+          "description": "この復元ポイントは {{name}} という名前で見つけられます。"
+        },
+        "restored": {
+          "title": "復元が完了しました",
+          "description": "AI Manager は {{name}} の復元ポイントを使用しています。"
+        },
+        "deleted": {
+          "title": "復元ポイントを削除しました",
+          "description": "{{name}} の復元ポイントは利用できなくなりました。"
+        },
+        "warning": {
+          "title": "復元が完了しました。1 つのツールを確認してください",
+          "description": "サービスの変更が反映されていないツールがあります。「API エンドポイント」で使いたいサービスを選び直してください。"
+        },
+        "importWarning": {
+          "title": "読み込み完了。1 つのツールを確認してください",
+          "description": "アーカイブの読み込みは完了しましたが、サービスの変更が反映されていないツールがあります。「API エンドポイント」で使いたいサービスを選び直してください。"
+        },
+        "reviewServices": "AI サービスを確認"
+      },
+      "empty": {
+        "title": "現在の設定を守る",
+        "description": "ツールやサービスを変更する前に、このパソコンに復元ポイントを作成しましょう。",
+        "local": "このパソコン内のみ"
+      },
+      "error": {
+        "title": "バックアップを読み取れませんでした",
+        "description": "少ししてからもう一度お試しください。",
+        "actionRetry": "この操作ではほかの内容は変更されていません。もう一度お試しください。"
+      },
+      "refreshError": {
+        "title": "バックアップを更新できませんでした",
+        "description": "前回のバックアップ一覧を引き続き表示しています。新しい確認が完了するまで、バックアップ操作は一時停止します。"
+      },
+      "restorePoint": {
+        "replaces": "AI Manager のサービス・拡張機能・選択内容が、この復元ポイントの状態に戻ります。",
+        "installed": "インストール済みの AI コーディングツールは、このパソコンに残ります。",
+        "followUp": "復元後に確認が必要なツールがあれば、AI Manager が明確にお知らせします。"
+      },
+      "deletePoint": {
+        "permanent": "削除すると元に戻せません。"
+      },
+      "transfer": {
+        "secretTitle": "アーカイブはパスワードと同じように扱ってください",
+        "secretDescription": "持ち運び用コピーにはサービスキーなどの非公開設定が含まれる場合があります。安全に保管し、信頼できる相手とのみ共有してください。",
+        "confirmTitle": "この設定アーカイブを読み込みますか？",
+        "confirmDescription": "変更内容を確認してから、読み込むアーカイブを選んでください。",
+        "confirmReplace": "管理対象のサービス、拡張機能、保存済み履歴がアーカイブの内容に置き換わります。",
+        "confirmSafety": "現在のデータを置き換える前に、AI Manager がローカル復元ポイントを作成します。",
+        "confirmTrust": "自分で作成したもの、または信頼できる相手から受け取ったアーカイブだけを読み込んでください。",
+        "confirmInstalled": "インストール済みの AI コーディングツールはこのパソコンに残ります。",
+        "chooseAndImport": "アーカイブを選んで読み込む",
+        "errorHint": "ほかの内容は変更されていません。アーカイブを確認して、もう一度お試しください。"
+      }
+    }
+  },
+  "data": {
+    "title": "ローカルデータ",
+    "description": "ローカルセッションと各ツールの保存先を、ここに一つにまとめました。",
+    "overview": {
+      "eyebrow": "ローカルデータの概要",
+      "title": "全ツールのローカルデータ",
+      "description": "下の保存先パネルと同じローカルスキャンの結果を、ローカル保存があるすべてのツールで合算しています。",
+      "metric": {
+        "totalBytes": "表示中のローカルデータ",
+        "conversationBytes": "会話データの容量"
+      },
+      "measuring": "計測中…",
+      "unavailable": "合計にはインストール済みツールの一覧が必要ですが、読み取れませんでした。",
+      "partial": "計測できなかったツールがあるため、この合計は下限です。",
+      "limited": "大きすぎる、または読めないフォルダーは安全な下限として数えています。"
+    },
+    "scope": {
+      "all": "すべて",
+      "label": "ツールで表示",
+      "unsupportedShort": "未連携",
+      "unsupportedTitle": "AI Manager は {{tool}} のローカルデータと未連携です",
+      "unsupportedDescription": "AI Manager に安全な読み取り方法がまだないという意味で、{{tool}} にローカルデータがないわけではありません。インストール済みの確認のため、ツールは表示しています。"
+    },
+    "storage": {
+      "title": "ローカルコンテキストと保存先",
+      "description": "各ツールがファイルをどこに保存し、どれくらいの容量を使っているか。",
+      "loading": "どのツールがこの端末にデータを保存しているか読み取っています",
+      "empty": {
+        "title": "ローカル保存先を表示できるツールはまだありません",
+        "description": "先にツールを入れると、そのローカルファイルがここに表示されます。"
+      }
+    },
+    "inventory": {
+      "error": {
+        "title": "インストール済みツールを読み取れませんでした",
+        "description": "ローカルセッションはそのまま使えます。ツール一覧を読み直せると、保存先の詳細が戻ります。"
+      },
+      "refreshError": {
+        "title": "インストール済みツールを再確認できませんでした",
+        "description": "前回読み取った保存先の詳細を表示しています。"
+      },
+      "retry": "もう一度試す"
+    }
+  },
+  "deeplink": {
+    "resource": {
+      "provider": "API 接続先",
+      "mcp": "MCP サーバー",
+      "prompt": "全体プロンプト",
+      "skill": "スキル"
+    },
+    "origin": {
+      "argv": "このリンクは AI Manager の外から開かれました。どこから来たものか確認してください。",
+      "paste": "このリンクはあなた自身が貼り付けたものです。信頼できる提供元か確認してください。"
+    },
+    "credential": {
+      "apiKey": "リンクにキーが含まれています。API 接続先と一緒に保存され、この画面には表示されません。",
+      "config": "リンクの設定にキーが含まれています。API 接続先と一緒に保存され、この画面には表示されません。"
+    },
+    "blocked": {
+      "noSupportedTool": "このリンクが対象とするアプリは AI Manager の管理対象ではないため、追加できるものがありません。",
+      "credentialRequired": "このリンクにはキーがありません。キーのない API 接続先は保存できません。キーを含むリンクを提供元に依頼してください。"
+    },
+    "summary": {
+      "label": "このリンクが追加する内容",
+      "resource": "追加するもの",
+      "name": "名前",
+      "targets": "対象",
+      "items": "内容",
+      "separator": "、",
+      "unmanagedTarget": "AI Manager が管理していないアプリ"
+    },
+    "confirm": {
+      "title": "リンクから追加しますか？",
+      "description": "「追加」を選ぶまで、何も保存されません。",
+      "action": "追加",
+      "retry": "もう一度試す",
+      "cancel": "破棄"
+    },
+    "error": {
+      "retry": "何も保存されていません。もう一度試すか、提供元に新しいリンクを依頼してください。"
+    },
+    "toast": {
+      "imported_one": "1 件追加しました。",
+      "imported_other": "{{count}} 件追加しました。"
+    },
+    "paste": {
+      "title": "リンクから追加",
+      "description": "提供元のワンクリックリンクを貼り付けてください。自分で貼り付けたリンクはキーを含められますが、外部から開かれたリンクは含められません。",
+      "label": "リンク",
+      "hint": "AI Manager がリンクを読み取り、確認を求めてから保存します。",
+      "placeholder": "aimanager://v1/import?...",
+      "action": "リンクを読み取る"
+    }
+  }
+}

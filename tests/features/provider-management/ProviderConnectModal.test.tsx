@@ -1,0 +1,700 @@
+import { render, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import i18n from "i18next";
+import { http, HttpResponse } from "msw";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import en from "@/i18n/locales/en.json";
+import { ProviderConnectModal } from "@/features/provider-management";
+import type { ProviderConnectionProfile } from "@/entities/provider";
+import { NativeError } from "@/native";
+import { server } from "../../msw/server";
+
+const TAURI_ENDPOINT = "http://tauri.local";
+
+const profile: ProviderConnectionProfile = {
+  defaultPresetId: "official",
+  modelRequired: true,
+  presets: [
+    {
+      id: "official",
+      serviceName: "Anthropic API",
+      defaultName: "Anthropic",
+      defaultModel: "claude-sonnet-5",
+      websiteUrl: "https://www.anthropic.com",
+      apiKeyUrl: "https://console.anthropic.com",
+      official: true,
+    },
+    {
+      id: "deepseek-safe",
+      serviceName: "DeepSeek",
+      defaultName: "DeepSeek",
+      defaultModel: "deepseek-v4-pro",
+      websiteUrl: "https://platform.deepseek.com",
+      apiKeyUrl: "https://platform.deepseek.com",
+      official: false,
+    },
+  ],
+};
+
+const official = profile.presets[0];
+
+const optionalModelProfile: ProviderConnectionProfile = {
+  ...profile,
+  modelRequired: false,
+};
+
+describe("ProviderConnectModal", () => {
+  beforeEach(async () => {
+    Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
+      configurable: true,
+      value: vi.fn(),
+    });
+    i18n.addResourceBundle(
+      "en",
+      "translation",
+      { ds: en.ds, error: en.error, services: en.services },
+      true,
+      true,
+    );
+    await i18n.changeLanguage("en");
+  });
+
+  it("opens with safe backend defaults and starts on the only missing field", () => {
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    const dialog = screen.getByRole("dialog");
+    expect(within(dialog).getByLabelText(en.services.connect.name)).toHaveValue(
+      "Anthropic",
+    );
+    expect(
+      within(dialog).getByLabelText(en.services.connect.model),
+    ).toHaveValue("claude-sonnet-5");
+    expect(
+      within(dialog).getByLabelText(en.services.connect.key),
+    ).toHaveFocus();
+  });
+
+  it("opens directly on the custom endpoint form and keeps presets optional", () => {
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCustomSubmit={vi.fn()}
+      />,
+    );
+    expect(
+      screen.getByRole("heading", { name: en.services.connect.customTitle }),
+    ).toBeVisible();
+    expect(
+      screen.getByLabelText(en.services.connect.customBaseUrl),
+    ).toBeVisible();
+    expect(
+      screen.getByRole("button", { name: en.services.connect.backToPresets }),
+    ).toBeVisible();
+  });
+
+  it("submits only the typed HTTPS custom draft", async () => {
+    const user = userEvent.setup();
+    const onCustomSubmit = vi.fn();
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCustomSubmit={onCustomSubmit}
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", { name: en.services.connect.customTitle }),
+    ).toBeVisible();
+    await user.type(
+      screen.getByLabelText(en.services.connect.name),
+      "Private relay",
+    );
+    await user.type(
+      screen.getByLabelText(en.services.connect.customBaseUrl),
+      "http://relay.example.test/v1",
+    );
+    await user.type(
+      screen.getByLabelText(en.services.connect.key),
+      "sk-private",
+    );
+    await user.type(
+      screen.getByLabelText(en.services.connect.model),
+      "model-a",
+    );
+    await user.click(
+      screen.getByRole("button", { name: en.ds.action.connect }),
+    );
+    expect(
+      screen.getByText(en.services.connect.customBaseUrlInvalid),
+    ).toBeVisible();
+    expect(onCustomSubmit).not.toHaveBeenCalled();
+
+    const url = screen.getByLabelText(en.services.connect.customBaseUrl);
+    await user.clear(url);
+    await user.type(url, "https://relay.example.test/v1");
+    await user.click(
+      screen.getByRole("button", { name: en.ds.action.connect }),
+    );
+    expect(onCustomSubmit).toHaveBeenCalledWith({
+      name: "Private relay",
+      apiKey: "sk-private",
+      model: "model-a",
+      baseUrl: "https://relay.example.test/v1",
+    });
+  });
+
+  it("starts on a compatible preset when opened from failed reachability guidance", () => {
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        preferCompatible
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    const dialog = screen.getByRole("dialog");
+    expect(within(dialog).getByLabelText(en.services.connect.name)).toHaveValue(
+      "DeepSeek",
+    );
+    expect(
+      within(dialog).getByRole("combobox", {
+        name: en.services.connect.preset,
+      }),
+    ).toHaveTextContent("DeepSeek");
+  });
+
+  it("links to the official key page without putting it in the submitted draft", () => {
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    expect(
+      screen.getByRole("link", { name: en.services.connect.getKey }),
+    ).toHaveAttribute("href", official.apiKeyUrl);
+  });
+
+  it("explains account ownership and the honest scope of the follow-up check", () => {
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    expect(
+      screen.getByText(
+        en.services.connect.accountHint
+          .split("{{service}}")
+          .join(official.serviceName),
+      ),
+    ).toBeVisible();
+    expect(
+      screen.getByText(
+        en.services.connect.afterSave.replace("{{tool}}", "Claude Code"),
+      ),
+    ).toBeVisible();
+  });
+
+  it("submits only name, key and model with surrounding whitespace removed", async () => {
+    const onSubmit = vi.fn();
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={onSubmit}
+      />,
+    );
+    const dialog = screen.getByRole("dialog");
+    await userEvent.type(
+      within(dialog).getByLabelText(en.services.connect.key),
+      "  sk-secret  ",
+    );
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: en.ds.action.connect }),
+    );
+    expect(onSubmit).toHaveBeenCalledWith({
+      presetId: "official",
+      name: "Anthropic",
+      apiKey: "sk-secret",
+      model: "claude-sonnet-5",
+    });
+  });
+
+  it("submits a blank model when the tool supplies its own default", async () => {
+    const onSubmit = vi.fn();
+    render(
+      <ProviderConnectModal
+        profile={optionalModelProfile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={onSubmit}
+      />,
+    );
+    const dialog = screen.getByRole("dialog");
+    await userEvent.clear(
+      within(dialog).getByLabelText(en.services.connect.model),
+    );
+    await userEvent.type(
+      within(dialog).getByLabelText(en.services.connect.key),
+      "sk-secret",
+    );
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: en.ds.action.connect }),
+    );
+    expect(onSubmit).toHaveBeenCalledWith({
+      presetId: "official",
+      name: "Anthropic",
+      apiKey: "sk-secret",
+      model: "",
+    });
+    expect(
+      screen.queryByText(en.services.connect.modelRequired),
+    ).not.toBeInTheDocument();
+  });
+
+  it("blocks a blank model when the tool requires one", async () => {
+    const onSubmit = vi.fn();
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={onSubmit}
+      />,
+    );
+    const dialog = screen.getByRole("dialog");
+    await userEvent.clear(
+      within(dialog).getByLabelText(en.services.connect.model),
+    );
+    await userEvent.type(
+      within(dialog).getByLabelText(en.services.connect.key),
+      "sk-secret",
+    );
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: en.ds.action.connect }),
+    );
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(screen.getByText(en.services.connect.modelRequired)).toBeVisible();
+  });
+
+  it("searches compatible presets, applies their defaults, and clears the previous key", async () => {
+    const onSubmit = vi.fn();
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={onSubmit}
+      />,
+    );
+    const key = screen.getByLabelText(en.services.connect.key);
+    await userEvent.type(key, "key-for-the-old-service");
+    await userEvent.click(
+      screen.getByRole("combobox", { name: en.services.connect.preset }),
+    );
+    const search = screen.getByPlaceholderText(
+      en.services.connect.searchPresets,
+    );
+    const popover = search.closest("[data-side]");
+    expect(popover).toHaveClass("max-w-[calc(100vw-2rem)]");
+    expect(popover).not.toHaveClass("min-w-[22rem]");
+    await userEvent.type(search, "DeepSeek");
+    await userEvent.click(screen.getByRole("option", { name: /DeepSeek/ }));
+
+    expect(screen.getByLabelText(en.services.connect.name)).toHaveValue(
+      "DeepSeek",
+    );
+    expect(screen.getByLabelText(en.services.connect.model)).toHaveValue(
+      "deepseek-v4-pro",
+    );
+    expect(key).toHaveValue("");
+    await userEvent.type(key, "deepseek-key");
+    await userEvent.click(
+      screen.getByRole("button", { name: en.ds.action.connect }),
+    );
+    expect(onSubmit).toHaveBeenCalledWith({
+      presetId: "deepseek-safe",
+      name: "DeepSeek",
+      apiKey: "deepseek-key",
+      model: "deepseek-v4-pro",
+    });
+  });
+
+  it("does not use the network until asked, then labels and sorts by local measurements", async () => {
+    let requests = 0;
+    server.use(
+      http.post(
+        `${TAURI_ENDPOINT}/app_provider_presets_test`,
+        async ({ request }) => {
+          requests += 1;
+          expect(await request.json()).toEqual({ tool: "claude-code" });
+          return HttpResponse.json([
+            {
+              candidateId: "official",
+              latencyMs: 320,
+              httpStatus: 200,
+              failure: null,
+            },
+            {
+              candidateId: "deepseek-safe",
+              latencyMs: 85,
+              httpStatus: 204,
+              failure: null,
+            },
+          ]);
+        },
+      ),
+    );
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+
+    const picker = screen.getByRole("combobox", {
+      name: en.services.connect.preset,
+    });
+    await userEvent.click(picker);
+    expect(requests).toBe(0);
+    expect(screen.getAllByRole("option")[0]).toHaveTextContent("Anthropic API");
+
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.connect.speedTest }),
+    );
+
+    await waitFor(() => expect(requests).toBe(1));
+    await screen.findByText(en.services.connect.speedSorted);
+    const measured = screen.getAllByRole("option");
+    expect(measured[0]).toHaveTextContent("DeepSeek");
+    expect(measured[0]).toHaveTextContent("85 ms");
+    expect(measured[1]).toHaveTextContent("Anthropic API");
+    expect(measured[1]).toHaveTextContent("320 ms");
+    expect(picker).toHaveTextContent("Anthropic API");
+    expect(
+      screen.getByRole("button", { name: en.services.connect.speedTestAgain }),
+    ).toBeEnabled();
+  });
+
+  it("keeps preset speed-test command failures inline without exposing details", async () => {
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_presets_test`, () =>
+        HttpResponse.json(
+          {
+            code: "NETWORK_ERROR",
+            messageKey: "error.provider.testFailed",
+            technicalMessage:
+              "https://private.example.test/path?token=never-render",
+            remediation: "error.remediation.retryOrViewDetails",
+            contextId: null,
+          },
+          { status: 500 },
+        ),
+      ),
+    );
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+
+    await userEvent.click(
+      screen.getByRole("combobox", { name: en.services.connect.preset }),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.connect.speedTest }),
+    );
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent(en.services.connect.speedTestFailed);
+    expect(alert).not.toHaveTextContent("private.example.test");
+    expect(alert).not.toHaveTextContent("never-render");
+    expect(screen.getAllByRole("option")[0]).toHaveTextContent("Anthropic API");
+  });
+
+  it("labels unreachable presets, sorts them last, and keeps the selected preset", async () => {
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_presets_test`, () =>
+        HttpResponse.json([
+          {
+            candidateId: "official",
+            latencyMs: null,
+            httpStatus: null,
+            failure: "timeout",
+          },
+          {
+            candidateId: "deepseek-safe",
+            latencyMs: 91,
+            httpStatus: 200,
+            failure: null,
+          },
+        ]),
+      ),
+    );
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+
+    const picker = screen.getByRole("combobox", {
+      name: en.services.connect.preset,
+    });
+    await userEvent.click(picker);
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.connect.speedTest }),
+    );
+
+    await screen.findByText(en.services.connect.unreachable);
+    const measured = screen.getAllByRole("option");
+    expect(measured[0]).toHaveTextContent("DeepSeek");
+    expect(measured[0]).toHaveTextContent("91 ms");
+    expect(measured[1]).toHaveTextContent("Anthropic API");
+    expect(measured[1]).toHaveTextContent(en.services.connect.unreachable);
+    expect(picker).toHaveTextContent("Anthropic API");
+  });
+
+  it("preserves the last measurements when a manual retest fails", async () => {
+    let attempt = 0;
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_presets_test`, () => {
+        attempt += 1;
+        if (attempt === 1) {
+          return HttpResponse.json([
+            {
+              candidateId: "official",
+              latencyMs: 280,
+              httpStatus: 200,
+              failure: null,
+            },
+            {
+              candidateId: "deepseek-safe",
+              latencyMs: 72,
+              httpStatus: 200,
+              failure: null,
+            },
+          ]);
+        }
+        return HttpResponse.json(
+          {
+            code: "NETWORK_ERROR",
+            messageKey: "error.provider.testFailed",
+            technicalMessage: "retest failed",
+            remediation: "error.remediation.retryOrViewDetails",
+            contextId: null,
+          },
+          { status: 500 },
+        );
+      }),
+    );
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+
+    await userEvent.click(
+      screen.getByRole("combobox", { name: en.services.connect.preset }),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.connect.speedTest }),
+    );
+    await screen.findByText("72 ms");
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.connect.speedTestAgain }),
+    );
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      en.services.connect.speedTestFailed,
+    );
+    expect(screen.getAllByRole("option")[0]).toHaveTextContent("DeepSeek");
+    expect(screen.getAllByRole("option")[0]).toHaveTextContent("72 ms");
+  });
+
+  it("shows all required errors without calling the backend", async () => {
+    const onSubmit = vi.fn();
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={onSubmit}
+      />,
+    );
+    await userEvent.clear(screen.getByLabelText(en.services.connect.name));
+    await userEvent.clear(screen.getByLabelText(en.services.connect.model));
+    await userEvent.click(
+      screen.getByRole("button", { name: en.ds.action.connect }),
+    );
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(screen.getAllByRole("alert")).toHaveLength(3);
+    for (const field of [
+      en.services.connect.name,
+      en.services.connect.key,
+      en.services.connect.model,
+    ]) {
+      expect(screen.getByLabelText(field)).toHaveAttribute(
+        "aria-invalid",
+        "true",
+      );
+    }
+  });
+
+  it("shows the API key in plain text with a privacy description", () => {
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    const key = screen.getByLabelText(en.services.connect.key);
+    expect(key).toHaveAttribute("type", "text");
+    expect(key).toHaveAccessibleDescription(en.services.connect.keyHint);
+  });
+
+  it("keeps a typed key editable but blocks every submit path while actions are paused", async () => {
+    const onSubmit = vi.fn();
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        mutationsBlocked
+        onOpenChange={vi.fn()}
+        onSubmit={onSubmit}
+      />,
+    );
+    const dialog = screen.getByRole("dialog");
+    const key = within(dialog).getByLabelText(en.services.connect.key);
+    await userEvent.type(key, "sk-kept-in-dialog");
+
+    expect(
+      within(dialog).getByRole("alert", {
+        name: "Service actions are paused",
+      }),
+    ).toBeInTheDocument();
+    expect(key).toHaveValue("sk-kept-in-dialog");
+    expect(
+      within(dialog).getByRole("button", { name: en.ds.action.connect }),
+    ).toBeDisabled();
+    expect(
+      within(dialog).getByRole("button", { name: en.ds.action.cancel }),
+    ).toBeEnabled();
+    key.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it("keeps a failed connection safe and retryable inside the same form", async () => {
+    const onSubmit = vi.fn();
+    const onErrorReset = vi.fn();
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        error={
+          new NativeError({
+            code: "CONFIG_WRITE_FAILED",
+            messageKey: "error.provider.createFailed",
+            technicalMessage:
+              "/private/settings.json token=never-render-this-value",
+            remediation: "error.remediation.checkConnectionSettings",
+            contextId: null,
+          })
+        }
+        onOpenChange={vi.fn()}
+        onErrorReset={onErrorReset}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    const alert = screen.getByRole("alert", {
+      name: "Could not finish connecting this service",
+    });
+    expect(alert).toHaveTextContent(en.error.provider.createFailed);
+    expect(alert).toHaveTextContent(
+      en.error.remediation.checkConnectionSettings,
+    );
+    expect(alert).not.toHaveTextContent("/private/settings.json");
+    expect(alert).not.toHaveTextContent("never-render-this-value");
+
+    await userEvent.type(
+      screen.getByLabelText(en.services.connect.key),
+      "sk-kept-for-retry",
+    );
+    expect(onErrorReset).toHaveBeenCalled();
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: "Try connecting this service again",
+      }),
+    );
+    expect(onSubmit).toHaveBeenCalledWith({
+      presetId: "official",
+      name: "Anthropic",
+      apiKey: "sk-kept-for-retry",
+      model: "claude-sonnet-5",
+    });
+  });
+
+  it("renders nothing when the connection flow is closed", () => {
+    render(
+      <ProviderConnectModal
+        profile={null}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+});

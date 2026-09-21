@@ -1,0 +1,50 @@
+name: "Question"
+description: Ask a question about using or configuring AI Manager.
+labels:
+  - question
+body:
+  - type: checkboxes
+    attributes:
+      label: Before you start
+      options:
+        - label: I have read the README and SUPPORT.md.
+          required: true
+        - label: I have searched open and closed issues for this question.
+          required: true
+
+  - type: dropdown
+    attributes:
+      label: Area
+      multiple: false
+      options:
+        - Home or Quick Check
+        - AI Tools
+        - AI Services
+        - Extensions (Skills, MCP, Prompts)
+        - Local Data
+        - Settings
+        - Installation or updater
+        - General
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Your question
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: What you have tried
+      description: What have you already tried or read?
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Environment
+      description: Operating system, architecture, AI Manager version, and the tools involved.
+      placeholder: "e.g. macOS arm64; AI Manager 0.1.0; Claude Code installed with npm"
+    validations:
+      required: false

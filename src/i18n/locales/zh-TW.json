@@ -1,0 +1,2910 @@
+{
+  "about": {
+    "title": "授權與原始碼",
+    "description": "這個版本採用的開源授權，以及去哪裡取得它的原始碼。",
+    "product": "AI 管家",
+    "version": "版本 {{version}}",
+    "versionUnknown": "暫時讀不到版本",
+    "copyright": "Copyright © 2026 AI Manager contributors",
+    "license": "本軟體依據 GNU Affero 通用公眾授權條款第 3 版或更新版本授權，不提供任何擔保。",
+    "upstream": "部分程式碼衍生自 CC Switch，依 MIT 授權條款使用。Copyright (c) 2025 Jason Young。",
+    "sourceCode": "原始碼儲存庫",
+    "licenseText": "閱讀授權條款"
+  },
+  "common": {
+    "add": "新增",
+    "edit": "編輯",
+    "delete": "刪除",
+    "save": "儲存",
+    "saving": "儲存中...",
+    "cancel": "取消",
+    "confirm": "確認",
+    "close": "關閉",
+    "done": "完成",
+    "settings": "設定",
+    "about": "關於",
+    "version": "版本",
+    "loading": "載入中...",
+    "detecting": "正在檢測中",
+    "notInstalled": "未安裝",
+    "success": "成功",
+    "error": "錯誤",
+    "unknown": "未知",
+    "enterValidValue": "請輸入有效的內容",
+    "clear": "清除",
+    "format": "格式化",
+    "formatSuccess": "格式化成功",
+    "formatError": "格式化失敗：{{error}}",
+    "copy": "複製",
+    "view": "檢視",
+    "back": "返回",
+    "refresh": "重新整理",
+    "refreshing": "重新整理中...",
+    "import": "匯入",
+    "all": "全部",
+    "search": "搜尋",
+    "enableAllForApp": "為 {{app}} 全部啟用",
+    "disableAllForApp": "為 {{app}} 全部停用",
+    "bulkToggleFailed": "有 {{count}} 個項目更新失敗",
+    "reset": "重設",
+    "actions": "操作",
+    "deleting": "刪除中...",
+    "auto": "自動",
+    "enabled": "已啟用",
+    "notSet": "未設定"
+  },
+  "providerForm": {
+    "supplierName": "供應商名稱",
+    "supplierNameRequired": "供應商名稱 *",
+    "supplierNamePlaceholder": "例如：Anthropic 官方",
+    "websiteUrl": "官網位址",
+    "websiteUrlPlaceholder": "https://example.com（選填）",
+    "apiEndpoint": "請求位址",
+    "apiEndpointPlaceholder": "https://your-api-endpoint.com",
+    "codexApiEndpointPlaceholder": "https://your-api-endpoint.com/v1",
+    "manageAndTest": "管理與測速",
+    "configContent": "設定內容",
+    "officialNoApiKey": "官方登入無需填寫 API Key，直接儲存即可",
+    "codexOfficialNoApiKey": "官方無需填寫 API Key，直接儲存即可",
+    "codexApiKeyAutoFill": "只需要填這裡，下方 auth.json 會自動填寫",
+    "apiKeyAutoFill": "只需要填這裡，下方設定會自動填寫",
+    "cnOfficialApiKeyHint": "只需填寫 API Key，請求位址已預設",
+    "aggregatorApiKeyHint": "只需填寫 API Key，請求位址已預設",
+    "thirdPartyApiKeyHint": "只需填寫 API Key，請求位址已預設",
+    "customApiKeyHint": "自訂設定需手動填寫所有必要欄位",
+    "omoHint": "OMO 設定管理 Agent 模型指派，相容 oh-my-openagent.jsonc / oh-my-opencode.jsonc",
+    "officialHint": "官方供應商使用瀏覽器登入，無需設定 API Key",
+    "providerKeyStatusLoading": "正在載入供應商識別碼狀態，請稍後再試",
+    "getApiKey": "取得 API Key",
+    "presets": {
+      "ucloud": "優雲智算",
+      "ucloudCoding": "優雲智算 Coding Plan",
+      "shengsuanyun": "勝算雲",
+      "qiniu": "七牛雲",
+      "openrouter": "OpenRouter",
+      "deepseek": "DeepSeek",
+      "together": "Together AI"
+    },
+    "parameterConfig": "參數設定 - {{name}} *",
+    "mainModel": "主模型 (選填)",
+    "mainModelPlaceholder": "例如: GLM-4.6",
+    "fastModel": "快速模型 (選填)",
+    "fastModelPlaceholder": "例如: GLM-4.5-Air",
+    "modelHint": "留空將使用供應商的預設模型",
+    "apiHint": "填寫相容 Claude API 的伺服器端點位址，請勿以斜線結尾",
+    "apiHintOAI": "填寫相容 OpenAI Chat Completions 的伺服器端點位址，請勿以斜線結尾",
+    "apiHintGeminiNative": "建議填寫 Gemini Native 的 base URL，例如 https://generativelanguage.googleapis.com 或 https://generativelanguage.googleapis.com/v1beta；代理伺服器會自動補齊 models/*:generateContent",
+    "codexApiHint": "填寫相容 OpenAI Response 格式的伺服器端點位址",
+    "fillSupplierName": "請填寫供應商名稱",
+    "fillConfigContent": "請填寫設定內容",
+    "fillParameter": "請填寫 {{label}}",
+    "fillTemplateValue": "請填寫 {{label}}",
+    "endpointRequired": "非官方供應商請填寫 API 端點",
+    "apiKeyRequired": "非官方供應商請填寫 API Key",
+    "softValidation": {
+      "title": "設定存在以下問題",
+      "hint": "仍要儲存嗎？儲存後切換此供應商時可能失敗，可以之後再補全。",
+      "saveAnyway": "仍要儲存"
+    },
+    "configJsonError": "設定 JSON 格式錯誤，請檢查語法",
+    "authJsonRequired": "auth.json 必須是 JSON 物件",
+    "authJsonError": "auth.json 格式錯誤，請檢查 JSON 語法",
+    "fillAuthJson": "請填寫 auth.json 設定",
+    "fillApiKey": "請填寫 OPENAI_API_KEY",
+    "visitWebsite": "造訪 {{url}}",
+    "anthropicModel": "主模型",
+    "anthropicSmallFastModel": "快速模型",
+    "apiFormat": "上游格式",
+    "apiFormatHint": "供應商原生為 Anthropic Messages API 就選 Anthropic Messages（直連，不轉換格式）；使用 Chat Completions 協定就選 Chat；使用 Responses API 就選 Responses；使用 Gemini generateContent 協定就選 Gemini Native。Chat、Responses 與 Gemini Native 均需開啟路由接管才能轉換為 Anthropic Messages。",
+    "customUserAgent": "自訂 User-Agent",
+    "customUserAgentHint": "僅在開啟本地路由/代理接管後生效，會取代轉發至供應商 API 請求中的 User-Agent。",
+    "customUserAgentInvalid": "User-Agent 不能包含控制字元（如換行字元），否則將被忽略。",
+    "customUserAgentPresets": "預設",
+    "localProxyRequestOverrides": "本地代理請求覆蓋",
+    "localProxyRequestOverridesHint": "僅在本地路由/代理接管後生效，套用於協定轉換後的上游請求。",
+    "localProxyRequestOverridesInvalid": "本地代理請求覆蓋格式錯誤：{{error}}",
+    "localProxyHeaderOverrides": "Header 覆蓋",
+    "localProxyHeaderOverridesInvalidDetail": "Header 覆蓋格式錯誤：{{error}}",
+    "localProxyBodyOverrides": "Body 覆蓋",
+    "localProxyBodyOverridesInvalidDetail": "Body 覆蓋格式錯誤：{{error}}",
+    "fullUrlLabel": "完整 URL",
+    "fullUrlEnabled": "完整 URL 模式",
+    "fullUrlDisabled": "標記為完整 URL",
+    "fullUrlHint": "請填寫完整請求 URL，並且必須開啟路由後使用；路由將直接使用此 URL，不拼接路徑",
+    "fullUrlHintGeminiNative": "Gemini Native 下，完整 URL 模式同時相容兩類位址：1. 官方/標準 Gemini URL，代理伺服器會依模型和串流參數自動標準化；2. 自訂 relay 的完整 URL，代理伺服器會盡量原樣使用，只補齊查詢參數，不再強制附加 models 路徑",
+    "apiFormatAnthropic": "Anthropic Messages (原生)",
+    "apiFormatOpenAIChat": "OpenAI Chat Completions (需開啟路由)",
+    "apiFormatOpenAIResponses": "OpenAI Responses API (需開啟路由)",
+    "apiFormatGeminiNative": "Gemini Native generateContent (需開啟路由)",
+    "codexApiFormatResponses": "OpenAI Responses API (原生)",
+    "codexApiFormatOpenAIChat": "OpenAI Chat Completions (需開啟路由)",
+    "codexApiFormatHint": "選擇供應商真實支援的 Codex API 格式；設定仍保持 Responses 以相容新版 Codex，Chat Completions 會透過本地路由自動轉換。",
+    "authField": "驗證欄位",
+    "authFieldAuthToken": "ANTHROPIC_AUTH_TOKEN（預設）",
+    "authFieldApiKey": "ANTHROPIC_API_KEY",
+    "authFieldHint": "選擇寫入設定的驗證環境變數名稱",
+    "apiHintResponses": "填寫相容 OpenAI Responses API 的伺服器端點位址，請勿以斜線結尾",
+    "anthropicDefaultHaikuModel": "Haiku 預設模型",
+    "anthropicDefaultSonnetModel": "Sonnet 預設模型",
+    "anthropicDefaultOpusModel": "Opus 預設模型",
+    "modelPlaceholder": "",
+    "smallModelPlaceholder": "",
+    "haikuModelPlaceholder": "",
+    "modelHelper": "選填：指定預設使用的 Claude 模型，留空則使用系統預設。",
+    "modelMappingLabel": "模型對應",
+    "modelMappingHint": "顯示名稱只影響 /model 選單；1M 只是提供給 Claude Code 的上下文能力聲明。",
+    "modelRoleLabel": "模型角色",
+    "modelRoleSonnet": "Sonnet",
+    "modelRoleOpus": "Opus",
+    "modelRoleFable": "Fable",
+    "modelRoleHaiku": "Haiku",
+    "modelRoleSubagent": "Subagent",
+    "modelDisplayNameLabel": "顯示名稱",
+    "modelDisplayNamePlaceholder": "例如 DeepSeek V4 Pro",
+    "modelNoDisplayName": "不顯示於 /model 選單",
+    "requestModelLabel": "實際請求模型",
+    "modelOneMHeader": "聲明支援 1M",
+    "modelOneMLabel": "1M",
+    "fallbackModelLabel": "備用模型",
+    "fallbackModelHint": "用於未明確落到 Sonnet、Opus、Fable、Haiku 角色的請求。使用第三方/中轉端點時建議填寫：否則這些請求（含 Haiku 背景子任務）會以原始 Claude 模型名透傳給上游，可能因上游無此模型而報錯。官方端點可留空。",
+    "quickSetModels": "一鍵設定",
+    "quickSetSuccess": "已將模型名稱套用至所有角色",
+    "advancedOptionsToggle": "進階選項",
+    "advancedOptionsHint": "包含 API 格式、驗證欄位、模型對應等設定。大多數場景下保持預設即可。",
+    "categoryOfficial": "官方",
+    "categoryCnOfficial": "開源官方",
+    "categoryAggregation": "聚合服務",
+    "categoryThirdParty": "第三方",
+    "fetchModels": "取得模型清單",
+    "fetchingModels": "正在取得...",
+    "searchModelPlaceholder": "搜尋模型...",
+    "searchModelEmpty": "沒有符合的模型",
+    "searchModelAriaLabel": "選擇模型",
+    "fetchModelsSuccess": "取得 {{count}} 個模型",
+    "fetchModelsFailed": "取得模型清單失敗",
+    "fetchModelsEmpty": "未找到可用模型",
+    "fetchModelsNeedApiKey": "請先填寫 API Key",
+    "fetchModelsNeedEndpoint": "請先填寫 API 端點",
+    "fetchModelsNeedConfig": "請先填寫 API 端點和 API Key",
+    "fetchModelsAuthFailed": "API Key 無效或無權限",
+    "fetchModelsNotSupported": "該供應商不支援取得模型清單",
+    "fetchModelsEndpointNotFound": "未找到可用的模型清單端點，請檢查 Base URL 或確認供應商是否開放該 API",
+    "fetchModelsTimeout": "請求逾時，請檢查網路連線",
+    "requiredFields": "請填寫供應商名稱、API 位址、API Key 和模型"
+  },
+  "usage": {
+    "title": "用量與成本",
+    "description": "只在本機查看各 AI 程式設計工具的使用情況。",
+    "loading": "正在讀取本機用量",
+    "hero": {
+      "eyebrow": "最近 {{days}} 天",
+      "cost": "估算成本",
+      "estimate": "根據本機 Token 記錄和模型定價估算，可能與服務商帳單不同。",
+      "metric": {
+        "tokens": "Token",
+        "requests": "請求",
+        "success": "成功率",
+        "cache": "快取命中"
+      }
+    },
+    "trend": {
+      "eyebrow": "本機活動",
+      "title": "每日 Token 用量",
+      "total": "這段時間共 {{value}} Token",
+      "label": "每日 Token 趨勢，總計 {{value}} Token"
+    },
+    "tools": {
+      "eyebrow": "分布",
+      "title": "按 AI 工具查看",
+      "requests": "{{value}} 次請求",
+      "tokens": "{{value}} Token"
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "opencode": "OpenCode",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build",
+      "openclaw": "OpenClaw",
+      "hermes": "Hermes",
+      "pi": "Pi"
+    },
+    "sync": {
+      "running": "正在同步本機用量",
+      "runningHint": "正在掃描本機工作階段；可以切換到其他頁面，同步會繼續。",
+      "largeHistory": "首次同步或歷史記錄較多時可能需要幾分鐘。請勿重複同步；既有彙總會保留，完成後自動更新。",
+      "elapsed": "已用時 {{seconds}} 秒",
+      "action": "同步本機用量",
+      "success": "已掃描 {{filesScanned}} 個本機檔案，新增 {{recordsImported}} 筆記錄。",
+      "partial": "已掃描 {{filesScanned}} 個本機檔案，新增 {{recordsImported}} 筆記錄；有 {{sourceIssues}} 個來源未能檢查完，現有資料仍會保留顯示。",
+      "errorTitle": "未能同步本機用量",
+      "errorHint": "已儲存的摘要沒有被刪除，可以再試一次。"
+    },
+    "privacy": {
+      "title": "只聚合，只留在本機",
+      "description": "這裡不會顯示提示詞、回答、請求 ID、路徑、服務設定或憑證。同步只讀取這台電腦上受支援 CLI 的工作階段檔案，不會聯絡服務商。"
+    },
+    "empty": {
+      "title": "還沒有本機用量記錄",
+      "description": "同步受支援 CLI 的本機工作階段，就能產生第一份聚合檢視；不會上傳任何內容。"
+    },
+    "error": {
+      "title": "未能讀取本機用量",
+      "description": "已儲存的記錄仍在這台電腦上，請重新讀取摘要。",
+      "retry": "再試一次"
+    },
+    "stale": {
+      "title": "未能重新整理摘要",
+      "description": "新的讀取成功前，仍顯示上一次本機快照。"
+    }
+  },
+  "dbUpgrade": {
+    "title": "資料庫版本過新",
+    "description": "這個資料庫由較新版本的 AI 管家或相容用戶端建立；目前版本無法開啟它，原始資料沒有被變更。",
+    "versionInfo": "資料庫版本 v{{db}} · 應用支援 v{{supported}}",
+    "dbPath": "資料庫檔案",
+    "channelUnavailableTitle": "簽署更新通道尚不可用",
+    "channelUnavailableDescription": "產品更新端點和簽署公鑰核准前，AI 管家無法安全地取得或安裝新版本。請先備份此目錄，再結束並使用已核准的相容版本。",
+    "openConfigDir": "開啟應用程式資料目錄",
+    "quit": "結束"
+  },
+  "errors": {
+    "usage_query_failed": "用量查詢失敗",
+    "configFallbackPath": "AI Manager 應用程式資料目錄/config.json",
+    "configLoadFailedTitle": "設定載入失敗",
+    "configLoadFailedMessage": "無法讀取設定檔：\n{{path}}\n\n錯誤詳情：\n{{detail}}\n\n請手動檢查 JSON 是否有效，或從同目錄的備份檔案（如 config.json.bak）還原。\n\n應用程式將退出以便您進行修復。",
+    "frontendCrashTitle": "介面遇到了問題",
+    "frontendCrashMessage": "已嘗試將錯誤資訊寫入應用程式診斷日誌。請重新載入介面；如果問題持續，請在提交 Issue 時附上日誌。",
+    "reloadInterface": "重新載入介面"
+  },
+  "hermes": {
+    "form": {
+      "baseUrl": "API 端點",
+      "baseUrlHint": "供應商的 API 端點位址。",
+      "providerKey": "供應商標識",
+      "providerKeyPlaceholder": "my-provider",
+      "providerKeyHint": "只能使用小寫字母、數字和連字號。用作 config.yaml 中的供應商名稱。",
+      "providerKeyLockedHint": "該供應商已新增至 Hermes 設定中，標識不可修改。",
+      "providerKeyRequired": "供應商標識不能為空",
+      "providerKeyInvalid": "供應商標識只能包含小寫字母、數字和連字號",
+      "providerKeyDuplicate": "該供應商標識已存在",
+      "apiMode": "API 模式",
+      "apiModeHint": "供應商 API 協定。請根據端點選擇正確的協定。",
+      "apiModeChatCompletions": "OpenAI Chat Completions",
+      "apiModeAnthropicMessages": "Anthropic Messages",
+      "apiModeCodexResponses": "OpenAI Responses",
+      "apiModeBedrockConverse": "AWS Bedrock Converse",
+      "baseUrlRequired": "API 端點不能為空",
+      "baseUrlScheme": "請使用 http:// 或 https:// 開頭的位址",
+      "baseUrlInvalid": "API 端點不是有效的 URL",
+      "models": "模型清單",
+      "addModel": "新增模型",
+      "noModels": "暫無模型設定。切換至此供應商時將不會更新預設模型。",
+      "modelId": "模型 ID",
+      "modelIdPlaceholder": "anthropic/claude-opus-5",
+      "modelName": "顯示名稱",
+      "modelNamePlaceholder": "Claude Opus 5",
+      "contextLength": "上下文長度",
+      "toggleModelDetails": "展開或收合模型詳細資訊",
+      "removeModel": "移除模型",
+      "modelsHint": "啟用為目前供應商時，第一個模型會設為 Hermes 預設模型。",
+      "rateLimitDelay": "請求間隔（秒）",
+      "rateLimitDelayHint": "連續請求間的最小間隔秒數（選填）。留空表示無限制。"
+    },
+    "webui": {
+      "open": "開啟 Hermes Web UI",
+      "offline": "Hermes Web UI 未啟動，請先執行 `hermes dashboard` 啟動服務。",
+      "openFailed": "開啟 Hermes Web UI 失敗",
+      "launchConfirmTitle": "Hermes Dashboard 未啟動",
+      "launchConfirmMessage": "是否開啟終端機並執行 `hermes dashboard` 啟動服務？\n\n啟動完成後會自動開啟瀏覽器。\n\n若終端機提示找不到 hermes 或缺少 web 相依套件，請先執行：\npip install hermes-agent[web]",
+      "launchConfirmAction": "開啟終端機並啟動",
+      "launching": "已在終端機啟動 hermes dashboard",
+      "launchFailed": "開啟終端機失敗"
+    },
+    "memory": {
+      "title": "記憶管理",
+      "agentTab": "Agent 記憶 (MEMORY.md)",
+      "userTab": "使用者畫像 (USER.md)",
+      "usage": "已用 {{current}} / {{limit}} 字元",
+      "overLimit": "已超過上限，Hermes 下次載入時會截斷",
+      "enableOn": "已啟用",
+      "enableOff": "已停用",
+      "disabledHint": "在重新啟用前 Hermes 會跳過此記憶",
+      "toggleFailed": "切換記憶狀態失敗",
+      "saveSuccess": "記憶已儲存",
+      "saveFailed": "儲存記憶失敗",
+      "loadFailed": "讀取記憶檔案失敗",
+      "openConfig": "在 Hermes Web UI 調整上限",
+      "runtimeNote": "變更將在 Hermes 下次啟動或建立新工作階段時生效。"
+    }
+  },
+  "ds": {
+    "status": {
+      "ready": "狀態良好",
+      "attention": "需要注意",
+      "action": "需要處理"
+    },
+    "action": {
+      "install": "安裝",
+      "configure": "加入軟體",
+      "readOnly": "唯讀",
+      "update": "更新",
+      "versions": "切換版本",
+      "open": "開啟",
+      "remove": "移除",
+      "check": "檢查",
+      "fix": "修復",
+      "connect": "連線",
+      "retry": "再試一次",
+      "copyNamed": "複製{{name}}",
+      "copied": "已複製",
+      "use": "使用",
+      "inUse": "使用中",
+      "cancel": "取消",
+      "close": "關閉",
+      "named": {
+        "install": "安裝 {{name}}",
+        "update": "更新 {{name}}",
+        "versions": "切換 {{name}} 的版本",
+        "open": "開啟 {{name}}",
+        "remove": "移除 {{name}}",
+        "check": "檢查 {{name}}",
+        "fix": "修復 {{name}}"
+      }
+    },
+    "tool": {
+      "notInstalled": "未安裝",
+      "installed": "已安裝",
+      "updateAvailable": "有可用更新",
+      "broken": "需要修復",
+      "unknown": "尚未檢查",
+      "installUnavailable": "暫時不能自動安裝這個工具。",
+      "openUnavailable": "暫時不能自動開啟這個工具。",
+      "updateUnavailable": "暫時不能自動更新這個工具。",
+      "repairUnavailable": "暫時不能自動修復。沒有安全方案時，AI 管家不會改動這個工具。"
+    },
+    "service": {
+      "currentlyUsedBy": "目前使用者",
+      "notUsed": "尚未使用",
+      "nowActive": "已啟用"
+    },
+    "task": {
+      "queued": "等待中",
+      "running": "進行中",
+      "success": "已完成",
+      "failed": "失敗",
+      "cancelled": "已停止",
+      "progressLabel": "任務進度"
+    },
+    "sidebar": {
+      "primary": "主導覽",
+      "expand": "展開側邊欄",
+      "collapse": "收起側邊欄"
+    }
+  },
+  "operation": {
+    "phase": {
+      "preparing": "準備中",
+      "downloading": "下載中",
+      "cancelling": "正在安全取消",
+      "cancelled": "已取消",
+      "installing": "安裝中",
+      "configuring": "設定中",
+      "removing": "移除中",
+      "checking": "檢查中",
+      "ready": "已就緒",
+      "removed": "已移除"
+    },
+    "log": {
+      "started": "工作已開始",
+      "cancellationRequested": "已要求取消，正在等待相關程序停止",
+      "cancelled": "相關程序停止後，工作已取消",
+      "commandSucceeded": "命令執行完成",
+      "commandFailed": "命令執行失敗",
+      "commandFailureIgnored": "命令傳回非零狀態，依既定方案繼續",
+      "tryingFallback": "正在嘗試下一個安全方案",
+      "usingConfiguredProxy": "正在使用已設定的對外代理",
+      "usingCommunityMirror": "正在透過社群鏡像重試這次 npm 相容下載",
+      "nativeSupply": {
+        "start": "官方更新管道無法使用，正在從軟體下載來源取得同一份官方程式",
+        "done": "官方程式已更新，安裝歸屬保持不變"
+      },
+      "succeeded": "工作已完成",
+      "failed": "工作失敗",
+      "truncated": "較早的輸出已被截斷"
+    }
+  },
+  "error": {
+    "about": {
+      "openLinkFailed": "沒能在瀏覽器裡開啟這個頁面。"
+    },
+    "appUpdate": {
+      "installFailed": "無法安裝這個應用程式更新。",
+      "notReady": "應用程式更新尚未準備好。",
+      "openDownloadFailed": "無法開啟 AI 管家官方下載頁。"
+    },
+    "backup": {
+      "createFailed": "沒能儲存備份。",
+      "deleteFailed": "沒能刪掉這份備份。",
+      "exportFailed": "沒能儲存可移轉的設定副本。",
+      "exportLocationRefused": "請選擇其他資料夾，並把可移轉副本儲存為設定封存檔。",
+      "importFailed": "沒能匯入這份設定封存檔，目前的設定沒有被變更。",
+      "importTooLarge": "這份設定封存檔太大，無法安全匯入。",
+      "listFailed": "讀不到你的備份。",
+      "nameExists": "已經有一份備份使用這個名稱。",
+      "nameInvalid": "備份名稱中包含不支援的字元。",
+      "nameRequired": "請輸入備份名稱。",
+      "nameTooLong": "備份名稱太長了。",
+      "noDatabase": "現在還沒有可以備份的內容。",
+      "notFound": "這份備份已經不在了。",
+      "renameFailed": "沒能重新命名這份備份。",
+      "restoreFailed": "沒能還原這份備份，什麼都沒有被改動。",
+      "scheduleSaveFailed": "沒能儲存自動備份設定。",
+      "selectionUnavailable": "所選位置不是可用的本機檔案。",
+      "storeUnavailable": "應用程式還在啟動中。"
+    },
+    "command": {
+      "joinFailed": "工作意外中斷了。",
+      "permissionDenied": "這台電腦不允許 AI 管家做這件事。",
+      "programNotFound": "缺少 AI 管家需要的程式。",
+      "spawnFailed": "AI 管家需要的程式沒能啟動。",
+      "timeout": "花的時間太久，AI 管家已經停下來了。"
+    },
+    "commandSpec": {
+      "argContainsNul": "為了安全，AI 管家沒有繼續這一步。",
+      "envContainsNul": "為了安全，AI 管家沒有繼續這一步。",
+      "envKeyInvalid": "為了安全，AI 管家沒有繼續這一步。",
+      "scriptNotSealed": "為了安全，AI 管家沒有繼續這一步。",
+      "bashRequiresSingleScript": "為了安全，AI 管家沒有繼續這一步。",
+      "programPathMismatch": "為了安全，AI 管家沒有繼續這一步。",
+      "programPathNotAbsolute": "為了安全，AI 管家沒有繼續這一步。",
+      "sensitiveIndexOutOfRange": "為了安全，AI 管家沒有繼續這一步。",
+      "terminalTargetInvalid": "為了安全，AI 管家沒有繼續這一步。",
+      "terminalTargetNotAnchored": "為了安全，AI 管家沒有繼續這一步。",
+      "terminalWorkingDirectoryNotAbsolute": "為了安全，AI 管家沒有繼續這一步。",
+      "wslDistroInvalid": "為了安全，AI 管家沒有繼續這一步。",
+      "timeoutZero": "為了安全，AI 管家沒有繼續這一步。"
+    },
+    "deepLink": {
+      "credentialBlocked": "這個連結帶著金鑰。從 AI Manager 之外開啟的連結不允許攜帶金鑰，因為金鑰會被你的電腦看到。請複製連結，改到設定裡貼上。",
+      "credentialRequired": "這個連結沒有金鑰，而 API 接入點沒有金鑰就無法儲存。請向服務商索取一條帶金鑰的連結。",
+      "duplicateParameter": "這個連結有重複的欄位，無法讀取。",
+      "endpointRequired": "這個連結沒有寫明 API 接入點的位址。",
+      "invalidEncoding": "連結裡打包的內容已損壞，無法讀取。",
+      "invalidLink": "AI Manager 讀不懂這個連結。",
+      "mcpUnsupportedFields": "這個連結要為 MCP 伺服器設定環境值或請求標頭。AI Manager 不會替你加入這些內容，所以無法使用這個連結。",
+      "missingParameter": "這個連結缺少匯入所需的內容。",
+      "notPending": "這個連結已經不在等待中了，可能已過期，也可能已經處理過。",
+      "tooLarge": "這個連結太長，無法安全讀取。",
+      "toolUnavailable": "AI Manager 不管理這個連結指向的應用程式。",
+      "unknownParameter": "這個連結裡有 AI Manager 不認識的欄位。",
+      "unsupportedResource": "這個連結要匯入的東西，AI Manager 目前不支援。",
+      "unsupportedScheme": "這個連結不屬於 AI Manager。",
+      "unsupportedVersion": "這個連結使用的格式比目前版本的 AI Manager 還新。",
+      "valueTooLong": "這個連結裡有一項內容遠超正常長度。"
+    },
+    "desktopApp": {
+      "inventoryFailed": "AI 管家沒能檢查這台電腦上的桌面應用程式。",
+      "launchFailed": "桌面應用程式沒能開啟。",
+      "launchUnsupported": "目前系統無法開啟桌面應用程式。",
+      "notFound": "這個桌面應用程式已經沒有安裝了。",
+      "officialDownloadFailed": "沒能開啟廠商的官方安裝套件。",
+      "officialDownloadUnsupported": "廠商沒有為目前系統和晶片提供安裝套件。",
+      "uninstallHandoffFailed": "沒能開啟系統的解除安裝入口。",
+      "uninstallHandoffUnsupported": "AI 管家目前無法把這個 App 交給系統解除安裝。"
+    },
+    "desktopPreferences": {
+      "invalid": "如需在背景啟動或關閉視窗後繼續執行，請先保留系統匣入口。",
+      "readFailed": "AI 管家無法讀取這台電腦上的桌面偏好。",
+      "saveFailed": "AI 管家無法安全套用桌面偏好。"
+    },
+    "extension": {
+      "adoptFailed": "AI 管家沒能安全納管找到的擴充功能。",
+      "adoptUnsupported": "這種擴充功能不能從現有的本機副本中納管。",
+      "cannotDisable": "總要有一份說明在使用中，所以這一份關不掉。換用另一份就行。",
+      "copyFailed": "沒能把這個技能複製過去。",
+      "detectedReadOnly": "AI 管家在這台 Mac 上找到了這個擴充功能，但尚未接管，因此沒有變更本機副本。",
+      "listFailed": "讀不到這個工具的擴充功能。",
+      "notFound": "這個擴充功能已經不在了。",
+      "resourceOpenFailed": "無法開啟這個 Skill 的本機檔案。",
+      "storeUnavailable": "應用程式還在啟動中。",
+      "toggleFailed": "沒能改完這一步，開關顯示的狀態可能和工具看到的不一致。",
+      "unknownKind": "AI 管家不認識這種擴充功能。",
+      "unsupportedScope": "AI 管家尚未接入這個目標的此類擴充功能。"
+    },
+    "health": {
+      "snapshotFailed": "讀不到你的設定狀態。",
+      "storeUnavailable": "應用程式還在啟動中。"
+    },
+    "import": {
+      "invalidSource": "無法安全匯入這份相容設定。",
+      "mergeFailed": "無法匯入既有設定，現有內容沒有變更。",
+      "newerVersion": "這份設定使用較新的相容格式。請先更新 AI 管家，再重試。",
+      "notFound": "匯入來源已經不在了。",
+      "readFailed": "無法讀取這份既有設定。",
+      "storeUnavailable": "應用程式還在啟動中。"
+    },
+    "mcp": {
+      "actionPanicked": "加入這個 MCP 連線時發生問題。",
+      "argumentsInvalid": "無法安全加入這些啟動參數。",
+      "commandInvalid": "無法安全加入這個程式命令。",
+      "commandRequired": "填寫這個連線要執行的程式。",
+      "descriptionTooLong": "說明不能超過 240 個字元。",
+      "installCleanupFailed": "連線沒有加入成功，而且 AI 管家無法完全清理這次變更。",
+      "installFailed": "無法加入這個 MCP 連線。",
+      "nameInvalid": "連線名稱包含不支援的字元。",
+      "nameRequired": "請先為這個連線命名。",
+      "nameTooLong": "連線名稱不能超過 80 個字元。",
+      "notInstalled": "這個 MCP 連線已經不在了。",
+      "removeFailed": "無法安全移除這個 MCP 連線。",
+      "removePanicked": "移除這個 MCP 連線時發生問題。",
+      "removeRestoreFailed": "連線沒有移除成功，而且 AI 管家無法確認原本的設定已完整還原。",
+      "removeVerifyFailed": "AI 管家無法確認 MCP 連線已經移除。",
+      "unsupportedScope": "AI 管家尚未接入這個目標的 MCP 連線。",
+      "urlCredentials": "請勿把使用者名稱或密碼寫進伺服器網址。",
+      "urlInsecure": "遠端伺服器請使用 HTTPS；只有這台電腦上的網址可以使用 HTTP。",
+      "urlInvalid": "填寫完整的 HTTP 或 HTTPS 伺服器網址，網址不能包含片段識別碼。",
+      "urlRequired": "填寫 MCP 伺服器網址。",
+      "verifyFailed": "AI 管家無法確認 MCP 連線已經加入。"
+    },
+    "native": {
+      "responseSchemaMismatch": "AI 管家收到了看不懂的回應，請再試一次。",
+      "unrecognized": "出了點問題，請再試一次。"
+    },
+    "networkProxy": {
+      "invalid": "請輸入不含帳號密碼的本機代理，例如 http://127.0.0.1:7890 或 socks5://localhost:1080。",
+      "readFailed": "AI 管家無法讀取下載代理設定。",
+      "saveFailed": "AI 管家無法安全套用這個下載代理。",
+      "storeUnavailable": "下載代理設定尚未準備好。"
+    },
+    "openclawWorkspace": {
+      "contentInvalid": "這個工作區檔案不是有效的 UTF-8 文字。",
+      "contentTooLarge": "這個工作區檔案超過 1 MiB 的安全上限。",
+      "dateInvalid": "請選擇 YYYY-MM-DD 格式的真實日期。",
+      "deleteFailed": "AI 管家無法安全刪除這份每日記憶。",
+      "directoryOpenFailed": "無法在系統檔案管理器中開啟工作區資料夾。",
+      "invalidTarget": "不支援這個 OpenClaw 工作區目標。",
+      "listFailed": "AI 管家無法讀取 OpenClaw 工作區清單。",
+      "queryInvalid": "工作區搜尋內容不能超過 200 個字元。",
+      "readFailed": "AI 管家無法讀取這個 OpenClaw 工作區檔案。",
+      "restoreFailed": "工作區變更失敗，而且無法自動還原原始檔案。",
+      "saveFailed": "AI 管家無法安全儲存這個 OpenClaw 工作區檔案。",
+      "unsafeEntry": "這個工作區項目是連結或不支援的檔案類型，AI 管家沒有變更它。",
+      "verifyFailed": "AI 管家無法確認 OpenClaw 工作區變更已生效。"
+    },
+    "operation": {
+      "cancelFailed": "AI Manager 無法安全停止這個工作。已等待相關程序結束，並將工作標記為失敗。",
+      "cancelNotRequested": "這個工作沒有收到取消要求。",
+      "cancelPending": "這個工作正在取消。",
+      "cancelUnconfirmed": "AI Manager 尚未確認這個工作已經停止。",
+      "cancelled": "這個工作已取消。",
+      "invalidId": "工作參照無效。",
+      "invalidTransition": "這個工作已經結束了。",
+      "notCancellable": "這個工作不支援取消。",
+      "notCancellableNow": "這個工作已進入無法安全停止的階段。",
+      "notFound": "找不到這個工作了。",
+      "notRunning": "這個工作沒有在執行。",
+      "toolBusy": "這個工具已經有工作在跑了，等它結束再試。",
+      "desktopAppBusy": "這個桌面應用程式已經有工作在跑了，等它結束再試。"
+    },
+    "prompt": {
+      "contentInvalid": "提示詞裡有無法安全儲存的字元。",
+      "contentRequired": "請寫下希望工具遵守的說明。",
+      "contentTooLong": "提示詞請控制在 1 MB 以內。",
+      "descriptionInvalid": "描述裡有不支援的字元。",
+      "descriptionTooLong": "描述請控制在 500 個字元以內。",
+      "importEmpty": "工具目前的說明檔案是空的。",
+      "importFailed": "沒能匯入工具目前的提示詞。",
+      "importMissing": "這個工具還沒有目前的說明檔案。",
+      "liveInvalid": "工具目前的說明檔案不是可讀文字，AI 管家沒有變更它。",
+      "nameInvalid": "提示詞名稱裡有不支援的字元。",
+      "nameRequired": "請先為這份提示詞命名。",
+      "nameTooLong": "提示詞名稱請控制在 80 個字元以內。",
+      "notFound": "這份提示詞已經不存在。",
+      "readFailed": "讀不到這份提示詞。",
+      "removeActive": "請先改用另一份提示詞，再移除這一份。",
+      "removeFailed": "沒能安全移除這份提示詞。",
+      "removeRestoreFailed": "這份提示詞沒能移除，而且 AI 管家無法確認儲存的副本已經還原。",
+      "saveFailed": "沒能儲存這份提示詞。",
+      "saveRestoreFailed": "這份提示詞沒能儲存，而且 AI 管家無法確認之前的版本已完整還原。",
+      "saveVerifyFailed": "AI 管家沒能確認提示詞已經正確儲存。",
+      "unsupportedTool": "AI 管家尚未接入這個工具的常駐提示詞。"
+    },
+    "provider": {
+      "createFailed": "沒能連線這個服務。",
+      "listFailed": "讀不到這個工具的服務清單。",
+      "nameRequired": "先給這個服務取個名字。",
+      "notFound": "這個服務已經不在了。",
+      "notTestable": "這個服務沒有可以檢查的位址。",
+      "removeActive": "請先改用另一個服務，再移除這個服務。",
+      "removeFailed": "沒能安全移除這個服務。",
+      "removePanicked": "移除這個服務時出了問題。",
+      "removeRestoreFailed": "這個服務沒能移除，而且 AI 管家無法確認之前的設定已完整還原。",
+      "removeUnsupported": "這個服務使用工具自己的專用設定，不能在這裡移除。",
+      "removeVerifyFailed": "AI 管家沒能確認這個服務已經移除。",
+      "runtimeContextFailed": "沒能檢查這個工具的設定來源。",
+      "runtimeResourceNotFound": "這個本機資源已經無法使用。",
+      "runtimeResourceOpenFailed": "無法開啟這個本機資源。",
+      "saveFailed": "這個服務的變更沒能儲存。",
+      "saveRestoreFailed": "這個服務沒能儲存，而且 AI 管家無法確認之前的設定已完整還原。",
+      "settingsPreserveFailed": "端點已切換，但沒能保留這個工具原有的其他設定。",
+      "storeUnavailable": "應用程式還在啟動中。",
+      "switchFailed": "沒能切換到這個服務。",
+      "testFailed": "這次檢查沒能跑起來。",
+      "unsupportedTool": "AI 管家尚未接入這個工具的 AI 服務。"
+    },
+    "remediation": {
+      "chooseAnotherService": "先為這個工具選擇另一個服務，然後再試一次。",
+      "checkConnectionSettings": "檢查一下名稱、API 金鑰和模型，然後再試一次。",
+      "checkInternetConnection": "檢查網路連線後再試一次。",
+      "checkLocalFileAccess": "確認這個 Skill 仍在原位置，並允許系統開啟它，然後再試一次。",
+      "checkServiceRegion": "請核對廠商支援的地區。AI 管家不會繞過帳號或服務地區限制。",
+      "checkMcpSettings": "檢查 MCP 名稱和連線資訊，然後再試一次。",
+      "checkPromptSettings": "檢查提示詞名稱和內容，然後再試一次。",
+      "checkPermissions": "確認 AI 管家可以修改你個人資料夾裡的檔案，然後再試一次。",
+      "checkServiceSettings": "檢查一下名稱和金鑰，然後再試一次。",
+      "configureInstallNetwork": "查看過程記錄。如果廠商下載位置無法存取，請在設定中配置本機代理後重試；npm 所屬工具已自動採用官方優先、相容鏡像備援的策略。",
+      "chooseListedVersion": "請從版本目錄中選擇一個版本後重試。",
+      "installManually": "你可以到這個工具的官網自己安裝。",
+      "uninstallDesktopAppManually": "請使用系統的應用程式管理功能移除這個桌面 App。",
+      "openDesktopAppManually": "請從系統的應用程式列表裡手動開啟它。",
+      "chooseAnotherFolder": "換一個專案資料夾，然後再試一次。",
+      "chooseAnotherPrompt": "先選擇另一份提示詞，然後再試一次。",
+      "openToolManually": "在專案資料夾裡開啟終端機，再手動啟動這個工具。",
+      "refreshSessions": "重新整理工作階段清單，然後再次選擇這個對話。",
+      "recheckUpdate": "請重新檢查更新方式後再繼續。",
+      "removeInTool": "請到這個工具自己的專用設定中移除服務。",
+      "retryOrViewDetails": "可以再試一次，或者打開「查看詳情」看看發生了什麼。",
+      "useOriginalUpdateChannel": "請使用這份安裝原來的更新管道；也可以先明確移除，再透過 npm 安裝。",
+      "uninstallManually": "你可以自己刪掉剩下的檔案，然後重新檢查一次。",
+      "pasteDeepLink": "複製這個連結，到設定裡貼上即可繼續。"
+    },
+    "routing": {
+      "changeFailed": "AI 管家無法安全完成這次路由變更。",
+      "providerNotEligible": "這個服務不能加入自動容錯移轉。",
+      "providerUnavailable": "這個服務已無法用於路由。",
+      "queueLocked": "請先關閉自動容錯移轉，再移除目前服務或最後一個服務。",
+      "readFailed": "AI 管家無法讀取本機路由狀態。",
+      "storeUnavailable": "本機路由尚未準備好。",
+      "takeoverRequired": "請先為這個工具開啟路由接管。",
+      "unsupportedTool": "AI 管家尚未接入這個工具的本機路由資料通道。"
+    },
+    "session": {
+      "notFound": "這個本機工作階段已不存在。",
+      "queryInvalid": "工作階段搜尋內容不能超過 200 個字元。",
+      "readFailed": "AI 管家無法讀取這個本機對話。",
+      "resumeUnsupported": "這個工具不支援從終端機繼續工作階段。"
+    },
+    "settings": {
+      "loadFailed": "讀不到你的設定。",
+      "saveFailed": "沒能儲存這項變更。",
+      "storeUnavailable": "應用程式還在啟動中。"
+    },
+    "skill": {
+      "actionPanicked": "安裝這個技能時出了問題。",
+      "alreadyInstalled": "這個技能已經安裝。",
+      "backupConflict": "這個技能已經安裝，所以暫時不能復原這份副本。",
+      "backupDeleteFailed": "未能安全刪除這份技能復原副本。",
+      "backupListFailed": "AI 管家未能讀取技能復原副本。",
+      "backupNotFound": "這份技能復原副本已經不存在。",
+      "backupRestoreFailed": "未能從這份復原副本還原技能。",
+      "backupVerifyFailed": "AI 管家未能確認復原後的技能已可使用。",
+      "catalogFailed": "沒能載入技能目錄。",
+      "conflict": "另一個已安裝技能正在使用同一個資料夾。",
+      "downloadFailed": "沒能下載這個技能。",
+      "installFailed": "技能安裝沒有完成。",
+      "invalidSource": "無法安全安裝這個技能來源。",
+      "notInstalled": "這個技能已經不在已安裝清單中。",
+      "removeFailed": "沒能安全移除這個技能。",
+      "removePanicked": "移除這個技能時出了問題。",
+      "removeVerifyFailed": "AI 管家沒能確認技能已經移除。",
+      "repositoryInvalid": "這個 GitHub 技能來源無效。",
+      "repositoryListFailed": "AI 管家未能讀取已設定的技能來源。",
+      "repositoryNotFound": "這個技能來源已經不在設定中。",
+      "repositoryRemoveFailed": "未能移除這個技能來源。",
+      "repositorySaveFailed": "未能儲存這個技能來源。",
+      "storeUnavailable": "應用程式還在啟動中。",
+      "unsupportedTool": "AI 管家尚未接入這個工具的技能。",
+      "updateCheckFailed": "AI 管家未能完成技能更新檢查。",
+      "updateDownloadFailed": "未能下載這個技能的更新。",
+      "updateFailed": "技能更新沒有完成。",
+      "updatePanicked": "更新這個技能時發生問題。",
+      "updateSourceInvalid": "無法安全使用這個技能的更新來源。",
+      "updateUnsupported": "這個技能沒有可用於更新的原始儲存庫。",
+      "updateVerifyFailed": "AI 管家未能確認技能已經更新。",
+      "verifyFailed": "AI 管家沒能確認技能已經裝好。",
+      "zipInstallFailed": "未能安全安裝這個 ZIP 中的技能。",
+      "zipInvalid": "這個檔案不是有效且安全的技能 ZIP。",
+      "zipNoNewSkills": "這個 ZIP 中沒有可新安裝的技能。",
+      "zipNoSkills": "這個 ZIP 中沒有包含 SKILL.md 的技能。",
+      "zipSelectionUnavailable": "所選 ZIP 不是可用的本機檔案。",
+      "zipVerifyFailed": "AI 管家未能確認這個 ZIP 中的技能已經安裝。"
+    },
+    "system": {
+      "revealFailed": "沒能在檔案管理器裡顯示這個位置。"
+    },
+    "tool": {
+      "actionPanicked": "AI 管家內部出錯了。",
+      "actionUnsupported": "這個工具不支援這個操作。",
+      "downloadAccessDenied": "下載位置拒絕了這次要求。",
+      "downloadNetworkFailed": "無法連線到下載位置。",
+      "downloadRegistryUnavailable": "目前的軟體下載來源拒絕或限制了這次要求。",
+      "installFailed": "安裝沒有完成。",
+      "launchFailed": "沒能在終端機裡開啟這個工具。",
+      "nativeSupplyIntegrity": "下載的官方程式與下載來源公布的校驗值不符，AI 管家已捨棄它。",
+      "nativeSupplyLayout": "下載的官方程式套件裡沒有可用的程式檔案，或無法寫入官方安裝目錄。",
+      "nativeSupplySignature": "下載的官方程式未通過廠商簽章驗證，AI 管家已刪除它。",
+      "nativeSupplySwitchFailed": "新版本已下載，但無法切換啟動入口；目前程式保持不變。",
+      "nativeSupplyUnavailable": "軟體下載來源沒有提供這個版本的官方程式。",
+      "nativeSupplyUnsupported": "AI 管家無法在這台電腦上為這份官方安裝補給程式。",
+      "nativeSupplyVerifyFailed": "新下載的官方程式沒有回報預期的版本，AI 管家已刪除它。",
+      "notFound": "AI 管家還不支援這個工具。",
+      "notInstalled": "這個工具還沒有安裝。",
+      "projectFolderUnavailable": "這個專案資料夾已經無法使用。",
+      "removePathDenied": "AI 管家沒有權限刪除這個工具的某個檔案。",
+      "removePathRefused": "這個目標超出自動刪除的安全邊界，AI 管家在刪除任何東西之前就停下了。",
+      "serviceRegionUnavailable": "廠商表示目前地區無法使用此服務。",
+      "uninstallFailed": "移除沒有完成。",
+      "uninstallIncomplete": "這個工具還有檔案留在電腦上。",
+      "uninstallStrategyUnknown": "AI 管家看不出這個工具是怎麼裝上的，沒辦法移除它。",
+      "updateFailed": "更新沒有完成。",
+      "updatePreviewStale": "開始更新前，偵測到的更新方式已經改變。",
+      "updatePreviewUnavailable": "AI 管家目前無法確認安全的更新方式。",
+      "versionCatalogFailed": "沒能載入已發佈的版本目錄。",
+      "versionHistoryReadFailed": "沒能讀取這個工具的本機版本歷史。",
+      "versionHistoryWriteFailed": "工具變更已驗證成功，但 AI 管家沒能儲存版本歷史。",
+      "versionInvalid": "無法安全安裝這個版本。",
+      "versionSourceUnsupported": "這份安裝必須繼續使用原來的更新管道。",
+      "verifyFailed": "AI 管家沒能確認這個工具可以正常用。"
+    },
+    "usage": {
+      "readFailed": "AI 管家未能讀取本機用量摘要。",
+      "storeUnavailable": "用量資料還沒有準備好。"
+    }
+  },
+  "nav": {
+    "appName": "AI 管家",
+    "starting": "正在啟動 AI 管家",
+    "loadingPage": "正在開啟這個頁面",
+    "home": "首頁",
+    "tools": "軟體管理",
+    "services": "API 端點",
+    "routing": "本機路由",
+    "extensions": "技能",
+    "usage": "用量",
+    "workspace": "OpenClaw",
+    "settings": "設定",
+    "localFirst": "你的設定只保存在這台電腦上",
+    "data": "工作階段",
+    "mcp": "MCP",
+    "prompts": "全域提示詞"
+  },
+  "openClawWorkspace": {
+    "title": "OpenClaw 工作區",
+    "description": "集中管理 OpenClaw 的身分、指令與記憶，不必手動尋找設定路徑。",
+    "loading": "正在讀取 OpenClaw 工作區",
+    "openFolder": "開啟工作區",
+    "refresh": "重新整理工作區",
+    "retry": "重試",
+    "error": {
+      "title": "無法讀取工作區",
+      "description": "請檢查 OpenClaw 工作區的存取權限，然後重試。"
+    },
+    "overview": {
+      "title": "工作區概覽",
+      "description": "只在本機讀取 OpenClaw 的指令與記憶。",
+      "files": "核心檔案",
+      "filesValue": "{{ready}} / {{total}}",
+      "memories": "每日記憶",
+      "storage": "本機占用",
+      "limited": "工作區內容異常多，本次概覽已限制掃描範圍。"
+    },
+    "files": {
+      "title": "核心工作區檔案",
+      "description": "OpenClaw 透過這些 Markdown 檔案理解自己的角色、偏好與運作方式。",
+      "status": {
+        "ready": "已就緒",
+        "missing": "尚未建立",
+        "unavailable": "無法使用"
+      },
+      "descriptionById": {
+        "agents": "Agent 的操作指令與規則",
+        "soul": "人格與溝通風格",
+        "user": "使用者檔案與偏好",
+        "identity": "助理身分與呈現方式",
+        "tools": "本機工具與工作流程說明",
+        "memory": "整理後的長期記憶與決策",
+        "heartbeat": "定期檢查與心跳任務",
+        "bootstrap": "首次執行的初始化指令",
+        "boot": "閘道重新啟動檢查清單"
+      }
+    },
+    "editor": {
+      "fileTitle": "編輯 {{filename}}",
+      "memoryTitle": "每日記憶 · {{date}}",
+      "description": "Markdown 會直接儲存到 OpenClaw 的本機工作區。",
+      "contentLabel": "工作區 Markdown",
+      "loading": "正在讀取這個工作區檔案",
+      "safety": "取代既有檔案前，AI 管家會保留一份私有復原副本，並驗證儲存結果。",
+      "save": "儲存變更",
+      "saved": "工作區已儲存",
+      "backupCreated": "變更前已保留本機復原副本。",
+      "size": "{{current}} / {{maximum}} 位元組",
+      "tooLarge": "這個檔案超過 1 MiB 的安全上限。"
+    },
+    "memories": {
+      "title": "每日記憶",
+      "description": "瀏覽、搜尋與維護 OpenClaw 按日期儲存的記憶筆記。",
+      "openFolder": "開啟記憶資料夾",
+      "today": "今天的記憶",
+      "searchLabel": "搜尋每日記憶",
+      "searchPlaceholder": "搜尋日期或筆記內容",
+      "search": "搜尋",
+      "loading": "正在讀取每日記憶",
+      "empty": "還沒有每日記憶",
+      "emptySearch": "沒有符合搜尋條件的記憶",
+      "emptyDescription": "可以建立今天的筆記，或調整搜尋內容。",
+      "clearSearch": "清除搜尋",
+      "matches": "{{count}} 處相符",
+      "noPreview": "空白筆記",
+      "limited": "這裡只顯示最新且可安全讀取的結果。",
+      "deleteLabel": "刪除 {{date}} 的記憶",
+      "deleteTitle": "刪除 {{date}} 的記憶？",
+      "deleteDescription": "這份筆記將從 OpenClaw 移除；AI 管家會先保留本機復原副本。",
+      "deleteConfirm": "刪除記憶",
+      "deleted": "每日記憶已刪除",
+      "deleteBackup": "已保留一份本機復原副本。"
+    }
+  },
+  "tool": {
+    "claude-code": {
+      "description": "Anthropic 官方的終端機 AI 程式助手。"
+    },
+    "codex": {
+      "description": "OpenAI 的終端機代理；ChatGPT / Codex 桌面應用程式與它共用 Codex 設定。"
+    },
+    "opencode": {
+      "description": "開源的 AI 程式助手，可以接任何模型。"
+    },
+    "gemini-cli": {
+      "description": "Google 的終端機 AI 程式助手。"
+    },
+    "grok-build": {
+      "description": "xAI 的終端機智慧程式工具。"
+    },
+    "openclaw": {
+      "description": "連接模型、工具與訊息頻道的個人 AI 助手。"
+    },
+    "hermes": {
+      "description": "Nous Research 的開源終端機代理。"
+    },
+    "pi": {
+      "description": "輕量、可擴充的終端機程式代理。"
+    },
+    "kimi-code": {
+      "description": "Moonshot AI 官方的終端機程式代理。"
+    },
+    "deepseek-dsh": {
+      "description": "DeepSeek 的開發者預覽版程式 Harness，可從終端機啟動本機 Web 介面。"
+    }
+  },
+  "tools": {
+    "details": {
+      "action": "軟體詳情",
+      "title": "{{name}} 的軟體詳情",
+      "description": "查看本機設定、記憶與儲存；全域提示詞在專屬頁面統一管理。"
+    },
+    "title": "軟體管理",
+    "description": "安裝、更新、移除或切換 AI 程式軟體版本。",
+    "loading": "正在查看你的工具",
+    "refresh": "重新檢查",
+    "scan": "重新檢測",
+    "upToDate": "已是最新",
+    "checkingVersion": "正在讀取版本資訊",
+    "actions": {
+      "moreNamed": "{{name}} 的更多操作"
+    },
+    "discovery": {
+      "eyebrow": "依目標選擇",
+      "title": "不知道該安裝哪一個？",
+      "description": "依你想完成的事情，比較尚未安裝的工具。這裡顯示的是情境匹配，不是付費推廣或排名。",
+      "scenarioLabel": "選擇你想做的事情",
+      "scenario": {
+        "officialCoding": "使用廠商官方程式工具",
+        "modelChoice": "自由選擇模型與服務商",
+        "personalAutomation": "建立個人助理或自動化"
+      },
+      "publisher": "發佈方：{{publisher}}",
+      "access": {
+        "vendorOrProvider": "可能需要廠商的付費方案、登入帳號或 API 額度；存取資格與價格由廠商決定。",
+        "provider": "需要連接模型服務商或本機模型；部分服務商會收取 API 額度費用。"
+      },
+      "choose": "查看 {{name}}",
+      "costNote": "AI Manager 不銷售帳號或額度。安裝前請向發佈方或服務商確認目前的存取資格與價格。"
+    },
+    "version": {
+      "title": "管理 {{name}} 版本",
+      "description": "一般安裝與更新會自動使用建議的最新穩定版。這裡只用於相容、回復或手動選擇已發佈版本。",
+      "loading": "正在載入已發佈版本",
+      "current": "目前版本",
+      "notInstalled": "尚未安裝",
+      "sourceLabel": "安裝來源",
+      "target": "切換到",
+      "defaultOption": "{{version}}（建議最新版）",
+      "defaultGroup": "建議最新版",
+      "taggedOption": "{{version}}（{{tags}} 通道）",
+      "taggedGroup": "其他標籤通道",
+      "otherPublishedGroup": "其他已發布版本",
+      "confirm": "切換到這個版本",
+      "unchanged": "目前已經是這個版本。",
+      "currentDefault": "目前已是建議最新版。",
+      "nonDefaultWarning": "你正在手動選擇非建議版本。僅在專案相容或回復時使用，並先確認所需版本。",
+      "defaultChannelNote": "一般安裝與更新會自動使用建議的最新穩定版 {{version}}，不需手動選擇。",
+      "ownerPreserved": "AI 管家會繼續使用目前 CLI 所屬的套件管理器。降級只更換程式版本，不會刪除工具設定。",
+      "mirrorUsed": "預設 registry 沒有回應，本次目錄已透過社群鏡像載入；沒有修改全域 npm 設定。",
+      "restrictedTitle": "這份安裝不能自動切換版本",
+      "source": {
+        "notInstalled": "尚未安裝 · 將使用 npm",
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "bun": "bun",
+        "volta": "Volta",
+        "uv": "uv tool",
+        "pipx": "pipx",
+        "brew": "Homebrew",
+        "nativeInstaller": "官方安裝器",
+        "unmanaged": "未知或手動管理"
+      },
+      "restriction": {
+        "nativeInstaller": "這份程式由官方安裝器安裝。AI 管家會用同一套官方程式更新它，不會另裝一份。",
+        "brew": "這份程式由 Homebrew 管理，請使用一般「更新」；改裝 npm 版本會留下兩份安裝。",
+        "unmanaged": "AI 管家無法確認這份程式屬於哪個套件管理器，因此不會覆蓋安裝另一個版本。"
+      }
+    },
+    "updateRecovery": {
+      "title": "這次更新需要復原",
+      "available": "更新後工具已損壞。AI Manager 可以透過同一套件管理器復原到已驗證版本 {{version}}。",
+      "action": "復原 {{version}}",
+      "namedAction": "將 {{name}} 復原到 {{version}}",
+      "confirmTitle": "將 {{name}} 復原到 {{version}}？",
+      "confirmBody": "AI Manager 將透過同一套件管理器重新安裝更新前相符的已驗證版本，並精確檢查該版本。工具設定會保留。",
+      "confirm": "復原 {{version}}",
+      "advisory": {
+        "historyUnavailable": "更新前沒有相符的已驗證版本記錄。請使用此工具的一般安裝程式或所屬套件管理器修復。",
+        "ownershipChanged": "目前安裝歸屬與已驗證歷史不再一致，因此自動復原維持關閉。請使用擁有此副本的套件管理器或安裝程式修復。",
+        "ownerUnsupported": "此安裝來源不支援安全的自動版本復原。請使用其一般安裝程式或套件管理器復原流程。",
+        "inspectionFailed": "AI Manager 無法安全核對版本歷史或安裝歸屬。自動復原維持關閉；請查看詳細資料並使用此工具的一般復原流程。"
+      }
+    },
+    "summary": {
+      "eyebrow": "這台電腦",
+      "title": "工具狀態，一眼看清",
+      "description": "AI 管家會在本機檢查每個工具，並把最合適的下一步放在卡片上。",
+      "current": "已是最新",
+      "attention": "需要處理",
+      "available": "可以安裝"
+    },
+    "coverage": {
+      "eyebrow": "10 個命令列工具 · 15 個使用面",
+      "title": "CLI 狀態與桌面 App 分開計算",
+      "description": "下方卡片管理十種支援的命令列工具；桌面 App 繼續使用各自的安裝與更新管道。",
+      "codex": {
+        "title": "ChatGPT / Codex + Codex CLI",
+        "description": "OpenAI 桌面應用程式包含 Codex 使用介面，並與 Codex CLI 共用設定。卡片操作只更新 CLI；桌面應用程式仍由官方管道更新。"
+      },
+      "claude": {
+        "title": "Claude Desktop + Claude Code",
+        "description": "兩者是獨立設定面，不共用同一個安裝狀態。"
+      }
+    },
+    "appRelationship": {
+      "sharedConfiguration": {
+        "description": "{{app}} 與這個 CLI 共用設定；修改共用設定可能同時影響兩邊。",
+        "manage": "管理共用設定"
+      },
+      "separateConfiguration": {
+        "description": "{{app}} 使用獨立設定；修改這個 CLI 不會設定桌面應用程式。",
+        "manage": "管理 CLI 設定"
+      },
+      "viewApp": "查看 {{app}}",
+      "viewAppNamed": "查看 {{app}} 桌面應用程式卡片"
+    },
+    "desktopApps": {
+      "title": "桌面應用程式",
+      "description": "AI 管家會把廠商簽署的桌面 App 與命令列工具分開檢查，並依目前系統與晶片選擇固定的官方安裝套件或下載頁面；下載與安裝由瀏覽器和系統安裝程式完成。",
+      "loading": "正在檢查桌面應用程式",
+      "refresh": "重新整理 App",
+      "refreshError": "仍顯示上一次 App 檢查結果；使用前請再重新整理一次。",
+      "opened": "正在開啟 {{name}}。",
+      "officialInstallerOpened": "已在瀏覽器中開啟 {{name}} 的官方安裝套件下載。下載完成後，請開啟檔案並依系統提示繼續。",
+      "officialDownloadOpened": "已在瀏覽器中開啟 {{name}} 的官方安裝頁面。",
+      "officialDownloadNetworkHint": "瀏覽器打不開這個位址時，請先為瀏覽器或系統設定 Proxy。",
+      "uninstallHandoffOpened": "已開啟系統中移除 {{name}} 的位置。",
+      "items": {
+        "codex-app": {
+          "surface": "OpenAI 桌面應用程式 · ChatGPT / Codex",
+          "description": "在 OpenAI 的圖形桌面介面裡使用 ChatGPT 或 Codex，同時讓 Codex CLI 的安裝和更新保持獨立。"
+        },
+        "claude-desktop": {
+          "surface": "Anthropic 桌面應用程式",
+          "description": "在圖形桌面介面裡使用 Claude，與終端機中的 Claude Code 分開管理。"
+        },
+        "cursor": {
+          "surface": "Cursor AI 程式碼編輯器",
+          "description": "將 Cursor 作為獨立的圖形程式碼編輯器使用；安裝、帳號、擴充功能與更新繼續由廠商負責。"
+        },
+        "zcode": {
+          "surface": "Z.ai 桌面程式應用程式",
+          "description": "將 ZCode 作為獨立的圖形程式應用程式使用；安裝與設定繼續由廠商負責。"
+        },
+        "cherry-studio": {
+          "surface": "Cherry Studio 桌面應用程式",
+          "description": "將 Cherry Studio 作為獨立的多模型桌面客戶端使用，不與任何受管 CLI 視為同一安裝。"
+        }
+      },
+      "status": {
+        "installed": "已安裝",
+        "updateAvailable": "有新版本",
+        "notInstalled": "未安裝",
+        "unsupported": "目前不支援",
+        "unknown": "需要檢查"
+      },
+      "details": {
+        "version": "App 版本",
+        "versionUnavailable": "未回報",
+        "updates": "更新方式",
+        "vendorManagedUpdates": "安裝後由廠商自動更新",
+        "officialUpdateAvailable": "官方版本 {{version}} 可以更新",
+        "updateUnavailable": "沒有託管更新管道",
+        "rollback": "版本回復",
+        "rollbackAvailable": "廠商支援",
+        "rollbackUnavailable": "沒有公開的可回復版本",
+        "cliRelationship": "相關 CLI"
+      },
+      "relationship": {
+        "sharedConfiguration": "與 {{tool}} 共用設定",
+        "separateConfiguration": "與 {{tool}} 各自獨立",
+        "standaloneApplication": "獨立桌面應用程式"
+      },
+      "relatedTools": {
+        "codex": "Codex CLI",
+        "claude-code": "Claude Code"
+      },
+      "vendorUpdates": "App 的自動更新仍由廠商負責。「下載最新安裝套件」只是復原交接，不代表偵測到新版本。網路需要時請使用瀏覽器或系統代理；AI 管家不鏡像安裝套件，也不繞過地區限制。",
+      "action": {
+        "open": "開啟 App",
+        "openNamed": "開啟 {{name}}",
+        "uninstall": "解除安裝",
+        "uninstallNamed": "透過系統解除安裝 {{name}}",
+        "downloadLatest": "下載最新安裝套件",
+        "downloadLatestNamed": "下載 {{name}} 的最新官方安裝套件",
+        "downloadUpdate": "下載更新",
+        "downloadUpdateNamed": "下載 {{name}} 的官方更新",
+        "downloadInstaller": "下載官方安裝套件",
+        "installOfficially": "開啟官方安裝頁",
+        "installOfficiallyNamed": "開啟 {{name}} 的官方下載入口",
+        "moreNamed": "更多 {{name}} 操作",
+        "downloadHelp": "下載遇到問題",
+        "unsupported": "目前系統不可用",
+        "unsupportedNamed": "目前系統不支援 {{name}}",
+        "unavailable": "暫時無法開啟",
+        "unavailableNamed": "暫時無法開啟 {{name}}",
+        "viewRelatedTool": "查看 {{tool}}",
+        "viewRelatedToolNamed": "查看 {{tool}} 卡片",
+        "sharedConfiguration": {
+          "manageTool": "管理共用設定"
+        },
+        "separateConfiguration": {
+          "manageTool": "管理 {{tool}} 設定"
+        },
+        "manageAppMcp": "管理 {{app}} MCP"
+      },
+      "downloadHelp": {
+        "title": "下載 {{name}}",
+        "directDescription": "AI 管家會直接開啟適合這台電腦的廠商官方安裝程式，不先跳轉國外介紹頁。",
+        "pageDescription": "目前系統沒有固定安裝程式，AI 管家只能開啟廠商官方下載頁。",
+        "architecture": "系統和晶片類型由 AI 管家在本機判斷，不需要你選擇 Intel、Apple 晶片、x64 或 Arm64。",
+        "systemOwned": "瀏覽器負責下載，系統安裝程式負責檢查簽章並安裝；AI 管家不會靜默安裝。",
+        "restrictedNetwork": "如果官方位址在目前網路無法存取，請先在瀏覽器或系統中設定代理後重試。AI 管家的 CLI 下載代理不會接管瀏覽器，也不會鏡像第三方安裝程式或繞過地區限制。",
+        "retry": "重試官方下載"
+      },
+      "uninstall": {
+        "title": "透過系統解除安裝 {{name}}？",
+        "description": "AI 管家會開啟 Finder 或系統的「已安裝的應用程式」頁面，由你在那裡完成移除。",
+        "confirm": "開啟系統解除安裝位置",
+        "handoff": "AI 管家不會自行移除桌面 App，也不會在背景執行隱藏的解除安裝命令。",
+        "data": "App 設定、帳號資料和聊天記錄是否保留由廠商決定；AI 管家不會刪除這些資料。",
+        "refresh": "在系統中完成後，請回到這裡按一下「重新整理 App」。"
+      },
+      "error": {
+        "title": "沒能檢查桌面 App",
+        "description": "AI 管家這會兒沒能讀取系統中的應用程式清單。"
+      }
+    },
+    "empty": {
+      "title": "沒有可顯示的工具",
+      "description": "AI 管家在這台電腦上沒有找到支援的工具。"
+    },
+    "error": {
+      "title": "讀不到你的工具",
+      "description": "AI 管家這會兒沒能查看這台電腦。"
+    },
+    "refreshError": {
+      "title": "沒能重新整理工具狀態",
+      "description": "仍顯示上一次檢查結果。工具操作會暫停，直到新一次檢查成功。"
+    },
+    "action": {
+      "unavailable": "這個功能會在後續更新裡補上。"
+    },
+    "open": {
+      "title": "開啟 {{name}}",
+      "description": "可以直接從預設目錄啟動，也可以選擇專案資料夾後啟動 {{name}}。",
+      "localTitle": "你的專案不會離開這台電腦",
+      "localHint": "選擇資料夾不會上傳、掃描或修改裡面的檔案。",
+      "confirm": "直接啟動",
+      "launchDefault": "直接啟動",
+      "chooseFolder": "選擇目錄啟動",
+      "launched": "已在終端機裡開啟 {{name}}。",
+      "providerUnreachable": "「{{name}}」沒有回應",
+      "providerUnreachableHint": "工具尚未開啟，已儲存的設定也沒有變更。你可以重新檢查，或嘗試其他已儲存的相容服務。",
+      "noSavedAlternative": "沒有其他已儲存的相容服務可供檢查。",
+      "retry": "再試一次",
+      "retryNamed": "重新開啟 {{name}}"
+    },
+    "confirm": {
+      "install": {
+        "title": "安裝 {{name}}？",
+        "body": "AI 管家會把需要的東西一次裝好。",
+        "confirm": "安裝"
+      },
+      "update": {
+        "title": "更新 {{name}}？",
+        "body": "AI 管家會下載並裝上最新版本。",
+        "confirm": "更新"
+      },
+      "repair": {
+        "title": "修復 {{name}}？",
+        "body": "AI 管家會移除損壞的命令列套件，再透過同一套 npm 重新安裝；你的設定會保留。",
+        "confirm": "修復"
+      }
+    },
+    "updatePreview": {
+      "singleDescription": "開始前先確認這份安裝將如何更新。",
+      "loading": "正在檢查更新詳情",
+      "loadingHint": "AI 管家正在核對目前使用的安裝及其原更新方式。",
+      "refreshing": "正在重新檢查更新詳情",
+      "error": {
+        "title": "無法檢查更新詳情",
+        "description": "AI 管家確認安全更新方式之前，不會開始更新。"
+      },
+      "recheck": "重新檢查",
+      "ready": "{{name}} 將會更新",
+      "targetVersion": "將更新到版本 {{version}}",
+      "skipped": "{{name}} 將被略過",
+      "needsReview": "需要處理",
+      "checked": "已核對更新路徑",
+      "multipleInstallations_one": "偵測到 {{count}} 份安裝",
+      "multipleInstallations_other": "偵測到 {{count}} 份安裝",
+      "currentDefault": "目前命令列預設版本",
+      "version": "版本 {{version}}",
+      "technicalDetails": "技術詳情",
+      "commands": "計畫執行的命令",
+      "installations": "偵測到的安裝",
+      "otherInstallation": "其他安裝",
+      "rechecked": "真正開始前，AI 管家會再次核對安裝和更新計畫；如果發生變化，會停止並請你重新確認。",
+      "paused": "AI 管家重新整理工具和任務狀態期間，更新暫時停用。",
+      "method": {
+        "nativeSelfUpdate": "透過 {{name}} 內建更新器更新",
+        "toolSelfUpdate": "透過 {{name}} 內建更新器更新",
+        "officialInstaller": "透過廠商官方安裝程式更新",
+        "homebrew": "透過目前的 Homebrew 安裝更新",
+        "npm": "透過管理這份安裝的套件管理器更新",
+        "pnpm": "透過管理這份安裝的套件管理器更新",
+        "bun": "透過目前的 Bun 安裝更新",
+        "volta": "透過目前的 Volta 安裝更新",
+        "uv": "透過目前的 uv 安裝更新",
+        "pipx": "透過目前的 pipx 安裝更新"
+      },
+      "fallback": {
+        "nativeSelfUpdate": "如果沒有完成，AI 管家會改用工具內建更新器重試。",
+        "toolSelfUpdate": "如果沒有完成，AI 管家會改用工具內建更新器重試。",
+        "officialInstaller": "如果沒有完成，AI 管家會改用廠商官方安裝程式重試。",
+        "homebrew": "如果沒有完成，AI 管家會透過 Homebrew 重試。",
+        "npm": "如果沒有完成，AI 管家會透過 npm 重試。",
+        "pnpm": "如果沒有完成，AI 管家會透過 pnpm 重試。",
+        "bun": "如果沒有完成，AI 管家會透過 Bun 重試。",
+        "volta": "如果沒有完成，AI 管家會透過 Volta 重試。",
+        "uv": "如果沒有完成，AI 管家會透過 uv 重試。",
+        "pipx": "如果沒有完成，AI 管家會透過 pipx 重試。"
+      },
+      "blocked": {
+        "notInstalled": "這個工具已經不在電腦上，沒有可更新的內容。",
+        "ambiguousInstallation": "偵測到多份安裝，但 AI 管家無法確定命令列目前使用哪一份，因此不會猜測。",
+        "unsupportedInstallation": "這份安裝沒有可安全自動執行的更新方式。",
+        "inspectionFailed": "AI 管家沒能完成這份安裝的檢查。"
+      },
+      "source": {
+        "notInstalled": "未安裝",
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "bun": "Bun",
+        "volta": "Volta",
+        "uv": "uv",
+        "pipx": "pipx",
+        "brew": "Homebrew",
+        "nativeInstaller": "官方安裝",
+        "unmanaged": "未受管理的安裝"
+      }
+    },
+    "uninstall": {
+      "title": "移除 {{name}}？",
+      "description": "選擇要移除的內容。預設只移除 App 本體。",
+      "submit": "移除",
+      "back": "返回",
+      "confirm": "永久刪除",
+      "confirmTitle": "確定要永久刪除這些嗎？",
+      "confirmDescription": "刪除之後無法復原。",
+      "keepSettings": "保留你的設定",
+      "keepSettingsHint": "你的設定和聊天記錄會留在這台電腦上，重新安裝後可以接著用。",
+      "option": {
+        "app": "解除安裝 App",
+        "appHint": "一律會處理；下方列出目前安裝來源對應的實際命令或程式路徑。",
+        "settings": "刪除設定",
+        "settingsHint": "刪除這個工具的設定資料夾。",
+        "cache": "刪除快取",
+        "cacheHint": "刪除已保存的聊天記錄和本機狀態。"
+      },
+      "preview": {
+        "loading": "正在核對實際命令與路徑…",
+        "none": "沒有獨立路徑；這個選項不會額外刪除檔案。",
+        "protected": "超出自動刪除的安全邊界，AI 管家不會處理這個路徑。",
+        "rechecked": "真正執行前會再次核對安裝來源與路徑；畫面中顯示的內容不會作為刪除指令傳回。",
+        "kind": {
+          "command": "命令",
+          "directory": "資料夾",
+          "file": "檔案",
+          "symbolicLink": "符號連結",
+          "missingPath": "路徑（目前不存在）"
+        },
+        "reveal": "開啟所在位置",
+        "revealNamed": "開啟 {{path}} 所在位置"
+      },
+      "impact": {
+        "app": "{{name}} 這個 App",
+        "settings": "你的 {{name}} 設定",
+        "cache": "你保存的 {{name}} 聊天記錄"
+      },
+      "warning": {
+        "sessionsInsideSettings": "這個工具把聊天記錄存在自己的設定資料夾裡，刪除設定會把這些記錄一起刪掉。",
+        "outsideHome": "放在個人資料夾之外的檔案永遠不會被刪除。如果這個工具的設定在那裡，AI 管家會在刪除任何東西之前停下，什麼都不會遺失；取消這些勾選再試一次，就能只移除 App。"
+      },
+      "reason": {
+        "nothingToRemove": "這個工具沒有單獨的這類檔案，所以這一項沒有東西可刪。",
+        "protected": "這些位置在你的個人資料夾之外，AI 管家不會去刪。"
+      }
+    }
+  },
+  "home": {
+    "pageLabel": "首頁",
+    "greeting": {
+      "morning": "早安",
+      "afternoon": "午安",
+      "evening": "晚安"
+    },
+    "subtitle": {
+      "ready": "你的 AI 程式環境運作正常",
+      "checking": "正在檢查環境，確認完成後再告訴你下一步",
+      "stale": "正在顯示上一次檢查結果，等待首頁重新整理",
+      "attention": "有幾處值得看一眼",
+      "action": "有問題需要你處理"
+    },
+    "card": {
+      "title": "AI 環境",
+      "description": "工具、服務和擴充的狀態，一眼就能看清",
+      "checking": "正在檢查你的 AI 環境",
+      "toolsInstalled_one": "已裝好 {{count}} 個工具",
+      "toolsInstalled_other": "已裝好 {{count}} 個工具",
+      "updatesAvailable_one": "{{count}} 個可以更新",
+      "updatesAvailable_other": "{{count}} 個可以更新",
+      "needAttention_one": "{{count}} 項需要注意",
+      "needAttention_other": "{{count}} 項需要注意",
+      "allGood": "都是最新的",
+      "nothingInstalled": "還沒有裝任何工具",
+      "review": "去看看",
+      "startTool": "用 {{name}} 開始工作",
+      "startHint": "選擇一個專案資料夾；服務商會在第一次使用時驗證存取權限。",
+      "inventory": {
+        "label": "已就緒的環境詳情",
+        "servicesConfigured_one": "已設定 {{count}} 個 AI 服務",
+        "servicesConfigured_other": "已設定 {{count}} 個 AI 服務",
+        "mcpEnabled": "MCP 已啟用：{{enabled}} / {{total}}",
+        "noMcp": "還沒有 MCP 連線"
+      },
+      "actions": {
+        "tools": "打開 AI 工具",
+        "services": "打開 AI 服務",
+        "extensions": "打開 AI 擴充功能"
+      }
+    },
+    "health": {
+      "title": "健檢",
+      "recheck": "重新健檢",
+      "allGood": "一切正常",
+      "issues_one": "發現 {{count}} 個問題",
+      "issues_other": "發現 {{count}} 個問題",
+      "more_one": "還有 {{count}} 項",
+      "more_other": "還有 {{count}} 項",
+      "lastChecked": "上次檢查 {{time}}",
+      "checkingConnections": "正在檢查服務連線",
+      "connectionError": "連線檢查沒能開始，請再試一次。",
+      "noTools": {
+        "title": "先選擇一個 AI 程式設計工具",
+        "description": "安裝後，健檢會把它納入檢查範圍。",
+        "action": "瀏覽 AI 工具"
+      }
+    },
+    "quickActions": {
+      "title": "快捷操作",
+      "installTool": "安裝 AI 工具",
+      "installDescription": "加入 Claude Code、Codex 或 OpenCode",
+      "updateAll": "全部更新",
+      "updateDescription": "讓已安裝的工具保持最新",
+      "connectService": "連接 AI 服務",
+      "connectDescription": "集中管理工具使用的服務和金鑰",
+      "laterHint": "會在後續更新裡補上"
+    },
+    "updateAll": {
+      "title_one": "更新 {{count}} 個工具？",
+      "title_other": "更新 {{count}} 個工具？",
+      "reviewTitle_one": "檢查 {{count}} 個工具的更新",
+      "reviewTitle_other": "檢查 {{count}} 個工具的更新",
+      "description": "{{names, list}} 會在背景更新。你可以繼續使用 AI 管家，並在「工作」中查看進度。",
+      "previewSummary": "{{ready}} 個目前可以更新，{{skipped}} 個會先略過，等待處理安裝問題。",
+      "skippedSummary_one": "{{count}} 個工具因無法確認更新方式而被略過。",
+      "skippedSummary_other": "{{count}} 個工具因無法確認更新方式而被略過。",
+      "confirm_one": "更新 {{count}} 個工具",
+      "confirm_other": "更新 {{count}} 個工具",
+      "retry_one": "重試這個工具",
+      "retry_other": "重試未啟動項目",
+      "failure": {
+        "partial": {
+          "title": "部分更新已開始",
+          "description_one": "{{count}} 項更新已進入「工作」。未能啟動的工具仍保持選取。",
+          "description_other": "{{count}} 項更新已進入「工作」。未能啟動的工具仍保持選取。"
+        },
+        "all": {
+          "title": "更新未能開始",
+          "description_one": "沒有建立更新工作。重試會先重新檢查這個工具，再開始更新。",
+          "description_other": "沒有建立更新工作。重試會先重新檢查這些工具，再開始更新。"
+        }
+      },
+      "hints": {
+        "current": "已經全部是最新版本",
+        "running": "更新已經在「工作」中進行",
+        "checking": "正在確認哪些工具可以更新",
+        "unavailable": "暫時無法確認更新狀態",
+        "review": "請到 AI 工具中查看這項更新"
+      }
+    },
+    "error": {
+      "title": "沒能檢查你的環境",
+      "description": "AI 管家這會兒沒能查看這台電腦。"
+    },
+    "refreshError": {
+      "title": "首頁沒能重新整理",
+      "description": "仍顯示上一次檢查結果。新檢查成功前，啟動工具和全部更新會保持暫停。",
+      "action": "重新檢查"
+    },
+    "refreshing": {
+      "title": "正在重新檢查首頁",
+      "description": "檢查完成後，啟動工具和全部更新會自動恢復。"
+    }
+  },
+  "taskCenter": {
+    "open": "活動",
+    "openUnavailable": "活動，狀態暫時無法取得",
+    "openRefreshError": "活動，正在顯示上次狀態",
+    "openRunning_one": "活動，{{count}} 項正在進行",
+    "openRunning_other": "活動，{{count}} 項正在進行",
+    "title": "活動",
+    "running_one": "{{count}} 項活動進行中",
+    "running_other": "{{count}} 項活動進行中",
+    "idle": "目前沒有進行中的活動",
+    "loading": {
+      "summary": "正在確認活動狀態",
+      "label": "正在載入活動…"
+    },
+    "unavailable": {
+      "summary": "活動狀態暫時無法使用",
+      "title": "無法載入活動",
+      "description": "請重試以重新整理活動記錄。",
+      "retry": "重試"
+    },
+    "refreshError": {
+      "summary": "正在顯示上次的活動狀態",
+      "title": "無法重新整理活動",
+      "description": "仍在顯示上次的活動記錄，新的進度可能尚未出現。",
+      "retry": "重新整理活動"
+    },
+    "toolAuthority": {
+      "openLabel": "活動：{{status}}；工具操作暫時無法使用",
+      "unavailableTitle": "工具操作暫時無法使用",
+      "unavailableDescription": "工作記錄仍會顯示，但 AI 管家無法確認哪些工具可以開啟。",
+      "refreshTitle": "無法重新整理工具狀態",
+      "refreshDescription": "仍在顯示上次的工具資訊。新的檢查成功前，已完成工作中的「開啟」操作會暫停。",
+      "retry": "重新檢查工具",
+      "pausedTitle": "開啟工具已暫停",
+      "pausedDescription": "AI 管家需要先確認目前的工具狀態，才能讓你選擇專案資料夾。請取消此視窗，然後在「活動」中重新檢查工具。",
+      "changedTitle": "此工具已無法直接開啟",
+      "changedDescription": "最新檢查已不再將此工具列為可啟動的已安裝工具。請取消此視窗，並前往「AI 工具」查看。"
+    },
+    "empty": {
+      "title": "還沒有活動記錄",
+      "description": "安裝、更新、移除和環境檢查會出現在這裡。"
+    },
+    "sections": {
+      "active": "進行中",
+      "recent": "最近記錄"
+    },
+    "kind": {
+      "install": "安裝 {{name}}",
+      "update": "更新 {{name}}",
+      "uninstall": "移除 {{name}}",
+      "repair": "修復 {{name}}",
+      "changeVersion": "切換 {{name}} 版本",
+      "testProviders": "檢查 {{name}} 的全部服務",
+      "scan": "環境檢查"
+    },
+    "extension": {
+      "mcp": {
+        "install": "加入 MCP 連線 {{name}}",
+        "uninstall": "移除 MCP 連線 {{name}}"
+      },
+      "skill": {
+        "install": "安裝技能 {{name}}",
+        "update": "更新技能 {{name}}",
+        "uninstall": "移除技能 {{name}}"
+      }
+    },
+    "logs": {
+      "title": "過程記錄（{{count}}）",
+      "toggle": "展開或收合過程記錄，共 {{count}} 筆",
+      "privacy": "記錄只保留在記憶體中；輸出有長度上限，並會遮蔽已知憑證。",
+      "kind": {
+        "phase": "階段",
+        "command": "命令",
+        "stdout": "標準輸出",
+        "stderr": "診斷輸出",
+        "warning": "警告",
+        "system": "系統"
+      }
+    },
+    "viewDetails": "查看詳情",
+    "viewDetailsFor": "查看「{{name}}」的詳情",
+    "details": {
+      "title": "工作詳情",
+      "code": "錯誤代碼",
+      "reference": "參考編號",
+      "technical": "技術細節",
+      "noTechnical": "這一條沒有更多細節。"
+    }
+  },
+  "services": {
+    "action": {
+      "add": "新增端點",
+      "configureNamed": "將 {{name}} 加入軟體",
+      "edit": "編輯",
+      "editNamed": "編輯 {{name}}",
+      "remove": "移除",
+      "removeNamed": "移除 {{name}}",
+      "test": "檢查位址",
+      "testAll": "檢查全部位址",
+      "testNamed": "檢查 {{name}} 的位址",
+      "useNamed": "使用 {{name}}"
+    },
+    "card": {
+      "custom": "自訂服務",
+      "saved": "已儲存",
+      "defaultModel": "預設模型",
+      "recentModel": "最近使用",
+      "unknown": "使用狀態待確認",
+      "inUse": "正在使用",
+      "noKey": "還沒有儲存金鑰",
+      "notInEffect": "已選取，但目前沒有生效",
+      "official": "官方服務",
+      "overriddenBy": "已選取，但被 {{source}} 覆蓋",
+      "savedEndpoint": "AI Manager 中儲存的端點",
+      "toolSignIn": "使用 {{tool}} 的登入狀態"
+    },
+    "connect": {
+      "accountHint": "請使用你自己的 {{service}} 帳號建立的金鑰。API 權限和費用仍由服務商管理。",
+      "activateNow": "現在使用",
+      "activateQuestion": "現在讓 {{tool}} 使用它嗎？",
+      "compatible": "相容",
+      "compatibleServices": "相容服務",
+      "backToPresets": "使用服務預設",
+      "customBaseUrl": "HTTPS Base URL",
+      "customBaseUrlHint": "可以包含路徑；不允許憑證、查詢參數、片段或明文 HTTP。",
+      "customBaseUrlInvalid": "請輸入不含憑證的 HTTPS Base URL。",
+      "customCompatibility": "請使用實作了 {{tool}} 所需 API 格式的端點。AI Manager 會設定工具，但不會轉換 API 協定。",
+      "customDescription": "填寫 {{tool}} 要使用的 HTTPS 端點、金鑰與模型。",
+      "customEntry": "自訂端點",
+      "customEntryHint": "要連線未收錄在受審服務預設裡的服務？",
+      "customTitle": "新增 API 端點",
+      "address": {
+        "degraded": "{{name}} 已儲存，但服務位址回應較慢",
+        "failed": "{{name}} 已儲存，但服務位址沒有回應",
+        "operational": "{{name}} 已儲存，服務位址可以連線"
+      },
+      "addressRetry": "設定已經保留。請檢查網路，然後再次「檢查位址」。",
+      "afterSave": "儲存後，AI 管家只會檢查服務位址是否有回應；API 金鑰和模型權限會在 {{tool}} 第一次實際使用時驗證。",
+      "description": "為 {{tool}} 新增一個 API 服務，其餘設定交給 AI 管家。",
+      "errorTitle": "未能完成連線這個服務",
+      "firstUse": "{{tool}} 第一次實際使用時，服務商才會驗證 API 金鑰和模型權限。",
+      "forTool": "連線到 {{tool}}",
+      "getKey": "取得 API 金鑰",
+      "key": "API 金鑰",
+      "keyHint": "儲存在本機，可在端點卡片與編輯框中查看、複製。",
+      "keyPlaceholder": "貼上 API 金鑰",
+      "keyRequired": "請貼上 API 金鑰。",
+      "model": "模型",
+      "modelRequired": "請輸入模型。",
+      "measuredServices": "這台電腦實測",
+      "name": "名稱",
+      "nameRequired": "請輸入名稱。",
+      "noPresetMatch": "沒有相符的服務。",
+      "official": "官方",
+      "officialServices": "官方服務",
+      "openProvider": "開啟服務商",
+      "preset": "服務預設",
+      "presetHint": "選擇官方或相容範本。相容服務僅用於簡化設定；AI 管家不為其背書或轉售。",
+      "profileError": "AI 管家沒能讀取安全連線範本，已儲存的服務不會受到影響。",
+      "profileErrorTitle": "暫時不能新增服務",
+      "profileRetry": "重新讀取連線範本",
+      "retryConnect": "重新連線這個服務",
+      "retryHint": "AI 管家已重新讀取能確認的服務狀態。你填寫的內容還在；請檢查後重新連線。",
+      "responseTime": "{{latency}} 毫秒",
+      "searchPresets": "搜尋服務…",
+      "saved": "{{name}} 已儲存",
+      "speedSorted": "已依這台電腦的最新實測結果排序。",
+      "speedTest": "測試哪個回應最快",
+      "speedTestAgain": "重新測速",
+      "speedTestFailed": "無法測量這些服務，請檢查網路後再試。",
+      "speedTesting": "正在測試服務位址…",
+      "title": "連線 {{service}}",
+      "unreachable": "不可達"
+    },
+    "description": "選擇軟體，新增、切換與檢查它使用的 API 端點。",
+    "effective": {
+      "selection": {
+        "defaultModel": "全域預設模型：{{model}}。專案設定、命令列參數或目前工作階段可能覆寫它。",
+        "recentModel": "最近使用的模型：{{model}}。這是本機歷史紀錄，不代表目前工作階段，也不保證下次會使用它。",
+        "unknown": "無法確認使用中的端點；不會根據已儲存清單猜測。請檢查軟體設定與模型選擇。"
+      },
+      "credential": {
+        "unknown": "無法確認憑證狀態",
+        "configured": "金鑰已設定",
+        "missing": "還沒有金鑰",
+        "toolLogin": "使用 {{tool}} 自己的登入"
+      },
+      "refresh": "重新檢查",
+      "shellNotInspected": "這裡只檢查了設定檔，如果你在終端機裡設過環境變數，實際連線可能和下面顯示的不一樣。",
+      "source": {
+        "environment": "來自終端機環境變數 {{variable}}",
+        "liveConfig": "來自 {{path}}",
+        "shellFile": "來自 {{path}} 裡的 {{variable}}",
+        "toolDefault": "沒有自訂設定，使用工具自己的預設位址"
+      },
+      "errorTitle": "沒能讀出現在生效的連線",
+      "errorDescription": "下面的清單還是準的，但暫時不知道哪一個真的在起作用。",
+      "shellNotInspectedTitle": "沒能讀取終端機環境"
+    },
+    "external": {
+      "badge": "未儲存的連線",
+      "endpoint": "現在生效的位址"
+    },
+    "endpoints": {
+      "title": "{{tool}} 的端點",
+      "count_one": "已儲存 {{count}} 個端點",
+      "count_other": "已儲存 {{count}} 個端點"
+    },
+    "empty": {
+      "description": "連線一個 API 服務，AI 管家會替你設定好這個工具。",
+      "title": "這裡還是空的"
+    },
+    "error": {
+      "description": "再試一次，或者先打開一次這個工具再回來。",
+      "title": "讀不到服務清單"
+    },
+    "refreshError": {
+      "description": "仍顯示上次儲存的服務。新的檢查成功前，服務操作會保持暫停。",
+      "title": "無法重新整理 AI 服務"
+    },
+    "form": {
+      "addHeader": "新增 Header",
+      "addModel": "新增模型",
+      "advancedHint": "這裡只顯示目前工具真正支援的常用設定，其他欄位會保持原樣。",
+      "advancedManaged": "這個服務由工具或帳號登入管理，端點設定在這裡保持唯讀。",
+      "advancedTitle": "進階設定",
+      "baseUrl": "Base URL",
+      "baseUrlHint": "請使用 HTTPS；HTTP 只允許 localhost 等本機回環位址。清空會移除自訂端點，改由工具使用自己的預設位址。",
+      "routeAdd": "新增線路",
+      "routeAddLabel": "新的服務線路",
+      "routeAddPlaceholder": "https://api.example.com/v1",
+      "routeDuplicate": "這個服務裡已經有這條線路。",
+      "routeEmpty": "請先新增或輸入至少一條線路再測速。",
+      "routeFixed": "已固定",
+      "routeInvalid": "請使用不含憑據的 HTTPS URL；HTTP 只允許本機回環位址。",
+      "routeLatency": "{{latency}} 毫秒",
+      "routeLimit": "包括目前線路在內，最多保留 32 條線路。",
+      "routeRemove": "移除線路 {{route}}",
+      "routeUnreachable": "無法連線",
+      "routes": "服務線路",
+      "routesAuto": "每次測速後選擇最快線路",
+      "routesAutoHint": "只會更新目前草稿的 Base URL，不會在背景持續監控。",
+      "routesHint": "為同一個服務保留多個 Base URL；只有你主動操作時才會測速。",
+      "routesTest": "測試線路",
+      "routesTestFailed": "未能測試這些線路，請檢查網路後重試。",
+      "routesTesting": "正在測試線路…",
+      "description": "修改名稱、金鑰或模型。",
+      "errorTitle": "未能完成儲存這個服務",
+      "headerKeepValue": "留空以保留已儲存的值",
+      "headerNameNamed": "第 {{index}} 個 Header 名稱",
+      "headerNamePlaceholder": "X-Tenant-ID",
+      "headerRequired": "每個新 Header 都需要有效的名稱和值。",
+      "headers": "請求 Headers",
+      "headersHint": "已儲存的值不會被讀回。已有值留空表示保留；移除整列才會刪除。",
+      "headerValueNamed": "{{name}} 的值",
+      "headerValuePlaceholder": "Header 值",
+      "key": "API 金鑰",
+      "keyHint": "留空就繼續用現在這把金鑰。",
+      "keyHintEmpty": "把這個服務給你的金鑰貼進來。",
+      "modelNamed": "第 {{index}} 個模型",
+      "modelRequired": "請輸入模型 ID，或移除這筆未完成的模型。",
+      "models": "模型",
+      "modelsHintMultiple": "已有的 OpenCode 模型映射會保留完整設定；只有確實要刪除映射時才移除整列。",
+      "modelsHintSingle": "留空時由工具使用自己的預設模型。",
+      "name": "名稱",
+      "nameHint": "只在這個應用程式裡顯示。",
+      "nameRequired": "請輸入名稱。",
+      "retryHint": "AI 管家已重新讀取能確認的服務狀態。請檢查你的修改，然後再試一次儲存。",
+      "retrySave": "重新儲存這個服務",
+      "removeHeaderNamed": "移除 Header {{name}}",
+      "removeModelNamed": "移除模型 {{model}}",
+      "save": "儲存",
+      "settingsLoading": "正在讀取安全的服務設定…",
+      "settingsUnavailable": "未能讀取附加設定。你仍可儲存名稱或更換金鑰；其他設定會保持不變。",
+      "title": "編輯服務"
+    },
+    "loading": "正在讀取服務",
+    "runtime": {
+      "description": "查看這個工具實際讀取的全域提示詞、記憶、設定與專案工作階段位置。",
+      "loading": "正在檢查設定來源",
+      "localOnlyNote": "僅查看本機檔案位置與容量，不上傳檔案內容。",
+      "notCreated": "未建立",
+      "openConfigFolder": "開啟設定資料夾",
+      "openConfigFile": "開啟設定檔",
+      "projectUsageNote": "這裡列出使用者層級檔案；專案專用規則請在專案目錄中管理。",
+      "refresh": "重新整理本機資訊",
+      "action": {
+        "browse": "開啟所在位置",
+        "create": "建立並編輯",
+        "edit": "開啟並編輯",
+        "manage": "前往管理"
+      },
+      "openOutcome": {
+        "editorOpened": "已在預設編輯器中開啟",
+        "folderOpened": "已在檔案管理器中開啟"
+      },
+      "resource": {
+        "configuration": {
+          "description": "端點、登入與工具設定。已有檔案可用系統預設應用程式開啟；未建立時開啟所在目錄。",
+          "title": "執行設定"
+        },
+        "instructions": {
+          "description": "使用者層級的常駐提示詞，會被這個工具用於所有專案。檔案不存在時可直接建立。",
+          "managedDescription": "目前生效的提示詞，在「全域提示詞」頁統一編輯和切換。",
+          "title": "全域提示詞"
+        },
+        "memory": {
+          "description": "工具儲存在本機並能在後續對話中重複使用的記憶內容。",
+          "title": "記憶"
+        },
+        "sessionData": {
+          "description": "按專案儲存的本機工作階段、對話記錄與工具狀態。",
+          "title": "專案工作階段資料"
+        },
+        "userProfile": {
+          "description": "工具用來理解你的本機使用者資料與長期偏好。",
+          "title": "使用者資料"
+        }
+      },
+      "scope": {
+        "global": "全域",
+        "project": "專案"
+      },
+      "storage": {
+        "conversationBytes": "對話資料",
+        "limited": "目錄過大或有無法讀取的項目時，容量會顯示為安全的最低值。",
+        "resourceSize": "本機占用：{{size}}",
+        "sizeUnavailable": "無法統計容量",
+        "total": "已列本機資料"
+      },
+      "title": "本機上下文與儲存空間"
+    },
+    "noTools": {
+      "description": "先裝一個工具，它的服務就會出現在這裡。",
+      "title": "還沒有可設定的工具"
+    },
+    "refresh": "重新整理",
+    "remove": {
+      "activeHint": "請先改用另一個服務，再移除這個服務。",
+      "confirm": "移除服務",
+      "description": "這會從 AI 管家和 {{tool}} 中移除已儲存的服務。",
+      "errorTitle": "未能完成移除這個服務",
+      "errorRetry": "請檢查這個服務後再試一次。",
+      "managedHint": "這個服務使用工具自己的專用設定，不能在這裡移除。",
+      "point": {
+        "account": "不會刪除你的服務商帳號，這把金鑰也不會在服務端撤銷。",
+        "local": "已儲存的服務和金鑰會從 {{tool}} 中移除。",
+        "otherTools": "其他 AI 工具及其服務不會受到影響。"
+      },
+      "removed": "已移除 {{name}}",
+      "retryNamed": "重新移除 {{name}}",
+      "title": "移除 {{name}}？"
+    },
+    "scope": "AI 工具",
+    "scopeUnsupportedShort": "尚未接入",
+    "scopeSharedShort": "由桌面應用共用",
+    "scopeUnsupportedTitle": "AI 管家尚未接入 {{tool}} 的服務設定",
+    "scopeUnsupportedDescription": "這表示 AI 管家目前沒有安全適配，不代表 {{tool}} 本身一定不支援自訂服務。軟體仍會顯示在這裡，方便你確認安裝狀態。",
+    "scopeSave": {
+      "errorDescription": "你仍在查看 {{tool}}。重試後，下次會繼續從這裡開啟。",
+      "errorTitle": "未能記住這個工具頁面",
+      "retry": "重試",
+      "saving": "正在記住這個工具"
+    },
+    "switch": {
+      "configuredNamed": "{{name}} 已加入軟體設定",
+      "chooseModelHint": "尚未切換預設模型。請在 {{tool}} 中選擇要使用的模型。",
+      "appliedNamed": "已切換到 {{name}}",
+      "errorNamed": "未能完成切換到「{{name}}」",
+      "openNow": "現在開啟",
+      "reopenHint": "正在執行的 {{tool}} 不會自動換用，重新開啟後才會使用它。",
+      "retryHint": "AI 管家已重新讀取能確認的服務狀態。請再試一次相同的切換。",
+      "retryNamed": "重新切換到 {{name}}",
+      "switchingNamed": "正在切換到 {{name}}"
+    },
+    "failover": {
+      "tryNext": "嘗試下一個可用服務",
+      "tryNextNamed": "為 {{name}} 嘗試下一個已儲存的可用服務",
+      "noneAvailable": "沒有其他已儲存的服務回應。目前設定沒有變更。",
+      "automaticSuccess": "「{{from}}」沒有回應，已改用「{{to}}」。",
+      "manualSuccess": "已從「{{from}}」改用可連線的「{{to}}」。",
+      "unknownService": "未知服務"
+    },
+    "summary": {
+      "activeTitle": "{{tool}} 正在使用 {{service}}",
+      "checked": "已檢查位址",
+      "description": "在這裡切換服務或檢查服務位址是否有回應，其餘設定交給 AI 管家。",
+      "eyebrow": "連線概覽",
+      "noActiveTitle": "{{tool}} 的服務設定已儲存",
+      "saved": "已儲存",
+      "testable": "可檢查位址"
+    },
+    "start": {
+      "action": "啟動 {{tool}}",
+      "description": "選擇一個專案資料夾。AI 管家會在終端機中開啟 {{tool}}；已儲存的金鑰和模型會在第一次請求時由服務商驗證。",
+      "eyebrow": "下一步",
+      "title": "設定已儲存，可以開始使用 {{tool}}"
+    },
+    "test": {
+      "browseCompatible": "瀏覽相容服務",
+      "browseCompatibleNamed": "為 {{name}} 瀏覽相容服務",
+      "checkingNamed": "正在檢查 {{name}}",
+      "degraded": "位址回應較慢",
+      "errorNamed": "未能檢查「{{name}}」的位址",
+      "failed": "位址沒有回應",
+      "latency": "{{ms}} 毫秒",
+      "operational": "位址可以連線",
+      "retry": "再試一次",
+      "retryHint": "這次檢查失敗沒有變更服務。可以再執行一次相同的檢查。",
+      "retryNamed": "重新檢查 {{name}}",
+      "unreachableHint": "目前網路無法連線至這個位址。你可以改用其他相容服務。"
+    },
+    "title": "API 端點",
+    "toolsError": {
+      "description": "AI 管家沒能查看這台電腦上的工具，所以看不到它們的服務。再試一次。",
+      "title": "讀不到你的工具"
+    },
+    "toolsRefreshError": {
+      "title": "未能重新整理工具狀態",
+      "description": "仍顯示上次檢查到的工具和服務。新的工具檢查成功前，連線、切換、檢查、編輯、移除和啟動操作會暫停。",
+      "action": "重新檢查工具"
+    },
+    "actionsPaused": {
+      "title": "服務操作已暫停",
+      "description": "AI 管家需要先確認目前工具和服務狀態，才能繼續變更設定或啟動工具。"
+    }
+  },
+  "extensions": {
+    "help": "說明",
+    "location": {
+      "action": "開啟所在位置",
+      "description": "定位目前軟體使用的本機檔案；尚未建立時，開啟最近的現有目錄。",
+      "promptNote": "已儲存但未啟用的提示詞不會產生獨立檔案。"
+    },
+    "title": "技能、MCP 與全域提示詞",
+    "description": "為各個 AI 軟體新增技能、連接 MCP，並管理全域提示詞。",
+    "refresh": "重新整理",
+    "loading": "正在讀取擴充功能",
+    "addLater": "現在可以管理已經裝好的擴充功能；新增的功能會在後續更新裡加上。",
+    "addLaterTitle": "新增擴充功能",
+    "kindScope": "擴充功能類型",
+    "toolScope": "AI 軟體",
+    "scope": {
+      "unsupportedShort": "尚未接入",
+      "unsupportedTitle": "AI 管家尚未接入 {{tool}} 的{{kind}}",
+      "unsupportedDescription": "這表示 AI 管家目前沒有可安全管理的適配入口，不代表 {{tool}} 本身一定沒有這項功能。軟體仍會顯示在這裡，方便你確認安裝狀態。"
+    },
+    "adoption": {
+      "kind": {
+        "skill": "技能",
+        "mcp": "MCP 連線",
+        "prompt": "提示詞"
+      },
+      "kindPlural": {
+        "skill": "技能",
+        "mcp": "MCP 連線",
+        "prompt": "提示詞"
+      },
+      "noticeTitle": "在這台 Mac 上找到 {{count}} 項",
+      "noticeDescription": "它們已能在 {{tool}} 中使用。先納入 AI 管家，之後才能在這裡變更或移除。",
+      "openOne": "將找到的 1 個{{kind}}納入 AI 管家",
+      "openMany": "將找到的 {{count}} 個{{kind}}納入 AI 管家",
+      "titleOne": "要納管這台 Mac 上找到的{{kind}}嗎？",
+      "titleMany": "要納管這台 Mac 上找到的 {{count}} 個{{kind}}嗎？",
+      "description": "請先確認變更，再讓 AI 管家開始管理這些項目。",
+      "originalUnchanged": {
+        "skill": "匯入時，現有技能檔案會留在原處，不會被改寫。",
+        "mcp": "匯入時，現有 MCP 設定會留在原處，不會被改寫。",
+        "prompt": "匯入時，現有說明檔案會留在原處，不會被改寫。"
+      },
+      "managedCopy": "AI 管家會在這台 Mac 上保留自己的受管副本。",
+      "mcpPrivate": "連線命令、參數和憑證只留在這台 Mac 上，絕不會顯示在這個視窗中。",
+      "futureChanges": "匯入後，關閉或移除項目可能會變更受支援工具中的受管副本。",
+      "confirm": "納入 AI 管家",
+      "retry": "再試一次",
+      "errorTitle": "沒能納管找到的項目",
+      "errorRetry": "AI 管家已重新讀取能確認的狀態。請查看提示後再試。"
+    },
+    "scopeSave": {
+      "saving": "正在記住這個頁面",
+      "errorTitle": "未能記住這個頁面",
+      "errorDescription": "你可以繼續在這裡操作。重試後，AI 管家下次會繼續開啟這個擴充功能頁面。",
+      "retry": "重試"
+    },
+    "inventory": {
+      "detected": {
+        "title": "在這個工具中發現",
+        "description": "直接從這台 Mac 上的 {{tool}} 讀取；內容仍留在原位置。",
+        "rescan": "重新掃描"
+      },
+      "managed": {
+        "title": "由 AI 管家管理",
+        "description": "已由 AI 管家儲存在本機，可以在這裡管理。"
+      }
+    },
+    "copy": {
+      "title": "把「{{name}}」複製到其他軟體",
+      "description": "AI 管家會把這個技能資料夾複製一份過去。原來的那份不動，複製後兩邊各自獨立、互不影響。",
+      "targetsLabel": "複製到哪些軟體",
+      "confirm": "複製",
+      "alreadyHas": "已經有了",
+      "copied": "已複製",
+      "failed": "沒能複製",
+      "independent": "複製好了。這份副本從現在起獨立演化，改它不會影響原來那份。",
+      "noTargets": "其他能用技能的軟體都已經有這個技能了。"
+    },
+    "card": {
+      "itemLabel": "{{name}}，第 {{position}} 項，共 {{total}} 項",
+      "detected": "在這台 Mac 上找到",
+      "detectedDescription": "它已經在這個工具中使用；AI 管家只顯示它，不會複製或改寫。",
+      "onlyIn": "只有 {{tool}} 有這個技能",
+      "alsoIn": "{{tools, list}} 都有這個技能",
+      "openLocation": "開啟所在位置",
+      "openLocationNamed": "開啟 {{name}} 的所在位置",
+      "editDocument": "編輯 SKILL.md",
+      "editDocumentNamed": "編輯 {{name}} 的 SKILL.md",
+      "copyTo": "複製到…",
+      "copyToNamed": "把 {{name}} 複製到其他軟體",
+      "locationOpened": "已開啟 {{name}} 的所在位置。",
+      "documentOpened": "已使用系統預設編輯器開啟 {{name}} 的 SKILL.md。",
+      "resourceOpenErrorNamed": "無法開啟「{{name}}」",
+      "on": "已開啟",
+      "off": "已關閉",
+      "noDescription": "還沒有說明。",
+      "expandDescription": "展開",
+      "collapseDescription": "收合",
+      "edit": "編輯",
+      "editNamed": "編輯 {{name}}，第 {{position}} 項，共 {{total}} 項",
+      "remove": "移除",
+      "removeNamed": "移除 {{name}}，第 {{position}} 項，共 {{total}} 項",
+      "enableErrorNamed": "未能開啟「{{name}}」",
+      "disableErrorNamed": "未能關閉「{{name}}」",
+      "retry": "再試一次",
+      "retryEnableNamed": "重新開啟 {{name}}，第 {{position}} 項，共 {{total}} 項",
+      "retryDisableNamed": "重新關閉 {{name}}，第 {{position}} 項，共 {{total}} 項",
+      "retryHint": "AI 管家已重新讀取能確認的狀態。請再試一次相同的變更。",
+      "updateAvailable": "有可用更新",
+      "update": "更新",
+      "updateNamed": "更新 {{name}}，第 {{position}} 項，共 {{total}} 項",
+      "updating": "正在更新",
+      "useNamed": "使用 {{name}}，第 {{position}} 項，共 {{total}} 項"
+    },
+    "error": {
+      "title": "讀不到擴充功能",
+      "description": "再試一次，或者先開啟一次這個工具再回來。"
+    },
+    "refreshError": {
+      "title": "未能重新整理這些擴充功能",
+      "description": "仍顯示上一次的清單。擴充功能操作會暫停，直到新一次檢查成功。"
+    },
+    "toolsError": {
+      "title": "讀不到你的工具",
+      "description": "AI 管家沒能查看這台電腦上的工具，所以看不到它們的擴充功能。再試一次。"
+    },
+    "toolsRefreshError": {
+      "title": "未能重新整理你的工具",
+      "description": "仍顯示上一次工具檢查和擴充功能清單。新增、開關和移除擴充功能會暫停，直到新一次工具檢查成功。",
+      "action": "重新檢查工具"
+    },
+    "actionsPaused": {
+      "title": "擴充功能變更已暫停",
+      "description": "AI 管家必須先確認目前工具和任務狀態，才能繼續變更。"
+    },
+    "noTools": {
+      "title": "還沒有能用它的工具",
+      "description": "先裝一個支援它的工具，再回到這裡。"
+    },
+    "skill": {
+      "title": "技能",
+      "explainer": "給 AI 工具準備好的做事方法，遇到對應的工作它就照著做。",
+      "catalog": {
+        "add": "新增技能",
+        "title": "新增技能",
+        "description": "為 {{tool}} 選擇現成的做事方法。開啟視窗時從 GitHub 載入目錄；主要路徑暫時故障時可透過驗證後的傳輸備援恢復。",
+        "searchLabel": "搜尋技能目錄",
+        "searchPlaceholder": "搜尋技能或儲存庫",
+        "trustNote": "每一列標出的 GitHub 儲存庫始終是內容來源。受信任的 jsDelivr 通道只會傳輸通過大小與 SHA-256 驗證的公開檔案。",
+        "loading": "正在從 GitHub 來源載入技能目錄…",
+        "errorTitle": "沒能載入技能目錄",
+        "errorDescription": "請再試一次。如果兩條來源路徑仍無法連線，請到「設定」配置「本機下載 Proxy」。",
+        "refreshingTitle": "正在檢查最新技能目錄",
+        "refreshingDescription": "仍可瀏覽上次的目錄。檢查完成後才可安裝。",
+        "refreshErrorTitle": "無法重新整理技能目錄",
+        "refreshErrorDescription": "仍在顯示上次的目錄。新的檢查成功前安裝會暫停；需要時可到「設定」配置「本機下載 Proxy」。",
+        "mirrorTitle": "已透過受信任的備援載入目錄",
+        "mirrorDescription": "GitHub 本次沒有回應，AI Manager 已透過 jsDelivr 傳輸並驗證快照的大小與 SHA-256。GitHub 儲存庫仍是權威來源，也沒有修改任何全域設定。",
+        "retry": "再試一次",
+        "empty": "沒有可用的技能",
+        "noResults": "沒有符合搜尋條件的技能",
+        "noResultsDescription": "換一個名稱或儲存庫再試。",
+        "emptyDescription": "檢查網路和已啟用的技能來源，然後再試一次。",
+        "source": "來自 {{source}}",
+        "installed": "已安裝",
+        "installedNamed": "{{name}} 已安裝",
+        "install": "安裝",
+        "installNamed": "安裝 {{name}}",
+        "installErrorNamed": "未能開始安裝「{{name}}」",
+        "retryInstallNamed": "重新安裝 {{name}}",
+        "queued": "正在安裝 {{name}}",
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。"
+      },
+      "zip": {
+        "action": "從 ZIP 安裝",
+        "title": "從 ZIP 安裝技能",
+        "description": "為 {{tool}} 選擇本機壓縮檔。檔案只會在這台電腦上處理。",
+        "choose": "選擇 ZIP 並安裝",
+        "trustTitle": "只使用你信任的壓縮檔",
+        "trustDescription": "AI 管家會在本機讀取壓縮檔，並拒絕不安全路徑和超量解壓；其中的檔案仍可能改變 AI 工具的行為。",
+        "formatTitle": "壓縮檔需要包含什麼",
+        "formatDescription": "請選擇 .zip 檔案，其中至少有一個包含 SKILL.md 的技能資料夾。",
+        "syncTitle": "接下來會做什麼",
+        "syncDescription": "新的、沒有目錄衝突的技能會加入統一管理，並同步到這個工具。",
+        "partialNote": "如果壓縮檔中後面的某個技能安裝失敗，前面的技能可能已經安裝。工作會顯示結果，技能清單也會自動重新整理。",
+        "queued": "正在從 ZIP 安裝技能",
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。",
+        "errorHint": "請檢查提示，重新選擇壓縮檔後再試一次。"
+      },
+      "backups": {
+        "action": "復原副本",
+        "title": "技能復原副本",
+        "description": "復原或刪除移除受管理技能前建立的本機副本。復原後會為 {{tool}} 啟用這個技能。",
+        "localTitle": "只儲存在這台電腦上",
+        "localDescription": "AI 管家最多保留最近 20 份副本，檔案和路徑不會離開這台裝置。",
+        "refresh": "重新整理",
+        "loading": "正在讀取技能復原副本",
+        "errorTitle": "未能讀取技能復原副本",
+        "errorDescription": "上一次清單可能不完整。復原或刪除副本前請先重新整理。",
+        "empty": "目前沒有復原副本。移除受管理技能前，AI 管家會自動建立一份。",
+        "createdAt": "儲存於 {{date}}",
+        "alreadyInstalled": "已經安裝",
+        "restore": "復原",
+        "restoreNamed": "從復原副本還原 {{name}}",
+        "restoreQueued": "正在復原 {{name}}",
+        "restoreQueuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。",
+        "delete": "刪除",
+        "deleteNamed": "刪除 {{name}} 的復原副本",
+        "deleteTitle": "刪除 {{name}} 的復原副本嗎？",
+        "deleteDescription": "這會永久刪除這一份復原副本。已安裝的技能和其他副本不會改變。",
+        "deleteConfirm": "刪除副本",
+        "deleteSuccess": "已刪除 {{name}} 的復原副本",
+        "mutationErrorHint": "清單會從磁碟重新讀取。請檢查提示後再試一次。"
+      },
+      "repositories": {
+        "manage": "管理來源",
+        "title": "技能來源",
+        "description": "選擇哪些可信的 GitHub 儲存庫用來提供技能目錄。已安裝的技能會分開管理。",
+        "back": "返回技能目錄",
+        "location": "GitHub 儲存庫",
+        "locationPlaceholder": "owner/repository 或 https://github.com/owner/repository",
+        "branch": "分支（選填）",
+        "branchPlaceholder": "自動嘗試 main 或 master",
+        "validation": {
+          "location": "請輸入 owner/repository，或完整的 HTTPS GitHub 儲存庫網址。"
+        },
+        "add": "新增來源",
+        "loading": "正在讀取已設定的技能來源",
+        "errorTitle": "未能讀取技能來源",
+        "errorDescription": "上一次來源清單可能不完整。變更前請重新讀取。",
+        "retry": "重新讀取",
+        "empty": "尚未設定技能來源。請在上方新增可信的 GitHub 儲存庫。",
+        "defaultBranch": "預設分支",
+        "branchValue": "分支：{{branch}}",
+        "enableNamed": "啟用技能來源 {{name}}",
+        "disableNamed": "停用技能來源 {{name}}",
+        "remove": "移除",
+        "removeNamed": "移除技能來源 {{name}}",
+        "removeTitle": "從技能來源中移除 {{name}} 嗎？",
+        "removeDescription": "它會從技能目錄中消失；已經從這裡安裝的技能仍會保留。",
+        "removeConfirm": "移除來源",
+        "mutationErrorHint": "原來的來源清單沒有改變。請檢查內容後再試一次。"
+      },
+      "remove": {
+        "title": "移除「{{name}}」嗎？",
+        "description": "這會從 AI 管家以及所有已啟用它的 AI 工具中移除這項受管理的技能。",
+        "point": {
+          "everywhere": "這個技能會從目前啟用它的所有位置移除。",
+          "recovery": "移除受管理的檔案前，AI 管家會盡量保留一份復原副本。",
+          "external": "無法識別的外部副本和工具的其他設定不會被改動。"
+        },
+        "confirm": "移除技能",
+        "queued": "正在移除 {{name}}",
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。",
+        "errorRetry": "請查看提示後再試一次。"
+      },
+      "update": {
+        "checking": "正在檢查已安裝技能的更新",
+        "knownCount_one": "發現 {{count}} 個已知技能更新",
+        "knownCount_other": "發現 {{count}} 個已知技能更新",
+        "checkErrorTitle": "未能完成技能更新檢查",
+        "checkErrorDescription": "部分技能來源可能暫時無法連線。現有技能仍可使用，但目前不能據此判斷所有技能都是最新版。",
+        "retry": "重新檢查",
+        "title": "更新「{{name}}」嗎？",
+        "description": "AI 管家會使用這個技能原來的儲存庫，並透過經過驗證的本機更新流程完成更新。",
+        "point": {
+          "download": "從技能記錄的原始儲存庫下載最新副本。",
+          "backup": "替換受管理檔案前保留一份復原副本。",
+          "tools": "把更新後的技能同步到目前啟用它的所有工具。"
+        },
+        "confirm": "更新技能",
+        "queued": "正在更新 {{name}}",
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。",
+        "errorRetry": "請查看提示後再試一次。"
+      },
+      "empty": {
+        "title": "還沒有技能",
+        "description": "選擇「新增技能」，為這個工具安裝現成的做事方法。"
+      }
+    },
+    "mcp": {
+      "title": "MCP",
+      "explainer": "讓 AI 工具連接檔案、瀏覽器和其他服務。",
+      "install": {
+        "add": "加入 MCP",
+        "title": "加入 MCP 連線",
+        "description": "不用貼上設定 JSON，直接把 {{tool}} 連到本機程式或遠端服務。",
+        "confirm": "加入連線",
+        "name": "連線名稱",
+        "nameHint": "取一個之後在擴充功能清單中容易辨認的名稱。",
+        "optionalDescription": "說明（選填）",
+        "transport": {
+          "label": "它如何連線？",
+          "stdio": {
+            "label": "本機命令",
+            "description": "在這台電腦上執行一個程式。"
+          },
+          "http": {
+            "label": "HTTP",
+            "description": "連線到安全的 MCP 服務網址。"
+          },
+          "sse": {
+            "label": "SSE",
+            "description": "連線到安全的事件串流服務。"
+          }
+        },
+        "command": "程式",
+        "commandHint": "只填寫程式名稱或路徑，啟動參數放在下一欄。",
+        "commandPlaceholder": "npx",
+        "arguments": "啟動參數",
+        "argumentsHint": "每行填寫一個參數。",
+        "argumentsPlaceholder": "-y\n@modelcontextprotocol/server-filesystem",
+        "url": "伺服器網址",
+        "urlHint": "請使用 HTTPS；只有這台電腦上的網址可以使用 HTTP。",
+        "urlPlaceholder": "https://mcp.example.com",
+        "trustLocal": "這會在你的電腦上執行上面填寫的程式，請只加入你信任的軟體。",
+        "trustRemote": "MCP 資料會傳送到上面的網址，請只加入你信任的服務。",
+        "noSecrets": "這個引導表單不提供密碼、要求標頭或環境變數欄位。",
+        "queued": "正在加入 {{name}}",
+        "queuedDescription": "你可以繼續使用應用程式，並在「任務」中查看進度。"
+      },
+      "remove": {
+        "title": "移除 {{name}}？",
+        "description": "這會從 AI 管家和所有已開啟它的 AI 工具中移除這個連線。",
+        "point": {
+          "everywhere": "這個連線會從目前已開啟它的所有 AI 工具中移除。",
+          "keepsTargets": "它連接的程式、檔案、瀏覽器或遠端服務都不會被刪除。",
+          "noUndo": "這裡無法復原；之後仍可重新加入這個連線。"
+        },
+        "confirm": "移除連線",
+        "queued": "正在移除 {{name}}",
+        "queuedDescription": "你可以繼續使用應用程式，並在「任務」中查看進度。",
+        "errorRetry": "再次嘗試前，請先在「任務」中查看詳情。"
+      },
+      "empty": {
+        "title": "還沒有連線",
+        "description": "選擇「加入 MCP」，把這個工具連到本機程式或安全的遠端服務。"
+      }
+    },
+    "prompt": {
+      "title": "全域提示詞",
+      "explainer": "工具每次啟動都會讀的一份說明。",
+      "exclusive": "同一時間只有一份提示詞在使用中，選另一份就會換過去。",
+      "editor": {
+        "add": "新增提示詞",
+        "createTitle": "新增常駐提示詞",
+        "editTitle": "編輯 {{name}}",
+        "description": "直接管理 {{tool}} 的常用說明，不必開啟它的設定檔。",
+        "save": "儲存提示詞",
+        "activeBackup": "這份提示詞正在使用。變更即時檔案前，AI 管家會儲存帶時間戳記的還原副本，並驗證替換結果。",
+        "readErrorTitle": "沒能開啟這份提示詞",
+        "retryRead": "重新讀取",
+        "saveErrorTitle": "沒能儲存這份提示詞",
+        "name": "提示詞名稱",
+        "optionalDescription": "說明（選填）",
+        "content": "提示詞內容",
+        "contentHint": "可以寫一般文字或 Markdown。日後對話時，這些說明可能會傳送給 AI 工具。",
+        "validation": {
+          "name": {
+            "required": "請為這份提示詞命名。",
+            "tooLong": "請控制在 80 個字元以內。",
+            "invalid": "名稱只能有一行，不能包含控制字元。"
+          },
+          "description": {
+            "tooLong": "請控制在 500 個字元以內。",
+            "invalid": "說明只能有一行，不能包含控制字元。"
+          },
+          "content": {
+            "required": "請寫下希望工具遵守的說明。",
+            "invalid": "請移除不支援的控制字元。",
+            "tooLarge": "提示詞請控制在 1 MB 以內。"
+          }
+        }
+      },
+      "import": {
+        "open": "匯入目前提示詞",
+        "title": "匯入目前提示詞？",
+        "description": "AI 管家會讀取 {{tool}} 已經在使用的說明檔案。",
+        "confirm": "匯入提示詞",
+        "point": {
+          "reads": "目前內容會作為一份未啟用的提示詞加入，方便你先檢查。",
+          "unchanged": "匯入過程不會改寫工具目前的檔案。",
+          "duplicate": "若已儲存完全相同的內容，就不會重複加入。"
+        },
+        "errorTitle": "沒能匯入目前提示詞"
+      },
+      "remove": {
+        "title": "移除 {{name}}？",
+        "description": "這會從 AI 管家移除這份未啟用的儲存副本。",
+        "confirm": "移除提示詞",
+        "point": {
+          "current": "目前正在使用的提示詞會保持選取，內容不變。",
+          "file": "工具的即時說明檔案和其他設定都不會變更。",
+          "undo": "這裡無法復原，但日後可以重新新增或匯入。"
+        },
+        "active": "正在使用的提示詞不能移除，請先改用另一份。",
+        "errorTitle": "沒能移除這份提示詞"
+      },
+      "empty": {
+        "title": "還沒有提示詞",
+        "description": "新增一份常用說明，或者匯入這個工具已經在使用的檔案。"
+      }
+    }
+  },
+  "routing": {
+    "toolScope": "AI 軟體",
+    "title": "本機路由",
+    "description": "透過本機轉發請求，可設定故障時自動切換備用端點。",
+    "summary": {
+      "inactive": "尚未開啟本機路由，軟體沿用原有連線。",
+      "needsRestore": "路由已停止，仍有軟體被接管，請還原原設定。",
+      "stats": "統計"
+    },
+    "refresh": "重新整理狀態",
+    "loading": "正在讀取本機路由",
+    "hero": {
+      "title": "一條本機通道，少一些中斷",
+      "description": "接管前會備份每個工具的 Live 設定；流量留在本機，停止路由時會還原原設定。",
+      "running": "路由正在執行",
+      "stopped": "需要時再開啟",
+      "localOnly": "僅本機回環位址",
+      "takeovers_one": "已接管 {{count}} 個工具",
+      "takeovers_other": "已接管 {{count}} 個工具",
+      "metric": {
+        "requests": "請求",
+        "success": "成功",
+        "failures": "失敗",
+        "failovers": "容錯移轉"
+      }
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build"
+    },
+    "target": {
+      "routed": "已路由",
+      "direct": "直連",
+      "current": "目前服務：{{name}}",
+      "noProvider": "請先在 AI 服務中選擇目前服務。"
+    },
+    "takeover": {
+      "title": "路由接管",
+      "description": "備份 Live 設定，並讓這個工具指向本機路由。",
+      "label": "{{name}} 的路由接管",
+      "confirmTitle": "讓 {{name}} 走本機路由？",
+      "confirmDescription": "AI 管家會先備份目前 Live 設定，只替換路由相關欄位；關閉接管時會還原備份。",
+      "confirm": "開啟路由"
+    },
+    "failover": {
+      "title": "自動容錯移轉",
+      "description": "請求失敗時依 P1、P2 順序嘗試健康服務。",
+      "label": "{{name}} 的自動容錯移轉"
+    },
+    "queue": {
+      "title": "容錯移轉順序",
+      "description": "開啟容錯移轉時會先切到 P1。",
+      "count_one": "{{count}} 個服務",
+      "count_other": "{{count}} 個服務",
+      "empty": "加入服務；也可以直接開啟容錯移轉，把目前服務作為 P1。",
+      "selectLabel": "要加入容錯移轉的服務",
+      "selectLabelNamed": "要加入 {{name}} 容錯移轉的服務",
+      "selectPlaceholder": "選擇服務",
+      "add": "加入",
+      "addNamed": "將所選服務加入 {{name}} 的容錯移轉"
+    },
+    "provider": {
+      "current": "目前",
+      "healthy": "健康",
+      "unhealthy": "連續失敗 {{count}} 次",
+      "switch": "切換",
+      "switchLabel": "將路由切換到 {{name}}",
+      "removeLabel": "從容錯移轉中移除 {{name}}"
+    },
+    "stop": {
+      "action": "全部停止並還原",
+      "title": "停止全部本機路由？",
+      "description": "AI 管家會停止本機服務，並還原每個工具備份的 Live 設定；容錯移轉順序會保留到下次。",
+      "confirm": "停止並還原"
+    },
+    "error": {
+      "title": "無法讀取本機路由",
+      "description": "沒有修改任何設定，請重新讀取目前狀態。",
+      "retry": "再試一次"
+    },
+    "stale": "最新重新整理未完成，仍顯示上一次路由快照。",
+    "actionError": {
+      "title": "路由變更未完成"
+    }
+  },
+  "sessions": {
+    "inventoryError": "暫時無法重新整理軟體清單，你仍可瀏覽已有工作階段。",
+    "title": "本機工作階段",
+    "description": "搜尋 AI 程式設計工具儲存在本機的對話，並在終端機中安全繼續受支援的工作階段。",
+    "loading": "正在讀取本機工作階段",
+    "refresh": "重新整理",
+    "hero": {
+      "local": "只在你需要時讀取本機資料",
+      "limited": "共符合 {{count}} 個工作階段，目前顯示最新的 500 個。",
+      "metric": {
+        "visible": "目前顯示",
+        "tools": "涉及工具",
+        "resumable": "可繼續"
+      }
+    },
+    "search": {
+      "label": "搜尋本機工作階段",
+      "placeholder": "搜尋標題、摘要、專案或精確工作階段 ID"
+    },
+    "tool": {
+      "claude-code": "Claude Code",
+      "codex": "Codex",
+      "opencode": "OpenCode",
+      "gemini-cli": "Gemini CLI",
+      "grok-build": "Grok Build",
+      "openclaw": "OpenClaw",
+      "hermes": "Hermes",
+      "pi": "Pi",
+      "kimi-code": "Kimi Code",
+      "deepseek-dsh": "DeepSeek DSH"
+    },
+    "list": {
+      "title": "對話清單",
+      "count_one": "{{count}} 個工作階段",
+      "count_other": "{{count}} 個工作階段",
+      "untitled": "未命名工作階段",
+      "resumable": "可在終端機繼續",
+      "loadMore": "再顯示 {{count}} 個"
+    },
+    "thread": {
+      "title": "對話預覽",
+      "emptyTitle": "請選擇一個對話",
+      "emptyDescription": "只有在你明確選擇本機工作階段後，AI 管家才會讀取訊息內容。",
+      "loading": "正在讀取對話",
+      "errorTitle": "無法讀取這個對話",
+      "retry": "重試",
+      "limited": "只顯示了最近的一部分（共 {{count}} 則）。",
+      "noMessages": "這個工作階段中沒有可讀取的訊息。",
+      "messages": "工作階段訊息",
+      "messageTruncated": "這則長訊息已為安全顯示而截短。"
+    },
+    "resume": {
+      "action": "在終端機繼續",
+      "success": "工作階段已交給終端機繼續執行。",
+      "error": "無法繼續這個工作階段。",
+      "manualHint": "或者自己貼一行到終端機裡：",
+      "manualLabel": "恢復指令",
+      "title": "恢復這個工作階段",
+      "terminal": {
+        "label": "用哪個終端機開啟",
+        "system": "系統終端機",
+        "iterm2": "iTerm2",
+        "ghostty": "Ghostty",
+        "kitty": "kitty",
+        "wezterm": "WezTerm",
+        "alacritty": "Alacritty"
+      },
+      "launch": "直接在終端機中開啟"
+    },
+    "reveal": {
+      "action": "開啟所在位置",
+      "actionNamed": "開啟「{{title}}」所在的資料夾"
+    },
+    "role": {
+      "user": "你",
+      "assistant": "助理",
+      "system": "系統",
+      "tool": "工具",
+      "other": "其他"
+    },
+    "empty": {
+      "title": "找不到本機工作階段",
+      "description": "先執行一次受支援的 AI 程式設計工具，然後重新整理此頁面。",
+      "search": "沒有工作階段符合目前搜尋與工具篩選條件。"
+    },
+    "error": {
+      "title": "無法掃描本機工作階段",
+      "description": "沒有修改任何工作階段檔案。請嘗試重新整理本機索引。"
+    }
+  },
+  "preferences": {
+    "title": "設定",
+    "description": "AI 管家自己的偏好。",
+    "loading": "正在讀取你的設定",
+    "retry": "再試一次",
+    "error": {
+      "title": "讀不到你的設定",
+      "description": "過一會兒再試一次。"
+    },
+    "groups": {
+      "general": "通用",
+      "network": "網路",
+      "backup": "備份與還原",
+      "about": "關於"
+    },
+    "experience": {
+      "eyebrow": "應用程式體驗",
+      "title": "讓 AI 管家更符合你的習慣",
+      "description": "語言和外觀偏好只儲存在這台電腦上。",
+      "instant": "立即生效",
+      "language": {
+        "label": "語言",
+        "description": "選擇 AI 管家各處使用的語言。",
+        "options": {
+          "zh": "简体中文",
+          "zhTw": "繁體中文",
+          "en": "English",
+          "ja": "日本語"
+        }
+      }
+    },
+    "advanced": {
+      "label": "進階模式",
+      "description": "會顯示檔案存放位置這類技術細節。更多進階功能會在後續更新裡加上。",
+      "saving": "正在儲存…",
+      "saved": "已儲存",
+      "error": "未儲存",
+      "errorHint": "已恢復為之前的設定。再次使用開關即可重試。"
+    },
+    "providerFailover": {
+      "label": "開啟或切換前自動嘗試可用端點",
+      "description": "僅在 AI 管家中按下「開啟」或「使用」時生效，失敗後嘗試其他已儲存的相容端點。預設關閉，不接管流量；執行中的故障切換在「API 端點 → 本機路由」設定。"
+    },
+    "desktop": {
+      "title": "桌面行為",
+      "description": "選擇 AI 管家在這台電腦上如何啟動、關閉與常駐。",
+      "loading": "正在讀取桌面偏好",
+      "menuBar": "選單列",
+      "systemTray": "系統匣",
+      "requiresTray": "請先開啟「在{{location}}顯示 AI 管家」，保留重新開啟視窗的入口。",
+      "error": {
+        "title": "無法讀取桌面偏好",
+        "description": "沒有變更任何內容，請稍後再試。"
+      },
+      "launch": {
+        "label": "登入電腦時開啟 AI 管家",
+        "description": "使用系統的啟動應用程式機制，在登入電腦後自動啟動。",
+        "descriptionMac": "加入 macOS 登入項目，在登入 Mac 後自動啟動。"
+      },
+      "silent": {
+        "label": "在背景啟動",
+        "description": "每次啟動時不顯示主視窗，可從{{location}}開啟。",
+        "requiresLaunch": "請先開啟「登入電腦時開啟 AI 管家」。"
+      },
+      "tray": {
+        "label": "在{{location}}顯示 AI 管家",
+        "description": "保留{{location}}入口。關閉此選項也會關閉背景啟動和關閉視窗後繼續執行。"
+      },
+      "close": {
+        "label": "關閉視窗後繼續執行",
+        "description": "關閉視窗後繼續執行，可從{{location}}重新開啟；結束應用程式仍會停止執行。"
+      }
+    },
+    "network": {
+      "proxy": {
+        "title": "本機下載代理",
+        "description": "AI 管家簽名更新、Claude 原生更新等官方下載無法靠 registry 鏡像解決時，可讓對外流量經過這台電腦上已執行的代理。",
+        "active": "已啟用",
+        "protected": "受保護設定",
+        "protectedHint": "現有代理含有憑證或遠端位址，AI 管家會繼續使用，但不會在這裡顯示。你可以換成本機位址，或清除它。",
+        "label": "本機代理位址",
+        "hint": "支援 localhost、127.0.0.1 或 ::1 上含明確連接埠的 HTTP、HTTPS、SOCKS5、SOCKS5H；這裡不接受帳號密碼或遠端主機。",
+        "loading": "正在讀取下載代理",
+        "readError": "無法讀取目前的下載代理。",
+        "save": "使用這個代理"
+      }
+    },
+    "check": {
+      "guide": {
+        "action": {
+          "updateTool": "立即更新",
+          "repairTool": "立即修復",
+          "reviewTool": "查看 AI 工具",
+          "connectService": "連接服務",
+          "reviewService": "查看 API 端點",
+          "reviewExtensions": "查看擴充功能"
+        }
+      },
+      "item": {
+        "toolReady": {
+          "title": "已安裝 {{name}}",
+          "description": "這台電腦上可用的版本是 {{version}}。"
+        },
+        "toolUpdate": {
+          "title": "{{name}} 有可用更新",
+          "description": "目前版本是 {{version}}，可更新到 {{latestVersion}}。"
+        },
+        "toolBroken": {
+          "title": "{{name}} 需要處理",
+          "description": "找到了安裝內容，但 AI 管家無法正常使用它。"
+        },
+        "toolUnknown": {
+          "title": "AI 管家無法判斷 {{name}} 的狀態",
+          "description": "依賴這套設定前，請重新檢查這個工具。"
+        },
+        "toolNotInstalled": {
+          "title": "尚未安裝 {{name}}",
+          "description": "這只是一項資訊，不會被算作問題。"
+        },
+        "providerReady": {
+          "title": "{{name}} 已設定 AI 服務",
+          "description_one": "正在使用 {{count}} 份服務設定。",
+          "description_other": "正在使用 {{count}} 份服務設定。"
+        },
+        "providerMissing": {
+          "title": "{{name}} 尚未設定 AI 服務",
+          "description": "開啟「API 端點」，為這個工具選擇或設定一項服務。"
+        },
+        "configReadable": {
+          "title": "可以讀取 {{name}} 的設定",
+          "description": "正在使用的設定已成功解析。"
+        },
+        "configMissing": {
+          "title": "{{name}} 尚未設定",
+          "description": "還沒有設定檔。這只是一則資訊，不會被算作問題。"
+        },
+        "configUnreadable": {
+          "title": "無法讀取 {{name}} 的設定",
+          "description": "繼續變更前，請開啟這個工具的設定並修正格式。"
+        },
+        "connectivity": {
+          "operational": {
+            "title": "{{provider}} 已回應",
+            "description": "你為 {{name}} 發起的手動檢查在 {{ms}} 毫秒內成功。"
+          },
+          "degraded": {
+            "title": "{{provider}} 回應較慢",
+            "description": "{{name}} 上一次手動檢查耗時 {{ms}} 毫秒。"
+          },
+          "failed": {
+            "title": "{{provider}} 沒有回應",
+            "description": "{{name}} 上一次手動檢查無法連線。"
+          },
+          "notChecked": {
+            "title": "本次執行尚未檢查 {{provider}}",
+            "description": "如需測試這項連線，請在「API 端點」中點選「檢查」。"
+          }
+        },
+        "mcp": {
+          "title": "共 {{total}} 個 MCP 伺服器，已啟用 {{enabled}} 個",
+          "description": "這裡只顯示清單，尚未檢查伺服器是否可用。"
+        },
+        "mcpInventoryUnavailable": {
+          "title": "無法檢查本機 MCP 連接",
+          "description": "請開啟「擴充功能」重試本機清單檢查，不要在未核實時假定所有連接都已納管。"
+        },
+        "mcpInventoryPartial": {
+          "title": "部分本機 MCP 位置需要重新檢查",
+          "description": "有 {{count}} 個支援的位置無法檢查，或有界清單已滿。請在「擴充功能」中查看完整下一步。"
+        }
+      }
+    },
+    "import": {
+      "title": "從 CC Switch 匯入",
+      "description": "把 CC Switch 裡的 AI 服務、MCP 伺服器和技能帶到 AI 管家，CC Switch 的資料保持不變。",
+      "reimport": "從 CC Switch 匯入",
+      "loading": "正在尋找 CC Switch 的設定",
+      "retry": "重新尋找",
+      "action": "匯入",
+      "retryAction": "重新匯入",
+      "again": "再次匯入",
+      "skip": "跳過",
+      "success": "既有設定已匯入。",
+      "collision": "如果同一個服務或擴充功能已經存在，將以匯入來源中的版本為準；其他內容會保留。",
+      "sourceDetail": "CC Switch 的本機資料庫（唯讀）",
+      "prompt": {
+        "title": "偵測到 CC Switch 的設定",
+        "description": "這台電腦上裝過 CC Switch。要把它的 AI 服務、MCP 伺服器和技能帶過來嗎？"
+      },
+      "confirm": {
+        "title": "匯入這份既有設定？",
+        "description": "開始前確認將要帶入的內容和保護措施。"
+      },
+      "safety": {
+        "title": "兩邊設定都會妥善保留",
+        "sourceUntouched": "絕不會修改或刪除原始應用程式及其本機資料庫。",
+        "backupFirst": "套用匯入前，AI 管家會先備份目前的設定。",
+        "skipHarmless": "跳過不損失任何東西：Claude Code、Codex 等工具自己的設定，AI 管家本來就會讀取和管理，與這裡的選擇無關。之後也能隨時在設定裡匯入。"
+      },
+      "completion": {
+        "title": "設定已匯入",
+        "description": "支援的 AI 服務、MCP 伺服器和技能已經帶到 AI 管家。",
+        "countLabel": "已匯入的內容",
+        "nextStepTitle": "接著選擇要使用的服務",
+        "nextStep": "準備好後，開啟「API 端點」，為每個工具選擇剛匯入的服務。",
+        "continue": "繼續"
+      },
+      "count": {
+        "label": "可匯入的內容",
+        "services_one": "{{count}} 個 AI 服務",
+        "services_other": "{{count}} 個 AI 服務",
+        "mcpServers_one": "{{count}} 個 MCP 伺服器",
+        "mcpServers_other": "{{count}} 個 MCP 伺服器",
+        "skills_one": "{{count}} 個技能",
+        "skills_other": "{{count}} 個技能"
+      },
+      "notFound": {
+        "title": "沒有發現可匯入的設定",
+        "description": "現在沒有可匯入的內容，之後可以再來尋找。"
+      },
+      "error": {
+        "title": "無法檢查既有設定",
+        "description": "請再試一次。原始應用程式與本機資料沒有被改動。",
+        "retry": "可以放心重新匯入。"
+      },
+      "refreshError": {
+        "title": "無法重新整理既有設定",
+        "description": "仍顯示上一次的匯入摘要。匯入會暫停，直到新的檢查成功。"
+      },
+      "decisionError": {
+        "title": "無法儲存這個選擇",
+        "description": "請再試一次。AI 管家會保留這個步驟，直到選擇儲存成功。"
+      }
+    },
+    "updates": {
+      "title": "關於與更新",
+      "description": "顯示目前安裝版本及產品簽署更新通道的狀態。",
+      "check": "立即檢查",
+      "retry": "再試一次",
+      "openDownloadPage": "開啟官方下載頁",
+      "note": "沒有發現較新的已簽署版本。",
+      "devBuild": "開發版",
+      "devBuildNote": "開發版不檢查更新。",
+      "currentVersion": "目前版本 {{version}}",
+      "availableVersion": "{{version}} 已經可以下載了。",
+      "checkingTitle": "正在讀取版本資訊",
+      "checkingNote": "正在讀取目前版本及更新通道。",
+      "retryingNote": "網路暫時沒有回應，AI 管家正在嘗試另一個簽名來源（第 {{attempt}}/{{max}} 次）。",
+      "checking": "檢查中",
+      "backgroundDownloading": "正在背景下載",
+      "downloadProgress": "應用程式更新下載進度",
+      "downloading": "背景下載中",
+      "downloadingTitle": "正在背景下載 {{version}}",
+      "downloadingNote": "你可以繼續使用 AI 管家。下載與簽章驗證完成後，再由你決定何時重新啟動。",
+      "ready": "重新啟動後更新",
+      "readyTitle": "{{version}} 已準備好",
+      "readyNote": "更新套件已下載並通過簽章驗證。準備好時重新啟動即可完成更新。",
+      "restart": "重新啟動並更新",
+      "available": "有新版本",
+      "upToDate": "已是最新",
+      "unknown": "沒能檢查",
+      "error": {
+        "title": "暫時無法讀取更新狀態",
+        "description": "在限定次數內，AI 管家仍無法連線或驗證簽名更新。你可以重試或開啟官方下載頁；沒有安裝任何內容。"
+      }
+    },
+    "backup": {
+      "title": "備份",
+      "automatic": "自動備份",
+      "summaryLine_one": "AI 管家每天自動備份一次，保留最近 {{count}} 份。",
+      "summaryLine_other": "AI 管家每天自動備份一次，保留最近 {{count}} 份。",
+      "automaticOff": "自動備份已關閉。你仍然可以隨時手動備份。",
+      "exportToOther": "匯出到其他電腦",
+      "importFromOther": "從其他電腦匯入",
+      "create": "立即備份",
+      "loading": "正在讀取你的備份",
+      "retry": "再試一次",
+      "size": "約 {{size}} MB",
+      "exactSize": "{{bytes}} 位元組",
+      "folder": "備份保存在這台電腦的應用程式資料目錄中。",
+      "details": "存放位置",
+      "restore": "還原",
+      "restoreNamed": "還原 {{name}} 的備份",
+      "delete": "刪除",
+      "deleteNamed": "刪除 {{name}} 的備份",
+      "rename": "重新命名",
+      "renameNamed": "重新命名 {{name}} 的備份",
+      "renameTitle": "為 {{name}} 這份還原點命名",
+      "renameDescription": "取一個簡短的名稱，方便之後找到。備份內容不會改變。",
+      "renameConfirm": "儲存名稱",
+      "nameLabel": "備份名稱",
+      "namePlaceholder": "例如：升級 Claude 前",
+      "nameHelp": "請使用簡短且不重複的名稱，不要包含斜線或連續兩個點。",
+      "renameValidation": {
+        "required": "請輸入名稱。",
+        "tooLong": "名稱太長了，請縮短一些。",
+        "invalid": "不要使用斜線、反斜線或連續兩個點。",
+        "exists": "已經有一份備份使用這個名稱。",
+        "unchanged": "請輸入一個不同的名稱。"
+      },
+      "restoreTitle": "還原 {{name}} 這份備份？",
+      "restoreDescription": "這會取代 AI 管家目前的設定。",
+      "restoreConfirm": "還原",
+      "deleteTitle": "刪除 {{name}} 這份備份？",
+      "deleteDescription": "這會永久刪除一個還原點。",
+      "deleteConfirm": "刪除",
+      "summary": {
+        "title": "還原點已就緒",
+        "latest": "最新：{{name}}",
+        "count": "可用 {{count}} 份",
+        "latestBadge": "最新"
+      },
+      "completion": {
+        "created": {
+          "title": "還原點已建立",
+          "description": "目前的 AI 管家設定已經儲存。"
+        },
+        "exported": {
+          "title": "可移轉副本已儲存",
+          "description": "請把這份設定封存檔存放在安全的位置。"
+        },
+        "imported": {
+          "title": "設定已匯入",
+          "description": "AI 管家現在使用這份封存檔裡的服務和擴充功能。"
+        },
+        "renamed": {
+          "title": "還原點已重新命名",
+          "description": "之後可以透過「{{name}}」找到這份還原點。"
+        },
+        "restored": {
+          "title": "還原完成",
+          "description": "AI 管家現在使用 {{name}} 的還原點。"
+        },
+        "deleted": {
+          "title": "還原點已刪除",
+          "description": "已不再保留 {{name}} 的還原點。"
+        },
+        "warning": {
+          "title": "還原完成，但有一個工具需要處理",
+          "description": "有一個工具沒有套用服務變更。請檢查「API 端點」並重新選擇要用的服務。"
+        },
+        "importWarning": {
+          "title": "匯入完成，但有一個工具需要處理",
+          "description": "設定封存檔已經匯入，但有一個工具沒有套用服務變更。請檢查「API 端點」並重新選擇要用的服務。"
+        },
+        "reviewServices": "檢查 API 端點"
+      },
+      "empty": {
+        "title": "保護目前的設定",
+        "description": "變更工具或服務之前，先建立一個本機還原點。",
+        "local": "僅儲存在本機"
+      },
+      "error": {
+        "title": "讀不到你的備份",
+        "description": "過一會兒再試一次。",
+        "actionRetry": "這次操作沒有變更其他內容，可以再試一次。"
+      },
+      "refreshError": {
+        "title": "無法重新整理你的備份",
+        "description": "仍顯示上一次的備份清單。備份操作會暫停，直到新的檢查成功。"
+      },
+      "restorePoint": {
+        "replaces": "AI 管家裡的服務、擴充功能和選擇會回到這份還原點的狀態。",
+        "installed": "已經安裝的 AI 程式設計工具不會從電腦上移除。",
+        "followUp": "還原完成後，如果有工具需要處理，AI 管家會明確告訴你。"
+      },
+      "deletePoint": {
+        "permanent": "刪掉之後就找不回來了。"
+      },
+      "transfer": {
+        "secretTitle": "像保管密碼一樣保管封存檔",
+        "secretDescription": "可移轉副本可能包含服務金鑰和其他私密設定。請安全存放，只分享給你信任的人。",
+        "confirmTitle": "匯入這份設定封存檔？",
+        "confirmDescription": "確認下列影響後，再選擇要匯入的封存檔。",
+        "confirmReplace": "已管理的服務、擴充功能和儲存的歷史會被封存檔內容取代。",
+        "confirmSafety": "取代目前資料前，AI 管家會先建立一個本機還原點。",
+        "confirmTrust": "只匯入你自己建立或來自可信對象的封存檔。",
+        "confirmInstalled": "已經安裝的 AI 程式設計工具仍會留在這台電腦上。",
+        "chooseAndImport": "選擇封存檔並匯入",
+        "errorHint": "其他內容沒有變更。請檢查封存檔後再試一次。"
+      }
+    }
+  },
+  "data": {
+    "title": "本機資料",
+    "description": "本機工作階段和各工具的本機儲存，都在這一處。",
+    "overview": {
+      "eyebrow": "本機資料總覽",
+      "title": "跨工具本機資料",
+      "description": "彙總下方儲存面板同一次本機掃描的結果，按全部有本機儲存的工具加總。",
+      "metric": {
+        "totalBytes": "已列本機資料",
+        "conversationBytes": "對話資料體積"
+      },
+      "measuring": "正在測量…",
+      "unavailable": "彙總依賴已安裝工具清單，而清單沒能讀出來。",
+      "partial": "有工具沒能測量，這裡的合計只是下限。",
+      "limited": "過大或讀不了的資料夾按安全下限計入。"
+    },
+    "scope": {
+      "all": "全部",
+      "label": "依工具檢視",
+      "unsupportedShort": "尚未接入",
+      "unsupportedTitle": "AI 管家尚未接入 {{tool}} 的本機資料",
+      "unsupportedDescription": "這表示 AI 管家目前沒有安全的讀取適配，不代表 {{tool}} 沒有本機資料。軟體仍會顯示在這裡，方便你確認安裝狀態。"
+    },
+    "storage": {
+      "title": "本機上下文與儲存空間",
+      "description": "每個工具把檔案存在哪裡、佔用多少空間。",
+      "loading": "正在讀取哪些工具在本機保存了資料",
+      "empty": {
+        "title": "目前沒有可顯示本機儲存的工具",
+        "description": "先安裝一個工具，它的本機檔案才會出現在這裡。"
+      }
+    },
+    "inventory": {
+      "error": {
+        "title": "沒能讀取已安裝的工具",
+        "description": "本機工作階段照常可用。工具清單重新讀出來後，儲存詳情就會回來。"
+      },
+      "refreshError": {
+        "title": "沒能重新整理已安裝的工具",
+        "description": "仍顯示上一次讀到的儲存詳情。"
+      },
+      "retry": "重試"
+    }
+  },
+  "deeplink": {
+    "resource": {
+      "provider": "一個 API 接入點",
+      "mcp": "MCP 伺服器",
+      "prompt": "一條全域提示詞",
+      "skill": "一個技能"
+    },
+    "origin": {
+      "argv": "這個連結是從 AI Manager 之外開啟的，請確認它的來源。",
+      "paste": "這個連結是你自己貼上的，請確認它來自你信任的服務商。"
+    },
+    "credential": {
+      "apiKey": "連結裡帶著金鑰。它會隨 API 接入點一起儲存，而且不會顯示在這個畫面上。",
+      "config": "連結的設定裡帶著金鑰。它會隨 API 接入點一起儲存，而且不會顯示在這個畫面上。"
+    },
+    "blocked": {
+      "noSupportedTool": "AI Manager 不管理這個連結指向的應用程式，因此沒有可新增的內容。",
+      "credentialRequired": "這個連結沒有金鑰，而 API 接入點沒有金鑰就無法儲存。請向服務商索取一條帶金鑰的連結。"
+    },
+    "summary": {
+      "label": "這個連結會新增什麼",
+      "resource": "新增",
+      "name": "名稱",
+      "targets": "用於",
+      "items": "內容",
+      "separator": "、",
+      "unmanagedTarget": "AI Manager 不管理的應用程式"
+    },
+    "confirm": {
+      "title": "要從連結新增嗎？",
+      "description": "在你按下新增之前，不會儲存任何內容。",
+      "action": "新增",
+      "retry": "重試",
+      "cancel": "捨棄"
+    },
+    "error": {
+      "retry": "什麼都沒有儲存。可以重試，或向服務商要一條新連結。"
+    },
+    "toast": {
+      "imported_one": "已新增 1 項。",
+      "imported_other": "已新增 {{count}} 項。"
+    },
+    "paste": {
+      "title": "從連結新增",
+      "description": "貼上服務商提供的一鍵匯入連結。你自己貼上的連結可以帶金鑰，從外部開啟的連結則不行。",
+      "label": "連結",
+      "hint": "AI Manager 會先讀取連結並請你確認，之後才會儲存。",
+      "placeholder": "aimanager://v1/import?...",
+      "action": "讀取連結"
+    }
+  }
+}

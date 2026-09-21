@@ -1,0 +1,144 @@
+/**
+ * Product design tokens — the single source of truth for colour, radius,
+ * shadow, motion and type (spec §46/§48/§49/§50/§54).
+ *
+ * The application has one appearance: a saturated coloured canvas whose hue
+ * comes from the active route (see `.app-window-canvas` in index.css). There is
+ * no light/dark pair, because the canvas is neither — the same way CleanMyMac's
+ * green and magenta screens are neither. Everything painted on top of that
+ * canvas gets its depth by being *lighter* than the canvas, never darker.
+ *
+ * Four groups live here, in this order:
+ *   1. Lift layers (`--layer-*`, `--hairline*`). Translucent white films — the
+ *      only way a surface is allowed to separate itself from the canvas. These
+ *      carry their own alpha, so they are complete colour values, not channels.
+ *   2. Product tokens (hex). Spec §46 names. Product code and raw CSS use these.
+ *   3. Tailwind bridge (`--ui-*`, HSL channels). Byte-identical colours to (2),
+ *      expressed as channels so Tailwind's `/alpha` modifiers keep working
+ *      (`hsl(var(--ui-accent) / 0.1)`). One bridge var per product colour.
+ *   4. shadcn aliases. Upstream variable names kept intact so the 24 files in
+ *      src/components/ui/ need no edits. `--accent`, `--accent-foreground` and
+ *      `--border` are absent on purpose: those names belong to §46 product
+ *      tokens, so tailwind.config.cjs points the matching shadcn keys straight
+ *      at `--ui-surface-hover`, `--ui-text-primary` and `--ui-border`.
+ *
+ * Groups (2) and (3) must always describe the same colour.
+ * tests/shared/styles/tokens.test.ts converts every bridge value back to hex
+ * and fails the build on drift. Never edit one group without the other.
+ */
+
+:root {
+  /*
+   * Depth comes from light, not from shadow. A card is a thin white film over
+   * the coloured canvas; a hovered row is a slightly thicker film. Nothing in
+   * the product is allowed to build a surface by painting something darker
+   * than the canvas underneath it.
+   */
+  --layer-1: hsl(0 0% 100% / 0.08);
+  --layer-2: hsl(0 0% 100% / 0.14);
+  --layer-3: hsl(0 0% 100% / 0.2);
+  --hairline: hsl(0 0% 100% / 0.15);
+  --hairline-strong: hsl(0 0% 100% / 0.2);
+
+  --bg-primary: #2a2740;
+  --bg-secondary: #363252;
+  --surface: #454065;
+  --surface-hover: #514b74;
+  --text-primary: #f6f5fb;
+  --text-secondary: #e4e1f0;
+  --border: #6b6490;
+  --accent: #6ad3ad;
+  --accent-hover: #85e0be;
+  --accent-foreground: #0d1713;
+  --success: #6ad3ad;
+  --warning: #e8b264;
+  --danger: #ef8b8f;
+
+  --glow-ready: radial-gradient(
+    circle,
+    rgba(106, 211, 173, 0.24) 0%,
+    rgba(106, 211, 173, 0) 70%
+  );
+  --glow-attention: radial-gradient(
+    circle,
+    rgba(232, 178, 100, 0.24) 0%,
+    rgba(232, 178, 100, 0) 70%
+  );
+  --glow-action: radial-gradient(
+    circle,
+    rgba(239, 139, 143, 0.24) 0%,
+    rgba(239, 139, 143, 0) 70%
+  );
+
+  --ui-bg-primary: 247.2 24.3% 20.2%;
+  --ui-bg-secondary: 247.5 24.2% 25.9%;
+  --ui-surface: 248.1 22.4% 32.4%;
+  --ui-surface-hover: 248.8 21.5% 37.5%;
+  --ui-text-primary: 250 42.9% 97.3%;
+  --ui-text-secondary: 252 33.3% 91.2%;
+  --ui-border: 249.5 18% 47.8%;
+  --ui-accent: 158.3 54.4% 62.2%;
+  --ui-accent-hover: 157.6 59.5% 70%;
+  --ui-accent-foreground: 156 27.8% 7.1%;
+  --ui-success: 158.3 54.4% 62.2%;
+  --ui-warning: 35.5 74.2% 65.1%;
+  --ui-danger: 357.6 75.8% 74.1%;
+
+  --background: var(--ui-bg-primary);
+  --foreground: var(--ui-text-primary);
+  --card: var(--ui-surface);
+  --card-foreground: var(--ui-text-primary);
+  --popover: var(--ui-surface);
+  --popover-foreground: var(--ui-text-primary);
+  --primary: var(--ui-accent);
+  --primary-foreground: var(--ui-accent-foreground);
+  --secondary: var(--ui-bg-secondary);
+  --secondary-foreground: var(--ui-text-primary);
+  --muted: var(--ui-bg-secondary);
+  --muted-foreground: var(--ui-text-secondary);
+  --destructive: var(--ui-danger);
+  --destructive-foreground: var(--ui-accent-foreground);
+  --input: var(--ui-border);
+  --ring: var(--ui-accent);
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 34px;
+  --radius: var(--radius-md);
+
+  /*
+   * Only material that genuinely floats gets a shadow. Cards and rails sit *in*
+   * the canvas and separate themselves with a lift layer instead, so `--shadow-sm`
+   * is deliberately almost invisible: it exists for the rare control that needs
+   * a hint of contact, not for every panel on the page.
+   */
+  --shadow-sm: 0 1px 2px -1px rgba(8, 6, 20, 0.18);
+  --shadow-md: 0 10px 26px -18px rgba(8, 6, 20, 0.55);
+  --shadow-lg: 0 28px 64px -34px rgba(8, 6, 20, 0.72);
+
+  --motion-fast: 140ms;
+  --motion-base: 200ms;
+  --motion-modal: 220ms;
+  --motion-page: 1000ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-page: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Overshoots slightly at the end, so pages land with a little give. */
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.4, 1);
+
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  --font-mono:
+    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-base: 0ms;
+    --motion-modal: 0ms;
+    --motion-page: 0ms;
+  }
+}

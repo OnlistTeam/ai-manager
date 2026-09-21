@@ -1,0 +1,926 @@
+name: Protected Desktop Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag matching package version (for example v0.1.0)"
+        required: true
+        type: string
+      prerelease:
+        description: "Publish as a GitHub prerelease"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: protected-release-${{ inputs.tag }}
+  cancel-in-progress: false
+
+env:
+  AI_MANAGER_UPDATE_CHANNEL_ENABLED: "1"
+  AI_MANAGER_UPDATE_CHANNEL: ${{ inputs.prerelease && 'staging' || 'stable' }}
+  NODE_VERSION: "20"
+  PNPM_VERSION: "10.12.3"
+
+jobs:
+  preflight:
+    name: Validate release contract
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.release-input.outputs.version }}
+    steps:
+      - name: Checkout release commit
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate branch, tag, and version
+        id: release-input
+        shell: bash
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          RELEASE_IS_PRERELEASE: ${{ inputs.prerelease }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF_NAME" != "$DEFAULT_BRANCH" ]]; then
+            echo "Release workflows must be dispatched from $DEFAULT_BRANCH" >&2
+            exit 1
+          fi
+          # The single-quoted JavaScript intentionally contains template
+          # literals that must be evaluated by Node, not by this shell.
+          # shellcheck disable=SC2016
+          version=$(
+            node --input-type=module -e '
+              import { readFileSync } from "node:fs";
+              const pkg = JSON.parse(readFileSync("package.json", "utf8"));
+              const tag = process.env.RELEASE_TAG;
+              const identifier = "(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*)";
+              const semver = new RegExp(
+                `^v(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)` +
+                  `(?:-${identifier}(?:\\.${identifier})*)?` +
+                  `(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$`,
+              );
+              if (!semver.test(tag)) {
+                throw new Error("release tag must be v-prefixed SemVer");
+              }
+              if (tag !== "v" + pkg.version) {
+                throw new Error("release tag does not match package.json version");
+              }
+              const versionWithoutBuild = pkg.version.split("+", 1)[0];
+              const tagIsPrerelease = versionWithoutBuild.includes("-");
+              const requestedPrerelease = process.env.RELEASE_IS_PRERELEASE === "true";
+              if (tagIsPrerelease !== requestedPrerelease) {
+                throw new Error(
+                  requestedPrerelease
+                    ? "prerelease publication requires a prerelease SemVer tag"
+                    : "stable publication requires a stable SemVer tag",
+                );
+              }
+              process.stdout.write(pkg.version);
+            '
+          )
+          printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
+
+      - name: Require a zero-transition release configuration
+        run: pnpm check:release -- --strict
+
+  build-macos:
+    name: Build and verify macOS ${{ matrix.arch }}
+    needs: preflight
+    runs-on: ${{ matrix.runner }}
+    environment: release
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            runner: macos-15
+            target: aarch64-apple-darwin
+          - arch: x64
+            runner: macos-15-intel
+            target: x86_64-apple-darwin
+    steps:
+      - name: Checkout release commit
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Setup Rust target
+        uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate macOS signing inputs
+        shell: bash
+        env:
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
+          APPLE_API_PRIVATE_KEY: ${{ secrets.APPLE_API_PRIVATE_KEY }}
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_NOTARIZATION_METHOD: ${{ vars.APPLE_NOTARIZATION_METHOD }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_SIGNER_SUBJECT: ${{ vars.APPLE_SIGNER_SUBJECT }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$APPLE_CERTIFICATE"
+          test -n "$APPLE_CERTIFICATE_PASSWORD"
+          test -n "$APPLE_SIGNER_SUBJECT"
+          test -n "$APPLE_TEAM_ID"
+          test -n "$TAURI_SIGNING_PRIVATE_KEY"
+          test -n "$TAURI_SIGNING_PRIVATE_KEY_PASSWORD"
+          if [[ ! "$APPLE_TEAM_ID" =~ ^[A-Z0-9]{10}$ ]]; then
+            echo "APPLE_TEAM_ID must be a 10-character Apple team id" >&2
+            exit 1
+          fi
+          if [[ "$APPLE_SIGNER_SUBJECT" == *$'\n'* || "$APPLE_SIGNER_SUBJECT" == *$'\r'* ]]; then
+            echo "APPLE_SIGNER_SUBJECT must be a single line" >&2
+            exit 1
+          fi
+          case "$APPLE_NOTARIZATION_METHOD" in
+            apple-id)
+              test -n "$APPLE_ID"
+              test -n "$APPLE_PASSWORD"
+              ;;
+            app-store-connect)
+              test -n "$APPLE_API_ISSUER"
+              test -n "$APPLE_API_KEY"
+              test -n "$APPLE_API_PRIVATE_KEY"
+              ;;
+            *)
+              echo "APPLE_NOTARIZATION_METHOD must be apple-id or app-store-connect" >&2
+              exit 1
+              ;;
+          esac
+
+      - name: Prepare App Store Connect API key
+        if: vars.APPLE_NOTARIZATION_METHOD == 'app-store-connect'
+        shell: bash
+        env:
+          APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
+          APPLE_API_PRIVATE_KEY: ${{ secrets.APPLE_API_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          umask 077
+          if [[ ! "$APPLE_API_KEY" =~ ^[A-Za-z0-9]+$ ]]; then
+            echo "APPLE_API_KEY must be an alphanumeric key id" >&2
+            exit 1
+          fi
+          api_key_path="$RUNNER_TEMP/ai-manager-notary-api.p8"
+          printf 'APPLE_API_KEY_PATH=%s\n' "$api_key_path" >> "$GITHUB_ENV"
+          printf '%s' "$APPLE_API_PRIVATE_KEY" > "$api_key_path"
+
+      - name: Import and validate Developer ID Application certificate
+        id: apple-identity
+        shell: bash
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNER_SUBJECT: ${{ vars.APPLE_SIGNER_SUBJECT }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          umask 077
+          certificate_path="$RUNNER_TEMP/ai-manager-release.p12"
+          keychain_path="$RUNNER_TEMP/ai-manager-release.keychain-db"
+          keychain_password=$(openssl rand -hex 32)
+          echo "::add-mask::$keychain_password"
+          original_default=$(security default-keychain -d user | sed -E 's/^[[:space:]]*"(.*)"[[:space:]]*$/\1/')
+          if [[ -z "$original_default" ]]; then
+            echo "Unable to resolve the original default keychain" >&2
+            exit 1
+          fi
+          {
+            printf 'AI_MANAGER_KEYCHAIN_PATH=%s\n' "$keychain_path"
+            printf 'AI_MANAGER_CERTIFICATE_PATH=%s\n' "$certificate_path"
+            printf 'AI_MANAGER_ORIGINAL_KEYCHAIN=%s\n' "$original_default"
+          } >> "$GITHUB_ENV"
+
+          printf '%s' "$APPLE_CERTIFICATE" | openssl base64 -d -A > "$certificate_path"
+          security create-keychain -p "$keychain_password" "$keychain_path"
+          security set-keychain-settings -lut 7200 "$keychain_path"
+          security default-keychain -d user -s "$keychain_path"
+          security unlock-keychain -p "$keychain_password" "$keychain_path"
+          security import "$certificate_path" \
+            -k "$keychain_path" \
+            -P "$APPLE_CERTIFICATE_PASSWORD" \
+            -T /usr/bin/codesign \
+            -T /usr/bin/security
+          security set-key-partition-list \
+            -S apple-tool:,apple:,codesign: \
+            -s \
+            -k "$keychain_password" \
+            "$keychain_path"
+
+          identities=$(
+            security find-identity -v -p codesigning "$keychain_path" |
+              grep '"Developer ID Application:' || true
+          )
+          identity_count=$(printf '%s\n' "$identities" | sed '/^$/d' | wc -l | tr -d ' ')
+          if [[ "$identity_count" != "1" ]]; then
+            echo "Expected exactly one Developer ID Application identity" >&2
+            exit 1
+          fi
+          identity=$(printf '%s\n' "$identities" | sed -E 's/^.*"([^"]+)".*$/\1/')
+          expected_identity="Developer ID Application: $APPLE_SIGNER_SUBJECT ($APPLE_TEAM_ID)"
+          if [[ "$identity" != "$expected_identity" ]]; then
+            echo "Developer ID Application identity does not match subject/team policy" >&2
+            exit 1
+          fi
+
+          printf 'APPLE_SIGNING_IDENTITY=%s\n' "$identity" >> "$GITHUB_ENV"
+
+      - name: Build signed macOS application
+        shell: bash
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          pnpm tauri build --target "${{ matrix.target }}" --bundles app --ci
+
+      - name: Locate signed application and updater bundle
+        id: mac-paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle_directory="src-tauri/target/${{ matrix.target }}/release/bundle/macos"
+          app_path=$(find "$bundle_directory" -maxdepth 1 -type d -name '*.app' -print)
+          if [[ $(printf '%s\n' "$app_path" | sed '/^$/d' | wc -l | tr -d ' ') != "1" ]]; then
+            echo "Expected exactly one macOS application bundle" >&2
+            exit 1
+          fi
+          updater_path="$app_path.tar.gz"
+          test -s "$updater_path"
+          test -s "$updater_path.sig"
+          {
+            printf 'app_path=%s\n' "$app_path"
+            printf 'bundle_directory=%s\n' "$bundle_directory"
+            printf 'updater_path=%s\n' "$updater_path"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Verify code signature before notarization
+        shell: bash
+        run: |
+          set -euo pipefail
+          codesign --verify --deep --strict --verbose=2 "${{ steps.mac-paths.outputs.app_path }}"
+
+      - name: Notarize and staple application
+        shell: bash
+        env:
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_NOTARIZATION_METHOD: ${{ vars.APPLE_NOTARIZATION_METHOD }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          app_path="${{ steps.mac-paths.outputs.app_path }}"
+          mkdir -p notarization-logs/app
+          ditto -c -k --sequesterRsrc --keepParent \
+            "$app_path" "$RUNNER_TEMP/ai-manager-app-notary.zip"
+          bash scripts/notarize-macos.sh \
+            "$RUNNER_TEMP/ai-manager-app-notary.zip" \
+            notarization-logs/app
+          xcrun stapler staple "$app_path"
+          xcrun stapler validate "$app_path"
+
+      - name: Rebuild and sign stapled updater archive
+        shell: bash
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          app_path="${{ steps.mac-paths.outputs.app_path }}"
+          bundle_directory="${{ steps.mac-paths.outputs.bundle_directory }}"
+          updater_path="${{ steps.mac-paths.outputs.updater_path }}"
+          rm -f "$updater_path" "$updater_path.sig"
+          COPYFILE_DISABLE=1 tar -C "$bundle_directory" -czf "$updater_path" "$(basename "$app_path")"
+          pnpm tauri signer sign "$updater_path"
+          test -s "$updater_path.sig"
+
+      - name: Create headless signed DMG
+        id: mac-dmg
+        shell: bash
+        run: |
+          set -euo pipefail
+          app_path="${{ steps.mac-paths.outputs.app_path }}"
+          release_directory="release-assets"
+          dmg_name="AI-Manager-${{ needs.preflight.outputs.version }}-macOS-${{ matrix.arch }}.dmg"
+          dmg_path="$release_directory/$dmg_name"
+          dmgbuild_venv="$RUNNER_TEMP/ai-manager-dmgbuild"
+          mkdir -p "$release_directory"
+          test ! -e "$dmg_path"
+
+          python3 -m venv "$dmgbuild_venv"
+          PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 \
+            "$dmgbuild_venv/bin/python" -m pip install \
+              --only-binary=:all: \
+              --require-hashes \
+              -r scripts/requirements-dmgbuild.txt
+          test "$("$dmgbuild_venv/bin/python" -c \
+            'import dmgbuild; print(dmgbuild.__version__)')" = "1.6.7"
+
+          "$dmgbuild_venv/bin/dmgbuild" \
+            --detach-retries 12 \
+            --settings scripts/dmgbuild-settings.py \
+            -D "app=$app_path" \
+            -D "background=$GITHUB_WORKSPACE/src-tauri/icons/dmg-background.png" \
+            -D "icon=$GITHUB_WORKSPACE/src-tauri/icons/icon.icns" \
+            "AI Manager" \
+            "$dmg_path"
+          test -s "$dmg_path"
+          codesign --force --timestamp --sign "$APPLE_SIGNING_IDENTITY" "$dmg_path"
+          codesign --verify --verbose=2 "$dmg_path"
+          printf 'dmg_path=%s\n' "$dmg_path" >> "$GITHUB_OUTPUT"
+
+      - name: Notarize DMG
+        shell: bash
+        env:
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_NOTARIZATION_METHOD: ${{ vars.APPLE_NOTARIZATION_METHOD }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          mkdir -p notarization-logs/dmg
+          bash scripts/notarize-macos.sh \
+            "${{ steps.mac-dmg.outputs.dmg_path }}" \
+            notarization-logs/dmg
+          xcrun stapler staple "${{ steps.mac-dmg.outputs.dmg_path }}"
+          xcrun stapler validate "${{ steps.mac-dmg.outputs.dmg_path }}"
+
+      - name: Verify macOS release artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          app_path="${{ steps.mac-paths.outputs.app_path }}"
+          dmg_path="${{ steps.mac-dmg.outputs.dmg_path }}"
+          codesign --verify --deep --strict --verbose=2 "$app_path"
+          spctl -a -t exec -vv "$app_path"
+          xcrun stapler validate "$app_path"
+          codesign --verify --verbose=2 "$dmg_path"
+          spctl -a -t open --context context:primary-signature -vv "$dmg_path"
+          xcrun stapler validate "$dmg_path"
+
+      - name: Prepare verified macOS release files
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ needs.preflight.outputs.version }}"
+          arch="${{ matrix.arch }}"
+          updater_source="${{ steps.mac-paths.outputs.updater_path }}"
+          updater_name="AI-Manager-$version-macOS-$arch.app.tar.gz"
+          cp "$updater_source" "release-assets/$updater_name"
+          cp "$updater_source.sig" "release-assets/$updater_name.sig"
+          dmg_path="${{ steps.mac-dmg.outputs.dmg_path }}"
+          dmg_name=$(basename "$dmg_path")
+          digest=$(shasum -a 256 "$dmg_path" | awk '{print $1}')
+          printf '%s  %s\n' "$digest" "$dmg_name" > "$dmg_path.sha256"
+
+      - name: Upload verified macOS release files
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-assets-macos-${{ matrix.arch }}
+          path: release-assets/*
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload macOS notarization evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-audit-macos-${{ matrix.arch }}
+          path: notarization-logs/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Clean up Apple signing material
+        if: always()
+        shell: bash
+        run: |
+          if [[ -n "${AI_MANAGER_ORIGINAL_KEYCHAIN:-}" ]]; then
+            security default-keychain -d user -s "$AI_MANAGER_ORIGINAL_KEYCHAIN" || true
+          fi
+          keychain_path="${AI_MANAGER_KEYCHAIN_PATH:-$RUNNER_TEMP/ai-manager-release.keychain-db}"
+          if [[ -f "$keychain_path" ]]; then
+            security delete-keychain "$keychain_path" || true
+          fi
+          rm -f \
+            "${AI_MANAGER_CERTIFICATE_PATH:-$RUNNER_TEMP/ai-manager-release.p12}" \
+            "${APPLE_API_KEY_PATH:-$RUNNER_TEMP/ai-manager-notary-api.p8}" \
+            "$RUNNER_TEMP/ai-manager-app-notary.zip"
+
+  build-windows:
+    name: Build and verify Windows x64
+    needs: preflight
+    runs-on: windows-2025
+    environment: release
+    timeout-minutes: 90
+    steps:
+      - name: Checkout release commit
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Setup Rust target
+        uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate Windows updater signing inputs
+        shell: pwsh
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ([string]::IsNullOrWhiteSpace($env:TAURI_SIGNING_PRIVATE_KEY) -or
+              [string]::IsNullOrWhiteSpace($env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD)) {
+            throw 'Tauri updater signing secrets are required'
+          }
+
+      - name: Build Windows executable without bundling
+        shell: pwsh
+        run: pnpm tauri build --target x86_64-pc-windows-msvc --no-bundle --ci
+
+      - name: Locate Windows executable
+        id: windows-paths
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $targetRoot = 'src-tauri/target/x86_64-pc-windows-msvc/release'
+          $executables = @(Get-ChildItem -Path $targetRoot -Filter *.exe -File)
+          if ($executables.Count -ne 1) {
+            throw "Expected exactly one release executable, found $($executables.Count)"
+          }
+          "exe=$($executables[0].FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: Bundle Windows MSI
+        shell: pwsh
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        # `-vv` is not noise: the bundler relays candle's and light's own output
+        # at debug level only. Without it a WiX link failure surfaces as the
+        # bare string "failed to run light.exe" with the actual diagnostic
+        # discarded, which is unfixable from a CI log.
+        run: >-
+          pnpm tauri bundle
+          --target x86_64-pc-windows-msvc
+          --bundles msi
+          --ci
+          -vv
+
+      - name: Locate Windows MSI
+        id: windows-msi
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $msiRoot = 'src-tauri/target/x86_64-pc-windows-msvc/release/bundle/msi'
+          $installers = @(Get-ChildItem -Path $msiRoot -Filter *.msi -File -Recurse)
+          if ($installers.Count -ne 1) {
+            throw "Expected exactly one MSI installer, found $($installers.Count)"
+          }
+          "msi=$($installers[0].FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: Sign final MSI for Tauri updater
+        shell: pwsh
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $msi = "${{ steps.windows-msi.outputs.msi }}"
+          Remove-Item "$msi.sig" -Force -ErrorAction SilentlyContinue
+          pnpm tauri signer sign "$msi"
+          if (-not (Test-Path "$msi.sig")) { throw 'Tauri updater signature was not created' }
+
+      - name: Extract and inspect packaged Windows executable
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path release-audit | Out-Null
+          $extractRoot = Join-Path $env:RUNNER_TEMP (
+            'ai-manager-msi-extract-' + [Guid]::NewGuid().ToString('N')
+          )
+          New-Item -ItemType Directory -Force -Path $extractRoot | Out-Null
+          $extractLog = Join-Path (Resolve-Path 'release-audit').Path 'msi-admin-extract.log'
+          $msi = "${{ steps.windows-msi.outputs.msi }}"
+          # msiexec detaches immediately, so `&` returns before the extraction
+          # happens and leaves $LASTEXITCODE unset. Start-Process -Wait is the
+          # only way to get both the completion and the real exit code.
+          $extraction = Start-Process -FilePath 'msiexec.exe' -Wait -PassThru -NoNewWindow -ArgumentList @(
+            '/a', "`"$msi`"",
+            '/qn',
+            "TARGETDIR=`"$extractRoot`"",
+            '/l*v', "`"$extractLog`""
+          )
+          if ($extraction.ExitCode -ne 0) {
+            throw "MSI administrative extraction failed with exit code $($extraction.ExitCode)"
+          }
+
+          $executables = @(
+            Get-ChildItem -LiteralPath $extractRoot -Filter 'ai-manager.exe' -File -Recurse
+          )
+          if ($executables.Count -ne 1) {
+            throw "Expected exactly one packaged ai-manager.exe, found $($executables.Count)"
+          }
+
+          node scripts/verify-windows-bundle-marker.mjs `
+            "${{ steps.windows-paths.outputs.exe }}" `
+            $executables[0].FullName `
+            msi |
+            Set-Content -LiteralPath release-audit/bundle-marker.json -Encoding utf8NoBOM
+
+      - name: Prepare verified Windows release files
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path release-assets | Out-Null
+          $version = "${{ needs.preflight.outputs.version }}"
+          $msi = "${{ steps.windows-msi.outputs.msi }}"
+          $name = "AI-Manager-$version-Windows-x64.msi"
+          $destination = Join-Path release-assets $name
+          Copy-Item $msi $destination
+          Copy-Item "$msi.sig" "$destination.sig"
+          $digest = (Get-FileHash -Path $destination -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$digest  $name" | Set-Content -Path "$destination.sha256" -Encoding ascii
+
+      - name: Upload verified Windows release files
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-assets-windows-x64
+          path: release-assets/*
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Windows packaging evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-audit-windows-x64
+          path: release-audit/
+          if-no-files-found: warn
+          retention-days: 30
+
+  build-linux:
+    name: Build and verify Linux x64
+    needs: preflight
+    runs-on: ubuntu-22.04
+    environment: release
+    timeout-minutes: 90
+    steps:
+      - name: Checkout release commit
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Setup Rust target
+        uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          targets: x86_64-unknown-linux-gnu
+
+      - name: Install Linux bundle prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential file libayatana-appindicator3-dev libgtk-3-dev \
+            librsvg2-dev libssl-dev patchelf pkg-config
+          sudo apt-get install -y --no-install-recommends libwebkit2gtk-4.1-dev \
+            || sudo apt-get install -y --no-install-recommends libwebkit2gtk-4.0-dev
+          sudo apt-get install -y --no-install-recommends libsoup-3.0-dev \
+            || sudo apt-get install -y --no-install-recommends libsoup2.4-dev
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate Linux updater signing inputs
+        shell: bash
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$TAURI_SIGNING_PRIVATE_KEY"
+          test -n "$TAURI_SIGNING_PRIVATE_KEY_PASSWORD"
+
+      - name: Build Linux AppImage and deb
+        shell: bash
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: >-
+          pnpm tauri build
+          --target x86_64-unknown-linux-gnu
+          --bundles appimage,deb
+          --ci
+
+      - name: Locate Linux installers and the signed update payload
+        id: linux-paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle_root="src-tauri/target/x86_64-unknown-linux-gnu/release/bundle"
+          mapfile -t appimages < <(find "$bundle_root/appimage" -maxdepth 1 -type f -name '*.AppImage' -print)
+          mapfile -t debs < <(find "$bundle_root/deb" -maxdepth 1 -type f -name '*.deb' -print)
+          if [[ ${#appimages[@]} != 1 || ${#debs[@]} != 1 ]]; then
+            echo "Expected exactly one AppImage and one deb" >&2
+            exit 1
+          fi
+          # Tauri signs the AppImage in place; there is no tarball to unwrap.
+          # The installer and the update payload are the same bytes.
+          test -s "${appimages[0]}.sig"
+          {
+            printf 'appimage=%s\n' "${appimages[0]}"
+            printf 'deb=%s\n' "${debs[0]}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Verify Linux package structure
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
+        run: |
+          set -euo pipefail
+          appimage="${{ steps.linux-paths.outputs.appimage }}"
+          deb="${{ steps.linux-paths.outputs.deb }}"
+          mkdir -p release-audit
+
+          test -x "$appimage"
+          file --brief "$appimage" | tee release-audit/appimage-file.txt
+          grep -Eq 'ELF 64-bit LSB.*x86-64' release-audit/appimage-file.txt
+
+          test "$(dpkg-deb --field "$deb" Package)" = "ai-manager"
+          test "$(dpkg-deb --field "$deb" Architecture)" = "amd64"
+          dpkg-deb --info "$deb" > release-audit/deb-info.txt
+          dpkg-deb --contents "$deb" > release-audit/deb-contents.txt
+          deb_extract="$RUNNER_TEMP/ai-manager-deb"
+          mkdir -p "$deb_extract"
+          dpkg-deb --extract "$deb" "$deb_extract"
+          packaged_binary="$deb_extract/usr/bin/ai-manager"
+          test -x "$packaged_binary"
+          file --brief "$packaged_binary" | tee release-audit/deb-binary-file.txt
+          grep -Eq 'ELF 64-bit LSB.*x86-64' release-audit/deb-binary-file.txt
+
+          # The update payload is the AppImage itself, so the only thing left to
+          # prove here is that the bundler signed exactly those bytes. The
+          # signature is verified against the public key during assembly.
+          test -s "$appimage.sig"
+          printf '%s\n' "$(basename "$appimage")" > release-audit/updater-contents.txt
+
+      - name: Prepare verified Linux release files
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ needs.preflight.outputs.version }}"
+          appimage="${{ steps.linux-paths.outputs.appimage }}"
+          deb="${{ steps.linux-paths.outputs.deb }}"
+          mkdir -p release-assets
+
+          appimage_name="AI-Manager-$version-Linux-x64.AppImage"
+          deb_name="AI-Manager-$version-Linux-x64.deb"
+          cp "$appimage" "release-assets/$appimage_name"
+          cp "$appimage.sig" "release-assets/$appimage_name.sig"
+          cp "$deb" "release-assets/$deb_name"
+          for name in "$appimage_name" "$deb_name"; do
+            digest=$(sha256sum "release-assets/$name" | awk '{print $1}')
+            printf '%s  %s\n' "$digest" "$name" > "release-assets/$name.sha256"
+          done
+
+      - name: Upload verified Linux release files
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-assets-linux-x64
+          path: release-assets/*
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Linux package evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-audit-linux-x64
+          path: release-audit/
+          if-no-files-found: warn
+          retention-days: 30
+
+  assemble-release:
+    name: Verify updater signatures and assemble release
+    needs:
+      - preflight
+      - build-macos
+      - build-windows
+      - build-linux
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ needs.preflight.outputs.version }}
+    env:
+      EXPECTED_UPDATER_PLATFORMS: darwin-aarch64,darwin-x86_64,windows-x86_64,linux-x86_64
+    steps:
+      - name: Checkout release commit
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Download verified release files
+        uses: actions/download-artifact@v8
+        with:
+          pattern: release-assets-*
+          path: release-assets
+          merge-multiple: true
+
+      - name: Install minisign verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends minisign
+
+      - name: Verify all Tauri updater signatures
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
+        run: |
+          set -euo pipefail
+          public_key_path="$RUNNER_TEMP/ai-manager-updater.pub"
+          node --input-type=module -e '
+            import { readFileSync, writeFileSync } from "node:fs";
+            const config = JSON.parse(readFileSync("src-tauri/tauri.conf.json", "utf8"));
+            const encoded = config.plugins.updater.pubkey;
+            const decoded = Buffer.from(encoded, "base64");
+            if (decoded.length === 0 || decoded.toString("base64").replace(/=+$/, "") !== encoded.replace(/=+$/, "")) {
+              throw new Error("updater public key is not canonical base64");
+            }
+            const text = decoded.toString("utf8");
+            if (!text.startsWith("untrusted comment: minisign public key:")) {
+              throw new Error("updater public key is not a minisign public key box");
+            }
+            writeFileSync(process.argv[1], text, { mode: 0o600 });
+          ' "$public_key_path"
+
+          artifacts=(
+            "release-assets/AI-Manager-$RELEASE_VERSION-macOS-arm64.app.tar.gz"
+            "release-assets/AI-Manager-$RELEASE_VERSION-macOS-x64.app.tar.gz"
+            "release-assets/AI-Manager-$RELEASE_VERSION-Windows-x64.msi"
+            "release-assets/AI-Manager-$RELEASE_VERSION-Linux-x64.AppImage"
+          )
+          for artifact in "${artifacts[@]}"; do
+            test -s "$artifact"
+            test -s "$artifact.sig"
+            decoded_signature="$RUNNER_TEMP/$(basename "$artifact").minisig"
+            node --input-type=module -e '
+              import { readFileSync, writeFileSync } from "node:fs";
+              const encoded = readFileSync(process.argv[1], "utf8").trim();
+              const decoded = Buffer.from(encoded, "base64");
+              if (decoded.length === 0 || decoded.toString("base64").replace(/=+$/, "") !== encoded.replace(/=+$/, "")) {
+                throw new Error("updater signature is not canonical base64");
+              }
+              writeFileSync(process.argv[2], decoded, { mode: 0o600 });
+            ' "$artifact.sig" "$decoded_signature"
+            minisign -Vm "$artifact" -x "$decoded_signature" -p "$public_key_path"
+          done
+
+      - name: Assemble and validate latest.json
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          publication_date=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          node scripts/assemble-latest-json.mjs \
+            --assets release-assets \
+            --repository "$GITHUB_REPOSITORY" \
+            --tag "$RELEASE_TAG" \
+            --pub-date "$publication_date" \
+            --output latest.json
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const manifest = JSON.parse(readFileSync("latest.json", "utf8"));
+            const actual = Object.keys(manifest.platforms).join(",");
+            if (actual !== process.env.EXPECTED_UPDATER_PLATFORMS) {
+              throw new Error("latest.json platform set drifted");
+            }
+          '
+          cp latest.json release-assets/latest.json
+
+      - name: Upload complete release payload
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-payload-${{ inputs.tag }}
+          path: release-assets/*
+          if-no-files-found: error
+          retention-days: 14
+
+  publish-release:
+    name: Publish approved GitHub release
+    needs: assemble-release
+    runs-on: ubuntu-24.04
+    environment: release
+    permissions:
+      contents: write
+    steps:
+      - name: Download complete release payload
+        uses: actions/download-artifact@v8
+        with:
+          name: release-payload-${{ inputs.tag }}
+          path: release-assets
+
+      - name: Publish verified AI Manager release
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ inputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: AI Manager ${{ inputs.tag }}
+          prerelease: ${{ inputs.prerelease }}
+          fail_on_unmatched_files: true
+          body: |
+            AI Manager desktop release.
+
+            Verified installers:
+            - macOS Apple Silicon: AI-Manager-${{ needs.assemble-release.outputs.version }}-macOS-arm64.dmg
+            - macOS Intel: AI-Manager-${{ needs.assemble-release.outputs.version }}-macOS-x64.dmg
+            - Windows x64: AI-Manager-${{ needs.assemble-release.outputs.version }}-Windows-x64.msi
+            - Linux x64 AppImage: AI-Manager-${{ needs.assemble-release.outputs.version }}-Linux-x64.AppImage
+            - Linux x64 deb: AI-Manager-${{ needs.assemble-release.outputs.version }}-Linux-x64.deb
+
+            macOS artifacts are Developer ID signed, notarized, stapled, and Gatekeeper checked.
+            Windows artifacts carry no platform code signature, so Windows SmartScreen reports an
+            unknown publisher on first run. Compare the MSI against the published
+            AI-Manager-${{ needs.assemble-release.outputs.version }}-Windows-x64.msi.sha256 record
+            before installing.
+            Linux packages are architecture/structure checked and published with SHA-256 records.
+            latest.json and all updater signatures are published only after minisign verification.
+          files: release-assets/*
+
+  sync-distribution:
+    name: Publish approved updater distribution
+    needs: publish-release
+    uses: ./.github/workflows/sync-r2.yml
+    with:
+      tag: ${{ inputs.tag }}
+    secrets: inherit

@@ -1,0 +1,4 @@
+# The app's "open the download page" fallback targets this exact path, so it
+# must never 404. It shows the same page rather than a second copy of it.
+/download  /  302
+/download/ /  302

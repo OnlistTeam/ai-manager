@@ -1,0 +1,211 @@
+name: Sync approved desktop release distribution
+
+on:
+  release:
+    types: [published]
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Published release tag to mirror or backfill"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-manager-release-distribution
+  cancel-in-progress: false
+
+jobs:
+  mirror-release:
+    name: Mirror signed release without changing updater trust
+    runs-on: ubuntu-24.04
+    environment: release
+    env:
+      R2_BUCKET: aimanager-releases
+      R2_PREFIX: ai-manager
+      PUBLIC_BASE_URL: https://dl.aimanager.tools/ai-manager
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      - name: Require product-owned distribution inputs
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([+-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Release tag must be v-prefixed SemVer" >&2
+            exit 1
+          fi
+          test "$GITHUB_REPOSITORY" = "OnlistTeam/ai-manager"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          test -n "$CLOUDFLARE_API_TOKEN"
+
+      - name: Resolve release channel and latest eligible tag
+        id: release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          release_json=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG")
+          if [[ $(jq -r .draft <<<"$release_json") != "false" ]]; then
+            echo "Draft releases cannot enter public distribution" >&2
+            exit 1
+          fi
+          if [[ $(jq -r .prerelease <<<"$release_json") = "true" ]]; then
+            channel="staging"
+            root_key="staging/latest.json"
+            latest=$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+              --jq 'map(select(.draft == false and .prerelease == true)) | sort_by(.published_at) | last | .tag_name')
+          else
+            channel="stable"
+            root_key="latest.json"
+            latest=$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq .tag_name)
+          fi
+          if [[ -z "$latest" || "$latest" = "null" ]]; then
+            echo "Could not resolve the latest eligible $channel release; refusing to guess" >&2
+            exit 1
+          fi
+          if [[ "$TAG" = "$latest" ]]; then
+            is_latest="true"
+          else
+            is_latest="false"
+            echo "::warning::$TAG is not the latest $channel release ($latest); its versioned files will be restored without changing the root manifest."
+          fi
+          printf 'channel=%s\nroot_key=%s\nis_latest=%s\n' \
+            "$channel" "$root_key" "$is_latest" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout distribution validation scripts
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: scripts
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "20"
+
+      - name: Download approved release assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets
+          gh release download "$TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --dir release-assets
+
+      - name: Validate payload and build the distribution manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/rewrite-updater-manifest.mjs \
+            --input release-assets/latest.json \
+            --assets release-assets \
+            --repository OnlistTeam/ai-manager \
+            --tag "$TAG" \
+            --base-url "$PUBLIC_BASE_URL" \
+            --output latest-distribution.json
+
+      - name: Upload immutable versioned assets first
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          assets=(release-assets/*)
+          if [[ "${#assets[@]}" -eq 0 ]]; then
+            echo "No release assets were downloaded" >&2
+            exit 1
+          fi
+          for path in "${assets[@]}"; do
+            name=$(basename "$path")
+            if [[ "$name" = "latest.json" ]]; then
+              continue
+            fi
+            case "$name" in
+              *.json) content_type="application/json" ;;
+              *.dmg) content_type="application/x-apple-diskimage" ;;
+              *.tar.gz) content_type="application/gzip" ;;
+              *.msi) content_type="application/x-msi" ;;
+              *) content_type="text/plain; charset=utf-8" ;;
+            esac
+            npx --yes wrangler@4.33.1 r2 object put \
+              "$R2_BUCKET/$R2_PREFIX/$TAG/$name" \
+              --file "$path" \
+              --content-type "$content_type" \
+              --cache-control "public, max-age=31536000, immutable" \
+              --remote
+          done
+
+      - name: Recheck latest prerelease and publish staging root last
+        if: steps.release.outputs.is_latest == 'true' && steps.release.outputs.channel == 'staging'
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          latest=$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            --jq 'map(select(.draft == false and .prerelease == true)) | sort_by(.published_at) | last | .tag_name')
+          if [[ -z "$latest" || "$latest" = "null" || "$TAG" != "$latest" ]]; then
+            echo "::warning::$TAG stopped being the latest prerelease; the staging root remains untouched."
+            exit 0
+          fi
+          npx --yes wrangler@4.33.1 r2 object put \
+            "$R2_BUCKET/$R2_PREFIX/staging/latest.json" \
+            --file latest-distribution.json \
+            --content-type "application/json" \
+            --cache-control "public, max-age=300, must-revalidate" \
+            --remote
+
+      - name: Recheck latest stable release and publish stable root last
+        if: steps.release.outputs.is_latest == 'true' && steps.release.outputs.channel == 'stable'
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          latest=$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq .tag_name)
+          if [[ -z "$latest" || "$latest" = "null" || "$TAG" != "$latest" ]]; then
+            echo "::warning::$TAG stopped being the latest stable release; the stable root remains untouched."
+            exit 0
+          fi
+          npx --yes wrangler@4.33.1 r2 object put \
+            "$R2_BUCKET/$R2_PREFIX/latest.json" \
+            --file latest-distribution.json \
+            --content-type "application/json" \
+            --cache-control "public, max-age=300, must-revalidate" \
+            --remote
+
+      - name: Verify the public updater manifest
+        if: steps.release.outputs.is_latest == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest_url="$PUBLIC_BASE_URL/${{ steps.release.outputs.root_key }}"
+          for attempt in 1 2 3 4 5 6; do
+            if curl --fail --silent --show-error \
+              --header "Cache-Control: no-cache" \
+              "$manifest_url?release=$TAG&run=$GITHUB_RUN_ID" \
+              --output observed-latest.json && \
+              cmp --silent latest-distribution.json observed-latest.json; then
+              exit 0
+            fi
+            if [[ "$attempt" = 6 ]]; then
+              echo "The public updater manifest did not become readable or differed from the uploaded manifest" >&2
+              exit 1
+            fi
+            sleep 10
+          done
