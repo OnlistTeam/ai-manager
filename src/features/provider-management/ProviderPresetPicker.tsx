@@ -20,6 +20,8 @@ import { cn } from "@/shared/ui/cn";
 
 interface ProviderPresetPickerProps {
   id: string;
+  /** Names the tool in the tag on its own vendor, e.g. "Codex CLI default". */
+  toolName: string;
   presets: ProviderConnectionPreset[];
   value: string;
   disabled?: boolean;
@@ -66,7 +68,8 @@ function PresetGroup({
   measurements,
   onSelect,
 }: {
-  label: string;
+  /** Omitted when there is only one group, where a heading says nothing. */
+  label: string | null;
   presets: ProviderConnectionPreset[];
   value: string;
   measurements: ReadonlyMap<string, ProviderEndpointTestResult>;
@@ -76,8 +79,10 @@ function PresetGroup({
   if (presets.length === 0) return null;
   return (
     <Command.Group
-      heading={label}
-      className="p-1.5 text-content [&_[cmdk-group-heading]]:px-2.5 [&_[cmdk-group-heading]]:pb-1.5 [&_[cmdk-group-heading]]:pt-2 [&_[cmdk-group-heading]]:text-caption [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.12em] [&_[cmdk-group-heading]]:text-content-muted"
+      heading={label ?? undefined}
+      // No uppercase or letter-spacing: these headings name the tool
+      // and carry CJK, where both treatments only damage the text.
+      className="p-1.5 text-content [&_[cmdk-group-heading]]:px-2.5 [&_[cmdk-group-heading]]:pb-1.5 [&_[cmdk-group-heading]]:pt-2 [&_[cmdk-group-heading]]:text-caption [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:text-content-muted"
     >
       {presets.map((preset) => {
         const selected = preset.id === value;
@@ -141,6 +146,7 @@ function PresetGroup({
 
 export function ProviderPresetPicker({
   id,
+  toolName,
   presets,
   value,
   disabled = false,
@@ -206,9 +212,12 @@ export function ProviderPresetPicker({
               {selected?.serviceName}
             </span>
             <span className="flex shrink-0 items-center gap-2 text-caption text-content-muted">
+              {/* Only the tool's own vendor is worth a word here. Labelling
+                  everything else "compatible" read as a verdict on the service
+                  rather than a fact about the tool. */}
               {selected?.official
-                ? t("services.connect.official")
-                : t("services.connect.compatible")}
+                ? t("services.connect.toolDefault", { tool: toolName })
+                : null}
               <ChevronsUpDown className="h-4 w-4" aria-hidden="true" />
             </span>
           </button>
@@ -218,13 +227,24 @@ export function ProviderPresetPicker({
             align="start"
             sideOffset={6}
             collisionPadding={16}
-            // `.app-floating-menu` owns the fill, border and shadow, so every
-            // menu in the product is one colour and none of them can end up
-            // translucent over the surface they opened on.
-            className="app-floating-menu z-[220] w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border outline-none"
+            className={cn(
+              // `.app-floating-menu` owns the fill, border and shadow, so every
+              // menu in the product is one colour and none of them can end up
+              // translucent over the surface they opened on.
+              "app-floating-menu z-[220] w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border outline-none",
+              // Radix measures the room it has and publishes it, but applies
+              // nothing: without this the menu keeps its natural height, runs
+              // off the bottom of the window, and the services past the fold
+              // are unreachable — which reads as "these few are all there is".
+              "flex max-h-[var(--radix-popover-content-available-height)] flex-col",
+            )}
           >
-            <Command label={t("services.connect.preset")} loop>
-              <div className="flex items-center gap-2 border-b border-hairline px-3">
+            <Command
+              label={t("services.connect.preset")}
+              loop
+              className="flex min-h-0 flex-col"
+            >
+              <div className="flex shrink-0 items-center gap-2 border-b border-hairline px-3">
                 <Search
                   className="h-4 w-4 shrink-0 text-content-muted"
                   aria-hidden="true"
@@ -233,10 +253,13 @@ export function ProviderPresetPicker({
                   // eslint-disable-next-line jsx-a11y/no-autofocus -- combobox search field, focused only when the popover opens
                   autoFocus
                   placeholder={t("services.connect.searchPresets")}
-                  className="h-11 min-w-0 flex-1 bg-transparent text-body text-content outline-none placeholder:text-content-muted"
+                  // No focus ring: this field is focused the moment the menu
+                  // opens and is the only place focus can be, so the global
+                  // outline only drew a green box around the whole top strip.
+                  className="h-11 min-w-0 flex-1 bg-transparent text-body text-content outline-none focus-visible:outline-none placeholder:text-content-muted"
                 />
               </div>
-              <div className="border-b border-hairline px-3 py-2.5">
+              <div className="shrink-0 border-b border-hairline px-3 py-2.5">
                 <button
                   type="button"
                   disabled={disabled || measuring}
@@ -275,7 +298,10 @@ export function ProviderPresetPicker({
                   </p>
                 ) : null}
               </div>
-              <Command.List className="max-h-72 overflow-y-auto overscroll-contain py-1">
+              {/* `scrollbar-always` because the product hides scrollbars
+                  globally; in a list that is twice as tall as its box, that
+                  removes the only sign there is anything below the fold. */}
+              <Command.List className="scrollbar-always min-h-0 flex-1 overflow-y-auto overscroll-contain py-1">
                 <Command.Empty className="px-4 py-8 text-center text-body text-content-muted">
                   {t("services.connect.noPresetMatch")}
                 </Command.Empty>
@@ -287,14 +313,21 @@ export function ProviderPresetPicker({
                   onSelect={select}
                 />
                 <PresetGroup
-                  label={t("services.connect.officialServices")}
+                  label={t("services.connect.toolDefaultGroup", {
+                    tool: toolName,
+                  })}
                   presets={groups.official}
                   value={value}
                   measurements={measurementById}
                   onSelect={select}
                 />
                 <PresetGroup
-                  label={t("services.connect.compatibleServices")}
+                  // With nothing above it, "other services" has no "other".
+                  label={
+                    groups.official.length > 0
+                      ? t("services.connect.otherServices")
+                      : null
+                  }
                   presets={groups.compatible}
                   value={value}
                   measurements={measurementById}

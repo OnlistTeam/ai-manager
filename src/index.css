@@ -2989,6 +2989,44 @@ html[data-window-active="false"] .status-heartbeat {
   background-color: hsl(var(--ui-text-secondary) / 0.5);
 }
 
+/*
+ * Same bar, always visible.
+ *
+ * `.scrollbar-subtle` reveals its thumb on hover, which works for a panel that
+ * stays on screen. A menu does not: it is open for a couple of seconds, the
+ * pointer is on its way to an item rather than to its edge, and scrollbars are
+ * hidden product-wide — so a list twice as tall as its own box looks like the
+ * whole list, and the services below the fold may as well not exist.
+ */
+.scrollbar-always {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--ui-text-secondary) / 0.35) transparent;
+  -ms-overflow-style: auto;
+}
+
+.scrollbar-always::-webkit-scrollbar {
+  display: block !important;
+  width: 8px !important;
+  height: 0 !important;
+}
+
+.scrollbar-always::-webkit-scrollbar-track,
+.scrollbar-always::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.scrollbar-always::-webkit-scrollbar-thumb {
+  min-height: 36px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-color: hsl(var(--ui-text-secondary) / 0.35);
+  background-clip: padding-box;
+}
+
+.scrollbar-always::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--ui-text-secondary) / 0.55);
+}
+
 *:focus-visible {
   /* `outline` forces `outline-style: solid`; without it the browser's own
    * `outline-style: auto` UA default wins and can substitute its own native

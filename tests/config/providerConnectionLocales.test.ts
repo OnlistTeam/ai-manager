@@ -32,20 +32,13 @@ describe("provider connection locale contract", () => {
       expect(services.connect.measuredServices.trim()).not.toBe("");
       expect(services.connect.responseTime).toContain("{{latency}}");
       expect(services.connect.unreachable.trim()).not.toBe("");
-      for (const key of [
-        "backToPresets",
-        "customBaseUrl",
-        "customBaseUrlHint",
-        "customBaseUrlInvalid",
-        "customDescription",
-        "customEntry",
-        "customEntryHint",
-        "customTitle",
-      ] as const) {
-        expect(services.connect[key].trim()).not.toBe("");
-      }
-      expect(services.connect.customCompatibility).toContain("{{tool}}");
-      expect(services.connect.customDescription).toContain("{{tool}}");
+      // The picker names the tool rather than ranking the services: "official"
+      // read as a verdict on the provider, and as a limit on what could be
+      // used, when it only ever meant "this is the vendor the tool ships with".
+      expect(services.connect.toolDefault).toContain("{{tool}}");
+      expect(services.connect.toolDefaultGroup).toContain("{{tool}}");
+      expect(services.connect.otherServices.trim()).not.toBe("");
+      expect(services.connect.presetHint.trim()).not.toBe("");
       expect(services.test.operational.trim()).not.toBe("");
       expect(services.test.degraded.trim()).not.toBe("");
       expect(services.test.failed.trim()).not.toBe("");

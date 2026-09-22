@@ -5,6 +5,34 @@ import type {
 } from "@/entities/provider";
 import { ProviderPresetPicker } from "../ProviderPresetPicker";
 
+/*
+ * Long enough to overflow, because that is the case worth looking at: every
+ * tool ships 11-13 presets, and a three-item fixture makes a menu that cannot
+ * scroll or that runs off the bottom of the window look perfectly fine.
+ */
+const FILLER = [
+  "Google Gemini API",
+  "xAI (Grok)",
+  "AWS Bedrock",
+  "Kimi",
+  "Kimi For Coding",
+  "Zhipu GLM",
+  "MiniMax",
+  "Nous Research",
+  "Together AI",
+  "Nvidia",
+  "Novita AI",
+].map((serviceName, index) => ({
+  id: `filler-${index}`,
+  serviceName,
+  defaultName: serviceName,
+  defaultModel: `model-${index}`,
+  baseUrl: "https://api.example.test",
+  websiteUrl: "https://example.test",
+  apiKeyUrl: "https://example.test",
+  official: false,
+}));
+
 const PRESETS: ProviderConnectionPreset[] = [
   {
     id: "anthropic",
@@ -36,6 +64,7 @@ const PRESETS: ProviderConnectionPreset[] = [
     apiKeyUrl: "https://openrouter.ai",
     official: false,
   },
+  ...FILLER,
 ];
 
 const RESULTS: ProviderEndpointTestResult[] = [
@@ -97,6 +126,7 @@ export function ProviderPresetGallery() {
         </p>
         <ProviderPresetPicker
           id="provider-preset-gallery"
+          toolName="Claude Code"
           presets={PRESETS}
           value={value}
           measurements={measurements}

@@ -176,6 +176,7 @@ export function ProviderConnectModal({
 
       <ProviderPresetPicker
         id={PRESET_ID}
+        toolName={toolName}
         presets={profile.presets}
         value={selectedPreset.id}
         disabled={busy}

@@ -98,9 +98,10 @@ describe("ProviderConnectModal", () => {
     const address = screen.getByLabelText(en.services.connect.baseUrl);
     expect(address).toHaveValue("https://api.anthropic.com");
     expect(address).toBeEnabled();
-    expect(
-      screen.queryByRole("button", { name: en.services.connect.customEntry }),
-    ).toBeNull();
+    // Same form as the key, not a second screen reached from a banner.
+    expect(address.closest("form")).toBe(
+      screen.getByLabelText(en.services.connect.key).closest("form"),
+    );
   });
 
   it("submits through the preset path while the address is untouched", async () => {
