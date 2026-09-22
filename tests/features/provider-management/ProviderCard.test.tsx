@@ -495,3 +495,53 @@ describe("ProviderCard", () => {
     ).toHaveTextContent(en.services.action.remove);
   });
 });
+
+/**
+ * A tool that keeps its own credential store leaves the saved record with no
+ * key at all, so the row reads "Key configured" with nothing to copy. Without
+ * a line saying where the key actually is, that reads as the card failing to
+ * show something it has.
+ */
+describe("a key this app does not hold", () => {
+  beforeEach(async () => {
+    i18n.addResourceBundle(
+      "en",
+      "translation",
+      { ds: en.ds, error: en.error, services: en.services, tool: en.tool },
+      true,
+      true,
+    );
+    await i18n.changeLanguage("en");
+  });
+
+  it("names where the key lives instead of only saying one exists", () => {
+    render(
+      <ProviderCard
+        provider={provider({ apiKey: null })}
+        toolName="OpenCode"
+        effectiveState="inUse"
+        effectiveCredential="configured"
+        credentialNote="From ~/.local/share/opencode/auth.json"
+      />,
+    );
+
+    expect(
+      screen.getByText(en.services.effective.credential.configured),
+    ).toBeVisible();
+    expect(
+      screen.getByText("From ~/.local/share/opencode/auth.json"),
+    ).toBeVisible();
+  });
+
+  /** A key this app does hold is shown in full, and needs no such note. */
+  it("says nothing extra when the key is the saved one", () => {
+    render(
+      <ProviderCard
+        provider={provider()}
+        toolName="Claude Code"
+        effectiveState="saved"
+      />,
+    );
+    expect(screen.queryByText(/^From /)).toBeNull();
+  });
+});

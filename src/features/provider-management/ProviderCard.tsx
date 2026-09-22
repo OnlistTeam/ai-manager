@@ -42,6 +42,16 @@ export interface ProviderCardProps {
   overrideSource?: string | null;
   /** A one-line explanation of "why this one" while it's in effect (only needed when the source is a shell/environment variable). */
   sourceNote?: string | null;
+  /**
+   * Where the key comes from, when it is not one this app saved.
+   *
+   * A tool that keeps its own credential store — OpenCode's `auth.json` is the
+   * one that prompted this — leaves the saved record with no key, so the row
+   * reads "Key configured" with nothing to copy. Without this line that looks
+   * like the card failing to show something it has; with it, the reader can
+   * see the key lives somewhere this app does not own.
+   */
+  credentialNote?: string | null;
   /** Opens the config file this tool actually reads; only the card that's currently in effect gets this. */
   configAction?: ReactNode;
   busy?: boolean;
@@ -124,6 +134,7 @@ export function ProviderCard({
   effectiveCredential,
   overrideSource = null,
   sourceNote = null,
+  credentialNote = null,
   configAction = null,
   busy = false,
   testing = false,
@@ -269,6 +280,9 @@ export function ProviderCard({
               />
             ) : null}
           </p>
+          {credentialNote ? (
+            <p className="text-caption text-content-muted">{credentialNote}</p>
+          ) : null}
           {testResult && !testError ? (
             <ProviderCheckOutcome
               result={testResult}

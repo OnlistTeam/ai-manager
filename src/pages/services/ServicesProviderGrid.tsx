@@ -148,6 +148,17 @@ export function ServicesProviderGrid({
             }
             overrideSource={overrideSource}
             sourceNote={sourceNote}
+            credentialNote={
+              // Only when this app has no key of its own to show: the tool
+              // keeps its credential somewhere else, and saying where beats a
+              // bare "Key configured" the reader cannot act on.
+              matched &&
+              !provider.apiKey &&
+              effective?.credential === "configured" &&
+              effective.credentialSource.kind !== "toolDefault"
+                ? describeSource(effective.credentialSource, t)
+                : null
+            }
             busy={busy}
             testing={testingProviderId === provider.id}
             switching={switchingProviderId === provider.id}
