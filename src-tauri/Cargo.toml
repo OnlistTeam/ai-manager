@@ -103,7 +103,6 @@ libc = "0.2"
 winreg = "0.52"
 windows-sys = { version = "0.61", features = [
     "Win32_Foundation",
-    "Win32_Graphics_Dwm",
     "Win32_Globalization",
     "Win32_Storage_FileSystem",
     "Win32_UI_Shell",

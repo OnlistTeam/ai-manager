@@ -264,9 +264,11 @@ pub async fn app_open_automation_settings(
             })?;
         Ok(())
     }
+    // Windows and Linux never ask for this grant, so there is no pane to
+    // open. Reporting that plainly beats pretending the click worked.
     #[cfg(not(target_os = "macos"))]
     Err(
-        AppError::new(ErrorCode::Unsupported, "error.system.openSettingsFailed")
+        AppError::new(ErrorCode::LaunchFailed, "error.system.openSettingsFailed")
             .with_technical("no automation privacy pane exists on this platform"),
     )
 }

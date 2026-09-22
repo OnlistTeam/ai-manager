@@ -81,14 +81,16 @@ pub fn is_auto_launch_enabled() -> Result<bool, AppError> {
         .map_err(|e| AppError::Message(format!("Failed to check launch-at-login status: {e}")))
 }
 
-#[cfg(test)]
+// Every assertion here is about the macOS launch-agent path, so the module
+// itself is macOS-only: on Windows and Linux an empty module would leave
+// `use super::*` unused, which `-D warnings` turns into a build failure.
+#[cfg(all(test, target_os = "macos"))]
 mod tests {
     use super::*;
 
     /// The regression this module exists for: no code path may reach
     /// `osascript`, because reading the toggle would then prompt for an
     /// automation grant on first launch.
-    #[cfg(target_os = "macos")]
     #[test]
     fn macos_uses_a_launch_agent_rather_than_an_apple_script_login_item() {
         let auto_launch = get_auto_launch().expect("build the integration");
@@ -101,7 +103,6 @@ mod tests {
 
     /// `launchd` cannot exec a directory, so the path must stay the real
     /// binary inside the bundle rather than being rewritten to the `.app`.
-    #[cfg(target_os = "macos")]
     #[test]
     fn the_launch_agent_points_at_the_executable_not_the_bundle() {
         let auto_launch = get_auto_launch().expect("build the integration");
