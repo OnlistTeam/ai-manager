@@ -15,6 +15,7 @@ export const MAX_PROBE_MODELS = 1_000;
 
 export const providerWireProtocolSchema = z.enum([
   "openAi",
+  "openAiResponses",
   "anthropic",
   "gemini",
 ]);
@@ -72,6 +73,13 @@ export const modelProbeOutcomeSchema = z
     latencyMs: z.number().int(),
     httpStatus: z.number().int().nullable(),
     reply: modelProbeReplySchema,
+    /**
+     * A different spelling of the saved address that the backend tried and
+     * found to work. Never present alongside a successful reply: it exists only
+     * to offer a way out of a failure, and the backend never sets it without a
+     * successful request behind it.
+     */
+    suggestedBaseUrl: z.string().url().nullable(),
   })
   .strict();
 

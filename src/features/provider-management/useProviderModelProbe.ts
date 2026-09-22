@@ -164,3 +164,48 @@ export function nextModels(
   if (profile.models.includes(model)) return profile.models;
   return [...profile.models, model];
 }
+
+export interface AdoptBaseUrlVariables {
+  provider: Provider;
+  baseUrl: string;
+}
+
+/**
+ * Writes the address the probe verified into the service.
+ *
+ * The value comes from `ModelProbeOutcome.suggestedBaseUrl`, which the backend
+ * only sets after a request to it actually succeeded — the renderer never
+ * derives an address of its own. As with the model, the draft is a patch:
+ * `apiKey` is null and only `advanced.baseUrl` is marked changed, so nothing
+ * else about the service moves.
+ */
+export function useAdoptBaseUrl(): UseMutationResult<
+  Provider[],
+  Error,
+  AdoptBaseUrlVariables
+> {
+  const queryClient = useQueryClient();
+  return useMutation<Provider[], Error, AdoptBaseUrlVariables>({
+    mutationFn: ({ provider, baseUrl }) =>
+      native.providers.save(provider.tool, provider.id, {
+        name: provider.name,
+        apiKey: null,
+        advanced: {
+          baseUrlChanged: true,
+          baseUrl,
+          endpointCandidates: null,
+          endpointAutoSelect: null,
+          headers: null,
+        },
+      }),
+    onSuccess: (providers, { provider }) => {
+      queryClient.setQueryData(providerKeys.list(provider.tool), providers);
+      void queryClient.invalidateQueries({
+        queryKey: providerKeys.editProfile(provider.tool, provider.id),
+      });
+      void queryClient.invalidateQueries({
+        queryKey: providerKeys.runtimeContext(provider.tool),
+      });
+    },
+  });
+}

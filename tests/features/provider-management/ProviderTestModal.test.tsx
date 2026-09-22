@@ -127,6 +127,7 @@ describe("ProviderTestModal", () => {
             model: "gpt-5.2",
             latencyMs: 1_800,
             httpStatus: 200,
+            suggestedBaseUrl: null,
             reply: { kind: "text", text: "pong" },
           });
         },
@@ -161,6 +162,7 @@ describe("ProviderTestModal", () => {
             model: "gpt-image-2",
             latencyMs: 40_000,
             httpStatus: 200,
+            suggestedBaseUrl: null,
             reply: {
               kind: "image",
               mime: "image/png",
@@ -276,6 +278,7 @@ describe("ProviderTestModal", () => {
           model: "gpt-5.2",
           latencyMs: 300,
           httpStatus: 401,
+          suggestedBaseUrl: null,
           reply: { kind: "rejected", detail: "invalid api key" },
         }),
       ),
@@ -294,6 +297,104 @@ describe("ProviderTestModal", () => {
     expect(within(dialog).getByText("invalid api key")).toBeInTheDocument();
   });
 
+  /**
+   * The Codex case that produced this feature: the saved address does not serve
+   * the route, the backend verified that the other spelling does, and the
+   * dialog offers that one instead of leaving the user to guess about `/v1`.
+   */
+  it("offers the verified alternative address and writes only that", async () => {
+    const saved = vi.fn();
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_model_probe`, () =>
+        HttpResponse.json({
+          model: "gpt-5.2",
+          latencyMs: 300,
+          httpStatus: 403,
+          suggestedBaseUrl: "https://relay.example.test/v1",
+          reply: {
+            kind: "rejected",
+            detail: "This path is not available on the relay.",
+          },
+        }),
+      ),
+      http.post(`${TAURI_ENDPOINT}/app_provider_save`, async ({ request }) => {
+        saved(await request.json());
+        return HttpResponse.json([provider]);
+      }),
+    );
+    mount();
+    const dialog = await screen.findByRole("dialog");
+    await within(dialog).findByLabelText(en.services.probe.model);
+
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: en.services.probe.send }),
+    );
+
+    expect(
+      await within(dialog).findByText(
+        en.services.probe.addressWorksInstead.replace(
+          "{{url}}",
+          "https://relay.example.test/v1",
+        ),
+      ),
+    ).toBeInTheDocument();
+
+    await userEvent.click(
+      within(dialog).getByRole("button", {
+        name: en.services.probe.useAddress,
+      }),
+    );
+
+    await waitFor(() => expect(saved).toHaveBeenCalled());
+    const body = saved.mock.calls[0][0] as {
+      draft: {
+        apiKey: unknown;
+        models?: unknown;
+        advanced: Record<string, unknown>;
+      };
+    };
+    // A patch, not a snapshot: the key is untouched and no other advanced
+    // field is claimed to have changed.
+    expect(body.draft.apiKey).toBeNull();
+    expect(body.draft.models).toBeUndefined();
+    expect(body.draft.advanced).toMatchObject({
+      baseUrlChanged: true,
+      baseUrl: "https://relay.example.test/v1",
+      endpointCandidates: null,
+      endpointAutoSelect: null,
+      headers: null,
+    });
+  });
+
+  /** No suggestion, no offer. The dialog never invents an address of its own. */
+  it("offers no alternative address when the probe verified none", async () => {
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_model_probe`, () =>
+        HttpResponse.json({
+          model: "gpt-5.2",
+          latencyMs: 300,
+          httpStatus: 401,
+          suggestedBaseUrl: null,
+          reply: { kind: "rejected", detail: "invalid api key" },
+        }),
+      ),
+    );
+    mount();
+    const dialog = await screen.findByRole("dialog");
+    await within(dialog).findByLabelText(en.services.probe.model);
+
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: en.services.probe.send }),
+    );
+
+    await within(dialog).findByText(en.services.probe.replyRefused);
+    expect(
+      within(dialog).queryByRole("button", {
+        name: en.services.probe.useAddress,
+      }),
+    ).not.toBeInTheDocument();
+  });
+
   it("writes only the model back when the tested model is adopted", async () => {
     const saved: unknown[] = [];
     server.use(
@@ -305,6 +406,7 @@ describe("ProviderTestModal", () => {
           model: "gpt-5.2",
           latencyMs: 900,
           httpStatus: 200,
+          suggestedBaseUrl: null,
           reply: { kind: "text", text: "pong" },
         }),
       ),
@@ -345,6 +447,7 @@ describe("ProviderTestModal", () => {
           model: "gpt-5.2",
           latencyMs: 1,
           httpStatus: 200,
+          suggestedBaseUrl: null,
           reply: { kind: "empty" },
         });
       }),
@@ -385,6 +488,7 @@ describe("ProviderTestModal", () => {
             model: "openai/gpt-image-2.5-sunburst",
             latencyMs: 30_000,
             httpStatus: 200,
+            suggestedBaseUrl: null,
             reply: { kind: "image", mime: "image/png", base64: "aGk=" },
           });
         },
@@ -475,6 +579,7 @@ describe("ProviderTestModal", () => {
               model: "gpt-5.2",
               latencyMs: 700,
               httpStatus: 200,
+              suggestedBaseUrl: null,
               reply: { kind: "text", text: "pong" },
             });
           },
@@ -509,6 +614,7 @@ describe("ProviderTestModal", () => {
             model: "gpt-5.2",
             latencyMs: 700,
             httpStatus: 200,
+            suggestedBaseUrl: null,
             reply: { kind: "text", text: "pong" },
           }),
         ),

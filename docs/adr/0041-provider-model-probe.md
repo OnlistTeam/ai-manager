@@ -94,3 +94,89 @@ endpoint, so the control is absent rather than present and guaranteed to fail.
 A successful model probe proves the service answered one request at one moment.
 It is not a quota check, not a rate-limit check, and not evidence that a tool's
 live session is using this service.
+
+## Amendment 2026-09-22: the probe must fail where the tool fails
+
+A user changed a Codex service's endpoint to `https://api.onlist.net` and Codex
+answered:
+
+> unexpected status 403 Forbidden: This path is not available on the relay.,
+> url: https://api.onlist.net/responses
+
+The address was missing `/v1`. Codex builds its URL by literal concatenation
+(`codex-rs/codex-api/src/provider.rs`, `url_for_path`: `format!("{base}/{path}")`
+with `path` = `/responses`), so a base URL without a version segment reaches
+`/responses`, and the relay in front of that host only forwards `/v1/`,
+`/v1beta/` and four media prefixes. Everything else gets exactly that 403.
+
+The defect is what this dialog did with the same configuration. Decision 4 above
+put Codex on the `OpenAi` protocol, which addresses `chat/completions` **and
+supplies a missing version segment**. So the probe sent
+`https://api.onlist.net/v1/chat/completions`, got a 200, and reported the
+service as working — while Codex could not use it at all. A test that passes
+where the tool fails is worse than no test: it moves the user's suspicion away
+from the one thing that was actually wrong.
+
+Three changes follow.
+
+**Codex gets its own wire protocol.** `ProviderWireProtocol::OpenAiResponses`
+differs from `OpenAi` in the two things that decide whether the test is honest:
+the path (`responses`) and the refusal to normalise the address.
+`normalizes_version_segment()` is the predicate, and `text_url` is the only
+caller, so there is one place where "reproduce the tool's own arithmetic" is
+expressed. The catalogue and the image route keep their version segment,
+because neither is a route Codex ever calls — `/v1/models` is a convenience for
+finding model names, not a claim about the address the tool will use.
+
+**A failed address may be answered with a verified alternative.** When the text
+probe gets a status that means "this address does not serve this route" (404,
+405, 410, and 403 because that is what a path allowlist returns), the backend
+computes the other spelling of the saved base URL — with a version segment if it
+had none, without if it had one — sends the same request there, and reports it
+only if that request succeeded. The user sees the real failure plus a button.
+
+Two rules keep this from becoming the guess it must not be:
+
+- **Never suggest without verifying.** The field is not set from a heuristic, a
+  status code, or a string inspection. A successful HTTP response is the only
+  thing that puts an address on screen. This is why a wrong key produces no
+  suggestion: it is refused at both spellings.
+- **Never suggest an address the user did not already save.**
+  `alternate_base_url` is a pure function of the saved base URL that adds or
+  removes one trailing segment. It never reads a `Location` header or a response
+  body, so an upstream service cannot use this path to walk the user onto a
+  different host. A test asserts scheme, host and port are preserved for every
+  shape.
+
+This narrows decision 3 rather than contradicting it: the address still never
+enters a log, and `ModelProbeOutcome`'s hand-written `Debug` renders the
+suggestion as `<redacted>` like everything else. What changed is that a
+*derived* address may now cross IPC outbound — which costs nothing, because the
+base URL is already visible and editable in the form the renderer owns.
+
+It also qualifies decision 6. A verification is a second billable request. It
+only ever happens after a failure, so the first attempt generated nothing, and a
+test pins that a successful probe sends exactly one request: the recovery path
+must never be paid for on the happy path.
+
+**Auto-completion was rejected.** Appending `/v1` when it looks missing is the
+obvious fix and it is wrong: 5 of the 83 bundled Codex presets carry no version
+segment at all (`api.aicoding.inc`, `api.aigocode.app`, `api.deepseek.com`,
+`api.fenno.ai`, and an `aicodemirror` path mounted at `/api/codex/backend-api/codex`).
+A static warning was rejected for the same evidence: a caution that is wrong for
+6% of this product's own curated list is a caution users learn to dismiss, and
+it adds a judgement call to a field that should not need one. The Base URL hint
+now says what is actually true for every tool — copy the address exactly as the
+provider's documentation writes it, because providers differ — and the dialog
+does the rest by asking the server instead of guessing.
+
+### Consequences
+
+- `ProviderWireProtocol` gains a fourth variant, so every match over it had to
+  declare an answer for Codex. That is the mechanism working as intended.
+- Image generation is now offered on `OpenAiResponses` as well. The claim was
+  always about the host rather than the tool: a relay that answers `responses`
+  is an OpenAI-family host and usually serves `images/generations` too.
+- A Codex service whose relay implements `chat/completions` but not `responses`
+  will now fail this test. That is correct — Codex would fail too — where the
+  previous behaviour reported success.

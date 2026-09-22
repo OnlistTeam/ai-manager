@@ -28,6 +28,15 @@ pub const MAX_PROBE_MODELS: usize = 1_000;
 #[serde(rename_all = "camelCase")]
 pub enum ProviderWireProtocol {
     OpenAi,
+    /// OpenAI's Responses API, which Codex speaks and nothing else here does.
+    ///
+    /// Worth its own variant rather than a flag on `OpenAi` because it differs
+    /// in the two things that decide whether a test tells the truth: the path
+    /// (`responses`, not `chat/completions`) and the fact that Codex joins that
+    /// path onto the saved base URL verbatim, inserting no version segment. A
+    /// probe that normalised the address would pass on a base URL Codex itself
+    /// cannot use.
+    OpenAiResponses,
     Anthropic,
     Gemini,
 }
@@ -37,8 +46,8 @@ impl ProviderWireProtocol {
         match tool {
             ToolId::ClaudeCode => Self::Anthropic,
             ToolId::GeminiCli => Self::Gemini,
-            ToolId::Codex
-            | ToolId::OpenCode
+            ToolId::Codex => Self::OpenAiResponses,
+            ToolId::OpenCode
             | ToolId::GrokBuild
             | ToolId::OpenClaw
             | ToolId::Hermes
@@ -48,11 +57,25 @@ impl ProviderWireProtocol {
         }
     }
 
-    /// Only the OpenAI-compatible dialect defines an image endpoint. The other
-    /// two have none, so the renderer hides the control instead of offering a
-    /// button that is guaranteed to fail.
+    /// True for the dialects whose hosts also serve OpenAI's image route.
+    ///
+    /// This is a claim about the host, not about the tool: a relay that answers
+    /// `chat/completions` or `responses` is an OpenAI-family host and usually
+    /// serves `images/generations` too. The Anthropic and Gemini hosts do not,
+    /// so the renderer hides the control instead of offering a button that is
+    /// guaranteed to fail.
     pub fn supports_image_generation(self) -> bool {
-        matches!(self, Self::OpenAi)
+        matches!(self, Self::OpenAi | Self::OpenAiResponses)
+    }
+
+    /// Whether a missing version segment may be supplied when joining a path.
+    ///
+    /// Only Codex answers no, and it is the reason this distinction exists: it
+    /// concatenates `{base_url}/responses` literally, so a base URL without
+    /// `/v1` reaches `/responses` and fails. Normalising here would hide
+    /// exactly the failure the user needs to see.
+    pub fn normalizes_version_segment(self) -> bool {
+        !matches!(self, Self::OpenAiResponses)
     }
 }
 
@@ -169,6 +192,16 @@ pub struct ModelProbeOutcome {
     pub latency_ms: u64,
     pub http_status: Option<u16>,
     pub reply: ModelProbeReply,
+    /// A different spelling of the saved base URL that was **tried and found to
+    /// work** after this one failed.
+    ///
+    /// Only ever derived from the saved base URL by adding or removing a
+    /// version segment, never read from a redirect or a response body: a
+    /// suggestion the upstream service could influence would be a way to walk
+    /// the user onto someone else's host. It is also never set without a
+    /// successful request behind it — an unverified guess is the one thing this
+    /// field must not become.
+    pub suggested_base_url: Option<String>,
 }
 
 impl std::fmt::Debug for ModelProbeOutcome {
@@ -178,6 +211,10 @@ impl std::fmt::Debug for ModelProbeOutcome {
             .field("latencyMs", &self.latency_ms)
             .field("httpStatus", &self.http_status)
             .field("reply", &self.reply)
+            .field(
+                "suggestedBaseUrl",
+                &self.suggested_base_url.as_ref().map(|_| "<redacted>"),
+            )
             .finish()
     }
 }
@@ -192,7 +229,10 @@ mod tests {
             let protocol = ProviderWireProtocol::for_tool(tool);
             assert_eq!(
                 protocol.supports_image_generation(),
-                protocol == ProviderWireProtocol::OpenAi,
+                matches!(
+                    protocol,
+                    ProviderWireProtocol::OpenAi | ProviderWireProtocol::OpenAiResponses
+                ),
                 "{tool:?} image support drifted from its protocol"
             );
         }
@@ -204,10 +244,30 @@ mod tests {
             ProviderWireProtocol::for_tool(ToolId::GeminiCli),
             ProviderWireProtocol::Gemini
         );
+    }
+
+    /// The regression that produced this variant: a Codex service saved without
+    /// `/v1` was reported as working, because the probe supplied the version
+    /// segment Codex does not.
+    #[test]
+    fn only_codex_speaks_responses_and_only_codex_keeps_its_base_url_verbatim() {
         assert_eq!(
             ProviderWireProtocol::for_tool(ToolId::Codex),
-            ProviderWireProtocol::OpenAi
+            ProviderWireProtocol::OpenAiResponses
         );
+        for tool in ToolId::ALL {
+            let protocol = ProviderWireProtocol::for_tool(tool);
+            assert_eq!(
+                protocol == ProviderWireProtocol::OpenAiResponses,
+                tool == ToolId::Codex,
+                "{tool:?} claims the Responses dialect"
+            );
+            assert_eq!(
+                protocol.normalizes_version_segment(),
+                tool != ToolId::Codex,
+                "{tool:?} disagrees with its dialect about version segments"
+            );
+        }
     }
 
     #[test]
@@ -258,6 +318,7 @@ mod tests {
             reply: ModelProbeReply::Text {
                 text: "hello there".to_string(),
             },
+            suggested_base_url: Some("https://api.example.test/v1".to_string()),
         };
 
         let debug = format!("{outcome:?}");
@@ -265,6 +326,7 @@ mod tests {
         assert!(debug.contains("1800"));
         assert!(debug.contains("200"));
         assert!(!debug.contains("hello there"));
+        assert!(!debug.contains("api.example.test"));
     }
 
     #[test]

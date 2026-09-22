@@ -8,6 +8,7 @@ use crate::domain::{ProbeModelKind, ProviderWireProtocol};
 /// Relative paths, always expressed without a leading version segment.
 pub const MODELS_PATH: &str = "models";
 pub const CHAT_PATH: &str = "chat/completions";
+pub const RESPONSES_PATH: &str = "responses";
 pub const MESSAGES_PATH: &str = "messages";
 pub const IMAGES_PATH: &str = "images/generations";
 
@@ -62,27 +63,77 @@ pub fn join_endpoint(base: &str, relative: &str, version: &str) -> String {
     format!("{base}/{version}/{relative}")
 }
 
+/// Joins a relative endpoint the way a tool that supplies no version segment
+/// does: plain concatenation, exactly what Codex's `url_for_path` performs.
+///
+/// Step 1 of [`join_endpoint`] is kept — a base that already names the endpoint
+/// is still honoured — because that is about what the user typed, not about
+/// what the tool adds.
+pub fn join_endpoint_verbatim(base: &str, relative: &str) -> String {
+    let base = trimmed_base(base);
+    if base.ends_with(&format!("/{relative}")) {
+        return base.to_string();
+    }
+    format!("{base}/{relative}")
+}
+
+/// The other spelling of a base URL: with a version segment when it has none,
+/// without when it has one.
+///
+/// This is the whole vocabulary of suggestion the probe is allowed. It is a
+/// pure function of the saved address, so a suggestion can never name a host
+/// the user did not already save, whatever the upstream service answers.
+/// Returns `None` when there is nothing to swap — a bare origin cannot lose a
+/// segment it does not have.
+pub fn alternate_base_url(base: &str) -> Option<String> {
+    let base = trimmed_base(base);
+    if base.is_empty() {
+        return None;
+    }
+    if is_version_segment(last_segment(base)) {
+        let shortened = base.rsplit_once('/').map(|(head, _)| head)?;
+        // Stop at the origin: `https://host` must not shrink to `https:/`.
+        let parsed = url::Url::parse(shortened).ok()?;
+        return parsed.host_str().is_some().then(|| shortened.to_string());
+    }
+    Some(format!("{base}/{DEFAULT_VERSION}"))
+}
+
 pub fn default_version_for(protocol: ProviderWireProtocol) -> &'static str {
     match protocol {
         ProviderWireProtocol::Gemini => GEMINI_VERSION,
-        ProviderWireProtocol::OpenAi | ProviderWireProtocol::Anthropic => DEFAULT_VERSION,
+        ProviderWireProtocol::OpenAi
+        | ProviderWireProtocol::OpenAiResponses
+        | ProviderWireProtocol::Anthropic => DEFAULT_VERSION,
     }
 }
 
+/// The catalogue is always addressed with a version segment, including for
+/// Codex. It is not one of Codex's own routes — nothing in Codex ever calls
+/// `/models` — so normalising it here is a convenience for finding model names,
+/// not a claim about the address the tool will use.
 pub fn catalog_url(base: &str, protocol: ProviderWireProtocol) -> String {
     join_endpoint(base, MODELS_PATH, default_version_for(protocol))
 }
 
 pub fn text_url(base: &str, protocol: ProviderWireProtocol, model: &str) -> String {
-    match protocol {
-        ProviderWireProtocol::OpenAi => join_endpoint(base, CHAT_PATH, DEFAULT_VERSION),
-        ProviderWireProtocol::Anthropic => join_endpoint(base, MESSAGES_PATH, DEFAULT_VERSION),
+    let relative = match protocol {
+        ProviderWireProtocol::OpenAi => CHAT_PATH,
+        ProviderWireProtocol::OpenAiResponses => RESPONSES_PATH,
+        ProviderWireProtocol::Anthropic => MESSAGES_PATH,
         // Gemini puts the model in the path and the verb in a suffix, so the
         // generic join cannot be reused.
         ProviderWireProtocol::Gemini => {
             let root = join_endpoint(base, MODELS_PATH, GEMINI_VERSION);
-            format!("{root}/{model}:generateContent")
+            return format!("{root}/{model}:generateContent");
         }
+    };
+    // The one request that must reproduce the tool's own arithmetic, including
+    // when that arithmetic is "concatenate and hope".
+    if protocol.normalizes_version_segment() {
+        join_endpoint(base, relative, default_version_for(protocol))
+    } else {
+        join_endpoint_verbatim(base, relative)
     }
 }
 
@@ -340,5 +391,95 @@ mod tests {
                 "{id} should default to an image probe"
             );
         }
+    }
+
+    /// The reported defect, as an assertion: a Codex service saved without
+    /// `/v1` must be probed at `/responses`, because that is where Codex sends
+    /// it and where a path-allowlisted relay answers 403.
+    #[test]
+    fn codex_is_probed_exactly_where_codex_sends_it() {
+        assert_eq!(
+            text_url(
+                "https://api.example.test",
+                ProviderWireProtocol::OpenAiResponses,
+                "gpt-5.2"
+            ),
+            "https://api.example.test/responses"
+        );
+        assert_eq!(
+            text_url(
+                "https://api.example.test/v1",
+                ProviderWireProtocol::OpenAiResponses,
+                "gpt-5.2"
+            ),
+            "https://api.example.test/v1/responses"
+        );
+        // A provider whose API is mounted somewhere else entirely keeps its
+        // path untouched, which is exactly what Codex does with it.
+        assert_eq!(
+            text_url(
+                "https://api.example.test/api/codex/backend-api/codex",
+                ProviderWireProtocol::OpenAiResponses,
+                "gpt-5.2"
+            ),
+            "https://api.example.test/api/codex/backend-api/codex/responses"
+        );
+        // The catalogue is not a Codex route, so it is still normalised.
+        assert_eq!(
+            catalog_url(
+                "https://api.example.test",
+                ProviderWireProtocol::OpenAiResponses
+            ),
+            "https://api.example.test/v1/models"
+        );
+    }
+
+    #[test]
+    fn the_alternative_base_url_swaps_the_version_segment_both_ways() {
+        assert_eq!(
+            alternate_base_url("https://api.example.test").as_deref(),
+            Some("https://api.example.test/v1")
+        );
+        assert_eq!(
+            alternate_base_url("https://api.example.test/v1").as_deref(),
+            Some("https://api.example.test")
+        );
+        assert_eq!(
+            alternate_base_url("https://api.example.test/v1/").as_deref(),
+            Some("https://api.example.test")
+        );
+        // A deeper path is not a version segment, so the alternative appends.
+        assert_eq!(
+            alternate_base_url("https://api.example.test/openai").as_deref(),
+            Some("https://api.example.test/openai/v1")
+        );
+        assert_eq!(alternate_base_url(""), None);
+    }
+
+    /// The security property the suggestion rests on: it is a pure rewrite of
+    /// the saved address, so it can never name a different host however the
+    /// upstream service answers.
+    #[test]
+    fn an_alternative_never_leaves_the_saved_origin() {
+        for base in [
+            "https://api.example.test",
+            "https://api.example.test/v1",
+            "https://api.example.test:8443/openai",
+            "http://127.0.0.1:11434/v1",
+            "https://api.example.test/v1beta",
+        ] {
+            let Some(alternate) = alternate_base_url(base) else {
+                continue;
+            };
+            let saved = url::Url::parse(base).expect("saved base parses");
+            let suggested = url::Url::parse(&alternate).expect("alternative parses");
+            assert_eq!(saved.scheme(), suggested.scheme(), "{base}");
+            assert_eq!(saved.host_str(), suggested.host_str(), "{base}");
+            assert_eq!(saved.port(), suggested.port(), "{base}");
+            assert_ne!(alternate, base, "{base} suggested itself");
+        }
+        // Nothing to shorten: an origin has no segment to drop, so no
+        // suggestion is invented for it.
+        assert_eq!(alternate_base_url("https://v1"), None);
     }
 }

@@ -420,3 +420,120 @@ async fn a_host_without_an_image_route_reports_its_own_refusal() {
     assert!(matches!(outcome.reply, ModelProbeReply::Rejected { .. }));
     service.finish();
 }
+
+const RESPONSES_OK: &str = r#"{"output":[{"type":"message","role":"assistant","content":[{"type":"output_text","text":"pong"}]}]}"#;
+/// What an nginx path allowlist in front of a relay actually returns.
+const RELAY_BLOCKED: &str = r#"{"error":{"message":"This path is not available on the relay.","type":"invalid_request_error","code":"relay_blocked"}}"#;
+
+/// The reported failure, end to end: a Codex service saved without `/v1` is
+/// probed at `/responses`, is blocked there exactly as Codex would be, and the
+/// alternative is *tried* before it is offered.
+#[tokio::test]
+async fn a_blocked_codex_path_yields_an_alternative_that_was_actually_tried() {
+    let service = serve(vec![(403, RELAY_BLOCKED), (200, RESPONSES_OK)]);
+    let base = service.base_url();
+    let target = target(base.clone(), ProviderWireProtocol::OpenAiResponses);
+
+    let outcome = probe_model(&client(), &target, &text_request("gpt-5.2", "ping"))
+        .await
+        .expect("probe local service");
+
+    let first = service.next_request();
+    assert!(
+        first.starts_with("POST /responses "),
+        "Codex is probed where Codex sends it: {first}"
+    );
+    assert!(first
+        .to_ascii_lowercase()
+        .contains("authorization: bearer sk-probe-secret-value"));
+
+    let second = service.next_request();
+    assert!(
+        second.starts_with("POST /v1/responses "),
+        "the alternative is verified with the same request: {second}"
+    );
+
+    // The saved address failed, and that is what is reported. The suggestion
+    // sits beside the failure rather than replacing it.
+    assert_eq!(outcome.http_status, Some(403));
+    assert!(matches!(outcome.reply, ModelProbeReply::Rejected { .. }));
+    assert_eq!(
+        outcome.suggested_base_url.as_deref(),
+        Some(&*format!("{base}/v1"))
+    );
+    service.finish();
+}
+
+/// A refused key is refused at both spellings, so nothing is suggested. This is
+/// what keeps the feature from turning into a guess that fires on every 403.
+#[tokio::test]
+async fn a_refused_key_produces_no_suggestion() {
+    let service = serve(vec![
+        (403, r#"{"error":{"message":"invalid api key"}}"#),
+        (403, r#"{"error":{"message":"invalid api key"}}"#),
+    ]);
+    let target = target(service.base_url(), ProviderWireProtocol::OpenAiResponses);
+
+    let outcome = probe_model(&client(), &target, &text_request("gpt-5.2", "ping"))
+        .await
+        .expect("probe local service");
+
+    service.next_request();
+    service.next_request();
+    assert_eq!(outcome.http_status, Some(403));
+    assert_eq!(outcome.suggested_base_url, None);
+    service.finish();
+}
+
+/// A working address costs exactly one request. The verification is a recovery
+/// step, not a second opinion, and must never be paid for on the happy path.
+#[tokio::test]
+async fn a_working_address_is_never_probed_twice() {
+    let service = serve(vec![(200, RESPONSES_OK)]);
+    let target = target(service.base_url(), ProviderWireProtocol::OpenAiResponses);
+
+    let outcome = probe_model(&client(), &target, &text_request("gpt-5.2", "ping"))
+        .await
+        .expect("probe local service");
+
+    assert!(service.next_request().starts_with("POST /responses "));
+    assert!(
+        service
+            .requests
+            .recv_timeout(Duration::from_millis(250))
+            .is_err(),
+        "a successful probe sent a second billable request"
+    );
+    assert_eq!(
+        outcome.reply,
+        ModelProbeReply::Text {
+            text: "pong".to_string()
+        }
+    );
+    assert_eq!(outcome.suggested_base_url, None);
+    service.finish();
+}
+
+/// A wrong model name is the service answering, not the address being wrong, so
+/// no alternative is tried and nothing extra is spent.
+#[tokio::test]
+async fn an_answered_rejection_is_not_retried_elsewhere() {
+    let service = serve(vec![(400, r#"{"error":{"message":"model not found"}}"#)]);
+    let target = target(service.base_url(), ProviderWireProtocol::OpenAiResponses);
+
+    let outcome = probe_model(&client(), &target, &text_request("nope", "ping"))
+        .await
+        .expect("probe local service");
+
+    service.next_request();
+    assert!(
+        service
+            .requests
+            .recv_timeout(Duration::from_millis(250))
+            .is_err(),
+        "a 400 is an answer, not a wrong address"
+    );
+    assert_eq!(outcome.http_status, Some(400));
+    assert_eq!(outcome.suggested_base_url, None);
+    service.finish();
+}

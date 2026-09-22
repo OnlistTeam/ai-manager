@@ -17,6 +17,22 @@ pub fn text_request_body(protocol: ProviderWireProtocol, model: &str, prompt: &s
             "messages": [{ "role": "user", "content": prompt }],
             "max_tokens": PROBE_MAX_TOKENS,
         }),
+        // Codex sends the structured item form rather than a bare string, and
+        // `store: false`, so a relay that mirrors Codex's shape sees what it
+        // expects. `stream` is explicitly false: Codex streams, but a probe
+        // wants one JSON document, and every field a stream would add is one
+        // more thing that can differ between the test and the truth.
+        ProviderWireProtocol::OpenAiResponses => json!({
+            "model": model,
+            "input": [{
+                "type": "message",
+                "role": "user",
+                "content": [{ "type": "input_text", "text": prompt }],
+            }],
+            "max_output_tokens": PROBE_MAX_TOKENS,
+            "store": false,
+            "stream": false,
+        }),
         ProviderWireProtocol::Anthropic => json!({
             "model": model,
             "max_tokens": PROBE_MAX_TOKENS,
@@ -91,6 +107,32 @@ fn openai_reply_text(body: &Value) -> String {
         .to_string()
 }
 
+/// Responses answers with a list of output items, of which only the assistant
+/// message carries visible text; reasoning items sit alongside it and must not
+/// be concatenated into the reply.
+///
+/// The convenience `output_text` field some relays add is accepted first,
+/// because a relay that provides it usually provides nothing else.
+fn responses_reply_text(body: &Value) -> String {
+    if let Some(text) = body.get("output_text").and_then(Value::as_str) {
+        if !text.trim().is_empty() {
+            return text.to_string();
+        }
+    }
+    let Some(output) = body.get("output").and_then(Value::as_array) else {
+        return String::new();
+    };
+    output
+        .iter()
+        .filter(|item| item.get("type").and_then(Value::as_str) == Some("message"))
+        .filter_map(|item| item.get("content").and_then(Value::as_array))
+        .flatten()
+        .filter(|part| part.get("type").and_then(Value::as_str) == Some("output_text"))
+        .filter_map(|part| part.get("text").and_then(Value::as_str))
+        .collect::<Vec<_>>()
+        .join("")
+}
+
 fn anthropic_reply_text(body: &Value) -> String {
     body.get("content")
         .and_then(Value::as_array)
@@ -125,6 +167,7 @@ fn gemini_reply_text(body: &Value) -> String {
 pub fn text_reply(protocol: ProviderWireProtocol, body: &Value) -> ModelProbeReply {
     let text = match protocol {
         ProviderWireProtocol::OpenAi => openai_reply_text(body),
+        ProviderWireProtocol::OpenAiResponses => responses_reply_text(body),
         ProviderWireProtocol::Anthropic => anthropic_reply_text(body),
         ProviderWireProtocol::Gemini => gemini_reply_text(body),
     };
@@ -221,9 +264,9 @@ fn model_id(protocol: ProviderWireProtocol, entry: &Value) -> Option<String> {
             .get("name")
             .and_then(Value::as_str)
             .map(|name| name.trim_start_matches("models/")),
-        ProviderWireProtocol::OpenAi | ProviderWireProtocol::Anthropic => {
-            entry.get("id").and_then(Value::as_str)
-        }
+        ProviderWireProtocol::OpenAi
+        | ProviderWireProtocol::OpenAiResponses
+        | ProviderWireProtocol::Anthropic => entry.get("id").and_then(Value::as_str),
     };
     raw.map(|id| id.trim().to_string())
 }
@@ -251,6 +294,63 @@ mod tests {
         assert!(
             gemini.get("model").is_none(),
             "Gemini carries the model in the path"
+        );
+    }
+
+    #[test]
+    fn a_responses_request_uses_the_item_form_and_never_streams() {
+        let body = text_request_body(ProviderWireProtocol::OpenAiResponses, "gpt-5.2", "hi");
+        assert_eq!(body["model"], "gpt-5.2");
+        assert_eq!(body["input"][0]["type"], "message");
+        assert_eq!(body["input"][0]["role"], "user");
+        assert_eq!(body["input"][0]["content"][0]["type"], "input_text");
+        assert_eq!(body["input"][0]["content"][0]["text"], "hi");
+        assert_eq!(body["max_output_tokens"], 300);
+        // Codex sets both of these; a probe that stored its trial prompt or
+        // asked for a stream would be testing something the user did not ask
+        // for.
+        assert_eq!(body["store"], false);
+        assert_eq!(body["stream"], false);
+        assert!(
+            body.get("messages").is_none(),
+            "Responses does not take chat messages"
+        );
+    }
+
+    #[test]
+    fn a_responses_reply_reads_the_message_item_and_ignores_reasoning() {
+        let body = json!({
+            "output": [
+                {"type": "reasoning", "summary": [{"type": "summary_text", "text": "thinking"}]},
+                {"type": "message", "role": "assistant", "content": [
+                    {"type": "output_text", "text": "hello "},
+                    {"type": "output_text", "text": "there"}
+                ]}
+            ]
+        });
+        assert_eq!(
+            text_reply(ProviderWireProtocol::OpenAiResponses, &body),
+            ModelProbeReply::Text {
+                text: "hello there".to_string()
+            }
+        );
+
+        // Relays that add the SDK's convenience field are believed first.
+        let convenience = json!({"output_text": "short answer", "output": []});
+        assert_eq!(
+            text_reply(ProviderWireProtocol::OpenAiResponses, &convenience),
+            ModelProbeReply::Text {
+                text: "short answer".to_string()
+            }
+        );
+
+        // Reasoning alone is not an answer.
+        let reasoning_only = json!({
+            "output": [{"type": "reasoning", "summary": [{"type": "summary_text", "text": "hm"}]}]
+        });
+        assert_eq!(
+            text_reply(ProviderWireProtocol::OpenAiResponses, &reasoning_only),
+            ModelProbeReply::Empty
         );
     }
 

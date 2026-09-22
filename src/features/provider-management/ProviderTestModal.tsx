@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Radio, Send } from "lucide-react";
+import { Link2, Radio, Send } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { useProviderEditProfile } from "@/entities/provider";
@@ -16,6 +16,7 @@ import { ProviderProbeReachability } from "./ProviderProbeReachability";
 import {
   subjectId,
   subjectName,
+  useAdoptBaseUrl,
   useAdoptModel,
   useModelCatalog,
   useProbeModel,
@@ -59,6 +60,7 @@ export function ProviderTestModal({
   );
   const probe = useProbeModel();
   const adopt = useAdoptModel();
+  const adoptBaseUrl = useAdoptBaseUrl();
 
   const [model, setModel] = useState("");
   const [kindOverride, setKindOverride] = useState<ProbeModelKind | null>(null);
@@ -74,6 +76,7 @@ export function ProviderTestModal({
     setPrompt(DEFAULT_PROMPT);
     probe.reset();
     adopt.reset();
+    adoptBaseUrl.reset();
     // `probe` and `adopt` are stable mutation handles from React Query.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [identity]);
@@ -101,13 +104,14 @@ export function ProviderTestModal({
    */
   const imageAvailable =
     catalog.data?.protocol === "openAi" ||
+    catalog.data?.protocol === "openAiResponses" ||
     models.some((entry) => entry.kind === "image");
   const guessedKind =
     models.find((entry) => entry.id === model)?.kind ?? "text";
   // Never leave the request on a kind the user has no control to change.
   const kind = imageAvailable ? (kindOverride ?? guessedKind) : "text";
 
-  const busy = probe.isPending || adopt.isPending;
+  const busy = probe.isPending || adopt.isPending || adoptBaseUrl.isPending;
   const canSend =
     subject !== null && model.trim() !== "" && prompt.trim() !== "" && !busy;
   const canAdopt =
@@ -116,6 +120,15 @@ export function ProviderTestModal({
     model.trim() !== "" &&
     !profile.data.models.includes(model) &&
     !mutationsBlocked;
+
+  /**
+   * An address the backend reached successfully after the saved one failed.
+   * Never derived here: the renderer shows what was verified and nothing else,
+   * which is what keeps this from becoming a guess that fires on every error.
+   */
+  const suggestedBaseUrl = probe.data?.suggestedBaseUrl ?? null;
+  const canAdoptBaseUrl =
+    profile.data?.capabilities.canEditBaseUrl === true && !mutationsBlocked;
 
   return (
     <Modal
@@ -225,6 +238,41 @@ export function ProviderTestModal({
           {probe.data ? (
             <>
               <ProviderProbeResult outcome={probe.data} />
+              {suggestedBaseUrl === null ? null : (
+                <div className="flex flex-col gap-2 rounded-xl border border-hairline bg-layer-1 p-3">
+                  <p className="text-caption text-content">
+                    {t("services.probe.addressWorksInstead", {
+                      url: suggestedBaseUrl,
+                    })}
+                  </p>
+                  {provider !== null && canAdoptBaseUrl ? (
+                    <Button
+                      variant="secondary"
+                      className="self-start"
+                      loading={adoptBaseUrl.isPending}
+                      onClick={() =>
+                        adoptBaseUrl.mutate({
+                          provider,
+                          baseUrl: suggestedBaseUrl,
+                        })
+                      }
+                    >
+                      <Link2 className="h-4 w-4" aria-hidden="true" />
+                      {t("services.probe.useAddress")}
+                    </Button>
+                  ) : null}
+                  {adoptBaseUrl.isSuccess ? (
+                    <p role="status" className="text-caption text-success">
+                      {t("services.probe.addressAdopted")}
+                    </p>
+                  ) : null}
+                  {adoptBaseUrl.error ? (
+                    <p role="alert" className="text-caption text-danger">
+                      {t("services.probe.addressAdoptFailed")}
+                    </p>
+                  ) : null}
+                </div>
+              )}
               {canAdopt && provider && profile.data ? (
                 <Button
                   variant="secondary"

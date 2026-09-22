@@ -105,6 +105,7 @@ describe("native.providers model probe", () => {
             model: "gpt-5.2",
             latencyMs: 1_800,
             httpStatus: 200,
+            suggestedBaseUrl: null,
             reply: { kind: "text", text: "pong" },
           });
         },
@@ -134,6 +135,7 @@ describe("native.providers model probe", () => {
           model: "gpt-image-2",
           latencyMs: 42_000,
           httpStatus: 200,
+          suggestedBaseUrl: null,
           reply: {
             kind: "image",
             mime: "image/png",
@@ -192,6 +194,7 @@ describe("native.providers model probe", () => {
           model: "gpt-5.2",
           latencyMs: 10,
           httpStatus: 200,
+          suggestedBaseUrl: null,
           reply: { kind: "video", url: "https://cdn.example.test/a.mp4" },
         }),
       ),
