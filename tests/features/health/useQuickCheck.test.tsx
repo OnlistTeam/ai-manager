@@ -191,3 +191,40 @@ describe("useQuickCheck", () => {
     expect(snapshotReads).toBe(2);
   });
 });
+
+/**
+ * Opening the app is not a request to go online. The local list is files on
+ * this machine and is read as before; the latest-version lookup is the one
+ * part that leaves the computer, and it waits to be asked (ADR-0043).
+ */
+describe("what opening the home page is allowed to do on its own", () => {
+  it("reads the local list but does not check versions over the network", async () => {
+    let versionChecks = 0;
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_tools_list`, () =>
+        HttpResponse.json([TOOL]),
+      ),
+      http.post(`${TAURI_ENDPOINT}/app_tools_check_versions`, () => {
+        versionChecks += 1;
+        return HttpResponse.json([TOOL]);
+      }),
+      http.post(`${TAURI_ENDPOINT}/app_health_snapshot`, () =>
+        HttpResponse.json({
+          providers: [],
+          configs: [{ tool: "claude-code", status: "readable" }],
+          mcp: { total: 0, enabled: 0 },
+        }),
+      ),
+    );
+
+    const { result } = renderHook(() => useQuickCheck(), {
+      wrapper: withQueryClient(createTestQueryClient()),
+    });
+    await waitFor(() => expect(result.current.data).toBeDefined());
+    expect(versionChecks).toBe(0);
+
+    // Asking explicitly still runs it: the check is deferred, not removed.
+    await result.current.recheck();
+    await waitFor(() => expect(versionChecks).toBe(1));
+  });
+});

@@ -36,7 +36,11 @@ function connectionTargetsOf(
 
 export function useQuickCheck() {
   const queryClient = useQueryClient();
-  const tools = useToolInventory();
+  // Opening the app must not reach the network on its own (ADR-0043). The
+  // local list is read as before — those are files on this machine — but the
+  // latest-version lookup waits for the user to ask, which "Check again"
+  // does through `refetch`.
+  const tools = useToolInventory({ checkVersions: false });
   const installed = installedHealthTools(tools.data ?? []);
   const snapshot = useHealthSnapshot(installed, tools.isSuccess);
   const localExtensions = useLocalExtensionInventory();

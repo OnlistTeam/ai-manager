@@ -66,6 +66,17 @@ destination
 is fixed in the native side — the renderer names the intent, never an address,
 the same rule as the About panel's legal notice links.
 
+**Opening the home page reaches nothing off this machine.** The same
+complaint named the start-up check, and it turned out to be fair for a reason
+that was not obvious: `useToolInventory` pairs a local read with
+`app_tools_check_versions`, which queries every tool's registry. So opening the
+app sent a handful of outbound requests before the user had done anything —
+from a product whose one-line promise is that your setup stays on this
+computer. The local list is unchanged; the version lookup is now opted out of
+on the home page and runs when "Check again" is pressed. The Software page
+keeps checking on arrival, because looking for updates is why someone opens
+it.
+
 **No permanent "permissions" switch in Settings.** The grant is only needed for
 one action, the failure is self-announcing, and the repair button appears
 exactly where the failure does. A standing row would add a control the user has

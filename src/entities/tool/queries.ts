@@ -52,8 +52,16 @@ export function toolVersionCheckQueryOptions() {
   });
 }
 
-export function useToolVersionCheck(): UseQueryResult<Tool[], Error> {
-  return useQuery(toolVersionCheckQueryOptions());
+/**
+ * `automatic: false` still allows an explicit `refetch()`; it only stops the
+ * request from being made because a page happened to mount. The home page
+ * uses that: opening the app should not reach the network on its own
+ * (ADR-0043), and the check runs when the user asks for it.
+ */
+export function useToolVersionCheck(
+  automatic = true,
+): UseQueryResult<Tool[], Error> {
+  return useQuery({ ...toolVersionCheckQueryOptions(), enabled: automatic });
 }
 
 /** Local list plus the version info fetched over the network — this is what the page reads. */
@@ -97,10 +105,24 @@ function withCheckedVersions(
   });
 }
 
+export interface ToolInventoryOptions {
+  /**
+   * Whether the latest-version lookup may start on its own.
+   *
+   * The local list is always read — it is only files on this machine. The
+   * version check is the one part that leaves the computer, so a surface
+   * whose purpose is not "show me updates" opts out and picks it up when the
+   * user asks (ADR-0043).
+   */
+  checkVersions?: boolean;
+}
+
 /** Uses the local list as the skeleton, overlaying the network-fetched version info onto it by id. */
-export function useToolInventory(): ToolInventory {
+export function useToolInventory({
+  checkVersions = true,
+}: ToolInventoryOptions = {}): ToolInventory {
   const tools = useTools();
-  const check = useToolVersionCheck();
+  const check = useToolVersionCheck(checkVersions);
   const checked = check.data;
   const data = useMemo(() => {
     if (tools.data === undefined) return undefined;
