@@ -480,6 +480,15 @@ artifacts as immutable; recovery requires an explicit incident decision.
 
 The workflow is manual only. In GitHub Actions:
 
+**Before dispatching from a command line, run
+`gh repo set-default OnlistTeam/ai-manager` once in the clone.** A release
+checkout carries both `origin` and the CC Switch `upstream`, and with two
+remotes `gh` selects `upstream` as the base repository by fork convention. Until
+the default is pinned, a bare `gh workflow run release.yml` addresses CC Switch
+rather than this product, and `gh release view` reports its releases. The
+setting is written to `.git/config`, so no clone inherits it and every new one
+needs the command again.
+
 1. Select **Protected Desktop Release** on the default branch.
 2. Enter the approved v-prefixed version tag.
 3. Use a prerelease SemVer tag such as `v0.1.0-1` with **prerelease**
