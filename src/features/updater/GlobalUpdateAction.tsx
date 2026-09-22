@@ -1,49 +1,29 @@
-import { Download, RotateCw } from "lucide-react";
+import { RotateCw } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import {
-  useInstallAppUpdate,
-  useUpdateStatus,
-  type UpdateStatus,
-} from "@/entities/update";
+import { useInstallAppUpdate, useUpdateStatus } from "@/entities/update";
 import { toErrorCopy } from "@/shared/lib/nativeError";
 import { Button } from "@/shared/ui/Button";
 
 /**
- * A deliberately quiet global update affordance. The product updater remains
- * invisible while idle and only enters the persistent chrome when there is a
- * useful state the user can act on or monitor.
+ * A deliberately quiet global update affordance.
+ *
+ * Only one state reaches the window chrome: an update that is downloaded,
+ * verified, and waiting for a restart. That is the only state with something
+ * for the user to do.
+ *
+ * The download itself is deliberately silent. It used to show a progress pill
+ * here, which read as the computer fetching something unasked — a fair
+ * reading, since nobody requested it and the pill could not say what it was.
+ * Progress is still available to anyone who goes looking for it, in Settings,
+ * where the question was asked.
  */
 export function GlobalUpdateAction() {
   const { t } = useTranslation();
   const status = useUpdateStatus();
   const install = useInstallAppUpdate();
-  const phase = status.data?.phase;
 
-  if (phase === "downloading") {
-    const progress = downloadPercent(status.data);
-
-    return (
-      <span
-        role="status"
-        aria-label={t("preferences.updates.backgroundDownloading")}
-        className="app-update-status inline-flex h-9 items-center gap-2 rounded-full border border-brand/20 bg-layer-1 px-3.5 text-caption text-content-muted shadow-[inset_0_1px_0_hsl(var(--content)/0.06),0_10px_24px_hsl(var(--shadow-color)/0.08)]"
-      >
-        <Download
-          className="h-3.5 w-3.5 animate-pulse text-brand"
-          aria-hidden="true"
-        />
-        <span>{t("preferences.updates.backgroundDownloading")}</span>
-        {progress === null ? null : (
-          <span className="font-medium tabular-nums text-content">
-            {progress}%
-          </span>
-        )}
-      </span>
-    );
-  }
-
-  if (phase !== "ready") return null;
+  if (status.data?.phase !== "ready") return null;
 
   return (
     <Button
@@ -67,13 +47,5 @@ export function GlobalUpdateAction() {
       <RotateCw className="h-3.5 w-3.5 text-success" aria-hidden="true" />
       {t("preferences.updates.restart")}
     </Button>
-  );
-}
-
-function downloadPercent(status: UpdateStatus | undefined): number | null {
-  if (!status?.totalBytes || status.totalBytes <= 0) return null;
-  return Math.min(
-    100,
-    Math.round((status.downloadedBytes / status.totalBytes) * 100),
   );
 }

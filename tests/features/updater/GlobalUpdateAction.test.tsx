@@ -58,23 +58,23 @@ describe("GlobalUpdateAction", () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("shows compact background progress without taking over the window", async () => {
+  /**
+   * A progress pill for a download nobody asked for reads as the computer
+   * fetching something on its own. There is nothing to do about a download in
+   * flight, so the window chrome says nothing until there is.
+   */
+  it("says nothing at all while the update downloads in the background", async () => {
+    let requests = 0;
     server.use(
-      http.post(`${TAURI_ENDPOINT}/app_update_start`, () =>
-        HttpResponse.json(wire("downloading")),
-      ),
-    );
-    mount();
-
-    const status = await screen.findByRole("status", {
-      name: en.preferences.updates.backgroundDownloading,
-    });
-    expect(status).toHaveTextContent("51%");
-    expect(
-      screen.queryByRole("button", {
-        name: en.preferences.updates.restart,
+      http.post(`${TAURI_ENDPOINT}/app_update_start`, () => {
+        requests += 1;
+        return HttpResponse.json(wire("downloading"));
       }),
-    ).toBeNull();
+    );
+    const { container } = mount();
+
+    await waitFor(() => expect(requests).toBe(1));
+    expect(container).toBeEmptyDOMElement();
   });
 
   it("offers restart only after the signed update is ready", async () => {
