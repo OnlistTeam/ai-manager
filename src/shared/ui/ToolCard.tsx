@@ -343,7 +343,7 @@ export function ToolCard({
                 <DropdownMenu.Content
                   align="end"
                   sideOffset={8}
-                  className="z-[70] min-w-48 rounded-md border border-hairline bg-surface/95 p-1.5 shadow-lg backdrop-blur-xl animate-ds-overlay-in"
+                  className="z-[70] min-w-48 rounded-md border border-hairline bg-surface p-1.5 shadow-lg animate-ds-overlay-in"
                 >
                   {showVersion ? (
                     <DropdownMenu.Item

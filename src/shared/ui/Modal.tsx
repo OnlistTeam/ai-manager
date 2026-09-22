@@ -34,8 +34,9 @@ export interface ModalProps {
 
 /**
  * Radix owns the focus trap, the Escape handling and the aria wiring; this
- * wrapper only supplies the product look. Modals are one of the three places
- * spec §48 allows a glass treatment.
+ * wrapper only supplies the product look: an opaque surface, one divider above
+ * the actions, and padding tight enough that a three-field form does not read
+ * as a page.
  */
 export function Modal({
   open,
@@ -109,10 +110,10 @@ export function Modal({
           className={cn(
             "app-floating-surface",
             "fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2",
-            // Border colour, background, shadow and blur all come from
-            // `.app-floating-surface` (spec §48 glass); the 24px padding here
-            // is what sets the matching corner.
-            "flex max-h-[calc(100vh-2rem)] flex-col overflow-hidden rounded-2xl border p-6",
+            // Border colour, background and shadow come from
+            // `.app-floating-surface`; the padding here sets the corner that
+            // matches it.
+            "flex max-h-[calc(100vh-2rem)] flex-col overflow-hidden rounded-2xl border p-5",
             "animate-ds-dialog-in",
             SIZE[size],
           )}
@@ -151,12 +152,12 @@ export function Modal({
             ) : null}
           </div>
           {hasBody ? (
-            <div className="app-modal-body scrollbar-subtle -mx-1 mt-4 min-h-0 overflow-y-auto px-1 text-body">
+            <div className="app-modal-body scrollbar-subtle -mx-1 mt-3 min-h-0 overflow-y-auto px-1 text-body">
               {children}
             </div>
           ) : null}
           {footer ? (
-            <div className="app-modal-footer mt-6 flex shrink-0 items-center justify-end gap-2">
+            <div className="app-modal-footer mt-4 flex shrink-0 items-center justify-end gap-2">
               {footer}
             </div>
           ) : null}
