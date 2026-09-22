@@ -9,6 +9,7 @@ import {
 import { useTranslation } from "react-i18next";
 import type {
   EffectiveConnection,
+  EffectiveConnectionSource,
   ProviderRuntimeResource,
 } from "@/entities/provider";
 import type { ToolId } from "@/entities/tool";
@@ -16,7 +17,11 @@ import { Badge } from "@/shared/ui/Badge";
 import { Button } from "@/shared/ui/Button";
 import { CopyButton } from "@/shared/ui/CopyButton";
 import { ServiceCard } from "@/shared/ui/ServiceCard";
-import { credentialCopy, describeSource } from "./effectiveConnectionCopy";
+import {
+  credentialCopy,
+  describeSource,
+  sameSource,
+} from "./effectiveConnectionCopy";
 import { ServicesOpenConfigAction } from "./ServicesOpenConfigAction";
 
 export interface ExternalConnectionCardProps {
@@ -29,14 +34,21 @@ export interface ExternalConnectionCardProps {
   /** Opens the test dialog. Absent when this tool cannot be tested at all. */
   onTest?: () => void;
   /**
-   * Opens the edit dialog for the start-up line behind this connection. Absent
-   * when no line could be pinned down, which is the honest state for a
-   * variable something set in a way this product does not model: guessing at
-   * which line to rewrite in someone's shell profile is not an option.
+   * Opens the edit dialog for one start-up line. Absent when nothing on this
+   * card could be pinned down, which is the honest state for a variable
+   * something set in a way this product does not model: guessing at which line
+   * to rewrite in someone's shell profile is not an option.
    */
-  onEditVariable?: () => void;
-  /** The variable whose line the edit button would change, for its label. */
-  editVariableName?: string;
+  onEditVariable?: (variable: string) => void;
+  /**
+   * The variables whose lines were located and are safe to rewrite.
+   *
+   * A set rather than one name: the address and the key are usually two
+   * different variables on two different lines, and offering a single "Edit"
+   * that silently picked whichever came first meant the key could never be
+   * changed from here.
+   */
+  editableVariables?: ReadonlySet<string>;
   actionsBlocked?: boolean;
 }
 
@@ -62,7 +74,7 @@ export function ExternalConnectionCard({
   configResource,
   onTest,
   onEditVariable,
-  editVariableName,
+  editableVariables,
   actionsBlocked = false,
 }: ExternalConnectionCardProps) {
   const { t } = useTranslation();
@@ -77,6 +89,39 @@ export function ExternalConnectionCard({
     onTest !== undefined &&
     (connection.credential === "configured" ||
       connection.credential === "missing");
+
+  /**
+   * The edit button for one row, or nothing.
+   *
+   * It sits beside the value it changes rather than in the action bar, because
+   * this card shows two values from two different lines and a button in the
+   * bar could not say which one it meant.
+   */
+  const editActionFor = (source: EffectiveConnectionSource) => {
+    if (source.kind !== "environment" && source.kind !== "shellFile") {
+      return null;
+    }
+    if (
+      onEditVariable === undefined ||
+      !editableVariables?.has(source.variable)
+    ) {
+      return null;
+    }
+    const variable = source.variable;
+    return (
+      <Button
+        size="sm"
+        variant="ghost"
+        className="shrink-0"
+        disabled={actionsBlocked}
+        aria-label={t("services.shellVariable.editNamed", { variable })}
+        onClick={() => onEditVariable(variable)}
+      >
+        <FileCog className="h-4 w-4" aria-hidden="true" />
+        <span className="sr-only">{t("services.action.edit")}</span>
+      </Button>
+    );
+  };
 
   return (
     <ServiceCard
@@ -120,19 +165,6 @@ export function ExternalConnectionCard({
               {t("services.action.test")}
             </Button>
           ) : null}
-          {onEditVariable && editVariableName ? (
-            <Button
-              variant="ghost"
-              disabled={actionsBlocked}
-              aria-label={t("services.shellVariable.editNamed", {
-                variable: editVariableName,
-              })}
-              onClick={onEditVariable}
-            >
-              <FileCog className="h-4 w-4" aria-hidden="true" />
-              {t("services.action.edit")}
-            </Button>
-          ) : null}
           <ServicesOpenConfigAction tool={tool} resource={configResource} />
         </>
       }
@@ -165,21 +197,37 @@ export function ExternalConnectionCard({
               value={endpoint}
               label={t("services.external.endpoint")}
             />
+            {editActionFor(connection.endpointSource)}
           </p>
           <p className="text-caption text-content-muted">
             {describeSource(connection.endpointSource, t)}
           </p>
-          <p className="flex items-center gap-2 text-content-muted">
+          <p className="flex min-w-0 items-center gap-2 text-content-muted">
             <KeyRound
               className={`h-4 w-4 shrink-0 ${
                 credentialMissing ? "text-warning" : "text-content-muted"
               }`}
               aria-hidden="true"
             />
-            <span className={credentialMissing ? "text-warning" : undefined}>
+            <span
+              className={`min-w-0 flex-1 ${credentialMissing ? "text-warning" : ""}`}
+            >
               {credentialCopy(connection.credential, toolName, t)}
             </span>
+            {editActionFor(connection.credentialSource)}
           </p>
+          {/* Where the key comes from, on the same footing as the address —
+              but only when that is somewhere else. The two usually share one
+              file, and repeating the identical sentence says nothing. */}
+          {connection.credentialSource.kind !== "toolDefault" &&
+          !sameSource(
+            connection.credentialSource,
+            connection.endpointSource,
+          ) ? (
+            <p className="text-caption text-content-muted">
+              {describeSource(connection.credentialSource, t)}
+            </p>
+          ) : null}
           {/* Replaces the old "not saved here" wording: what matters is not
               where the record lives but that this address wins over anything
               chosen in the list below. */}

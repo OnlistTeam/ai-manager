@@ -26,6 +26,33 @@ export function describeSource(
   }
 }
 
+/**
+ * Whether two values come from the very same place.
+ *
+ * The address and the key usually do — one config file, or one profile line —
+ * and repeating the identical "From …" sentence under each of them is noise
+ * rather than information.
+ */
+export function sameSource(
+  first: EffectiveConnectionSource,
+  second: EffectiveConnectionSource,
+): boolean {
+  if (first.kind !== second.kind) return false;
+  switch (first.kind) {
+    case "liveConfig":
+      return first.path === (second as typeof first).path;
+    case "environment":
+      return first.variable === (second as typeof first).variable;
+    case "shellFile":
+      return (
+        first.variable === (second as typeof first).variable &&
+        first.path === (second as typeof first).path
+      );
+    case "toolDefault":
+      return true;
+  }
+}
+
 /** The short name that fits in a badge: variable name or file path. */
 export function sourceLabel(source: EffectiveConnectionSource): string {
   switch (source.kind) {

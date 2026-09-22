@@ -24,6 +24,10 @@ const CONNECTION: EffectiveConnection = {
 function mount(
   overrides: Partial<EffectiveConnection> = {},
   onTest?: () => void,
+  editing?: {
+    onEditVariable: (variable: string) => void;
+    editableVariables: ReadonlySet<string>;
+  },
 ) {
   return render(
     <ExternalConnectionCard
@@ -31,9 +35,29 @@ function mount(
       toolName="OpenCode"
       connection={{ ...CONNECTION, ...overrides }}
       onTest={onTest}
+      onEditVariable={editing?.onEditVariable}
+      editableVariables={editing?.editableVariables}
     />,
     { wrapper: withQueryClient(createTestQueryClient()) },
   );
+}
+
+const SHELL_CONNECTION: Partial<EffectiveConnection> = {
+  endpointSource: {
+    kind: "shellFile",
+    variable: "ANTHROPIC_BASE_URL",
+    path: "~/.config/zsh/secrets.zsh",
+  },
+  credential: "configured",
+  credentialSource: {
+    kind: "shellFile",
+    variable: "ANTHROPIC_AUTH_TOKEN",
+    path: "~/.config/zsh/secrets.zsh",
+  },
+};
+
+function editLabel(variable: string) {
+  return en.services.shellVariable.editNamed.replace("{{variable}}", variable);
 }
 
 beforeEach(async () => {
@@ -107,5 +131,82 @@ describe("the test action", () => {
   it("is withheld when the page offers no test handler", () => {
     mount({ credential: "configured" });
     expect(screen.queryByRole("button", { name: TEST_LABEL })).toBeNull();
+  });
+});
+
+describe("editing the lines behind this connection", () => {
+  /**
+   * The regression this replaced: one Edit button in the action bar, wired to
+   * whichever located variable came first. The address was always first, so
+   * the key set by the same profile could never be changed from here.
+   */
+  it("gives the address and the key an edit each", async () => {
+    const onEditVariable = vi.fn();
+    mount({ ...SHELL_CONNECTION }, vi.fn(), {
+      onEditVariable,
+      editableVariables: new Set([
+        "ANTHROPIC_BASE_URL",
+        "ANTHROPIC_AUTH_TOKEN",
+      ]),
+    });
+
+    await userEvent.click(
+      screen.getByRole("button", { name: editLabel("ANTHROPIC_AUTH_TOKEN") }),
+    );
+    expect(onEditVariable).toHaveBeenCalledWith("ANTHROPIC_AUTH_TOKEN");
+
+    await userEvent.click(
+      screen.getByRole("button", { name: editLabel("ANTHROPIC_BASE_URL") }),
+    );
+    expect(onEditVariable).toHaveBeenLastCalledWith("ANTHROPIC_BASE_URL");
+  });
+
+  /** A line that could not be pinned down must not get a button that would
+   *  have to guess which line to rewrite. */
+  it("withholds the edit for a variable that was not located", () => {
+    mount({ ...SHELL_CONNECTION }, vi.fn(), {
+      onEditVariable: vi.fn(),
+      editableVariables: new Set(["ANTHROPIC_BASE_URL"]),
+    });
+
+    expect(
+      screen.getByRole("button", { name: editLabel("ANTHROPIC_BASE_URL") }),
+    ).toBeVisible();
+    expect(
+      screen.queryByRole("button", { name: editLabel("ANTHROPIC_AUTH_TOKEN") }),
+    ).toBeNull();
+  });
+
+  /** Two values out of one file is the common case; saying so twice is noise. */
+  it("names the key's origin only when it differs from the address's", () => {
+    const shared = {
+      kind: "liveConfig",
+      path: "~/.codex/config.toml",
+    } as const;
+    const view = mount({
+      endpointSource: shared,
+      credential: "configured",
+      credentialSource: shared,
+    });
+    expect(
+      screen.getAllByText(
+        en.services.effective.source.liveConfig.replace(
+          "{{path}}",
+          "~/.codex/config.toml",
+        ),
+      ),
+    ).toHaveLength(1);
+    view.unmount();
+
+    mount({ ...SHELL_CONNECTION });
+    for (const variable of ["ANTHROPIC_BASE_URL", "ANTHROPIC_AUTH_TOKEN"]) {
+      expect(
+        screen.getByText(
+          en.services.effective.source.shellFile
+            .replace("{{variable}}", variable)
+            .replace("{{path}}", "~/.config/zsh/secrets.zsh"),
+        ),
+      ).toBeVisible();
+    }
   });
 });

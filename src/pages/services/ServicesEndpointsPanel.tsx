@@ -1,5 +1,5 @@
 import { Waypoints } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useProviderConnectivity } from "@/entities/health";
 import {
@@ -118,8 +118,9 @@ export function ServicesEndpointsPanel({
     (connection.isError || (connection.isFetching && connection.isFetched));
   const effectiveUnavailable = managedActive !== null && runtime.isError;
   // The start-up lines behind this tool's connection. Only looked up when the
-  // card that would offer the edit is on screen, and only one of them can be
-  // pinned to the address in force, which is the one the button edits.
+  // card that would offer the edit is on screen. Every located line is offered,
+  // not just the first: the address and the key live on separate lines, and
+  // picking one of them silently left the other uneditable.
   const externalConnection =
     runtime.data?.effectiveConnection?.providerId === null &&
     runtime.data?.effectiveConnection?.endpoint !== null;
@@ -127,7 +128,15 @@ export function ServicesEndpointsPanel({
     managedActive,
     Boolean(externalConnection),
   );
-  const editableVariable = shellVariables.data?.find((entry) => entry.editable);
+  const editableVariables = useMemo(
+    () =>
+      new Set(
+        (shellVariables.data ?? [])
+          .filter((entry) => entry.editable)
+          .map((entry) => entry.variable),
+      ),
+    [shellVariables.data],
+  );
   // When the shell environment couldn't be inspected, the check below only
   // looked at the config file and may miss an external override.
   const shellNotInspected =
@@ -293,12 +302,8 @@ export function ServicesEndpointsPanel({
                       name: activeName,
                     })
             }
-            onEditExternalVariable={
-              editableVariable === undefined
-                ? undefined
-                : () => setEditingVariable(editableVariable.variable)
-            }
-            externalVariableName={editableVariable?.variable}
+            onEditExternalVariable={setEditingVariable}
+            externalEditableVariables={editableVariables}
             onBrowseCompatible={
               canConnect ? connectionFlow.openCompatibleConnection : undefined
             }

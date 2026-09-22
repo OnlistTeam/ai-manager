@@ -44,8 +44,9 @@ interface ServicesProviderGridProps {
   /** Tests the connection in force when it is not one of the saved services. */
   onTestExternal?: () => void;
   /** Edits the start-up line behind it, when one could be pinned down. */
-  onEditExternalVariable?: () => void;
-  externalVariableName?: string;
+  onEditExternalVariable?: (variable: string) => void;
+  /** Which start-up variables on the external card were located and are safe to rewrite. */
+  externalEditableVariables?: ReadonlySet<string>;
   onTryNext: (providerId: string) => void;
   onBrowseCompatible?: () => void;
   onEdit: (provider: Provider) => void;
@@ -70,7 +71,7 @@ export function ServicesProviderGrid({
   onTest,
   onTestExternal,
   onEditExternalVariable,
-  externalVariableName,
+  externalEditableVariables,
   onTryNext,
   onBrowseCompatible,
   onEdit,
@@ -101,7 +102,7 @@ export function ServicesProviderGrid({
           configResource={configResource}
           onTest={onTestExternal}
           onEditVariable={onEditExternalVariable}
-          editVariableName={externalVariableName}
+          editableVariables={externalEditableVariables}
           actionsBlocked={busy}
         />
       ) : null}
