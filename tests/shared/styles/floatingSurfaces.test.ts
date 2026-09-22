@@ -10,19 +10,56 @@ function ruleBody(css: string, selector: string): string {
   return css.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
 }
 
+/** Every selector that declares `property`, in source order. */
+function declaringSelectors(css: string, property: string): string[] {
+  const selectors: string[] = [];
+  const rule = /([^{}]+)\{([^}]*)\}/g;
+  for (const [, selector, body] of css.matchAll(rule)) {
+    if (body.includes(`${property}:`)) selectors.push(selector.trim());
+  }
+  return selectors;
+}
+
 /**
- * A dialog is the one surface that has the user's whole attention, so it may
- * not let the page through. These were glass — `canvas-deep` at 88% with a
- * 34px backdrop blur — and over the route gradient the result was a panel you
- * could read the page through; the menu opened inside one was worse, because
- * it showed the dialog's own labels behind the list.
+ * Dialogs, menus and the scrim are rendered by React into portals under
+ * `document.body`, so they are not descendants of the canvas element and
+ * inherit from `<html>` instead.
  *
- * Opacity is checked at the source rule rather than by rendering, because that
- * is where it can silently regress: an `hsl(... / 0.88)` looks deliberate in a
- * diff and is invisible in a test that only asserts a class name.
+ * That is the whole reason these tests exist. The route palette used to be
+ * declared on `.app-window-canvas`, which meant `hsl(var(--canvas-indigo))`
+ * inside a portal referenced a variable that was not in scope: the value was
+ * invalid, the browser dropped the declaration, and every dialog and menu in
+ * the product came out fully transparent. Nothing in a class name or a diff
+ * showed it — the CSS reads as if it paints a fill.
  */
 describe("floating surfaces", () => {
   const css = fs.readFileSync(CSS_PATH, "utf8");
+
+  for (const property of [
+    "--canvas-violet",
+    "--canvas-indigo",
+    "--canvas-deep",
+  ]) {
+    it(`${property} is declared where a portal can reach it`, () => {
+      const selectors = declaringSelectors(css, property);
+      expect(selectors.length).toBeGreaterThan(0);
+
+      // At least one declaration has to match `<html>` itself, or nothing
+      // outside the canvas subtree resolves.
+      expect(
+        selectors.some(
+          (selector) =>
+            selector.includes(":root") || selector.startsWith("[data-route="),
+        ),
+      ).toBe(true);
+
+      // And none may be scoped to the canvas element, which portals are not
+      // inside of.
+      expect(
+        selectors.filter((selector) => selector.includes(".app-window-canvas")),
+      ).toEqual([]);
+    });
+  }
 
   for (const selector of [".app-floating-surface", ".app-floating-menu"]) {
     it(`${selector} paints an opaque base`, () => {
@@ -33,24 +70,24 @@ describe("floating surfaces", () => {
       expect(background).toBeDefined();
       // An alpha channel on the base is exactly the defect: `hsl(H S L / A)`.
       expect(background).not.toMatch(/\//);
-      expect(background).toMatch(/^hsl\(var\(--canvas-(indigo|violet)\)\)$/);
+      expect(background).toMatch(/^hsl\(var\(--canvas-(indigo|deep)\)\)$/);
 
       // Blur only exists to show what is behind. Nothing is.
       expect(body).not.toMatch(/backdrop-filter/);
     });
   }
 
-  it("the menu sits a step lighter than the dialog it opens over", () => {
-    // Against an identical surface a menu has no edge to read, so the two must
+  it("the menu sits a step lighter than the surface it opens over", () => {
+    // Against an identical fill a menu has no edge to read, so the two must
     // not resolve to the same wash.
-    const dialog = ruleBody(css, ".app-floating-surface");
-    const menu = ruleBody(css, ".app-floating-menu");
-    expect(dialog).toMatch(/--canvas-indigo/);
-    expect(menu).toMatch(/--canvas-violet/);
+    expect(ruleBody(css, ".app-floating-surface")).toMatch(/--canvas-deep/);
+    expect(ruleBody(css, ".app-floating-menu")).toMatch(/--canvas-indigo/);
   });
 
   it("the scrim stays translucent, because dimming the page is its job", () => {
     const overlay = ruleBody(css, ".app-modal-overlay");
-    expect(overlay).toMatch(/hsl\(var\(--canvas-deep\)\s*\/\s*0\.\d+\)/);
+    // Route-independent on purpose: a scrim removes the page rather than
+    // colouring it, and a fixed value cannot go missing in a portal.
+    expect(overlay).toMatch(/background:\s*rgb\([\d\s]+\/\s*0\.\d+\)/);
   });
 });

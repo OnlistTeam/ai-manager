@@ -2,6 +2,7 @@ import {
   lazy,
   Suspense,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   type CSSProperties,
@@ -74,6 +75,16 @@ export function AppShell() {
   const mainRef = useRef<HTMLElement>(null);
   const mac = isMac();
   const windows = isWindows();
+
+  /*
+   * Dialogs and menus render into portals under `document.body`, so they are
+   * not descendants of the canvas below and cannot read a route variable
+   * declared on it. Mirroring the route onto `<html>` puts the whole palette in
+   * scope for every node in the document, portals included.
+   */
+  useEffect(() => {
+    document.documentElement.dataset.route = activeRoute;
+  }, [activeRoute]);
 
   // Every navigation starts the next page at the top of the shared viewport.
   const navigateFromTop = useCallback(

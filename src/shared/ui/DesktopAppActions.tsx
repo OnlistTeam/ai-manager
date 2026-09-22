@@ -144,7 +144,7 @@ export function DesktopAppActions({
                 event.preventDefault();
                 onOpenRelatedTool?.();
               }}
-              className="z-[70] min-w-56 rounded-lg border border-hairline bg-surface p-1.5 shadow-lg animate-ds-overlay-in"
+              className="app-floating-menu z-[70] min-w-56 rounded-lg border p-1.5 animate-ds-overlay-in"
             >
               {app.status === "updateAvailable" && app.canLaunch ? (
                 <DropdownMenu.Item

@@ -1140,6 +1140,7 @@ pub fn run() {
             commands::app_provider_runtime_context,
             commands::app_provider_runtime_resource_open,
             commands::app_provider_connection_profile,
+            commands::app_provider_preset_key_page_open,
             commands::app_provider_edit_profile,
             commands::app_provider_create,
             commands::app_provider_custom_create,

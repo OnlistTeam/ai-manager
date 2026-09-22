@@ -145,6 +145,11 @@ pub(super) fn reviewed_endpoint_candidates(
     presets::endpoint_candidates_for(tool)
 }
 
+/// The audited page where a reviewed preset's service hands out API keys.
+pub fn preset_key_page(tool: ToolId, preset_id: &str) -> Result<String, AppError> {
+    presets::key_page_for(tool, preset_id)
+}
+
 fn probe_target_for(tool: ToolId, raw: &UpstreamProvider) -> Result<Option<String>, AppError> {
     if raw.category.as_deref() == Some("official") {
         return official_probe_target(tool);

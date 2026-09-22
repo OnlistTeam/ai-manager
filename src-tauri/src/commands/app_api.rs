@@ -304,6 +304,16 @@ pub async fn app_provider_connection_profile(
 }
 
 #[tauri::command]
+pub async fn app_provider_preset_key_page_open(
+    app_handle: tauri::AppHandle,
+    tool: String,
+    preset: String,
+) -> Result<(), AppError> {
+    let tool = parse_tool(&tool)?;
+    blocking(move || ProviderDirectory::open_preset_key_page(&app_handle, tool, &preset)).await
+}
+
+#[tauri::command]
 pub async fn app_provider_edit_profile(
     app_handle: tauri::AppHandle,
     tool: String,

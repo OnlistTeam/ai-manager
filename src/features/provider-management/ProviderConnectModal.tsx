@@ -6,12 +6,15 @@ import {
   type KeyboardEvent,
 } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import type {
   ProviderConnectionProfile,
   ProviderCreateDraft,
   ProviderCustomCreateDraft,
   ToolId,
 } from "@/entities/provider";
+import { native } from "@/native";
+import { toErrorCopy } from "@/shared/lib/nativeError";
 import { Modal } from "@/shared/ui/Modal";
 import { ProviderConnectModalFooter } from "./ProviderConnectModalFooter";
 import { normalizeProviderEndpoint } from "./providerEndpointRouteUtils";
@@ -207,12 +210,24 @@ export function ProviderConnectModal({
           apiKey={key}
           model={model}
           addressEdited={addressEdited}
-          keyUrl={selectedPreset.apiKeyUrl}
           keyUrlLabel={t(
             selectedPreset.official
               ? "services.connect.getKey"
               : "services.connect.openProvider",
           )}
+          onOpenKeyPage={() => {
+            if (tool === null) return;
+            void native.providers
+              .openPresetKeyPage(tool, selectedPreset.id)
+              .catch((failure: unknown) => {
+                const copy = toErrorCopy(failure);
+                toast.error(t(copy.messageKey), {
+                  description: copy.remediationKey
+                    ? t(copy.remediationKey)
+                    : undefined,
+                });
+              });
+          }}
           modelRequired={modelRequired}
           invalid={invalid}
           busy={busy}

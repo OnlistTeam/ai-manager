@@ -218,9 +218,9 @@ export function ProviderPresetPicker({
             align="start"
             sideOffset={6}
             collisionPadding={16}
-            // `bg-layer-1` is 8% white: a token for a panel nested inside an
-            // opaque surface, not for a list floating over one, where it let
-            // the dialog's own labels read straight through it.
+            // `.app-floating-menu` owns the fill, border and shadow, so every
+            // menu in the product is one colour and none of them can end up
+            // translucent over the surface they opened on.
             className="app-floating-menu z-[220] w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border outline-none"
           >
             <Command label={t("services.connect.preset")} loop>

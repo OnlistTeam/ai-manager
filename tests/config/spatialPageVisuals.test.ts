@@ -440,7 +440,10 @@ describe("page spatial visual contract", () => {
     const primaryColours = new Set<string>();
 
     for (const route of routes) {
-      const body = ruleBody(css, `.app-window-canvas[data-route="${route}"]`);
+      // Scoped to `[data-route]` rather than to the canvas element, because
+      // AppShell mirrors the route onto `<html>` so dialogs and menus — which
+      // render into portals outside the canvas — can still resolve the palette.
+      const body = ruleBody(css, `[data-route="${route}"]`);
       expect(body, route).toContain("--route-primary:");
       expect(body, route).toContain("--route-secondary:");
       expect(body, route).toContain("--route-bloom:");

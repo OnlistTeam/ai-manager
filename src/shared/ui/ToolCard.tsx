@@ -324,57 +324,66 @@ export function ToolCard({
               {t("tools.details.action")}
             </Button>
           ) : null}
-          {!hasActiveTask && (showVersion || showRemove) ? (
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  disabled={busy}
-                  className="w-9 px-0"
-                  aria-label={t("tools.actions.moreNamed", {
-                    name: tool.name,
-                  })}
-                >
-                  <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
-                </Button>
-              </DropdownMenu.Trigger>
-              <DropdownMenu.Portal>
-                <DropdownMenu.Content
-                  align="end"
-                  sideOffset={8}
-                  className="z-[70] min-w-48 rounded-md border border-hairline bg-surface p-1.5 shadow-lg animate-ds-overlay-in"
-                >
-                  {showVersion ? (
-                    <DropdownMenu.Item
-                      disabled={busy}
-                      onSelect={() => onAction("version")}
-                      className={menuItemClass}
-                    >
-                      <VersionIcon className="h-4 w-4" aria-hidden="true" />
-                      {t(ACTION_META.version.labelKey)}
-                    </DropdownMenu.Item>
-                  ) : null}
-                  {showVersion && showRemove ? (
-                    <DropdownMenu.Separator className="my-1 h-px bg-hairline" />
-                  ) : null}
-                  {showRemove ? (
-                    <DropdownMenu.Item
-                      disabled={busy}
-                      onSelect={() => onAction("remove")}
-                      className={cn(
-                        menuItemClass,
-                        "text-danger focus:bg-danger/10 focus:text-danger",
-                      )}
-                    >
-                      <RemoveIcon className="h-4 w-4" aria-hidden="true" />
-                      {t(ACTION_META.remove.labelKey)}
-                    </DropdownMenu.Item>
-                  ) : null}
-                </DropdownMenu.Content>
-              </DropdownMenu.Portal>
-            </DropdownMenu.Root>
-          ) : null}
+          {/*
+           * The overflow slot is always this wide, even with no menu in it.
+           * A list is read down its right edge, and the menu only exists once a
+           * tool is installed — so without the reservation the one tool the
+           * user has not installed yet is the one whose button sticks out 44px
+           * further right than every other row.
+           */}
+          <div className="flex w-9 shrink-0 items-center justify-end">
+            {!hasActiveTask && (showVersion || showRemove) ? (
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    disabled={busy}
+                    className="w-9 px-0"
+                    aria-label={t("tools.actions.moreNamed", {
+                      name: tool.name,
+                    })}
+                  >
+                    <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Portal>
+                  <DropdownMenu.Content
+                    align="end"
+                    sideOffset={8}
+                    className="app-floating-menu z-[70] min-w-48 rounded-md border p-1.5 animate-ds-overlay-in"
+                  >
+                    {showVersion ? (
+                      <DropdownMenu.Item
+                        disabled={busy}
+                        onSelect={() => onAction("version")}
+                        className={menuItemClass}
+                      >
+                        <VersionIcon className="h-4 w-4" aria-hidden="true" />
+                        {t(ACTION_META.version.labelKey)}
+                      </DropdownMenu.Item>
+                    ) : null}
+                    {showVersion && showRemove ? (
+                      <DropdownMenu.Separator className="my-1 h-px bg-hairline" />
+                    ) : null}
+                    {showRemove ? (
+                      <DropdownMenu.Item
+                        disabled={busy}
+                        onSelect={() => onAction("remove")}
+                        className={cn(
+                          menuItemClass,
+                          "text-danger focus:bg-danger/10 focus:text-danger",
+                        )}
+                      >
+                        <RemoveIcon className="h-4 w-4" aria-hidden="true" />
+                        {t(ACTION_META.remove.labelKey)}
+                      </DropdownMenu.Item>
+                    ) : null}
+                  </DropdownMenu.Content>
+                </DropdownMenu.Portal>
+              </DropdownMenu.Root>
+            ) : null}
+          </div>
         </div>
       </div>
     </ListGroupRow>

@@ -38,8 +38,6 @@ const profile: ProviderConnectionProfile = {
   ],
 };
 
-const official = profile.presets[0];
-
 const optionalModelProfile: ProviderConnectionProfile = {
   ...profile,
   modelRequired: false,
@@ -204,7 +202,21 @@ describe("ProviderConnectModal", () => {
     ).toHaveTextContent("DeepSeek");
   });
 
-  it("links to the official key page without putting it in the submitted draft", () => {
+  it("opens the key page by preset id, never by handing the renderer a URL", async () => {
+    // tauri-plugin-opener turns every `<a target="_blank">` into an IPC call,
+    // so an anchor here would mean granting the whole window permission to open
+    // any address. The renderer names a preset; the native side owns the URL.
+    const opened: unknown[] = [];
+    server.use(
+      http.post(
+        `${TAURI_ENDPOINT}/app_provider_preset_key_page_open`,
+        async ({ request }) => {
+          opened.push(await request.json());
+          return HttpResponse.json(null);
+        },
+      ),
+    );
+
     render(
       <ProviderConnectModal
         profile={profile}
@@ -215,8 +227,15 @@ describe("ProviderConnectModal", () => {
       />,
     );
     expect(
-      screen.getByRole("link", { name: en.services.connect.getKey }),
-    ).toHaveAttribute("href", official.apiKeyUrl);
+      screen.queryByRole("link", { name: en.services.connect.getKey }),
+    ).toBeNull();
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.connect.getKey }),
+    );
+
+    await waitFor(() =>
+      expect(opened).toEqual([{ tool: "claude-code", preset: "official" }]),
+    );
   });
 
   it("states the honest scope of the follow-up check", () => {

@@ -68,7 +68,9 @@ export function Modal({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="app-modal-overlay fixed inset-0 z-50 bg-black/40 backdrop-blur-sm animate-ds-overlay-in" />
+        {/* Colour and blur belong to `.app-modal-overlay` alone; a `bg-*`
+            utility here would be a second answer to the same question. */}
+        <DialogPrimitive.Overlay className="app-modal-overlay fixed inset-0 z-50 animate-ds-overlay-in" />
         <DialogPrimitive.Content
           // Radix warns in dev when a dialog has no description. Opting out
           // explicitly keeps the console clean without inventing copy; when a

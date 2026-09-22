@@ -76,14 +76,25 @@ body {
  *   --canvas-violet / --canvas-indigo / --canvas-deep    top / mid / bottom wash
  * `--canvas-deep` doubles as the shadow colour for the whole route, which is
  * why it is a darkened sibling of the hue rather than neutral black.
+ *
+ * They are declared against `[data-route]` rather than against the canvas
+ * element, and AppShell mirrors the active route onto `<html>`, so that dialogs
+ * and menus — which React renders into portals under `document.body`, outside
+ * the canvas — still resolve them. When they did not, `hsl(var(--canvas-deep))`
+ * was simply an invalid value, the declaration was dropped, and every portalled
+ * surface came out transparent.
  */
-.app-window-canvas {
+:root,
+[data-route="home"] {
   --route-primary: 152 68% 44%;
   --route-secondary: 176 62% 42%;
   --route-bloom: 164 66% 46%;
   --canvas-violet: 168 58% 34%;
   --canvas-indigo: 158 62% 27%;
   --canvas-deep: 150 66% 16%;
+}
+
+.app-window-canvas {
   min-width: 0;
   max-width: 100%;
   max-height: 100%;
@@ -171,18 +182,8 @@ select option {
   color: var(--text-primary);
 }
 
-/* Home — deep forest green */
-.app-window-canvas[data-route="home"] {
-  --route-primary: 152 68% 44%;
-  --route-secondary: 176 62% 42%;
-  --route-bloom: 164 66% 46%;
-  --canvas-violet: 168 58% 34%;
-  --canvas-indigo: 158 62% 27%;
-  --canvas-deep: 150 66% 16%;
-}
-
 /* Tool management — celadon blue */
-.app-window-canvas[data-route="tools"] {
+[data-route="tools"] {
   --route-primary: 200 78% 44%;
   --route-secondary: 220 70% 46%;
   --route-bloom: 190 74% 46%;
@@ -192,7 +193,7 @@ select option {
 }
 
 /* API endpoints — ochre orange */
-.app-window-canvas[data-route="services"] {
+[data-route="services"] {
   --route-primary: 28 78% 44%;
   --route-secondary: 14 72% 44%;
   --route-bloom: 38 76% 46%;
@@ -202,7 +203,7 @@ select option {
 }
 
 /* Skills / MCP — scholar purple */
-.app-window-canvas[data-route="extensions"] {
+[data-route="extensions"] {
   --route-primary: 292 62% 48%;
   --route-secondary: 272 60% 48%;
   --route-bloom: 310 58% 48%;
@@ -212,7 +213,7 @@ select option {
 }
 
 /* Extension pages keep related but distinguishable purple palettes. */
-.app-window-canvas[data-route="mcp"] {
+[data-route="mcp"] {
   --route-primary: 266 58% 48%;
   --route-secondary: 252 56% 46%;
   --route-bloom: 280 54% 48%;
@@ -221,7 +222,7 @@ select option {
   --canvas-deep: 246 54% 20%;
 }
 
-.app-window-canvas[data-route="prompts"] {
+[data-route="prompts"] {
   --route-primary: 310 52% 46%;
   --route-secondary: 292 52% 46%;
   --route-bloom: 322 50% 48%;
@@ -234,7 +235,7 @@ select option {
    five sets run 54-78%): at high saturation this hue reads as neon lime, the
    "AI-generated palette" look we want to avoid; dialing it down settles into a
    natural moss green. */
-.app-window-canvas[data-route="data"] {
+[data-route="data"] {
   --route-primary: 96 42% 42%;
   --route-secondary: 76 38% 40%;
   --route-bloom: 112 40% 44%;
@@ -244,7 +245,7 @@ select option {
 }
 
 /* Settings — slate blue-gray */
-.app-window-canvas[data-route="settings"] {
+[data-route="settings"] {
   --route-primary: 212 54% 46%;
   --route-secondary: 230 50% 46%;
   --route-bloom: 200 50% 46%;
@@ -601,8 +602,18 @@ select option {
   border-color: hsl(var(--ui-success) / 0.8);
 }
 
+/*
+ * Everything below is rendered into a React portal under `document.body`, so
+ * it inherits from `<html>` rather than from the canvas element. The route wash
+ * variables are declared against `[data-route]` and mirrored onto `<html>`
+ * precisely so these rules can still use them; see the canvas block above for
+ * what went wrong when they could not.
+ */
 .app-modal-overlay {
-  background: hsl(var(--canvas-deep) / 0.58);
+  /* Matches `--shadow-*`: the product's "deep" is this near-black, not pure
+     black, so the scrim and the shadows under it agree. The scrim stays
+     route-independent — its job is to remove the page, not to colour it. */
+  background: rgb(8 6 20 / 0.55);
   backdrop-filter: blur(12px) saturate(112%);
   -webkit-backdrop-filter: blur(12px) saturate(112%);
 }
@@ -611,42 +622,32 @@ select option {
  * The surfaces that genuinely float above the page rather than lift off it:
  * modals, the task centre, the menus opened inside them.
  *
- * These used to be glass — `canvas-deep` at 88% with a 34px backdrop blur.
- * Over the route gradient that read as translucent, and a dialog you can see
- * the page through is a dialog you have to work to read. A dialog is the one
- * surface that has the user's whole attention, so it gets no background noise
- * at all: solid base, one thin lift film, a real shadow, no blur.
+ * A dialog is the one surface that has the user's whole attention, so it gets
+ * no background noise at all: one flat opaque fill, a hairline, a real shadow,
+ * no blur and no film. Radius stays with each consumer — a full-width modal and
+ * a 26rem popover need different corners for the padding they carry.
  *
- * `canvas-indigo` rather than `canvas-deep` because the canvas separates its
- * layers by getting *lighter* (tokens.css), and `canvas-deep` is the darkest
- * wash on the page. Radius stays with each consumer: a full-width modal and a
- * 26rem popover need different corners for the padding they carry.
+ * `canvas-deep` is the darkest wash of the active route, which is the opposite
+ * of the rule for cards (they lift by getting lighter) and deliberately so: the
+ * scrim has already darkened the page well below `canvas-deep`, so the dialog
+ * still reads as the lighter thing, while white text on the darkest wash is the
+ * most legible combination the palette offers.
  */
 .app-floating-surface {
   isolation: isolate;
   border-color: var(--hairline-strong);
-  background-color: hsl(var(--canvas-indigo));
-  background-image: linear-gradient(
-    180deg,
-    hsl(0 0% 100% / 0.07),
-    hsl(0 0% 100% / 0.02)
-  );
+  background-color: hsl(var(--canvas-deep));
   box-shadow: var(--shadow-lg);
 }
 
 /*
- * A menu opened *inside* a dialog. Same treatment one step lighter, because
- * against an opaque dialog an identical surface has no edge to read.
+ * A menu opened *inside* a dialog, one step lighter, because against an
+ * identical surface a menu has no edge to read.
  */
 .app-floating-menu {
   isolation: isolate;
   border-color: var(--hairline-strong);
-  background-color: hsl(var(--canvas-violet));
-  background-image: linear-gradient(
-    180deg,
-    hsl(0 0% 100% / 0.07),
-    hsl(0 0% 100% / 0.02)
-  );
+  background-color: hsl(var(--canvas-indigo));
   box-shadow: var(--shadow-lg);
 }
 

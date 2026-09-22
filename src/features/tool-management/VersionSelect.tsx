@@ -105,7 +105,7 @@ export function VersionSelect({
       <SelectPrimitive.Trigger
         id={id}
         className={cn(
-          "relative flex h-11 w-full items-center rounded-xl border border-hairline bg-layer-1 pl-10 pr-10 text-left font-mono text-mono-sm text-content shadow-sm backdrop-blur-xl",
+          "relative flex h-11 w-full items-center rounded-xl border border-hairline bg-layer-1 pl-10 pr-10 text-left font-mono text-mono-sm text-content shadow-sm",
           "transition-[border-color,background-color,box-shadow] duration-fast ease-standard hover:border-hairline hover:bg-layer-2",
           "disabled:cursor-not-allowed disabled:opacity-60",
           FOCUS_RING,
@@ -132,7 +132,7 @@ export function VersionSelect({
           position="popper"
           sideOffset={6}
           collisionPadding={12}
-          className="z-[80] max-h-[min(22rem,var(--radix-select-content-available-height))] w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xl border border-hairline/80 bg-surface/98 text-content shadow-lg backdrop-blur-2xl animate-ds-modal-in"
+          className="app-floating-menu z-[80] max-h-[min(22rem,var(--radix-select-content-available-height))] w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xl border text-content animate-ds-modal-in"
         >
           <SelectPrimitive.ScrollUpButton className="flex h-7 cursor-default items-center justify-center border-b border-hairline bg-layer-1 text-content-muted">
             <ChevronUp className="h-4 w-4" aria-hidden="true" />

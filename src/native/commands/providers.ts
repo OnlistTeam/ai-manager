@@ -80,6 +80,19 @@ export const providers = {
     );
   },
 
+  /**
+   * Open a preset's "get an API key" page in the system browser.
+   *
+   * The preset id goes out, never a URL: the address lives in the native
+   * catalogue, so the renderer picks a destination rather than naming one.
+   */
+  openPresetKeyPage(tool: ToolId, preset: string): Promise<null> {
+    return invokeNative("app_provider_preset_key_page_open", z.null(), {
+      tool,
+      preset: z.string().min(1).max(128).parse(preset),
+    });
+  },
+
   editProfile(tool: ToolId, provider: string): Promise<ProviderEditProfile> {
     return invokeNative(
       "app_provider_edit_profile",

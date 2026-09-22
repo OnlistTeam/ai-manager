@@ -414,6 +414,22 @@ describe("AppShell", () => {
     );
   });
 
+  it("carries the route palette on <html>, where portals can read it", async () => {
+    // Dialogs and menus render under `document.body`, outside the canvas. When
+    // the route variables lived only on the canvas element, every portalled
+    // surface referenced undeclared custom properties, the fills were dropped
+    // as invalid, and dialogs came out transparent.
+    renderShell();
+    expect(document.documentElement).toHaveAttribute("data-route", "home");
+    await userEvent.click(
+      screen.getByRole("button", { name: en.nav.extensions }),
+    );
+    expect(document.documentElement).toHaveAttribute(
+      "data-route",
+      "extensions",
+    );
+  });
+
   it("swaps the page body when the user navigates", async () => {
     const { container } = renderShell();
     const homeContent = container.querySelector(

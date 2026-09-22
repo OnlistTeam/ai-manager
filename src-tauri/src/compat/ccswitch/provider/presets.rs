@@ -198,6 +198,17 @@ pub(super) fn preset_for(tool: ToolId, id: &str) -> Result<&'static CatalogPrese
         .ok_or_else(create_error)
 }
 
+/// Where this preset's service hands out API keys.
+///
+/// The renderer names a preset and the native side answers with the address,
+/// the same split the About panel's legal notices use: a compromised renderer
+/// can pick from the audited catalogue but cannot turn "open the provider" into
+/// an arbitrary URL launcher. `validate_preset` has already held every address
+/// in the catalogue to a clean HTTPS origin at load.
+pub(super) fn key_page_for(tool: ToolId, id: &str) -> Result<String, AppError> {
+    Ok(preset_for(tool, id)?.api_key_url.clone())
+}
+
 /// Return the audited endpoint for the tool's official preset, when one exists.
 ///
 /// The endpoint stays native-only: renderer receives only the `testable`
@@ -383,8 +394,31 @@ fn contains_plain_secret(value: &Value, parent: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::{model_required, official_endpoint_for, preset_for, profile_for, provider_tools};
+    use super::{
+        key_page_for, model_required, official_endpoint_for, preset_for, profile_for,
+        provider_tools,
+    };
     use crate::domain::ToolId;
+
+    /// The renderer may only name a preset, so the only addresses this can ever
+    /// open are the audited ones — and an id it made up opens nothing.
+    #[test]
+    fn a_key_page_is_an_audited_https_origin_or_an_error() {
+        for tool in provider_tools() {
+            let profile = profile_for(tool).expect("valid catalog");
+            for preset in &profile.presets {
+                let url = key_page_for(tool, &preset.id).expect("known preset");
+                assert!(
+                    url.starts_with("https://"),
+                    "{tool:?}/{} opens {url}",
+                    preset.id
+                );
+                assert_eq!(url, preset.api_key_url);
+            }
+            assert!(key_page_for(tool, "../../etc/passwd").is_err());
+            assert!(key_page_for(tool, "https://evil.example.test").is_err());
+        }
+    }
 
     #[test]
     fn only_the_tools_with_their_own_default_model_may_go_blank() {

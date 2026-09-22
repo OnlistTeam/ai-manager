@@ -100,6 +100,34 @@ impl ProviderDirectory {
         connection_profile_for(tool)
     }
 
+    /// Open the page where a reviewed preset's service hands out API keys.
+    ///
+    /// The renderer passes a preset id, never a URL. That is not decoration:
+    /// tauri-plugin-opener injects a document-wide click handler that turns
+    /// every `<a target="_blank">` into `plugin:opener|open_url`, so shipping
+    /// the link as an anchor would mean granting `opener:allow-open-url` to the
+    /// whole window — an IPC path any renderer code could use with any address.
+    /// Going through a command keeps the address native-side, where the
+    /// catalogue has already validated it.
+    pub fn open_preset_key_page(
+        app_handle: &tauri::AppHandle,
+        tool: ToolId,
+        preset_id: &str,
+    ) -> Result<(), AppError> {
+        ensure_supported(tool)?;
+        let url = crate::compat::ccswitch::provider::preset_key_page(tool, preset_id)?;
+        app_handle
+            .opener()
+            .open_url(url, None::<String>)
+            .map_err(|error| {
+                // Same sentence, same situation as the About panel's notices;
+                // a second key would be the same copy under another name.
+                AppError::new(ErrorCode::LaunchFailed, "error.about.openLinkFailed")
+                    .with_technical(error.to_string())
+                    .with_remediation("error.remediation.retryOrViewDetails")
+            })
+    }
+
     pub fn list(app_handle: &tauri::AppHandle, tool: ToolId) -> Result<Vec<Provider>, AppError> {
         gate(app_handle, tool)?.list(tool)
     }

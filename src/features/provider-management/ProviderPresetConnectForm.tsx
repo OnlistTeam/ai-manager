@@ -20,9 +20,9 @@ interface ProviderPresetConnectFormProps {
   modelRequired: boolean;
   /** True once the address no longer matches the preset it came from. */
   addressEdited: boolean;
-  /** Where to get a key for the selected service. */
-  keyUrl: string;
   keyUrlLabel: string;
+  /** Opens the selected service's key page; the address stays native-side. */
+  onOpenKeyPage: () => void;
   invalid: { name: boolean; baseUrl: boolean; key: boolean; model: boolean };
   busy: boolean;
   error: Error | null;
@@ -47,8 +47,8 @@ export function ProviderPresetConnectForm({
   model,
   modelRequired,
   addressEdited,
-  keyUrl,
   keyUrlLabel,
+  onOpenKeyPage,
   invalid,
   busy,
   error,
@@ -127,13 +127,12 @@ export function ProviderPresetConnectForm({
         />
       </Field>
 
-      {/* Outside the Field: inside it, the link text joins the input's
-          accessible description and a screen reader reads the label, the hint
-          and "Open provider" as one sentence. */}
-      <a
-        href={keyUrl}
-        target="_blank"
-        rel="noreferrer"
+      {/* Outside the Field: inside it, this label joins the input's accessible
+          description and a screen reader reads the label, the hint and "Open
+          provider" as one sentence. */}
+      <button
+        type="button"
+        onClick={onOpenKeyPage}
         className={cn(
           "-mt-1 inline-flex w-fit items-center gap-1 rounded-sm text-caption font-medium text-brand hover:text-brand-hover",
           FOCUS_RING,
@@ -141,7 +140,7 @@ export function ProviderPresetConnectForm({
       >
         {keyUrlLabel}
         <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-      </a>
+      </button>
 
       <Field
         id={modelId}
