@@ -14,7 +14,7 @@ publishing a release never requires redeploying this site.
 | ----------------- | --------------------------------------------------------- |
 | `index.html`      | The whole page, with its English copy                     |
 | `i18n.js`         | The four languages and how one is chosen                  |
-| `styles.css`      | Paper-and-ink palette taken from the product icon         |
+| `styles.css`      | Cool paper and deep green, taken from the product window  |
 | `download.js`     | Manifest lookup, platform detection, rendering            |
 | `icon.png`        | The application icon, copied from `src-tauri/icons/`      |
 | `screenshot.webp` | The product window, so the page shows what it offers      |

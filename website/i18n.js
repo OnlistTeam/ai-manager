@@ -42,7 +42,6 @@ const COPY = {
     "dl.tabWindows": "Windows",
     "dl.tabLinux": "Linux",
     "dl.versionLine": "Version {version}, published {date}",
-    "dl.releaseNotes": "release notes",
     "dl.mobile":
       "AI Manager is a desktop application. Open this page on the Windows, macOS, or Linux computer you want to install it on.",
     "dl.macArm": "Download for Apple Silicon",
@@ -71,8 +70,14 @@ const COPY = {
     "dl.download": "Download",
     "dl.checksum": "SHA-256",
     "dl.hashCopied": "Copied",
-    "dl.source": "Downloads are served from {mirror}. {link}.",
-    "dl.sourceLink": "Read release notes",
+    "dl.githubAlternative": "Original release on GitHub",
+    "dl.macosNotice":
+      "Signed with an Apple Developer ID and notarized by Apple, so macOS opens it without a warning. If Gatekeeper objects, the file was altered after publication — do not open it.",
+    "dl.windowsNotice":
+      "The installer is not Authenticode-signed, so Windows shows an “unknown publisher” warning the first time. That is expected; the SHA-256 above is what proves the file.",
+    "dl.linuxNotice":
+      "The AppImage needs the executable bit (chmod +x) before it will run. Linux has no platform signature, so the SHA-256 above is what proves the file.",
+    "dl.source": "Downloads are served from {mirror}",
     "dl.note.macos-arm64": "For Macs with an M-series chip",
     "dl.note.macos-x64": "For Macs with an Intel chip",
     "dl.note.windows-x64": "The standard Windows installer",
@@ -101,7 +106,6 @@ const COPY = {
     "dl.tabLinux": "Linux",
     "dl.allHeading": "全部平台",
     "dl.versionLine": "版本 {version}，发布于 {date}",
-    "dl.releaseNotes": "更新说明",
     "dl.mobile":
       "AI Manager 是桌面应用。请在你想安装它的 Windows、macOS 或 Linux 电脑上打开这个页面。",
     "dl.macArm": "下载 Apple Silicon 版",
@@ -129,8 +133,14 @@ const COPY = {
     "dl.download": "下载",
     "dl.checksum": "SHA-256",
     "dl.hashCopied": "已复制",
-    "dl.source": "下载由 {mirror} 提供。{link}。",
-    "dl.sourceLink": "查看更新说明",
+    "dl.githubAlternative": "GitHub 上的原版",
+    "dl.macosNotice":
+      "已用 Apple Developer ID 签名并经 Apple 公证，macOS 打开时不会有警告。如果 Gatekeeper 报警，说明文件在发布后被改动过，不要打开。",
+    "dl.windowsNotice":
+      "安装程序没有 Authenticode 签名，Windows 首次运行会提示「未知发布者」。这是预期的；上面的 SHA-256 才是文件是否完整的凭据。",
+    "dl.linuxNotice":
+      "AppImage 需要先加可执行权限（chmod +x）才能运行。Linux 没有平台签名，上面的 SHA-256 是文件是否完整的凭据。",
+    "dl.source": "下载由 {mirror} 提供",
     "dl.note.macos-arm64": "适用于 M 系列芯片的 Mac",
     "dl.note.macos-x64": "适用于 Intel 芯片的 Mac",
     "dl.note.windows-x64": "标准的 Windows 安装程序",
@@ -141,26 +151,10 @@ const COPY = {
     "dl.prerelease":
       "这是一个<strong>预发布版本</strong>。它和正式版用同样的方式签名与校验，但还没有在每个平台上走完干净机器验证。请预期会有粗糙之处，并且给你在意的东西留一份备份。",
 
-    "shot.alt": "AI 管家窗口，列出 Claude Code、Codex CLI、OpenCode 等工具的版本和更新按钮。",
-    "shot.caption": "电脑上的每一个 AI 编程工具，都在一个窗口里：装了哪些、哪些该更新、每个正连着哪个服务。",
-    "verify.heading": "安装之前",
-    "verify.summary": "签名、首次运行的提示，以及怎么校验下载的文件。",
-    "verify.macos.title": "macOS",
-    "verify.macos.body":
-      "应用和磁盘映像都用 Apple Developer ID 签名、经 Apple 公证并已 staple，所以 macOS 打开它们不会报警告。如果 Gatekeeper 报错，说明文件在发布之后被改动过，不要打开。",
-    "verify.windows.title": "Windows",
-    "verify.windows.lead":
-      "安装程序<strong>没有 Authenticode 签名</strong>，所以首次运行时 SmartScreen 会显示“未知发布者”警告。这是预期内的。购买代码签名证书是一个经过权衡的否决，取而代之的完整性证据是公布的 SHA-256，值得核对一下：",
-    "verify.windows.compare":
-      "把结果和安装程序旁边发布的 <code>.msi.sha256</code> 文件比对。",
-    "verify.linux.title": "Linux",
-    "verify.linux.lead":
-      "Linux 没有跨发行版的平台签名机制，所以这里同样由公布的校验和来证明下载没问题：",
-    "verify.linux.chmod":
-      "AppImage 需要先加上可执行权限（<code>chmod +x</code>）才能运行。",
-    "verify.updates.title": "更新",
-    "verify.updates.body":
-      "装好之后你就不需要这个页面了。AI Manager 会在后台检查更新，用编译进应用的公钥校验 minisign 签名，校验不通过的一律不下载。安装仍然由你决定：应用会一直等到你按下重启。",
+    "shot.alt":
+      "AI 管家窗口，列出 Claude Code、Codex CLI、OpenCode 等工具的版本和更新按钮。",
+    "shot.caption":
+      "电脑上的每一个 AI 编程工具，都在一个窗口里：装了哪些、哪些该更新、每个正连着哪个服务。",
 
     "footer.source": "源代码",
     "footer.releases": "全部版本",
@@ -192,7 +186,6 @@ const COPY = {
     "dl.tabLinux": "Linux",
     "dl.allHeading": "全部平台",
     "dl.versionLine": "版本 {version}，發布於 {date}",
-    "dl.releaseNotes": "更新說明",
     "dl.mobile":
       "AI Manager 是桌面應用程式。請在你想安裝它的 Windows、macOS 或 Linux 電腦上開啟這個頁面。",
     "dl.macArm": "下載 Apple Silicon 版",
@@ -220,8 +213,14 @@ const COPY = {
     "dl.download": "下載",
     "dl.checksum": "SHA-256",
     "dl.hashCopied": "已複製",
-    "dl.source": "下載由 {mirror} 提供。{link}。",
-    "dl.sourceLink": "查看更新說明",
+    "dl.githubAlternative": "GitHub 上的原版",
+    "dl.macosNotice":
+      "已用 Apple Developer ID 簽章並經 Apple 公證，macOS 開啟時不會有警告。如果 Gatekeeper 示警，代表檔案在發布後被改動過，不要開啟。",
+    "dl.windowsNotice":
+      "安裝程式沒有 Authenticode 簽章，Windows 首次執行會提示「不明的發行者」。這是預期的；上面的 SHA-256 才是檔案是否完整的憑據。",
+    "dl.linuxNotice":
+      "AppImage 需要先加上可執行權限（chmod +x）才能執行。Linux 沒有平台簽章，上面的 SHA-256 是檔案是否完整的憑據。",
+    "dl.source": "下載由 {mirror} 提供",
     "dl.note.macos-arm64": "適用於 M 系列晶片的 Mac",
     "dl.note.macos-x64": "適用於 Intel 晶片的 Mac",
     "dl.note.windows-x64": "標準的 Windows 安裝程式",
@@ -232,26 +231,10 @@ const COPY = {
     "dl.prerelease":
       "這是一個<strong>預先發行版本</strong>。它和正式版用同樣的方式簽章與驗證，但還沒有在每個平台上走完乾淨機器驗證。請預期會有粗糙之處，並且給你在意的東西留一份備份。",
 
-    "shot.alt": "AI 管家視窗，列出 Claude Code、Codex CLI、OpenCode 等工具的版本與更新按鈕。",
-    "shot.caption": "電腦上的每一個 AI 編程工具，都在同一個視窗裡：裝了哪些、哪些該更新、每個正連著哪個服務。",
-    "verify.heading": "安裝之前",
-    "verify.summary": "簽章、首次執行的提示，以及怎麼校驗下載的檔案。",
-    "verify.macos.title": "macOS",
-    "verify.macos.body":
-      "應用程式和磁碟映像檔都以 Apple Developer ID 簽章、經 Apple 公證並已 staple，所以 macOS 開啟它們不會出現警告。如果 Gatekeeper 報錯，代表檔案在發布之後被改動過，不要開啟。",
-    "verify.windows.title": "Windows",
-    "verify.windows.lead":
-      "安裝程式<strong>沒有 Authenticode 簽章</strong>，所以首次執行時 SmartScreen 會顯示「不明發行者」警告。這是預期內的。購買程式碼簽章憑證是一個經過權衡的否決，取而代之的完整性證據是公布的 SHA-256，值得核對一下：",
-    "verify.windows.compare":
-      "把結果和安裝程式旁邊發布的 <code>.msi.sha256</code> 檔案比對。",
-    "verify.linux.title": "Linux",
-    "verify.linux.lead":
-      "Linux 沒有跨發行版的平台簽章機制，所以這裡同樣由公布的驗證碼來證明下載沒問題：",
-    "verify.linux.chmod":
-      "AppImage 需要先加上可執行權限（<code>chmod +x</code>）才能執行。",
-    "verify.updates.title": "更新",
-    "verify.updates.body":
-      "裝好之後你就不需要這個頁面了。AI Manager 會在背景檢查更新，用編譯進應用程式的公鑰驗證 minisign 簽章，驗證不通過的一律不下載。安裝仍然由你決定：應用程式會一直等到你按下重新啟動。",
+    "shot.alt":
+      "AI 管家視窗，列出 Claude Code、Codex CLI、OpenCode 等工具的版本與更新按鈕。",
+    "shot.caption":
+      "電腦上的每一個 AI 編程工具，都在同一個視窗裡：裝了哪些、哪些該更新、每個正連著哪個服務。",
 
     "footer.source": "原始碼",
     "footer.releases": "全部版本",
@@ -284,7 +267,6 @@ const COPY = {
     "dl.tabLinux": "Linux",
     "dl.allHeading": "すべてのプラットフォーム",
     "dl.versionLine": "バージョン {version}、{date} 公開",
-    "dl.releaseNotes": "リリースノート",
     "dl.mobile":
       "AI Manager はデスクトップアプリケーションです。インストールしたい Windows、macOS、Linux のコンピューターでこのページを開いてください。",
     "dl.macArm": "Apple Silicon 版をダウンロード",
@@ -314,8 +296,14 @@ const COPY = {
     "dl.download": "ダウンロード",
     "dl.checksum": "SHA-256",
     "dl.hashCopied": "コピーしました",
-    "dl.source": "ダウンロードは {mirror} から配信しています。{link}。",
-    "dl.sourceLink": "リリースノートを読む",
+    "dl.githubAlternative": "GitHub のオリジナル版",
+    "dl.macosNotice":
+      "Apple Developer ID で署名され Apple の公証を受けているため、macOS は警告なしで開きます。Gatekeeper が警告する場合、ファイルは公開後に改変されています。開かないでください。",
+    "dl.windowsNotice":
+      "インストーラーに Authenticode 署名はないため、Windows は初回に「不明な発行元」と表示します。想定どおりです。ファイルの正当性は上の SHA-256 で確認できます。",
+    "dl.linuxNotice":
+      "AppImage は実行権限（chmod +x）を付けてから起動します。Linux にはプラットフォーム署名がないため、上の SHA-256 がファイルの正当性を示します。",
+    "dl.source": "ダウンロードは {mirror} から配信されています",
     "dl.note.macos-arm64": "M シリーズチップの Mac 向け",
     "dl.note.macos-x64": "Intel チップの Mac 向け",
     "dl.note.windows-x64": "標準の Windows インストーラー",
@@ -327,26 +315,10 @@ const COPY = {
     "dl.prerelease":
       "これは<strong>プレリリース</strong>です。署名と検証は正式リリースと同じ方法で行われていますが、すべてのプラットフォームでのクリーンマシン検証はまだ完了していません。粗さがあることを想定し、大事なものはバックアップを取っておいてください。",
 
-    "shot.alt": "AI Manager のウィンドウ。Claude Code、Codex CLI、OpenCode などのバージョンと更新ボタンが並んでいます。",
-    "shot.caption": "このコンピュータの AI コーディングツールが一つのウィンドウに。何が入っていて、何を更新すべきで、それぞれどのサービスに繋がっているか。",
-    "verify.heading": "インストールの前に",
-    "verify.summary": "署名、初回起動時の警告、ダウンロードの検証方法。",
-    "verify.macos.title": "macOS",
-    "verify.macos.body":
-      "アプリとディスクイメージは Apple Developer ID で署名され、Apple の公証を受け、staple 済みです。そのため macOS は警告なしで開きます。Gatekeeper が警告を出した場合、そのファイルは公開後に改変されています。開かないでください。",
-    "verify.windows.title": "Windows",
-    "verify.windows.lead":
-      "インストーラーに <strong>Authenticode 署名はありません</strong>。そのため初回実行時に SmartScreen が「不明な発行元」の警告を表示します。これは想定どおりです。コード署名証明書を購入しないことは意図的な判断であり、その代わりの完全性の根拠が公開された SHA-256 です。確認する価値があります。",
-    "verify.windows.compare":
-      "結果を、インストーラーと並べて公開されている <code>.msi.sha256</code> ファイルと照合してください。",
-    "verify.linux.title": "Linux",
-    "verify.linux.lead":
-      "Linux にはディストリビューションをまたぐ署名の仕組みがありません。ここでも公開されたチェックサムがダウンロードを証明します。",
-    "verify.linux.chmod":
-      "AppImage は実行権限（<code>chmod +x</code>）を付けないと起動しません。",
-    "verify.updates.title": "更新",
-    "verify.updates.body":
-      "一度インストールすれば、このページはもう必要ありません。AI Manager はバックグラウンドで更新を確認し、アプリに組み込まれた公開鍵で minisign 署名を検証し、検証できないものは一切ダウンロードしません。インストールするかどうかは明示的な選択のままです。アプリは再起動を押すまで待ちます。",
+    "shot.alt":
+      "AI Manager のウィンドウ。Claude Code、Codex CLI、OpenCode などのバージョンと更新ボタンが並んでいます。",
+    "shot.caption":
+      "このコンピュータの AI コーディングツールが一つのウィンドウに。何が入っていて、何を更新すべきで、それぞれどのサービスに繋がっているか。",
 
     "footer.source": "ソースコード",
     "footer.releases": "すべてのリリース",

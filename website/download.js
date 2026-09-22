@@ -61,20 +61,31 @@ const PLATFORMS = [
   },
 ];
 
+/*
+ * `noticeKey` is the one thing a person needs to know before double-clicking
+ * the file they just downloaded — what the system will say, and whether that
+ * is expected. It used to be four cards of prose and shell commands in their
+ * own section, which made platform caveats the largest thing on a page whose
+ * job is a download button. Here it reaches the reader who selected that
+ * platform, and nobody else.
+ */
 const PLATFORM_GROUPS = {
   macos: {
     titleKey: "dl.macosCardTitle",
     bodyKey: "dl.macosCardBody",
+    noticeKey: "dl.macosNotice",
     ids: ["macos-arm64", "macos-x64"],
   },
   windows: {
     titleKey: "dl.windowsCardTitle",
     bodyKey: "dl.windowsCardBody",
+    noticeKey: "dl.windowsNotice",
     ids: ["windows-x64"],
   },
   linux: {
     titleKey: "dl.linuxCardTitle",
     bodyKey: "dl.linuxCardBody",
+    noticeKey: "dl.linuxNotice",
     ids: ["linux-appimage", "linux-deb"],
   },
 };
@@ -241,6 +252,7 @@ function renderPlatformPanel(container, installers, group) {
         </div>
       </header>
       <div class="file-list">${entries.map(fileRow).join("")}</div>
+      <p class="platform-notice">${t(config.noticeKey)}</p>
     </article>`;
   wireChecksumButtons(container);
 }
@@ -333,23 +345,20 @@ function render() {
     window.pageI18n.dateLocale(),
     { year: "numeric", month: "long", day: "numeric" },
   );
-  const notes = `<a href="${escapeAttribute(state.manifest.releaseNotes || RELEASES_PAGE)}">${t("dl.releaseNotes")}</a>`;
   line.hidden = false;
-  line.innerHTML =
-    fill(t("dl.versionLine"), {
-      version: `<strong>${escapeHtml(state.manifest.tag)}</strong>`,
-      date: published,
-    }) + ` · ${notes}`;
+  line.innerHTML = fill(t("dl.versionLine"), {
+    version: `<strong>${escapeHtml(state.manifest.tag)}</strong>`,
+    date: published,
+  });
 
   renderRecommended(recommended, installers, state.platform, state.arch);
   renderPlatformPanel(panel, installers, state.selectedPlatform);
   panel.hidden = false;
 
   source.hidden = false;
-  source.innerHTML = fill(t("dl.source"), {
-    mirror: `<code>dl.aimanager.tools</code>`,
-    link: notes,
-  });
+  source.innerHTML =
+    fill(t("dl.source"), { mirror: `<code>dl.aimanager.tools</code>` }) +
+    ` · <a href="${escapeAttribute(state.manifest.releaseNotes || RELEASES_PAGE)}">${t("dl.githubAlternative")}</a>`;
   prereleaseNote.hidden = state.manifest.channel !== "staging";
   fallback.hidden = true;
 }

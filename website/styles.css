@@ -1,22 +1,28 @@
 :root {
-  --paper: #fbf8f3;
-  --section: #f1e9df;
-  --card: #fffdf9;
-  --card-muted: #ebe3d9;
-  --ink: #28231e;
-  --muted: #766f66;
-  --line: hsl(30 17% 25% / 0.12);
-  --line-soft: hsl(30 17% 25% / 0.08);
-  --accent: #c7653e;
-  --accent-hover: #ae4f2e;
-  --accent-ink: #fffaf4;
-  --terminal: #282d28;
-  --terminal-ink: #dce8d8;
-  --warning: #8a5a12;
-  --warning-wash: #fdf5e5;
+  /*
+   * Cool paper and a deep green, taken from the product's own window rather
+   * than from the warm cream-and-orange every assistant-adjacent site now
+   * wears. The icon's screen is green; the app's actions are mint. This is
+   * the same family, dialled down for a page made mostly of text.
+   */
+  --paper: #f5f7f5;
+  --section: #e7ebe7;
+  --card: #ffffff;
+  --card-muted: #eef1ee;
+  --ink: #141a17;
+  --muted: #5c6862;
+  --line: hsl(155 12% 20% / 0.14);
+  --line-soft: hsl(155 12% 20% / 0.08);
+  --accent: #14683f;
+  --accent-hover: #0e5130;
+  --accent-ink: #f4fbf6;
+  --terminal: #101a15;
+  --terminal-ink: #cfe4d6;
+  --warning: #7a5410;
+  --warning-wash: #fbf4e6;
   --radius: 18px;
-  --shadow-soft: 0 1px 2px hsl(30 17% 25% / 0.04);
-  --shadow-lift: 0 12px 24px hsl(20 36% 22% / 0.16);
+  --shadow-soft: 0 1px 2px hsl(155 12% 20% / 0.05);
+  --shadow-lift: 0 14px 30px hsl(155 24% 14% / 0.14);
 }
 
 * {
@@ -123,9 +129,26 @@ footer {
 
 /* ---- masthead ---- */
 
+/*
+ * The masthead now holds the download too, so it is the whole first screen:
+ * mark, name, one line of what it is, and the button. Everything that used to
+ * sit between the name and the button has moved below the fold.
+ */
 .masthead {
-  padding: 3.6rem 0 2rem;
+  padding: 3.4rem 0 1rem;
   text-align: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .mark {
@@ -148,9 +171,10 @@ footer {
 
 .blurb {
   max-width: 41rem;
-  margin: 0 auto;
+  margin: 2.6rem auto 0;
   color: var(--muted);
   font-size: 1.03rem;
+  text-align: center;
 }
 
 .blurb code {
@@ -190,23 +214,21 @@ h3 {
 
 /* ---- release hero ---- */
 
+/*
+ * No panel and no heading of its own. The button is the heading: a slab
+ * around it would have said "Download" twice, once in a word and once in a
+ * box, to a reader already looking straight at it.
+ */
 .download-hero {
-  padding: 3.2rem 1.5rem 2.6rem;
-  border: 1px solid hsl(30 23% 28% / 0.06);
-  border-radius: 28px;
-  background: var(--section);
+  margin-top: 1.9rem;
   text-align: center;
 }
 
-.download-hero h2 {
-  font-size: clamp(2.4rem, 7vw, 3.45rem);
-}
-
 .release-line {
-  min-height: 1.8rem;
-  margin: 0.55rem 0 1.8rem;
+  min-height: 1.6rem;
+  margin: 0.9rem 0 0;
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .release-line strong {
@@ -518,101 +540,21 @@ h3 {
   text-align: center;
 }
 
-/* ---- verification ---- */
+/* ---- platform notice ---- */
 
 /*
- * Collapsed by default. These are first-run platform warnings and checksum
- * commands: correct, occasionally essential, and needed by a small minority
- * on any given visit. Open, they were the largest thing on a page whose job
- * is one download button.
+ * What the system will say when this file is opened, and whether that is
+ * expected. One short paragraph under the installers for the platform the
+ * reader actually selected, rather than four cards of caveats for three
+ * platforms they did not.
  */
-.verify summary {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.75rem;
-  padding: 0.35rem 0;
-  cursor: pointer;
-  list-style: none;
-}
-
-.verify summary::-webkit-details-marker {
-  display: none;
-}
-
-.verify summary h2 {
-  display: inline;
-  margin: 0;
-}
-
-/* The triangle is drawn rather than inherited, so it sits on the baseline of
-   the heading instead of floating beside a flex container. */
-.verify summary h2::before {
-  content: "›";
-  display: inline-block;
-  margin-right: 0.5rem;
-  color: var(--ink-muted);
-  font-weight: 400;
-  transition: transform 120ms ease;
-}
-
-.verify details[open] summary h2::before {
-  transform: rotate(90deg);
-}
-
-.verify summary:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 4px;
-  border-radius: 6px;
-}
-
-.verify-summary {
-  color: var(--ink-muted);
-  font-size: 0.9rem;
-}
-
-.verify-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
-  gap: 1rem;
-  margin-top: 1.25rem;
-}
-
-.verify-grid article {
-  padding: 1.3rem 1.4rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--card);
-  box-shadow: var(--shadow-soft);
-}
-
-.verify-grid p {
-  margin: 0 0 0.8rem;
+.platform-notice {
+  margin: 1.1rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-soft);
   color: var(--muted);
   font-size: 0.9rem;
-}
-
-.verify-grid p:last-child {
-  margin-bottom: 0;
-}
-
-.verify-grid strong,
-.verify-grid p code {
-  color: var(--ink);
-}
-
-pre {
-  margin: 0 0 0.8rem;
-  padding: 0.75rem 0.9rem;
-  border-radius: 9px;
-  background: var(--terminal);
-  color: var(--terminal-ink);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
-pre code {
-  color: inherit;
+  line-height: 1.6;
 }
 
 /* ---- footer ---- */

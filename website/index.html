@@ -35,7 +35,7 @@
       href="https://aimanager.tools/"
     />
     <link rel="icon" href="icon.png" type="image/png" />
-    <link rel="stylesheet" href="styles.css?v=20260922-3" />
+    <link rel="stylesheet" href="styles.css?v=20260922-4" />
   </head>
   <body>
     <nav class="langbar" aria-label="Language" data-i18n-aria="lang.label">
@@ -49,49 +49,29 @@
       <button type="button" data-lang="ja" aria-pressed="false">日本語</button>
     </nav>
 
+    <!--
+      The download is the reason this page exists, so it sits above the fold,
+      already matched to the visitor's platform. Everything else — what the
+      window looks like, every other platform, the signing details — comes
+      after the button that most people came for.
+    -->
     <header class="masthead">
       <img class="mark" src="icon.png" alt="" width="56" height="56" />
       <h1>AI Manager</h1>
       <p class="tagline" data-i18n="head.tagline">
         A calm desktop manager for AI coding tools
       </p>
-      <p class="blurb" data-i18n="head.blurb">
-        Install, update, configure, and repair Claude Code, Codex, OpenCode and
-        seven more command-line tools without touching shell profiles,
-        <code>PATH</code>, or hand-edited configuration files. Everything stays
-        on your own computer.
-      </p>
-    </header>
 
-    <main>
-      <!-- What the thing looks like, before what the thing is called. A page
-           offering a desktop download that never shows the window is asking
-           for trust it has not earned. -->
-      <figure class="shot">
-        <img
-          src="screenshot.webp"
-          width="1480"
-          height="960"
-          alt="The AI Manager window, listing Claude Code, Codex CLI, OpenCode and other tools with their versions and update buttons."
-          data-i18n-alt="shot.alt"
-        />
-        <figcaption data-i18n="shot.caption">
-          Every AI coding tool on your computer, in one window: what is
-          installed, what needs updating, and which service each one is
-          pointed at.
-        </figcaption>
-      </figure>
-
-      <section class="download-hero" aria-labelledby="downloads-heading">
-        <p class="eyebrow" data-i18n="dl.eyebrow">Download AI Manager</p>
-        <h2 id="downloads-heading" data-i18n="dl.heading">Download</h2>
+      <div class="download-hero" aria-labelledby="downloads-heading">
+        <h2 id="downloads-heading" class="sr-only" data-i18n="dl.heading">
+          Download
+        </h2>
+        <div id="recommended" class="recommended" hidden></div>
         <p class="release-line" id="release-line" aria-live="polite">
           <span data-i18n="dl.loading"
             >Looking up the current release&hellip;</span
           >
         </p>
-
-        <div id="recommended" class="recommended" hidden></div>
         <p class="mirror-note" id="source-note" hidden></p>
 
         <p class="fallback" id="fallback" hidden data-i18n="dl.fallback">
@@ -113,7 +93,31 @@
           validation on every platform. Expect rough edges, and keep a backup of
           anything you care about.
         </p>
-      </section>
+      </div>
+    </header>
+
+    <main>
+      <figure class="shot">
+        <img
+          src="screenshot.webp"
+          width="1480"
+          height="960"
+          alt="The AI Manager window, listing Claude Code, Codex CLI, OpenCode and other tools with their versions and update buttons."
+          data-i18n-alt="shot.alt"
+        />
+        <figcaption data-i18n="shot.caption">
+          Every AI coding tool on your computer, in one window: what is
+          installed, what needs updating, and which service each one is pointed
+          at.
+        </figcaption>
+      </figure>
+
+      <p class="blurb" data-i18n="head.blurb">
+        Install, update, configure, and repair Claude Code, Codex, OpenCode and
+        seven more command-line tools without touching shell profiles,
+        <code>PATH</code>, or hand-edited configuration files. Everything stays
+        on your own computer.
+      </p>
 
       <section class="platform-section" aria-labelledby="platforms-heading">
         <div class="section-heading">
@@ -171,74 +175,6 @@
           tabindex="-1"
         ></div>
       </section>
-
-      <!-- Platform warnings and checksum commands: necessary, and needed by
-           the few people who hit a Gatekeeper or SmartScreen prompt or who
-           verify downloads. Collapsed, because when this was open it was the
-           largest thing on a page whose job is a download button. -->
-      <section class="verify" aria-labelledby="verify-heading">
-        <details>
-          <summary>
-            <h2 id="verify-heading" data-i18n="verify.heading">
-              Before you install
-            </h2>
-            <span class="verify-summary" data-i18n="verify.summary">
-              Signing, first-run warnings, and how to check a download.
-            </span>
-          </summary>
-          <div class="verify-grid">
-          <article>
-            <h3 data-i18n="verify.macos.title">macOS</h3>
-            <p data-i18n="verify.macos.body">
-              The app and the disk image are signed with an Apple Developer ID,
-              notarized by Apple, and stapled, so macOS opens them without a
-              warning. If Gatekeeper complains, the file was altered after
-              publication. Do not open it.
-            </p>
-          </article>
-
-          <article>
-            <h3 data-i18n="verify.windows.title">Windows</h3>
-            <p data-i18n="verify.windows.lead">
-              The installer carries <strong>no Authenticode signature</strong>,
-              so SmartScreen shows an <em>unknown publisher</em> warning on
-              first run. That is expected. Buying a code-signing certificate was
-              a deliberate no; the published SHA-256 is the integrity evidence
-              instead, and it is worth checking:
-            </p>
-            <pre><code>Get-FileHash .\AI-Manager-&lt;version&gt;-Windows-x64.msi -Algorithm SHA256</code></pre>
-            <p data-i18n="verify.windows.compare">
-              Compare the result with the matching <code>.msi.sha256</code> file
-              published beside the installer.
-            </p>
-          </article>
-
-          <article>
-            <h3 data-i18n="verify.linux.title">Linux</h3>
-            <p data-i18n="verify.linux.lead">
-              Linux has no cross-distribution equivalent of platform signing, so
-              here too the published checksum is what proves the download:
-            </p>
-            <pre><code>sha256sum -c AI-Manager-&lt;version&gt;-Linux-x64.AppImage.sha256</code></pre>
-            <p data-i18n="verify.linux.chmod">
-              The AppImage needs the executable bit (<code>chmod +x</code>)
-              before it will run.
-            </p>
-          </article>
-
-          <article>
-            <h3 data-i18n="verify.updates.title">Updates</h3>
-            <p data-i18n="verify.updates.body">
-              After the first install you do not need this page again. AI
-              Manager checks for updates in the background, verifies a minisign
-              signature against a public key compiled into the application, and
-              downloads nothing it cannot verify. Installing stays an explicit
-              choice: the app waits until you press Restart.
-            </p>
-          </article>
-          </div>
-        </details>
-      </section>
     </main>
 
     <footer>
@@ -280,7 +216,7 @@
       </p>
     </footer>
 
-    <script src="i18n.js?v=20260922-3"></script>
-    <script src="download.js?v=20260922-3"></script>
+    <script src="i18n.js?v=20260922-4"></script>
+    <script src="download.js?v=20260922-4"></script>
   </body>
 </html>
