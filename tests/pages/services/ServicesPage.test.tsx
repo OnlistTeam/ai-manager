@@ -130,6 +130,7 @@ describe("ServicesPage", () => {
               serviceName: "Anthropic API",
               defaultName: "Anthropic",
               defaultModel: "claude-sonnet-5",
+              baseUrl: "https://api.example.test",
               websiteUrl: "https://www.anthropic.com",
               apiKeyUrl: "https://console.anthropic.com",
               official: true,
@@ -713,12 +714,7 @@ describe("ServicesPage", () => {
     await userEvent.click(
       screen.getByRole("button", { name: en.services.action.add }),
     );
-    const dialog = await screen.findByRole("dialog");
-    await userEvent.click(
-      within(dialog).getByRole("button", {
-        name: en.services.connect.backToPresets,
-      }),
-    );
+    await screen.findByRole("dialog");
     const preset = await screen.findByRole("combobox", {
       name: en.services.connect.preset,
     });
@@ -781,6 +777,7 @@ describe("ServicesPage", () => {
                 serviceName: "Anthropic API",
                 defaultName: "Anthropic",
                 defaultModel: "claude-sonnet-5",
+                baseUrl: "https://api.example.test",
                 websiteUrl: "https://www.anthropic.com",
                 apiKeyUrl: "https://console.anthropic.com",
                 official: true,
@@ -856,12 +853,7 @@ describe("ServicesPage", () => {
     await userEvent.click(
       screen.getByRole("button", { name: en.services.action.add }),
     );
-    const dialog = await screen.findByRole("dialog");
-    await userEvent.click(
-      within(dialog).getByRole("button", {
-        name: en.services.connect.backToPresets,
-      }),
-    );
+    await screen.findByRole("dialog");
     await screen.findByRole("combobox", {
       name: en.services.connect.preset,
     });
@@ -943,22 +935,21 @@ describe("ServicesPage", () => {
       screen.getByRole("button", { name: en.services.action.add }),
     );
     const dialog = await screen.findByRole("dialog");
-    await userEvent.type(
-      within(dialog).getByLabelText(en.services.connect.name),
-      "Private relay",
-    );
-    await userEvent.type(
-      within(dialog).getByLabelText(en.services.connect.customBaseUrl),
-      "https://relay.example.test/v1",
-    );
+    // Name, address and model all arrive prefilled from the preset now, so a
+    // typed value has to replace rather than append.
+    const name = within(dialog).getByLabelText(en.services.connect.name);
+    await userEvent.clear(name);
+    await userEvent.type(name, "Private relay");
+    const address = within(dialog).getByLabelText(en.services.connect.baseUrl);
+    await userEvent.clear(address);
+    await userEvent.type(address, "https://relay.example.test/v1");
     await userEvent.type(
       within(dialog).getByLabelText(en.services.connect.key),
       "sk-private",
     );
-    await userEvent.type(
-      within(dialog).getByLabelText(en.services.connect.model),
-      "model-a",
-    );
+    const model = within(dialog).getByLabelText(en.services.connect.model);
+    await userEvent.clear(model);
+    await userEvent.type(model, "model-a");
     await userEvent.click(
       within(dialog).getByRole("button", { name: en.ds.action.connect }),
     );
@@ -1049,12 +1040,7 @@ describe("ServicesPage", () => {
     await userEvent.click(
       screen.getByRole("button", { name: en.services.action.add }),
     );
-    const dialog = await screen.findByRole("dialog");
-    await userEvent.click(
-      within(dialog).getByRole("button", {
-        name: en.services.connect.backToPresets,
-      }),
-    );
+    await screen.findByRole("dialog");
     await screen.findByRole("combobox", {
       name: en.services.connect.preset,
     });
@@ -2620,6 +2606,7 @@ describe("ServicesPage", () => {
               serviceName: "Anthropic API",
               defaultName: "Anthropic",
               defaultModel: "claude-sonnet-5",
+              baseUrl: "https://api.example.test",
               websiteUrl: "https://www.anthropic.com",
               apiKeyUrl: "https://console.anthropic.com",
               official: true,
@@ -2629,6 +2616,7 @@ describe("ServicesPage", () => {
               serviceName: "DeepSeek",
               defaultName: "DeepSeek",
               defaultModel: "deepseek-v4-pro",
+              baseUrl: "https://api.example.test",
               websiteUrl: "https://platform.deepseek.com",
               apiKeyUrl: "https://platform.deepseek.com",
               official: false,

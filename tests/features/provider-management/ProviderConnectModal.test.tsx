@@ -20,6 +20,7 @@ const profile: ProviderConnectionProfile = {
       serviceName: "Anthropic API",
       defaultName: "Anthropic",
       defaultModel: "claude-sonnet-5",
+      baseUrl: "https://api.anthropic.com",
       websiteUrl: "https://www.anthropic.com",
       apiKeyUrl: "https://console.anthropic.com",
       official: true,
@@ -29,6 +30,7 @@ const profile: ProviderConnectionProfile = {
       serviceName: "DeepSeek",
       defaultName: "DeepSeek",
       defaultModel: "deepseek-v4-pro",
+      baseUrl: "https://api.example.test",
       websiteUrl: "https://platform.deepseek.com",
       apiKeyUrl: "https://platform.deepseek.com",
       official: false,
@@ -81,7 +83,7 @@ describe("ProviderConnectModal", () => {
     ).toHaveFocus();
   });
 
-  it("opens directly on the custom endpoint form and keeps presets optional", () => {
+  it("shows the selected preset's address, prefilled and editable", () => {
     render(
       <ProviderConnectModal
         profile={profile}
@@ -92,19 +94,20 @@ describe("ProviderConnectModal", () => {
         onCustomSubmit={vi.fn()}
       />,
     );
+    // One dialog, one form. An address that is only visible after the user
+    // finds a second screen is how a service gets saved against an endpoint
+    // nobody looked at.
+    const address = screen.getByLabelText(en.services.connect.baseUrl);
+    expect(address).toHaveValue("https://api.anthropic.com");
+    expect(address).toBeEnabled();
     expect(
-      screen.getByRole("heading", { name: en.services.connect.customTitle }),
-    ).toBeVisible();
-    expect(
-      screen.getByLabelText(en.services.connect.customBaseUrl),
-    ).toBeVisible();
-    expect(
-      screen.getByRole("button", { name: en.services.connect.backToPresets }),
-    ).toBeVisible();
+      screen.queryByRole("button", { name: en.services.connect.customEntry }),
+    ).toBeNull();
   });
 
-  it("submits only the typed HTTPS custom draft", async () => {
+  it("submits through the preset path while the address is untouched", async () => {
     const user = userEvent.setup();
+    const onSubmit = vi.fn();
     const onCustomSubmit = vi.fn();
     render(
       <ProviderConnectModal
@@ -112,50 +115,71 @@ describe("ProviderConnectModal", () => {
         tool="claude-code"
         toolName="Claude Code"
         onOpenChange={vi.fn()}
-        onSubmit={vi.fn()}
+        onSubmit={onSubmit}
         onCustomSubmit={onCustomSubmit}
       />,
     );
 
-    expect(
-      screen.getByRole("heading", { name: en.services.connect.customTitle }),
-    ).toBeVisible();
-    await user.type(
-      screen.getByLabelText(en.services.connect.name),
-      "Private relay",
+    await user.type(screen.getByLabelText(en.services.connect.key), "sk-live");
+    await user.click(
+      screen.getByRole("button", { name: en.ds.action.connect }),
     );
-    await user.type(
-      screen.getByLabelText(en.services.connect.customBaseUrl),
-      "http://relay.example.test/v1",
+
+    // Only the preset id crosses: the backend still owns the address, which is
+    // the rule that made hiding it look necessary in the first place.
+    expect(onSubmit).toHaveBeenCalledWith({
+      presetId: "official",
+      name: "Anthropic",
+      apiKey: "sk-live",
+      model: "claude-sonnet-5",
+    });
+    expect(onCustomSubmit).not.toHaveBeenCalled();
+  });
+
+  it("switches to the custom path once the address is edited", async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn();
+    const onCustomSubmit = vi.fn();
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={onSubmit}
+        onCustomSubmit={onCustomSubmit}
+      />,
     );
+
+    const address = screen.getByLabelText(en.services.connect.baseUrl);
+    await user.clear(address);
+    await user.type(address, "http://relay.example.test/v1");
     await user.type(
       screen.getByLabelText(en.services.connect.key),
       "sk-private",
     );
-    await user.type(
-      screen.getByLabelText(en.services.connect.model),
-      "model-a",
-    );
     await user.click(
       screen.getByRole("button", { name: en.ds.action.connect }),
     );
-    expect(
-      screen.getByText(en.services.connect.customBaseUrlInvalid),
-    ).toBeVisible();
-    expect(onCustomSubmit).not.toHaveBeenCalled();
 
-    const url = screen.getByLabelText(en.services.connect.customBaseUrl);
-    await user.clear(url);
-    await user.type(url, "https://relay.example.test/v1");
+    // Plain HTTP is refused before anything is sent.
+    expect(screen.getByText(en.services.connect.baseUrlInvalid)).toBeVisible();
+    expect(onCustomSubmit).not.toHaveBeenCalled();
+    expect(onSubmit).not.toHaveBeenCalled();
+
+    await user.clear(address);
+    await user.type(address, "https://relay.example.test/v1");
     await user.click(
       screen.getByRole("button", { name: en.ds.action.connect }),
     );
+
     expect(onCustomSubmit).toHaveBeenCalledWith({
-      name: "Private relay",
+      name: "Anthropic",
       apiKey: "sk-private",
-      model: "model-a",
+      model: "claude-sonnet-5",
       baseUrl: "https://relay.example.test/v1",
     });
+    expect(onSubmit).not.toHaveBeenCalled();
   });
 
   it("starts on a compatible preset when opened from failed reachability guidance", () => {
@@ -195,7 +219,7 @@ describe("ProviderConnectModal", () => {
     ).toHaveAttribute("href", official.apiKeyUrl);
   });
 
-  it("explains account ownership and the honest scope of the follow-up check", () => {
+  it("states the honest scope of the follow-up check", () => {
     render(
       <ProviderConnectModal
         profile={profile}
@@ -205,13 +229,6 @@ describe("ProviderConnectModal", () => {
         onSubmit={vi.fn()}
       />,
     );
-    expect(
-      screen.getByText(
-        en.services.connect.accountHint
-          .split("{{service}}")
-          .join(official.serviceName),
-      ),
-    ).toBeVisible();
     expect(
       screen.getByText(
         en.services.connect.afterSave.replace("{{tool}}", "Claude Code"),

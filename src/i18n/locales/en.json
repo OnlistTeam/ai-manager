@@ -1560,7 +1560,6 @@
       "toolSignIn": "Uses {{tool}} sign-in"
     },
     "connect": {
-      "accountHint": "Use a key from your own {{service}} account. API access and charges stay with that service.",
       "activateNow": "Use now",
       "activateQuestion": "Use it in {{tool}} now?",
       "compatible": "Compatible",
@@ -1594,6 +1593,10 @@
       "modelRequired": "Enter a model.",
       "measuredServices": "Measured on this computer",
       "name": "Name",
+      "baseUrl": "Address",
+      "baseUrlHint": "The address this service is configured with. Edit it and the service is saved as a custom endpoint.",
+      "baseUrlEdited": "Edited, so this will be saved as a custom endpoint.",
+      "baseUrlInvalid": "Enter a credential-free HTTPS address.",
       "nameRequired": "Enter a name.",
       "noPresetMatch": "No matching service.",
       "official": "Official",

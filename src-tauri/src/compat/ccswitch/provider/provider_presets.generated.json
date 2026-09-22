@@ -898,7 +898,7 @@
       "websiteUrl": "https://onlist.io",
       "apiKeyUrl": "https://onlist.io",
       "official": false,
-      "default": false,
+      "default": true,
       "settingsConfig": {
         "baseUrl": "https://onlist.io/v1",
         "apiKey": "",
@@ -913,42 +913,6 @@
             "id": "anthropic/claude-sonnet-5",
             "name": "Claude Sonnet 5",
             "contextWindow": 1000000
-          }
-        ]
-      }
-    },
-    {
-      "tool": "openclaw",
-      "id": "openrouter-085c4d76da",
-      "serviceName": "OpenRouter",
-      "defaultName": "OpenRouter",
-      "defaultModel": "anthropic/claude-opus-5",
-      "websiteUrl": "https://openrouter.ai",
-      "apiKeyUrl": "https://openrouter.ai",
-      "official": false,
-      "default": true,
-      "settingsConfig": {
-        "baseUrl": "https://openrouter.ai/api/v1",
-        "apiKey": "",
-        "api": "openai-completions",
-        "models": [
-          {
-            "id": "anthropic/claude-opus-5",
-            "name": "Claude Opus 5",
-            "contextWindow": 1000000,
-            "cost": {
-              "input": 5,
-              "output": 25
-            }
-          },
-          {
-            "id": "anthropic/claude-sonnet-5",
-            "name": "Claude Sonnet 5",
-            "contextWindow": 1000000,
-            "cost": {
-              "input": 3,
-              "output": 15
-            }
           }
         ]
       }
@@ -1217,6 +1181,42 @@
               "input": 0.6,
               "output": 3,
               "cacheRead": 0.1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "openrouter-085c4d76da",
+      "serviceName": "OpenRouter",
+      "defaultName": "OpenRouter",
+      "defaultModel": "anthropic/claude-opus-5",
+      "websiteUrl": "https://openrouter.ai",
+      "apiKeyUrl": "https://openrouter.ai",
+      "official": false,
+      "default": false,
+      "settingsConfig": {
+        "baseUrl": "https://openrouter.ai/api/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "anthropic/claude-opus-5",
+            "name": "Claude Opus 5",
+            "contextWindow": 1000000,
+            "cost": {
+              "input": 5,
+              "output": 25
+            }
+          },
+          {
+            "id": "anthropic/claude-sonnet-5",
+            "name": "Claude Sonnet 5",
+            "contextWindow": 1000000,
+            "cost": {
+              "input": 3,
+              "output": 15
             }
           }
         ]
@@ -1625,7 +1625,7 @@
       "websiteUrl": "https://onlist.io",
       "apiKeyUrl": "https://onlist.io",
       "official": false,
-      "default": false,
+      "default": true,
       "settingsConfig": {
         "name": "onList",
         "baseUrl": "https://onlist.io",
@@ -1653,61 +1653,6 @@
             ],
             "contextWindow": 1000000,
             "maxTokens": 128000
-          }
-        ]
-      }
-    },
-    {
-      "tool": "pi",
-      "id": "openrouter-6f5580fe65",
-      "serviceName": "OpenRouter",
-      "defaultName": "OpenRouter",
-      "defaultModel": "anthropic/claude-sonnet-5",
-      "websiteUrl": "https://openrouter.ai",
-      "apiKeyUrl": "https://openrouter.ai",
-      "official": false,
-      "default": true,
-      "settingsConfig": {
-        "name": "OpenRouter",
-        "baseUrl": "https://openrouter.ai/api",
-        "api": "anthropic-messages",
-        "apiKey": "",
-        "models": [
-          {
-            "name": "Claude Sonnet 5",
-            "reasoning": true,
-            "input": [
-              "text",
-              "image"
-            ],
-            "contextWindow": 1000000,
-            "maxTokens": 128000,
-            "id": "anthropic/claude-sonnet-5",
-            "thinkingLevelMap": {
-              "xhigh": "xhigh",
-              "max": "max"
-            },
-            "compat": {
-              "forceAdaptiveThinking": true
-            }
-          },
-          {
-            "name": "Claude Opus 5",
-            "reasoning": true,
-            "input": [
-              "text",
-              "image"
-            ],
-            "contextWindow": 1000000,
-            "maxTokens": 128000,
-            "id": "anthropic/claude-opus-5",
-            "thinkingLevelMap": {
-              "xhigh": "xhigh",
-              "max": "max"
-            },
-            "compat": {
-              "forceAdaptiveThinking": true
-            }
           }
         ]
       }
@@ -2072,6 +2017,61 @@
             "maxTokens": 262144,
             "id": "moonshotai/kimi-k2.5",
             "thinkingLevelMap": {}
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "openrouter-6f5580fe65",
+      "serviceName": "OpenRouter",
+      "defaultName": "OpenRouter",
+      "defaultModel": "anthropic/claude-sonnet-5",
+      "websiteUrl": "https://openrouter.ai",
+      "apiKeyUrl": "https://openrouter.ai",
+      "official": false,
+      "default": false,
+      "settingsConfig": {
+        "name": "OpenRouter",
+        "baseUrl": "https://openrouter.ai/api",
+        "api": "anthropic-messages",
+        "apiKey": "",
+        "models": [
+          {
+            "name": "Claude Sonnet 5",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 128000,
+            "id": "anthropic/claude-sonnet-5",
+            "thinkingLevelMap": {
+              "xhigh": "xhigh",
+              "max": "max"
+            },
+            "compat": {
+              "forceAdaptiveThinking": true
+            }
+          },
+          {
+            "name": "Claude Opus 5",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 128000,
+            "id": "anthropic/claude-opus-5",
+            "thinkingLevelMap": {
+              "xhigh": "xhigh",
+              "max": "max"
+            },
+            "compat": {
+              "forceAdaptiveThinking": true
+            }
           }
         ]
       }

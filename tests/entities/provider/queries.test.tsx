@@ -78,6 +78,7 @@ describe("useProviders", () => {
               serviceName: "Anthropic API",
               defaultName: "Anthropic",
               defaultModel: "claude-sonnet-5",
+              baseUrl: "https://api.example.test",
               websiteUrl: "https://www.anthropic.com",
               apiKeyUrl: "https://console.anthropic.com",
               official: true,

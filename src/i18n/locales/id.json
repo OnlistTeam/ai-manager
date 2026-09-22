@@ -1560,7 +1560,6 @@
       "toolSignIn": "Menggunakan login {{tool}}"
     },
     "connect": {
-      "accountHint": "Gunakan kunci dari akun {{service}} Anda sendiri. Akses API dan biayanya tetap ditanggung oleh layanan tersebut.",
       "activateNow": "Gunakan sekarang",
       "activateQuestion": "Gunakan ini di {{tool}} sekarang?",
       "compatible": "Kompatibel",
@@ -1594,6 +1593,10 @@
       "modelRequired": "Masukkan sebuah model.",
       "measuredServices": "Diukur di komputer ini",
       "name": "Nama",
+      "baseUrl": "Alamat",
+      "baseUrlHint": "Alamat yang dikonfigurasi untuk layanan ini. Jika Anda mengubahnya, layanan disimpan sebagai endpoint kustom.",
+      "baseUrlEdited": "Diubah, jadi akan disimpan sebagai endpoint kustom.",
+      "baseUrlInvalid": "Masukkan alamat HTTPS tanpa kredensial.",
       "nameRequired": "Masukkan sebuah nama.",
       "noPresetMatch": "Tidak ada layanan yang cocok.",
       "official": "Resmi",

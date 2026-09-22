@@ -1560,7 +1560,6 @@
       "toolSignIn": "Utilise la connexion de {{tool}}"
     },
     "connect": {
-      "accountHint": "Utilisez une clé de votre propre compte {{service}}. L'accès API et la facturation restent gérés par ce service.",
       "activateNow": "Utiliser maintenant",
       "activateQuestion": "L'utiliser dans {{tool}} maintenant ?",
       "compatible": "Compatible",
@@ -1594,6 +1593,10 @@
       "modelRequired": "Saisissez un modèle.",
       "measuredServices": "Mesuré sur cet ordinateur",
       "name": "Nom",
+      "baseUrl": "Adresse",
+      "baseUrlHint": "L'adresse avec laquelle ce service est configuré. Si vous la modifiez, le service est enregistré comme point d'accès personnalisé.",
+      "baseUrlEdited": "Modifiée, elle sera donc enregistrée comme point d'accès personnalisé.",
+      "baseUrlInvalid": "Saisissez une adresse HTTPS sans identifiants.",
       "nameRequired": "Saisissez un nom.",
       "noPresetMatch": "Aucun service correspondant.",
       "official": "Officiel",

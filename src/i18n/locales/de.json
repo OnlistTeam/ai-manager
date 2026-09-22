@@ -1560,7 +1560,6 @@
       "toolSignIn": "Verwendet die Anmeldung von {{tool}}"
     },
     "connect": {
-      "accountHint": "Verwenden Sie einen Schlüssel aus Ihrem eigenen {{service}}-Konto. API-Zugriff und Kosten verbleiben bei diesem Dienst.",
       "activateNow": "Jetzt verwenden",
       "activateQuestion": "Jetzt in {{tool}} verwenden?",
       "compatible": "Kompatibel",
@@ -1594,6 +1593,10 @@
       "modelRequired": "Geben Sie ein Modell ein.",
       "measuredServices": "Auf diesem Computer gemessen",
       "name": "Name",
+      "baseUrl": "Adresse",
+      "baseUrlHint": "Die Adresse, mit der dieser Dienst eingerichtet wird. Wenn Sie sie ändern, wird der Dienst als benutzerdefinierter Endpunkt gespeichert.",
+      "baseUrlEdited": "Geändert, wird daher als benutzerdefinierter Endpunkt gespeichert.",
+      "baseUrlInvalid": "Geben Sie eine HTTPS-Adresse ohne Zugangsdaten ein.",
       "nameRequired": "Geben Sie einen Namen ein.",
       "noPresetMatch": "Kein passender Dienst.",
       "official": "Offiziell",

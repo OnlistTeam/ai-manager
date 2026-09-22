@@ -180,6 +180,7 @@ const CONNECTION_PROFILE: ProviderConnectionProfile = {
       serviceName: "Anthropic API",
       defaultName: "Anthropic",
       defaultModel: "claude-sonnet-5",
+      baseUrl: "https://api.anthropic.com",
       websiteUrl: "https://www.anthropic.com",
       apiKeyUrl: "https://console.anthropic.com",
       official: true,

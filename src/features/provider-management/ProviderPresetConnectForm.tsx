@@ -1,23 +1,34 @@
+import { ExternalLink } from "lucide-react";
 import type { FormEventHandler, KeyboardEventHandler, RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { Field } from "@/shared/ui/Field";
 import { Input } from "@/shared/ui/Input";
+import { cn } from "@/shared/ui/cn";
+import { FOCUS_RING } from "@/shared/ui/focusRing";
 import { ProviderConnectFailure } from "./ProviderConnectFailure";
 
 interface ProviderPresetConnectFormProps {
   formId: string;
   nameId: string;
+  baseUrlId: string;
   keyId: string;
   modelId: string;
   name: string;
+  baseUrl: string;
   apiKey: string;
   model: string;
   modelRequired: boolean;
-  invalid: { name: boolean; key: boolean; model: boolean };
+  /** True once the address no longer matches the preset it came from. */
+  addressEdited: boolean;
+  /** Where to get a key for the selected service. */
+  keyUrl: string;
+  keyUrlLabel: string;
+  invalid: { name: boolean; baseUrl: boolean; key: boolean; model: boolean };
   busy: boolean;
   error: Error | null;
   keyRef: RefObject<HTMLInputElement>;
   onNameChange: (value: string) => void;
+  onBaseUrlChange: (value: string) => void;
   onKeyChange: (value: string) => void;
   onModelChange: (value: string) => void;
   onSubmit: FormEventHandler<HTMLFormElement>;
@@ -27,17 +38,23 @@ interface ProviderPresetConnectFormProps {
 export function ProviderPresetConnectForm({
   formId,
   nameId,
+  baseUrlId,
   keyId,
   modelId,
   name,
+  baseUrl,
   apiKey,
   model,
   modelRequired,
+  addressEdited,
+  keyUrl,
+  keyUrlLabel,
   invalid,
   busy,
   error,
   keyRef,
   onNameChange,
+  onBaseUrlChange,
   onKeyChange,
   onModelChange,
   onSubmit,
@@ -68,6 +85,30 @@ export function ProviderPresetConnectForm({
       </Field>
 
       <Field
+        id={baseUrlId}
+        label={t("services.connect.baseUrl")}
+        hint={
+          addressEdited
+            ? t("services.connect.baseUrlEdited")
+            : t("services.connect.baseUrlHint")
+        }
+        error={
+          invalid.baseUrl ? t("services.connect.baseUrlInvalid") : undefined
+        }
+      >
+        <Input
+          id={baseUrlId}
+          type="url"
+          value={baseUrl}
+          invalid={invalid.baseUrl}
+          disabled={busy}
+          spellCheck={false}
+          className="font-mono"
+          onChange={(event) => onBaseUrlChange(event.target.value)}
+        />
+      </Field>
+
+      <Field
         id={keyId}
         label={t("services.connect.key")}
         hint={t("services.connect.keyHint")}
@@ -85,6 +126,22 @@ export function ProviderPresetConnectForm({
           onChange={(event) => onKeyChange(event.target.value)}
         />
       </Field>
+
+      {/* Outside the Field: inside it, the link text joins the input's
+          accessible description and a screen reader reads the label, the hint
+          and "Open provider" as one sentence. */}
+      <a
+        href={keyUrl}
+        target="_blank"
+        rel="noreferrer"
+        className={cn(
+          "-mt-1 inline-flex w-fit items-center gap-1 rounded-sm text-caption font-medium text-brand hover:text-brand-hover",
+          FOCUS_RING,
+        )}
+      >
+        {keyUrlLabel}
+        <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+      </a>
 
       <Field
         id={modelId}

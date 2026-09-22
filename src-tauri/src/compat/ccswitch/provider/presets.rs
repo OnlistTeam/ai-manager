@@ -60,12 +60,29 @@ impl CatalogPreset {
         )
     }
 
+    /// The endpoint this preset configures, read back out of its own template.
+    ///
+    /// Empty when the template has no usable HTTPS endpoint or the extraction
+    /// turns up a credential, because a half-read address shown as fact is
+    /// worse than none; `validate_preset` already rejects both at load, so an
+    /// empty string here means a template shape nobody has taught this to read.
+    fn base_url(&self) -> String {
+        let raw = self.raw_provider("preset-address");
+        let (endpoint, key) = raw.resolve_usage_credentials(&app_type_for(self.tool));
+        if key.is_empty() && validate_https_endpoint(&endpoint).is_ok() {
+            endpoint
+        } else {
+            String::new()
+        }
+    }
+
     fn profile(&self) -> ProviderConnectionPreset {
         ProviderConnectionPreset {
             id: self.id.clone(),
             service_name: self.service_name.clone(),
             default_name: self.default_name.clone(),
             default_model: self.default_model.clone(),
+            base_url: self.base_url(),
             website_url: self.website_url.clone(),
             api_key_url: self.api_key_url.clone(),
             official: self.official,
@@ -420,6 +437,27 @@ mod tests {
         assert!(total > 0);
         assert!(profile_for(ToolId::KimiCode).is_err());
         assert!(profile_for(ToolId::DeepSeekDsh).is_err());
+    }
+
+    /// The address is the point of projecting it: a preset whose endpoint the
+    /// dialog cannot show would put the user back to guessing, which is how a
+    /// Codex service saved without `/v1` stayed invisible until it failed.
+    #[test]
+    fn every_projected_preset_carries_a_readable_https_address() {
+        for tool in provider_tools() {
+            for preset in profile_for(tool).expect("valid catalog").presets {
+                assert!(
+                    preset.base_url.starts_with("https://"),
+                    "{tool:?} / {} projected {:?}",
+                    preset.service_name,
+                    preset.base_url
+                );
+                assert!(
+                    !preset.base_url.contains('@'),
+                    "{tool:?} address has userinfo"
+                );
+            }
+        }
     }
 
     #[test]

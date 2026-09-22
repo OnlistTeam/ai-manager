@@ -1560,7 +1560,6 @@
       "toolSignIn": "{{tool}} 로그인 사용"
     },
     "connect": {
-      "accountHint": "본인의 {{service}} 계정 키를 사용하세요. API 접근과 요금은 해당 서비스에 귀속됩니다.",
       "activateNow": "지금 사용",
       "activateQuestion": "지금 {{tool}}에서 사용할까요?",
       "compatible": "호환",
@@ -1594,6 +1593,10 @@
       "modelRequired": "모델을 입력하세요.",
       "measuredServices": "이 컴퓨터에서 측정됨",
       "name": "이름",
+      "baseUrl": "서비스 주소",
+      "baseUrlHint": "이 서비스에 설정되는 주소입니다. 수정하면 사용자 지정 엔드포인트로 저장됩니다.",
+      "baseUrlEdited": "수정되었으므로 사용자 지정 엔드포인트로 저장됩니다.",
+      "baseUrlInvalid": "자격 증명이 없는 HTTPS 주소를 입력하세요.",
       "nameRequired": "이름을 입력하세요.",
       "noPresetMatch": "일치하는 서비스가 없습니다.",
       "official": "공식",

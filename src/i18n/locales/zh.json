@@ -1559,7 +1559,6 @@
       "toolSignIn": "使用 {{tool}} 的登录状态"
     },
     "connect": {
-      "accountHint": "请使用你自己的 {{service}} 账号创建的密钥。API 权限和费用仍由服务商管理。",
       "activateNow": "现在使用",
       "activateQuestion": "现在让 {{tool}} 使用它吗？",
       "compatible": "兼容",
@@ -1593,6 +1592,10 @@
       "modelRequired": "请输入模型。",
       "measuredServices": "本机实测",
       "name": "名称",
+      "baseUrl": "服务地址",
+      "baseUrlHint": "这个服务配置的地址。改动之后会按自定义端点保存。",
+      "baseUrlEdited": "已改动，会按自定义端点保存。",
+      "baseUrlInvalid": "请输入不含凭据的 HTTPS 地址。",
       "nameRequired": "请输入名称。",
       "noPresetMatch": "没有匹配的服务。",
       "official": "官方",

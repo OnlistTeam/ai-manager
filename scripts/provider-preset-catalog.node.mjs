@@ -92,16 +92,15 @@ test("catalog keeps eight-tool coverage without promotional metadata", async () 
         preset.default,
     ),
   );
+  // OpenClaw and Pi have no first-party vendor, so their default is this
+  // product's own service rather than whichever aggregator happens to be
+  // listed. Every other tool defaults to the company that made the model.
   for (const tool of ["openclaw", "pi"]) {
-    assert.ok(
-      generated.presets.some(
-        (preset) =>
-          preset.serviceName === "OpenRouter" &&
-          preset.tool === tool &&
-          preset.default &&
-          !preset.official,
-      ),
+    const fallback = generated.presets.find(
+      (preset) => preset.tool === tool && preset.default,
     );
+    assert.equal(fallback.serviceName, "onList");
+    assert.equal(fallback.official, false);
   }
 });
 
@@ -156,11 +155,14 @@ test("onList leads every tool without becoming its default", async () => {
       "onList",
       `${house.tool} does not lead with onList`,
     );
-    assert.equal(toolPresets[0].default, false);
     assert.equal(toolPresets[0].official, false);
-    assert.ok(
+    // Where a first-party vendor exists it keeps the default; only the two
+    // tools without one fall back to this product's service.
+    const vendorDefaults = !["openclaw", "pi"].includes(house.tool);
+    assert.equal(
       toolPresets.some((preset) => preset.default && preset.id !== "onlist"),
-      `${house.tool} lost its vendor default`,
+      vendorDefaults,
+      `${house.tool} default is wrong`,
     );
   }
 });

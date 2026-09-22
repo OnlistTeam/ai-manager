@@ -128,6 +128,11 @@ export const providerConnectionPresetSchema = z
     serviceName: z.string().min(1).max(100),
     defaultName: z.string().min(1).max(100),
     defaultModel: z.string().min(1).max(256),
+    /**
+     * The endpoint this preset configures, shown in the connect dialog so a
+     * connection is never saved against an address the user could not see.
+     */
+    baseUrl: z.string().url(),
     websiteUrl: z.string().url(),
     apiKeyUrl: z.string().url(),
     official: z.boolean(),

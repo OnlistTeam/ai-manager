@@ -231,6 +231,7 @@ describe("warmSessionEnvironment", () => {
                 serviceName: "OpenAI API",
                 defaultName: "OpenAI",
                 defaultModel: "gpt-5",
+                baseUrl: "https://api.example.test",
                 websiteUrl: "https://openai.com",
                 apiKeyUrl: "https://platform.openai.com",
                 official: true,

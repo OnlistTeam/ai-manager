@@ -1559,7 +1559,6 @@
       "toolSignIn": "使用 {{tool}} 的登入狀態"
     },
     "connect": {
-      "accountHint": "請使用你自己的 {{service}} 帳號建立的金鑰。API 權限和費用仍由服務商管理。",
       "activateNow": "現在使用",
       "activateQuestion": "現在讓 {{tool}} 使用它嗎？",
       "compatible": "相容",
@@ -1593,6 +1592,10 @@
       "modelRequired": "請輸入模型。",
       "measuredServices": "這台電腦實測",
       "name": "名稱",
+      "baseUrl": "服務位址",
+      "baseUrlHint": "這個服務設定的位址。改動之後會以自訂端點儲存。",
+      "baseUrlEdited": "已改動，會以自訂端點儲存。",
+      "baseUrlInvalid": "請輸入不含憑證的 HTTPS 位址。",
       "nameRequired": "請輸入名稱。",
       "noPresetMatch": "沒有相符的服務。",
       "official": "官方",

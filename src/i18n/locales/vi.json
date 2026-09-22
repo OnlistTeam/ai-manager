@@ -1560,7 +1560,6 @@
       "toolSignIn": "Dùng đăng nhập của {{tool}}"
     },
     "connect": {
-      "accountHint": "Dùng một khóa từ tài khoản {{service}} của riêng bạn. Việc truy cập API và chi phí thuộc về dịch vụ đó.",
       "activateNow": "Dùng ngay",
       "activateQuestion": "Dùng ngay trong {{tool}}?",
       "compatible": "Tương thích",
@@ -1594,6 +1593,10 @@
       "modelRequired": "Nhập một model.",
       "measuredServices": "Đo trên máy tính này",
       "name": "Tên",
+      "baseUrl": "Địa chỉ",
+      "baseUrlHint": "Địa chỉ mà dịch vụ này được cấu hình. Nếu bạn sửa, dịch vụ sẽ được lưu như một điểm cuối tùy chỉnh.",
+      "baseUrlEdited": "Đã sửa nên sẽ được lưu như điểm cuối tùy chỉnh.",
+      "baseUrlInvalid": "Hãy nhập địa chỉ HTTPS không chứa thông tin đăng nhập.",
       "nameRequired": "Nhập một tên.",
       "noPresetMatch": "Không có dịch vụ nào khớp.",
       "official": "Chính thức",

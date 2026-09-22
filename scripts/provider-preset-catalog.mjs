@@ -407,7 +407,8 @@ function projectOpenClaw(preset) {
     models[0],
     settings,
   );
-  if (projected && preset.name === "OpenRouter") projected.default = true;
+  // Pi and OpenClaw have no first-party vendor, so their default comes
+  // from HOUSE_PRESETS instead of an aggregator that happens to be listed.
   return projected;
 }
 
@@ -462,7 +463,8 @@ function projectPi(preset) {
     models[0],
     settings,
   );
-  if (projected && preset.name === "OpenRouter") projected.default = true;
+  // Pi and OpenClaw have no first-party vendor, so their default comes
+  // from HOUSE_PRESETS instead of an aggregator that happens to be listed.
   return projected;
 }
 

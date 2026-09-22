@@ -1559,7 +1559,6 @@
       "toolSignIn": "{{tool}} のサインインを使用"
     },
     "connect": {
-      "accountHint": "ご自身の {{service}} アカウントで発行したキーを使います。API の利用権限と料金はサービス側で管理されます。",
       "activateNow": "今すぐ使う",
       "activateQuestion": "今すぐ {{tool}} で使いますか？",
       "compatible": "互換",
@@ -1593,6 +1592,10 @@
       "modelRequired": "モデルを入力してください。",
       "measuredServices": "このコンピューターでの測定",
       "name": "名前",
+      "baseUrl": "サービスのアドレス",
+      "baseUrlHint": "このサービスに設定されるアドレスです。変更するとカスタムエンドポイントとして保存されます。",
+      "baseUrlEdited": "変更されたため、カスタムエンドポイントとして保存されます。",
+      "baseUrlInvalid": "認証情報を含まない HTTPS アドレスを入力してください。",
       "nameRequired": "名前を入力してください。",
       "noPresetMatch": "一致するサービスがありません。",
       "official": "公式",

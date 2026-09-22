@@ -15,7 +15,8 @@ describe("provider connection locale contract", () => {
     (_locale, services) => {
       expect(services.action.test.trim()).not.toBe("");
       expect(services.action.testNamed).toContain("{{name}}");
-      expect(services.connect.accountHint).toContain("{{service}}");
+      expect(services.connect.baseUrlHint.trim()).not.toBe("");
+      expect(services.connect.baseUrlEdited.trim()).not.toBe("");
       expect(services.connect.afterSave).toContain("{{tool}}");
       expect(services.connect.firstUse).toContain("{{tool}}");
       expect(services.connect.saved).toContain("{{name}}");

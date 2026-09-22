@@ -1560,7 +1560,6 @@
       "toolSignIn": "Usa el inicio de sesión de {{tool}}"
     },
     "connect": {
-      "accountHint": "Usa una clave de tu propia cuenta de {{service}}. El acceso a la API y los cargos corresponden a ese servicio.",
       "activateNow": "Usar ahora",
       "activateQuestion": "¿Usarlo en {{tool}} ahora?",
       "compatible": "Compatible",
@@ -1594,6 +1593,10 @@
       "modelRequired": "Introduce un modelo.",
       "measuredServices": "Medido en este equipo",
       "name": "Nombre",
+      "baseUrl": "Dirección",
+      "baseUrlHint": "La dirección con la que se configura este servicio. Si la editas, el servicio se guarda como endpoint personalizado.",
+      "baseUrlEdited": "Editada, así que se guardará como endpoint personalizado.",
+      "baseUrlInvalid": "Introduce una dirección HTTPS sin credenciales.",
       "nameRequired": "Introduce un nombre.",
       "noPresetMatch": "No hay ningún servicio coincidente.",
       "official": "Oficial",

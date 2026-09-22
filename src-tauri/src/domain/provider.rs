@@ -75,12 +75,20 @@ impl std::fmt::Debug for Provider {
     }
 }
 
-/// A vetted service preset selectable in Beginner Mode.
+/// A service preset selectable when adding a connection.
 ///
-/// Only the stable ID, the public home page and form defaults are projected here. The
-/// real endpoints and the tool's native config template stay in the compatibility layer,
-/// so the renderer cannot submit an arbitrary base URL or free-form JSON and pass it off
-/// as an audited preset.
+/// The tool's native config template stays in the compatibility layer, so the
+/// renderer cannot submit free-form config and pass it off as a preset. What it
+/// may *not* do is hide the address: a connection whose endpoint is invisible
+/// until it fails is how a Codex service saved without `/v1` went unnoticed
+/// (ADR-0041 amendment). The same URLs already cross IPC for the preset speed
+/// test, so projecting one here exposes nothing new.
+///
+/// The security rule that does still hold lives on the create path, not here:
+/// creating *from a preset* sends only `preset_id` and the backend owns the
+/// address, while an edited address goes through the custom-create path and is
+/// recorded as custom. Showing the address never lets the renderer relabel its
+/// own URL as a preset.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProviderConnectionPreset {
@@ -88,6 +96,7 @@ pub struct ProviderConnectionPreset {
     pub service_name: String,
     pub default_name: String,
     pub default_model: String,
+    pub base_url: String,
     pub website_url: String,
     pub api_key_url: String,
     pub official: bool,
@@ -549,6 +558,7 @@ mod tests {
                 service_name: "Anthropic API".to_string(),
                 default_name: "Anthropic".to_string(),
                 default_model: "claude-sonnet-5".to_string(),
+                base_url: "https://api.anthropic.com".to_string(),
                 website_url: "https://www.anthropic.com".to_string(),
                 api_key_url: "https://console.anthropic.com".to_string(),
                 official: true,
@@ -557,7 +567,7 @@ mod tests {
         };
         assert_eq!(
             serde_json::to_string(&profile).expect("serialize profile"),
-            r#"{"defaultPresetId":"official","presets":[{"id":"official","serviceName":"Anthropic API","defaultName":"Anthropic","defaultModel":"claude-sonnet-5","websiteUrl":"https://www.anthropic.com","apiKeyUrl":"https://console.anthropic.com","official":true}],"modelRequired":false}"#
+            r#"{"defaultPresetId":"official","presets":[{"id":"official","serviceName":"Anthropic API","defaultName":"Anthropic","defaultModel":"claude-sonnet-5","baseUrl":"https://api.anthropic.com","websiteUrl":"https://www.anthropic.com","apiKeyUrl":"https://console.anthropic.com","official":true}],"modelRequired":false}"#
         );
     }
 

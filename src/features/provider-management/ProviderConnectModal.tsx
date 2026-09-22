@@ -14,9 +14,7 @@ import type {
 } from "@/entities/provider";
 import { Modal } from "@/shared/ui/Modal";
 import { ProviderConnectModalFooter } from "./ProviderConnectModalFooter";
-import { ProviderConnectOverview } from "./ProviderConnectOverview";
-import { ProviderCustomConnectModal } from "./ProviderCustomConnectModal";
-import { ProviderCustomEntryBanner } from "./ProviderCustomEntryBanner";
+import { normalizeProviderEndpoint } from "./providerEndpointRouteUtils";
 import { ProviderPresetPicker } from "./ProviderPresetPicker";
 import { ProviderPresetConnectForm } from "./ProviderPresetConnectForm";
 import { ServiceActionsPausedNotice } from "./ServiceActionsPausedNotice";
@@ -41,6 +39,7 @@ export interface ProviderConnectModalProps {
 const FORM_ID = "service-connect-form";
 const PRESET_ID = "service-connect-preset";
 const NAME_ID = "service-connect-name";
+const BASE_URL_ID = "service-connect-base-url";
 const KEY_ID = "service-connect-key";
 const MODEL_ID = "service-connect-model";
 
@@ -60,12 +59,10 @@ export function ProviderConnectModal({
   const { t } = useTranslation();
   const [presetId, setPresetId] = useState("");
   const [name, setName] = useState("");
+  const [baseUrl, setBaseUrl] = useState("");
   const [key, setKey] = useState("");
   const [model, setModel] = useState("");
   const [attempted, setAttempted] = useState(false);
-  const [customMode, setCustomMode] = useState(
-    Boolean(onCustomSubmit) && !preferCompatible,
-  );
   const keyRef = useRef<HTMLInputElement>(null);
   const speedTest = useProviderPresetSpeedTest(tool);
 
@@ -79,16 +76,11 @@ export function ProviderConnectModal({
       : defaultPreset;
     setPresetId(preset?.id ?? "");
     setName(preset?.defaultName ?? "");
+    setBaseUrl(preset?.baseUrl ?? "");
     setKey("");
     setModel(preset?.defaultModel ?? "");
     setAttempted(false);
   }, [preferCompatible, profile]);
-
-  useEffect(() => {
-    // Connection recovery intentionally starts in the compatible preset
-    // catalog. Ordinary endpoint creation starts in the direct Base URL form.
-    if (preferCompatible) setCustomMode(false);
-  }, [preferCompatible]);
 
   const selectedPreset =
     profile?.presets.find((preset) => preset.id === presetId) ??
@@ -97,28 +89,25 @@ export function ProviderConnectModal({
     null;
   if (profile === null || selectedPreset === null) return null;
 
-  if (customMode && onCustomSubmit) {
-    return (
-      <ProviderCustomConnectModal
-        toolName={toolName}
-        modelRequired={profile.modelRequired}
-        busy={busy}
-        error={error}
-        mutationsBlocked={mutationsBlocked}
-        onOpenChange={onOpenChange}
-        onBack={() => {
-          setCustomMode(false);
-          onErrorReset?.();
-        }}
-        onErrorReset={onErrorReset}
-        onSubmit={onCustomSubmit}
-      />
-    );
-  }
-
   const modelRequired = profile.modelRequired;
+  /*
+   * One form, two create paths. The address is always visible and always
+   * editable; touching it is what turns a preset into a custom endpoint, so
+   * there is no mode to switch and no second dialog to find.
+   *
+   * The security rule that used to justify hiding the address is unchanged,
+   * because it lives on the submit: an untouched address sends only the preset
+   * id and the backend supplies the endpoint, while an edited one goes through
+   * the custom path and is recorded as custom. The renderer still cannot pass
+   * its own URL off as a preset.
+   */
+  const normalizedAddress = normalizeProviderEndpoint(baseUrl);
+  const addressEdited =
+    normalizedAddress !== normalizeProviderEndpoint(selectedPreset.baseUrl);
+  const addressUsable = !addressEdited || normalizedAddress !== null;
   const invalid = {
     name: attempted && name.trim() === "",
+    baseUrl: attempted && !addressUsable,
     key: attempted && key.trim() === "",
     model: attempted && modelRequired && model.trim() === "",
   };
@@ -127,9 +116,19 @@ export function ProviderConnectModal({
     setAttempted(true);
     if (
       name.trim() === "" ||
+      !addressUsable ||
       key.trim() === "" ||
       (modelRequired && model.trim() === "")
     ) {
+      return;
+    }
+    if (addressEdited && onCustomSubmit && normalizedAddress !== null) {
+      onCustomSubmit({
+        name: name.trim(),
+        baseUrl: normalizedAddress,
+        apiKey: key.trim(),
+        model: model.trim(),
+      });
       return;
     }
     onSubmit({
@@ -172,16 +171,6 @@ export function ProviderConnectModal({
     >
       {mutationsBlocked ? <ServiceActionsPausedNotice /> : null}
 
-      {onCustomSubmit ? (
-        <ProviderCustomEntryBanner
-          busy={busy}
-          onCustomEntry={() => {
-            setCustomMode(true);
-            onErrorReset?.();
-          }}
-        />
-      ) : null}
-
       <ProviderPresetPicker
         id={PRESET_ID}
         presets={profile.presets}
@@ -197,6 +186,7 @@ export function ProviderConnectModal({
           if (!next) return;
           setPresetId(next.id);
           setName(next.defaultName);
+          setBaseUrl(next.baseUrl);
           setModel(next.defaultModel);
           setKey("");
           setAttempted(false);
@@ -206,21 +196,32 @@ export function ProviderConnectModal({
       />
 
       <div className="mt-3 flex flex-col gap-3">
-        <ProviderConnectOverview preset={selectedPreset} toolName={toolName} />
-
         <ProviderPresetConnectForm
           formId={FORM_ID}
           nameId={NAME_ID}
+          baseUrlId={BASE_URL_ID}
           keyId={KEY_ID}
           modelId={MODEL_ID}
           name={name}
+          baseUrl={baseUrl}
           apiKey={key}
           model={model}
+          addressEdited={addressEdited}
+          keyUrl={selectedPreset.apiKeyUrl}
+          keyUrlLabel={t(
+            selectedPreset.official
+              ? "services.connect.getKey"
+              : "services.connect.openProvider",
+          )}
           modelRequired={modelRequired}
           invalid={invalid}
           busy={busy}
           error={error}
           keyRef={keyRef}
+          onBaseUrlChange={(value) => {
+            setBaseUrl(value);
+            onErrorReset?.();
+          }}
           onNameChange={(value) => {
             setName(value);
             if (error) onErrorReset?.();
@@ -236,6 +237,11 @@ export function ProviderConnectModal({
           onSubmit={submit}
           onKeyDown={submitOnEnter}
         />
+
+        {/* The one non-obvious thing about saving: it does not verify the key. */}
+        <p className="text-caption text-content-muted">
+          {t("services.connect.afterSave", { tool: toolName })}
+        </p>
       </div>
     </Modal>
   );

@@ -19,7 +19,7 @@ under their own name. `9527CODE`, `AiHubMix`, `PackyCode`, `SubRouter`,
 `TheRouter`, `CherryIN`, `SoleAPI` and 32 others.
 
 Two of them wear a first party's name without being it. `QwenCloud`
-(qwencloud.com) and `千问AI平台` (qianwenai.com) are not Alibaba — Alibaba's own
+(qwencloud.com) and the platform at qianwenai.com are not Alibaba — Alibaba's own
 platform is bailian.console.aliyun.com.
 
 None of the 521 carried a referral or affiliate parameter; every `websiteUrl`
@@ -77,3 +77,45 @@ a custom endpoint, which takes any address. Nobody is blocked by an absence.
   are real companies, but the criterion chosen was international recognition,
   and applying it selectively would make it no criterion at all. Reversing this
   for a named vendor is one line in the allowlist.
+
+## Amendment 2026-09-22: one dialog, and the address is always on it
+
+Adding a service was two dialogs. The first offered a preset and hid the
+address entirely; a banner above it led to a second dialog where you typed an
+address and got no presets. Choosing between them meant deciding, before seeing
+anything, whether your service was "a preset" or "custom".
+
+Hiding the address had a stated reason — the renderer must not be able to
+submit an arbitrary URL and have it recorded as an audited preset — but hiding
+is not what enforced that. The submit did. And hiding had a cost that showed
+up in practice: a Codex service saved without `/v1` failed with a 403 that took
+a relay's nginx config to explain, and the address it was actually configured
+with had never been on screen.
+
+**The two dialogs are now one form.** The address sits above the credential,
+prefilled from the selected preset and always editable. Editing it is what
+makes the service custom, so there is no mode, no banner, and no second dialog:
+`ProviderCustomConnectModal`, `ProviderCustomEntryBanner` and
+`ProviderConnectOverview` are deleted.
+
+The security rule is unchanged because it never lived in the hiding. An
+untouched address submits `preset_id` and nothing else, and the backend
+supplies the endpoint; an edited one goes through the custom create path and is
+recorded as custom. The renderer still cannot relabel its own URL as a preset.
+`ProviderConnectionPreset` gains `base_url`, which exposes nothing new: the
+same URLs already crossed IPC for the preset speed test.
+
+**The block above the form is gone.** It was a card repeating the service name
+and "connect to <tool>" — both already in the dialog's title and subtitle — and
+a two-sentence aside. One sentence told the user to use their own account's
+key, which is obvious and printed the service name a fourth time on one screen.
+The other says that saving only checks the address and the key is verified on
+first use, which is not obvious, so it stays as a single line. The "get a key"
+link was the only thing on that card that existed nowhere else; it now sits
+beside the key field, outside the `Field`, because inside it the link text
+joins the input's accessible description.
+
+**OpenClaw and Pi default to onList.** Neither has a first-party vendor, so the
+default slot was held by OpenRouter, and a dialog opened for Pi printed
+"OpenRouter" five times. Every other tool keeps the company that made the
+model.

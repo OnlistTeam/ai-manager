@@ -205,7 +205,8 @@ export const HOUSE_PRESETS = [
     websiteUrl: ONLIST_SITE,
     apiKeyUrl: ONLIST_SITE,
     official: false,
-    default: false,
+    // Pi and OpenClaw have no first-party vendor to default to.
+    default: true,
     settingsConfig: {
       baseUrl: ONLIST_V1,
       apiKey: "",
@@ -246,7 +247,8 @@ export const HOUSE_PRESETS = [
     websiteUrl: ONLIST_SITE,
     apiKeyUrl: ONLIST_SITE,
     official: false,
-    default: false,
+    // Pi and OpenClaw have no first-party vendor to default to.
+    default: true,
     settingsConfig: {
       name: "onList",
       // Pi speaks the Anthropic Messages API and appends `/v1/messages`.
