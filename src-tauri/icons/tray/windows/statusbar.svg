@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!--
+    Windows notification-area icon: the product mark, edge to edge.
+
+    Windows hands the shell a single HICON and scales it to SM_CXSMICON — 16px
+    at 100% DPI. The app icon cannot play that role: it carries the ~19%
+    transparent margin macOS bundle icons are drawn with, and inside that margin
+    a cream rounded square, and only inside *that* the mark. Three nested
+    insets, so at 16px the recognisable part covers barely half the box while
+    every neighbouring icon fills it. That is the "smaller than the others"
+    report, and no scaling fixes it — the padding is in the artwork.
+
+    So this is drawn on the 32px grid it is displayed on, with a 1px margin and
+    nothing else. Geometry is the macOS template's, scaled 0.6: the CRT screen
+    as one solid shape with the prompt and cursor knocked *out* of it. The
+    knockouts are transparent rather than painted, which is what makes one file
+    work on both taskbar themes — they read dark on a dark taskbar and light on
+    a light one, with no second asset and no theme listener.
+
+    The green is the product's screen colour taken a few steps darker. The
+    original #6cb568 scores 2.2:1 against a light taskbar, which is too faint;
+    this keeps the hue and buys ~2.9:1 there while still clearing 4.9:1 on dark.
+  -->
+  <defs>
+    <mask id="prompt">
+      <rect width="32" height="32" fill="#fff"/>
+      <path d="M9 7.9 L15.7 12.7 L9 17.5" fill="none" stroke="#000"
+            stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="19" y="10.6" width="4.5" height="4.5" rx="0.9" fill="#000"/>
+    </mask>
+  </defs>
+  <g fill="#4f9e4b">
+    <rect x="1" y="1.9" width="30" height="21.6" rx="4.2" mask="url(#prompt)"/>
+    <rect x="13.3" y="23.5" width="5.4" height="3"/>
+    <rect x="5.8" y="26.5" width="20.4" height="3.6" rx="1.8"/>
+  </g>
+</svg>

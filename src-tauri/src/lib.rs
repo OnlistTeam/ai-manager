@@ -78,7 +78,7 @@ use tauri_plugin_dialog::{DialogExt, MessageDialogButtons, MessageDialogKind};
 #[cfg(target_os = "windows")]
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
-#[cfg(target_os = "macos")]
+#[cfg(any(target_os = "macos", target_os = "windows"))]
 use tauri::image::Image;
 use tauri::tray::TrayIconBuilder;
 use tauri::Manager;
@@ -208,17 +208,42 @@ fn runtime_log_level_allows(level: log::Level, max_level: log::LevelFilter) -> b
     max_level.to_level().is_some_and(|maximum| level <= maximum)
 }
 
-#[cfg(target_os = "macos")]
-fn macos_tray_icon() -> Option<Image<'static>> {
-    const ICON_BYTES: &[u8] = include_bytes!("../icons/tray/macos/statusbar_template_3x.png");
-
-    match Image::from_bytes(ICON_BYTES) {
+/// Loads an icon drawn for the notification area, rather than the bundle icon.
+///
+/// Both platforms that supply one here need it for the same reason. A bundle
+/// icon is drawn for a Dock tile or a desktop shortcut, so it carries the
+/// margin and the rounded container that context expects; dropped into a
+/// 16–22px strip those insets stack up and the mark ends up covering about half
+/// the box while every neighbouring icon fills it. Scaling cannot recover that,
+/// because the padding is in the artwork. Failing to load one costs the user a
+/// generic icon and nothing else, so this reports and lets the caller fall back.
+#[cfg(any(target_os = "macos", target_os = "windows"))]
+fn tray_icon(bytes: &'static [u8]) -> Option<Image<'static>> {
+    match Image::from_bytes(bytes) {
         Ok(icon) => Some(icon),
         Err(err) => {
-            log::warn!("Failed to load macOS tray icon: {err}");
+            log::warn!("Failed to load the tray icon: {err}");
             None
         }
     }
+}
+
+/// The macOS menu bar icon (see `icons/tray/macos/statusbar_template.svg`).
+#[cfg(target_os = "macos")]
+fn macos_tray_icon() -> Option<Image<'static>> {
+    tray_icon(include_bytes!(
+        "../icons/tray/macos/statusbar_template_3x.png"
+    ))
+}
+
+/// The Windows notification-area icon (see `icons/tray/windows/statusbar.svg`).
+///
+/// 32px because `tray-icon` builds one `HICON` at the source's own size and the
+/// shell scales it to `SM_CXSMICON`; 32 is exact at 200% DPI and halves cleanly
+/// to the 16px of a 100% display.
+#[cfg(target_os = "windows")]
+fn windows_tray_icon() -> Option<Image<'static>> {
+    tray_icon(include_bytes!("../icons/tray/windows/statusbar_2x.png"))
 }
 
 /// Registers the one deep-link handler both start paths converge on
@@ -868,7 +893,21 @@ pub fn run() {
                 }
             }
 
-            #[cfg(not(target_os = "macos"))]
+            #[cfg(target_os = "windows")]
+            {
+                if let Some(icon) = windows_tray_icon() {
+                    tray_builder = tray_builder.icon(icon);
+                } else if let Some(icon) = app.default_window_icon() {
+                    log::warn!("Falling back to default window icon for tray");
+                    tray_builder = tray_builder.icon(icon.clone());
+                } else {
+                    log::warn!("Failed to load Windows tray icon for tray");
+                }
+            }
+
+            // Linux desktops draw the status item from the application icon at a
+            // size where the bundle artwork still reads, so the app icon stands.
+            #[cfg(not(any(target_os = "macos", target_os = "windows")))]
             {
                 if let Some(icon) = app.default_window_icon() {
                     tray_builder = tray_builder.icon(icon.clone());
@@ -1584,6 +1623,52 @@ mod tests {
         classify_exit_request, redact_url_for_log, redact_url_for_log_with_secrets,
         redact_url_origin_for_log, runtime_log_level_allows, ExitRequestAction,
     };
+
+    /// The regression behind "the tray icon is smaller than the others" on
+    /// Windows: the notification area got the bundle icon, whose macOS-style
+    /// margin and rounded container left the mark covering roughly half the box.
+    ///
+    /// The bytes are read here rather than through `windows_tray_icon`, which is
+    /// `cfg`-gated, so the asset is pinned on every host that runs the suite
+    /// instead of only on the one platform that cannot be the reviewer's.
+    #[test]
+    fn the_windows_tray_icon_fills_its_box() {
+        let icon = tauri::image::Image::from_bytes(include_bytes!(
+            "../icons/tray/windows/statusbar_2x.png"
+        ))
+        .expect("the Windows tray icon decodes");
+
+        // `tray-icon` builds one HICON at the source's own size, and the shell
+        // scales that to SM_CXSMICON. 32 is exact at 200% DPI and halves to the
+        // 16px of a 100% display.
+        assert_eq!((icon.width(), icon.height()), (32, 32));
+
+        let (width, height) = (icon.width() as usize, icon.height() as usize);
+        let rgba = icon.rgba();
+        let (mut left, mut top, mut right, mut bottom) = (width, height, 0usize, 0usize);
+        for y in 0..height {
+            for x in 0..width {
+                // Antialiasing leaves a faint halo past the drawn edge, so the
+                // threshold asks for a pixel that is actually visible.
+                if rgba[(y * width + x) * 4 + 3] > 32 {
+                    left = left.min(x);
+                    top = top.min(y);
+                    right = right.max(x + 1);
+                    bottom = bottom.max(y + 1);
+                }
+            }
+        }
+        assert!(right > left && bottom > top, "the icon is not blank");
+
+        // The bundle icon scores 81% on both axes. Anything in that range means
+        // artwork drawn for a Dock tile has been reused here again.
+        let horizontal = (right - left) * 100 / width;
+        let vertical = (bottom - top) * 100 / height;
+        assert!(
+            horizontal >= 90 && vertical >= 85,
+            "tray artwork carries bundle-icon padding: {horizontal}% x {vertical}%"
+        );
+    }
 
     #[test]
     fn log_url_redaction_strips_credentials_and_query_keeps_path() {
