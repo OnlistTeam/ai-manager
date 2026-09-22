@@ -488,7 +488,88 @@ h3 {
   overflow-wrap: anywhere;
 }
 
+/* ---- product shot ---- */
+
+/*
+ * Wider than the reading column on purpose: the window is the one thing on
+ * this page that is not text, and cropping it to paragraph width would waste
+ * the only chance to show what is being downloaded.
+ */
+.shot {
+  margin: 0 0 3rem;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  /* The screenshot already carries the window's own rounded corners and
+     shadow, so this is a frame, not a second shadow on top of one. */
+  background: var(--sunken);
+}
+
+.shot figcaption {
+  margin-top: 0.85rem;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
 /* ---- verification ---- */
+
+/*
+ * Collapsed by default. These are first-run platform warnings and checksum
+ * commands: correct, occasionally essential, and needed by a small minority
+ * on any given visit. Open, they were the largest thing on a page whose job
+ * is one download button.
+ */
+.verify summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  padding: 0.35rem 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.verify summary::-webkit-details-marker {
+  display: none;
+}
+
+.verify summary h2 {
+  display: inline;
+  margin: 0;
+}
+
+/* The triangle is drawn rather than inherited, so it sits on the baseline of
+   the heading instead of floating beside a flex container. */
+.verify summary h2::before {
+  content: "›";
+  display: inline-block;
+  margin-right: 0.5rem;
+  color: var(--ink-muted);
+  font-weight: 400;
+  transition: transform 120ms ease;
+}
+
+.verify details[open] summary h2::before {
+  transform: rotate(90deg);
+}
+
+.verify summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.verify-summary {
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+}
 
 .verify-grid {
   display: grid;

@@ -141,7 +141,10 @@ const COPY = {
     "dl.prerelease":
       "这是一个<strong>预发布版本</strong>。它和正式版用同样的方式签名与校验，但还没有在每个平台上走完干净机器验证。请预期会有粗糙之处，并且给你在意的东西留一份备份。",
 
+    "shot.alt": "AI 管家窗口，列出 Claude Code、Codex CLI、OpenCode 等工具的版本和更新按钮。",
+    "shot.caption": "电脑上的每一个 AI 编程工具，都在一个窗口里：装了哪些、哪些该更新、每个正连着哪个服务。",
     "verify.heading": "安装之前",
+    "verify.summary": "签名、首次运行的提示，以及怎么校验下载的文件。",
     "verify.macos.title": "macOS",
     "verify.macos.body":
       "应用和磁盘映像都用 Apple Developer ID 签名、经 Apple 公证并已 staple，所以 macOS 打开它们不会报警告。如果 Gatekeeper 报错，说明文件在发布之后被改动过，不要打开。",
@@ -229,7 +232,10 @@ const COPY = {
     "dl.prerelease":
       "這是一個<strong>預先發行版本</strong>。它和正式版用同樣的方式簽章與驗證，但還沒有在每個平台上走完乾淨機器驗證。請預期會有粗糙之處，並且給你在意的東西留一份備份。",
 
+    "shot.alt": "AI 管家視窗，列出 Claude Code、Codex CLI、OpenCode 等工具的版本與更新按鈕。",
+    "shot.caption": "電腦上的每一個 AI 編程工具，都在同一個視窗裡：裝了哪些、哪些該更新、每個正連著哪個服務。",
     "verify.heading": "安裝之前",
+    "verify.summary": "簽章、首次執行的提示，以及怎麼校驗下載的檔案。",
     "verify.macos.title": "macOS",
     "verify.macos.body":
       "應用程式和磁碟映像檔都以 Apple Developer ID 簽章、經 Apple 公證並已 staple，所以 macOS 開啟它們不會出現警告。如果 Gatekeeper 報錯，代表檔案在發布之後被改動過，不要開啟。",
@@ -321,7 +327,10 @@ const COPY = {
     "dl.prerelease":
       "これは<strong>プレリリース</strong>です。署名と検証は正式リリースと同じ方法で行われていますが、すべてのプラットフォームでのクリーンマシン検証はまだ完了していません。粗さがあることを想定し、大事なものはバックアップを取っておいてください。",
 
+    "shot.alt": "AI Manager のウィンドウ。Claude Code、Codex CLI、OpenCode などのバージョンと更新ボタンが並んでいます。",
+    "shot.caption": "このコンピュータの AI コーディングツールが一つのウィンドウに。何が入っていて、何を更新すべきで、それぞれどのサービスに繋がっているか。",
     "verify.heading": "インストールの前に",
+    "verify.summary": "署名、初回起動時の警告、ダウンロードの検証方法。",
     "verify.macos.title": "macOS",
     "verify.macos.body":
       "アプリとディスクイメージは Apple Developer ID で署名され、Apple の公証を受け、staple 済みです。そのため macOS は警告なしで開きます。Gatekeeper が警告を出した場合、そのファイルは公開後に改変されています。開かないでください。",
@@ -359,6 +368,11 @@ function captureEnglish() {
   }
   for (const node of document.querySelectorAll("[data-i18n-aria]")) {
     ENGLISH.set(node.dataset.i18nAria, node.getAttribute("aria-label") ?? "");
+  }
+  // Alternative text is read instead of the image, so it is copy like any
+  // other and follows the language the rest of the page is in.
+  for (const node of document.querySelectorAll("[data-i18n-alt]")) {
+    ENGLISH.set(node.dataset.i18nAlt, node.getAttribute("alt") ?? "");
   }
   ENGLISH.set("meta.title", document.title);
   ENGLISH.set(
@@ -416,6 +430,10 @@ function apply(language) {
 
   for (const node of document.querySelectorAll("[data-i18n-aria]")) {
     node.setAttribute("aria-label", translate(node.dataset.i18nAria, language));
+  }
+
+  for (const node of document.querySelectorAll("[data-i18n-alt]")) {
+    node.setAttribute("alt", translate(node.dataset.i18nAlt, language));
   }
 
   for (const button of document.querySelectorAll("[data-lang]")) {

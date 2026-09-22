@@ -6,19 +6,20 @@ an automatic update fails, so that address has to resolve to something useful.
 
 ## What it is
 
-Seven static files and no build step. `download.js` reads a small manifest the
+Eight static files and no build step. `download.js` reads a small manifest the
 release workflow publishes to the project's own distribution host, so
 publishing a release never requires redeploying this site.
 
-| File          | Purpose                                                   |
-| ------------- | --------------------------------------------------------- |
-| `index.html`  | The whole page, with its English copy                     |
-| `i18n.js`     | The four languages and how one is chosen                  |
-| `styles.css`  | Paper-and-ink palette taken from the product icon         |
-| `download.js` | Manifest lookup, platform detection, rendering            |
-| `icon.png`    | The application icon, copied from `src-tauri/icons/`      |
-| `_redirects`  | `/download` to `/`, because the app opens that exact path |
-| `_headers`    | CSP and transport headers                                 |
+| File              | Purpose                                                   |
+| ----------------- | --------------------------------------------------------- |
+| `index.html`      | The whole page, with its English copy                     |
+| `i18n.js`         | The four languages and how one is chosen                  |
+| `styles.css`      | Paper-and-ink palette taken from the product icon         |
+| `download.js`     | Manifest lookup, platform detection, rendering            |
+| `icon.png`        | The application icon, copied from `src-tauri/icons/`      |
+| `screenshot.webp` | The product window, so the page shows what it offers      |
+| `_redirects`      | `/download` to `/`, because the app opens that exact path |
+| `_headers`        | CSP and transport headers                                 |
 
 The content security policy allows exactly one outbound connection,
 `https://dl.aimanager.tools`. Adding an analytics script or a web font would

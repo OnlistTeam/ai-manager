@@ -35,7 +35,7 @@
       href="https://aimanager.tools/"
     />
     <link rel="icon" href="icon.png" type="image/png" />
-    <link rel="stylesheet" href="styles.css?v=20260922-2" />
+    <link rel="stylesheet" href="styles.css?v=20260922-3" />
   </head>
   <body>
     <nav class="langbar" aria-label="Language" data-i18n-aria="lang.label">
@@ -64,6 +64,24 @@
     </header>
 
     <main>
+      <!-- What the thing looks like, before what the thing is called. A page
+           offering a desktop download that never shows the window is asking
+           for trust it has not earned. -->
+      <figure class="shot">
+        <img
+          src="screenshot.webp"
+          width="1480"
+          height="960"
+          alt="The AI Manager window, listing Claude Code, Codex CLI, OpenCode and other tools with their versions and update buttons."
+          data-i18n-alt="shot.alt"
+        />
+        <figcaption data-i18n="shot.caption">
+          Every AI coding tool on your computer, in one window: what is
+          installed, what needs updating, and which service each one is
+          pointed at.
+        </figcaption>
+      </figure>
+
       <section class="download-hero" aria-labelledby="downloads-heading">
         <p class="eyebrow" data-i18n="dl.eyebrow">Download AI Manager</p>
         <h2 id="downloads-heading" data-i18n="dl.heading">Download</h2>
@@ -154,11 +172,21 @@
         ></div>
       </section>
 
+      <!-- Platform warnings and checksum commands: necessary, and needed by
+           the few people who hit a Gatekeeper or SmartScreen prompt or who
+           verify downloads. Collapsed, because when this was open it was the
+           largest thing on a page whose job is a download button. -->
       <section class="verify" aria-labelledby="verify-heading">
-        <h2 id="verify-heading" data-i18n="verify.heading">
-          Before you install
-        </h2>
-        <div class="verify-grid">
+        <details>
+          <summary>
+            <h2 id="verify-heading" data-i18n="verify.heading">
+              Before you install
+            </h2>
+            <span class="verify-summary" data-i18n="verify.summary">
+              Signing, first-run warnings, and how to check a download.
+            </span>
+          </summary>
+          <div class="verify-grid">
           <article>
             <h3 data-i18n="verify.macos.title">macOS</h3>
             <p data-i18n="verify.macos.body">
@@ -208,7 +236,8 @@
               choice: the app waits until you press Restart.
             </p>
           </article>
-        </div>
+          </div>
+        </details>
       </section>
     </main>
 
@@ -251,7 +280,7 @@
       </p>
     </footer>
 
-    <script src="i18n.js?v=20260922-2"></script>
-    <script src="download.js?v=20260922-2"></script>
+    <script src="i18n.js?v=20260922-3"></script>
+    <script src="download.js?v=20260922-3"></script>
   </body>
 </html>
