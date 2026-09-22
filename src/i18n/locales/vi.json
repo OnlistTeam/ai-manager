@@ -370,7 +370,8 @@
         "remove": "Xóa {{name}}",
         "check": "Kiểm tra {{name}}",
         "fix": "Sửa lỗi {{name}}"
-      }
+      },
+      "openSystemSettings": "Mở Cài đặt Hệ thống"
     },
     "tool": {
       "notInstalled": "Chưa cài đặt",
@@ -683,7 +684,8 @@
       "retryOrViewDetails": "Thử lại, hoặc mở Xem chi tiết để biết chuyện gì đã xảy ra.",
       "useOriginalUpdateChannel": "Dùng trình cập nhật gốc của bản cài đặt này, hoặc gỡ nó một cách tường minh trước khi cài qua npm.",
       "uninstallManually": "Bạn có thể tự xóa các tệp còn lại, rồi chạy Kiểm tra lại.",
-      "pasteDeepLink": "Sao chép liên kết và dán vào Cài đặt để tiếp tục."
+      "pasteDeepLink": "Sao chép liên kết và dán vào Cài đặt để tiếp tục.",
+      "allowTerminalAutomation": "Mở «Cài đặt Hệ thống → Quyền riêng tư & Bảo mật → Tự động hoá» rồi bật «Terminal» cho AI Manager."
     },
     "routing": {
       "changeFailed": "AI Manager không thể hoàn tất thay đổi định tuyến đó một cách an toàn.",
@@ -747,7 +749,8 @@
       "zipVerifyFailed": "AI Manager không thể xác nhận rằng các Skill từ tệp ZIP đó đã được cài đặt."
     },
     "system": {
-      "revealFailed": "Không thể hiển thị vị trí này trong trình quản lý tệp."
+      "revealFailed": "Không thể hiển thị vị trí này trong trình quản lý tệp.",
+      "openSettingsFailed": "Không mở được Cài đặt Hệ thống."
     },
     "tool": {
       "actionPanicked": "Đã có lỗi xảy ra bên trong AI Manager.",
@@ -781,7 +784,8 @@
       "versionHistoryWriteFailed": "Thay đổi công cụ đã được xác minh, nhưng AI Manager không thể lưu lịch sử phiên bản của nó.",
       "versionInvalid": "Không thể cài đặt phiên bản đó một cách an toàn.",
       "versionSourceUnsupported": "Bản cài đặt này phải giữ nguyên kênh cập nhật gốc của nó.",
-      "verifyFailed": "AI Manager không thể xác nhận rằng công cụ này hoạt động."
+      "verifyFailed": "AI Manager không thể xác nhận rằng công cụ này hoạt động.",
+      "terminalAutomationDenied": "macOS không cho phép AI Manager mở Terminal."
     },
     "usage": {
       "readFailed": "AI Manager không thể đọc bản tóm tắt sử dụng cục bộ.",
@@ -2534,7 +2538,7 @@
       "launch": {
         "label": "Mở AI Manager khi tôi đăng nhập",
         "description": "Dùng cơ chế khởi động ứng dụng của hệ thống để chạy sau khi bạn đăng nhập.",
-        "descriptionMac": "Thêm một mục khởi động macOS để chạy sau khi bạn đăng nhập vào Mac."
+        "descriptionMac": "Tự động khởi chạy AI Manager sau khi bạn đăng nhập vào Mac."
       },
       "silent": {
         "label": "Khởi động trong nền",

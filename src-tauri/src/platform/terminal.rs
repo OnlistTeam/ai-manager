@@ -159,6 +159,33 @@ fn launch_failed(technical: impl Into<String>) -> AppError {
         .with_remediation("error.remediation.openToolManually")
 }
 
+/// macOS remembers a refused automation grant and never asks again: every later
+/// attempt fails silently with `errAEEventNotPermitted`. Reporting that as a
+/// generic launch failure leaves the user with a button that will not work
+/// again and no way to find out why, so this case gets its own message and
+/// points at the one place that can undo it (ADR-0043).
+#[cfg(any(target_os = "macos", test))]
+fn terminal_automation_denied() -> AppError {
+    AppError::new(
+        ErrorCode::LaunchFailed,
+        "error.tool.terminalAutomationDenied",
+    )
+    .with_remediation("error.remediation.allowTerminalAutomation")
+}
+
+/// Whether `osascript` failed because the automation grant is missing rather
+/// than because the script itself was wrong.
+///
+/// `-1743` is `errAEEventNotPermitted`, which osascript prints both as the
+/// numeric code and as an English sentence depending on the macOS version, so
+/// both spellings are matched.
+#[cfg(any(target_os = "macos", test))]
+fn is_automation_denied(stderr: &str) -> bool {
+    stderr.contains("-1743")
+        || stderr.contains("Not authorized to send Apple events")
+        || stderr.contains("errAEEventNotPermitted")
+}
+
 /// Which terminals installed on this machine can take over. Only macOS lets the user choose; other
 /// platforms probe in a fixed order, and an empty result means the UI should not show a picker.
 pub fn installed_terminals() -> Vec<TerminalAppId> {
@@ -281,6 +308,8 @@ async fn launch_macos(spec: TerminalLaunchSpec) -> Result<(), AppError> {
         .map_err(|error| launch_failed(error.to_string()))?;
     if output.success {
         Ok(())
+    } else if is_automation_denied(&output.stderr) {
+        Err(terminal_automation_denied())
     } else {
         Err(launch_failed(format!(
             "Terminal bridge exited with code {:?}",

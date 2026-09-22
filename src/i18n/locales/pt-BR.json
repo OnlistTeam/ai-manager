@@ -370,7 +370,8 @@
         "remove": "Remover {{name}}",
         "check": "Verificar {{name}}",
         "fix": "Corrigir {{name}}"
-      }
+      },
+      "openSystemSettings": "Abrir Ajustes do Sistema"
     },
     "tool": {
       "notInstalled": "Não instalado",
@@ -683,7 +684,8 @@
       "retryOrViewDetails": "Tente novamente, ou abra Ver detalhes para saber o que aconteceu.",
       "useOriginalUpdateChannel": "Use o atualizador original desta instalação, ou remova-a explicitamente antes de instalar pelo npm.",
       "uninstallManually": "Você pode excluir os arquivos restantes você mesmo e depois executar Verificar novamente.",
-      "pasteDeepLink": "Copie o link e cole-o em Configurações para continuar."
+      "pasteDeepLink": "Copie o link e cole-o em Configurações para continuar.",
+      "allowTerminalAutomation": "Abra «Ajustes do Sistema → Privacidade e Segurança → Automação» e ative o «Terminal» para o AI Manager."
     },
     "routing": {
       "changeFailed": "O AI Manager não conseguiu concluir essa alteração de roteamento com segurança.",
@@ -747,7 +749,8 @@
       "zipVerifyFailed": "O AI Manager não conseguiu confirmar que as Habilidades desse ZIP foram instaladas."
     },
     "system": {
-      "revealFailed": "Não foi possível mostrar este local no gerenciador de arquivos."
+      "revealFailed": "Não foi possível mostrar este local no gerenciador de arquivos.",
+      "openSettingsFailed": "Não foi possível abrir os Ajustes do Sistema."
     },
     "tool": {
       "actionPanicked": "Algo deu errado dentro do AI Manager.",
@@ -781,7 +784,8 @@
       "versionHistoryWriteFailed": "A alteração da ferramenta foi verificada, mas o AI Manager não conseguiu salvar seu histórico de versões.",
       "versionInvalid": "Essa versão não pode ser instalada com segurança.",
       "versionSourceUnsupported": "Esta instalação deve permanecer em seu canal de atualização original.",
-      "verifyFailed": "O AI Manager não conseguiu confirmar que esta ferramenta funciona."
+      "verifyFailed": "O AI Manager não conseguiu confirmar que esta ferramenta funciona.",
+      "terminalAutomationDenied": "O macOS não está deixando o AI Manager abrir o Terminal."
     },
     "usage": {
       "readFailed": "O AI Manager não conseguiu ler o resumo de uso local.",
@@ -2534,7 +2538,7 @@
       "launch": {
         "label": "Abrir o AI Manager quando eu entrar na sessão",
         "description": "Usa o mecanismo de aplicativos de inicialização do sistema para iniciar após você entrar na sessão.",
-        "descriptionMac": "Adiciona um item de login do macOS para iniciar depois que você entra na sessão do seu Mac."
+        "descriptionMac": "Inicia o AI Manager automaticamente depois que você entra na sessão do seu Mac."
       },
       "silent": {
         "label": "Iniciar em segundo plano",

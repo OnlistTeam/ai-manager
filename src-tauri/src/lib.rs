@@ -1170,6 +1170,7 @@ pub fn run() {
             commands::app_import_run,
             commands::app_health_snapshot,
             commands::app_reveal_path,
+            commands::app_open_automation_settings,
             // AI Manager product API (Advanced Usage; ADR-0006).
             commands::app_usage_overview,
             commands::app_usage_refresh,

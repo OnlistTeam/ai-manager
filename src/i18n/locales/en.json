@@ -370,7 +370,8 @@
         "remove": "Remove {{name}}",
         "check": "Check {{name}}",
         "fix": "Fix {{name}}"
-      }
+      },
+      "openSystemSettings": "Open System Settings"
     },
     "tool": {
       "notInstalled": "Not installed",
@@ -683,7 +684,8 @@
       "retryOrViewDetails": "Try again, or open View Details to see what happened.",
       "useOriginalUpdateChannel": "Use this installation's original updater, or remove it explicitly before installing through npm.",
       "uninstallManually": "You can delete the remaining files yourself, then run Check again.",
-      "pasteDeepLink": "Copy the link and paste it into Settings to continue."
+      "pasteDeepLink": "Copy the link and paste it into Settings to continue.",
+      "allowTerminalAutomation": "In System Settings, open Privacy & Security, then Automation, and switch Terminal on for AI Manager."
     },
     "routing": {
       "changeFailed": "AI Manager could not complete that routing change safely.",
@@ -747,7 +749,8 @@
       "zipVerifyFailed": "AI Manager could not confirm the Skills from that ZIP were installed."
     },
     "system": {
-      "revealFailed": "Could not show this location in the file manager."
+      "revealFailed": "Could not show this location in the file manager.",
+      "openSettingsFailed": "Could not open System Settings."
     },
     "tool": {
       "actionPanicked": "Something went wrong inside AI Manager.",
@@ -781,7 +784,8 @@
       "versionHistoryWriteFailed": "The tool change was verified, but AI Manager could not save its version history.",
       "versionInvalid": "That version cannot be installed safely.",
       "versionSourceUnsupported": "This installation must stay with its original update channel.",
-      "verifyFailed": "AI Manager could not confirm this tool works."
+      "verifyFailed": "AI Manager could not confirm this tool works.",
+      "terminalAutomationDenied": "macOS is not letting AI Manager open Terminal."
     },
     "usage": {
       "readFailed": "AI Manager could not read the local usage summary.",
@@ -2534,7 +2538,7 @@
       "launch": {
         "label": "Open AI Manager when I sign in",
         "description": "Uses the system startup-app mechanism to start after you sign in.",
-        "descriptionMac": "Adds a macOS login item to start after you sign in to your Mac."
+        "descriptionMac": "Starts AI Manager automatically after you sign in to your Mac."
       },
       "silent": {
         "label": "Start in the background",

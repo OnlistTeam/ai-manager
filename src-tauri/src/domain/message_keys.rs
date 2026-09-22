@@ -195,6 +195,7 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.provider.switchFailed",
     "error.provider.testFailed",
     "error.provider.unsupportedTool",
+    "error.remediation.allowTerminalAutomation",
     "error.remediation.checkConnectionSettings",
     "error.remediation.checkInternetConnection",
     "error.remediation.checkLocalFileAccess",
@@ -278,6 +279,7 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.skill.zipNoSkills",
     "error.skill.zipSelectionUnavailable",
     "error.skill.zipVerifyFailed",
+    "error.system.openSettingsFailed",
     "error.system.revealFailed",
     "error.tool.actionPanicked",
     "error.tool.actionUnsupported",
@@ -299,6 +301,7 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.tool.removePathDenied",
     "error.tool.removePathRefused",
     "error.tool.serviceRegionUnavailable",
+    "error.tool.terminalAutomationDenied",
     "error.tool.uninstallFailed",
     "error.tool.uninstallIncomplete",
     "error.tool.uninstallStrategyUnknown",
@@ -478,6 +481,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 328);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 331);
     }
 }

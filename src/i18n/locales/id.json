@@ -370,7 +370,8 @@
         "remove": "Hapus {{name}}",
         "check": "Periksa {{name}}",
         "fix": "Perbaiki {{name}}"
-      }
+      },
+      "openSystemSettings": "Buka Pengaturan Sistem"
     },
     "tool": {
       "notInstalled": "Belum terinstal",
@@ -683,7 +684,8 @@
       "retryOrViewDetails": "Coba lagi, atau buka Lihat Detail untuk melihat apa yang terjadi.",
       "useOriginalUpdateChannel": "Gunakan updater asli instalasi ini, atau hapus secara eksplisit sebelum menginstal melalui npm.",
       "uninstallManually": "Anda dapat menghapus file yang tersisa sendiri, lalu jalankan Periksa lagi.",
-      "pasteDeepLink": "Salin tautannya dan tempel di Pengaturan untuk melanjutkan."
+      "pasteDeepLink": "Salin tautannya dan tempel di Pengaturan untuk melanjutkan.",
+      "allowTerminalAutomation": "Buka «Pengaturan Sistem → Privasi & Keamanan → Otomatisasi», lalu aktifkan «Terminal» untuk AI Manager."
     },
     "routing": {
       "changeFailed": "AI Manager tidak dapat menyelesaikan perubahan perutean tersebut dengan aman.",
@@ -747,7 +749,8 @@
       "zipVerifyFailed": "AI Manager tidak dapat memastikan Skill dari ZIP tersebut telah terinstal."
     },
     "system": {
-      "revealFailed": "Tidak dapat menampilkan lokasi ini di file manager."
+      "revealFailed": "Tidak dapat menampilkan lokasi ini di file manager.",
+      "openSettingsFailed": "Tidak dapat membuka Pengaturan Sistem."
     },
     "tool": {
       "actionPanicked": "Ada yang salah di dalam AI Manager.",
@@ -781,7 +784,8 @@
       "versionHistoryWriteFailed": "Perubahan alat telah diverifikasi, tetapi AI Manager tidak dapat menyimpan riwayat versinya.",
       "versionInvalid": "Versi tersebut tidak dapat diinstal dengan aman.",
       "versionSourceUnsupported": "Instalasi ini harus tetap menggunakan kanal pembaruan aslinya.",
-      "verifyFailed": "AI Manager tidak dapat memastikan alat ini berfungsi."
+      "verifyFailed": "AI Manager tidak dapat memastikan alat ini berfungsi.",
+      "terminalAutomationDenied": "macOS tidak mengizinkan AI Manager membuka Terminal."
     },
     "usage": {
       "readFailed": "AI Manager tidak dapat membaca ringkasan penggunaan lokal.",
@@ -2534,7 +2538,7 @@
       "launch": {
         "label": "Buka AI Manager saat saya masuk",
         "description": "Menggunakan mekanisme aplikasi mulai otomatis sistem untuk berjalan setelah Anda masuk.",
-        "descriptionMac": "Menambahkan item login macOS untuk berjalan setelah Anda masuk ke Mac Anda."
+        "descriptionMac": "Menjalankan AI Manager secara otomatis setelah Anda masuk ke Mac Anda."
       },
       "silent": {
         "label": "Mulai di latar belakang",

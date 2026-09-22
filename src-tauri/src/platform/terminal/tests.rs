@@ -347,3 +347,38 @@ fn linux_terminal_prefixes_are_fixed_and_wsl_specs_are_refused() {
     )
     .is_err());
 }
+
+/// A refused automation grant has to be told apart from a script that simply
+/// failed: the two need different messages, because only one of them has a
+/// remedy the user can act on.
+#[test]
+fn a_refused_automation_grant_is_recognised_in_every_spelling_osascript_uses() {
+    for stderr in [
+        "execution error: Not authorized to send Apple events to Terminal. (-1743)",
+        "execution error: errAEEventNotPermitted",
+        "-1743",
+    ] {
+        assert!(is_automation_denied(stderr), "{stderr}");
+    }
+
+    for stderr in [
+        "execution error: Terminal got an error: Can't make \"x\" into type file. (-1700)",
+        "",
+        "sh: osascript: command not found",
+    ] {
+        assert!(!is_automation_denied(stderr), "{stderr}");
+    }
+}
+
+/// The denial message must carry the remediation the button is attached to,
+/// and must not leak the script's own error text into the UI.
+#[test]
+fn the_denial_error_points_at_the_settings_pane_and_carries_no_technical_text() {
+    let error = terminal_automation_denied();
+    assert_eq!(error.message_key, "error.tool.terminalAutomationDenied");
+    assert_eq!(
+        error.remediation.as_deref(),
+        Some("error.remediation.allowTerminalAutomation")
+    );
+    assert_eq!(error.technical_message, None);
+}

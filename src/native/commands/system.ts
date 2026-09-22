@@ -29,4 +29,15 @@ export const system = {
       path: z.string().min(1).parse(path),
     });
   },
+
+  /**
+   * Opens the macOS pane where a refused automation grant can be restored.
+   *
+   * macOS only asks once; after "Don't Allow" there is no second prompt, so
+   * this is the only route back. The destination is owned by the native side —
+   * the renderer names the intent, not an address.
+   */
+  openAutomationSettings(): Promise<void> {
+    return invokeNative("app_open_automation_settings", z.void());
+  },
 };

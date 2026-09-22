@@ -370,7 +370,8 @@
         "remove": "{{name}} entfernen",
         "check": "{{name}} prüfen",
         "fix": "{{name}} reparieren"
-      }
+      },
+      "openSystemSettings": "Systemeinstellungen öffnen"
     },
     "tool": {
       "notInstalled": "Nicht installiert",
@@ -683,7 +684,8 @@
       "retryOrViewDetails": "Versuchen Sie es erneut, oder öffnen Sie Details anzeigen, um zu sehen, was passiert ist.",
       "useOriginalUpdateChannel": "Verwenden Sie den ursprünglichen Updater dieser Installation, oder entfernen Sie sie ausdrücklich, bevor Sie über npm installieren.",
       "uninstallManually": "Sie können die verbleibenden Dateien selbst löschen und dann erneut prüfen lassen.",
-      "pasteDeepLink": "Kopieren Sie den Link und fügen Sie ihn in den Einstellungen ein, um fortzufahren."
+      "pasteDeepLink": "Kopieren Sie den Link und fügen Sie ihn in den Einstellungen ein, um fortzufahren.",
+      "allowTerminalAutomation": "Öffnen Sie „Systemeinstellungen → Datenschutz & Sicherheit → Automation“ und aktivieren Sie dort „Terminal“ für AI Manager."
     },
     "routing": {
       "changeFailed": "AI Manager konnte diese Routing-Änderung nicht sicher abschließen.",
@@ -747,7 +749,8 @@
       "zipVerifyFailed": "AI Manager konnte nicht bestätigen, dass die Skills aus diesem ZIP installiert wurden."
     },
     "system": {
-      "revealFailed": "Dieser Ort konnte nicht im Dateimanager angezeigt werden."
+      "revealFailed": "Dieser Ort konnte nicht im Dateimanager angezeigt werden.",
+      "openSettingsFailed": "Die Systemeinstellungen konnten nicht geöffnet werden."
     },
     "tool": {
       "actionPanicked": "Innerhalb von AI Manager ist etwas schiefgelaufen.",
@@ -781,7 +784,8 @@
       "versionHistoryWriteFailed": "Die Änderung am Tool wurde bestätigt, aber AI Manager konnte den Versionsverlauf nicht speichern.",
       "versionInvalid": "Diese Version kann nicht sicher installiert werden.",
       "versionSourceUnsupported": "Diese Installation muss bei ihrem ursprünglichen Update-Kanal bleiben.",
-      "verifyFailed": "AI Manager konnte nicht bestätigen, dass dieses Tool funktioniert."
+      "verifyFailed": "AI Manager konnte nicht bestätigen, dass dieses Tool funktioniert.",
+      "terminalAutomationDenied": "macOS lässt AI Manager das Terminal nicht öffnen."
     },
     "usage": {
       "readFailed": "AI Manager konnte die lokale Nutzungsübersicht nicht lesen.",
@@ -2534,7 +2538,7 @@
       "launch": {
         "label": "AI Manager bei der Anmeldung öffnen",
         "description": "Nutzt den Systemmechanismus für Autostart-Apps, um nach Ihrer Anmeldung zu starten.",
-        "descriptionMac": "Fügt einen macOS-Anmeldeobjekt hinzu, das nach Ihrer Anmeldung am Mac startet."
+        "descriptionMac": "Startet AI Manager automatisch nach Ihrer Anmeldung am Mac."
       },
       "silent": {
         "label": "Im Hintergrund starten",

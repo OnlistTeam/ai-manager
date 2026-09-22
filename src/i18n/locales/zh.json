@@ -370,7 +370,8 @@
         "remove": "移除 {{name}}",
         "check": "检查 {{name}}",
         "fix": "修复 {{name}}"
-      }
+      },
+      "openSystemSettings": "打开系统设置"
     },
     "tool": {
       "notInstalled": "未安装",
@@ -683,7 +684,8 @@
       "retryOrViewDetails": "可以再试一次，或者打开「查看详情」看看发生了什么。",
       "useOriginalUpdateChannel": "请使用这份安装原来的更新渠道；也可以先明确移除，再通过 npm 安装。",
       "uninstallManually": "你可以自己删掉剩下的文件，然后重新检查一次。",
-      "pasteDeepLink": "复制这个链接，到设置里粘贴即可继续。"
+      "pasteDeepLink": "复制这个链接，到设置里粘贴即可继续。",
+      "allowTerminalAutomation": "打开「系统设置 → 隐私与安全性 → 自动化」，为 AI 管家开启「终端」。"
     },
     "routing": {
       "changeFailed": "AI 管家没能安全完成这次路由变更。",
@@ -747,7 +749,8 @@
       "zipVerifyFailed": "AI 管家没能确认这个 ZIP 中的技能已经装好。"
     },
     "system": {
-      "revealFailed": "没能在文件管理器里显示这个位置。"
+      "revealFailed": "没能在文件管理器里显示这个位置。",
+      "openSettingsFailed": "无法打开系统设置。"
     },
     "tool": {
       "actionPanicked": "AI 管家内部出错了。",
@@ -781,7 +784,8 @@
       "versionHistoryWriteFailed": "工具变更已经验证成功，但 AI 管家没能保存版本历史。",
       "versionInvalid": "无法安全安装这个版本。",
       "versionSourceUnsupported": "这份安装必须继续使用原来的更新渠道。",
-      "verifyFailed": "AI 管家没能确认这个工具可以正常用。"
+      "verifyFailed": "AI 管家没能确认这个工具可以正常用。",
+      "terminalAutomationDenied": "macOS 不允许 AI 管家打开终端。"
     },
     "usage": {
       "readFailed": "AI 管家没能读取本机用量汇总。",
@@ -2533,7 +2537,7 @@
       "launch": {
         "label": "登录电脑时打开 AI 管家",
         "description": "使用系统的启动应用机制，在登录电脑后自动启动。",
-        "descriptionMac": "添加到 macOS 登录项，在登录 Mac 后自动启动。"
+        "descriptionMac": "登录 Mac 后自动启动 AI 管家。"
       },
       "silent": {
         "label": "在后台启动",

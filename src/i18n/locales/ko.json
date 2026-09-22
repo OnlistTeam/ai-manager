@@ -370,7 +370,8 @@
         "remove": "{{name}} 제거",
         "check": "{{name}} 확인",
         "fix": "{{name}} 수정"
-      }
+      },
+      "openSystemSettings": "시스템 설정 열기"
     },
     "tool": {
       "notInstalled": "설치되지 않음",
@@ -683,7 +684,8 @@
       "retryOrViewDetails": "다시 시도하거나, 세부 정보 보기를 열어 무슨 일이 있었는지 확인하세요.",
       "useOriginalUpdateChannel": "이 설치의 원래 업데이트 프로그램을 사용하거나, npm으로 설치하기 전에 명시적으로 제거하세요.",
       "uninstallManually": "남은 파일을 직접 삭제한 다음 다시 확인을 실행하세요.",
-      "pasteDeepLink": "링크를 복사해 설정에 붙여넣어 계속하세요."
+      "pasteDeepLink": "링크를 복사해 설정에 붙여넣어 계속하세요.",
+      "allowTerminalAutomation": "‘시스템 설정 → 개인정보 보호 및 보안 → 자동화’를 열고 AI Manager의 ‘터미널’을 켜십시오."
     },
     "routing": {
       "changeFailed": "AI Manager가 그 라우팅 변경을 안전하게 완료할 수 없습니다.",
@@ -747,7 +749,8 @@
       "zipVerifyFailed": "AI Manager가 그 ZIP의 스킬이 설치되었는지 확인할 수 없습니다."
     },
     "system": {
-      "revealFailed": "파일 관리자에서 이 위치를 표시할 수 없습니다."
+      "revealFailed": "파일 관리자에서 이 위치를 표시할 수 없습니다.",
+      "openSettingsFailed": "시스템 설정을 열 수 없습니다."
     },
     "tool": {
       "actionPanicked": "AI Manager 내부에서 문제가 발생했습니다.",
@@ -781,7 +784,8 @@
       "versionHistoryWriteFailed": "도구 변경은 확인되었지만 AI Manager가 버전 기록을 저장할 수 없었습니다.",
       "versionInvalid": "그 버전은 안전하게 설치할 수 없습니다.",
       "versionSourceUnsupported": "이 설치는 원래 업데이트 채널을 계속 사용해야 합니다.",
-      "verifyFailed": "AI Manager가 이 도구가 작동하는지 확인할 수 없습니다."
+      "verifyFailed": "AI Manager가 이 도구가 작동하는지 확인할 수 없습니다.",
+      "terminalAutomationDenied": "macOS가 AI Manager의 터미널 실행을 허용하지 않습니다."
     },
     "usage": {
       "readFailed": "AI Manager가 로컬 사용량 요약을 읽을 수 없습니다.",
@@ -2534,7 +2538,7 @@
       "launch": {
         "label": "로그인할 때 AI Manager 열기",
         "description": "시스템의 시작 프로그램 기능을 사용해 로그인 후 시작합니다.",
-        "descriptionMac": "Mac에 로그인한 후 시작하도록 macOS 로그인 항목을 추가합니다."
+        "descriptionMac": "Mac에 로그인하면 AI Manager를 자동으로 시작합니다."
       },
       "silent": {
         "label": "백그라운드에서 시작",

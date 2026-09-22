@@ -229,3 +229,44 @@ fn reveal_error(technical: impl Into<String>) -> AppError {
         .with_technical(technical)
         .with_remediation("error.remediation.checkPermissions")
 }
+
+/// The one pane that can restore a refused automation grant.
+///
+/// macOS asks for permission to control Terminal exactly once. After "Don't
+/// Allow" every later attempt fails without a prompt, and the only way back is
+/// this pane — which is deep enough that describing it in prose is not a
+/// remedy. The destination is fixed here rather than passed in, for the same
+/// reason as the legal notice links: the renderer names the intent, the native
+/// side owns the address.
+#[cfg(target_os = "macos")]
+pub const AUTOMATION_PRIVACY_SETTINGS_URL: &str =
+    "x-apple.systempreferences:com.apple.preference.security?Privacy_Automation";
+
+/// Opens the system pane where a refused permission can be granted again.
+///
+/// Only macOS has a pane to open: Windows and Linux never ask for this grant,
+/// so the command reports that there is nothing to open rather than pretending
+/// to succeed.
+#[tauri::command]
+pub async fn app_open_automation_settings(
+    #[allow(unused_variables)] app_handle: tauri::AppHandle,
+) -> Result<(), AppError> {
+    #[cfg(target_os = "macos")]
+    {
+        use tauri_plugin_opener::OpenerExt;
+        app_handle
+            .opener()
+            .open_url(AUTOMATION_PRIVACY_SETTINGS_URL, None::<String>)
+            .map_err(|error| {
+                AppError::new(ErrorCode::LaunchFailed, "error.system.openSettingsFailed")
+                    .with_technical(error.to_string())
+                    .with_remediation("error.remediation.retryOrViewDetails")
+            })?;
+        Ok(())
+    }
+    #[cfg(not(target_os = "macos"))]
+    Err(
+        AppError::new(ErrorCode::Unsupported, "error.system.openSettingsFailed")
+            .with_technical("no automation privacy pane exists on this platform"),
+    )
+}

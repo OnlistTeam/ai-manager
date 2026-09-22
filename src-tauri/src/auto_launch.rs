@@ -1,43 +1,56 @@
+//! Launch at login, without asking for a permission the feature does not need.
+//!
+//! On macOS the `auto-launch` crate defaults to driving Finder's login items
+//! through AppleScript, and every call — including the read that renders the
+//! settings toggle — runs `tell application "System Events" to …`. That makes
+//! macOS show "AI Manager wants to control System Events" on first launch, for
+//! a switch the user has not touched yet: an automation grant requested before
+//! there is anything to automate.
+//!
+//! A launch agent needs no grant at all. Enabling writes one plist under
+//! `~/Library/LaunchAgents`, disabling removes it, and reading the state is a
+//! file existence check, so the settings page renders without a prompt.
+//!
+//! One consequence worth naming: a login item created by an earlier build's
+//! AppleScript path is not removed here, because removing it would require the
+//! very permission this change exists to avoid. That combination only affects
+//! someone who turned the switch on before this change, and the single-instance
+//! guard makes the duplicate launch harmless (ADR-0043).
+
 use crate::error::AppError;
 use auto_launch::{AutoLaunch, AutoLaunchBuilder};
 
-/// Gets the .app bundle path on macOS.
-/// Converts `/path/to/CC Switch.app/Contents/MacOS/CC Switch` to `/path/to/CC Switch.app`.
+/// The launch agent's `Label`, and therefore its file name. The bundle
+/// identifier is what `launchctl` expects and keeps the file recognisable in
+/// `~/Library/LaunchAgents` next to everything else.
 #[cfg(target_os = "macos")]
-fn get_macos_app_bundle_path(exe_path: &std::path::Path) -> Option<std::path::PathBuf> {
-    let path_str = exe_path.to_string_lossy();
-    // Look for the .app/Contents/MacOS/ pattern.
-    if let Some(app_pos) = path_str.find(".app/Contents/MacOS/") {
-        let app_bundle_end = app_pos + 4; // End position of ".app".
-        Some(std::path::PathBuf::from(&path_str[..app_bundle_end]))
-    } else {
-        None
-    }
-}
+const LAUNCH_AGENT_LABEL: &str = "tools.aimanager.desktop";
 
 /// Initializes the AutoLaunch instance.
 fn get_auto_launch() -> Result<AutoLaunch, AppError> {
-    let app_name = "AI Manager";
     let exe_path = std::env::current_exe()
         .map_err(|e| AppError::Message(format!("Failed to get app path: {e}")))?;
 
-    // macOS needs the .app bundle path, otherwise the AppleScript login item opens a terminal.
+    let mut builder = AutoLaunchBuilder::new();
+    // `launchd` execs the path it is given, so it needs the real executable
+    // inside the bundle rather than the `.app` directory. The bundle's
+    // `Info.plist` still applies, so the window and Dock tile behave exactly as
+    // they do when the bundle is opened from Finder.
+    builder.set_app_path(&exe_path.to_string_lossy());
+
     #[cfg(target_os = "macos")]
-    let app_path = get_macos_app_bundle_path(&exe_path).unwrap_or(exe_path);
+    builder
+        .set_app_name(LAUNCH_AGENT_LABEL)
+        .set_use_launch_agent(true);
 
+    // Windows uses the registry and Linux an XDG autostart entry; neither asks
+    // for a permission, so both keep the display name.
     #[cfg(not(target_os = "macos"))]
-    let app_path = exe_path;
+    builder.set_app_name("AI Manager");
 
-    // Use AutoLaunchBuilder to smooth over platform differences.
-    // macOS: uses AppleScript (default), needs the .app bundle path.
-    // Windows/Linux: uses the registry/XDG autostart.
-    let auto_launch = AutoLaunchBuilder::new()
-        .set_app_name(app_name)
-        .set_app_path(&app_path.to_string_lossy())
+    builder
         .build()
-        .map_err(|e| AppError::Message(format!("Failed to create AutoLaunch: {e}")))?;
-
-    Ok(auto_launch)
+        .map_err(|e| AppError::Message(format!("Failed to create AutoLaunch: {e}")))
 }
 
 /// Enables launch at login.
@@ -72,45 +85,32 @@ pub fn is_auto_launch_enabled() -> Result<bool, AppError> {
 mod tests {
     use super::*;
 
+    /// The regression this module exists for: no code path may reach
+    /// `osascript`, because reading the toggle would then prompt for an
+    /// automation grant on first launch.
     #[cfg(target_os = "macos")]
     #[test]
-    fn test_get_macos_app_bundle_path_valid() {
-        let exe_path = std::path::Path::new("/Applications/CC Switch.app/Contents/MacOS/CC Switch");
-        let result = get_macos_app_bundle_path(exe_path);
+    fn macos_uses_a_launch_agent_rather_than_an_apple_script_login_item() {
+        let auto_launch = get_auto_launch().expect("build the integration");
+        assert_eq!(auto_launch.get_app_name(), LAUNCH_AGENT_LABEL);
+        // `is_enabled` is a file existence check under a launch agent, so it
+        // answers without a subprocess, without a prompt, and without failing
+        // when the grant was refused.
+        assert!(auto_launch.is_enabled().is_ok());
+    }
+
+    /// `launchd` cannot exec a directory, so the path must stay the real
+    /// binary inside the bundle rather than being rewritten to the `.app`.
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn the_launch_agent_points_at_the_executable_not_the_bundle() {
+        let auto_launch = get_auto_launch().expect("build the integration");
+        assert!(!auto_launch.get_app_path().ends_with(".app"));
         assert_eq!(
-            result,
-            Some(std::path::PathBuf::from("/Applications/CC Switch.app"))
+            auto_launch.get_app_path(),
+            std::env::current_exe()
+                .expect("the running executable")
+                .to_string_lossy()
         );
-    }
-
-    #[cfg(target_os = "macos")]
-    #[test]
-    fn test_get_macos_app_bundle_path_with_spaces() {
-        let exe_path =
-            std::path::Path::new("/Users/test/My Apps/CC Switch.app/Contents/MacOS/CC Switch");
-        let result = get_macos_app_bundle_path(exe_path);
-        assert_eq!(
-            result,
-            Some(std::path::PathBuf::from(
-                "/Users/test/My Apps/CC Switch.app"
-            ))
-        );
-    }
-
-    #[cfg(target_os = "macos")]
-    #[test]
-    fn test_get_macos_app_bundle_path_not_in_bundle() {
-        let exe_path = std::path::Path::new("/usr/local/bin/cc-switch");
-        let result = get_macos_app_bundle_path(exe_path);
-        assert_eq!(result, None);
-    }
-
-    #[cfg(target_os = "macos")]
-    #[test]
-    fn test_get_macos_app_bundle_path_dev_build() {
-        // Paths in a dev environment are usually not inside an .app bundle.
-        let exe_path = std::path::Path::new("/Users/dev/project/target/debug/cc-switch");
-        let result = get_macos_app_bundle_path(exe_path);
-        assert_eq!(result, None);
     }
 }

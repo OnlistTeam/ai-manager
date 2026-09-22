@@ -370,7 +370,8 @@
         "remove": "{{name}}を削除",
         "check": "{{name}}を確認",
         "fix": "{{name}}を修復"
-      }
+      },
+      "openSystemSettings": "システム設定を開く"
     },
     "tool": {
       "notInstalled": "未インストール",
@@ -683,7 +684,8 @@
       "retryOrViewDetails": "もう一度試すか、「詳細を表示」で状況を確認してください。",
       "useOriginalUpdateChannel": "このインストール元の更新機能を使うか、明示的に削除してから npm でインストールしてください。",
       "uninstallManually": "残ったファイルはご自分で削除し、もう一度確認してください。",
-      "pasteDeepLink": "リンクをコピーして設定に貼り付けると続行できます。"
+      "pasteDeepLink": "リンクをコピーして設定に貼り付けると続行できます。",
+      "allowTerminalAutomation": "「システム設定 → プライバシーとセキュリティ → オートメーション」を開き、AI Manager の「ターミナル」をオンにしてください。"
     },
     "routing": {
       "changeFailed": "AI Manager はこのルーティング変更を安全に完了できませんでした。",
@@ -747,7 +749,8 @@
       "zipVerifyFailed": "その ZIP のスキルがインストールされたことを確認できませんでした。"
     },
     "system": {
-      "revealFailed": "この場所をファイルマネージャーで表示できませんでした。"
+      "revealFailed": "この場所をファイルマネージャーで表示できませんでした。",
+      "openSettingsFailed": "システム設定を開けませんでした。"
     },
     "tool": {
       "actionPanicked": "AI Manager の内部で問題が発生しました。",
@@ -781,7 +784,8 @@
       "versionHistoryWriteFailed": "ツールの変更は確認できましたが、AI Manager はバージョン履歴を保存できませんでした。",
       "versionInvalid": "このバージョンを安全にインストールできません。",
       "versionSourceUnsupported": "このインストールは元の更新経路を使う必要があります。",
-      "verifyFailed": "このツールが正しく動作するか確認できませんでした。"
+      "verifyFailed": "このツールが正しく動作するか確認できませんでした。",
+      "terminalAutomationDenied": "macOS が AI Manager によるターミナルの起動を許可していません。"
     },
     "usage": {
       "readFailed": "ローカルの使用量概要を読み取れませんでした。",
@@ -2533,7 +2537,7 @@
       "launch": {
         "label": "サインイン時に AI Manager を開く",
         "description": "システムのスタートアップ機能で、サインイン後に自動起動します。",
-        "descriptionMac": "macOS のログイン項目に追加し、Mac へのサインイン後に自動起動します。"
+        "descriptionMac": "Mac にサインインすると AI Manager を自動的に起動します。"
       },
       "silent": {
         "label": "バックグラウンドで起動",

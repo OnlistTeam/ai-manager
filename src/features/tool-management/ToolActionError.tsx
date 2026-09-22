@@ -2,6 +2,10 @@ import { AlertCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toErrorCopy } from "@/shared/lib/nativeError";
 import { cn } from "@/shared/ui/cn";
+import {
+  AutomationGrantAction,
+  AUTOMATION_REMEDIATION_KEY,
+} from "./AutomationGrantAction";
 
 export interface ToolActionErrorProps {
   error: Error;
@@ -33,6 +37,9 @@ export function ToolActionError({ error, className }: ToolActionErrorProps) {
           <p className="mt-0.5 text-caption leading-5 text-content-muted">
             {t(copy.remediationKey)}
           </p>
+        ) : null}
+        {copy.remediationKey === AUTOMATION_REMEDIATION_KEY ? (
+          <AutomationGrantAction />
         ) : null}
       </div>
     </div>
