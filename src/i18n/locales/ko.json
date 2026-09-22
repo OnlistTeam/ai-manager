@@ -1572,7 +1572,7 @@
       "customCompatibility": "{{tool}}이(가) 기대하는 API 형태를 구현한 엔드포인트를 사용하세요. AI Manager는 도구를 설정할 뿐 API 프로토콜을 변환하지 않습니다.",
       "customDescription": "{{tool}}이(가) 사용할 HTTPS 엔드포인트, 키, 모델을 입력하세요.",
       "customEntry": "사용자 지정 엔드포인트",
-      "customEntryHint": "검토된 프리셋 목록에 없는 서비스가 필요한가요?",
+      "customEntryHint": "이 목록에 없는 서비스가 필요한가요?",
       "customTitle": "API 엔드포인트 추가",
       "address": {
         "degraded": "{{name}}을(를) 저장했지만 서비스 주소 응답이 느렸습니다",
@@ -1600,7 +1600,7 @@
       "officialServices": "공식 서비스",
       "openProvider": "서비스 열기",
       "preset": "서비스 프리셋",
-      "presetHint": "공식 또는 호환 템플릿을 선택하세요. 호환 서비스는 설정 편의를 위해 나열된 것으로, AI Manager가 이를 보증하거나 재판매하지 않습니다.",
+      "presetHint": "널리 알려진 제공자만 표시합니다. AI Manager가 이를 보증하거나 재판매하지 않으며, 그 밖의 서비스는 사용자 지정 엔드포인트로 추가하세요.",
       "profileError": "AI Manager가 안전한 연결 템플릿을 불러오지 못했습니다. 저장된 서비스는 변경되지 않았습니다.",
       "profileErrorTitle": "새 연결을 준비할 수 없습니다",
       "profileRetry": "연결 설정 다시 불러오기",

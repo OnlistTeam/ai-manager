@@ -1572,7 +1572,7 @@
       "customCompatibility": "Utilisez un point d'accès qui implémente le format d'API attendu par {{tool}}. AI Manager configure l'outil, mais ne traduit pas les protocoles d'API.",
       "customDescription": "Saisissez le point d'accès HTTPS, la clé et le modèle que {{tool}} doit utiliser.",
       "customEntry": "Point d'accès personnalisé",
-      "customEntryHint": "Besoin d'un service absent de la liste des préréglages vérifiés ?",
+      "customEntryHint": "Besoin d'un service absent de cette liste ?",
       "customTitle": "Ajouter un point d'accès API",
       "address": {
         "degraded": "{{name}} a été enregistré, mais son adresse de service a répondu lentement",
@@ -1600,7 +1600,7 @@
       "officialServices": "Service officiel",
       "openProvider": "Ouvrir le service",
       "preset": "Service prédéfini",
-      "presetHint": "Choisissez un modèle officiel ou compatible. Les services compatibles sont listés pour faciliter la configuration ; AI Manager ne les recommande ni ne les revend.",
+      "presetHint": "Seuls les fournisseurs largement connus sont listés. AI Manager ne les recommande ni ne les revend ; ajoutez tout autre service via un point d'accès personnalisé.",
       "profileError": "AI Manager n'a pas pu charger son modèle de connexion sécurisé. Vos services enregistrés restent inchangés.",
       "profileErrorTitle": "Impossible de préparer une nouvelle connexion",
       "profileRetry": "Recharger la configuration de connexion",

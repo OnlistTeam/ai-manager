@@ -1572,7 +1572,7 @@
       "customCompatibility": "Verwenden Sie einen Endpunkt, der die von {{tool}} erwartete API-Form implementiert. AI Manager konfiguriert das Tool, übersetzt aber keine API-Protokolle.",
       "customDescription": "Geben Sie den HTTPS-Endpunkt, den Schlüssel und das Modell ein, die {{tool}} verwenden soll.",
       "customEntry": "Benutzerdefinierter Endpunkt",
-      "customEntryHint": "Brauchen Sie einen Dienst, der nicht in der geprüften Vorlagenliste steht?",
+      "customEntryHint": "Brauchen Sie einen Dienst, der nicht auf dieser Liste steht?",
       "customTitle": "API-Endpunkt hinzufügen",
       "address": {
         "degraded": "{{name}} wurde gespeichert, aber die Dienstadresse hat langsam geantwortet",
@@ -1600,7 +1600,7 @@
       "officialServices": "Offizieller Dienst",
       "openProvider": "Dienst öffnen",
       "preset": "Dienstvorlage",
-      "presetHint": "Wählen Sie eine offizielle oder kompatible Vorlage. Kompatible Dienste werden zur Einrichtungserleichterung aufgeführt; AI Manager empfiehlt oder verkauft sie nicht weiter.",
+      "presetHint": "Aufgeführt sind nur weithin bekannte Anbieter. AI Manager empfiehlt oder verkauft sie nicht weiter; alles andere fügen Sie über einen benutzerdefinierten Endpunkt hinzu.",
       "profileError": "AI Manager konnte seine sichere Verbindungsvorlage nicht laden. Ihre gespeicherten Dienste sind unverändert.",
       "profileErrorTitle": "Eine neue Verbindung konnte nicht vorbereitet werden",
       "profileRetry": "Verbindungseinrichtung erneut laden",

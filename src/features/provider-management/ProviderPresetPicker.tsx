@@ -218,7 +218,11 @@ export function ProviderPresetPicker({
             align="start"
             sideOffset={6}
             collisionPadding={16}
-            className="z-[220] w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-hairline bg-layer-1 shadow-lg outline-none"
+            // `bg-layer-1` is 8% white: a token for a panel nested inside an
+            // opaque surface, not for something floating over the page
+            // gradient, where it left the list barely readable. This is the
+            // same glass the modal and the task centre float on (spec §48).
+            className="app-floating-surface z-[220] w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border outline-none"
           >
             <Command label={t("services.connect.preset")} loop>
               <div className="flex items-center gap-2 border-b border-hairline px-3">

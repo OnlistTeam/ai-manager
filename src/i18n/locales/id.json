@@ -1572,7 +1572,7 @@
       "customCompatibility": "Gunakan endpoint yang mengimplementasikan bentuk API yang diharapkan {{tool}}. AI Manager mengonfigurasi alat ini, tetapi tidak menerjemahkan protokol API.",
       "customDescription": "Masukkan endpoint HTTPS, kunci, dan model yang harus digunakan {{tool}}.",
       "customEntry": "Endpoint kustom",
-      "customEntryHint": "Butuh layanan yang tidak ada di daftar preset yang telah ditinjau?",
+      "customEntryHint": "Butuh layanan yang tidak ada di daftar ini?",
       "customTitle": "Tambah endpoint API",
       "address": {
         "degraded": "{{name}} tersimpan, tetapi alamat layanannya merespons lambat",
@@ -1600,7 +1600,7 @@
       "officialServices": "Layanan resmi",
       "openProvider": "Buka layanan",
       "preset": "Preset layanan",
-      "presetHint": "Pilih templat resmi atau kompatibel. Layanan kompatibel dicantumkan demi kemudahan pengaturan; AI Manager tidak mendukung atau menjual kembali layanan tersebut.",
+      "presetHint": "Hanya penyedia yang dikenal luas yang dicantumkan. AI Manager tidak mendukung atau menjual kembali mereka; tambahkan layanan lain dengan endpoint kustom.",
       "profileError": "AI Manager tidak dapat memuat templat koneksi amannya. Layanan tersimpan Anda tidak berubah.",
       "profileErrorTitle": "Tidak dapat menyiapkan koneksi baru",
       "profileRetry": "Muat pengaturan koneksi lagi",

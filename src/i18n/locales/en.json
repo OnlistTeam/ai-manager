@@ -1572,7 +1572,7 @@
       "customCompatibility": "Use an endpoint that implements the API shape expected by {{tool}}. AI Manager configures the tool, but does not translate API protocols.",
       "customDescription": "Enter the HTTPS endpoint, key, and model that {{tool}} should use.",
       "customEntry": "Custom endpoint",
-      "customEntryHint": "Need a service that is not in the reviewed preset list?",
+      "customEntryHint": "Need a service that is not on this list?",
       "customTitle": "Add API endpoint",
       "address": {
         "degraded": "{{name}} was saved, but its service address responded slowly",
@@ -1600,7 +1600,7 @@
       "officialServices": "Official service",
       "openProvider": "Open service",
       "preset": "Service preset",
-      "presetHint": "Choose an official or compatible template. Compatible services are listed for setup convenience; AI Manager does not endorse or resell them.",
+      "presetHint": "Only widely known providers are listed. AI Manager does not endorse or resell them; add anything else with a custom endpoint.",
       "profileError": "AI Manager could not load its safe connection template. Your saved services are unchanged.",
       "profileErrorTitle": "Could not prepare a new connection",
       "profileRetry": "Load connection setup again",

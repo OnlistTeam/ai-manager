@@ -1572,7 +1572,7 @@
       "customCompatibility": "Usa un endpoint que implemente la forma de API que espera {{tool}}. AI Manager configura la herramienta, pero no traduce protocolos de API.",
       "customDescription": "Introduce el endpoint HTTPS, la clave y el modelo que debe usar {{tool}}.",
       "customEntry": "Endpoint personalizado",
-      "customEntryHint": "¿Necesitas un servicio que no está en la lista de plantillas revisadas?",
+      "customEntryHint": "¿Necesitas un servicio que no está en esta lista?",
       "customTitle": "Añadir endpoint de API",
       "address": {
         "degraded": "{{name}} se guardó, pero su dirección de servicio respondió lentamente",
@@ -1600,7 +1600,7 @@
       "officialServices": "Servicio oficial",
       "openProvider": "Abrir servicio",
       "preset": "Plantilla de servicio",
-      "presetHint": "Elige una plantilla oficial o compatible. Los servicios compatibles se muestran por comodidad de configuración; AI Manager no los respalda ni los revende.",
+      "presetHint": "Solo se muestran proveedores ampliamente conocidos. AI Manager no los respalda ni los revende; añade cualquier otro con un endpoint personalizado.",
       "profileError": "AI Manager no pudo cargar su plantilla de conexión segura. Tus servicios guardados no han cambiado.",
       "profileErrorTitle": "No se pudo preparar una nueva conexión",
       "profileRetry": "Volver a cargar la configuración de conexión",

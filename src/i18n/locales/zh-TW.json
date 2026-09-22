@@ -1571,7 +1571,7 @@
       "customCompatibility": "請使用實作了 {{tool}} 所需 API 格式的端點。AI Manager 會設定工具，但不會轉換 API 協定。",
       "customDescription": "填寫 {{tool}} 要使用的 HTTPS 端點、金鑰與模型。",
       "customEntry": "自訂端點",
-      "customEntryHint": "要連線未收錄在受審服務預設裡的服務？",
+      "customEntryHint": "要連線不在這份清單裡的服務？",
       "customTitle": "新增 API 端點",
       "address": {
         "degraded": "{{name}} 已儲存，但服務位址回應較慢",
@@ -1599,7 +1599,7 @@
       "officialServices": "官方服務",
       "openProvider": "開啟服務商",
       "preset": "服務預設",
-      "presetHint": "選擇官方或相容範本。相容服務僅用於簡化設定；AI 管家不為其背書或轉售。",
+      "presetHint": "只列出廣為人知的服務商。AI 管家不為其背書或轉售；其他服務請用「自訂端點」新增。",
       "profileError": "AI 管家沒能讀取安全連線範本，已儲存的服務不會受到影響。",
       "profileErrorTitle": "暫時不能新增服務",
       "profileRetry": "重新讀取連線範本",

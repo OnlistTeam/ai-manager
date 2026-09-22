@@ -1571,7 +1571,7 @@
       "customCompatibility": "请使用实现了 {{tool}} 所需 API 格式的端点。AI 管家会配置工具，但不会转换 API 协议。",
       "customDescription": "填写 {{tool}} 要使用的 HTTPS 端点、密钥和模型。",
       "customEntry": "自定义端点",
-      "customEntryHint": "要连接未收录在受审服务预设里的服务？",
+      "customEntryHint": "要连接不在这份列表里的服务？",
       "customTitle": "添加 API 端点",
       "address": {
         "degraded": "{{name}} 已保存，但服务地址响应较慢",
@@ -1599,7 +1599,7 @@
       "officialServices": "官方服务",
       "openProvider": "打开服务商",
       "preset": "服务预设",
-      "presetHint": "选择官方或兼容模板。兼容服务仅用于简化配置，AI 管家不为其背书或转售。",
+      "presetHint": "只列出广为人知的服务商。AI 管家不为其背书或转售；其他服务请用「自定义端点」添加。",
       "profileError": "AI 管家没能读取安全连接模板，已保存的服务不会受到影响。",
       "profileErrorTitle": "暂时不能添加新服务",
       "profileRetry": "重新读取连接模板",

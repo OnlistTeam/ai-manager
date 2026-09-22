@@ -1572,7 +1572,7 @@
       "customCompatibility": "Dùng một điểm cuối triển khai đúng định dạng API mà {{tool}} mong đợi. AI Manager cấu hình công cụ, nhưng không chuyển đổi giao thức API.",
       "customDescription": "Nhập điểm cuối HTTPS, khóa và model mà {{tool}} nên dùng.",
       "customEntry": "Điểm cuối tùy chỉnh",
-      "customEntryHint": "Cần một dịch vụ không có trong danh sách mẫu dựng sẵn đã xem xét?",
+      "customEntryHint": "Cần một dịch vụ không có trong danh sách này?",
       "customTitle": "Thêm điểm cuối API",
       "address": {
         "degraded": "{{name}} đã được lưu, nhưng địa chỉ dịch vụ của nó phản hồi chậm",
@@ -1600,7 +1600,7 @@
       "officialServices": "Dịch vụ chính thức",
       "openProvider": "Mở dịch vụ",
       "preset": "Mẫu dịch vụ dựng sẵn",
-      "presetHint": "Chọn một mẫu chính thức hoặc tương thích. Các dịch vụ tương thích được liệt kê để thuận tiện cho việc thiết lập; AI Manager không xác nhận hay bán lại chúng.",
+      "presetHint": "Chỉ liệt kê các nhà cung cấp được biết đến rộng rãi. AI Manager không xác nhận hay bán lại chúng; hãy thêm dịch vụ khác bằng điểm cuối tùy chỉnh.",
       "profileError": "AI Manager không thể tải mẫu kết nối an toàn của nó. Các dịch vụ đã lưu của bạn không bị ảnh hưởng.",
       "profileErrorTitle": "Không thể chuẩn bị một kết nối mới",
       "profileRetry": "Tải lại cấu hình kết nối",

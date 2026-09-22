@@ -540,12 +540,9 @@ mod tests {
             .collect::<Result<Vec<_>, _>>()
             .expect("supported profiles");
         assert_eq!(profiles.len(), 8);
-        assert!(
-            profiles
-                .iter()
-                .map(|profile| profile.presets.len())
-                .sum::<usize>()
-                >= 400
-        );
+        // Every supported tool must offer something to pick. The catalogue is
+        // an allowlist now, so its size is a policy outcome rather than an
+        // invariant; what has to hold is that no tool came out empty.
+        assert!(profiles.iter().all(|profile| profile.presets.len() >= 2));
     }
 }

@@ -1571,7 +1571,7 @@
       "customCompatibility": "{{tool}} が必要とする API 形式を実装したエンドポイントを使用してください。AI Manager はツールを設定しますが、API プロトコルは変換しません。",
       "customDescription": "{{tool}} で使う HTTPS エンドポイント、キー、モデルを入力します。",
       "customEntry": "カスタムエンドポイント",
-      "customEntryHint": "審査済みプリセット一覧にないサービスを接続しますか？",
+      "customEntryHint": "この一覧にないサービスを接続しますか？",
       "customTitle": "API エンドポイントを追加",
       "address": {
         "degraded": "{{name}}を保存しましたが、サービスのアドレスの応答が遅れています",
@@ -1599,7 +1599,7 @@
       "officialServices": "公式サービス",
       "openProvider": "サービスを開く",
       "preset": "サービスプリセット",
-      "presetHint": "公式または互換テンプレートを選択します。互換サービスは設定を簡単にするための一覧であり、AI Manager が推奨または再販するものではありません。",
+      "presetHint": "広く知られた提供元のみを掲載しています。AI Manager が推奨または再販するものではありません。その他のサービスはカスタムエンドポイントから追加してください。",
       "profileError": "安全な接続テンプレートを読み込めませんでした。保存済みのサービスは変更されていません。",
       "profileErrorTitle": "新しい接続を準備できませんでした",
       "profileRetry": "接続テンプレートを再読み込み",

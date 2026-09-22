@@ -3,6 +3,8 @@ import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
 
+import { HOUSE_PRESETS, isAllowedService } from "./provider-preset-policy.mjs";
+
 const root = fileURLToPath(new URL("../", import.meta.url));
 export const catalogFile = new URL(
   "../src-tauri/src/compat/ccswitch/provider/provider_presets.generated.json",
@@ -498,8 +500,24 @@ async function loadSourcePresets() {
   }
 }
 
+/**
+ * `house` is this product's own service, and it leads each tool's list.
+ *
+ * Position is not preselection: the dialog opens on `defaultPresetId`, which
+ * stays the tool's own vendor, so leading the list costs nobody the default
+ * they expect.
+ */
+function isHousePreset(preset) {
+  return HOUSE_PRESETS.some(
+    (house) => house.tool === preset.tool && house.id === preset.id,
+  );
+}
+
 function comparePresets(left, right) {
   if (left.tool !== right.tool) return left.tool < right.tool ? -1 : 1;
+  const leftHouse = isHousePreset(left);
+  const rightHouse = isHousePreset(right);
+  if (leftHouse !== rightHouse) return leftHouse ? -1 : 1;
   if (left.default !== right.default) return left.default ? -1 : 1;
   if (left.official !== right.official) return left.official ? -1 : 1;
   const leftName = left.serviceName.toLocaleLowerCase("en");
@@ -510,12 +528,17 @@ function comparePresets(left, right) {
 
 export async function buildProviderPresetCatalog() {
   const sources = await loadSourcePresets();
-  const projected = sources.flatMap(({ tool, presets }) =>
-    presets.map(projectors[tool]).filter(Boolean),
-  );
-  const presets = [...officialPresets.map(cloneJson), ...projected].sort(
-    comparePresets,
-  );
+  const projected = sources
+    .flatMap(({ tool, presets }) => presets.map(projectors[tool]).filter(Boolean))
+    // The upstream sources are cherry-picked, so this has to be a standing
+    // filter rather than a deletion: a relay added upstream tomorrow is kept
+    // out without anyone remembering to do it again.
+    .filter((preset) => isAllowedService(preset.serviceName));
+  const presets = [
+    ...HOUSE_PRESETS.map(cloneJson),
+    ...officialPresets.map(cloneJson),
+    ...projected,
+  ].sort(comparePresets);
   const identities = new Set();
   for (const preset of presets) {
     const identity = `${preset.tool}:${preset.id}`;

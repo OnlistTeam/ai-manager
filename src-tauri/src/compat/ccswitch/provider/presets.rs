@@ -402,9 +402,22 @@ mod tests {
                 .presets
                 .iter()
                 .any(|preset| preset.id == profile.default_preset_id));
+            // The catalogue lists only services this product is willing to
+            // stand behind, so a count is no longer the thing worth pinning.
+            // What must hold is that no tool was left with nothing to pick and
+            // that this product's own service leads each list.
+            assert!(
+                profile.presets.len() >= 2,
+                "{tool:?} has {} presets",
+                profile.presets.len()
+            );
+            assert_eq!(
+                profile.presets[0].service_name, "onList",
+                "{tool:?} does not lead with onList"
+            );
             total += profile.presets.len();
         }
-        assert!(total >= 400, "catalog unexpectedly shrank to {total}");
+        assert!(total > 0);
         assert!(profile_for(ToolId::KimiCode).is_err());
         assert!(profile_for(ToolId::DeepSeekDsh).is_err());
     }
