@@ -1916,7 +1916,10 @@
     "location": {
       "action": "Im Dateimanager anzeigen",
       "description": "Suchen Sie die aktive Datei dieser Software oder ihren nächstgelegenen vorhandenen Ordner, falls noch nicht erstellt.",
-      "promptNote": "Gespeicherte, inaktive Prompts haben keine eigenen Dateien."
+      "promptNote": "Gespeicherte, inaktive Prompts haben keine eigenen Dateien.",
+      "label": "Konfigurationsdatei",
+      "open": "Datei öffnen",
+      "notYetWritten": "Diese Software hat diese Datei noch nicht angelegt."
     },
     "title": "Skills, MCP & globale Prompts",
     "description": "Fügen Sie Skills hinzu, verbinden Sie MCP und verwalten Sie globale Prompts für jedes KI-Tool.",

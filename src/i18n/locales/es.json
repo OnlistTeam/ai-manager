@@ -1916,7 +1916,10 @@
     "location": {
       "action": "Mostrar en el gestor de archivos",
       "description": "Localiza el archivo activo de este software, o su carpeta existente más cercana si aún no se ha creado.",
-      "promptNote": "Los prompts guardados e inactivos no tienen archivos independientes."
+      "promptNote": "Los prompts guardados e inactivos no tienen archivos independientes.",
+      "label": "Archivo de configuración",
+      "open": "Abrir archivo",
+      "notYetWritten": "Este software todavía no ha creado este archivo."
     },
     "title": "Skills, MCP y prompts globales",
     "description": "Añade Skills, conecta MCP y administra los prompts globales de cada herramienta de IA.",

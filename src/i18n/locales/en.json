@@ -1916,7 +1916,10 @@
     "location": {
       "action": "Show in file manager",
       "description": "Locate this software’s live file, or its nearest existing folder if not created yet.",
-      "promptNote": "Saved, inactive prompts do not have separate files."
+      "promptNote": "Saved, inactive prompts do not have separate files.",
+      "label": "Configuration file",
+      "open": "Open file",
+      "notYetWritten": "This software has not created this file yet."
     },
     "title": "Skills, MCP & Global Prompts",
     "description": "Add Skills, connect MCP, and manage global prompts for each AI tool.",

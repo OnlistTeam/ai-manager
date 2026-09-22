@@ -1916,7 +1916,10 @@
     "location": {
       "action": "Hiện trong trình quản lý tệp",
       "description": "Định vị tệp hiện tại của phần mềm này, hoặc thư mục hiện có gần nhất nếu chưa được tạo.",
-      "promptNote": "Các prompt đã lưu, không hoạt động không có tệp riêng."
+      "promptNote": "Các prompt đã lưu, không hoạt động không có tệp riêng.",
+      "label": "Tệp cấu hình",
+      "open": "Mở tệp",
+      "notYetWritten": "Phần mềm này chưa tạo tệp đó."
     },
     "title": "Skills, MCP & Prompt toàn cục",
     "description": "Thêm Skills, kết nối MCP, và quản lý prompt toàn cục cho từng công cụ AI.",

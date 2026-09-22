@@ -1916,7 +1916,10 @@
     "location": {
       "action": "Mostra nel gestore file",
       "description": "Individua il file attivo di questo software, oppure la cartella esistente più vicina se non è stato ancora creato.",
-      "promptNote": "I prompt salvati e inattivi non hanno file separati."
+      "promptNote": "I prompt salvati e inattivi non hanno file separati.",
+      "label": "File di configurazione",
+      "open": "Apri file",
+      "notYetWritten": "Questo software non ha ancora creato questo file."
     },
     "title": "Competenze, MCP e prompt globali",
     "description": "Aggiungi competenze, connetti MCP e gestisci i prompt globali per ogni strumento AI.",

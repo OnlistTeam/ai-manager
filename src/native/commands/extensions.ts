@@ -4,11 +4,15 @@ import {
   detectedSkillResourceActionSchema,
   detectedSkillResourceOpenOutcomeSchema,
   extensionListSchema,
+  extensionLocationActionSchema,
+  extensionLocationSchema,
   localExtensionInventorySchema,
   type Extension,
   type DetectedSkillResourceAction,
   type DetectedSkillResourceOpenOutcome,
   type ExtensionKind,
+  type ExtensionLocation,
+  type ExtensionLocationAction,
   type ExtensionScope,
   type LocalExtensionInventory,
   type ToolId,
@@ -35,6 +39,34 @@ export const extensions = {
       kind,
     }).then(() => undefined);
   },
+  /**
+   * Which file this scope writes its entries to. `null` for Skills, which keep
+   * one directory per entry rather than one shared file.
+   */
+  describeLocation(
+    scope: ExtensionScope,
+    kind: ExtensionKind,
+  ): Promise<ExtensionLocation | null> {
+    return invokeNative(
+      "app_extension_location_describe",
+      extensionLocationSchema.nullable(),
+      { scope, kind },
+    );
+  },
+
+  /** Show the shared file in the file manager, or open it for editing. */
+  openLocation(
+    scope: ExtensionScope,
+    kind: ExtensionKind,
+    action: ExtensionLocationAction,
+  ): Promise<void> {
+    return invokeNative("app_extension_location_open", z.null(), {
+      scope,
+      kind,
+      action: extensionLocationActionSchema.parse(action),
+    }).then(() => undefined);
+  },
+
   localInventory(): Promise<LocalExtensionInventory> {
     return invokeNative(
       "app_extensions_local_inventory",

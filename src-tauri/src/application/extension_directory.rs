@@ -8,9 +8,9 @@ use crate::compat::ccswitch::extension::ExtensionStore;
 use crate::compat::ccswitch::tools::capabilities_for;
 use crate::domain::{
     AppError, DesktopAppId, DetectedSkillResourceAction, DetectedSkillResourceOpenOutcome,
-    ErrorCode, Extension, ExtensionKind, ExtensionManagement, ExtensionScope,
-    LocalExtensionInventory, LocalExtensionScope, LocalExtensionScopeStatus, ToolCapabilities,
-    ToolId,
+    ErrorCode, Extension, ExtensionKind, ExtensionLocation, ExtensionLocationAction,
+    ExtensionManagement, ExtensionScope, LocalExtensionInventory, LocalExtensionScope,
+    LocalExtensionScopeStatus, ToolCapabilities, ToolId,
 };
 use crate::platform::Platform;
 use tauri_plugin_opener::OpenerExt;
@@ -123,11 +123,60 @@ impl ExtensionDirectory {
         scope: ExtensionScope,
         kind: ExtensionKind,
     ) -> Result<(), AppError> {
+        Self::open_location(app_handle, scope, kind, ExtensionLocationAction::Browse)
+    }
+
+    /// Which file this scope's entries are actually written in.
+    ///
+    /// Read-only and path-only: knowing the file exists and where it is, is
+    /// what lets someone check the product's work. `None` means the scope has
+    /// no single shared file, which is the normal answer for Skills.
+    pub fn describe_location(
+        scope: ExtensionScope,
+        kind: ExtensionKind,
+    ) -> Result<Option<ExtensionLocation>, AppError> {
+        if !supports_scope(scope, kind) {
+            return Ok(None);
+        }
+        crate::compat::ccswitch::extension::describe_location(scope, kind)
+    }
+
+    /// Show the shared file in the file manager, or hand it to an editor.
+    ///
+    /// Skills already had both of these per entry; MCP servers and global
+    /// instructions had only the first, and only from the page header, which
+    /// is what made the two look like different products (ADR-0045).
+    pub fn open_location(
+        app_handle: &tauri::AppHandle,
+        scope: ExtensionScope,
+        kind: ExtensionKind,
+        action: ExtensionLocationAction,
+    ) -> Result<(), AppError> {
         if !supports_scope(scope, kind) {
             return Err(unsupported(scope, kind));
         }
         let path = crate::compat::ccswitch::extension::location_path(scope, kind)?;
-        super::reveal::open_in_file_manager(app_handle, &path).map_err(resource_open_error)
+        match action {
+            ExtensionLocationAction::Browse => {
+                super::reveal::open_in_file_manager(app_handle, &path).map_err(resource_open_error)
+            }
+            ExtensionLocationAction::Edit => {
+                // Opening a file the tool has not written yet would hand the
+                // editor a path that does not exist; saying so is better than
+                // a system error the user cannot place.
+                if !path.is_file() {
+                    return Err(resource_open_error(
+                        "the tool has not written this configuration file yet",
+                    ));
+                }
+                app_handle
+                    .opener()
+                    .open_path(path.to_string_lossy().to_string(), None::<String>)
+                    .map_err(|error| {
+                        resource_open_error(format!("system opener failed for {kind:?}: {error}"))
+                    })
+            }
+        }
     }
 
     /// Scan every capability-backed local Skills/MCP scope and return only the

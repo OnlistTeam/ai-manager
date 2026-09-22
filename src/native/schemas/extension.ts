@@ -41,6 +41,26 @@ export const extensionSchema = z.object({
 
 export const extensionListSchema = z.array(extensionSchema);
 
+export const extensionLocationActionSchema = z.enum(["browse", "edit"]);
+
+/**
+ * The single file a scope's MCP servers or instructions are written in.
+ *
+ * `extensionSchema` deliberately carries no path, because a per-row path would
+ * be one more thing on every card that the reader did not ask for. This is the
+ * scope's own file, named once above the list, so someone can see which file
+ * the product is about to change (ADR-0045). It is still only a path: no
+ * contents cross the boundary, and the renderer sends back the scope and kind
+ * rather than this string.
+ */
+export const extensionLocationSchema = z
+  .object({
+    kind: extensionKindSchema,
+    path: z.string().min(1).max(4096),
+    exists: z.boolean(),
+  })
+  .strict();
+
 const localExtensionKindSchema = z.enum(["skill", "mcp"]);
 
 export const localExtensionScopeSchema = z.object({
@@ -94,6 +114,10 @@ export type DetectedSkillResourceAction = z.infer<
 >;
 export type DetectedSkillResourceOpenOutcome = z.infer<
   typeof detectedSkillResourceOpenOutcomeSchema
+>;
+export type ExtensionLocation = z.infer<typeof extensionLocationSchema>;
+export type ExtensionLocationAction = z.infer<
+  typeof extensionLocationActionSchema
 >;
 export type ExtensionScope = z.infer<typeof extensionScopeSchema>;
 export type Extension = z.infer<typeof extensionSchema>;

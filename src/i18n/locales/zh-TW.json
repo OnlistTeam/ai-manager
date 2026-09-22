@@ -1915,7 +1915,10 @@
     "location": {
       "action": "開啟所在位置",
       "description": "定位目前軟體使用的本機檔案；尚未建立時，開啟最近的現有目錄。",
-      "promptNote": "已儲存但未啟用的提示詞不會產生獨立檔案。"
+      "promptNote": "已儲存但未啟用的提示詞不會產生獨立檔案。",
+      "label": "設定檔",
+      "open": "開啟檔案",
+      "notYetWritten": "這個軟體還沒有建立這個檔案。"
     },
     "title": "技能、MCP 與全域提示詞",
     "description": "為各個 AI 軟體新增技能、連接 MCP，並管理全域提示詞。",

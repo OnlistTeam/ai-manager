@@ -1,4 +1,3 @@
-import { ExtensionLocationButton } from "./ExtensionLocationButton";
 import { ExtensionsHelp } from "./ExtensionsHelp";
 import { ExtensionsPageActions } from "./ExtensionsPageActions";
 import type { useExtensionScope } from "./useExtensionScope";
@@ -19,13 +18,6 @@ export function ExtensionsHeaderActions({
       <ExtensionsHelp key={activeTab.kind} tab={activeTab} />
       {activeScope?.supported ? (
         <>
-          {activeTab.kind !== "skill" ? (
-            <ExtensionLocationButton
-              key={activeScope.key + activeTab.kind}
-              scope={activeScope.scope}
-              kind={activeTab.kind}
-            />
-          ) : null}
           <ExtensionsPageActions
             canAddMcp={activeTab.kind === "mcp"}
             canAddPrompt={activeTab.kind === "prompt" && activeTool !== null}

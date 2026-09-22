@@ -17,7 +17,7 @@
 
 mod location;
 mod mcp;
-pub use location::location_path;
+pub use location::{describe_location, location_path};
 mod prompt;
 mod skill;
 

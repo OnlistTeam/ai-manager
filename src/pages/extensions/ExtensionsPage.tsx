@@ -1,3 +1,4 @@
+import { ExtensionLocationRow } from "./ExtensionLocationRow";
 import { ExtensionsScopedPanel } from "./ExtensionsScopedPanel";
 import { useTranslation } from "react-i18next";
 import { useDesktopApps } from "@/entities/desktop-app";
@@ -176,6 +177,20 @@ export function ExtensionsPage({
               refreshing={tools.isFetching}
               retryButtonRef={retryButtonRef}
               onRetry={retryTools}
+            />
+          ) : null}
+
+          {/* The file this list is written into, named once above the list
+              rather than repeated on every card (ADR-0045). Skills render
+              nothing here: each one is its own directory, so its actions
+              belong on its own card. */}
+          {toolDataAvailable &&
+          activeKind !== null &&
+          activeScope?.supported ? (
+            <ExtensionLocationRow
+              key={activeScope.key + activeTab.kind}
+              scope={activeScope.scope}
+              kind={activeTab.kind}
             />
           ) : null}
 

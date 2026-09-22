@@ -1,7 +1,9 @@
 //! Resolve native live files only; never open the database or create files.
 use super::resource_open_failed;
-use crate::domain::{AppError, DesktopAppId, ExtensionKind, ExtensionScope, ToolId};
-use std::path::PathBuf;
+use crate::domain::{
+    AppError, DesktopAppId, ExtensionKind, ExtensionLocation, ExtensionScope, ToolId,
+};
+use std::path::{Path, PathBuf};
 
 pub fn location_path(scope: ExtensionScope, kind: ExtensionKind) -> Result<PathBuf, AppError> {
     match (scope, kind) {
@@ -31,6 +33,45 @@ pub fn location_path(scope: ExtensionScope, kind: ExtensionKind) -> Result<PathB
         _ => Err(resource_open_failed(
             "scope has no shared native extension file",
         )),
+    }
+}
+
+/// The same path, in the form a person reads.
+///
+/// The home directory is abbreviated so the line stays short and does not put
+/// the account name on screen; a file outside home keeps its full path,
+/// because there the location is the whole point.
+fn display_path(path: &Path) -> String {
+    let home = crate::config::get_home_dir();
+    match path.strip_prefix(&home) {
+        Ok(relative) => format!("~/{}", relative.to_string_lossy()),
+        Err(_) => path.to_string_lossy().into_owned(),
+    }
+}
+
+/// Which file this scope's MCP servers or instructions are written in.
+///
+/// `None` for Skills: each Skill is its own directory, so there is no one
+/// shared file to name, and claiming otherwise would point the reader at a
+/// file that does not decide anything.
+pub fn describe_location(
+    scope: ExtensionScope,
+    kind: ExtensionKind,
+) -> Result<Option<ExtensionLocation>, AppError> {
+    if kind == ExtensionKind::Skill {
+        return Ok(None);
+    }
+    match location_path(scope, kind) {
+        Ok(path) => Ok(Some(ExtensionLocation {
+            kind,
+            path: display_path(&path),
+            // A tool that has never written its config yet is the normal
+            // first-run state, not a failure, so this is reported rather than
+            // turned into an error.
+            exists: path.is_file(),
+        })),
+        // A scope with no shared file is simply not described.
+        Err(_) => Ok(None),
     }
 }
 
@@ -105,6 +146,70 @@ mod tests {
                 path
             );
         }
+    }
+
+    /// Skills keep one directory per entry, so naming a single shared file
+    /// would point the reader at something that decides nothing.
+    #[test]
+    #[serial_test::serial]
+    fn skills_have_no_single_file_to_name() {
+        assert_eq!(
+            describe_location(
+                ExtensionScope::tool(ToolId::ClaudeCode),
+                ExtensionKind::Skill
+            )
+            .expect("a describable scope"),
+            None
+        );
+    }
+
+    /// The line exists so someone can check which file is about to change, so
+    /// it has to be the file itself and readable as a path, not an account
+    /// name followed by an absolute path.
+    #[test]
+    #[serial_test::serial]
+    fn a_shared_file_is_described_by_a_home_relative_path() {
+        let location =
+            describe_location(ExtensionScope::tool(ToolId::ClaudeCode), ExtensionKind::Mcp)
+                .expect("a describable scope")
+                .expect("Claude Code keeps its MCP servers in one file");
+        assert_eq!(location.kind, ExtensionKind::Mcp);
+        assert!(
+            location.path.starts_with("~/"),
+            "a path under home is shown relative to it: {}",
+            location.path
+        );
+        assert!(!location.path.contains(
+            crate::config::get_home_dir()
+                .to_string_lossy()
+                .trim_end_matches('/')
+        ));
+    }
+
+    /// A tool that has never written its config is the normal first-run state.
+    /// Reporting it as absent lets the UI say so; erroring would make an empty
+    /// machine look broken.
+    #[test]
+    #[serial_test::serial]
+    fn a_file_the_tool_has_not_written_yet_is_absent_rather_than_an_error() {
+        struct RestoreHome(Option<std::ffi::OsString>);
+        impl Drop for RestoreHome {
+            fn drop(&mut self) {
+                match &self.0 {
+                    Some(value) => std::env::set_var("AI_MANAGER_TEST_HOME", value),
+                    None => std::env::remove_var("AI_MANAGER_TEST_HOME"),
+                }
+            }
+        }
+        let home = tempfile::TempDir::new().expect("temporary home");
+        let _restore = RestoreHome(std::env::var_os("AI_MANAGER_TEST_HOME"));
+        std::env::set_var("AI_MANAGER_TEST_HOME", home.path());
+
+        let location =
+            describe_location(ExtensionScope::tool(ToolId::ClaudeCode), ExtensionKind::Mcp)
+                .expect("a describable scope")
+                .expect("the path is known even before the file exists");
+        assert!(!location.exists);
     }
 
     #[test]

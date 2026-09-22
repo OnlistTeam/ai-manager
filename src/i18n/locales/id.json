@@ -1916,7 +1916,10 @@
     "location": {
       "action": "Tampilkan di file manager",
       "description": "Temukan file aktif perangkat lunak ini, atau folder terdekat yang sudah ada jika belum dibuat.",
-      "promptNote": "Prompt tersimpan yang tidak aktif tidak memiliki file terpisah."
+      "promptNote": "Prompt tersimpan yang tidak aktif tidak memiliki file terpisah.",
+      "label": "Berkas konfigurasi",
+      "open": "Buka berkas",
+      "notYetWritten": "Perangkat lunak ini belum membuat berkas tersebut."
     },
     "title": "Skill, MCP & Prompt Global",
     "description": "Tambahkan Skill, hubungkan MCP, dan kelola prompt global untuk setiap alat AI.",

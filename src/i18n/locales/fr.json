@@ -1916,7 +1916,10 @@
     "location": {
       "action": "Afficher dans le gestionnaire de fichiers",
       "description": "Localisez le fichier actif de ce logiciel, ou son dossier existant le plus proche s'il n'est pas encore créé.",
-      "promptNote": "Les prompts enregistrés et inactifs n'ont pas de fichiers séparés."
+      "promptNote": "Les prompts enregistrés et inactifs n'ont pas de fichiers séparés.",
+      "label": "Fichier de configuration",
+      "open": "Ouvrir le fichier",
+      "notYetWritten": "Ce logiciel n’a pas encore créé ce fichier."
     },
     "title": "Compétences, MCP et prompts globaux",
     "description": "Ajoutez des compétences, connectez MCP et gérez les prompts globaux de chaque outil IA.",

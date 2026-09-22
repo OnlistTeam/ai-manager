@@ -1916,7 +1916,10 @@
     "location": {
       "action": "Mostrar no gerenciador de arquivos",
       "description": "Localize o arquivo ativo deste software, ou sua pasta existente mais próxima se ainda não foi criado.",
-      "promptNote": "Prompts salvos e inativos não têm arquivos separados."
+      "promptNote": "Prompts salvos e inativos não têm arquivos separados.",
+      "label": "Arquivo de configuração",
+      "open": "Abrir arquivo",
+      "notYetWritten": "Este software ainda não criou este arquivo."
     },
     "title": "Habilidades, MCP e Prompts globais",
     "description": "Adicione Habilidades, conecte MCP e gerencie prompts globais para cada ferramenta de IA.",

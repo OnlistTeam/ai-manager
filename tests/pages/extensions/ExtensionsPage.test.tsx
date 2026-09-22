@@ -139,6 +139,19 @@ function mount(
         ? skillUpdates()
         : HttpResponse.json(skillUpdates),
     ),
+    // The configuration-file row above the list. Skills answer null: each one
+    // is its own directory, so there is no shared file to name.
+    http.post(
+      `${TAURI_ENDPOINT}/app_extension_location_describe`,
+      async ({ request }) => {
+        const body = (await request.json()) as { kind: ExtensionKind };
+        return HttpResponse.json(
+          body.kind === "skill"
+            ? null
+            : { kind: body.kind, path: "~/.claude.json", exists: true },
+        );
+      },
+    ),
   );
   const client = createTestQueryClient();
   return {
@@ -191,7 +204,9 @@ describe("ExtensionsPage", () => {
       expect(screen.queryByRole("tab", { name: en.nav.workspace })).toBeNull();
       if (kind !== "skill")
         expect(
-          screen.getByRole("button", { name: en.extensions.location.action }),
+          await screen.findByRole("button", {
+            name: en.extensions.location.action,
+          }),
         ).toBeEnabled();
       expect(screen.getByText(en.extensions[kind].explainer)).not.toBeVisible();
       await userEvent.click(screen.getByText(en.extensions.help));

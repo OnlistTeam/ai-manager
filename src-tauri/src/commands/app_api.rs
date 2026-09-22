@@ -24,15 +24,15 @@ use crate::compat::ccswitch::tool_version_storage::ToolVersionStore;
 use crate::database::Database;
 use crate::domain::{
     AppError, DetectedSkillResourceAction, DetectedSkillResourceOpenOutcome, ErrorCode, Extension,
-    ExtensionKind, ExtensionScope, LocalExtensionInventory, McpInstallDraft, ModelCatalog,
-    ModelProbeOutcome, ModelProbeRequest, Operation, OperationId, PromptDetail, PromptDraft,
-    Provider, ProviderConnectionProfile, ProviderCreateDraft, ProviderCreateResult,
-    ProviderCustomCreateDraft, ProviderDraft, ProviderEditProfile, ProviderEndpointCandidate,
-    ProviderEndpointTestResult, ProviderPreflightOutcome, ProviderPreflightStatus,
-    ProviderRuntimeContext, ProviderRuntimeResourceOpenOutcome, ProviderTestResult,
-    ShellVariableLocation, ShellVariableUpdate, ShellVariableWritten, SkillCatalogItem, Tool,
-    ToolId, ToolLaunchOutcome, ToolUninstallPreview, ToolUpdatePreview, ToolVersionCatalog,
-    UninstallOptions,
+    ExtensionKind, ExtensionLocation, ExtensionLocationAction, ExtensionScope,
+    LocalExtensionInventory, McpInstallDraft, ModelCatalog, ModelProbeOutcome, ModelProbeRequest,
+    Operation, OperationId, PromptDetail, PromptDraft, Provider, ProviderConnectionProfile,
+    ProviderCreateDraft, ProviderCreateResult, ProviderCustomCreateDraft, ProviderDraft,
+    ProviderEditProfile, ProviderEndpointCandidate, ProviderEndpointTestResult,
+    ProviderPreflightOutcome, ProviderPreflightStatus, ProviderRuntimeContext,
+    ProviderRuntimeResourceOpenOutcome, ProviderTestResult, ShellVariableLocation,
+    ShellVariableUpdate, ShellVariableWritten, SkillCatalogItem, Tool, ToolId, ToolLaunchOutcome,
+    ToolUninstallPreview, ToolUpdatePreview, ToolVersionCatalog, UninstallOptions,
 };
 use crate::infrastructure::OperationManager;
 use crate::repositories::tool_version_events::SqliteToolVersionEventRepository;
@@ -592,6 +592,30 @@ pub async fn app_extension_location_reveal(
 ) -> Result<(), AppError> {
     let kind = parse_kind(&kind)?;
     blocking(move || ExtensionDirectory::reveal_location(&app_handle, scope, kind)).await
+}
+
+/// Which file this scope's MCP servers or instructions live in.
+///
+/// `None` when the scope keeps no single shared file — the normal answer for
+/// Skills, where each entry is its own directory.
+#[tauri::command]
+pub async fn app_extension_location_describe(
+    scope: ExtensionScope,
+    kind: String,
+) -> Result<Option<ExtensionLocation>, AppError> {
+    let kind = parse_kind(&kind)?;
+    blocking(move || ExtensionDirectory::describe_location(scope, kind)).await
+}
+
+#[tauri::command]
+pub async fn app_extension_location_open(
+    app_handle: tauri::AppHandle,
+    scope: ExtensionScope,
+    kind: String,
+    action: ExtensionLocationAction,
+) -> Result<(), AppError> {
+    let kind = parse_kind(&kind)?;
+    blocking(move || ExtensionDirectory::open_location(&app_handle, scope, kind, action)).await
 }
 
 #[tauri::command]

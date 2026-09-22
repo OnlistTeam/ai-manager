@@ -1915,7 +1915,10 @@
     "location": {
       "action": "打开所在位置",
       "description": "定位当前软件使用的本机文件；若尚未创建，则打开最近的已有目录。",
-      "promptNote": "保存但未启用的提示词不会单独生成文件。"
+      "promptNote": "保存但未启用的提示词不会单独生成文件。",
+      "label": "配置文件",
+      "open": "打开文件",
+      "notYetWritten": "这个软件还没有创建这个文件。"
     },
     "title": "技能、MCP 与全局提示词",
     "description": "为各个 AI 软件添加技能、连接 MCP，并管理全局提示词。",

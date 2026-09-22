@@ -467,7 +467,7 @@ fn every_product_command_is_registered_in_the_invoke_handler() {
         declared.push(name);
     }
 
-    assert_eq!(declared.len(), 111, "found {declared:?}");
+    assert_eq!(declared.len(), 113, "found {declared:?}");
     for name in declared {
         assert!(
             lib.contains(&format!("commands::{name},")),

@@ -118,6 +118,38 @@ pub struct LocalExtensionScope {
     pub status: LocalExtensionScopeStatus,
 }
 
+/// What a scope's shared native file can be opened as.
+///
+/// MCP servers and global instructions do not get one file each: every entry
+/// for a tool lives in the same JSON or TOML the tool itself reads. So the
+/// action belongs to the scope, not to a row.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum ExtensionLocationAction {
+    /// Show the file in Finder / Explorer, selected.
+    Browse,
+    /// Hand the file to whatever the system opens that type with.
+    Edit,
+}
+
+/// The file a tool actually reads for one kind of extension.
+///
+/// This is the one place the `Extension` type's no-paths rule is relaxed, and
+/// only in the direction that helps: a *path* so the reader knows which file is
+/// about to change, never the file's contents (ADR-0045). The renderer sends
+/// back the scope and kind, never this path, exactly as
+/// `ProviderRuntimeResource` already works on the services page.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ExtensionLocation {
+    pub kind: ExtensionKind,
+    /// Display form, with the home directory shortened to `~`.
+    pub path: String,
+    /// False when the tool has not written the file yet, which is normal and
+    /// not a fault: the UI says so instead of offering to open nothing.
+    pub exists: bool,
+}
+
 /// Cross-tool local inventory used by the Extensions landing surface. `items`
 /// contains detected-only projections; managed rows remain in the existing
 /// scoped lists. The hard cap is applied by the Application service and is

@@ -46,8 +46,8 @@ pub use desktop_preferences::DesktopPreferences;
 pub use error::{AppError, ErrorCode};
 pub use extension::{
     DetectedSkillResourceAction, DetectedSkillResourceOpenOutcome, Extension, ExtensionKind,
-    ExtensionManagement, ExtensionScope, LocalExtensionInventory, LocalExtensionScope,
-    LocalExtensionScopeStatus,
+    ExtensionLocation, ExtensionLocationAction, ExtensionManagement, ExtensionScope,
+    LocalExtensionInventory, LocalExtensionScope, LocalExtensionScopeStatus,
 };
 pub use health::{
     ConfigHealth, ConfigReadStatus, HealthProviderTarget, HealthSnapshot, McpHealth, ProviderHealth,
