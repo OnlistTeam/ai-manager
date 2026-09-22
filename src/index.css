@@ -634,6 +634,13 @@ select option {
   border-bottom: 1px solid var(--hairline);
 }
 
+/* A dialog with nothing but a heading and its buttons: the footer's rule is
+   the only divider it needs, so the header does not draw a second one. */
+.app-modal-header--flush {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
 .app-modal-close {
   border: 1px solid var(--hairline);
   border-radius: 999px;

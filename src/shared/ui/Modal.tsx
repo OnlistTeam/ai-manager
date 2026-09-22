@@ -52,6 +52,18 @@ export function Modal({
   const { t } = useTranslation();
   const returnFocusRef = React.useRef<HTMLElement | null>(null);
 
+  /*
+   * A caller that writes two conditional slots in its body —
+   * `{children}{error ? <Error/> : null}` — hands this component an *array*,
+   * and an array of nothing but `undefined` and `null` is still truthy. A plain
+   * `children ?` check therefore let an empty body through, and because the
+   * header carries a bottom rule and the footer a top one, the result was a
+   * confirmation dialog with two horizontal lines and a gap between them.
+   * `Children.toArray` drops exactly the values JSX uses for "render nothing",
+   * so the question being asked is the one that was always meant.
+   */
+  const hasBody = React.Children.toArray(children).length > 0;
+
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
@@ -105,7 +117,15 @@ export function Modal({
             SIZE[size],
           )}
         >
-          <div className="app-modal-header flex shrink-0 items-start justify-between gap-4">
+          <div
+            className={cn(
+              "app-modal-header flex shrink-0 items-start justify-between gap-4",
+              // With no body between them, the header's rule and the footer's
+              // rule are the same divider drawn twice. The footer keeps its
+              // one, because the divider belongs above the actions.
+              !hasBody && "app-modal-header--flush",
+            )}
+          >
             <div className="min-w-0">
               <DialogPrimitive.Title className="break-words text-title text-content">
                 {title}
@@ -130,7 +150,7 @@ export function Modal({
               </DialogPrimitive.Close>
             ) : null}
           </div>
-          {children ? (
+          {hasBody ? (
             <div className="app-modal-body scrollbar-subtle -mx-1 mt-4 min-h-0 overflow-y-auto px-1 text-body">
               {children}
             </div>

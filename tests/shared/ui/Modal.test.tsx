@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { useRef, useState } from "react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import type { ReactNode } from "react";
 import { Modal } from "@/shared/ui/Modal";
 
 /**
@@ -259,5 +260,58 @@ describe("Modal", () => {
     await waitFor(() =>
       expect(screen.getByRole("heading", { name: "Tasks" })).toHaveFocus(),
     );
+  });
+
+  /**
+   * The reported defect: an install confirmation showed a rule under the
+   * heading and a rule above the buttons with nothing between them. A body
+   * written as two conditional slots arrives here as `[undefined, null]`, and
+   * an array is truthy however empty it is.
+   */
+  it("draws no body region when every body slot is empty", async () => {
+    const error: Error | null = null;
+    const extra: ReactNode = undefined;
+    render(
+      <Modal
+        open
+        onOpenChange={vi.fn()}
+        title="Install Pi"
+        description="AI Manager installs what it needs in one go."
+        footer={<button type="button">Install</button>}
+      >
+        {extra}
+        {error ? <p>{String(error)}</p> : null}
+      </Modal>,
+    );
+
+    const dialog = await screen.findByRole("dialog");
+    expect(dialog.querySelector(".app-modal-body")).toBeNull();
+    // The footer's rule is the only divider such a dialog needs; the header
+    // drawing a second one is what produced the two-lines-around-nothing look.
+    expect(dialog.querySelector(".app-modal-header")).toHaveClass(
+      "app-modal-header--flush",
+    );
+  });
+
+  it("still draws the body region when one slot has content", async () => {
+    const extra: ReactNode = undefined;
+    render(
+      <Modal
+        open
+        onOpenChange={vi.fn()}
+        title="Install Pi"
+        footer={<button type="button">Install</button>}
+      >
+        {extra}
+        {<p>Something went wrong.</p>}
+      </Modal>,
+    );
+
+    const dialog = await screen.findByRole("dialog");
+    expect(dialog.querySelector(".app-modal-body")).not.toBeNull();
+    expect(dialog.querySelector(".app-modal-header")).not.toHaveClass(
+      "app-modal-header--flush",
+    );
+    expect(screen.getByText("Something went wrong.")).toBeInTheDocument();
   });
 });
