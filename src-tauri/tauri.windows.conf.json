@@ -5,6 +5,7 @@
       {
         "label": "main",
         "title": "AI Manager",
+        "decorations": false,
         "width": 1180,
         "height": 760,
         "minWidth": 900,

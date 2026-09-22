@@ -815,7 +815,13 @@
     "localFirst": "你的設定只保存在這台電腦上",
     "data": "工作階段",
     "mcp": "MCP",
-    "prompts": "全域提示詞"
+    "prompts": "全域提示詞",
+    "window": {
+      "minimize": "最小化",
+      "maximize": "最大化",
+      "restore": "還原",
+      "close": "關閉"
+    }
   },
   "openClawWorkspace": {
     "title": "OpenClaw 工作區",

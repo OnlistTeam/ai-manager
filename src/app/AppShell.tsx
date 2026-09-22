@@ -9,7 +9,12 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { Sidebar, type SidebarItem } from "@/shared/ui/Sidebar";
-import { DRAG_REGION_ATTR, DRAG_REGION_STYLE, isMac } from "@/lib/platform";
+import {
+  DRAG_REGION_ATTR,
+  DRAG_REGION_STYLE,
+  isMac,
+  isWindows,
+} from "@/lib/platform";
 import { NAV_ITEMS, isAppRoute, type AppRoute } from "./routes";
 import { useAppRoute } from "./useAppRoute";
 import { useRouteIntents } from "./useRouteIntents";
@@ -17,7 +22,9 @@ import { useRouteMotion } from "./useRouteMotion";
 import { RouteLoadingFallback } from "./RouteLoadingFallback";
 import { RouteBackdrop } from "./RouteBackdrop";
 import { RouteContentTransition } from "./RouteContentTransition";
+import { WindowControls } from "@/features/window-chrome";
 import { AppStatusBar } from "./AppStatusBar";
+
 import brandMark from "@/assets/spatial/models/v5/mark.png";
 
 export { RouteLoadingFallback } from "./RouteLoadingFallback";
@@ -29,6 +36,11 @@ export { RouteLoadingFallback } from "./RouteLoadingFallback";
  * under fullSizeContentView either. Other platforms use the native title bar
  * and need no placeholder (height 0, not rendered), matching the semantics of
  * legacy `src/App.tsx`'s DEFAULT_DRAG_BAR_HEIGHT.
+ *
+ * Windows draws its own title bar instead (see WindowControls, ADR-0044), so
+ * it needs no placeholder either. Linux is the one platform still using the
+ * native bar: drag regions are disabled there for a Wayland defect, and an
+ * undecorated window nobody can drag would be a worse trade than a seam.
  */
 const MAC_DRAG_BAR_HEIGHT = 28; // px
 
@@ -61,6 +73,7 @@ export function AppShell() {
   );
   const mainRef = useRef<HTMLElement>(null);
   const mac = isMac();
+  const windows = isWindows();
 
   // Every navigation starts the next page at the top of the shared viewport.
   const navigateFromTop = useCallback(
@@ -162,6 +175,7 @@ export function AppShell() {
       className="app-window-canvas relative flex h-full max-h-full w-full flex-row overflow-hidden text-content"
     >
       <RouteBackdrop route={activeRoute} />
+      {windows ? <WindowControls /> : null}
       {mac ? (
         <div
           data-window-drag-region=""
@@ -207,7 +221,7 @@ export function AppShell() {
          * dark gradient would spill across the sidebar and bury the brand
          * mark in the top-left corner under a layer of shadow. The sidebar
          * doesn't scroll and has no controls. */}
-        <AppStatusBar mac={mac} />
+        <AppStatusBar mac={mac} windows={windows} />
         <main
           ref={mainRef}
           data-app-scroll-viewport=""

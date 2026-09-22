@@ -1,66 +1,83 @@
 /*
- * The page reads a manifest the release workflow publishes to the product's own
- * distribution host, not the GitHub API.
- *
- * Two reasons. The installers are already mirrored to `dl.aimanager.tools`, so
- * asking GitHub for their sizes would put the slowest hop in front of every
- * visitor, and that hop is slowest exactly where most of our readers are. And
- * the unauthenticated GitHub API allows sixty calls an hour per address, which
- * a shared office or a campus can exhaust without anyone noticing.
- *
- * GitHub stays as the stated fallback: a link at the bottom of the page, and
- * the whole page's answer when the manifest cannot be read.
- *
- * All display copy comes from `i18n.js`. Nothing here is written in English
- * except the platform names, which are proper nouns in every language.
+ * The release workflow publishes this manifest and every installer to our
+ * download host. The page never sends a visitor to a third-party download
+ * unless the mirror itself is temporarily unavailable.
  */
 const DISTRIBUTION = "https://dl.aimanager.tools/ai-manager";
 const STABLE_MANIFEST = `${DISTRIBUTION}/download.json`;
 const STAGING_MANIFEST = `${DISTRIBUTION}/staging/download.json`;
 const RELEASES_PAGE = "https://github.com/OnlistTeam/ai-manager/releases";
 
-/**
- * Installers, in the order they are listed when no platform is detected. The
- * `id` is what the copy is keyed by; the manifest identifies the same file by
- * the platform/arch/kind triple.
- */
 const PLATFORMS = [
   {
     id: "macos-arm64",
-    name: "macOS &middot; Apple Silicon",
+    group: "macos",
+    name: "macOS · Apple Silicon",
     platform: "macos",
     arch: "arm64",
     kind: "dmg",
+    nameKey: "dl.macArmName",
+    noteKey: "dl.note.macos-arm64",
   },
   {
     id: "macos-x64",
-    name: "macOS &middot; Intel",
+    group: "macos",
+    name: "macOS · Intel",
     platform: "macos",
     arch: "x64",
     kind: "dmg",
+    nameKey: "dl.macIntelName",
+    noteKey: "dl.note.macos-x64",
   },
   {
     id: "windows-x64",
-    name: "Windows &middot; x64",
+    group: "windows",
+    name: "Windows · x64",
     platform: "windows",
     arch: "x64",
     kind: "msi",
+    nameKey: "dl.windowsName",
+    noteKey: "dl.note.windows-x64",
   },
   {
     id: "linux-appimage",
-    name: "Linux &middot; x64 AppImage",
+    group: "linux",
+    name: "Linux · AppImage",
     platform: "linux",
     arch: "x64",
     kind: "appimage",
+    nameKey: "dl.appImageName",
+    noteKey: "dl.note.linux-appimage",
   },
   {
     id: "linux-deb",
-    name: "Linux &middot; x64 deb",
+    group: "linux",
+    name: "Linux · deb",
     platform: "linux",
     arch: "x64",
     kind: "deb",
+    nameKey: "dl.debName",
+    noteKey: "dl.note.linux-deb",
   },
 ];
+
+const PLATFORM_GROUPS = {
+  macos: {
+    titleKey: "dl.macosCardTitle",
+    bodyKey: "dl.macosCardBody",
+    ids: ["macos-arm64", "macos-x64"],
+  },
+  windows: {
+    titleKey: "dl.windowsCardTitle",
+    bodyKey: "dl.windowsCardBody",
+    ids: ["windows-x64"],
+  },
+  linux: {
+    titleKey: "dl.linuxCardTitle",
+    bodyKey: "dl.linuxCardBody",
+    ids: ["linux-appimage", "linux-deb"],
+  },
+};
 
 const t = (key) => window.pageI18n.t(key);
 
@@ -68,8 +85,17 @@ function megabytes(bytes) {
   return `${(bytes / 1_000_000).toFixed(1)} MB`;
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 function escapeAttribute(value) {
-  return String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;");
+  return escapeHtml(value);
 }
 
 function fill(template, values) {
@@ -79,31 +105,16 @@ function fill(template, values) {
   );
 }
 
-/**
- * What the visitor is running. A phone or tablet gets `mobile`: offering a
- * desktop installer there is worse than offering nothing, because the download
- * appears to succeed and then cannot be opened.
- */
 function detectPlatform() {
-  const agent = navigator.userAgent;
-  if (/Android|iPhone|iPad|iPod/i.test(agent)) return "mobile";
-
-  const hint = navigator.userAgentData?.platform;
-  if (hint === "macOS") return "macos";
-  if (hint === "Windows") return "windows";
-  if (hint === "Linux") return "linux";
-
-  if (/Mac/i.test(agent)) return "macos";
-  if (/Win/i.test(agent)) return "windows";
-  if (/Linux|X11/i.test(agent)) return "linux";
+  const agent =
+    `${navigator.userAgentData?.platform ?? ""} ${navigator.userAgent}`.toLowerCase();
+  if (/android|iphone|ipad|ipod/.test(agent)) return "mobile";
+  if (agent.includes("mac")) return "macos";
+  if (agent.includes("win")) return "windows";
+  if (agent.includes("linux") || agent.includes("x11")) return "linux";
   return null;
 }
 
-/**
- * The CPU architecture, when the browser will say. Only Chromium answers this;
- * Safari and Firefox return null, and a macOS visitor is then offered both
- * builds rather than being handed a binary that will not start.
- */
 async function detectArchitecture() {
   try {
     const data = navigator.userAgentData;
@@ -112,16 +123,11 @@ async function detectArchitecture() {
     if (architecture === "arm") return "arm64";
     if (architecture === "x86") return "x64";
   } catch {
-    // An unavailable hint is not an error; it just means we ask the visitor.
+    // Browsers may withhold the high-entropy hint; offer both Mac builds.
   }
   return null;
 }
 
-/**
- * A manifest is only usable if it describes every installer the page offers.
- * A partial one is treated as no manifest at all rather than as a page with
- * holes in it.
- */
 function installersFrom(manifest) {
   if (!manifest || !Array.isArray(manifest.files)) return null;
   const byId = new Map();
@@ -134,7 +140,9 @@ function installersFrom(manifest) {
         typeof entry.url === "string" &&
         entry.url.startsWith(`${DISTRIBUTION}/`) &&
         Number.isFinite(entry.size) &&
-        entry.size > 0,
+        entry.size > 0 &&
+        typeof entry.sha256 === "string" &&
+        entry.sha256.length === 64,
     );
     if (!file) return null;
     byId.set(platform.id, { ...platform, file });
@@ -145,114 +153,117 @@ function installersFrom(manifest) {
 function primaryButton(entry, label) {
   return `
     <a class="primary-download" href="${escapeAttribute(entry.file.url)}">
-      <span>${label}</span>
+      <span class="download-icon" aria-hidden="true">↓</span>
+      <span>${escapeHtml(label)}</span>
       <span class="meta">${megabytes(entry.file.size)}</span>
     </a>`;
 }
 
-function secondaryLine(entry, sentenceKey, linkKey) {
-  const link = `<a href="${escapeAttribute(entry.file.url)}">${t(linkKey)}</a>`;
-  return `<p class="arch-hint">${fill(t(sentenceKey), { link })}</p>`;
-}
-
-function renderMac(container, installers, arch) {
-  const armBuild = installers.get("macos-arm64");
-  const intelBuild = installers.get("macos-x64");
-
-  if (arch === "arm64") {
-    container.innerHTML =
-      primaryButton(armBuild, t("dl.macArm")) +
-      secondaryLine(intelBuild, "dl.archHintOther", "dl.archHintOtherLink");
-    return;
-  }
-  if (arch === "x64") {
-    container.innerHTML =
-      primaryButton(intelBuild, t("dl.macIntel")) +
-      secondaryLine(armBuild, "dl.archHintIsIntel", "dl.archHintIsIntelLink");
-    return;
-  }
-
-  container.innerHTML = `
-    <div class="arch-choice">
-      ${primaryButton(armBuild, t("dl.macArm"))}
-      ${primaryButton(intelBuild, t("dl.macIntel"))}
-    </div>
-    <p class="arch-hint">${t("dl.archHintBoth")}</p>`;
-}
-
 function renderRecommended(container, installers, platform, arch) {
+  container.innerHTML = "";
   container.hidden = false;
 
   if (platform === "mobile") {
-    container.innerHTML = `<p class="arch-hint">${t("dl.mobile")}</p>`;
-    return;
-  }
-  if (platform === "macos") {
-    renderMac(container, installers, arch);
-    return;
-  }
-  if (platform === "windows" || platform === "linux") {
-    const entry = installers.get(
-      platform === "windows" ? "windows-x64" : "linux-appimage",
-    );
-    const label = platform === "windows" ? t("dl.windows") : t("dl.linux");
-    container.innerHTML = primaryButton(entry, label);
+    container.innerHTML = `<p class="hero-hint">${t("dl.mobile")}</p>`;
     return;
   }
 
-  container.hidden = true;
+  if (platform === "macos" && !arch) {
+    const arm = installers.get("macos-arm64");
+    const intel = installers.get("macos-x64");
+    container.innerHTML = `
+      <div class="hero-choice">
+        ${primaryButton(arm, t("dl.macArm"))}
+        ${primaryButton(intel, t("dl.macIntel"))}
+      </div>
+      <p class="hero-hint">${t("dl.archHintBoth")}</p>`;
+    return;
+  }
+
+  const id =
+    platform === "macos"
+      ? `macos-${arch}`
+      : platform === "windows"
+        ? "windows-x64"
+        : platform === "linux"
+          ? "linux-appimage"
+          : null;
+  const entry = id ? installers.get(id) : null;
+  if (!entry) {
+    container.hidden = true;
+    return;
+  }
+
+  const labelKey =
+    platform === "macos"
+      ? arch === "arm64"
+        ? "dl.macArm"
+        : "dl.macIntel"
+      : platform === "windows"
+        ? "dl.windows"
+        : "dl.linux";
+  container.innerHTML = primaryButton(entry, t(labelKey));
 }
 
-function renderAllPlatforms(container, heading, installers) {
-  const rows = [];
-  for (const platform of PLATFORMS) {
-    const entry = installers.get(platform.id);
-    rows.push(`
-      <div class="platform-row">
-        <span class="name">
-          ${platform.name}
-          <span class="hint">${t(`dl.note.${platform.id}`)}</span>
-        </span>
-        <span class="size">${megabytes(entry.file.size)}</span>
-        <span class="links">
-          <a href="${escapeAttribute(entry.file.url)}">${t("dl.download")}</a>
-          <button type="button" class="checksum" data-digest="${escapeAttribute(entry.file.sha256)}">
-            ${t("dl.checksum")}
-          </button>
-        </span>
-      </div>`);
-  }
-  container.innerHTML = rows.join("");
-  container.hidden = false;
-  heading.hidden = false;
+function fileRow(entry) {
+  const label = t(entry.nameKey) || entry.name;
+  const note = t(entry.noteKey);
+  const digest = escapeAttribute(entry.file.sha256);
+  return `
+    <div class="file-row">
+      <div>
+        <span class="file-name">${escapeHtml(label)}</span>
+        <span class="file-note">${escapeHtml(note)}</span>
+      </div>
+      <div class="file-actions">
+        <a class="file-download" href="${escapeAttribute(entry.file.url)}">
+          <span class="download-icon" aria-hidden="true">↓</span>
+          <span>${t("dl.download")}</span>
+          <span class="meta">${megabytes(entry.file.size)}</span>
+        </a>
+        <button type="button" class="checksum" data-digest="${digest}">
+          ${t("dl.checksum")}
+        </button>
+      </div>
+    </div>`;
 }
 
-/**
- * The digest travels in the manifest, so checking a download no longer means
- * downloading a second file to read one line out of it.
- */
+function renderPlatformPanel(container, installers, group) {
+  const config = PLATFORM_GROUPS[group];
+  if (!config) return;
+  const entries = config.ids.map((id) => installers.get(id)).filter(Boolean);
+  container.innerHTML = `
+    <article class="download-card">
+      <header class="download-card-header">
+        <div>
+          <h3>${t(config.titleKey)}</h3>
+          <p>${t(config.bodyKey)}</p>
+        </div>
+      </header>
+      <div class="file-list">${entries.map(fileRow).join("")}</div>
+    </article>`;
+  wireChecksumButtons(container);
+}
+
 function wireChecksumButtons(container) {
   for (const button of container.querySelectorAll("button.checksum")) {
     button.addEventListener("click", async () => {
+      const digest = button.dataset.digest;
       try {
-        await navigator.clipboard.writeText(button.dataset.digest);
+        await navigator.clipboard.writeText(digest);
+        button.textContent = t("dl.hashCopied");
+        button.disabled = true;
+        setTimeout(() => {
+          button.textContent = t("dl.checksum");
+          button.disabled = false;
+        }, 1500);
       } catch {
-        // No clipboard permission: show the digest so it can be selected.
-        button.replaceWith(
-          Object.assign(document.createElement("code"), {
-            className: "digest",
-            textContent: button.dataset.digest,
-          }),
+        button.insertAdjacentHTML(
+          "afterend",
+          `<code class="digest">${escapeHtml(digest)}</code>`,
         );
-        return;
+        button.disabled = true;
       }
-      const label = button.textContent;
-      button.textContent = t("dl.hashCopied");
-      button.disabled = true;
-      setTimeout(() => {
-        button.textContent = label;
-        button.disabled = false;
-      }, 1500);
     });
   }
 }
@@ -265,53 +276,58 @@ async function readManifest(url) {
   return response.json();
 }
 
-/**
- * Stable first. A prerelease is only offered when no stable release exists,
- * which is the honest answer during the period before the first one.
- */
 async function newestManifest() {
   for (const url of [STABLE_MANIFEST, STAGING_MANIFEST]) {
     try {
       const manifest = await readManifest(url);
       if (installersFrom(manifest)) return manifest;
     } catch {
-      // A network failure on the stable manifest should still let the staging
-      // one answer, and the caller handles both being unreachable.
+      // The caller renders the recovery message if both manifests fail.
     }
   }
   return null;
 }
 
-/**
- * Looked up once, so switching language re-renders rather than fetching again.
- */
+const detectedPlatform = detectPlatform();
 const state = {
   manifest: undefined,
-  platform: detectPlatform(),
+  platform: detectedPlatform,
   arch: null,
+  selectedPlatform:
+    detectedPlatform === "windows" || detectedPlatform === "linux"
+      ? detectedPlatform
+      : "macos",
 };
+
+function updateTabs() {
+  for (const button of document.querySelectorAll("[data-platform-tab]")) {
+    button.setAttribute(
+      "aria-selected",
+      String(button.dataset.platformTab === state.selectedPlatform),
+    );
+  }
+}
 
 function render() {
   const line = document.getElementById("release-line");
   const recommended = document.getElementById("recommended");
-  const heading = document.getElementById("platforms-heading");
-  const platforms = document.getElementById("all-platforms");
+  const panel = document.getElementById("platform-panel");
   const fallback = document.getElementById("fallback");
   const source = document.getElementById("source-note");
   const prereleaseNote = document.getElementById("prerelease-note");
 
+  updateTabs();
   if (state.manifest === undefined) return;
 
   const installers = installersFrom(state.manifest);
   if (!installers) {
     line.hidden = true;
+    recommended.hidden = true;
+    panel.hidden = true;
+    source.hidden = true;
     fallback.hidden = false;
     return;
   }
-
-  renderAllPlatforms(platforms, heading, installers);
-  wireChecksumButtons(platforms);
-  renderRecommended(recommended, installers, state.platform, state.arch);
 
   const published = new Date(state.manifest.publishedAt).toLocaleDateString(
     window.pageI18n.dateLocale(),
@@ -319,20 +335,36 @@ function render() {
   );
   const notes = `<a href="${escapeAttribute(state.manifest.releaseNotes || RELEASES_PAGE)}">${t("dl.releaseNotes")}</a>`;
   line.hidden = false;
-  line.innerHTML = `${fill(t("dl.versionLine"), {
-    version: `<strong>${escapeAttribute(state.manifest.tag)}</strong>`,
-    date: published,
-  })} &middot; ${notes}`;
+  line.innerHTML =
+    fill(t("dl.versionLine"), {
+      version: `<strong>${escapeHtml(state.manifest.tag)}</strong>`,
+      date: published,
+    }) + ` · ${notes}`;
+
+  renderRecommended(recommended, installers, state.platform, state.arch);
+  renderPlatformPanel(panel, installers, state.selectedPlatform);
+  panel.hidden = false;
 
   source.hidden = false;
   source.innerHTML = fill(t("dl.source"), {
-    link: `<a href="${RELEASES_PAGE}">${t("dl.sourceLink")}</a>`,
+    mirror: `<code>dl.aimanager.tools</code>`,
+    link: notes,
   });
-
   prereleaseNote.hidden = state.manifest.channel !== "staging";
+  fallback.hidden = true;
+}
+
+function wirePlatformTabs() {
+  for (const button of document.querySelectorAll("[data-platform-tab]")) {
+    button.addEventListener("click", () => {
+      state.selectedPlatform = button.dataset.platformTab;
+      render();
+    });
+  }
 }
 
 async function start() {
+  wirePlatformTabs();
   window.pageI18n.onChange(render);
   state.arch = await detectArchitecture();
   state.manifest = await newestManifest();

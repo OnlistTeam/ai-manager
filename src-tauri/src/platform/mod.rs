@@ -6,7 +6,6 @@ pub mod plan;
 pub mod redact;
 pub mod shell_environment;
 pub mod terminal;
-pub mod window_chrome;
 
 pub use command::{AllowedProgram, CommandSpec};
 pub use desktop_app::{

@@ -815,7 +815,13 @@
     "localFirst": "Ihre Einrichtung bleibt auf diesem Computer",
     "data": "Sitzungen",
     "mcp": "MCP",
-    "prompts": "Globale Prompts"
+    "prompts": "Globale Prompts",
+    "window": {
+      "minimize": "Minimieren",
+      "maximize": "Maximieren",
+      "restore": "Wiederherstellen",
+      "close": "Schließen"
+    }
   },
   "openClawWorkspace": {
     "title": "OpenClaw-Arbeitsbereich",

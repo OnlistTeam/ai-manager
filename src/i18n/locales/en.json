@@ -815,7 +815,13 @@
     "localFirst": "Your setup stays on this computer",
     "data": "Sessions",
     "mcp": "MCP",
-    "prompts": "Global Prompts"
+    "prompts": "Global Prompts",
+    "window": {
+      "minimize": "Minimize",
+      "maximize": "Maximize",
+      "restore": "Restore",
+      "close": "Close"
+    }
   },
   "openClawWorkspace": {
     "title": "OpenClaw Workspace",

@@ -815,7 +815,13 @@
     "localFirst": "設定はこのパソコンだけに保存されます",
     "data": "セッション",
     "mcp": "MCP",
-    "prompts": "グローバルプロンプト"
+    "prompts": "グローバルプロンプト",
+    "window": {
+      "minimize": "最小化",
+      "maximize": "最大化",
+      "restore": "元のサイズに戻す",
+      "close": "閉じる"
+    }
   },
   "openClawWorkspace": {
     "title": "OpenClaw ワークスペース",

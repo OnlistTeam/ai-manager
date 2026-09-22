@@ -815,7 +815,13 @@
     "localFirst": "Tu configuración permanece en este equipo",
     "data": "Sesiones",
     "mcp": "MCP",
-    "prompts": "Prompts globales"
+    "prompts": "Prompts globales",
+    "window": {
+      "minimize": "Minimizar",
+      "maximize": "Maximizar",
+      "restore": "Restaurar",
+      "close": "Cerrar"
+    }
   },
   "openClawWorkspace": {
     "title": "Espacio de trabajo de OpenClaw",

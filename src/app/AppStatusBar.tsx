@@ -5,10 +5,15 @@ import { GlobalUpdateAction } from "@/features/updater";
 
 export interface AppStatusBarProps {
   mac: boolean;
+  /**
+   * Windows draws its own caption buttons in the top-right corner
+   * (ADR-0044), so these controls move left far enough to clear them.
+   */
+  windows?: boolean;
 }
 
 /** Persistent, integrated chrome shared by every route. */
-export function AppStatusBar({ mac }: AppStatusBarProps) {
+export function AppStatusBar({ mac, windows = false }: AppStatusBarProps) {
   const { t } = useTranslation();
 
   return (
@@ -18,7 +23,9 @@ export function AppStatusBar({ mac }: AppStatusBarProps) {
       className={
         mac
           ? "app-statusbar pointer-events-none absolute inset-x-0 top-0 z-30 flex h-[92px] items-start justify-end bg-transparent px-6 pt-7 lg:px-8"
-          : "app-statusbar pointer-events-none absolute inset-x-0 top-0 z-30 flex h-[76px] items-start justify-end bg-transparent px-6 pt-4 lg:px-8"
+          : `app-statusbar pointer-events-none absolute inset-x-0 top-0 z-30 flex h-[76px] items-start justify-end bg-transparent px-6 pt-4 lg:px-8 ${
+              windows ? "pr-[150px] lg:pr-[152px]" : ""
+            }`
       }
     >
       <div

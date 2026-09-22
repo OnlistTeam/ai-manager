@@ -815,7 +815,13 @@
     "localFirst": "你的配置只保存在这台电脑上",
     "data": "会话",
     "mcp": "MCP",
-    "prompts": "全局提示词"
+    "prompts": "全局提示词",
+    "window": {
+      "minimize": "最小化",
+      "maximize": "最大化",
+      "restore": "还原",
+      "close": "关闭"
+    }
   },
   "openClawWorkspace": {
     "title": "OpenClaw 工作区",

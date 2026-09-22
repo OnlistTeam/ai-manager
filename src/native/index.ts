@@ -19,6 +19,7 @@ import { skills } from "./commands/skills";
 import { system } from "./commands/system";
 import { tools } from "./commands/tools";
 import { usage } from "./commands/usage";
+import { windowControls } from "./commands/windowControls";
 
 export const native = {
   about,
@@ -43,6 +44,7 @@ export const native = {
   backupSchedule,
   usage,
   system,
+  windowControls,
 };
 
 export { invokeNative } from "./client";

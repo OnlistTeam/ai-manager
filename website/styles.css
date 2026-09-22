@@ -1,32 +1,22 @@
-/*
- * The page takes its palette from the product icon rather than from the
- * application window: warm paper, ink, and the icon's terminal green. A
- * download page is read once, in daylight, often on a phone, by someone who
- * has not decided yet — paper reads faster there than a dark canvas does, and
- * the green ties the page to the thing being downloaded.
- *
- * One accent, no gradients, and exactly one dark surface: the command blocks,
- * which are meant to look like a terminal because that is what they are.
- */
 :root {
-  --paper: #faf8f3;
-  --card: #ffffff;
-  --sunken: #f3f0e8;
-  --ink: #23211c;
-  --ink-muted: #6c665b;
-  --hairline: hsl(40 10% 20% / 0.13);
-  --hairline-soft: hsl(40 10% 20% / 0.08);
-  --accent: #2c7340;
-  --accent-hover: #21592f;
-  --accent-ink: #ffffff;
-  --accent-wash: hsl(138 45% 32% / 0.08);
+  --paper: #fbf8f3;
+  --section: #f1e9df;
+  --card: #fffdf9;
+  --card-muted: #ebe3d9;
+  --ink: #28231e;
+  --muted: #766f66;
+  --line: hsl(30 17% 25% / 0.12);
+  --line-soft: hsl(30 17% 25% / 0.08);
+  --accent: #c7653e;
+  --accent-hover: #ae4f2e;
+  --accent-ink: #fffaf4;
+  --terminal: #282d28;
+  --terminal-ink: #dce8d8;
   --warning: #8a5a12;
-  --warning-wash: #fdf6e7;
-  --terminal: #262b26;
-  --terminal-ink: #d8e6d5;
-  --radius: 12px;
-  --shadow-card: 0 1px 2px hsl(40 10% 20% / 0.05);
-  --shadow-lift: 0 2px 10px hsl(138 30% 18% / 0.16);
+  --warning-wash: #fdf5e5;
+  --radius: 18px;
+  --shadow-soft: 0 1px 2px hsl(30 17% 25% / 0.04);
+  --shadow-lift: 0 12px 24px hsl(20 36% 22% / 0.16);
 }
 
 * {
@@ -35,9 +25,11 @@
 
 html {
   color-scheme: light;
+  scroll-behavior: smooth;
 }
 
 body {
+  min-width: 320px;
   margin: 0;
   padding: 0 1.5rem 4rem;
   background: var(--paper);
@@ -45,12 +37,18 @@ body {
   font:
     16px/1.65 ui-sans-serif,
     -apple-system,
+    BlinkMacSystemFont,
     "Segoe UI",
     Roboto,
     "Helvetica Neue",
     Arial,
     sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
 }
 
 code,
@@ -65,13 +63,13 @@ pre {
 }
 
 a {
-  color: var(--accent);
-  text-decoration-color: hsl(138 45% 32% / 0.35);
+  color: var(--accent-hover);
+  text-decoration-color: hsl(16 56% 43% / 0.35);
   text-underline-offset: 3px;
 }
 
 a:hover {
-  color: var(--accent-hover);
+  color: var(--accent);
   text-decoration-color: currentColor;
 }
 
@@ -89,239 +87,218 @@ footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 0.35rem;
-  padding-top: 1.25rem;
+  gap: 0.45rem;
+  padding-top: 1.1rem;
 }
 
 .langbar button {
-  padding: 0.3rem 0.7rem;
+  padding: 0.34rem 0.85rem;
   border: 1px solid transparent;
   border-radius: 999px;
-  background: none;
-  color: var(--ink-muted);
+  background: transparent;
+  color: var(--muted);
   font: inherit;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   cursor: pointer;
 }
 
 .langbar button:hover {
   color: var(--ink);
-  background: hsl(40 10% 20% / 0.05);
+  background: hsl(30 17% 25% / 0.05);
 }
 
 .langbar button[aria-pressed="true"] {
-  border-color: var(--hairline);
+  border-color: var(--line);
   background: var(--card);
   color: var(--ink);
+  box-shadow: var(--shadow-soft);
 }
 
-.langbar button:focus-visible {
+.langbar button:focus-visible,
+.platform-tabs button:focus-visible,
+.checksum:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 /* ---- masthead ---- */
 
 .masthead {
-  padding: 3.25rem 0 1.5rem;
+  padding: 3.6rem 0 2rem;
   text-align: center;
 }
 
 .mark {
   display: block;
-  margin: 0 auto 1.25rem;
+  margin: 0 auto 1.2rem;
 }
 
 .masthead h1 {
   margin: 0;
-  font-size: 2.5rem;
-  font-weight: 620;
-  letter-spacing: -0.02em;
+  font-size: clamp(2.35rem, 6vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
 }
 
 .tagline {
-  margin: 0.4rem 0 1.5rem;
-  color: var(--ink-muted);
-  font-size: 1.125rem;
+  margin: 0.45rem 0 1.45rem;
+  color: var(--muted);
+  font-size: 1.2rem;
 }
 
 .blurb {
+  max-width: 41rem;
   margin: 0 auto;
-  max-width: 40rem;
-  color: var(--ink-muted);
+  color: var(--muted);
+  font-size: 1.03rem;
 }
 
 .blurb code {
+  padding: 0.1em 0.35em;
+  border-radius: 5px;
+  background: var(--card-muted);
   color: var(--ink);
 }
 
-/* ---- sections ---- */
+/* ---- shared section ---- */
 
 section {
-  margin-top: 3.5rem;
+  margin-top: 3.6rem;
 }
 
 h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.25rem;
-  font-weight: 620;
-  letter-spacing: -0.01em;
+  margin: 0;
+  font-size: clamp(1.65rem, 4vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 h3 {
-  margin: 0 0 0.4rem;
-  font-size: 0.95rem;
-  font-weight: 620;
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.eyebrow {
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---- release hero ---- */
+
+.download-hero {
+  padding: 3.2rem 1.5rem 2.6rem;
+  border: 1px solid hsl(30 23% 28% / 0.06);
+  border-radius: 28px;
+  background: var(--section);
+  text-align: center;
+}
+
+.download-hero h2 {
+  font-size: clamp(2.4rem, 7vw, 3.45rem);
 }
 
 .release-line {
-  margin: 0 0 1.75rem;
-  color: var(--ink-muted);
-  font-size: 0.9rem;
+  min-height: 1.8rem;
+  margin: 0.55rem 0 1.8rem;
+  color: var(--muted);
+  font-size: 1rem;
 }
 
-/* ---- downloads ---- */
+.release-line strong {
+  color: var(--ink);
+  font-weight: 750;
+}
 
 .recommended {
-  margin-bottom: 1.75rem;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.hero-choice {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
 }
 
 .primary-download {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  padding: 0.95rem 1.6rem;
-  border: none;
-  border-radius: var(--radius);
+  align-items: center;
+  justify-content: center;
+  gap: 0.72rem;
+  min-width: min(25rem, 100%);
+  padding: 1rem 1.55rem;
+  border: 0;
+  border-radius: 14px;
   background: var(--accent);
   box-shadow: var(--shadow-lift);
   color: var(--accent-ink);
-  font-size: 1rem;
-  font-weight: 620;
+  font-size: 1.1rem;
+  font-weight: 750;
   text-decoration: none;
+  transition:
+    background 120ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease;
 }
 
 .primary-download:hover {
   background: var(--accent-hover);
   color: var(--accent-ink);
+  box-shadow: 0 15px 28px hsl(20 36% 22% / 0.2);
+  transform: translateY(-1px);
+}
+
+.download-icon {
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 .primary-download .meta {
-  font-weight: 450;
-  opacity: 0.78;
-  font-size: 0.85rem;
-}
-
-.arch-choice {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.arch-hint {
-  margin: 0.85rem 0 0;
-  color: var(--ink-muted);
-  font-size: 0.85rem;
-}
-
-.platforms-heading {
-  margin: 0 0 0.75rem;
-  color: var(--ink-muted);
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
+  opacity: 0.82;
 }
 
-.platforms {
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius);
-  background: var(--card);
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
-}
-
-.platform-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 1rem;
-  padding: 0.85rem 1.1rem;
-  border-top: 1px solid var(--hairline-soft);
-}
-
-.platform-row:first-child {
-  border-top: none;
-}
-
-.platform-row .name {
-  flex: 1 1 14rem;
-  font-size: 0.925rem;
-}
-
-/* The one line that tells a visitor which row is theirs. */
-.platform-row .hint {
-  display: block;
-  color: var(--ink-muted);
-  font-size: 0.8rem;
-}
-
-.platform-row .size {
-  color: var(--ink-muted);
-  font-size: 0.85rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.platform-row .links {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  font-size: 0.875rem;
-}
-
-/* Looks and reads like the Download link beside it; it copies the digest the
- * manifest already carries rather than sending the reader off to fetch a
- * one-line text file. */
-.platform-row .checksum {
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--accent);
-  font: inherit;
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-color: hsl(138 45% 32% / 0.35);
-  text-underline-offset: 3px;
-}
-
-.platform-row .checksum:hover:not(:disabled) {
-  color: var(--accent-hover);
-  text-decoration-color: currentColor;
-}
-
-.platform-row .checksum:disabled {
-  color: var(--ink-muted);
-  cursor: default;
-  text-decoration: none;
-}
-
-.platform-row .digest {
-  color: var(--ink-muted);
-  font-size: 0.7rem;
-  overflow-wrap: anywhere;
-}
-
-.source-note {
+.arch-hint,
+.hero-hint {
   margin: 0.9rem 0 0;
-  color: var(--ink-muted);
-  font-size: 0.85rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.mirror-note {
+  margin: 1.15rem 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.mirror-note code {
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+  background: hsl(30 17% 25% / 0.07);
+  color: var(--ink);
+}
+
+.fallback {
+  max-width: 38rem;
+  margin: 1.2rem auto 0;
+  color: var(--muted);
 }
 
 .note {
-  margin: 1.5rem 0 0;
+  max-width: 42rem;
+  margin: 1.5rem auto 0;
   padding: 0.9rem 1.1rem;
-  border-radius: var(--radius);
+  border-radius: 12px;
   font-size: 0.9rem;
+  text-align: left;
 }
 
 .prerelease-note {
@@ -334,11 +311,184 @@ h3 {
   color: var(--warning);
 }
 
-.fallback {
-  color: var(--ink-muted);
+/* ---- platform tabs and cards ---- */
+
+.platform-section {
+  scroll-margin-top: 1.5rem;
 }
 
-/* ---- verify ---- */
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.section-help {
+  max-width: 22rem;
+  margin: 0 0 0.15rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.platform-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.55rem 0 1.1rem;
+}
+
+.platform-tabs button {
+  padding: 0.65rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: var(--card-muted);
+  color: var(--muted);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.platform-tabs button:hover {
+  color: var(--ink);
+  background: #e4d9cd;
+}
+
+.platform-tabs button[aria-selected="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 6px 14px hsl(20 36% 22% / 0.14);
+}
+
+.platform-panel {
+  min-height: 12rem;
+}
+
+.download-card {
+  padding: 1.45rem;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--card-muted);
+  box-shadow: var(--shadow-soft);
+}
+
+.download-card-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.download-card-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.file-list {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--card);
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.05rem 1.15rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.file-row:first-child {
+  border-top: 0;
+}
+
+.file-name {
+  display: block;
+  font-weight: 700;
+}
+
+.file-note {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.file-actions {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.file-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.48rem;
+  padding: 0.62rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.file-download:hover {
+  border-color: var(--accent);
+  color: var(--accent-hover);
+  background: #fffaf4;
+}
+
+.file-download .meta {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.checksum {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent-hover);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: hsl(16 56% 43% / 0.35);
+  text-underline-offset: 3px;
+}
+
+.checksum:hover:not(:disabled) {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
+.checksum:disabled {
+  color: var(--muted);
+  cursor: default;
+  text-decoration: none;
+}
+
+.digest {
+  display: block;
+  max-width: 18rem;
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
+}
+
+/* ---- verification ---- */
 
 .verify-grid {
   display: grid;
@@ -348,16 +498,16 @@ h3 {
 }
 
 .verify-grid article {
-  padding: 1.25rem 1.35rem;
-  border: 1px solid var(--hairline);
+  padding: 1.3rem 1.4rem;
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--card);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-soft);
 }
 
 .verify-grid p {
-  margin: 0 0 0.75rem;
-  color: var(--ink-muted);
+  margin: 0 0 0.8rem;
+  color: var(--muted);
   font-size: 0.9rem;
 }
 
@@ -370,16 +520,12 @@ h3 {
   color: var(--ink);
 }
 
-/* The page's one dark surface. These are commands typed into a terminal, and
- * looking like one is the fastest way to say so. */
 pre {
-  margin: 0 0 0.75rem;
-  padding: 0.7rem 0.85rem;
-  border-radius: 8px;
+  margin: 0 0 0.8rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 9px;
   background: var(--terminal);
   color: var(--terminal-ink);
-  /* These are commands a reader is meant to copy, so they wrap rather than
-   * scroll off the edge of a card where the tail is invisible. */
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -388,20 +534,12 @@ pre code {
   color: inherit;
 }
 
-/* Inline code inside running text stays on paper; only blocks go dark. */
-.verify-grid p code,
-.blurb code {
-  padding: 0.1em 0.35em;
-  border-radius: 5px;
-  background: var(--sunken);
-}
-
 /* ---- footer ---- */
 
 footer {
   margin-top: 4rem;
   padding-top: 2rem;
-  border-top: 1px solid var(--hairline);
+  border-top: 1px solid var(--line);
 }
 
 .footer-links {
@@ -414,25 +552,63 @@ footer {
 
 footer p {
   margin: 0 0 0.6rem;
-  color: var(--ink-muted);
+  color: var(--muted);
   font-size: 0.85rem;
 }
 
+@media (max-width: 42rem) {
+  .section-heading {
+    display: block;
+  }
+
+  .section-help {
+    max-width: none;
+    margin-top: 0.45rem;
+    text-align: left;
+  }
+
+  .file-row {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .file-actions {
+    justify-content: start;
+  }
+}
+
 @media (max-width: 34rem) {
+  body {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
   .langbar {
     justify-content: center;
   }
 
   .masthead {
-    padding-top: 2.25rem;
+    padding-top: 2.5rem;
   }
 
-  .masthead h1 {
-    font-size: 2rem;
+  .download-hero {
+    padding-right: 1rem;
+    padding-left: 1rem;
+    border-radius: 22px;
+  }
+
+  .platform-tabs {
+    gap: 0.3rem;
+  }
+
+  .platform-tabs button {
+    flex: 1;
+    padding-right: 0.6rem;
+    padding-left: 0.6rem;
   }
 
   .primary-download {
-    display: flex;
-    justify-content: center;
+    min-width: 100%;
+    font-size: 1rem;
   }
 }

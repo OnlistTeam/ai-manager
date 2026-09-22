@@ -1039,10 +1039,6 @@ pub fn run() {
             // Silent startup: show or hide the main window depending on settings
             let settings = crate::settings::get_settings();
             if let Some(window) = app.get_webview_window("main") {
-                // Before the first show, so the caption is never briefly drawn
-                // in the system colour. macOS gets the same result from
-                // `titleBarStyle: "Overlay"` in the bundle configuration.
-                crate::platform::window_chrome::apply_product_chrome(&window);
                 // Sync decoration state before the window is first shown, so switching
                 // after the frontend loads does not make the title bar flicker.
                 // Linux only: works around unusable system window buttons under Wayland.

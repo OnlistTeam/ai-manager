@@ -815,7 +815,13 @@
     "localFirst": "설정은 이 컴퓨터에만 저장됩니다",
     "data": "세션",
     "mcp": "MCP",
-    "prompts": "전역 프롬프트"
+    "prompts": "전역 프롬프트",
+    "window": {
+      "minimize": "최소화",
+      "maximize": "최대화",
+      "restore": "이전 크기로",
+      "close": "닫기"
+    }
   },
   "openClawWorkspace": {
     "title": "OpenClaw 작업 공간",

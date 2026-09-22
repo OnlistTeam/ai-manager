@@ -815,7 +815,13 @@
     "localFirst": "Cấu hình của bạn ở lại trên máy này",
     "data": "Phiên",
     "mcp": "MCP",
-    "prompts": "Prompt toàn cục"
+    "prompts": "Prompt toàn cục",
+    "window": {
+      "minimize": "Thu nhỏ",
+      "maximize": "Phóng to",
+      "restore": "Khôi phục",
+      "close": "Đóng"
+    }
   },
   "openClawWorkspace": {
     "title": "OpenClaw Workspace",

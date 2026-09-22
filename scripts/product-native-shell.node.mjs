@@ -420,17 +420,38 @@ test("the native product window keeps the tested brand and layout envelope", asy
   // Tauri replaces platform-specific array entries instead of merging their
   // fields, so Windows must repeat every intended window property explicitly.
   // `titleBarStyle` is deliberately absent: it is a macOS-only key, so setting
-  // it here described a Windows behaviour that never existed. The caption
-  // colour comes from platform::window_chrome instead.
+  // it here described a Windows behaviour that never existed. `decorations`
+  // is what Windows uses instead — the product draws its own caption, so the
+  // window is one continuous surface the way macOS already was (ADR-0044).
   assert.deepEqual(windowsWindow, {
     label: "main",
     title: "AI Manager",
+    decorations: false,
     ...expectedGeometry,
     visible: false,
     resizable: true,
     fullscreen: false,
     center: true,
   });
+
+  // A window with no system caption has no system buttons either, so the
+  // renderer must be allowed to drive the three it draws. Without these the
+  // window could be opened and never minimized or closed from its own chrome.
+  const capability = JSON.parse(
+    await source("src-tauri/capabilities/default.json"),
+  );
+  for (const permission of [
+    "core:window:allow-close",
+    "core:window:allow-is-maximized",
+    "core:window:allow-minimize",
+    "core:window:allow-start-dragging",
+    "core:window:allow-toggle-maximize",
+  ]) {
+    assert.ok(
+      capability.permissions.includes(permission),
+      `the self-drawn caption needs ${permission}`,
+    );
+  }
   assert.doesNotMatch(windowsSource, /CC Switch/);
 });
 
@@ -525,6 +546,9 @@ test("the main-window capability matches the production renderer exactly", async
     source("src/app/AppShell.tsx"),
   ]);
   const permissions = JSON.parse(capability).permissions;
+  const windowControls = await source(
+    "src/features/window-chrome/WindowControls.tsx",
+  );
 
   // Event listening lives in the native boundary; the entry only consumes it.
   assert.match(events, /@tauri-apps\/api\/event/);
@@ -535,12 +559,23 @@ test("the main-window capability matches the production renderer exactly", async
   assert.doesNotMatch(updater, /@tauri-apps\/api\/app/);
   assert.match(windowActivity, /@tauri-apps\/api\/(?:event|window)/);
   assert.match(appShell, /data-tauri-drag-region|DRAG_REGION_ATTR/);
+  // The window permissions below are granted for exactly one consumer: the
+  // caption the product draws where Windows used to draw its own.
+  assert.match(windowControls, /@\/native/);
+  assert.match(windowControls, /native\.windowControls/);
+  for (const call of ["minimize", "toggleMaximize", "close", "isMaximized"]) {
+    assert.match(windowControls, new RegExp(`\\.${call}\\(`), call);
+  }
 
   assert.deepEqual([...permissions].sort(), [
     "core:event:allow-listen",
     "core:event:allow-unlisten",
+    "core:window:allow-close",
     "core:window:allow-internal-toggle-maximize",
+    "core:window:allow-is-maximized",
+    "core:window:allow-minimize",
     "core:window:allow-start-dragging",
+    "core:window:allow-toggle-maximize",
     "dialog:allow-message",
     "log:allow-log",
     "process:allow-exit",

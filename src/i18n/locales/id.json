@@ -815,7 +815,13 @@
     "localFirst": "Konfigurasi Anda tetap ada di komputer ini",
     "data": "Sesi",
     "mcp": "MCP",
-    "prompts": "Prompt Global"
+    "prompts": "Prompt Global",
+    "window": {
+      "minimize": "Perkecil",
+      "maximize": "Perbesar",
+      "restore": "Pulihkan",
+      "close": "Tutup"
+    }
   },
   "openClawWorkspace": {
     "title": "Workspace OpenClaw",

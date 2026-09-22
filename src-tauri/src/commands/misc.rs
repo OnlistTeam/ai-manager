@@ -2283,12 +2283,6 @@ pub async fn set_window_theme(window: tauri::Window, theme: String) -> Result<()
 
     window.set_theme(tauri_theme).map_err(|e| e.to_string())?;
 
-    // On Windows `set_theme` hands the caption back to the system dark-mode
-    // colour, which is not the product canvas. Re-assert ours afterwards.
-    use tauri::Manager;
-    if let Some(webview) = window.app_handle().get_webview_window("main") {
-        crate::platform::window_chrome::apply_product_chrome(&webview);
-    }
     Ok(())
 }
 

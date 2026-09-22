@@ -815,7 +815,13 @@
     "localFirst": "Все ваши настройки хранятся на этом компьютере",
     "data": "Сессии",
     "mcp": "MCP",
-    "prompts": "Глобальные промпты"
+    "prompts": "Глобальные промпты",
+    "window": {
+      "minimize": "Свернуть",
+      "maximize": "Развернуть",
+      "restore": "Восстановить",
+      "close": "Закрыть"
+    }
   },
   "openClawWorkspace": {
     "title": "Рабочая область OpenClaw",

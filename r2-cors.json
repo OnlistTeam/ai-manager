@@ -1,0 +1,16 @@
+{
+  "rules": [
+    {
+      "allowed": {
+        "origins": [
+          "https://aimanager.tools",
+          "https://www.aimanager.tools"
+        ],
+        "methods": ["GET", "HEAD"],
+        "headers": ["Accept", "Range"]
+      },
+      "exposeHeaders": ["ETag", "Content-Length", "Content-Type"],
+      "maxAgeSeconds": 300
+    }
+  ]
+}

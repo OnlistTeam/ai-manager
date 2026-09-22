@@ -35,15 +35,9 @@
       href="https://aimanager.tools/"
     />
     <link rel="icon" href="icon.png" type="image/png" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260922-2" />
   </head>
   <body>
-    <!--
-      The language picker is a row of four buttons rather than a dropdown: with
-      four choices a dropdown hides three of them behind a click, and a visitor
-      who landed in the wrong language is exactly the visitor least able to
-      guess what the control does.
-    -->
     <nav class="langbar" aria-label="Language" data-i18n-aria="lang.label">
       <button type="button" data-lang="en" aria-pressed="true">English</button>
       <button type="button" data-lang="zh" aria-pressed="false">
@@ -70,9 +64,9 @@
     </header>
 
     <main>
-      <section class="downloads" aria-labelledby="downloads-heading">
+      <section class="download-hero" aria-labelledby="downloads-heading">
+        <p class="eyebrow" data-i18n="dl.eyebrow">Download AI Manager</p>
         <h2 id="downloads-heading" data-i18n="dl.heading">Download</h2>
-
         <p class="release-line" id="release-line" aria-live="polite">
           <span data-i18n="dl.loading"
             >Looking up the current release&hellip;</span
@@ -80,18 +74,11 @@
         </p>
 
         <div id="recommended" class="recommended" hidden></div>
-
-        <h3 class="platforms-heading" id="platforms-heading" hidden>
-          <span data-i18n="dl.allHeading">All platforms</span>
-        </h3>
-        <div id="all-platforms" class="platforms" hidden></div>
-
-        <!-- Filled by download.js; the sentence names the mirror and links
-             GitHub, so both halves have to be assembled at render time. -->
-        <p class="source-note" id="source-note" hidden></p>
+        <p class="mirror-note" id="source-note" hidden></p>
 
         <p class="fallback" id="fallback" hidden data-i18n="dl.fallback">
-          The download list could not be loaded. Every installer is also on the
+          The download list could not be loaded. Try again in a moment, or use
+          the
           <a href="https://github.com/OnlistTeam/ai-manager/releases"
             >GitHub Releases page</a
           >.
@@ -110,11 +97,67 @@
         </p>
       </section>
 
+      <section class="platform-section" aria-labelledby="platforms-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" data-i18n="dl.eyebrowPlatforms">
+              Choose your system
+            </p>
+            <h2 id="platforms-heading" data-i18n="dl.allHeading">
+              All platforms
+            </h2>
+          </div>
+          <p class="section-help" data-i18n="dl.choosePlatform">
+            Pick a platform to see its installers and checksums.
+          </p>
+        </div>
+
+        <div
+          class="platform-tabs"
+          role="tablist"
+          aria-label="Platforms"
+          data-i18n-aria="dl.platformsLabel"
+        >
+          <button
+            type="button"
+            role="tab"
+            data-platform-tab="macos"
+            aria-selected="false"
+            data-i18n="dl.tabMac"
+          >
+            macOS
+          </button>
+          <button
+            type="button"
+            role="tab"
+            data-platform-tab="windows"
+            aria-selected="false"
+            data-i18n="dl.tabWindows"
+          >
+            Windows
+          </button>
+          <button
+            type="button"
+            role="tab"
+            data-platform-tab="linux"
+            aria-selected="false"
+            data-i18n="dl.tabLinux"
+          >
+            Linux
+          </button>
+        </div>
+        <div
+          id="platform-panel"
+          class="platform-panel"
+          role="tabpanel"
+          tabindex="-1"
+        ></div>
+      </section>
+
       <section class="verify" aria-labelledby="verify-heading">
         <h2 id="verify-heading" data-i18n="verify.heading">
           Before you install
         </h2>
-
         <div class="verify-grid">
           <article>
             <h3 data-i18n="verify.macos.title">macOS</h3>
@@ -137,8 +180,8 @@
             </p>
             <pre><code>Get-FileHash .\AI-Manager-&lt;version&gt;-Windows-x64.msi -Algorithm SHA256</code></pre>
             <p data-i18n="verify.windows.compare">
-              Compare the result with the matching
-              <code>.msi.sha256</code> file published beside the installer.
+              Compare the result with the matching <code>.msi.sha256</code> file
+              published beside the installer.
             </p>
           </article>
 
@@ -203,12 +246,12 @@
         >.
       </p>
       <p class="privacy" data-i18n="footer.privacy">
-        No analytics, no telemetry. This page loads nothing but its own files
-        and one release manifest from our own host.
+        No analytics, no telemetry. This page loads only its own files and a
+        release manifest from our download mirror.
       </p>
     </footer>
 
-    <script src="i18n.js"></script>
-    <script src="download.js"></script>
+    <script src="i18n.js?v=20260922-2"></script>
+    <script src="download.js?v=20260922-2"></script>
   </body>
 </html>
