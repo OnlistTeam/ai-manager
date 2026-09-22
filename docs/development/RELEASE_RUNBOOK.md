@@ -1,8 +1,8 @@
 # AI Manager desktop release runbook
 
-> Status: `v0.2.0` is the current stable release, built for all four targets.
+> Status: `v0.3.0` is the current stable release, built for all four targets.
 > Installed updater round trip and clean-machine evidence still pending; see
-> the invariant 12 exception in section 1 ·
+> the invariant 12 exceptions in section 1 ·
 > Workflow: `.github/workflows/release.yml` · Scope: macOS Apple Silicon,
 > macOS Intel, Windows x64, Linux x64
 
@@ -23,9 +23,28 @@ use are recorded outside the repository.
 
 ## 1. Current release state
 
-`v0.2.0` is the current stable release. What is still missing is evidence that
+`v0.3.0` is the current stable release. What is still missing is evidence that
 an _installed_ build updates itself, and clean-machine validation on native
 Windows and Linux hardware:
+
+> **Invariant 12 exception, 2026-09-22.** The `v0.2.0` exception below said
+> that publishing a further stable release requires either running the N → N+1
+> installed updater test or recording the exception again. It has not been run,
+> and this records it again for `v0.3.0`.
+>
+> `v0.3.0` carries a second unverified change, named to the owner before
+> authorization: **Windows now runs undecorated and draws its own title bar**
+> (ADR-0044). Window dragging, resizing, Aero Snap, and double-click-to-maximize
+> all rest on wry keeping `WS_THICKFRAME` on an undecorated window. That
+> behaviour is documented and tested here only through unit tests of the
+> component; it has never been exercised on Windows hardware, because the
+> maintainer has none. If it is wrong, a Windows user receives a window they
+> cannot move, and — since the updater round trip is itself unproven — cannot
+> necessarily be updated out of. The owner was shown both facts on 2026-09-22
+> and authorized `v0.3.0` as a stable release.
+>
+> Publishing `v0.3.1` as stable requires running the updater test, obtaining
+> Windows hardware evidence, or recording both exceptions a third time.
 
 > **Invariant 12 exception, 2026-09-21.** Invariant 12 says no formal release
 > is approved until the N → N+1 installed updater test passes on one clean

@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "AI Manager",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "identifier": "tools.aimanager.desktop",
   "build": {
     "frontendDist": "../dist",
@@ -39,7 +39,7 @@
     "createUpdaterArtifacts": true,
     "publisher": "AI Manager",
     "homepage": "https://aimanager.tools",
-    "copyright": "Copyright © 2026 AI Manager contributors. Licensed under AGPL-3.0-or-later.",
+    "copyright": "Copyright \u00a9 2026 AI Manager contributors. Licensed under AGPL-3.0-or-later.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -64,12 +64,16 @@
   "plugins": {
     "deep-link": {
       "desktop": {
-        "schemes": ["aimanager"]
+        "schemes": [
+          "aimanager"
+        ]
       }
     },
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDNGQjhBM0ZDQTc1RDJFNDQKUldSRUxsMm4vS080UHpKN1Bidkc1VzRKYkloRFI3TWo4YVJoYVdDUjhMZUNpYjZVd3dlemJ1dU4K",
-      "endpoints": ["https://dl.aimanager.tools/ai-manager/latest.json"]
+      "endpoints": [
+        "https://dl.aimanager.tools/ai-manager/latest.json"
+      ]
     }
   }
 }
