@@ -1,6 +1,6 @@
 # AI Manager desktop release runbook
 
-> Status: `v0.3.0` is the current stable release, built for all four targets.
+> Status: `v1.0.0` is the current stable release, built for all four targets.
 > Installed updater round trip and clean-machine evidence still pending; see
 > the invariant 12 exceptions in section 1 ·
 > Workflow: `.github/workflows/release.yml` · Scope: macOS Apple Silicon,
@@ -23,9 +23,27 @@ use are recorded outside the repository.
 
 ## 1. Current release state
 
-`v0.3.0` is the current stable release. What is still missing is evidence that
+`v1.0.0` is the current stable release. What is still missing is evidence that
 an _installed_ build updates itself, and clean-machine validation on native
 Windows and Linux hardware:
+
+> **Invariant 12 exception, 2026-09-22 (`v1.0.0`).** The `v0.3.0` exception
+> below said that publishing a further stable release requires running the
+> N → N+1 installed updater test, obtaining Windows hardware evidence, or
+> recording both exceptions a third time. Neither test has been run, and this
+> records both again for `v1.0.0`.
+>
+> A `1.0.0` version number is a claim about stability that this evidence does
+> not support. What `1.0.0` marks here is the owner's decision to call the
+> product finished, not a change in what has been verified: the updater round
+> trip is still unproven on every target, and the undecorated Windows window
+> introduced in `v0.3.0` (ADR-0044) has still never run on Windows hardware. If
+> that window is wrong, a Windows user gets a window they cannot move and no
+> proven path to be updated out of it. The owner was shown both facts on
+> 2026-09-22 and authorized `v1.0.0` as a stable release.
+>
+> Publishing `v1.0.1` as stable requires running the updater test, obtaining
+> Windows hardware evidence, or recording both exceptions a fourth time.
 
 > **Invariant 12 exception, 2026-09-22.** The `v0.2.0` exception below said
 > that publishing a further stable release requires either running the N → N+1
@@ -42,9 +60,6 @@ Windows and Linux hardware:
 > cannot move, and — since the updater round trip is itself unproven — cannot
 > necessarily be updated out of. The owner was shown both facts on 2026-09-22
 > and authorized `v0.3.0` as a stable release.
->
-> Publishing `v0.3.1` as stable requires running the updater test, obtaining
-> Windows hardware evidence, or recording both exceptions a third time.
 
 > **Invariant 12 exception, 2026-09-21.** Invariant 12 says no formal release
 > is approved until the N → N+1 installed updater test passes on one clean
@@ -217,6 +232,7 @@ Completed owner checkpoints:
 - permanent bundle identifier `tools.aimanager.desktop`;
 - product repository `OnlistTeam/ai-manager`;
 - first product version `0.1.0`, and `0.2.0` as the second stable release;
+- `1.0.0` as the version that marks the product finished (2026-09-22);
 - permanent Tauri updater key pair;
 - ONLIST Developer ID identity and App Store Connect notarization credential.
 - public Cloudflare R2 channel at `dl.aimanager.tools/ai-manager`.
@@ -229,8 +245,8 @@ Obtain a new explicit decision before:
 - re-introducing any second distribution source, which ADR-0018 item 7 now
   requires a new ADR for;
 - promoting any build to a stable, non-prerelease release. The owner
-  authorized `v0.1.0` and then `v0.2.0` as stable releases on 2026-09-21; each
-  decision covers one version only.
+  authorized `v0.1.0` and then `v0.2.0` as stable releases on 2026-09-21, and
+  `v0.3.0` and `v1.0.0` on 2026-09-22; each decision covers one version only.
 
 The identifier migration is implemented in the same commit as the stable
 identity. It never changes or deletes the inherited source directory.
