@@ -1,6 +1,6 @@
 # AI Manager desktop release runbook
 
-> Status: `v1.0.0` is the current stable release, built for all four targets.
+> Status: `v1.1.0` is the current stable release, built for all four targets.
 > Installed updater round trip and clean-machine evidence still pending; see
 > the invariant 12 exceptions in section 1 ·
 > Workflow: `.github/workflows/release.yml` · Scope: macOS Apple Silicon,
@@ -23,9 +23,27 @@ use are recorded outside the repository.
 
 ## 1. Current release state
 
-`v1.0.0` is the current stable release. What is still missing is evidence that
+`v1.1.0` is the current stable release. What is still missing is evidence that
 an _installed_ build updates itself, and clean-machine validation on native
 Windows and Linux hardware:
+
+> **Invariant 12 exception, 2026-09-23 (`v1.1.0`).** The `v1.0.0` exception
+> below said that publishing a further stable release requires running the
+> N → N+1 installed updater test, obtaining Windows hardware evidence, or
+> recording both exceptions a fourth time. Neither test has been run, and this
+> records both again for `v1.1.0`.
+>
+> `v1.1.0` carries only renderer changes to the connection test dialog and one
+> catalogue-parsing change in the model probe, so it alters nothing the two
+> outstanding tests would cover: the updater round trip is still unproven on
+> every target, and the undecorated Windows window from `v0.3.0` (ADR-0044) has
+> still never run on Windows hardware. It is also the first release that could
+> demonstrate the updater at all, because it is the first stable successor to a
+> build signed with the current key. The owner was shown both facts on
+> 2026-09-23 and authorized `v1.1.0` as a stable release.
+>
+> Publishing `v1.1.1` as stable requires running the updater test, obtaining
+> Windows hardware evidence, or recording both exceptions a fifth time.
 
 > **Invariant 12 exception, 2026-09-22 (`v1.0.0`).** The `v0.3.0` exception
 > below said that publishing a further stable release requires running the
@@ -245,8 +263,9 @@ Obtain a new explicit decision before:
 - re-introducing any second distribution source, which ADR-0018 item 7 now
   requires a new ADR for;
 - promoting any build to a stable, non-prerelease release. The owner
-  authorized `v0.1.0` and then `v0.2.0` as stable releases on 2026-09-21, and
-  `v0.3.0` and `v1.0.0` on 2026-09-22; each decision covers one version only.
+  authorized `v0.1.0` and then `v0.2.0` as stable releases on 2026-09-21,
+  `v0.3.0` and `v1.0.0` on 2026-09-22, and `v1.1.0` on 2026-09-23; each
+  decision covers one version only.
 
 The identifier migration is implemented in the same commit as the stable
 identity. It never changes or deletes the inherited source directory.

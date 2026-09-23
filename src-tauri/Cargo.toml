@@ -1,6 +1,6 @@
 [package]
 name = "ai-manager"
-version = "1.0.0"
+version = "1.1.0"
 description = "AI Manager desktop application for AI coding tools"
 authors = ["AI Manager contributors"]
 license = "AGPL-3.0-or-later"
