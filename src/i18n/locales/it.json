@@ -487,7 +487,6 @@
       "timeoutZero": "AI Manager non è riuscito a farlo in sicurezza, quindi si è fermato."
     },
     "deepLink": {
-      "credentialBlocked": "Questo link contiene una chiave. Un link aperto dall'esterno di AI Manager non può farlo, perché il tuo computer vedrebbe la chiave durante il passaggio. Copia il link e incollalo invece in Impostazioni.",
       "credentialRequired": "Questo link non ha una chiave, e un endpoint API non può essere salvato senza una chiave. Chiedi al fornitore un link che la includa.",
       "duplicateParameter": "Questo link ripete uno dei suoi campi, quindi non può essere letto.",
       "endpointRequired": "Questo link non specifica nessun indirizzo per l'endpoint API.",
@@ -684,7 +683,6 @@
       "retryOrViewDetails": "Riprova, oppure apri Visualizza dettagli per vedere cosa è successo.",
       "useOriginalUpdateChannel": "Usa l'updater originale di questa installazione, oppure rimuovila esplicitamente prima di installare tramite npm.",
       "uninstallManually": "Puoi eliminare tu stesso i file rimanenti, poi esegui di nuovo Verifica.",
-      "pasteDeepLink": "Copia il link e incollalo in Impostazioni per continuare.",
       "allowTerminalAutomation": "Apri «Impostazioni di Sistema → Privacy e sicurezza → Automazione» e attiva «Terminale» per AI Manager."
     },
     "routing": {
@@ -2957,7 +2955,7 @@
     },
     "paste": {
       "title": "Aggiungi da un link",
-      "description": "Incolla un link one-click da un fornitore. Un link che incolli tu stesso può includere la tua chiave; un link aperto dall'esterno potrebbe non includerla.",
+      "description": "Incolla un link one-click da un fornitore.",
       "label": "Link",
       "hint": "AI Manager legge il link e ti chiede conferma prima di salvare qualsiasi cosa.",
       "placeholder": "aimanager://v1/import?...",

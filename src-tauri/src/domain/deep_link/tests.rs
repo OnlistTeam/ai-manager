@@ -5,7 +5,6 @@ use super::{
     parse, DeepLinkCredentialField, DeepLinkIntent, DeepLinkMcpConnection, DeepLinkResource,
     LinkOrigin, MAX_DEEP_LINK_BYTES,
 };
-use crate::domain::ErrorCode;
 
 fn encode(value: &str) -> String {
     STANDARD.encode(value)
@@ -36,37 +35,43 @@ fn a_minimal_provider_link_parses_on_both_paths() {
 }
 
 #[test]
-fn a_credential_is_refused_on_argv_and_accepted_on_paste() {
+fn a_credential_is_accepted_on_both_paths_and_reported_as_a_field() {
+    // ADR-0029 decision 3 (revised 2026-09-23, owner-directed): the argv path
+    // used to reject any credential-bearing link outright, which made a vendor
+    // one-click import impossible — a service link without a key cannot be
+    // stored at all, so every provider link was refused on one ground or the
+    // other. Both paths now accept the same fields; the confirmation dialog and
+    // the "opened from outside" notice carry the weight instead.
     let link = format!("{}&apiKey=sk-ant-0123456789", provider_link());
 
-    let refused = parse(&link, LinkOrigin::Argv).expect_err("argv must refuse a credential");
-    assert_eq!(refused.code, ErrorCode::PermissionDenied);
-    assert_eq!(refused.message_key, "error.deepLink.credentialBlocked");
-    assert_eq!(
-        refused.remediation.as_deref(),
-        Some("error.remediation.pasteDeepLink")
-    );
-
-    let accepted = parse(&link, LinkOrigin::Paste).expect("paste may carry a credential");
-    assert_eq!(
-        accepted.credential_fields(),
-        vec![DeepLinkCredentialField::ApiKey]
-    );
+    for origin in [LinkOrigin::Argv, LinkOrigin::Paste] {
+        let intent = parse(&link, origin).expect("both paths may carry a credential");
+        assert_eq!(
+            intent.credential_fields(),
+            vec![DeepLinkCredentialField::ApiKey]
+        );
+        let DeepLinkIntent::Provider(provider) = intent else {
+            panic!("expected a provider intent");
+        };
+        assert_eq!(provider.api_key.as_deref(), Some("sk-ant-0123456789"));
+    }
 }
 
 #[test]
-fn a_credential_hidden_inside_config_is_found_on_the_argv_path() {
+fn a_credential_hidden_inside_config_is_reported_on_both_paths() {
     let config = encode(r#"{"env":{"ANTHROPIC_AUTH_TOKEN":"sk-ant-0123456789"}}"#);
     let link = format!("{}&config={config}", provider_link());
 
-    let refused = parse(&link, LinkOrigin::Argv).expect_err("a config credential is a credential");
-    assert_eq!(refused.message_key, "error.deepLink.credentialBlocked");
-    assert_eq!(
-        parse(&link, LinkOrigin::Paste)
-            .expect("paste accepts it")
-            .credential_fields(),
-        vec![DeepLinkCredentialField::Config]
-    );
+    // Detection still runs on both paths — the dialog names the field that
+    // holds the key, it just no longer refuses the link because of it.
+    for origin in [LinkOrigin::Argv, LinkOrigin::Paste] {
+        assert_eq!(
+            parse(&link, origin)
+                .expect("a config credential no longer blocks either path")
+                .credential_fields(),
+            vec![DeepLinkCredentialField::Config]
+        );
+    }
 }
 
 #[test]
@@ -215,12 +220,18 @@ fn mcp_environment_headers_and_argument_secrets_do_not_slip_through() {
 
     let with_arg_secret =
         encode(r#"{"mcpServers":{"files":{"command":"npx","args":["--api-key","zq83ndkwpe"]}}}"#);
-    let refused = parse(
+    // The secret is still *detected* (it is reported as a credential field so
+    // the dialog can name it); since the 2026-09-23 revision of decision 3 it
+    // no longer refuses the argv path.
+    let intent = parse(
         &format!("aimanager://v1/import?resource=mcp&apps=claude&config={with_arg_secret}"),
         LinkOrigin::Argv,
     )
-    .expect_err("an argument secret is still a secret");
-    assert_eq!(refused.message_key, "error.deepLink.credentialBlocked");
+    .expect("an argument secret no longer blocks the argv path");
+    assert_eq!(
+        intent.credential_fields(),
+        vec![DeepLinkCredentialField::Config]
+    );
 }
 
 #[test]

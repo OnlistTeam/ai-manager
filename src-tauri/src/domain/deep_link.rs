@@ -1,8 +1,10 @@
 //! Product-owned deep link model and parser (ADR-0029).
 //!
-//! One parser serves both paths. The only difference between them is the
-//! credential policy: a link the operating system handed us as argv may not
-//! carry a credential, a link the user pasted from their own clipboard may.
+//! One parser serves both paths, and since the 2026-09-23 revision of decision 3
+//! both accept the same fields, credentials included. The one thing that still
+//! differs is spelling: the compatible `ccswitch://` prefix and the bare
+//! `v1/import?...` query are paste-only, because `aimanager` is the only scheme
+//! the product registers (decision 1).
 //!
 //! This module is pure. It does not know which tools are installed, it never
 //! writes anything, and it never logs the URL. Resolving the upstream `app`
@@ -34,9 +36,10 @@ const MAX_MCP_SERVERS: usize = 8;
 const MAX_REPO_SEGMENT_CHARS: usize = 100;
 const MAX_DIRECTORY_CHARS: usize = 200;
 
-/// Where a link came from. The two paths have deliberately different
-/// capabilities, so the origin travels with the intent all the way to the
-/// confirmation dialog.
+/// Where a link came from. Both paths accept the same fields, including
+/// credentials (ADR-0029 decision 3, revised 2026-09-23); the origin still
+/// travels with the intent so the confirmation dialog can say where the link
+/// came from, and so the compatible spelling stays paste-only.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum LinkOrigin {
@@ -47,7 +50,13 @@ pub enum LinkOrigin {
 }
 
 impl LinkOrigin {
-    const fn allows_credentials(self) -> bool {
+    /// Whether this path accepts `ccswitch://` and the bare `v1/import?...`
+    /// query. Paste only — this is decision 1 (scheme contention), which is
+    /// untouched by the credential revision: registering the compatible scheme
+    /// would hijack the import links of users who also have CC Switch
+    /// installed, and a link the OS hands us always arrives under a scheme we
+    /// registered.
+    const fn allows_compatible_scheme(self) -> bool {
         matches!(self, Self::Paste)
     }
 }
@@ -320,8 +329,12 @@ impl DeepLinkSkill {
 }
 
 /// Parses one link. Nothing is written and nothing is logged on any path.
+///
+/// Both origins accept the same fields, credentials included (ADR-0029
+/// decision 3, revised 2026-09-23). What the argv path still cannot do is use
+/// the compatible spelling — that is decision 1, a different concern.
 pub fn parse(raw: &str, origin: LinkOrigin) -> Result<DeepLinkIntent, AppError> {
-    let normalized = query::normalize(raw, origin.allows_credentials())?;
+    let normalized = query::normalize(raw, origin.allows_compatible_scheme())?;
     let parsed = query::parse(&normalized)?;
 
     let intent = match parsed.required("resource")? {
@@ -336,15 +349,6 @@ pub fn parse(raw: &str, origin: LinkOrigin) -> Result<DeepLinkIntent, AppError> 
             ))
         }
     };
-
-    if !origin.allows_credentials() && !intent.credential_fields().is_empty() {
-        return Err(AppError::new(
-            ErrorCode::PermissionDenied,
-            "error.deepLink.credentialBlocked",
-        )
-        .with_technical("a link opened through the registered scheme carried a credential")
-        .with_remediation("error.remediation.pasteDeepLink"));
-    }
 
     Ok(intent)
 }

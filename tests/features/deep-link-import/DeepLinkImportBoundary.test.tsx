@@ -146,6 +146,24 @@ describe("DeepLinkImportBoundary", () => {
     expect(dialog.textContent ?? "").not.toMatch(/sk-/);
   });
 
+  // ADR-0029 decision 3, revised 2026-09-23: a link opened from outside may now
+  // carry a key. The dialog is what stands between an external link and a write,
+  // so it has to name the credential field, say where the link came from, and
+  // still offer the action — the old behaviour refused the link before any of
+  // this was ever rendered.
+  it("accepts a credential from an external link and still offers the action", async () => {
+    mountWith([preview({ origin: "argv", credentialFields: ["apiKey"] })]);
+
+    const dialog = await screen.findByRole("dialog");
+    expect(
+      within(dialog).getByText(en.deeplink.credential.apiKey),
+    ).toBeVisible();
+    expect(within(dialog).getByText(en.deeplink.origin.argv)).toBeVisible();
+    expect(
+      within(dialog).getByRole("button", { name: en.deeplink.confirm.action }),
+    ).toBeEnabled();
+  });
+
   it("explains a blocked link and refuses to offer its action", async () => {
     mountWith([
       preview({

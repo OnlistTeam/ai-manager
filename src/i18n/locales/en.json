@@ -487,7 +487,6 @@
       "timeoutZero": "AI Manager could not do this safely, so it stopped."
     },
     "deepLink": {
-      "credentialBlocked": "This link carries a key. A link opened from outside AI Manager is not allowed to, because your computer would see the key on its way in. Copy the link and paste it in Settings instead.",
       "credentialRequired": "This link has no key, and an API endpoint cannot be saved without one. Ask the provider for a link that includes it.",
       "duplicateParameter": "This link repeats one of its fields, so it cannot be read.",
       "endpointRequired": "This link names no address for the API endpoint.",
@@ -684,7 +683,6 @@
       "retryOrViewDetails": "Try again, or open View Details to see what happened.",
       "useOriginalUpdateChannel": "Use this installation's original updater, or remove it explicitly before installing through npm.",
       "uninstallManually": "You can delete the remaining files yourself, then run Check again.",
-      "pasteDeepLink": "Copy the link and paste it into Settings to continue.",
       "allowTerminalAutomation": "In System Settings, open Privacy & Security, then Automation, and switch Terminal on for AI Manager."
     },
     "routing": {
@@ -2957,7 +2955,7 @@
     },
     "paste": {
       "title": "Add from a link",
-      "description": "Paste a one-click link from a provider. A link you paste yourself may include your key; a link opened from outside may not.",
+      "description": "Paste a one-click link from a provider.",
       "label": "Link",
       "hint": "AI Manager reads the link and asks you to confirm before anything is saved.",
       "placeholder": "aimanager://v1/import?...",

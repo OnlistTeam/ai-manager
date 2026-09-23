@@ -487,7 +487,6 @@
       "timeoutZero": "O AI Manager não conseguiu fazer isso com segurança, então parou."
     },
     "deepLink": {
-      "credentialBlocked": "Este link contém uma chave. Um link aberto de fora do AI Manager não tem permissão para isso, porque seu computador veria a chave no caminho. Copie o link e cole-o em Configurações.",
       "credentialRequired": "Este link não tem chave, e um endpoint de API não pode ser salvo sem uma. Peça ao provedor um link que a inclua.",
       "duplicateParameter": "Este link repete um de seus campos, então não pode ser lido.",
       "endpointRequired": "Este link não indica um endereço para o endpoint de API.",
@@ -684,7 +683,6 @@
       "retryOrViewDetails": "Tente novamente, ou abra Ver detalhes para saber o que aconteceu.",
       "useOriginalUpdateChannel": "Use o atualizador original desta instalação, ou remova-a explicitamente antes de instalar pelo npm.",
       "uninstallManually": "Você pode excluir os arquivos restantes você mesmo e depois executar Verificar novamente.",
-      "pasteDeepLink": "Copie o link e cole-o em Configurações para continuar.",
       "allowTerminalAutomation": "Abra «Ajustes do Sistema → Privacidade e Segurança → Automação» e ative o «Terminal» para o AI Manager."
     },
     "routing": {
@@ -2957,7 +2955,7 @@
     },
     "paste": {
       "title": "Adicionar a partir de um link",
-      "description": "Cole um link de um clique de um provedor. Um link que você mesmo cola pode incluir sua chave; um link aberto de fora pode não incluir.",
+      "description": "Cole um link de um clique de um provedor.",
       "label": "Link",
       "hint": "O AI Manager lê o link e pede sua confirmação antes que algo seja salvo.",
       "placeholder": "aimanager://v1/import?...",

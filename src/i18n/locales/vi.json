@@ -487,7 +487,6 @@
       "timeoutZero": "AI Manager không thể thực hiện việc này một cách an toàn, nên đã dừng lại."
     },
     "deepLink": {
-      "credentialBlocked": "Liên kết này mang theo một khóa. Liên kết được mở từ bên ngoài AI Manager không được phép làm việc này, vì máy tính của bạn sẽ nhìn thấy khóa đó khi nó đi qua. Hãy sao chép liên kết và dán vào Cài đặt thay vào đó.",
       "credentialRequired": "Liên kết này không có khóa, mà một điểm cuối API không thể được lưu nếu thiếu khóa. Hãy hỏi nhà cung cấp để có liên kết kèm theo khóa.",
       "duplicateParameter": "Liên kết này lặp lại một trong các trường của nó, nên không thể đọc được.",
       "endpointRequired": "Liên kết này không nêu địa chỉ cho điểm cuối API.",
@@ -684,7 +683,6 @@
       "retryOrViewDetails": "Thử lại, hoặc mở Xem chi tiết để biết chuyện gì đã xảy ra.",
       "useOriginalUpdateChannel": "Dùng trình cập nhật gốc của bản cài đặt này, hoặc gỡ nó một cách tường minh trước khi cài qua npm.",
       "uninstallManually": "Bạn có thể tự xóa các tệp còn lại, rồi chạy Kiểm tra lại.",
-      "pasteDeepLink": "Sao chép liên kết và dán vào Cài đặt để tiếp tục.",
       "allowTerminalAutomation": "Mở «Cài đặt Hệ thống → Quyền riêng tư & Bảo mật → Tự động hoá» rồi bật «Terminal» cho AI Manager."
     },
     "routing": {
@@ -2957,7 +2955,7 @@
     },
     "paste": {
       "title": "Thêm từ liên kết",
-      "description": "Dán liên kết một chạm từ nhà cung cấp. Liên kết bạn tự dán có thể chứa khóa của bạn; liên kết mở từ bên ngoài có thể không.",
+      "description": "Dán liên kết một chạm từ nhà cung cấp.",
       "label": "Liên kết",
       "hint": "AI Manager đọc liên kết và yêu cầu bạn xác nhận trước khi lưu bất cứ điều gì.",
       "placeholder": "aimanager://v1/import?...",

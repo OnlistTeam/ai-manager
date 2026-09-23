@@ -49,7 +49,6 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.commandSpec.terminalWorkingDirectoryNotAbsolute",
     "error.commandSpec.timeoutZero",
     "error.commandSpec.wslDistroInvalid",
-    "error.deepLink.credentialBlocked",
     "error.deepLink.credentialRequired",
     "error.deepLink.duplicateParameter",
     "error.deepLink.endpointRequired",
@@ -212,7 +211,6 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.remediation.installManually",
     "error.remediation.openDesktopAppManually",
     "error.remediation.openToolManually",
-    "error.remediation.pasteDeepLink",
     "error.remediation.recheckUpdate",
     "error.remediation.refreshSessions",
     "error.remediation.removeInTool",
@@ -481,6 +479,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 331);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 329);
     }
 }

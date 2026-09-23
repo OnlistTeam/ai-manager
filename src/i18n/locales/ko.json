@@ -487,7 +487,6 @@
       "timeoutZero": "AI Manager가 이 작업을 안전하게 수행할 수 없어 중단했습니다."
     },
     "deepLink": {
-      "credentialBlocked": "이 링크에는 키가 들어 있습니다. AI Manager 바깥에서 연 링크는 이 키를 사용할 수 없습니다. 컴퓨터로 전달되는 과정에서 키가 노출될 수 있기 때문입니다. 링크를 복사해 설정에 붙여넣으세요.",
       "credentialRequired": "이 링크에는 키가 없으며, 키 없이는 API 엔드포인트를 저장할 수 없습니다. 제공자에게 키가 포함된 링크를 요청하세요.",
       "duplicateParameter": "이 링크에 같은 필드가 중복되어 있어 읽을 수 없습니다.",
       "endpointRequired": "이 링크에 API 엔드포인트 주소가 지정되어 있지 않습니다.",
@@ -684,7 +683,6 @@
       "retryOrViewDetails": "다시 시도하거나, 세부 정보 보기를 열어 무슨 일이 있었는지 확인하세요.",
       "useOriginalUpdateChannel": "이 설치의 원래 업데이트 프로그램을 사용하거나, npm으로 설치하기 전에 명시적으로 제거하세요.",
       "uninstallManually": "남은 파일을 직접 삭제한 다음 다시 확인을 실행하세요.",
-      "pasteDeepLink": "링크를 복사해 설정에 붙여넣어 계속하세요.",
       "allowTerminalAutomation": "‘시스템 설정 → 개인정보 보호 및 보안 → 자동화’를 열고 AI Manager의 ‘터미널’을 켜십시오."
     },
     "routing": {
@@ -2957,7 +2955,7 @@
     },
     "paste": {
       "title": "링크에서 추가",
-      "description": "제공자의 원클릭 링크를 붙여넣으세요. 직접 붙여넣은 링크에는 키가 포함될 수 있고, 외부에서 열린 링크에는 포함되지 않을 수 있습니다.",
+      "description": "제공자의 원클릭 링크를 붙여넣으세요.",
       "label": "링크",
       "hint": "AI Manager가 링크를 읽고, 저장하기 전에 확인을 요청합니다.",
       "placeholder": "aimanager://v1/import?...",

@@ -487,7 +487,6 @@
       "timeoutZero": "AI Manager n'a pas pu effectuer cette action en toute sécurité, il l'a donc arrêtée."
     },
     "deepLink": {
-      "credentialBlocked": "Ce lien contient une clé. Un lien ouvert depuis l'extérieur d'AI Manager n'y est pas autorisé, car votre ordinateur verrait la clé passer. Copiez plutôt le lien et collez-le dans Réglages.",
       "credentialRequired": "Ce lien ne contient pas de clé, or un point d'accès API ne peut pas être enregistré sans clé. Demandez au fournisseur un lien qui en inclut une.",
       "duplicateParameter": "Ce lien répète l'un de ses champs, il ne peut donc pas être lu.",
       "endpointRequired": "Ce lien n'indique aucune adresse pour le point d'accès API.",
@@ -684,7 +683,6 @@
       "retryOrViewDetails": "Réessayez, ou ouvrez Voir les détails pour savoir ce qui s'est passé.",
       "useOriginalUpdateChannel": "Utilisez le programme de mise à jour d'origine de cette installation, ou supprimez-la explicitement avant d'installer via npm.",
       "uninstallManually": "Vous pouvez supprimer vous-même les fichiers restants, puis relancer Revérifier.",
-      "pasteDeepLink": "Copiez le lien et collez-le dans Réglages pour continuer.",
       "allowTerminalAutomation": "Ouvrez « Réglages Système → Confidentialité et sécurité → Automatisation » et activez « Terminal » pour AI Manager."
     },
     "routing": {
@@ -2957,7 +2955,7 @@
     },
     "paste": {
       "title": "Ajouter depuis un lien",
-      "description": "Collez un lien en un clic fourni par un fournisseur. Un lien que vous collez vous-même peut inclure votre clé ; un lien ouvert depuis l'extérieur peut ne pas en contenir.",
+      "description": "Collez un lien en un clic fourni par un fournisseur.",
       "label": "Lien",
       "hint": "AI Manager lit le lien et vous demande de confirmer avant tout enregistrement.",
       "placeholder": "aimanager://v1/import?...",

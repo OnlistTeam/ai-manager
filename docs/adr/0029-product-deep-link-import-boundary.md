@@ -1,7 +1,8 @@
-# ADR-0029: AI Manager Deep Links — Own Scheme, CC Switch-Compatible Format, Credentials Only by Paste
+# ADR-0029: AI Manager Deep Links — Own Scheme, CC Switch-Compatible Format, Credentials on Both Paths
 
-- Status: Accepted (owner-directed, 2026-09-20); implemented 2026-09-20.
-- Date: 2026-08-29, revised 2026-09-20
+- Status: Accepted (owner-directed, 2026-09-20); implemented 2026-09-20. Decision 3 reversed
+  (owner-directed) and reimplemented 2026-09-23.
+- Date: 2026-08-29, revised 2026-09-20, revised 2026-09-23
 - Supersedes the 2026-08-29 proposal, which reserved a different scheme and rejected every
   credential-bearing link on every path.
 
@@ -33,9 +34,36 @@ A custom URI scheme cannot prove its caller's origin, and Windows and Linux hand
 process as argv, where it can surface in process lists, crash reports, and system logs. Stripping
 the credential fields would keep the shape but remove the reason the links exist.
 
-These are only in conflict if both paths are treated as one. They are not the same path: an
-externally triggered launch goes through the OS and argv; a paste comes from the user's own
-clipboard into a focused window.
+### What the 2026-09-20 split cost, and why decision 3 was reversed
+
+The 2026-09-20 revision resolved that tension by giving the two paths different capabilities: a
+paste could carry a key, a link opened through the registered scheme could not. Three months of
+the format's actual usage showed that this did not produce a safer one-click import — it produced
+no one-click import at all:
+
+- A service link with no key cannot be stored (a saved endpoint without its key has no shape in
+  this product), so it is blocked as `credentialRequired`. A service link *with* a key was blocked
+  as `credentialBlocked`. **Every** provider link opened from the registered scheme was therefore
+  refused on one ground or the other; the capability that decision 3 appeared to preserve did not
+  exist.
+- The refusal was also invisible. On the argv path the error is swallowed in `lib.rs` and the
+  window is not even focused, so a vendor's "import" button appeared to do nothing at all — worse
+  for the user than having no button.
+- A cooperating vendor's only remaining route was "copy this link, now go find Settings → Backup
+  and restore → Add from link, now paste". That is more steps than typing the key by hand, which
+  the product has always allowed.
+
+The owner directed (2026-09-23) that both paths accept the same fields, matching CC Switch and the
+vendors already shipping these links.
+
+**The argv exposure is real and is accepted, not resolved.** On Windows and Linux the OS hands the
+URL to a new process as argv, where a key can surface in process lists, crash reports and system
+logs; macOS delivers it as an `open-url` event instead. Nothing in the 2026-09-23 revision makes
+that untrue. What the product relies on instead is the confirmation dialog: an external link
+cannot write anything without an explicit confirmation that names the target tool, the exact
+change, and the fact that the link carries a credential — and the dialog says the link came from
+outside AI Manager. Anyone revisiting this decision should weigh that trade-off again rather than
+assume the risk was engineered away.
 
 ## Decision
 
@@ -54,17 +82,27 @@ clipboard into a focused window.
    by changing the scheme and nothing else. Product-specific extensions, if ever needed, use an
    `x-` prefix and must be ignorable.
 
-3. **Registered-scheme links are credential-free.** On the argv path, `apiKey` and any credential
-   inside `config` cause the whole link to be rejected before any preview, with an error that
-   directs the user to copy the link and paste it instead. Rejection produces no writes and no log
-   entry containing the URL.
+3. **Both paths accept credentials** (revised 2026-09-23, owner-directed; this decision previously
+   read "Registered-scheme links are credential-free"). `apiKey` and a credential-bearing `config`
+   are accepted whether the link arrived through the registered scheme or through a paste. The
+   credential is still *detected* on both paths — the confirmation dialog names the field that
+   carries it, and its value never reaches the renderer — but its presence no longer refuses the
+   link. What protects the user is decision 5's confirmation plus the dialog's statement of where
+   the link came from, not a difference in what the two paths may carry. The argv exposure
+   described in the Context section is accepted, not eliminated.
 
-4. **Paste import accepts the full format, including `ccswitch://`.** A URL the user pastes into
-   the import field may carry `apiKey` and a credential-bearing `config`. A paste does not traverse
-   argv, process lists, or system logs; it is equivalent to the user typing the credential into the
-   same field, which the product already allows. Both `aimanager://` and `ccswitch://` prefixes are
-   accepted here, and so is a bare `v1/import?...` query. Accepting `ccswitch://` by paste is not
-   scheme registration and does not interfere with an installed CC Switch.
+4. **Paste import additionally accepts the compatible spellings.** A pasted URL may use the
+   `ccswitch://` prefix or omit the scheme entirely (a bare `v1/import?...` query), which is what
+   users get when they copy the visible part of a vendor's instructions. The argv path accepts only
+   `aimanager://`, because that is the only scheme the product registers — this is decision 1's
+   scheme-contention rule and is unaffected by the 2026-09-23 credential revision. Accepting
+   `ccswitch://` by paste is not scheme registration and does not interfere with an installed
+   CC Switch.
+
+   These are two independent concerns and must stay two flags in the code. They were once a single
+   boolean (`LinkOrigin::allows_credentials`, passed into a parameter that actually meant
+   `allow_compatible_scheme`); relaxing the credential rule by flipping that argument would have
+   silently made argv accept `ccswitch://` too.
 
 5. **Both paths share one parser and one confirmation.** The raw URL is at most 8 KiB, parsed only
    in native, and never logged. Scheme, host, path, and query use a strict allowlist; duplicate
@@ -86,18 +124,24 @@ clipboard into a focused window.
 
 8. **Installers must verify scheme registration and uninstall cleanup.** macOS, Windows x64, and
    Linux x64 each cover cold and warm start, multiple links, malicious argv, cancel, confirm,
-   duplicate consumption, credential-bearing rejection on the argv path, credential-bearing
-   acceptance on the paste path, and app-not-installed.
+   duplicate consumption, credential-bearing acceptance on both paths, the compatible spellings
+   being refused on argv and accepted on paste, and app-not-installed.
 
 ## Consequences
 
 - A cooperating vendor reaches AI Manager users with a one-character-class change, and a
   non-cooperating vendor's existing `ccswitch://` link still works by copy and paste. The zero-base
   promotion problem largely disappears.
-- Credentials can only enter through an action the user initiated from their own clipboard. The OS
-  never sees them on a command line.
-- The two paths have deliberately different capabilities, so the UI must explain the difference at
-  the point of rejection, not in documentation only.
+- A vendor's one-click import button now actually works: the user presses it in a browser, AI
+  Manager opens, and a confirmation dialog appears. Before the 2026-09-23 revision every such link
+  was refused, silently.
+- **Credentials can now reach the OS command line** on Windows and Linux, where they may appear in
+  process lists, crash reports, and system logs. This is the cost of the revision and it is not
+  mitigated in code — only by the confirmation dialog and by the dialog naming the link's origin.
+  A user who follows a malicious `aimanager://` link still has to read and confirm a dialog that
+  names the tool, the change, and the presence of a credential before anything is written.
+- The two paths still differ in one respect (the compatible spellings are paste-only), so the
+  parser must keep two separate flags; see decision 4.
 - Tracking the upstream format means inheriting its shape, including its weaknesses. Field-level
   validation is ours; we do not inherit upstream's parser, which no longer exists in the tree.
 
@@ -138,8 +182,10 @@ Both items below were resolved before the feature was built.
 - **A service link must carry a key somewhere.** The product stores an API endpoint together with
   its key and has no shape for a keyless one, so a link with neither `apiKey` nor a key inside
   `config` is reported as blocked in the preview rather than offered as a button that can only
-  fail. Combined with decision 3 this means a service link is in practice a paste-path feature;
-  a link opened from the registered scheme can still create Skills, MCP servers and prompts.
+  fail. Under the original decision 3 this combined into a dead end — a keyless link was blocked
+  here and a keyed one was blocked there, so no provider link could ever be imported from the
+  registered scheme. Since the 2026-09-23 revision this rule stands alone: it rejects links that
+  genuinely cannot be stored, and provider links from either path work.
 - **`model` is accepted as a provider parameter.** It is not in the decision-2 field list, but the
   upstream links already carry it and the tools whose configuration _is_ a model table have no
   usable connection without one.

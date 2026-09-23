@@ -487,7 +487,6 @@
       "timeoutZero": "AI Manager tidak dapat melakukan ini dengan aman, sehingga dihentikan."
     },
     "deepLink": {
-      "credentialBlocked": "Tautan ini membawa kunci. Tautan yang dibuka dari luar AI Manager tidak diizinkan melakukannya, karena komputer Anda akan melihat kunci tersebut saat masuk. Salin tautannya dan tempel di Pengaturan sebagai gantinya.",
       "credentialRequired": "Tautan ini tidak memiliki kunci, dan endpoint API tidak dapat disimpan tanpanya. Minta tautan yang menyertakannya dari penyedia.",
       "duplicateParameter": "Tautan ini mengulangi salah satu bidangnya, sehingga tidak dapat dibaca.",
       "endpointRequired": "Tautan ini tidak menyebutkan alamat untuk endpoint API.",
@@ -684,7 +683,6 @@
       "retryOrViewDetails": "Coba lagi, atau buka Lihat Detail untuk melihat apa yang terjadi.",
       "useOriginalUpdateChannel": "Gunakan updater asli instalasi ini, atau hapus secara eksplisit sebelum menginstal melalui npm.",
       "uninstallManually": "Anda dapat menghapus file yang tersisa sendiri, lalu jalankan Periksa lagi.",
-      "pasteDeepLink": "Salin tautannya dan tempel di Pengaturan untuk melanjutkan.",
       "allowTerminalAutomation": "Buka «Pengaturan Sistem → Privasi & Keamanan → Otomatisasi», lalu aktifkan «Terminal» untuk AI Manager."
     },
     "routing": {
@@ -2957,7 +2955,7 @@
     },
     "paste": {
       "title": "Tambah dari tautan",
-      "description": "Tempelkan tautan sekali klik dari penyedia. Tautan yang Anda tempel sendiri mungkin menyertakan kunci Anda; tautan yang dibuka dari luar mungkin tidak.",
+      "description": "Tempelkan tautan sekali klik dari penyedia.",
       "label": "Tautan",
       "hint": "AI Manager membaca tautan ini dan meminta konfirmasi Anda sebelum ada yang disimpan.",
       "placeholder": "aimanager://v1/import?...",

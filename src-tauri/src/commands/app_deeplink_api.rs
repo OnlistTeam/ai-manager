@@ -33,9 +33,10 @@ pub async fn app_deeplink_preview(
     DeepLinkImportService::preview(queue.inner(), &pending)
 }
 
-/// The paste path. It accepts the full format, including a credential and the
-/// upstream scheme, because a paste never travels through argv, a process list
-/// or a system log (ADR-0029 decision 4).
+/// The paste path. On top of what every path accepts it also takes the upstream
+/// `ccswitch://` prefix and a bare `v1/import?...` query, which is what users
+/// get when they copy the visible part of a vendor's instructions (ADR-0029
+/// decision 4).
 #[tauri::command]
 pub async fn app_deeplink_submit_pasted(
     queue: State<'_, Arc<DeepLinkQueue>>,

@@ -565,11 +565,15 @@ path and query, with duplicate keys, unknown keys, fragments, userinfo, NUL, ove
 malformed Base64 refused, and an 8 KiB cap on the raw URL. `x-` prefixed parameters are ignored
 rather than rejected, so the format can grow.
 
-The only difference between the two paths is the credential policy. A link the operating system
-delivers (cold-start `get_current`, or a second instance the single-instance plugin forwards) is
-`LinkOrigin::Argv` and may not carry a key in `apiKey` or inside `config`; a link the user pastes
-into Settings is `LinkOrigin::Paste` and may, and also accepts the upstream scheme and a bare
-`v1/import?...` query. Credential detection reuses `platform::redact`, cross-checked in
+Both paths accept the same fields, credentials included (ADR-0029 decision 3, revised
+2026-09-23). The one thing that still differs is spelling: a link the operating system delivers
+(cold-start `get_current`, or a second instance the single-instance plugin forwards) is
+`LinkOrigin::Argv` and is accepted only under `aimanager://`, because that is the only scheme the
+product registers; a link the user pastes into Settings is `LinkOrigin::Paste` and additionally
+accepts the upstream scheme and a bare `v1/import?...` query. These are two separate flags in the
+code on purpose — they were once one boolean, and collapsing them again would make argv start
+accepting `ccswitch://`. Credential detection still runs on both paths so the confirmation dialog
+can name the field that carries a key: it reuses `platform::redact`, cross-checked in
 `compat/ccswitch/provider/deep_link.rs` against `api_key_slots` and the upstream credential
 reader; a tool with no upstream service format fails closed.
 

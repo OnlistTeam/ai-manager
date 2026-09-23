@@ -487,7 +487,6 @@
       "timeoutZero": "安全のため、AI Manager はこの操作を中止しました。"
     },
     "deepLink": {
-      "credentialBlocked": "このリンクにはキーが含まれています。AI Manager の外から開かれたリンクにキーを含めることはできません。途中でお使いのコンピューターにキーが見えてしまうためです。リンクをコピーして、設定に貼り付けてください。",
       "credentialRequired": "このリンクにはキーがありません。キーのない API 接続先は保存できません。キーを含むリンクを提供元に依頼してください。",
       "duplicateParameter": "このリンクには同じ項目が重複しているため、読み取れません。",
       "endpointRequired": "このリンクには API 接続先のアドレスが書かれていません。",
@@ -684,7 +683,6 @@
       "retryOrViewDetails": "もう一度試すか、「詳細を表示」で状況を確認してください。",
       "useOriginalUpdateChannel": "このインストール元の更新機能を使うか、明示的に削除してから npm でインストールしてください。",
       "uninstallManually": "残ったファイルはご自分で削除し、もう一度確認してください。",
-      "pasteDeepLink": "リンクをコピーして設定に貼り付けると続行できます。",
       "allowTerminalAutomation": "「システム設定 → プライバシーとセキュリティ → オートメーション」を開き、AI Manager の「ターミナル」をオンにしてください。"
     },
     "routing": {
@@ -2956,7 +2954,7 @@
     },
     "paste": {
       "title": "リンクから追加",
-      "description": "提供元のワンクリックリンクを貼り付けてください。自分で貼り付けたリンクはキーを含められますが、外部から開かれたリンクは含められません。",
+      "description": "提供元のワンクリックリンクを貼り付けてください。",
       "label": "リンク",
       "hint": "AI Manager がリンクを読み取り、確認を求めてから保存します。",
       "placeholder": "aimanager://v1/import?...",

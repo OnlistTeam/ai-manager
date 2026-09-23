@@ -487,7 +487,6 @@
       "timeoutZero": "為了安全，AI 管家沒有繼續這一步。"
     },
     "deepLink": {
-      "credentialBlocked": "這個連結帶著金鑰。從 AI Manager 之外開啟的連結不允許攜帶金鑰，因為金鑰會被你的電腦看到。請複製連結，改到設定裡貼上。",
       "credentialRequired": "這個連結沒有金鑰，而 API 接入點沒有金鑰就無法儲存。請向服務商索取一條帶金鑰的連結。",
       "duplicateParameter": "這個連結有重複的欄位，無法讀取。",
       "endpointRequired": "這個連結沒有寫明 API 接入點的位址。",
@@ -684,7 +683,6 @@
       "retryOrViewDetails": "可以再試一次，或者打開「查看詳情」看看發生了什麼。",
       "useOriginalUpdateChannel": "請使用這份安裝原來的更新管道；也可以先明確移除，再透過 npm 安裝。",
       "uninstallManually": "你可以自己刪掉剩下的檔案，然後重新檢查一次。",
-      "pasteDeepLink": "複製這個連結，到設定裡貼上即可繼續。",
       "allowTerminalAutomation": "開啟「系統設定 → 隱私權與安全性 → 自動化」，為 AI 管家開啟「終端機」。"
     },
     "routing": {
@@ -2956,7 +2954,7 @@
     },
     "paste": {
       "title": "從連結新增",
-      "description": "貼上服務商提供的一鍵匯入連結。你自己貼上的連結可以帶金鑰，從外部開啟的連結則不行。",
+      "description": "貼上服務商提供的一鍵匯入連結。",
       "label": "連結",
       "hint": "AI Manager 會先讀取連結並請你確認，之後才會儲存。",
       "placeholder": "aimanager://v1/import?...",

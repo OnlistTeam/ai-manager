@@ -252,8 +252,10 @@ fn windows_tray_icon() -> Option<Image<'static>> {
 /// `get_current` covers the cold start, where the operating system launched the
 /// process with the URL; `on_open_url` covers every later delivery, including a
 /// second instance the single-instance plugin forwards here. Both go through
-/// the same parser, and both are argv by definition — a link that arrives this
-/// way may not carry a credential.
+/// the same parser, and both are argv by definition — so both accept only the
+/// registered `aimanager://` spelling (ADR-0029 decision 4). Since the
+/// 2026-09-23 revision of decision 3 such a link may carry a credential; the
+/// confirmation dialog, not the parser, is what stands between it and a write.
 fn register_deep_link_handling(app: &tauri::AppHandle) {
     use crate::application::deep_link_import::DeepLinkQueue;
     use tauri_plugin_deep_link::DeepLinkExt;

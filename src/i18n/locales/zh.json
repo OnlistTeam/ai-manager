@@ -487,7 +487,6 @@
       "timeoutZero": "为了安全，AI 管家没有继续这一步。"
     },
     "deepLink": {
-      "credentialBlocked": "这个链接带着密钥。从 AI Manager 之外打开的链接不允许携带密钥，因为密钥会被你的电脑看到。请复制链接，改到设置里粘贴。",
       "credentialRequired": "这个链接没有密钥，而 API 接入点没有密钥就无法保存。请向服务商索取一条带密钥的链接。",
       "duplicateParameter": "这个链接有重复的字段，无法读取。",
       "endpointRequired": "这个链接没有写明 API 接入点的地址。",
@@ -684,7 +683,6 @@
       "retryOrViewDetails": "可以再试一次，或者打开「查看详情」看看发生了什么。",
       "useOriginalUpdateChannel": "请使用这份安装原来的更新渠道；也可以先明确移除，再通过 npm 安装。",
       "uninstallManually": "你可以自己删掉剩下的文件，然后重新检查一次。",
-      "pasteDeepLink": "复制这个链接，到设置里粘贴即可继续。",
       "allowTerminalAutomation": "打开「系统设置 → 隐私与安全性 → 自动化」，为 AI 管家开启「终端」。"
     },
     "routing": {
@@ -2956,7 +2954,7 @@
     },
     "paste": {
       "title": "从链接添加",
-      "description": "粘贴服务商提供的一键导入链接。你自己粘贴的链接可以带密钥，从外部打开的链接不行。",
+      "description": "粘贴服务商提供的一键导入链接。",
       "label": "链接",
       "hint": "AI Manager 会先读取链接并请你确认，之后才会保存。",
       "placeholder": "aimanager://v1/import?...",
