@@ -283,6 +283,40 @@ async fn a_catalogue_is_fetched_and_classified() {
 }
 
 #[tokio::test]
+async fn a_declared_modality_outranks_the_model_name() {
+    // Both entries are named against their own type, so a catalogue that is
+    // believed and one that is only read for ids give opposite answers here.
+    let service = serve(vec![(
+        200,
+        r#"{"data":[
+            {"id":"recraft-v3","architecture":{"output_modalities":["image"]}},
+            {"id":"gpt-5.4-image","architecture":{"output_modalities":["text","image"]}}
+        ]}"#,
+    )]);
+    let target = target(service.base_url(), ProviderWireProtocol::OpenAi);
+
+    let catalog = list_models(&client(), &target)
+        .await
+        .expect("list local models");
+
+    service.next_request();
+    assert_eq!(
+        catalog.models,
+        vec![
+            ProbeModel {
+                id: "recraft-v3".to_string(),
+                kind: ProbeModelKind::Image
+            },
+            ProbeModel {
+                id: "gpt-5.4-image".to_string(),
+                kind: ProbeModelKind::Text
+            },
+        ]
+    );
+    service.finish();
+}
+
+#[tokio::test]
 async fn a_scoped_catalogue_that_is_absent_retries_at_the_origin() {
     let service = serve(vec![
         (404, r#"{"error":"not found"}"#),

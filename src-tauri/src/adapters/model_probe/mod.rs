@@ -229,16 +229,20 @@ fn catalog_path_missing(status: StatusCode) -> bool {
     )
 }
 
-fn build_catalog(protocol: ProviderWireProtocol, ids: Vec<String>) -> ModelCatalog {
-    let truncated = ids.len() > MAX_PROBE_MODELS;
+fn build_catalog(protocol: ProviderWireProtocol, entries: Vec<wire::CatalogEntry>) -> ModelCatalog {
+    let truncated = entries.len() > MAX_PROBE_MODELS;
     ModelCatalog {
         protocol,
-        models: ids
+        models: entries
             .into_iter()
             .take(MAX_PROBE_MODELS)
-            .map(|id| ProbeModel {
-                kind: endpoint::classify_model(&id),
-                id,
+            // What the catalogue declared wins. The name heuristic exists for
+            // the majority of relays that publish an id and nothing else.
+            .map(|entry| ProbeModel {
+                kind: entry
+                    .declared
+                    .unwrap_or_else(|| endpoint::classify_model(&entry.id)),
+                id: entry.id,
             })
             .collect(),
         truncated,
@@ -257,7 +261,7 @@ fn rejected_catalog(protocol: ProviderWireProtocol, status: u16, detail: String)
 
 /// What one catalogue request produced.
 enum CatalogAttempt {
-    Listed(Vec<String>),
+    Listed(Vec<wire::CatalogEntry>),
     /// The endpoint does not serve a catalogue at this path; worth one retry
     /// somewhere else.
     Absent,
@@ -290,7 +294,7 @@ async fn catalog_attempt(
     }
     let body = json_body(response, CATALOG_BODY_CAP).await?;
     Ok(match wire::parse_catalog(target.protocol, &body) {
-        Some(ids) => CatalogAttempt::Listed(ids),
+        Some(entries) => CatalogAttempt::Listed(entries),
         // A 2xx that is not a model list means this path belongs to something
         // else, which is the same situation as a 404.
         None => CatalogAttempt::Absent,
@@ -312,7 +316,7 @@ pub async fn list_models(
 ) -> Result<ModelCatalog, ProbeError> {
     let scoped = endpoint::catalog_url(&target.base_url, target.protocol);
     match catalog_attempt(client, target, &scoped).await? {
-        CatalogAttempt::Listed(ids) => return Ok(build_catalog(target.protocol, ids)),
+        CatalogAttempt::Listed(entries) => return Ok(build_catalog(target.protocol, entries)),
         CatalogAttempt::Refused { status, detail } => {
             return Ok(rejected_catalog(target.protocol, status, detail))
         }
@@ -323,7 +327,7 @@ pub async fn list_models(
         return Ok(build_catalog(target.protocol, Vec::new()));
     };
     match catalog_attempt(client, target, &origin).await? {
-        CatalogAttempt::Listed(ids) => Ok(build_catalog(target.protocol, ids)),
+        CatalogAttempt::Listed(entries) => Ok(build_catalog(target.protocol, entries)),
         CatalogAttempt::Refused { status, detail } => {
             Ok(rejected_catalog(target.protocol, status, detail))
         }

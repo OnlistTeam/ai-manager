@@ -184,8 +184,9 @@ const IMAGE_MARKERS: &[&str] = &[
     "nano-banana",
 ];
 
-/// A guess used only as the dialog's default. Most catalogues return an id and
-/// nothing else, so there is no capability field to read.
+/// The fallback for catalogues that publish an id and nothing else, which is
+/// most of them. A service that declares what its models output is believed
+/// instead; see `wire::declared_kind`.
 pub fn classify_model(id: &str) -> ProbeModelKind {
     let lower = id.to_ascii_lowercase();
     if NOT_IMAGE_MARKERS

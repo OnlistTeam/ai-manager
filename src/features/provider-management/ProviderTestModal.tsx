@@ -106,10 +106,10 @@ export function ProviderTestModal({
     catalog.data?.protocol === "openAi" ||
     catalog.data?.protocol === "openAiResponses" ||
     models.some((entry) => entry.kind === "image");
-  const guessedKind =
+  const catalogKind =
     models.find((entry) => entry.id === model)?.kind ?? "text";
   // Never leave the request on a kind the user has no control to change.
-  const kind = imageAvailable ? (kindOverride ?? guessedKind) : "text";
+  const kind = imageAvailable ? (kindOverride ?? catalogKind) : "text";
 
   const busy = probe.isPending || adopt.isPending || adoptBaseUrl.isPending;
   const canSend =

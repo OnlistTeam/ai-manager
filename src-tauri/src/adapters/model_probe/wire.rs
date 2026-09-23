@@ -6,7 +6,7 @@
 
 use serde_json::{json, Value};
 
-use crate::domain::{ModelProbeReply, ProviderWireProtocol, MAX_PROBE_REPLY_CHARS};
+use crate::domain::{ModelProbeReply, ProbeModelKind, ProviderWireProtocol, MAX_PROBE_REPLY_CHARS};
 
 const PROBE_MAX_TOKENS: u32 = 300;
 
@@ -233,11 +233,21 @@ pub fn image_reply(body: &Value) -> ImageOutcome {
 
 /// Model ids, in the order the endpoint served them.
 ///
+/// One model as the catalogue described it.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CatalogEntry {
+    pub id: String,
+    /// What the service itself said this model produces, when it said anything.
+    /// `None` means the entry carried an id and nothing more, which is the
+    /// common case and the only case where the name heuristic is consulted.
+    pub declared: Option<ProbeModelKind>,
+}
+
 /// Three envelopes are accepted: the OpenAI/Anthropic `{"data":[…]}` shape, the
 /// Gemini `{"models":[…]}` shape, and a bare array. `None` means the body was
 /// not a model list at all, which is what lets the caller decide whether to
 /// retry at the origin.
-pub fn parse_catalog(protocol: ProviderWireProtocol, body: &Value) -> Option<Vec<String>> {
+pub fn parse_catalog(protocol: ProviderWireProtocol, body: &Value) -> Option<Vec<CatalogEntry>> {
     let entries = body
         .get("data")
         .and_then(Value::as_array)
@@ -247,10 +257,74 @@ pub fn parse_catalog(protocol: ProviderWireProtocol, body: &Value) -> Option<Vec
     Some(
         entries
             .iter()
-            .filter_map(|entry| model_id(protocol, entry))
-            .filter(|id| !id.is_empty() && !id.starts_with('~'))
+            .filter_map(|entry| {
+                let id = model_id(protocol, entry)?;
+                if id.is_empty() || id.starts_with('~') {
+                    return None;
+                }
+                Some(CatalogEntry {
+                    id,
+                    declared: declared_kind(protocol, entry),
+                })
+            })
             .collect(),
     )
+}
+
+/// Reads a model's output type out of the catalogue entry, when the service
+/// publishes one.
+///
+/// Two fields are load-bearing in practice. Gemini documents
+/// `supportedGenerationMethods`, where an image model offers `predict` and no
+/// `generateContent`. OpenRouter publishes `architecture.output_modalities`, and
+/// so does every relay that mirrors its catalogue shape.
+///
+/// A model whose output includes text is text even when it also lists image:
+/// those are the conversational image models, which are driven through the chat
+/// route and would fail against the image-generation route.
+fn declared_kind(protocol: ProviderWireProtocol, entry: &Value) -> Option<ProbeModelKind> {
+    let names = |value: Option<&Value>| -> Vec<String> {
+        value
+            .and_then(Value::as_array)
+            .map(|items| {
+                items
+                    .iter()
+                    .filter_map(Value::as_str)
+                    .map(str::to_ascii_lowercase)
+                    .collect()
+            })
+            .unwrap_or_default()
+    };
+
+    if protocol == ProviderWireProtocol::Gemini {
+        let methods = names(entry.get("supportedGenerationMethods"));
+        if methods.is_empty() {
+            return None;
+        }
+        if methods
+            .iter()
+            .any(|method| method.contains("generatecontent"))
+        {
+            return Some(ProbeModelKind::Text);
+        }
+        if methods.iter().any(|method| method.starts_with("predict")) {
+            return Some(ProbeModelKind::Image);
+        }
+        return None;
+    }
+
+    let modalities = names(
+        entry
+            .get("architecture")
+            .and_then(|architecture| architecture.get("output_modalities")),
+    );
+    if modalities.iter().any(|modality| modality == "text") {
+        return Some(ProbeModelKind::Text);
+    }
+    if modalities.iter().any(|modality| modality == "image") {
+        return Some(ProbeModelKind::Image);
+    }
+    None
 }
 
 fn model_id(protocol: ProviderWireProtocol, entry: &Value) -> Option<String> {
@@ -477,8 +551,64 @@ mod tests {
             {"id":"dall-e-3"}
         ]});
         assert_eq!(
-            parse_catalog(ProviderWireProtocol::OpenAi, &body).unwrap(),
+            ids(parse_catalog(ProviderWireProtocol::OpenAi, &body).unwrap()),
             vec!["gpt-5.2", "claude-opus-5", "dall-e-3"]
+        );
+    }
+
+    /// Ids alone, for the assertions that are about order and filtering.
+    fn ids(entries: Vec<CatalogEntry>) -> Vec<String> {
+        entries.into_iter().map(|entry| entry.id).collect()
+    }
+
+    fn declared(protocol: ProviderWireProtocol, body: &Value) -> Vec<Option<ProbeModelKind>> {
+        parse_catalog(protocol, body)
+            .unwrap()
+            .into_iter()
+            .map(|entry| entry.declared)
+            .collect()
+    }
+
+    #[test]
+    fn a_catalogue_that_names_its_output_is_believed_over_the_model_name() {
+        // `recraft-v3` has no image keyword in it and `gpt-5.4-image` has one
+        // while being a chat model, so both would be classified backwards by
+        // the name heuristic alone.
+        let body = json!({"data":[
+            {"id":"recraft-v3","architecture":{"output_modalities":["image"]}},
+            {"id":"gpt-5.4-image","architecture":{"output_modalities":["text","image"]}},
+            {"id":"gpt-5.2","architecture":{"output_modalities":["TEXT"]}},
+            {"id":"mystery-1","architecture":{"output_modalities":[]}},
+            {"id":"plain-1"}
+        ]});
+        assert_eq!(
+            declared(ProviderWireProtocol::OpenAi, &body),
+            vec![
+                Some(ProbeModelKind::Image),
+                Some(ProbeModelKind::Text),
+                Some(ProbeModelKind::Text),
+                None,
+                None,
+            ]
+        );
+    }
+
+    #[test]
+    fn gemini_reads_its_generation_methods() {
+        let body = json!({"models":[
+            {"name":"models/gemini-3-pro","supportedGenerationMethods":["generateContent","countTokens"]},
+            {"name":"models/imagen-4.0","supportedGenerationMethods":["predict"]},
+            {"name":"models/text-embedding-5","supportedGenerationMethods":["embedContent"]},
+            {"name":"models/unlisted"}
+        ]});
+        assert_eq!(
+            declared(ProviderWireProtocol::Gemini, &body),
+            vec![
+                Some(ProbeModelKind::Text),
+                Some(ProbeModelKind::Image),
+                None,
+                None,
+            ]
         );
     }
 
@@ -486,7 +616,7 @@ mod tests {
     fn gemini_names_lose_their_collection_prefix() {
         let body = json!({"models":[{"name":"models/gemini-3-pro"},{"name":"models/imagen-4.0"}]});
         assert_eq!(
-            parse_catalog(ProviderWireProtocol::Gemini, &body).unwrap(),
+            ids(parse_catalog(ProviderWireProtocol::Gemini, &body).unwrap()),
             vec!["gemini-3-pro", "imagen-4.0"]
         );
     }
@@ -495,7 +625,7 @@ mod tests {
     fn a_bare_array_is_accepted_and_a_non_list_is_not() {
         let bare = json!([{"id":"gpt-5.2"}]);
         assert_eq!(
-            parse_catalog(ProviderWireProtocol::OpenAi, &bare).unwrap(),
+            ids(parse_catalog(ProviderWireProtocol::OpenAi, &bare).unwrap()),
             vec!["gpt-5.2"]
         );
         assert!(parse_catalog(
