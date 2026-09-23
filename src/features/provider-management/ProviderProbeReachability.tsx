@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Radio, RefreshCw } from "lucide-react";
+import { Loader2, Radio, RefreshCw } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { connectivityFor, useProviderConnectivity } from "@/entities/health";
@@ -47,14 +47,8 @@ export function ProviderProbeReachability({
 
   if (!provider.testable) return null;
 
-  if (check.isPending) {
-    return (
-      <p role="status" className="text-caption text-content-muted">
-        {t("services.probe.addressChecking")}
-      </p>
-    );
-  }
-
+  // Checked before the pending line: a failed check leaves nothing in the
+  // shared cache, so an error state also has no result to show.
   if (check.error) {
     return (
       <div className="flex flex-col items-start gap-2">
@@ -77,9 +71,26 @@ export function ProviderProbeReachability({
     );
   }
 
-  if (result === undefined) {
+  /*
+   * One pending line for two states that are the same thing to the user: the
+   * request is in flight, or it has landed and the shared cache has not been
+   * read back yet.
+   *
+   * The spinner is not decoration. The address check allows one retry on a
+   * timeout, so a dead host can hold this line for up to sixteen seconds, and a
+   * caption that never moves for that long reads as a hang.
+   */
+  if (check.isPending || result === undefined) {
     return (
-      <p role="status" className="text-caption text-content-muted">
+      <p
+        role="status"
+        aria-live="polite"
+        className="inline-flex items-center gap-2 text-caption text-content-muted"
+      >
+        <Loader2
+          className="h-3.5 w-3.5 shrink-0 motion-safe:animate-spin"
+          aria-hidden="true"
+        />
         {t("services.probe.addressChecking")}
       </p>
     );

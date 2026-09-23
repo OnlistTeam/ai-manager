@@ -1,4 +1,4 @@
-import { ChevronDown, RefreshCw } from "lucide-react";
+import { ChevronDown, Loader2, RefreshCw } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import type { ModelCatalog } from "@/native";
@@ -13,6 +13,8 @@ const SELECT_CLASS =
 interface ProviderProbeModelPickerProps {
   catalog: ModelCatalog | undefined;
   loading: boolean;
+  /** A re-read of a catalogue that is already on screen. */
+  refreshing?: boolean;
   /** Set when the catalogue request itself failed. A refusal is not an error. */
   error: Error | null;
   model: string;
@@ -29,6 +31,7 @@ interface ProviderProbeModelPickerProps {
 export function ProviderProbeModelPicker({
   catalog,
   loading,
+  refreshing = false,
   error,
   model,
   disabled,
@@ -40,10 +43,28 @@ export function ProviderProbeModelPicker({
   const manual = !loading && models.length === 0;
 
   if (loading) {
+    /*
+     * The field keeps its shape while the catalogue is fetched. Replacing the
+     * whole control with a sentence made the dialog open as two lines of grey
+     * text and then jump into existence, which is what a frozen window looks
+     * like; a placeholder that is already the right size just fills in.
+     */
     return (
-      <p role="status" className="text-caption text-content-muted">
-        {t("services.probe.modelLoading")}
-      </p>
+      <div className="flex flex-col gap-1.5">
+        <p className="text-caption text-content">{t("services.probe.model")}</p>
+        <div
+          role="status"
+          aria-live="polite"
+          aria-busy="true"
+          className="flex h-10 items-center gap-2 rounded-lg border border-hairline bg-layer-1 px-3 text-body text-content-muted"
+        >
+          <Loader2
+            className="h-3.5 w-3.5 shrink-0 motion-safe:animate-spin"
+            aria-hidden="true"
+          />
+          {t("services.probe.modelLoading")}
+        </div>
+      </div>
     );
   }
 
@@ -96,6 +117,7 @@ export function ProviderProbeModelPicker({
         <Button
           variant="ghost"
           disabled={disabled}
+          loading={refreshing}
           aria-label={t("services.probe.modelReload")}
           onClick={onReload}
         >

@@ -154,6 +154,7 @@ export function ProviderTestModal({
           <ProviderProbeModelPicker
             catalog={catalog.data}
             loading={catalog.isPending}
+            refreshing={catalog.isFetching && !catalog.isPending}
             error={catalog.error}
             model={model}
             disabled={busy}

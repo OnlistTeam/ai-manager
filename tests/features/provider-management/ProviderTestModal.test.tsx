@@ -116,6 +116,61 @@ describe("ProviderTestModal", () => {
     );
   });
 
+  it("shows the address check running and then its verdict", async () => {
+    let answer: () => void = () => {};
+    const held = new Promise<void>((resolve) => {
+      answer = resolve;
+    });
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_test`, async () => {
+        await held;
+        return HttpResponse.json({
+          providerId: "relay",
+          reachability: "operational",
+          responseTimeMs: 240,
+          httpStatus: 200,
+        });
+      }),
+    );
+    mount();
+    const dialog = await screen.findByRole("dialog");
+
+    // The pending line is what the dialog opens on; without it the first
+    // seconds of a slow check look like a window that failed to draw.
+    expect(
+      await within(dialog).findByText(en.services.probe.addressChecking),
+    ).toBeInTheDocument();
+
+    answer();
+    expect(
+      await within(dialog).findByText(en.services.test.operational),
+    ).toBeInTheDocument();
+  });
+
+  it("reports an address check that could not run, instead of waiting forever", async () => {
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_test`, () =>
+        HttpResponse.json(
+          { code: "networkError", messageKey: "error.network.unreachable" },
+          { status: 500 },
+        ),
+      ),
+    );
+    mount();
+    const dialog = await screen.findByRole("dialog");
+
+    expect(
+      await within(dialog).findByRole("button", {
+        name: en.services.test.retryNamed.replace("{{name}}", provider.name),
+      }),
+    ).toBeInTheDocument();
+    // A failed check writes nothing to the shared cache, so the pending line
+    // and the error state are both "no result". The error has to win.
+    expect(
+      within(dialog).queryByText(en.services.probe.addressChecking),
+    ).not.toBeInTheDocument();
+  });
+
   it("sends the selected model and renders the reply", async () => {
     const seen: unknown[] = [];
     server.use(
