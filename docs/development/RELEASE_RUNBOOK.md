@@ -1,6 +1,6 @@
 # AI Manager desktop release runbook
 
-> Status: `v1.1.0` is the current stable release, built for all four targets.
+> Status: `v1.2.0` is the current stable release, built for all four targets.
 > Installed updater round trip and clean-machine evidence still pending; see
 > the invariant 12 exceptions in section 1 ·
 > Workflow: `.github/workflows/release.yml` · Scope: macOS Apple Silicon,
@@ -23,9 +23,31 @@ use are recorded outside the repository.
 
 ## 1. Current release state
 
-`v1.1.0` is the current stable release. What is still missing is evidence that
+`v1.2.0` is the current stable release. What is still missing is evidence that
 an _installed_ build updates itself, and clean-machine validation on native
 Windows and Linux hardware:
+
+> **Invariant 12 exception, 2026-09-24 (`v1.2.0`).** The `v1.1.0` exception
+> below said that publishing a further stable release requires running the
+> updater test, obtaining Windows hardware evidence, or recording both
+> exceptions a fifth time. Neither test has been completed, and this records
+> both again for `v1.2.0`.
+>
+> Windows hardware exists now, and it produced partial evidence, not a pass.
+> An owner machine (`tiger-pc`, Windows build 26200) runs the installed
+> `v1.0.0` MSI with the undecorated window of ADR-0044; owner screenshots show
+> it rendering and in daily use, and its header showed the updater's
+> "restart and update" action, so the installed build found and downloaded
+> `v1.1.0` on its own. Nobody has yet pressed restart, so installation is
+> unproven, and the screenshots show the header actions overlapping the
+> window controls. `v1.2.0` changes the Claude Code probe route, a CC Switch
+> import rule, service removal, and service error panels; it alters nothing
+> either test would cover. The owner was shown these facts on 2026-09-24 and
+> authorized `v1.2.0` as a stable release.
+>
+> Publishing `v1.2.1` as stable requires completing the updater test on that
+> machine, obtaining Windows hardware evidence for the window, or recording
+> both exceptions a sixth time.
 
 > **Invariant 12 exception, 2026-09-23 (`v1.1.0`).** The `v1.0.0` exception
 > below said that publishing a further stable release requires running the
@@ -264,8 +286,8 @@ Obtain a new explicit decision before:
   requires a new ADR for;
 - promoting any build to a stable, non-prerelease release. The owner
   authorized `v0.1.0` and then `v0.2.0` as stable releases on 2026-09-21,
-  `v0.3.0` and `v1.0.0` on 2026-09-22, and `v1.1.0` on 2026-09-23; each
-  decision covers one version only.
+  `v0.3.0` and `v1.0.0` on 2026-09-22, `v1.1.0` on 2026-09-23, and `v1.2.0`
+  on 2026-09-24; each decision covers one version only.
 
 The identifier migration is implemented in the same commit as the stable
 identity. It never changes or deletes the inherited source directory.
