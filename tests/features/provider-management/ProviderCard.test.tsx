@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import i18n from "i18next";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -261,8 +261,8 @@ describe("ProviderCard", () => {
     });
     expect(alert).toHaveTextContent(en.error.provider.switchFailed);
     expect(alert).toHaveTextContent(en.error.remediation.checkPermissions);
-    expect(alert).not.toHaveTextContent("/private/tool.json");
-    expect(alert).not.toHaveTextContent("do-not-show");
+    // Technical detail stays folded behind View details, never primary copy.
+    expect(within(alert).getByText(/private\/tool\.json/)).not.toBeVisible();
     await userEvent.click(
       screen.getByRole("button", {
         name: "Try switching to My Relay again",
@@ -422,8 +422,8 @@ describe("ProviderCard", () => {
     });
     expect(alert).toHaveTextContent(en.error.provider.testFailed);
     expect(alert).toHaveTextContent(en.error.remediation.checkServiceSettings);
-    expect(alert).not.toHaveTextContent("10.0.0.1");
-    expect(alert).not.toHaveTextContent("do-not-show");
+    // Technical detail stays folded behind View details, never primary copy.
+    expect(within(alert).getByText(/10\.0\.0\.1/)).not.toBeVisible();
 
     const retry = screen.getByRole("button", {
       name: "Check My Relay again",

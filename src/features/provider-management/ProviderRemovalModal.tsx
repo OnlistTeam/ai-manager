@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import type { Provider } from "@/entities/provider";
 import { toErrorCopy } from "@/shared/lib/nativeError";
 import { Button } from "@/shared/ui/Button";
+import { ErrorDetailsDisclosure } from "@/shared/ui/ErrorDetailsDisclosure";
 import { Modal } from "@/shared/ui/Modal";
 import { ServiceActionsPausedNotice } from "./ServiceActionsPausedNotice";
 
@@ -117,6 +118,7 @@ export function ProviderRemovalModal({
             <p className="mt-0.5 text-caption leading-5 text-content-muted">
               {t("services.remove.errorRetry")}
             </p>
+            <ErrorDetailsDisclosure copy={copy} />
           </div>
         </div>
       ) : null}

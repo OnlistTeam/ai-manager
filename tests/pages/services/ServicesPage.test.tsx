@@ -1070,8 +1070,8 @@ describe("ServicesPage", () => {
     expect(alert).toHaveTextContent(
       en.error.remediation.checkConnectionSettings,
     );
-    expect(alert).not.toHaveTextContent("/private/tool.json");
-    expect(alert).not.toHaveTextContent("never-render");
+    // Technical detail stays folded behind View details, never primary copy.
+    expect(within(alert).getByText(/\/private\/tool\.json/)).not.toBeVisible();
     expect(alert).not.toHaveTextContent("sk-typed-but-not-saved");
     expect(toastMocks.error).not.toHaveBeenCalled();
     expect(key).toHaveValue("sk-typed-but-not-saved");
@@ -1445,7 +1445,8 @@ describe("ServicesPage", () => {
     expect(alert).toHaveTextContent(
       "AI Manager refreshed the saved service state. Try the same switch again.",
     );
-    expect(alert).not.toHaveTextContent("/private/tool.json");
+    // Technical detail stays folded behind View details, never primary copy.
+    expect(within(alert).getByText(/\/private\/tool\.json/)).not.toBeVisible();
     expect(within(otherCard).queryByRole("alert")).toBeNull();
     expect(toastMocks.error).not.toHaveBeenCalled();
 
@@ -1640,8 +1641,8 @@ describe("ServicesPage", () => {
     });
     expect(alert).toHaveTextContent(en.error.provider.testFailed);
     expect(alert).toHaveTextContent(en.error.remediation.checkServiceSettings);
-    expect(alert).not.toHaveTextContent("10.0.0.1");
-    expect(alert).not.toHaveTextContent("never-render");
+    // Technical detail stays folded behind View details, never primary copy.
+    expect(within(alert).getByText(/10\.0\.0\.1/)).not.toBeVisible();
     expect(toastMocks.error).not.toHaveBeenCalled();
 
     await userEvent.click(
@@ -1809,8 +1810,8 @@ describe("ServicesPage", () => {
     expect(alert).toHaveTextContent(
       "AI Manager refreshed the saved service state. Review your changes, then try saving again.",
     );
-    expect(alert).not.toHaveTextContent("/private/tool.json");
-    expect(alert).not.toHaveTextContent("never-render");
+    // Technical detail stays folded behind View details, never primary copy.
+    expect(within(alert).getByText(/\/private\/tool\.json/)).not.toBeVisible();
     expect(alert).not.toHaveTextContent("sk-typed-but-not-saved");
     expect(toastMocks.error).not.toHaveBeenCalled();
     expect(key).toHaveValue("sk-typed-but-not-saved");

@@ -796,6 +796,10 @@
       "outsideHome": "Diese Zeile steht in einer Systemdatei außerhalb Ihres Benutzerordners; diese App ändert sie nicht.",
       "valueInvalid": "Dieser Wert passt nicht in eine Zeile einer Terminal-Einstellungsdatei.",
       "writeFailed": "Die Terminal-Einstellungsdatei konnte nicht geschrieben werden. Das Original ist unverändert."
+    },
+    "details": {
+      "show": "Details anzeigen",
+      "code": "Fehlercode"
     }
   },
   "nav": {

@@ -13,6 +13,7 @@ import type {
   ProviderEditProfile,
 } from "@/entities/provider";
 import { toErrorCopy } from "@/shared/lib/nativeError";
+import { ErrorDetailsDisclosure } from "@/shared/ui/ErrorDetailsDisclosure";
 import { Button } from "@/shared/ui/Button";
 import { CopyableInput } from "@/shared/ui/CopyableInput";
 import { Field } from "@/shared/ui/Field";
@@ -170,6 +171,7 @@ export function ProviderFormModal({
             <p className="mt-1.5 text-content-muted">
               {t("services.form.retryHint")}
             </p>
+            <ErrorDetailsDisclosure copy={errorCopy} />
           </div>
         ) : null}
 

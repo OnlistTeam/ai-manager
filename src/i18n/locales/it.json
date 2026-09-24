@@ -796,6 +796,10 @@
       "outsideHome": "Quella riga è in un file di sistema fuori dalla tua cartella personale, che questa app non modifica.",
       "valueInvalid": "Quel valore non sta in una riga di un file di impostazioni del terminale.",
       "writeFailed": "Non è stato possibile scrivere il file di impostazioni del terminale. L'originale è intatto."
+    },
+    "details": {
+      "show": "Mostra dettagli",
+      "code": "Codice errore"
     }
   },
   "nav": {

@@ -796,6 +796,10 @@
       "outsideHome": "Essa linha está em um arquivo de sistema fora da sua pasta pessoal, e este aplicativo não o altera.",
       "valueInvalid": "Esse valor não cabe em uma linha de um arquivo de configurações do terminal.",
       "writeFailed": "Não foi possível gravar o arquivo de configurações do terminal. O original está intacto."
+    },
+    "details": {
+      "show": "Ver detalhes",
+      "code": "Código do erro"
     }
   },
   "nav": {

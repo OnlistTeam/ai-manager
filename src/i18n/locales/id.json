@@ -796,6 +796,10 @@
       "outsideHome": "Baris itu ada di berkas sistem di luar folder rumah Anda, dan aplikasi ini tidak mengubahnya.",
       "valueInvalid": "Nilai itu tidak muat dalam satu baris berkas pengaturan terminal.",
       "writeFailed": "Berkas pengaturan terminal tidak dapat ditulis. Berkas aslinya tidak berubah."
+    },
+    "details": {
+      "show": "Lihat detail",
+      "code": "Kode galat"
     }
   },
   "nav": {

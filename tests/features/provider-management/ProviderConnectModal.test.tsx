@@ -703,8 +703,10 @@ describe("ProviderConnectModal", () => {
     expect(alert).toHaveTextContent(
       en.error.remediation.checkConnectionSettings,
     );
-    expect(alert).not.toHaveTextContent("/private/settings.json");
-    expect(alert).not.toHaveTextContent("never-render-this-value");
+    // Technical detail stays folded behind View details, never primary copy.
+    expect(
+      within(alert).getByText(/private\/settings\.json/),
+    ).not.toBeVisible();
 
     await userEvent.type(
       screen.getByLabelText(en.services.connect.key),

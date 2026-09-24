@@ -796,6 +796,10 @@
       "outsideHome": "Dòng đó nằm trong một tệp hệ thống ngoài thư mục cá nhân của bạn, ứng dụng này không sửa nó.",
       "valueInvalid": "Giá trị đó không vừa trên một dòng của tệp cài đặt cửa sổ dòng lệnh.",
       "writeFailed": "Không ghi được tệp cài đặt cửa sổ dòng lệnh. Tệp gốc không thay đổi."
+    },
+    "details": {
+      "show": "Xem chi tiết",
+      "code": "Mã lỗi"
     }
   },
   "nav": {

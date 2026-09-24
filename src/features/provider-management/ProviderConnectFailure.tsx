@@ -1,6 +1,7 @@
 import { AlertCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toErrorCopy } from "@/shared/lib/nativeError";
+import { ErrorDetailsDisclosure } from "@/shared/ui/ErrorDetailsDisclosure";
 
 interface ProviderConnectFailureProps {
   error: Error;
@@ -32,6 +33,7 @@ export function ProviderConnectFailure({ error }: ProviderConnectFailureProps) {
       <p className="mt-1.5 text-content-muted">
         {t("services.connect.retryHint")}
       </p>
+      <ErrorDetailsDisclosure copy={copy} />
     </div>
   );
 }

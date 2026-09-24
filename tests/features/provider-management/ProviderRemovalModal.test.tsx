@@ -139,14 +139,43 @@ describe("ProviderRemovalModal", () => {
     expect(alert).toHaveTextContent(en.error.provider.removeRestoreFailed);
     expect(alert).toHaveTextContent(en.error.remediation.retryOrViewDetails);
     expect(alert).toHaveTextContent(en.services.remove.errorRetry);
-    expect(alert).not.toHaveTextContent("/private/config");
-    expect(alert).not.toHaveTextContent("do-not-show");
+    // The technical detail is never the primary copy: it waits, folded, behind
+    // the View details the remediation just pointed at.
+    const technical = within(alert).getByText(
+      "/private/config token=do-not-show",
+    );
+    expect(technical).not.toBeVisible();
     const retry = screen.getByRole("button", {
       name: en.services.remove.retryNamed.replace("{{name}}", PROVIDER.name),
     });
     expect(retry).toBe(action);
     expect(retry).toHaveFocus();
     expect(retry).toHaveTextContent(en.ds.action.retry);
+  });
+
+  it("opens the technical detail behind View details", async () => {
+    const user = userEvent.setup();
+    mount({
+      error: new NativeError({
+        code: "CONFIG_WRITE_FAILED",
+        messageKey: "error.provider.removeFailed",
+        technicalMessage: "Cannot delete the provider currently in use",
+        remediation: "error.remediation.retryOrViewDetails",
+        contextId: null,
+      }),
+    });
+    const alert = screen.getByRole("alert", {
+      name: en.services.remove.errorTitle,
+    });
+    const technical = within(alert).getByText(
+      "Cannot delete the provider currently in use",
+    );
+    expect(technical).not.toBeVisible();
+
+    await user.click(within(alert).getByText(en.error.details.show));
+
+    expect(technical).toBeVisible();
+    expect(alert).toHaveTextContent("CONFIG_WRITE_FAILED");
   });
 
   it("blocks Cancel, close, confirmation, and Escape while pending", async () => {

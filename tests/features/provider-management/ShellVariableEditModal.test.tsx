@@ -161,7 +161,8 @@ describe("ShellVariableEditModal", () => {
     ).toBeVisible();
     // No technical detail on screen, and the dialog stays open so the value
     // the user typed is not lost.
-    expect(dialog).not.toHaveTextContent("the located line");
+    // Technical detail stays folded behind View details, never primary copy.
+    expect(within(dialog).getByText(/the located line/)).not.toBeVisible();
   });
 
   it("renders nothing until a line is chosen", () => {

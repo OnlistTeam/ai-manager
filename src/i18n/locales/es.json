@@ -796,6 +796,10 @@
       "outsideHome": "Esa línea está en un archivo del sistema fuera de tu carpeta personal, y esta aplicación no lo modifica.",
       "valueInvalid": "Ese valor no cabe en una línea de un archivo de ajustes de la terminal.",
       "writeFailed": "No se pudo escribir el archivo de ajustes de la terminal. El original está intacto."
+    },
+    "details": {
+      "show": "Ver detalles",
+      "code": "Código de error"
     }
   },
   "nav": {

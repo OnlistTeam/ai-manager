@@ -796,6 +796,10 @@
       "outsideHome": "Cette ligne se trouve dans un fichier système hors de votre dossier personnel, que cette application ne modifie pas.",
       "valueInvalid": "Cette valeur ne tient pas sur une ligne d'un fichier de réglages du terminal.",
       "writeFailed": "Le fichier de réglages du terminal n'a pas pu être écrit. L'original est inchangé."
+    },
+    "details": {
+      "show": "Voir les détails",
+      "code": "Code d'erreur"
     }
   },
   "nav": {

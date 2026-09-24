@@ -796,6 +796,10 @@
       "outsideHome": "That line is in a system file outside your home folder, which this app will not change.",
       "valueInvalid": "That value cannot go on one line of a terminal settings file.",
       "writeFailed": "The terminal settings file could not be written. The original is unchanged."
+    },
+    "details": {
+      "show": "View details",
+      "code": "Error code"
     }
   },
   "nav": {

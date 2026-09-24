@@ -530,8 +530,8 @@ describe("ProviderFormModal", () => {
     expect(alert).toHaveTextContent(
       "AI Manager refreshed the saved service state. Review your changes, then try saving again.",
     );
-    expect(alert).not.toHaveTextContent("/private/tool.json");
-    expect(alert).not.toHaveTextContent("do-not-show");
+    // Technical detail stays folded behind View details, never primary copy.
+    expect(within(alert).getByText(/private\/tool\.json/)).not.toBeVisible();
 
     await userEvent.click(
       screen.getByRole("button", {
