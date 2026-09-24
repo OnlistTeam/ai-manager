@@ -16,6 +16,8 @@ use crate::platform::redact::{redact_secrets, truncate_tail};
 const SUPPORTED_APP_TYPES: &[&str] = &["claude", "codex", "opencode", "gemini"];
 const PROVIDER_COLUMNS: &str = "id, app_type, name, settings_config, website_url, category, \
     created_at, sort_index, notes, icon, icon_color, meta, is_current, in_failover_queue";
+/// Position of `is_current` in `PROVIDER_COLUMNS`.
+const PROVIDER_IS_CURRENT_INDEX: usize = 12;
 const MCP_COLUMNS: &str = "id, name, server_config, description, homepage, docs, tags, \
     enabled_claude, enabled_codex, enabled_gemini, enabled_grokbuild, enabled_opencode, \
     enabled_hermes";
@@ -197,31 +199,27 @@ fn text_value(values: &[Value], index: usize) -> Result<&str, AppError> {
     }
 }
 
-fn source_app_types(source: &Connection) -> Result<Vec<String>, AppError> {
-    let sql = format!(
-        "SELECT DISTINCT app_type FROM providers WHERE app_type IN ({})",
-        supported_app_types_clause()
-    );
-    let mut statement = source
-        .prepare(&sql)
-        .map_err(|error| merge_error(error.to_string()))?;
-    let app_types = statement
-        .query_map([], |row| row.get(0))
-        .map_err(|error| merge_error(error.to_string()))?
-        .collect::<rusqlite::Result<Vec<_>>>()
-        .map_err(|error| merge_error(error.to_string()))?;
-    Ok(app_types)
-}
-
+/// Import never changes which service is current (ARCHITECTURE §6.7): it does not
+/// rewrite live tool configuration and does not touch the device setting, so an
+/// `is_current` flag carried over from CC Switch would name a service the tool is
+/// not using and that the list does not show as current. Upstream `delete` still
+/// honours that flag, which left the imported service impossible to remove.
+/// Imported rows therefore arrive with the flag cleared, and the target's own
+/// current services keep theirs, even when a source row replaces one of them.
 fn copy_providers(source: &Connection, target: &Transaction<'_>) -> Result<u32, AppError> {
-    for app_type in source_app_types(source)? {
-        target
-            .execute(
-                "UPDATE providers SET is_current = 0 WHERE app_type = ?1",
-                [&app_type],
-            )
+    let target_current = {
+        let mut statement = target
+            .prepare("SELECT app_type, id FROM providers WHERE is_current = 1")
             .map_err(|error| merge_error(error.to_string()))?;
-    }
+        let rows = statement
+            .query_map([], |row| {
+                Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?))
+            })
+            .map_err(|error| merge_error(error.to_string()))?
+            .collect::<rusqlite::Result<Vec<_>>>()
+            .map_err(|error| merge_error(error.to_string()))?;
+        rows
+    };
 
     let select = format!(
         "SELECT {PROVIDER_COLUMNS} FROM providers
@@ -246,7 +244,8 @@ fn copy_providers(source: &Connection, target: &Transaction<'_>) -> Result<u32, 
         .next()
         .map_err(|error| merge_error(error.to_string()))?
     {
-        let values = row_values(row, 14).map_err(|error| merge_error(error.to_string()))?;
+        let mut values = row_values(row, 14).map_err(|error| merge_error(error.to_string()))?;
+        values[PROVIDER_IS_CURRENT_INDEX] = Value::Integer(0);
         let provider_id = text_value(&values, 0)?;
         let app_type = text_value(&values, 1)?;
         target
@@ -261,6 +260,14 @@ fn copy_providers(source: &Connection, target: &Transaction<'_>) -> Result<u32, 
         count = count
             .checked_add(1)
             .ok_or_else(|| merge_error("provider count overflow"))?;
+    }
+    for (app_type, id) in &target_current {
+        target
+            .execute(
+                "UPDATE providers SET is_current = 1 WHERE app_type = ?1 AND id = ?2",
+                params![app_type, id],
+            )
+            .map_err(|error| merge_error(error.to_string()))?;
     }
 
     let endpoint_select = format!(

@@ -270,13 +270,16 @@ fn merge_is_source_wins_but_preserves_target_only_rows_and_settings() {
             .expect("replacement endpoint"),
         "https://source.example"
     );
-    assert!(!target
-        .query_row(
-            "SELECT is_current FROM providers WHERE id='target-only' AND app_type='claude'",
-            [],
-            |row| row.get::<_, bool>(0),
-        )
-        .expect("target current cleared"));
+    // Import changes no current service (ARCHITECTURE §6.7): the target keeps
+    // its own, and CC Switch's current services arrive as ordinary rows.
+    let current: Vec<String> = target
+        .prepare("SELECT id FROM providers WHERE is_current = 1 ORDER BY id")
+        .expect("prepare current")
+        .query_map([], |row| row.get(0))
+        .expect("query current")
+        .collect::<rusqlite::Result<_>>()
+        .expect("read current");
+    assert_eq!(current, vec!["target-only".to_string()]);
     assert_eq!(
         target
             .query_row(
@@ -359,5 +362,38 @@ fn a_mid_merge_error_rolls_back_every_category() {
     assert_eq!(
         providers, 0,
         "provider insert must roll back with MCP failure"
+    );
+}
+
+/// The Windows report behind this rule: the user's current service in CC Switch
+/// was imported with its `is_current` flag while AI Manager kept pointing at its
+/// own service, so the list showed one service as current and upstream `delete`
+/// refused another. A replaced row that was current in the target stays current.
+#[test]
+fn a_source_row_replacing_the_target_current_keeps_it_current() {
+    let source = Connection::open_in_memory().expect("source");
+    schema(&source);
+    provider(&source, "shared", "claude", "Source shared", false);
+    provider(&source, "cc-current", "claude", "CC Switch current", true);
+
+    let mut target = Connection::open_in_memory().expect("target");
+    schema(&target);
+    provider(&target, "shared", "claude", "Target shared", true);
+
+    merge_import(&source, &mut target).expect("merge");
+
+    let flags: Vec<(String, bool)> = target
+        .prepare("SELECT id, is_current FROM providers WHERE app_type='claude' ORDER BY id")
+        .expect("prepare flags")
+        .query_map([], |row| Ok((row.get(0)?, row.get(1)?)))
+        .expect("query flags")
+        .collect::<rusqlite::Result<_>>()
+        .expect("read flags");
+    assert_eq!(
+        flags,
+        vec![
+            ("cc-current".to_string(), false),
+            ("shared".to_string(), true),
+        ]
     );
 }

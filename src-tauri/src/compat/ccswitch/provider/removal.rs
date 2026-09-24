@@ -48,6 +48,7 @@ where
         .with_remediation("error.remediation.removeInTool"));
     }
     ensure_not_final_failover_member(state, &app_type, &rows, id)?;
+    realign_stale_current_flag(state, &app_type, id, &current)?;
 
     let was_live = live_presence(&app_type, &original).map_err(remove_failed)?;
     let deletion = catch_unwind(AssertUnwindSafe(|| deleter(state, app_type.clone(), id)));
@@ -120,6 +121,35 @@ fn ensure_not_final_failover_member(
                 )),
             ),
         );
+    }
+    Ok(())
+}
+
+/// Upstream `delete` refuses when either the device setting or the database
+/// `is_current` flag names the target, but only the device setting decides
+/// what the list shows as current. Upstream `add` marks the first service
+/// current in the database alone, so the flag can stay on a service the user
+/// has long since switched away from, and that service could never be
+/// removed. The effective current was already refused above; move the flag
+/// to it so both sources agree before upstream checks them.
+fn realign_stale_current_flag(
+    state: &AppState,
+    app_type: &AppType,
+    id: &str,
+    current: &str,
+) -> Result<(), AppError> {
+    if app_type.is_additive_mode() {
+        return Ok(());
+    }
+    let flagged = state
+        .db
+        .get_current_provider(app_type.as_str())
+        .map_err(remove_failed)?;
+    if flagged.as_deref() == Some(id) {
+        state
+            .db
+            .set_current_provider(app_type.as_str(), current)
+            .map_err(remove_failed)?;
     }
     Ok(())
 }

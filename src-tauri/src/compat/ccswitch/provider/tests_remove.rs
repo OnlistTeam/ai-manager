@@ -482,3 +482,40 @@ fn the_final_failover_candidate_is_locked_while_automatic_failover_is_on() {
     assert_eq!(remaining.len(), 1);
     assert_eq!(remaining[0].id, current.id);
 }
+
+#[test]
+#[serial_test::serial]
+fn a_stale_database_current_flag_does_not_block_removing_an_inactive_service() {
+    let temp = tempfile::tempdir().expect("temp home");
+    let _home = TestHome::set(temp.path());
+    let state = state();
+    let active = claude_provider("remove-stale-active-5a1c", "Active");
+    let stale = claude_provider("remove-stale-flag-8e3f", "Stale flag");
+    save(&state, AppType::Claude, &active);
+    save(&state, AppType::Claude, &stale);
+    // Upstream `add` marks the first service current in the database only, so
+    // the device setting can name another service while `is_current` still
+    // points at this one. The list shows `active` as current.
+    state
+        .db
+        .set_current_provider(AppType::Claude.as_str(), &stale.id)
+        .expect("leave the database flag on the stale service");
+    crate::settings::set_current_provider(&AppType::Claude, Some(&active.id))
+        .expect("select the active service on this device");
+
+    let result = removal::remove(&state, ToolId::ClaudeCode, &stale.id);
+    crate::settings::set_current_provider(&AppType::Claude, None).expect("reset device setting");
+
+    let remaining = result.expect("an inactive service is removable despite a stale flag");
+    assert_eq!(remaining.len(), 1);
+    assert_eq!(remaining[0].id, active.id);
+    assert!(remaining[0].active);
+    assert_eq!(
+        state
+            .db
+            .get_current_provider(AppType::Claude.as_str())
+            .expect("read database current")
+            .as_deref(),
+        Some(active.id.as_str())
+    );
+}
