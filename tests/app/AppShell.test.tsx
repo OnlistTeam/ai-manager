@@ -63,6 +63,7 @@ describe("AppShell", () => {
         HttpResponse.json({
           defaultPresetId: "official",
           modelRequired: false,
+          baseUrlTakesNoVersion: false,
           presets: [
             {
               id: "official",

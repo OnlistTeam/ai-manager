@@ -1662,6 +1662,7 @@
       "advancedTitle": "Paramètres avancés",
       "baseUrl": "URL de base",
       "baseUrlHint": "Utilisez HTTPS, ou HTTP uniquement pour localhost. Effacer ce champ supprime le point d'accès personnalisé afin que l'outil utilise son propre défaut. Recopiez-la exactement comme la documentation de votre fournisseur l'indique, y compris un /v1 final : cela varie d'un fournisseur à l'autre, ne l'ajoutez pas et ne le retirez pas vous-même.",
+      "baseUrlVersionDoubled": "Cet outil ajoute lui-même une version à l'adresse : le /{{segment}} final serait doublé et les requêtes échoueraient. En général, il suffit de le supprimer.",
       "routeAdd": "Ajouter une route",
       "routeAddLabel": "Nouvelle route de service",
       "routeAddPlaceholder": "https://api.example.com/v1",

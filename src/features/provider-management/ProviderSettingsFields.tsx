@@ -7,6 +7,7 @@ import { Input } from "@/shared/ui/Input";
 import { CopyableInput } from "@/shared/ui/CopyableInput";
 import { ProviderEndpointFields } from "./ProviderEndpointFields";
 import { ProviderHeaderFields } from "./ProviderHeaderFields";
+import { trailingVersionSegment } from "./providerEndpointRouteUtils";
 import type { useProviderSettingsForm } from "./useProviderSettingsForm";
 
 type SettingsForm = ReturnType<typeof useProviderSettingsForm>;
@@ -46,6 +47,13 @@ export function ProviderSettingsFields({
   }
 
   const capabilities = profile.capabilities;
+  const versionSegment = profile.baseUrlTakesNoVersion
+    ? trailingVersionSegment(form.baseUrl)
+    : null;
+  const baseUrlWarning =
+    versionSegment === null
+      ? undefined
+      : t("services.form.baseUrlVersionDoubled", { segment: versionSegment });
   return (
     <>
       {capabilities.canEditModels ? (
@@ -131,6 +139,7 @@ export function ProviderSettingsFields({
         {capabilities.canEditEndpoints ? (
           <ProviderEndpointFields
             disabled={disabled}
+            takesNoVersion={profile.baseUrlTakesNoVersion}
             form={form.endpoints}
             onChange={onChange}
           />
@@ -138,7 +147,8 @@ export function ProviderSettingsFields({
           <Field
             id="service-base-url"
             label={t("services.form.baseUrl")}
-            hint={t("services.form.baseUrlHint")}
+            hint={baseUrlWarning ? undefined : t("services.form.baseUrlHint")}
+            warning={baseUrlWarning}
           >
             <CopyableInput
               id="service-base-url"

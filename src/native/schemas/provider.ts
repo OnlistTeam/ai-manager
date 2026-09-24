@@ -143,6 +143,7 @@ export const providerConnectionProfileSchema = z
   .object({
     defaultPresetId: z.string().min(1).max(64),
     modelRequired: z.boolean(),
+    baseUrlTakesNoVersion: z.boolean(),
     presets: z.array(providerConnectionPresetSchema).min(1).max(256),
   })
   .strict()
@@ -197,6 +198,7 @@ export const providerEditProfileSchema = z
     models: z.array(z.string()),
     headerNames: z.array(z.string()),
     capabilities: providerEditCapabilitiesSchema,
+    baseUrlTakesNoVersion: z.boolean(),
   })
   .strict()
   .refine(

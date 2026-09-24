@@ -1662,6 +1662,7 @@
       "advancedTitle": "Pengaturan lanjutan",
       "baseUrl": "Base URL",
       "baseUrlHint": "Gunakan HTTPS, atau HTTP hanya untuk localhost. Mengosongkan ini menghapus endpoint kustom sehingga alat dapat menggunakan defaultnya sendiri. Salin persis seperti yang tertulis di dokumentasi penyedia Anda, termasuk /v1 di akhir bila ada: tiap penyedia berbeda, jadi jangan menambah atau menghapusnya sendiri.",
+      "baseUrlVersionDoubled": "Alat ini menambahkan versinya sendiri ke alamat, jadi /{{segment}} di akhir akan terduplikasi dan permintaan akan gagal. Biasanya cukup hapus saja.",
       "routeAdd": "Tambah rute",
       "routeAddLabel": "Rute layanan baru",
       "routeAddPlaceholder": "https://api.example.com/v1",

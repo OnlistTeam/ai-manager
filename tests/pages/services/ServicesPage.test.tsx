@@ -124,6 +124,7 @@ describe("ServicesPage", () => {
         HttpResponse.json({
           defaultPresetId: "official",
           modelRequired: false,
+          baseUrlTakesNoVersion: false,
           presets: [
             {
               id: "official",
@@ -153,6 +154,7 @@ describe("ServicesPage", () => {
             canEditHeaders: false,
             supportsMultipleModels: false,
           },
+          baseUrlTakesNoVersion: false,
         }),
       ),
       // The test dialog reads the catalogue as soon as it opens.
@@ -771,6 +773,7 @@ describe("ServicesPage", () => {
           return HttpResponse.json({
             defaultPresetId: "official",
             modelRequired: false,
+            baseUrlTakesNoVersion: false,
             presets: [
               {
                 id: "official",
@@ -2600,6 +2603,7 @@ describe("ServicesPage", () => {
         HttpResponse.json({
           defaultPresetId: "official",
           modelRequired: false,
+          baseUrlTakesNoVersion: false,
           presets: [
             {
               id: "official",
@@ -2696,6 +2700,7 @@ describe("ServicesPage tabs", () => {
         HttpResponse.json({
           defaultPresetId: "official",
           modelRequired: false,
+          baseUrlTakesNoVersion: false,
           presets: [],
         }),
       ),

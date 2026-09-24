@@ -72,6 +72,7 @@ describe("useProviders", () => {
         HttpResponse.json({
           defaultPresetId: "official",
           modelRequired: false,
+          baseUrlTakesNoVersion: false,
           presets: [
             {
               id: "official",
@@ -117,6 +118,7 @@ describe("useProviders", () => {
             canEditHeaders: false,
             supportsMultipleModels: false,
           },
+          baseUrlTakesNoVersion: false,
         });
       }),
     );

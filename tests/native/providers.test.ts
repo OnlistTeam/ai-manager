@@ -135,6 +135,7 @@ describe("native.providers", () => {
           return HttpResponse.json({
             defaultPresetId: "official",
             modelRequired: false,
+            baseUrlTakesNoVersion: false,
             presets: [
               {
                 id: "official",
@@ -165,6 +166,7 @@ describe("native.providers", () => {
           return HttpResponse.json({
             defaultPresetId: "openrouter",
             modelRequired: true,
+            baseUrlTakesNoVersion: false,
             presets: [
               {
                 id: "openrouter",
@@ -208,6 +210,7 @@ describe("native.providers", () => {
               canEditHeaders: false,
               supportsMultipleModels: false,
             },
+            baseUrlTakesNoVersion: false,
           });
         },
       ),
@@ -611,6 +614,7 @@ describe("native.providers", () => {
             canEditHeaders: true,
             supportsMultipleModels: true,
           },
+          baseUrlTakesNoVersion: false,
         }),
       ),
     );

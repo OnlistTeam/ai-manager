@@ -14,7 +14,7 @@ use url::Url;
 use crate::compat::ccswitch::tools::capabilities_for;
 use crate::domain::{
     AppError, ProviderConnectionPreset, ProviderConnectionProfile, ProviderDraft,
-    ProviderEndpointCandidate, ToolId,
+    ProviderEndpointCandidate, ProviderWireProtocol, ToolId,
 };
 use crate::provider::Provider as UpstreamProvider;
 
@@ -187,6 +187,7 @@ pub(super) fn profile_for(tool: ToolId) -> Result<ProviderConnectionProfile, App
         default_preset_id: default.id.clone(),
         presets: presets.iter().map(CatalogPreset::profile).collect(),
         model_required: model_required(tool),
+        base_url_takes_no_version: ProviderWireProtocol::for_tool(tool).route_carries_version(),
     })
 }
 

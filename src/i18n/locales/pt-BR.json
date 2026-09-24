@@ -1662,6 +1662,7 @@
       "advancedTitle": "Configurações avançadas",
       "baseUrl": "URL base",
       "baseUrlHint": "Use HTTPS, ou HTTP apenas para localhost. Limpar este campo remove o endpoint personalizado para que a ferramenta use seu próprio padrão. Copie exatamente como a documentação do seu provedor indica, incluindo um /v1 no final, se houver: isso varia entre provedores, então não acrescente nem remova por conta própria.",
+      "baseUrlVersionDoubled": "Esta ferramenta adiciona a própria versão ao endereço, então o /{{segment}} final ficaria duplicado e as requisições falhariam. Normalmente basta removê-lo.",
       "routeAdd": "Adicionar rota",
       "routeAddLabel": "Nova rota de serviço",
       "routeAddPlaceholder": "https://api.exemplo.com/v1",

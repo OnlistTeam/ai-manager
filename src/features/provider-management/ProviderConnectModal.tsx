@@ -230,6 +230,7 @@ export function ProviderConnectModal({
               });
           }}
           modelRequired={modelRequired}
+          baseUrlTakesNoVersion={profile.baseUrlTakesNoVersion}
           invalid={invalid}
           busy={busy}
           error={error}

@@ -114,6 +114,10 @@ pub struct ProviderConnectionProfile {
     /// the model arrays of OpenCode/OpenClaw/Hermes/Pi, ...), so without a model there is
     /// no usable connection.
     pub model_required: bool,
+    /// Whether the tool appends its own version segment to the base URL
+    /// (`ProviderWireProtocol::route_carries_version`), so an address ending in
+    /// `/v1` is requested as `/v1/v1/...` and fails.
+    pub base_url_takes_no_version: bool,
 }
 
 /// Beginner Mode payload for creating a service (spec §34).
@@ -203,6 +207,8 @@ pub struct ProviderEditProfile {
     pub models: Vec<String>,
     pub header_names: Vec<String>,
     pub capabilities: ProviderEditCapabilities,
+    /// See `ProviderConnectionProfile::base_url_takes_no_version`.
+    pub base_url_takes_no_version: bool,
 }
 
 /// Editing capabilities come from the config shape the compatibility layer recognized; the UI never guesses fields from `ToolId`.
@@ -447,11 +453,12 @@ mod tests {
                 can_edit_headers: true,
                 supports_multiple_models: false,
             },
+            base_url_takes_no_version: true,
         };
         let json = serde_json::to_string(&profile).expect("serialize edit profile");
         assert_eq!(
             json,
-            r#"{"providerId":"relay","baseUrl":"https://relay.example","endpointCandidates":["https://backup.example"],"endpointAutoSelect":true,"models":["model-a"],"headerNames":["Authorization"],"capabilities":{"canEditBaseUrl":true,"canEditEndpoints":true,"canEditModels":true,"canEditHeaders":true,"supportsMultipleModels":false}}"#
+            r#"{"providerId":"relay","baseUrl":"https://relay.example","endpointCandidates":["https://backup.example"],"endpointAutoSelect":true,"models":["model-a"],"headerNames":["Authorization"],"capabilities":{"canEditBaseUrl":true,"canEditEndpoints":true,"canEditModels":true,"canEditHeaders":true,"supportsMultipleModels":false},"baseUrlTakesNoVersion":true}"#
         );
         for forbidden in ["apiKey", "headerValues", "settingsConfig"] {
             assert!(!json.contains(forbidden));
@@ -564,10 +571,11 @@ mod tests {
                 official: true,
             }],
             model_required: false,
+            base_url_takes_no_version: true,
         };
         assert_eq!(
             serde_json::to_string(&profile).expect("serialize profile"),
-            r#"{"defaultPresetId":"official","presets":[{"id":"official","serviceName":"Anthropic API","defaultName":"Anthropic","defaultModel":"claude-sonnet-5","baseUrl":"https://api.anthropic.com","websiteUrl":"https://www.anthropic.com","apiKeyUrl":"https://console.anthropic.com","official":true}],"modelRequired":false}"#
+            r#"{"defaultPresetId":"official","presets":[{"id":"official","serviceName":"Anthropic API","defaultName":"Anthropic","defaultModel":"claude-sonnet-5","baseUrl":"https://api.anthropic.com","websiteUrl":"https://www.anthropic.com","apiKeyUrl":"https://console.anthropic.com","official":true}],"modelRequired":false,"baseUrlTakesNoVersion":true}"#
         );
     }
 

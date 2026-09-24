@@ -498,6 +498,39 @@ async fn a_blocked_codex_path_yields_an_alternative_that_was_actually_tried() {
     service.finish();
 }
 
+/// The Claude Code counterpart: a base URL saved with `/v1` is probed at
+/// `/v1/v1/messages`, where Claude Code sends it and where the relay answers
+/// 404, and the shorter spelling is tried before it is offered.
+#[tokio::test]
+async fn a_claude_base_url_with_v1_fails_like_claude_code_and_offers_the_origin() {
+    let service = serve(vec![
+        (404, r#"{"error":{"message":"not found"}}"#),
+        (200, r#"{"content":[{"type":"text","text":"pong"}]}"#),
+    ]);
+    let base = service.base_url();
+    let target = target(format!("{base}/v1"), ProviderWireProtocol::Anthropic);
+
+    let outcome = probe_model(&client(), &target, &text_request("claude-opus-5", "ping"))
+        .await
+        .expect("probe local service");
+
+    let first = service.next_request();
+    assert!(
+        first.starts_with("POST /v1/v1/messages "),
+        "Claude Code is probed where Claude Code sends it: {first}"
+    );
+    let second = service.next_request();
+    assert!(
+        second.starts_with("POST /v1/messages "),
+        "the alternative is verified with the same request: {second}"
+    );
+
+    assert_eq!(outcome.http_status, Some(404));
+    assert!(matches!(outcome.reply, ModelProbeReply::Rejected { .. }));
+    assert_eq!(outcome.suggested_base_url.as_deref(), Some(&*base));
+    service.finish();
+}
+
 /// A refused key is refused at both spellings, so nothing is suggested. This is
 /// what keeps the feature from turning into a guess that fires on every 403.
 #[tokio::test]

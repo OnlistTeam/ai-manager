@@ -43,6 +43,19 @@ export function normalizeProviderEndpoint(raw: string): string | null {
   }
 }
 
+/**
+ * The trailing version segment of an address (`v1`, `v1beta`, ...), or `null`.
+ * Mirrors `is_version_segment` in the model probe's endpoint arithmetic.
+ */
+export function trailingVersionSegment(raw: string): string | null {
+  try {
+    const last = new URL(raw.trim()).pathname.split("/").filter(Boolean).at(-1);
+    return last !== undefined && /^v\d+[a-z]*$/u.test(last) ? last : null;
+  } catch {
+    return null;
+  }
+}
+
 export function buildProviderEndpointPatch(input: {
   baseUrl: string;
   routes: ProviderEndpointRoute[];

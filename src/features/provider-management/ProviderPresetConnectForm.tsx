@@ -6,6 +6,7 @@ import { Input } from "@/shared/ui/Input";
 import { cn } from "@/shared/ui/cn";
 import { FOCUS_RING } from "@/shared/ui/focusRing";
 import { ProviderConnectFailure } from "./ProviderConnectFailure";
+import { trailingVersionSegment } from "./providerEndpointRouteUtils";
 
 interface ProviderPresetConnectFormProps {
   formId: string;
@@ -18,6 +19,8 @@ interface ProviderPresetConnectFormProps {
   apiKey: string;
   model: string;
   modelRequired: boolean;
+  /** `ProviderConnectionProfile.baseUrlTakesNoVersion`. */
+  baseUrlTakesNoVersion: boolean;
   /** True once the address no longer matches the preset it came from. */
   addressEdited: boolean;
   keyUrlLabel: string;
@@ -46,6 +49,7 @@ export function ProviderPresetConnectForm({
   apiKey,
   model,
   modelRequired,
+  baseUrlTakesNoVersion,
   addressEdited,
   keyUrlLabel,
   onOpenKeyPage,
@@ -61,6 +65,13 @@ export function ProviderPresetConnectForm({
   onKeyDown,
 }: ProviderPresetConnectFormProps) {
   const { t } = useTranslation();
+  const versionSegment = baseUrlTakesNoVersion
+    ? trailingVersionSegment(baseUrl)
+    : null;
+  const baseUrlWarning =
+    versionSegment === null
+      ? undefined
+      : t("services.form.baseUrlVersionDoubled", { segment: versionSegment });
   return (
     <form
       id={formId}
@@ -88,10 +99,13 @@ export function ProviderPresetConnectForm({
         id={baseUrlId}
         label={t("services.connect.baseUrl")}
         hint={
-          addressEdited
-            ? t("services.connect.baseUrlEdited")
-            : t("services.connect.baseUrlHint")
+          baseUrlWarning
+            ? undefined
+            : addressEdited
+              ? t("services.connect.baseUrlEdited")
+              : t("services.connect.baseUrlHint")
         }
+        warning={baseUrlWarning}
         error={
           invalid.baseUrl ? t("services.connect.baseUrlInvalid") : undefined
         }

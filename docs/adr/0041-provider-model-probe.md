@@ -180,3 +180,52 @@ does the rest by asking the server instead of guessing.
 - A Codex service whose relay implements `chat/completions` but not `responses`
   will now fail this test. That is correct — Codex would fail too — where the
   previous behaviour reported success.
+
+## Amendment 2026-09-24: Claude Code joins its route verbatim too
+
+A Windows user saved a Claude Code service at `https://api.onlist.net/v1`. The
+test dialog listed models and returned a reply, while Claude Code itself said:
+
+> There's an issue with the selected model (claude-opus-5-5[1m]). It may not
+> exist or you may not have access to it.
+
+Claude Code's Anthropic SDK appends `/v1/messages` to `ANTHROPIC_BASE_URL`
+whatever the base already ends with, so it asked `/v1/v1/messages` and got a
+404, which Claude Code words as a model problem. The probe, still on the
+normalising join for `Anthropic`, saw the trailing `/v1`, appended only
+`messages`, and reached the working `/v1/messages`. It is the same defect as the
+Codex amendment above, mirrored: there the probe supplied a segment the tool
+does not, here it removed one the tool adds.
+
+**`Anthropic` stops normalising.** `normalizes_version_segment()` now answers no
+for both `OpenAiResponses` and `Anthropic`, and `MESSAGES_PATH` is `v1/messages`
+because the version belongs to Claude Code's route rather than to the address.
+The verified-alternative rule is unchanged and now covers this case for free:
+the 404 at `/v1/v1/messages` triggers one retry at the shorter spelling, and only
+if that answers is `https://api.onlist.net` offered.
+
+**A conditional warning is accepted for this one direction.** The rejection of a
+static warning above rested on evidence: a caution about a *missing* `/v1` is
+wrong for 6% of the bundled Codex presets. A caution about a *doubled* version is
+a statement about the tool, not a guess about the provider: none of the 11
+bundled Claude Code presets ends in a version segment, and the only upstream
+Claude preset that does (xAI) is routed through the local proxy, which collapses
+`/v1/v1` itself. So `ProviderWireProtocol::route_carries_version()` (true only
+for `Anthropic`) reaches the renderer as `baseUrlTakesNoVersion` on both the
+connection profile and the edit profile, and the address field shows a
+non-blocking warning only while the typed address ends in a version segment.
+Nothing is rewritten; the user still decides.
+
+Upstream CC Switch has neither mechanism. Its form carries one generic hint
+("do not end with a slash") and its local proxy collapses `/v1/v1` for Claude
+and appends a missing `/v1` for Codex, so a doubled version only works there when
+proxy takeover is on.
+
+### Consequences
+
+- A Claude Code service saved with a trailing `/v1` now fails the test where it
+  used to pass. That is correct: Claude Code fails too, unless proxy takeover
+  happens to be on.
+- The catalogue keeps its normalised `/v1/models`, for the reason given in the
+  Codex amendment: it is a convenience for finding model names, not a route the
+  tool calls.

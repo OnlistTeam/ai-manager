@@ -47,6 +47,7 @@ function editProfile(overrides: Record<string, unknown> = {}) {
       canEditHeaders: false,
       supportsMultipleModels: false,
     },
+    baseUrlTakesNoVersion: false,
     ...overrides,
   };
 }

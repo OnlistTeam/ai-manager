@@ -14,6 +14,7 @@ const TAURI_ENDPOINT = "http://tauri.local";
 const profile: ProviderConnectionProfile = {
   defaultPresetId: "official",
   modelRequired: true,
+  baseUrlTakesNoVersion: false,
   presets: [
     {
       id: "official",
@@ -41,6 +42,7 @@ const profile: ProviderConnectionProfile = {
 const optionalModelProfile: ProviderConnectionProfile = {
   ...profile,
   modelRequired: false,
+  baseUrlTakesNoVersion: false,
 };
 
 describe("ProviderConnectModal", () => {
@@ -733,5 +735,58 @@ describe("ProviderConnectModal", () => {
       />,
     );
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("warns when a tool that appends its own version gets an address ending in one", async () => {
+    const user = userEvent.setup();
+    render(
+      <ProviderConnectModal
+        profile={{ ...profile, baseUrlTakesNoVersion: true }}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCustomSubmit={vi.fn()}
+      />,
+    );
+    const address = screen.getByLabelText(en.services.connect.baseUrl);
+    const warning = en.services.form.baseUrlVersionDoubled.replace(
+      /\{\{segment\}\}/g,
+      "v1",
+    );
+    expect(screen.queryByText(warning)).toBeNull();
+
+    await user.clear(address);
+    await user.type(address, "https://relay.example.test/v1");
+
+    expect(screen.getByText(warning)).toBeInTheDocument();
+    expect(address).toHaveAccessibleDescription(warning);
+  });
+
+  it("says nothing about a trailing version for a tool that does not append one", async () => {
+    const user = userEvent.setup();
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="codex"
+        toolName="Codex"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCustomSubmit={vi.fn()}
+      />,
+    );
+    const address = screen.getByLabelText(en.services.connect.baseUrl);
+
+    await user.clear(address);
+    await user.type(address, "https://relay.example.test/v1");
+
+    expect(
+      screen.queryByText(
+        en.services.form.baseUrlVersionDoubled.replace(
+          /\{\{segment\}\}/g,
+          "v1",
+        ),
+      ),
+    ).toBeNull();
   });
 });

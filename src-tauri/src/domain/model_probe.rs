@@ -70,12 +70,23 @@ impl ProviderWireProtocol {
 
     /// Whether a missing version segment may be supplied when joining a path.
     ///
-    /// Only Codex answers no, and it is the reason this distinction exists: it
-    /// concatenates `{base_url}/responses` literally, so a base URL without
-    /// `/v1` reaches `/responses` and fails. Normalising here would hide
-    /// exactly the failure the user needs to see.
+    /// Codex and Claude Code answer no. Codex concatenates
+    /// `{base_url}/responses` literally, so a base URL without `/v1` reaches
+    /// `/responses` and fails. Claude Code concatenates `{base_url}/v1/messages`
+    /// literally, so a base URL that already ends in `/v1` reaches
+    /// `/v1/v1/messages` and fails. Normalising either would hide exactly the
+    /// failure the user needs to see.
     pub fn normalizes_version_segment(self) -> bool {
-        !matches!(self, Self::OpenAiResponses)
+        !matches!(self, Self::OpenAiResponses | Self::Anthropic)
+    }
+
+    /// Whether the tool's own route starts with a version segment it appends
+    /// itself. Claude Code sends `{base_url}/v1/messages`, so a base URL that
+    /// already ends in a version segment is doubled. This is a fact about the
+    /// tool, not a guess about the provider, which is why the service form may
+    /// warn about it while it says nothing about Codex's missing `/v1`.
+    pub fn route_carries_version(self) -> bool {
+        matches!(self, Self::Anthropic)
     }
 }
 
@@ -246,11 +257,11 @@ mod tests {
         );
     }
 
-    /// The regression that produced this variant: a Codex service saved without
-    /// `/v1` was reported as working, because the probe supplied the version
-    /// segment Codex does not.
+    /// The regressions behind this rule: a Codex service saved without `/v1`,
+    /// and a Claude Code service saved with it, were both reported as working
+    /// because the probe fixed up the version segment the tool does not.
     #[test]
-    fn only_codex_speaks_responses_and_only_codex_keeps_its_base_url_verbatim() {
+    fn only_codex_speaks_responses_and_codex_and_claude_keep_their_base_url_verbatim() {
         assert_eq!(
             ProviderWireProtocol::for_tool(ToolId::Codex),
             ProviderWireProtocol::OpenAiResponses
@@ -264,8 +275,13 @@ mod tests {
             );
             assert_eq!(
                 protocol.normalizes_version_segment(),
-                tool != ToolId::Codex,
+                !matches!(tool, ToolId::Codex | ToolId::ClaudeCode),
                 "{tool:?} disagrees with its dialect about version segments"
+            );
+            assert_eq!(
+                protocol.route_carries_version(),
+                tool == ToolId::ClaudeCode,
+                "{tool:?} claims to append its own version segment"
             );
         }
     }

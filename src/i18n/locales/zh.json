@@ -1661,6 +1661,7 @@
       "advancedTitle": "高级设置",
       "baseUrl": "Base URL",
       "baseUrlHint": "请使用 HTTPS；HTTP 只允许 localhost 等本机回环地址。清空会移除自定义端点，改由工具使用自己的默认地址。按供应商文档原样填写，包括结尾的 /v1 之类。各家不一样，不要自己增减。",
+      "baseUrlVersionDoubled": "这个工具会自己在地址后面加上版本号，结尾的 /{{segment}} 会重复，实际请求会失败。一般去掉它即可。",
       "routeAdd": "添加线路",
       "routeAddLabel": "新的服务线路",
       "routeAddPlaceholder": "https://api.example.com/v1",

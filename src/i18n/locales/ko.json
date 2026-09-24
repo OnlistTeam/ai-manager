@@ -1662,6 +1662,7 @@
       "advancedTitle": "고급 설정",
       "baseUrl": "Base URL",
       "baseUrlHint": "HTTPS를 사용하거나, localhost에 한해 HTTP를 사용하세요. 이 값을 지우면 사용자 지정 엔드포인트가 제거되어 도구가 자체 기본값을 사용합니다.끝의 /v1 등을 포함해 공급자 문서에 적힌 그대로 입력하세요. 공급자마다 다르므로 임의로 붙이거나 빼지 마세요.",
+      "baseUrlVersionDoubled": "이 도구는 주소 뒤에 버전을 직접 붙이므로 끝의 /{{segment}}가 중복되어 요청이 실패합니다. 보통은 삭제하면 됩니다.",
       "routeAdd": "경로 추가",
       "routeAddLabel": "새 서비스 경로",
       "routeAddPlaceholder": "https://api.example.com/v1",

@@ -9,7 +9,8 @@ use url::{Host, Url};
 
 use crate::domain::{
     AppError, ErrorCode, ProviderAdvancedDraft, ProviderDraft, ProviderEditCapabilities,
-    ProviderEditProfile, ProviderHeaderDraft, ToolId, MAX_PROVIDER_ENDPOINT_CANDIDATES,
+    ProviderEditProfile, ProviderHeaderDraft, ProviderWireProtocol, ToolId,
+    MAX_PROVIDER_ENDPOINT_CANDIDATES,
 };
 use crate::provider::Provider as UpstreamProvider;
 use crate::settings::CustomEndpoint;
@@ -67,6 +68,7 @@ pub(super) fn profile(tool: ToolId, raw: &UpstreamProvider) -> ProviderEditProfi
         models: models(tool, raw),
         header_names: header_names(tool, raw),
         capabilities,
+        base_url_takes_no_version: ProviderWireProtocol::for_tool(tool).route_carries_version(),
     }
 }
 

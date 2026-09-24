@@ -5,11 +5,14 @@
 
 use crate::domain::{ProbeModelKind, ProviderWireProtocol};
 
-/// Relative paths, always expressed without a leading version segment.
+/// Relative paths, expressed without a leading version segment except where
+/// the tool itself spells one into the route.
 pub const MODELS_PATH: &str = "models";
 pub const CHAT_PATH: &str = "chat/completions";
 pub const RESPONSES_PATH: &str = "responses";
-pub const MESSAGES_PATH: &str = "messages";
+/// Claude Code's Anthropic SDK appends `/v1/messages` to `ANTHROPIC_BASE_URL`
+/// whatever the base already ends with, so the version belongs to the route.
+pub const MESSAGES_PATH: &str = "v1/messages";
 pub const IMAGES_PATH: &str = "images/generations";
 
 /// The version segment assumed when a base URL does not carry one.
@@ -63,8 +66,9 @@ pub fn join_endpoint(base: &str, relative: &str, version: &str) -> String {
     format!("{base}/{version}/{relative}")
 }
 
-/// Joins a relative endpoint the way a tool that supplies no version segment
-/// does: plain concatenation, exactly what Codex's `url_for_path` performs.
+/// Joins a relative endpoint the way the tool does: plain concatenation,
+/// exactly what Codex's `url_for_path` and Claude Code's Anthropic SDK
+/// perform.
 ///
 /// Step 1 of [`join_endpoint`] is kept — a base that already names the endpoint
 /// is still honoured — because that is about what the user typed, not about
@@ -392,6 +396,37 @@ mod tests {
                 "{id} should default to an image probe"
             );
         }
+    }
+
+    /// The reported defect for Claude Code: a base URL ending in `/v1` passed
+    /// the test at `/v1/messages` while Claude Code itself asked
+    /// `/v1/v1/messages` and got 404.
+    #[test]
+    fn claude_code_is_probed_exactly_where_claude_code_sends_it() {
+        assert_eq!(
+            text_url(
+                "https://api.example.test/v1",
+                ProviderWireProtocol::Anthropic,
+                "claude-opus-5"
+            ),
+            "https://api.example.test/v1/v1/messages"
+        );
+        assert_eq!(
+            text_url(
+                "https://api.example.test/api/anthropic/",
+                ProviderWireProtocol::Anthropic,
+                "claude-opus-5"
+            ),
+            "https://api.example.test/api/anthropic/v1/messages"
+        );
+        // The catalogue is not a Claude Code route, so it is still normalised.
+        assert_eq!(
+            catalog_url(
+                "https://api.example.test/v1",
+                ProviderWireProtocol::Anthropic
+            ),
+            "https://api.example.test/v1/models"
+        );
     }
 
     /// The reported defect, as an assertion: a Codex service saved without

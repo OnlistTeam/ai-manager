@@ -38,6 +38,7 @@ const profile: ProviderEditProfile = {
     canEditHeaders: true,
     supportsMultipleModels: true,
   },
+  baseUrlTakesNoVersion: false,
 };
 
 const singleModelProfile: ProviderEditProfile = {
@@ -48,6 +49,7 @@ const singleModelProfile: ProviderEditProfile = {
     canEditHeaders: false,
     supportsMultipleModels: false,
   },
+  baseUrlTakesNoVersion: false,
 };
 
 describe("ProviderFormModal", () => {

@@ -1662,6 +1662,7 @@
       "advancedTitle": "Impostazioni avanzate",
       "baseUrl": "URL di base",
       "baseUrlHint": "Usa HTTPS, oppure HTTP solo per localhost. Svuotando questo campo rimuovi l'endpoint personalizzato, così lo strumento può usare il proprio valore predefinito. Copialo esattamente come lo riporta la documentazione del tuo provider, compreso un eventuale /v1 finale: cambia da provider a provider, quindi non aggiungerlo né toglierlo di tua iniziativa.",
+      "baseUrlVersionDoubled": "Questo strumento aggiunge da sé una versione all'indirizzo, quindi il /{{segment}} finale verrebbe duplicato e le richieste non andrebbero a buon fine. Di solito basta rimuoverlo.",
       "routeAdd": "Aggiungi percorso",
       "routeAddLabel": "Nuovo percorso del servizio",
       "routeAddPlaceholder": "https://api.example.com/v1",

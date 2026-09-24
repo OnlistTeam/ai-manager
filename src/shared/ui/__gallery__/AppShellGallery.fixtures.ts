@@ -174,6 +174,7 @@ const PROVIDERS: Provider[] = [
 const CONNECTION_PROFILE: ProviderConnectionProfile = {
   defaultPresetId: "official",
   modelRequired: false,
+  baseUrlTakesNoVersion: false,
   presets: [
     {
       id: "official",

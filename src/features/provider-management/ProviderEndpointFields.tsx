@@ -7,13 +7,18 @@ import { Input } from "@/shared/ui/Input";
 import { CopyableInput } from "@/shared/ui/CopyableInput";
 import { CopyButton } from "@/shared/ui/CopyButton";
 import { cn } from "@/shared/ui/cn";
-import { normalizeProviderEndpoint } from "./providerEndpointRouteUtils";
+import {
+  normalizeProviderEndpoint,
+  trailingVersionSegment,
+} from "./providerEndpointRouteUtils";
 import type { useProviderEndpointRoutes } from "./useProviderEndpointRoutes";
 
 type EndpointForm = ReturnType<typeof useProviderEndpointRoutes>;
 
 interface ProviderEndpointFieldsProps {
   disabled: boolean;
+  /** `ProviderEditProfile.baseUrlTakesNoVersion`. */
+  takesNoVersion: boolean;
   form: EndpointForm;
   onChange: () => void;
 }
@@ -27,12 +32,20 @@ const validationKeys = {
 
 export function ProviderEndpointFields({
   disabled,
+  takesNoVersion,
   form,
   onChange,
 }: ProviderEndpointFieldsProps) {
   const { t } = useTranslation();
   const [candidate, setCandidate] = useState("");
   const selected = normalizeProviderEndpoint(form.baseUrl);
+  const versionSegment = takesNoVersion
+    ? trailingVersionSegment(form.baseUrl)
+    : null;
+  const baseUrlWarning =
+    versionSegment === null
+      ? undefined
+      : t("services.form.baseUrlVersionDoubled", { segment: versionSegment });
 
   const add = () => {
     const added = form.addRoute(candidate);
@@ -52,7 +65,8 @@ export function ProviderEndpointFields({
       <Field
         id="service-base-url"
         label={t("services.form.baseUrl")}
-        hint={t("services.form.baseUrlHint")}
+        hint={baseUrlWarning ? undefined : t("services.form.baseUrlHint")}
+        warning={baseUrlWarning}
       >
         <CopyableInput
           id="service-base-url"

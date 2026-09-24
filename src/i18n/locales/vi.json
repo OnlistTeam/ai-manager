@@ -1662,6 +1662,7 @@
       "advancedTitle": "Cài đặt nâng cao",
       "baseUrl": "Base URL",
       "baseUrlHint": "Dùng HTTPS, hoặc HTTP chỉ cho localhost. Xóa trống trường này sẽ bỏ điểm cuối tùy chỉnh để công cụ dùng địa chỉ mặc định của nó. Hãy nhập đúng như tài liệu của nhà cung cấp ghi, kể cả phần /v1 ở cuối nếu có: mỗi nhà cung cấp một khác, đừng tự thêm hoặc bớt.",
+      "baseUrlVersionDoubled": "Công cụ này tự thêm phiên bản vào địa chỉ, nên /{{segment}} ở cuối sẽ bị lặp và yêu cầu sẽ thất bại. Thường chỉ cần xóa nó đi.",
       "routeAdd": "Thêm tuyến",
       "routeAddLabel": "Tuyến dịch vụ mới",
       "routeAddPlaceholder": "https://api.example.com/v1",
