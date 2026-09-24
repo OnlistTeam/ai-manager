@@ -1,8 +1,9 @@
 # AI Manager desktop release runbook
 
 > Status: `v1.2.0` is the current stable release, built for all four targets.
-> Installed updater round trip and clean-machine evidence still pending; see
-> the invariant 12 exceptions in section 1 ·
+> Installed updater round trip proven on Windows only (owner machine); macOS,
+> Linux, and clean-machine evidence still pending; see the invariant 12
+> exceptions in section 1 ·
 > Workflow: `.github/workflows/release.yml` · Scope: macOS Apple Silicon,
 > macOS Intel, Windows x64, Linux x64
 
@@ -24,30 +25,40 @@ use are recorded outside the repository.
 ## 1. Current release state
 
 `v1.2.0` is the current stable release. What is still missing is evidence that
-an _installed_ build updates itself, and clean-machine validation on native
-Windows and Linux hardware:
+an _installed_ build updates itself on macOS and Linux, and clean-machine
+validation on native Windows and Linux hardware:
 
 > **Invariant 12 exception, 2026-09-24 (`v1.2.0`).** The `v1.1.0` exception
 > below said that publishing a further stable release requires running the
 > updater test, obtaining Windows hardware evidence, or recording both
-> exceptions a fifth time. Neither test has been completed, and this records
-> both again for `v1.2.0`.
+> exceptions a fifth time. Windows now has both, from an owner machine rather
+> than a clean one; macOS and Linux still have neither, so the exception is
+> recorded a fifth time for those targets.
 >
-> Windows hardware exists now, and it produced partial evidence, not a pass.
-> An owner machine (`tiger-pc`, Windows build 26200) runs the installed
-> `v1.0.0` MSI with the undecorated window of ADR-0044; owner screenshots show
-> it rendering and in daily use, and its header showed the updater's
-> "restart and update" action, so the installed build found and downloaded
-> `v1.1.0` on its own. Nobody has yet pressed restart, so installation is
-> unproven, and the screenshots show the header actions overlapping the
-> window controls. `v1.2.0` changes the Claude Code probe route, a CC Switch
-> import rule, service removal, and service error panels; it alters nothing
-> either test would cover. The owner was shown these facts on 2026-09-24 and
-> authorized `v1.2.0` as a stable release.
+> The machine is `tiger-pc`, Windows build 26200, per-user MSI install. Its
+> product log and the Windows Installer event log agree on two installed
+> updater round trips, each a signed download followed by an MSI transaction
+> run from `%TEMP%\AI Manager-<version>-updater-*` and a start of the new
+> version:
 >
-> Publishing `v1.2.1` as stable requires completing the updater test on that
-> machine, obtaining Windows hardware evidence for the window, or recording
-> both exceptions a sixth time.
+> - 2026-09-22 01:10: `v0.1.0` (manual MSI) found `v0.2.0`, reported it ready,
+>   installed it, and `v0.2.0` started seven seconds after `v0.1.0`;
+> - 2026-09-23 10:16: `v0.2.0` found `v1.0.0` and `v1.0.0` started sixteen
+>   seconds later, skipping `v0.3.0`.
+>
+> The same machine has run `v1.0.0`, and with it the undecorated window of
+> ADR-0044, in daily use since. That shows the window renders and is usable;
+> dragging, resizing, Aero Snap, and double-click-to-maximize were not
+> individually exercised. Owner screenshots also show the header actions
+> overlapping the window controls, which is a separate open defect. `v1.1.0`
+> has been downloaded and is waiting for restart there. `v1.2.0` changes the
+> Claude Code probe route, a CC Switch import rule, service removal, and
+> service error panels; it alters nothing the outstanding tests would cover.
+> The owner was shown these facts on 2026-09-24 and authorized `v1.2.0` as a
+> stable release.
+>
+> Publishing `v1.2.1` as stable requires the updater test on macOS and Linux,
+> or recording that exception a sixth time.
 
 > **Invariant 12 exception, 2026-09-23 (`v1.1.0`).** The `v1.0.0` exception
 > below said that publishing a further stable release requires running the
