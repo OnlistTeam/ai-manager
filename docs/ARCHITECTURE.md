@@ -54,7 +54,8 @@ React component
 ```
 
 Events travel the other way on one channel: `OperationManager` emits `operation://changed`, the tray
-emits `provider://changed`, the deep-link handler emits `deeplink://pending`, and
+emits `provider://changed`, the deep-link handler emits `deeplink://pending`, the routing trace
+emits `routing://trace`, and
 `src/native/events.ts` validates every payload before any cache is touched.
 
 Forbidden shortcuts: UI touching the file system, a component running SQL, the renderer assembling
@@ -505,6 +506,14 @@ priorities, health summaries, and counts; credentials, request bodies, live back
 paths never cross IPC. The product startup does not activate the inherited cloud sync or usage
 polling services; deep links are handled by the product's own parser (section 6.9), never by the
 inherited one.
+
+Live routing (ADR-0050) is one switch over the same path: `app_routing_set_live_mode` takes over
+every target with a current service and reports the ones that fail, or stops and restores all.
+It is derived, never stored: the route runs and at least one tool is taken over. The forwarder
+records each request into an in-memory ring of 60 (`infrastructure/routing_trace.rs`) through
+`compat/ccswitch/routing/trace.rs`: tool, requested model, services tried with outcome, HTTP
+status, error category and duration. `app_routing_trace` reads it and `routing://trace` pushes
+each change; no content, header, key, URL or error body is recorded.
 
 ### 6.4 Native supply and restricted networks (ADR-0033)
 

@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "O AI Manager não conseguiu concluir essa alteração de roteamento com segurança.",
+      "liveTakeoverFailed": "O AI Manager não conseguiu rotear esta ferramenta, então ela mantém a conexão direta.",
+      "noLiveTargets": "Nenhuma ferramenta tem um serviço escolhido ainda, então o roteamento ao vivo não pode começar.",
       "providerNotEligible": "Esse endpoint não pode participar do failover automático.",
       "providerUnavailable": "Esse endpoint não está mais disponível para roteamento.",
       "queueLocked": "Desative o failover automático antes de remover este endpoint ativo ou final.",
@@ -2241,8 +2243,7 @@
     "description": "Encaminhe requisições localmente, com failover automático opcional para endpoints de backup.",
     "summary": {
       "inactive": "O roteamento local está desligado. As ferramentas mantêm suas conexões atuais.",
-      "needsRestore": "O roteamento parou, mas as ferramentas ainda apontam para ele. Restaure suas configurações.",
-      "stats": "Estatísticas"
+      "needsRestore": "O roteamento parou, mas as ferramentas ainda apontam para ele. Restaure suas configurações."
     },
     "refresh": "Atualizar status",
     "loading": "Carregando roteamento local",
@@ -2253,13 +2254,7 @@
       "stopped": "Pronto para quando você precisar",
       "localOnly": "Somente loopback local",
       "takeovers_one": "{{count}} ferramenta roteada",
-      "takeovers_other": "{{count}} ferramentas roteadas",
-      "metric": {
-        "requests": "Requisições",
-        "success": "Bem-sucedidas",
-        "failures": "Falharam",
-        "failovers": "Failovers"
-      }
+      "takeovers_other": "{{count}} ferramentas roteadas"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2317,6 +2312,57 @@
     "stale": "O último instantâneo de roteamento continua sendo exibido porque a atualização mais recente não terminou.",
     "actionError": {
       "title": "A alteração de roteamento não terminou"
+    },
+    "live": {
+      "title": "Roteamento ao vivo",
+      "description": "Quando ativo, suas ferramentas enviam as solicitações pelo AI Manager e esta página mostra ao vivo qual serviço respondeu; desligue para voltar às conexões diretas.",
+      "noTargets": "Primeiro escolha um serviço para uma ferramenta em \"{{page}}\".",
+      "listSeparator": ", ",
+      "panelLabel": "Solicitações ao vivo",
+      "listLabel": "Solicitações recentes",
+      "loading": "Carregando solicitações recentes…",
+      "traceError": "Não foi possível ler as solicitações recentes.",
+      "empty": "Abra qualquer ferramenta e envie uma mensagem; as solicitações aparecem aqui na hora.",
+      "pending": "Em andamento",
+      "unknownModel": "Modelo não informado",
+      "noAttempt": "Nenhum serviço disponível",
+      "flow": {
+        "routed": "{{name}}: pelo AI Manager",
+        "direct": "{{name}}: direto",
+        "manager": "AI Manager",
+        "noServices": "Nenhum serviço ainda"
+      },
+      "counts": {
+        "requests": "Solicitações",
+        "rerouted": "Desviadas",
+        "failed": "Erros vistos pelas ferramentas"
+      },
+      "attempt": {
+        "ok": "{{name}}: respondeu",
+        "failed": "{{name}}: falhou ({{reason}})",
+        "skipped": "{{name}}: ignorado por estar pausado"
+      },
+      "errorCategory": {
+        "rateLimited": "Limite de uso",
+        "authFailed": "Acesso recusado",
+        "serverError": "Erro do serviço",
+        "timeout": "Tempo esgotado",
+        "network": "Erro de rede",
+        "rejected": "Solicitação recusada",
+        "unavailable": "Nenhum serviço disponível",
+        "cancelled": "Cancelada",
+        "other": "Erro"
+      },
+      "confirm": {
+        "title": "Ligar o roteamento ao vivo?",
+        "description": "{{tools}} passarão a enviar solicitações pelo AI Manager. As configurações são salvas antes e restauradas quando você desligar o roteamento ao vivo.",
+        "action": "Ligar"
+      },
+      "partial": {
+        "title": "Algumas ferramentas não puderam ser roteadas; as demais agora passam pelo AI Manager.",
+        "noneTitle": "Nenhuma ferramenta pôde ser roteada; tudo continua em conexão direta.",
+        "item": "{{name}}: {{reason}}"
+      }
     }
   },
   "sessions": {

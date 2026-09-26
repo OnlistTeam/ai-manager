@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI Manager no pudo completar ese cambio de enrutamiento de forma segura.",
+      "liveTakeoverFailed": "AI Manager no pudo enrutar esta herramienta, así que mantiene su conexión directa.",
+      "noLiveTargets": "Ninguna herramienta tiene un servicio elegido todavía, así que el enrutamiento en vivo no puede empezar.",
       "providerNotEligible": "Ese endpoint no puede participar en la conmutación automática.",
       "providerUnavailable": "Ese endpoint ya no está disponible para el enrutamiento.",
       "queueLocked": "Desactiva la conmutación automática antes de quitar este endpoint activo o final.",
@@ -2241,8 +2243,7 @@
     "description": "Reenvía solicitudes localmente, con conmutación automática opcional a endpoints de respaldo.",
     "summary": {
       "inactive": "El enrutamiento local está desactivado. Las herramientas mantienen sus conexiones existentes.",
-      "needsRestore": "El enrutamiento se detuvo, pero las herramientas aún apuntan a él. Restaura su configuración.",
-      "stats": "Estadísticas"
+      "needsRestore": "El enrutamiento se detuvo, pero las herramientas aún apuntan a él. Restaura su configuración."
     },
     "refresh": "Actualizar estado",
     "loading": "Cargando enrutamiento local",
@@ -2253,13 +2254,7 @@
       "stopped": "Listo cuando lo necesites",
       "localOnly": "Solo loopback local",
       "takeovers_one": "{{count}} herramienta enrutada",
-      "takeovers_other": "{{count}} herramientas enrutadas",
-      "metric": {
-        "requests": "Solicitudes",
-        "success": "Correctas",
-        "failures": "Fallidas",
-        "failovers": "Conmutaciones"
-      }
+      "takeovers_other": "{{count}} herramientas enrutadas"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2317,6 +2312,57 @@
     "stale": "Se sigue mostrando la última instantánea de enrutamiento porque la actualización más reciente no terminó.",
     "actionError": {
       "title": "El cambio de enrutamiento no terminó"
+    },
+    "live": {
+      "title": "Enrutamiento en vivo",
+      "description": "Al activarlo, tus herramientas envían sus solicitudes a través de AI Manager y aquí ves en vivo qué servicio respondió; al desactivarlo vuelven a la conexión directa.",
+      "noTargets": "Primero elige un servicio para una herramienta en «{{page}}».",
+      "listSeparator": ", ",
+      "panelLabel": "Solicitudes en vivo",
+      "listLabel": "Solicitudes recientes",
+      "loading": "Cargando solicitudes recientes…",
+      "traceError": "No se pudieron leer las solicitudes recientes.",
+      "empty": "Abre cualquier herramienta y envía un mensaje; sus solicitudes aparecerán aquí al momento.",
+      "pending": "En curso",
+      "unknownModel": "Modelo no indicado",
+      "noAttempt": "Ningún servicio disponible",
+      "flow": {
+        "routed": "{{name}}: a través de AI Manager",
+        "direct": "{{name}}: directo",
+        "manager": "AI Manager",
+        "noServices": "Aún sin servicio"
+      },
+      "counts": {
+        "requests": "Solicitudes",
+        "rerouted": "Desviadas",
+        "failed": "Errores que vieron las herramientas"
+      },
+      "attempt": {
+        "ok": "{{name}}: respondió",
+        "failed": "{{name}}: falló ({{reason}})",
+        "skipped": "{{name}}: omitido por estar en pausa"
+      },
+      "errorCategory": {
+        "rateLimited": "Límite de uso",
+        "authFailed": "Acceso rechazado",
+        "serverError": "Error del servicio",
+        "timeout": "Tiempo agotado",
+        "network": "Error de red",
+        "rejected": "Solicitud rechazada",
+        "unavailable": "Ningún servicio disponible",
+        "cancelled": "Cancelada",
+        "other": "Error"
+      },
+      "confirm": {
+        "title": "¿Activar el enrutamiento en vivo?",
+        "description": "{{tools}} enviarán sus solicitudes a través de AI Manager. Su configuración se respalda antes y se restaura al desactivar el enrutamiento en vivo.",
+        "action": "Activar"
+      },
+      "partial": {
+        "title": "Algunas herramientas no se pudieron enrutar; las demás ya pasan por AI Manager.",
+        "noneTitle": "No se pudo enrutar ninguna herramienta; todo sigue en conexión directa.",
+        "item": "{{name}}: {{reason}}"
+      }
     }
   },
   "sessions": {

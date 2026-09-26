@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI Manager konnte diese Routing-Änderung nicht sicher abschließen.",
+      "liveTakeoverFailed": "AI Manager konnte dieses Tool nicht umleiten; es bleibt direkt verbunden.",
+      "noLiveTargets": "Noch kein Tool hat einen Dienst ausgewählt, daher kann Live-Routing nicht starten.",
       "providerNotEligible": "Dieser Endpunkt kann nicht am automatischen Failover teilnehmen.",
       "providerUnavailable": "Dieser Endpunkt steht für das Routing nicht mehr zur Verfügung.",
       "queueLocked": "Schalten Sie den automatischen Failover aus, bevor Sie diesen aktiven oder letzten Endpunkt entfernen.",
@@ -2241,8 +2243,7 @@
     "description": "Leiten Sie Anfragen lokal weiter, mit optionalem automatischem Fallback auf Backup-Endpunkte.",
     "summary": {
       "inactive": "Lokales Routing ist aus. Tools behalten ihre bestehenden Verbindungen.",
-      "needsRestore": "Routing wurde gestoppt, Tools zeigen aber noch darauf. Stellen Sie ihre Einstellungen wieder her.",
-      "stats": "Statistiken"
+      "needsRestore": "Routing wurde gestoppt, Tools zeigen aber noch darauf. Stellen Sie ihre Einstellungen wieder her."
     },
     "refresh": "Status aktualisieren",
     "loading": "Lokales Routing wird geladen",
@@ -2253,13 +2254,7 @@
       "stopped": "Bereit, wenn Sie es brauchen",
       "localOnly": "Nur lokaler Loopback",
       "takeovers_one": "{{count}} Tool geroutet",
-      "takeovers_other": "{{count}} Tools geroutet",
-      "metric": {
-        "requests": "Anfragen",
-        "success": "Erfolgreich",
-        "failures": "Fehlgeschlagen",
-        "failovers": "Failovers"
-      }
+      "takeovers_other": "{{count}} Tools geroutet"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2317,6 +2312,57 @@
     "stale": "Der letzte Routing-Stand wird weiterhin angezeigt, da die letzte Aktualisierung nicht abgeschlossen wurde.",
     "actionError": {
       "title": "Routing-Änderung wurde nicht abgeschlossen"
+    },
+    "live": {
+      "title": "Live-Routing",
+      "description": "Wenn aktiv, senden deine Tools ihre Anfragen über AI Manager, und hier siehst du live, welcher Dienst geantwortet hat; ausschalten stellt die direkten Verbindungen wieder her.",
+      "noTargets": "Wähle zuerst unter „{{page}}“ einen Dienst für ein Tool.",
+      "listSeparator": ", ",
+      "panelLabel": "Live-Anfragen",
+      "listLabel": "Letzte Anfragen",
+      "loading": "Letzte Anfragen werden geladen…",
+      "traceError": "Die letzten Anfragen konnten nicht gelesen werden.",
+      "empty": "Öffne ein beliebiges Tool und sende eine Nachricht; seine Anfragen erscheinen hier in Echtzeit.",
+      "pending": "Läuft",
+      "unknownModel": "Kein Modell angegeben",
+      "noAttempt": "Kein Dienst verfügbar",
+      "flow": {
+        "routed": "{{name}}: über AI Manager",
+        "direct": "{{name}}: direkt",
+        "manager": "AI Manager",
+        "noServices": "Noch kein Dienst"
+      },
+      "counts": {
+        "requests": "Anfragen",
+        "rerouted": "Umgeleitet",
+        "failed": "Fehler bei Tools"
+      },
+      "attempt": {
+        "ok": "{{name}}: hat geantwortet",
+        "failed": "{{name}}: fehlgeschlagen ({{reason}})",
+        "skipped": "{{name}}: pausiert, übersprungen"
+      },
+      "errorCategory": {
+        "rateLimited": "Ratenlimit",
+        "authFailed": "Anmeldung abgelehnt",
+        "serverError": "Dienstfehler",
+        "timeout": "Zeitüberschreitung",
+        "network": "Netzwerkfehler",
+        "rejected": "Anfrage abgelehnt",
+        "unavailable": "Kein Dienst verfügbar",
+        "cancelled": "Abgebrochen",
+        "other": "Fehler"
+      },
+      "confirm": {
+        "title": "Live-Routing einschalten?",
+        "description": "{{tools}} senden ihre Anfragen dann über AI Manager. Ihre Einstellungen werden vorher gesichert und beim Ausschalten wiederhergestellt.",
+        "action": "Einschalten"
+      },
+      "partial": {
+        "title": "Einige Tools konnten nicht umgeleitet werden; die übrigen laufen jetzt über AI Manager.",
+        "noneTitle": "Kein Tool konnte umgeleitet werden; alles bleibt direkt verbunden.",
+        "item": "{{name}}: {{reason}}"
+      }
     }
   },
   "sessions": {

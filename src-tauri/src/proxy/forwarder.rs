@@ -23,6 +23,7 @@ use super::{
     ProxyError,
 };
 use crate::commands::{CodexOAuthState, CopilotAuthState, XaiOAuthState};
+use crate::compat::ccswitch::routing::trace::RequestTrace;
 use crate::proxy::providers::copilot_auth::CopilotAuthManager;
 use crate::proxy::providers::xai_oauth_auth::XaiOAuthManager;
 use crate::{
@@ -110,6 +111,8 @@ pub struct ForwardError {
 /// decrement instead of requiring a manual call on every exit path.
 pub(crate) struct ActiveConnectionGuard {
     status: Arc<RwLock<ProxyStatus>>,
+    /// Product hook (ADR-0050): the live routing trace closes with the response.
+    trace: RequestTrace,
 }
 
 impl ActiveConnectionGuard {
@@ -118,7 +121,10 @@ impl ActiveConnectionGuard {
             let mut s = status.write().await;
             s.active_connections = s.active_connections.saturating_add(1);
         }
-        Self { status }
+        Self {
+            status,
+            trace: RequestTrace::disabled(),
+        }
     }
 }
 
@@ -377,17 +383,23 @@ impl RequestForwarder {
         extensions: Extensions,
         providers: Vec<Provider>,
     ) -> Result<ForwardResult, ForwardError> {
-        let guard = ActiveConnectionGuard::acquire(self.status.clone()).await;
+        let mut guard = ActiveConnectionGuard::acquire(self.status.clone()).await;
         {
             let mut s = self.status.write().await;
             s.total_requests = s.total_requests.saturating_add(1);
             s.last_request_at = Some(chrono::Utc::now().to_rfc3339());
         }
+        let mut trace = RequestTrace::begin(self.app_handle.as_ref(), app_type, endpoint, &body);
         let result = self
             .forward_with_retry_inner(
-                app_type, method, endpoint, body, headers, extensions, providers,
+                app_type, method, endpoint, body, headers, extensions, providers, &mut trace,
             )
             .await;
+        match &result {
+            Ok(forwarded) => trace.answered(&forwarded.provider),
+            Err(failure) => trace.failed(&failure.error),
+        }
+        guard.trace = trace;
         // Inject the guard into the Ok result so it travels with the response into response_processor and
         // only really drops inside the streaming body future.
         // On the Err path the guard drops automatically when the return value leaves this scope.
@@ -416,6 +428,7 @@ impl RequestForwarder {
         headers: axum::http::HeaderMap,
         extensions: Extensions,
         providers: Vec<Provider>,
+        trace: &mut RequestTrace,
     ) -> Result<ForwardResult, ForwardError> {
         // Get the adapter
         let adapter = get_adapter(app_type).ok_or_else(|| ForwardError {
@@ -473,6 +486,7 @@ impl RequestForwarder {
             };
 
             if !allowed {
+                trace.skipped(provider, last_error.as_ref());
                 continue;
             }
 
@@ -493,6 +507,7 @@ impl RequestForwarder {
                 };
 
             attempted_providers += 1;
+            trace.attempt(provider, last_error.as_ref());
 
             // Update the current provider in the status (a per-attempt identifier)
             //

@@ -1,7 +1,7 @@
-//! Thin Advanced Routing product commands (ADR-0007).
+//! Thin Advanced Routing product commands (ADR-0007, ADR-0050).
 
 use crate::application::routing_control::RoutingControl;
-use crate::domain::{AppError, RoutingOverview};
+use crate::domain::{AppError, RoutingLiveModeOutcome, RoutingOverview, RoutingTraceSnapshot};
 
 use super::app_api::parse_tool;
 
@@ -65,4 +65,17 @@ pub async fn app_routing_stop_all(
     app_handle: tauri::AppHandle,
 ) -> Result<RoutingOverview, AppError> {
     RoutingControl::stop_all(&app_handle).await
+}
+
+#[tauri::command]
+pub async fn app_routing_set_live_mode(
+    app_handle: tauri::AppHandle,
+    enabled: bool,
+) -> Result<RoutingLiveModeOutcome, AppError> {
+    RoutingControl::set_live_mode(&app_handle, enabled).await
+}
+
+#[tauri::command]
+pub fn app_routing_trace(app_handle: tauri::AppHandle) -> Result<RoutingTraceSnapshot, AppError> {
+    RoutingControl::trace(&app_handle)
 }

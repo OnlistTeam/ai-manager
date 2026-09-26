@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI Manager n'a pas pu terminer cette modification de routage en toute sécurité.",
+      "liveTakeoverFailed": "AI Manager n’a pas pu router cet outil ; il garde sa connexion directe.",
+      "noLiveTargets": "Aucun outil n’a encore de service choisi : le routage en direct ne peut pas démarrer.",
       "providerNotEligible": "Ce point d'accès ne peut pas participer au basculement automatique.",
       "providerUnavailable": "Ce point d'accès n'est plus disponible pour le routage.",
       "queueLocked": "Désactivez le basculement automatique avant de supprimer ce point d'accès actif ou final.",
@@ -2241,8 +2243,7 @@
     "description": "Transmettez les requêtes localement, avec basculement automatique facultatif vers des points d'accès de secours.",
     "summary": {
       "inactive": "Le routage local est désactivé. Les outils conservent leurs connexions existantes.",
-      "needsRestore": "Le routage est arrêté, mais les outils pointent encore vers lui. Restaurez leurs paramètres.",
-      "stats": "Statistiques"
+      "needsRestore": "Le routage est arrêté, mais les outils pointent encore vers lui. Restaurez leurs paramètres."
     },
     "refresh": "Actualiser l'état",
     "loading": "Chargement du routage local",
@@ -2253,13 +2254,7 @@
       "stopped": "Prêt quand vous en avez besoin",
       "localOnly": "Boucle locale uniquement",
       "takeovers_one": "{{count}} outil routé",
-      "takeovers_other": "{{count}} outils routés",
-      "metric": {
-        "requests": "Requêtes",
-        "success": "Réussies",
-        "failures": "Échouées",
-        "failovers": "Basculements"
-      }
+      "takeovers_other": "{{count}} outils routés"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2317,6 +2312,57 @@
     "stale": "Le dernier instantané de routage reste affiché car la dernière actualisation ne s'est pas terminée.",
     "actionError": {
       "title": "La modification du routage ne s'est pas terminée"
+    },
+    "live": {
+      "title": "Routage en direct",
+      "description": "Une fois activé, vos outils envoient leurs requêtes via AI Manager et cette page montre en direct quel service a répondu ; désactivez-le pour revenir aux connexions directes.",
+      "noTargets": "Choisissez d’abord un service pour un outil dans « {{page}} ».",
+      "listSeparator": ", ",
+      "panelLabel": "Requêtes en direct",
+      "listLabel": "Requêtes récentes",
+      "loading": "Chargement des requêtes récentes…",
+      "traceError": "Impossible de lire les requêtes récentes.",
+      "empty": "Ouvrez n’importe quel outil et envoyez un message ; ses requêtes s’affichent ici en temps réel.",
+      "pending": "En cours",
+      "unknownModel": "Modèle non précisé",
+      "noAttempt": "Aucun service disponible",
+      "flow": {
+        "routed": "{{name}} : via AI Manager",
+        "direct": "{{name}} : direct",
+        "manager": "AI Manager",
+        "noServices": "Aucun service pour l’instant"
+      },
+      "counts": {
+        "requests": "Requêtes",
+        "rerouted": "Redirigées",
+        "failed": "Erreurs vues par les outils"
+      },
+      "attempt": {
+        "ok": "{{name}} : a répondu",
+        "failed": "{{name}} : échec ({{reason}})",
+        "skipped": "{{name}} : ignoré car en pause"
+      },
+      "errorCategory": {
+        "rateLimited": "Limite de débit",
+        "authFailed": "Authentification refusée",
+        "serverError": "Erreur du service",
+        "timeout": "Délai dépassé",
+        "network": "Erreur réseau",
+        "rejected": "Requête refusée",
+        "unavailable": "Aucun service disponible",
+        "cancelled": "Annulée",
+        "other": "Erreur"
+      },
+      "confirm": {
+        "title": "Activer le routage en direct ?",
+        "description": "{{tools}} enverront leurs requêtes via AI Manager. Leurs réglages sont d’abord sauvegardés, puis restaurés quand vous désactivez le routage en direct.",
+        "action": "Activer"
+      },
+      "partial": {
+        "title": "Certains outils n’ont pas pu être routés ; les autres passent désormais par AI Manager.",
+        "noneTitle": "Aucun outil n’a pu être routé ; tout reste en connexion directe.",
+        "item": "{{name}} : {{reason}}"
+      }
     }
   },
   "sessions": {

@@ -28,6 +28,9 @@ import type {
   ProviderRuntimeContext,
   RoutingOverview,
   RoutingProvider,
+  RoutingTraceAttempt,
+  RoutingTraceEntry,
+  RoutingTraceSnapshot,
   SessionList,
   Tool,
   ToolCapabilities,
@@ -359,6 +362,101 @@ const ROUTING: RoutingOverview = {
   ],
 };
 
+function traceAttempt(
+  name: string,
+  outcome: RoutingTraceAttempt["outcome"],
+  ms: number,
+  error: RoutingTraceAttempt["error"] = null,
+  httpStatus: number | null = null,
+): RoutingTraceAttempt {
+  return {
+    providerId: name,
+    providerName: name,
+    outcome,
+    httpStatus,
+    error,
+    ms,
+  };
+}
+
+const TRACE_NOW = Date.UTC(2026, 8, 26, 6, 42, 18);
+
+function traceEntry(
+  seq: number,
+  secondsAgo: number,
+  tool: RoutingTraceEntry["tool"],
+  model: string | null,
+  attempts: RoutingTraceAttempt[],
+  status: RoutingTraceEntry["status"],
+  totalMs: number | null,
+  error: RoutingTraceEntry["error"] = null,
+): RoutingTraceEntry {
+  return {
+    seq,
+    revision: seq,
+    startedAt: TRACE_NOW - secondsAgo * 1000,
+    tool,
+    model,
+    attempts,
+    status,
+    error,
+    totalMs,
+    failedOver: attempts.length > 1,
+  };
+}
+
+/** Recent requests for the live routing panel, one per visible state. */
+const ROUTING_TRACE: RoutingTraceSnapshot = {
+  revision: 6,
+  counts: { requests: 214, rerouted: 5, failed: 1 },
+  entries: [
+    traceEntry(6, 0, "claude-code", "claude-sonnet-5", [], "pending", null),
+    traceEntry(
+      5,
+      4,
+      "claude-code",
+      "claude-sonnet-5",
+      [
+        traceAttempt("Anthropic", "failed", 420, "rateLimited", 429),
+        traceAttempt("Shared Team Gateway", "ok", 1_840),
+      ],
+      "ok",
+      2_310,
+    ),
+    traceEntry(
+      4,
+      31,
+      "claude-code",
+      "claude-haiku-5",
+      [traceAttempt("Anthropic", "ok", 612)],
+      "ok",
+      640,
+    ),
+    traceEntry(
+      3,
+      75,
+      "claude-code",
+      "claude-sonnet-5",
+      [
+        traceAttempt("Anthropic", "skipped", 0),
+        traceAttempt("jordan.lee@example.com", "failed", 30_000, "timeout"),
+      ],
+      "failed",
+      30_020,
+      "timeout",
+    ),
+    traceEntry(
+      2,
+      140,
+      "claude-code",
+      null,
+      [traceAttempt("Anthropic", "ok", 9_870)],
+      "ok",
+      12_400,
+    ),
+  ],
+};
+
 type GalleryScope = Extension["scope"];
 
 /**
@@ -629,6 +727,7 @@ export function seedAppShellGallery(client: QueryClient): void {
     RUNTIME_CONTEXT,
   );
   client.setQueryData(routingKeys.overview(), ROUTING);
+  client.setQueryData(routingKeys.trace(), ROUTING_TRACE);
   client.setQueryData(extensionKeys.localInventory(), LOCAL_EXTENSIONS);
   seedExtensionLists(client);
   client.setQueryData(usageKeys.overview(), USAGE);

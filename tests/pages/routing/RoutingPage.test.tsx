@@ -63,10 +63,19 @@ function overview(takeoverEnabled = false) {
   };
 }
 
+const EMPTY_TRACE = {
+  revision: 0,
+  counts: { requests: 0, rerouted: 0, failed: 0 },
+  entries: [],
+};
+
 function mount(response = overview()) {
   server.use(
     http.post(`${TAURI_ENDPOINT}/app_routing_overview`, () =>
       HttpResponse.json(response),
+    ),
+    http.post(`${TAURI_ENDPOINT}/app_routing_trace`, () =>
+      HttpResponse.json(EMPTY_TRACE),
     ),
   );
   return render(<RoutingPage />, {
@@ -79,7 +88,7 @@ describe("RoutingPage", () => {
     i18n.addResourceBundle(
       "en",
       "translation",
-      { ds: en.ds, error: en.error, routing: en.routing },
+      { ds: en.ds, error: en.error, nav: en.nav, routing: en.routing },
       true,
       true,
     );
@@ -190,30 +199,78 @@ describe("RoutingPage", () => {
     ]);
   });
 
-  it("keeps stop-and-restore behind confirmation in the compact summary", async () => {
-    let calls = 0;
+  it("turns live routing on after naming the tools it takes over", async () => {
+    const bodies: unknown[] = [];
     server.use(
-      http.post(`${TAURI_ENDPOINT}/app_routing_stop_all`, () => {
-        calls += 1;
-        return HttpResponse.json(overview());
-      }),
+      http.post(
+        `${TAURI_ENDPOINT}/app_routing_set_live_mode`,
+        async ({ request }) => {
+          bodies.push(await request.json());
+          return HttpResponse.json({ overview: overview(true), failures: [] });
+        },
+      ),
+    );
+    mount();
+
+    expect(
+      screen.queryByRole("region", { name: en.routing.live.panelLabel }),
+    ).toBeNull();
+    await userEvent.click(
+      await screen.findByRole("switch", { name: en.routing.live.title }),
+    );
+    const dialog = screen.getByRole("dialog", {
+      name: en.routing.live.confirm.title,
+    });
+    expect(dialog).toHaveTextContent(
+      "Claude Code will send requests through AI Manager.",
+    );
+    expect(bodies).toEqual([]);
+    await userEvent.click(
+      screen.getByRole("button", { name: en.routing.live.confirm.action }),
+    );
+
+    await waitFor(() => expect(bodies).toEqual([{ enabled: true }]));
+    expect(
+      await screen.findByRole("region", { name: en.routing.live.panelLabel }),
+    ).toBeInTheDocument();
+    expect(await screen.findByText(en.routing.live.empty)).toBeInTheDocument();
+    expect(
+      screen.getByRole("switch", { name: en.routing.live.title }),
+    ).toBeChecked();
+  });
+
+  it("turns live routing off behind the stop-and-restore confirmation", async () => {
+    const bodies: unknown[] = [];
+    server.use(
+      http.post(
+        `${TAURI_ENDPOINT}/app_routing_set_live_mode`,
+        async ({ request }) => {
+          bodies.push(await request.json());
+          return HttpResponse.json({ overview: overview(), failures: [] });
+        },
+      ),
     );
     mount(overview(true));
+    // The switch is the stop control while tools are routed.
+    expect(
+      screen.queryByRole("button", { name: en.routing.stop.action }),
+    ).toBeNull();
     await userEvent.click(
-      await screen.findByRole("button", { name: en.routing.stop.action }),
+      await screen.findByRole("switch", { name: en.routing.live.title }),
     );
-    expect(calls).toBe(0);
     expect(
       screen.getByRole("dialog", { name: en.routing.stop.title }),
-    ).toBeInTheDocument();
-    expect(screen.getByText(en.routing.stop.description)).toBeInTheDocument();
+    ).toHaveTextContent(en.routing.stop.description);
     await userEvent.click(
       screen.getByRole("button", { name: en.routing.stop.confirm }),
     );
-    await waitFor(() => expect(calls).toBe(1));
+    await waitFor(() => expect(bodies).toEqual([{ enabled: false }]));
     expect(
       await screen.findByText(en.routing.summary.inactive),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("region", { name: en.routing.live.panelLabel }),
+    ).toBeNull();
   });
 
   it("keeps backend details out of a retryable read error", async () => {

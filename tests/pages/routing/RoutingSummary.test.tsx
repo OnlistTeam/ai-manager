@@ -51,31 +51,33 @@ describe.each(["en", "zh"] as const)("RoutingSummary (%s)", (locale) => {
     expect(screen.getByRole("status")).toHaveTextContent(
       copy.routing.summary.inactive,
     );
-    expect(screen.queryByText(copy.routing.summary.stats)).toBeNull();
     expect(screen.queryByRole("button")).toBeNull();
     expect(screen.queryByText(copy.routing.hero.title)).toBeNull();
     expect(screen.queryByText(copy.routing.hero.description)).toBeNull();
   });
 
-  it("keeps counters collapsed and the stop action accessible while running", async () => {
+  it("leaves stopping to the live routing switch while tools are routed", async () => {
+    await setup();
+    render(
+      <RoutingSummary
+        overview={{ ...overview(true), totalRequests: 123 }}
+        busy={false}
+        onStop={vi.fn()}
+      />,
+    );
+    expect(screen.getByText("127.0.0.1:15721")).toBeInTheDocument();
+    expect(screen.queryByText("123")).toBeNull();
+    expect(screen.queryByRole("button")).toBeNull();
+  });
+
+  it("offers the stop action for a route running with no tool", async () => {
     await setup();
     const user = userEvent.setup();
     const onStop = vi.fn();
-    const data = {
-      ...overview(true),
-      totalRequests: 123,
-      successRequests: 120,
-      failedRequests: 3,
-      failoverCount: 2,
-    };
+    const data = overview(true, false);
     const view = render(
       <RoutingSummary overview={data} busy={false} onStop={onStop} />,
     );
-    expect(screen.getByText("127.0.0.1:15721")).toBeInTheDocument();
-    expect(screen.getByText("123")).not.toBeVisible();
-    await user.click(screen.getByText(copy.routing.summary.stats));
-    expect(screen.getByText("123")).toBeVisible();
-    expect(screen.getByText(copy.routing.hero.metric.failovers)).toBeVisible();
     await user.click(
       screen.getByRole("button", { name: copy.routing.stop.action }),
     );
@@ -102,20 +104,5 @@ describe.each(["en", "zh"] as const)("RoutingSummary (%s)", (locale) => {
       screen.getByRole("button", { name: copy.routing.stop.action }),
     ).toBeEnabled();
     expect(screen.queryByText(copy.routing.summary.inactive)).toBeNull();
-  });
-
-  it("retains nonzero statistics after stopping", async () => {
-    await setup();
-    const user = userEvent.setup();
-    render(
-      <RoutingSummary
-        overview={{ ...overview(), totalRequests: 7 }}
-        busy={false}
-        onStop={vi.fn()}
-      />,
-    );
-    expect(screen.getByText("7")).not.toBeVisible();
-    await user.click(screen.getByText(copy.routing.summary.stats));
-    expect(screen.getByText("7")).toBeVisible();
   });
 });

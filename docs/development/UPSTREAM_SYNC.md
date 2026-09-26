@@ -33,6 +33,19 @@ the file comes back from `upstream/main` as a new product-owned module.
 
 ## This round: upstream sync audit (db41d701..06082e18)
 
+### Product follow-up: live routing trace hooks (2026-09-26)
+
+`proxy/forwarder.rs` carries product hooks for the live routing trace
+(ADR-0050): `ActiveConnectionGuard` gains a `trace: RequestTrace` field (the
+request closes when the response is released); `forward_with_retry` starts the
+trace and records the answer or the error; `forward_with_retry_inner` takes
+`&mut RequestTrace` and calls `trace.skipped(...)` where the circuit breaker
+passes a provider over and `trace.attempt(...)` right after
+`attempted_providers += 1`. All logic lives in
+`compat/ccswitch/routing/trace.rs`. When syncing `forwarder.rs` from upstream,
+re-apply these hooks instead of dropping them; the rest of the file keeps
+tracking upstream.
+
 ### Product follow-up: Claude usage import batching (2026-09-20)
 
 `services/session_usage.rs` delegates persistence to `session_usage/claude_batch.rs`:

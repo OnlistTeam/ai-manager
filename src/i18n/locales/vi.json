@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI Manager không thể hoàn tất thay đổi định tuyến đó một cách an toàn.",
+      "liveTakeoverFailed": "AI Manager không thể định tuyến công cụ này, nên nó vẫn giữ kết nối trực tiếp.",
+      "noLiveTargets": "Chưa có công cụ nào chọn dịch vụ, nên chưa thể bật định tuyến trực tiếp.",
       "providerNotEligible": "Điểm cuối đó không thể tham gia chuyển đổi dự phòng tự động.",
       "providerUnavailable": "Điểm cuối đó không còn khả dụng cho định tuyến nữa.",
       "queueLocked": "Tắt chuyển đổi dự phòng tự động trước khi xóa điểm cuối đang hoạt động hoặc cuối cùng này.",
@@ -2241,8 +2243,7 @@
     "description": "Chuyển tiếp yêu cầu ngay trên máy, có tùy chọn tự động chuyển sang các điểm cuối dự phòng.",
     "summary": {
       "inactive": "Định tuyến cục bộ đang tắt. Các công cụ vẫn giữ kết nối hiện có.",
-      "needsRestore": "Định tuyến đã dừng, nhưng các công cụ vẫn trỏ đến đó. Hãy khôi phục cấu hình của chúng.",
-      "stats": "Thống kê"
+      "needsRestore": "Định tuyến đã dừng, nhưng các công cụ vẫn trỏ đến đó. Hãy khôi phục cấu hình của chúng."
     },
     "refresh": "Làm mới trạng thái",
     "loading": "Đang tải định tuyến cục bộ",
@@ -2253,13 +2254,7 @@
       "stopped": "Sẵn sàng khi bạn cần",
       "localOnly": "Chỉ loopback cục bộ",
       "takeovers_one": "Đã định tuyến {{count}} công cụ",
-      "takeovers_other": "Đã định tuyến {{count}} công cụ",
-      "metric": {
-        "requests": "Yêu cầu",
-        "success": "Thành công",
-        "failures": "Thất bại",
-        "failovers": "Chuyển dự phòng"
-      }
+      "takeovers_other": "Đã định tuyến {{count}} công cụ"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2317,6 +2312,57 @@
     "stale": "Ảnh chụp định tuyến gần nhất vẫn được hiển thị vì lần làm mới mới nhất chưa hoàn tất.",
     "actionError": {
       "title": "Thay đổi định tuyến chưa hoàn tất"
+    },
+    "live": {
+      "title": "Định tuyến trực tiếp",
+      "description": "Khi bật, các công cụ gửi yêu cầu qua AI Manager và trang này hiển thị trực tiếp dịch vụ nào đã trả lời; tắt đi để quay lại kết nối trực tiếp.",
+      "noTargets": "Hãy chọn dịch vụ cho một công cụ trong \"{{page}}\" trước.",
+      "listSeparator": ", ",
+      "panelLabel": "Yêu cầu trực tiếp",
+      "listLabel": "Yêu cầu gần đây",
+      "loading": "Đang tải yêu cầu gần đây…",
+      "traceError": "Không đọc được các yêu cầu gần đây.",
+      "empty": "Mở bất kỳ công cụ nào và gửi một tin nhắn; yêu cầu sẽ hiện ở đây ngay lập tức.",
+      "pending": "Đang xử lý",
+      "unknownModel": "Không ghi mô hình",
+      "noAttempt": "Không có dịch vụ khả dụng",
+      "flow": {
+        "routed": "{{name}}: qua AI Manager",
+        "direct": "{{name}}: trực tiếp",
+        "manager": "AI Manager",
+        "noServices": "Chưa có dịch vụ"
+      },
+      "counts": {
+        "requests": "Yêu cầu",
+        "rerouted": "Chuyển hướng",
+        "failed": "Lỗi công cụ nhận được"
+      },
+      "attempt": {
+        "ok": "{{name}}: đã trả lời",
+        "failed": "{{name}}: thất bại ({{reason}})",
+        "skipped": "{{name}}: bỏ qua vì đang tạm dừng"
+      },
+      "errorCategory": {
+        "rateLimited": "Giới hạn tần suất",
+        "authFailed": "Xác thực bị từ chối",
+        "serverError": "Lỗi dịch vụ",
+        "timeout": "Hết thời gian chờ",
+        "network": "Lỗi mạng",
+        "rejected": "Yêu cầu bị từ chối",
+        "unavailable": "Không có dịch vụ khả dụng",
+        "cancelled": "Đã hủy",
+        "other": "Lỗi"
+      },
+      "confirm": {
+        "title": "Bật định tuyến trực tiếp?",
+        "description": "{{tools}} sẽ gửi yêu cầu qua AI Manager. Cài đặt của chúng được sao lưu trước và khôi phục khi bạn tắt định tuyến trực tiếp.",
+        "action": "Bật"
+      },
+      "partial": {
+        "title": "Một số công cụ không định tuyến được; các công cụ còn lại giờ đi qua AI Manager.",
+        "noneTitle": "Không công cụ nào định tuyến được; mọi thứ vẫn kết nối trực tiếp.",
+        "item": "{{name}}: {{reason}}"
+      }
     }
   },
   "sessions": {

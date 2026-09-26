@@ -9,12 +9,17 @@ import {
   initErrorPayloadSchema,
   type InitErrorPayload,
 } from "./schemas/system";
+import {
+  routingTraceUpdateSchema,
+  type RoutingTraceUpdate,
+} from "./schemas/routingTrace";
 import { toolIdSchema, type ToolId } from "./schemas/tool";
 
 export const OPERATION_CHANGED_EVENT = "operation://changed";
 export const PROVIDER_CHANGED_EVENT = "provider://changed";
 export const DEEP_LINK_PENDING_EVENT = "deeplink://pending";
 export const CONFIG_LOAD_ERROR_EVENT = "configLoadError";
+export const ROUTING_TRACE_EVENT = "routing://trace";
 
 export interface ProviderChangedPayload {
   tool: ToolId;
@@ -94,6 +99,26 @@ export function onDeepLinkPending(
     }
     console.error(
       `Discarded malformed ${DEEP_LINK_PENDING_EVENT} payload`,
+      parsed.error.message,
+    );
+  });
+}
+
+/**
+ * Pushed for every change to one entry of the live routing trace (ADR-0050).
+ * The payload carries only the changed entry and the running totals.
+ */
+export function onRoutingTrace(
+  callback: (update: RoutingTraceUpdate) => void,
+): Promise<UnlistenFn> {
+  return listen<unknown>(ROUTING_TRACE_EVENT, (event) => {
+    const parsed = routingTraceUpdateSchema.safeParse(event.payload);
+    if (parsed.success) {
+      callback(parsed.data);
+      return;
+    }
+    console.error(
+      `Discarded malformed ${ROUTING_TRACE_EVENT} payload`,
       parsed.error.message,
     );
   });

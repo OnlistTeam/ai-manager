@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI Manager はこのルーティング変更を安全に完了できませんでした。",
+      "liveTakeoverFailed": "AI Manager はこのツールを経由させられなかったため、直接接続のままです。",
+      "noLiveTargets": "サービスを選んだツールがまだないため、ライブルーティングを開始できません。",
       "providerNotEligible": "このエンドポイントは自動フェイルオーバーに参加できません。",
       "providerUnavailable": "このエンドポイントはルーティングに利用できなくなりました。",
       "queueLocked": "現在または最後のエンドポイントを外す前に、自動フェイルオーバーを無効にしてください。",
@@ -2240,8 +2242,7 @@
     "description": "リクエストをローカル転送し、障害時に予備のエンドポイントへ自動で切り替えるよう設定できます。",
     "summary": {
       "inactive": "ローカルルーティングはオフです。各ツールは元の接続を使用します。",
-      "needsRestore": "ルーティングは停止しましたが、ツールの接続先は変更されたままです。設定を復元してください。",
-      "stats": "統計"
+      "needsRestore": "ルーティングは停止しましたが、ツールの接続先は変更されたままです。設定を復元してください。"
     },
     "refresh": "状態を更新",
     "loading": "ローカルルーティングを読み込み中",
@@ -2252,13 +2253,7 @@
       "stopped": "必要なときに開始できます",
       "localOnly": "ローカルループバックのみ",
       "takeovers_one": "{{count}} 個のツールを引き継ぎ中",
-      "takeovers_other": "{{count}} 個のツールを引き継ぎ中",
-      "metric": {
-        "requests": "リクエスト",
-        "success": "成功",
-        "failures": "失敗",
-        "failovers": "フェイルオーバー"
-      }
+      "takeovers_other": "{{count}} 個のツールを引き継ぎ中"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2316,6 +2311,57 @@
     "stale": "最新の更新が完了しなかったため、前回のルーティング状態を表示しています。",
     "actionError": {
       "title": "ルーティング変更は完了しませんでした"
+    },
+    "live": {
+      "title": "ライブルーティング",
+      "description": "オンにすると各ツールのリクエストが AI Manager を経由し、どのサービスが応答したかをここにリアルタイムで表示します。オフにすると直接接続に戻ります。",
+      "noTargets": "先に「{{page}}」でツールのサービスを選んでください。",
+      "listSeparator": "、",
+      "panelLabel": "ライブリクエスト",
+      "listLabel": "最近のリクエスト",
+      "loading": "最近のリクエストを読み込み中…",
+      "traceError": "最近のリクエストを読み込めませんでした。",
+      "empty": "どれかのツールを開いてメッセージを送ると、リクエストがここにリアルタイムで表示されます。",
+      "pending": "処理中",
+      "unknownModel": "モデル指定なし",
+      "noAttempt": "利用できるサービスがありません",
+      "flow": {
+        "routed": "{{name}}：AI Manager 経由",
+        "direct": "{{name}}：直接接続",
+        "manager": "AI Manager",
+        "noServices": "サービスなし"
+      },
+      "counts": {
+        "requests": "リクエスト",
+        "rerouted": "迂回",
+        "failed": "ツールが受けたエラー"
+      },
+      "attempt": {
+        "ok": "{{name}}：応答あり",
+        "failed": "{{name}}：失敗（{{reason}}）",
+        "skipped": "{{name}}：一時停止中のためスキップ"
+      },
+      "errorCategory": {
+        "rateLimited": "レート制限",
+        "authFailed": "認証エラー",
+        "serverError": "サービスエラー",
+        "timeout": "タイムアウト",
+        "network": "ネットワークエラー",
+        "rejected": "リクエスト拒否",
+        "unavailable": "利用可能なサービスなし",
+        "cancelled": "キャンセル",
+        "other": "エラー"
+      },
+      "confirm": {
+        "title": "ライブルーティングをオンにしますか？",
+        "description": "{{tools}} のリクエストが AI Manager を経由するようになります。設定は先にバックアップされ、ライブルーティングをオフにすると復元されます。",
+        "action": "オンにする"
+      },
+      "partial": {
+        "title": "一部のツールは経由できませんでした。ほかのツールは AI Manager を経由しています。",
+        "noneTitle": "経由できたツールはありません。すべて直接接続のままです。",
+        "item": "{{name}}：{{reason}}"
+      }
     }
   },
   "sessions": {

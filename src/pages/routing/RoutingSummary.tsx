@@ -1,14 +1,8 @@
-import {
-  AlertCircle,
-  CheckCircle2,
-  ChevronDown,
-  ShieldCheck,
-} from "lucide-react";
+import { AlertCircle, CheckCircle2, ShieldCheck } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { RoutingOverview } from "@/entities/routing";
 import { Button } from "@/shared/ui/Button";
 import { cn } from "@/shared/ui/cn";
-import { FOCUS_RING } from "@/shared/ui/focusRing";
 
 export function RoutingSummary({
   overview,
@@ -29,13 +23,9 @@ export function RoutingSummary({
     : overview.running
       ? CheckCircle2
       : ShieldCheck;
-  const metrics = [
-    { key: "requests", value: overview.totalRequests },
-    { key: "success", value: overview.successRequests },
-    { key: "failures", value: overview.failedRequests },
-    { key: "failovers", value: overview.failoverCount },
-  ];
-  const showStats = overview.running || metrics.some(({ value }) => value > 0);
+  // While live routing is on, its switch is the way to stop; the button only
+  // covers a route running with no tool, or tools left pointing at a stopped one.
+  const showStop = overview.running !== takeoverCount > 0;
   const address = overview.address?.includes(":")
     ? `[${overview.address}]`
     : overview.address;
@@ -67,34 +57,7 @@ export function RoutingSummary({
           {address}:{overview.port}
         </span>
       ) : null}
-      {showStats ? (
-        <details className="group">
-          <summary
-            tabIndex={0}
-            className={cn(
-              "flex min-h-9 cursor-pointer list-none items-center gap-1 rounded-md hover:text-content [&::-webkit-details-marker]:hidden",
-              FOCUS_RING,
-            )}
-          >
-            {t("routing.summary.stats")}
-            <ChevronDown
-              className="h-3.5 w-3.5 group-open:rotate-180"
-              aria-hidden="true"
-            />
-          </summary>
-          <dl className="flex flex-wrap gap-x-4 gap-y-2 pb-1">
-            {metrics.map(({ key, value }) => (
-              <div key={key} className="flex gap-1.5">
-                <dt>{t(`routing.hero.metric.${key}`)}</dt>
-                <dd className="tabular-nums text-content">
-                  {value.toLocaleString()}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </details>
-      ) : null}
-      {overview.running || takeoverCount > 0 ? (
+      {showStop ? (
         <Button
           size="sm"
           variant="secondary"

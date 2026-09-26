@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI 管家無法安全完成這次路由變更。",
+      "liveTakeoverFailed": "AI 管家沒能接管這個軟體，它繼續保持直連。",
+      "noLiveTargets": "還沒有軟體選好服務，暫時無法開啟即時路由。",
       "providerNotEligible": "這個端點不能加入自動容錯移轉。",
       "providerUnavailable": "這個端點已無法用於路由。",
       "queueLocked": "請先關閉自動容錯移轉，再移除目前端點或最後一個端點。",
@@ -2240,8 +2242,7 @@
     "description": "透過本機轉發請求，可設定故障時自動切換備用端點。",
     "summary": {
       "inactive": "尚未開啟本機路由，軟體沿用原有連線。",
-      "needsRestore": "路由已停止，仍有軟體被接管，請還原原設定。",
-      "stats": "統計"
+      "needsRestore": "路由已停止，仍有軟體被接管，請還原原設定。"
     },
     "refresh": "重新整理狀態",
     "loading": "正在讀取本機路由",
@@ -2252,13 +2253,7 @@
       "stopped": "需要時再開啟",
       "localOnly": "僅本機回環位址",
       "takeovers_one": "已接管 {{count}} 個工具",
-      "takeovers_other": "已接管 {{count}} 個工具",
-      "metric": {
-        "requests": "請求",
-        "success": "成功",
-        "failures": "失敗",
-        "failovers": "容錯移轉"
-      }
+      "takeovers_other": "已接管 {{count}} 個工具"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2316,6 +2311,57 @@
     "stale": "最新重新整理未完成，仍顯示上一次路由快照。",
     "actionError": {
       "title": "路由變更未完成"
+    },
+    "live": {
+      "title": "即時路由",
+      "description": "開啟後，各軟體的請求經 AI 管家轉發，這裡即時顯示走了哪家服務；關閉即恢復直連。",
+      "noTargets": "先在「{{page}}」裡為軟體選好服務，才能開啟。",
+      "listSeparator": "、",
+      "panelLabel": "即時請求",
+      "listLabel": "最近的請求",
+      "loading": "正在讀取最近的請求…",
+      "traceError": "暫時讀不到最近的請求。",
+      "empty": "打開任一軟體發一句話，請求會即時出現在這裡。",
+      "pending": "進行中",
+      "unknownModel": "未註明模型",
+      "noAttempt": "沒有可用的服務",
+      "flow": {
+        "routed": "{{name}}：經 AI 管家",
+        "direct": "{{name}}：直連",
+        "manager": "AI 管家",
+        "noServices": "尚無服務"
+      },
+      "counts": {
+        "requests": "請求",
+        "rerouted": "改道",
+        "failed": "軟體收到的錯誤"
+      },
+      "attempt": {
+        "ok": "{{name}}：已回應",
+        "failed": "{{name}}：失敗（{{reason}}）",
+        "skipped": "{{name}}：暫停中，已略過"
+      },
+      "errorCategory": {
+        "rateLimited": "限流",
+        "authFailed": "驗證失敗",
+        "serverError": "服務出錯",
+        "timeout": "逾時",
+        "network": "網路中斷",
+        "rejected": "請求被拒",
+        "unavailable": "無可用服務",
+        "cancelled": "已取消",
+        "other": "出錯"
+      },
+      "confirm": {
+        "title": "開啟即時路由？",
+        "description": "{{tools}} 的請求將經 AI 管家轉發。它們的設定會先備份，關閉即時路由時還原。",
+        "action": "開啟"
+      },
+      "partial": {
+        "title": "部分軟體未能接入，其餘已經過 AI 管家。",
+        "noneTitle": "沒有軟體接入成功，一切保持直連。",
+        "item": "{{name}}：{{reason}}"
+      }
     }
   },
   "sessions": {

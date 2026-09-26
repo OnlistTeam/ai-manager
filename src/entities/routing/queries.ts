@@ -12,6 +12,8 @@ import { native, type RoutingOverview, type ToolId } from "@/native";
 export const routingKeys = {
   all: ["routing"] as const,
   overview: () => ["routing", "overview"] as const,
+  trace: () => ["routing", "trace"] as const,
+  liveMode: () => ["routing", "liveMode"] as const,
 };
 
 export interface RoutingToggleInput {
