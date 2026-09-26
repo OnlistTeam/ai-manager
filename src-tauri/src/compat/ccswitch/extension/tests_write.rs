@@ -269,7 +269,7 @@ fn adopting_detected_skills_records_every_live_scope_without_rewriting_source_fi
     let store = super::ExtensionStore { state };
 
     let refreshed = store
-        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Skill)
+        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Skill, "shared-local")
         .expect("adopt detected Skills");
     assert_eq!(refreshed.len(), 1);
     assert_eq!(refreshed[0].management, ExtensionManagement::Managed);
@@ -354,7 +354,11 @@ fn adopting_a_shared_only_skill_materializes_it_in_the_chosen_tool() {
     let store = super::ExtensionStore { state };
 
     let refreshed = store
-        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Skill)
+        .adopt_detected(
+            ToolId::ClaudeCode,
+            ExtensionKind::Skill,
+            "shared-agent-skill",
+        )
         .expect("adopt the shared Skill for Claude Code");
     assert_eq!(refreshed.len(), 1);
     assert_eq!(refreshed[0].management, ExtensionManagement::Managed);
@@ -421,7 +425,11 @@ fn a_skill_that_cannot_be_placed_in_the_tool_is_not_reported_as_enabled_there() 
     let store = super::ExtensionStore { state };
 
     let error = store
-        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Skill)
+        .adopt_detected(
+            ToolId::ClaudeCode,
+            ExtensionKind::Skill,
+            "shared-agent-skill",
+        )
         .expect_err("a Skill that is not on disk for the tool cannot be reported as enabled");
     assert_eq!(error.message_key, "error.extension.adoptFailed");
 
@@ -460,7 +468,7 @@ fn adopting_detected_mcp_keeps_live_bytes_and_returns_no_connection_payload() {
     let store = super::ExtensionStore { state };
 
     let refreshed = store
-        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Mcp)
+        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Mcp, "browser")
         .expect("adopt detected MCP");
     assert_eq!(refreshed.len(), 1);
     assert_eq!(refreshed[0].management, ExtensionManagement::Managed);
@@ -491,13 +499,175 @@ fn adopting_detected_mcp_keeps_live_bytes_and_returns_no_connection_payload() {
     }
 
     let retry = store
-        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Mcp)
+        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Mcp, "browser")
         .expect("a completed adoption is idempotent");
     assert_eq!(retry, refreshed);
     assert_eq!(
         std::fs::read(&live_path).expect("read live config after retry"),
         original
     );
+}
+
+#[test]
+#[serial_test::serial]
+fn adopting_one_detected_mcp_leaves_the_rest_found_and_a_second_scope_only_gains_its_flag() {
+    use std::sync::Arc;
+
+    let temp = tempfile::tempdir().expect("temp home");
+    let _home = TestHome::set(temp.path());
+    std::fs::create_dir_all(temp.path().join(".claude")).expect("create Claude directory");
+    std::fs::write(
+        temp.path().join(".claude.json"),
+        r#"{"mcpServers":{"browser":{"command":"npx","args":["claude-copy"]},"files":{"command":"npx","args":["files"]}}}"#,
+    )
+    .expect("write Claude MCP config");
+    std::fs::create_dir_all(temp.path().join(".codex")).expect("create Codex directory");
+    let codex_path = temp.path().join(".codex/config.toml");
+    let codex_original = "[mcp_servers.browser]\ncommand = \"node\"\nargs = [\"codex-copy\"]\n";
+    std::fs::write(&codex_path, codex_original).expect("write Codex MCP config");
+    let state = crate::store::AppState::new(Arc::new(
+        crate::database::Database::memory().expect("memory database"),
+    ));
+    let store = super::ExtensionStore { state };
+
+    let claude = store
+        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Mcp, "browser")
+        .expect("adopt one Claude MCP");
+    let browser = claude.iter().find(|entry| entry.id == "browser").unwrap();
+    assert_eq!(browser.management, ExtensionManagement::Managed);
+    assert!(browser.enabled);
+    let files = claude.iter().find(|entry| entry.id == "files").unwrap();
+    assert_eq!(files.management, ExtensionManagement::Detected);
+
+    let codex = store
+        .adopt_detected(ToolId::Codex, ExtensionKind::Mcp, "browser")
+        .expect("adopt the same id from Codex");
+    assert_eq!(codex.len(), 1);
+    assert_eq!(codex[0].management, ExtensionManagement::Managed);
+    assert!(codex[0].enabled);
+
+    let rows = store
+        .state
+        .db
+        .get_all_mcp_servers()
+        .expect("read managed MCP rows");
+    assert_eq!(rows.len(), 1);
+    let stored = rows.get("browser").expect("browser was imported once");
+    assert!(stored.apps.claude);
+    assert!(stored.apps.codex);
+    // The row that already existed keeps its spec; Codex only gains a flag.
+    assert!(stored.server.to_string().contains("claude-copy"));
+    assert_eq!(
+        std::fs::read_to_string(&codex_path).expect("read untouched Codex config"),
+        codex_original
+    );
+}
+
+#[test]
+#[serial_test::serial]
+fn adopting_one_detected_skill_leaves_the_other_found_skills_alone() {
+    use std::sync::Arc;
+
+    let temp = tempfile::tempdir().expect("temp home");
+    let _home = TestHome::set(temp.path());
+    for directory in ["first-local", "second-local"] {
+        let path = temp.path().join(".claude").join("skills").join(directory);
+        std::fs::create_dir_all(&path).expect("create local Skill directory");
+        std::fs::write(
+            path.join("SKILL.md"),
+            format!("---\nname: {directory}\n---\n"),
+        )
+        .expect("write local Skill");
+    }
+    let state = crate::store::AppState::new(Arc::new(
+        crate::database::Database::memory().expect("memory database"),
+    ));
+    let store = super::ExtensionStore { state };
+
+    let refreshed = store
+        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Skill, "first-local")
+        .expect("adopt one Skill");
+    assert_eq!(refreshed.len(), 2);
+    let managed = refreshed
+        .iter()
+        .find(|entry| entry.management == ExtensionManagement::Managed)
+        .expect("one managed Skill");
+    assert!(managed.enabled);
+    let detected = refreshed
+        .iter()
+        .find(|entry| entry.management == ExtensionManagement::Detected)
+        .expect("one Skill still found only");
+    assert_eq!(detected.id, "second-local");
+
+    let again = store
+        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Skill, "first-local")
+        .expect("adopting an already managed Skill is idempotent");
+    assert_eq!(again, refreshed);
+}
+
+#[test]
+#[serial_test::serial]
+fn adopting_a_shared_skill_from_a_second_scope_switches_it_on_there() {
+    use std::sync::Arc;
+
+    let temp = tempfile::tempdir().expect("temp home");
+    let _home = TestHome::set(temp.path());
+    let shared = temp
+        .path()
+        .join(".agents")
+        .join("skills")
+        .join("shared-agent-skill");
+    std::fs::create_dir_all(&shared).expect("create shared Skill directory");
+    std::fs::write(shared.join("SKILL.md"), b"---\nname: Shared\n---\n")
+        .expect("write shared Skill");
+    let state = crate::store::AppState::new(Arc::new(
+        crate::database::Database::memory().expect("memory database"),
+    ));
+    let store = super::ExtensionStore { state };
+
+    store
+        .adopt_detected(
+            ToolId::ClaudeCode,
+            ExtensionKind::Skill,
+            "shared-agent-skill",
+        )
+        .expect("adopt from Claude Code");
+    let codex = store
+        .adopt_detected(ToolId::Codex, ExtensionKind::Skill, "shared-agent-skill")
+        .expect("adopt the now managed Skill from Codex");
+    assert_eq!(codex.len(), 1);
+    assert_eq!(codex[0].management, ExtensionManagement::Managed);
+    assert!(codex[0].enabled);
+    assert!(temp
+        .path()
+        .join(".codex/skills/shared-agent-skill/SKILL.md")
+        .is_file());
+}
+
+#[test]
+#[serial_test::serial]
+fn adopting_an_id_that_is_not_in_the_live_file_is_not_found() {
+    use std::sync::Arc;
+
+    let temp = tempfile::tempdir().expect("temp home");
+    let _home = TestHome::set(temp.path());
+    let state = crate::store::AppState::new(Arc::new(
+        crate::database::Database::memory().expect("memory database"),
+    ));
+    let store = super::ExtensionStore { state };
+
+    for kind in [ExtensionKind::Mcp, ExtensionKind::Skill] {
+        let error = store
+            .adopt_detected(ToolId::ClaudeCode, kind, "missing")
+            .expect_err("nothing to adopt");
+        assert_eq!(error.code, ErrorCode::ExtensionNotFound);
+    }
+    assert!(store
+        .state
+        .db
+        .get_all_mcp_servers()
+        .expect("read managed MCP rows")
+        .is_empty());
 }
 
 #[test]
@@ -509,7 +679,7 @@ fn prompts_cannot_enter_a_detected_adoption_flow() {
     ));
     let store = super::ExtensionStore { state };
     let error = store
-        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Prompt)
+        .adopt_detected(ToolId::ClaudeCode, ExtensionKind::Prompt, "anything")
         .expect_err("Prompts have no detected inventory contract");
     assert_eq!(error.code, ErrorCode::ConfigWriteFailed);
     assert_eq!(error.message_key, "error.extension.adoptUnsupported");
@@ -843,7 +1013,7 @@ fn claude_desktop_is_a_real_mcp_scope_with_non_destructive_adoption_and_toggles(
     let desktop = ExtensionScope::desktop_app(DesktopAppId::ClaudeDesktop);
 
     let adopted = store
-        .adopt_detected_scope(desktop, ExtensionKind::Mcp)
+        .adopt_detected_scope(desktop, ExtensionKind::Mcp, "existing")
         .expect("adopt Claude Desktop MCP");
     assert_eq!(adopted.len(), 1);
     assert_eq!(adopted[0].scope, desktop);

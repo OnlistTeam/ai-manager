@@ -203,30 +203,35 @@ pub(super) fn adoption_scopes(
     (apps, enabled_scopes)
 }
 
-pub(super) fn adopt_detected(state: &AppState, app_type: &AppType) -> Result<(), AppError> {
+/// Bring one detected Skill under product management and make sure it is on
+/// for this scope. A Skill that is already managed (adopted from another
+/// scope a moment earlier) is only switched on here, so adopting the same row
+/// from every scope it was found in converges instead of failing.
+pub(super) fn adopt_detected(
+    state: &AppState,
+    scope: ExtensionScope,
+    app_type: &AppType,
+    id: &str,
+) -> Result<(), AppError> {
     let source = app_type.as_str();
     let detected = SkillService::scan_unmanaged(&state.db).map_err(adopt_failed)?;
-    let mut imports = Vec::new();
-    let mut expected = Vec::new();
-
-    for entry in detected
+    let Some(entry) = detected
         .into_iter()
-        .filter(|entry| visible_in_scope(entry, source))
-    {
-        let (apps, enabled_scopes) = adoption_scopes(&entry, app_type);
+        .find(|entry| entry.directory == id && visible_in_scope(entry, source))
+    else {
+        return enable_adopted(state, scope, app_type, id);
+    };
 
-        expected.push((entry.directory.clone(), enabled_scopes));
-        imports.push(ImportSkillSelection {
+    let (apps, enabled_scopes) = adoption_scopes(&entry, app_type);
+    let expected = vec![(entry.directory.clone(), enabled_scopes)];
+    SkillService::import_from_apps(
+        &state.db,
+        vec![ImportSkillSelection {
             directory: entry.directory,
             apps,
-        });
-    }
-
-    if imports.is_empty() {
-        return Ok(());
-    }
-
-    SkillService::import_from_apps(&state.db, imports).map_err(adopt_failed)?;
+        }],
+    )
+    .map_err(adopt_failed)?;
     materialize_adopted_scopes(state, &expected)?;
     let managed = SkillService::get_all_installed(&state.db).map_err(adopt_failed)?;
     for (directory, scopes) in expected {
@@ -245,6 +250,23 @@ pub(super) fn adopt_detected(state: &AppState, app_type: &AppType) -> Result<(),
     }
 
     Ok(())
+}
+
+fn enable_adopted(
+    state: &AppState,
+    scope: ExtensionScope,
+    app_type: &AppType,
+    id: &str,
+) -> Result<(), AppError> {
+    let managed = SkillService::get_all_installed(&state.db).map_err(adopt_failed)?;
+    let skill = managed
+        .iter()
+        .find(|skill| skill.directory == id)
+        .ok_or_else(|| not_found(scope, ExtensionKind::Skill, id))?;
+    if skill.apps.is_enabled_for(app_type) {
+        return Ok(());
+    }
+    SkillService::toggle_app(&state.db, &skill.id, app_type, true).map_err(adopt_failed)
 }
 
 /// Upstream `import_from_apps` copies a detected Skill into the SSOT and

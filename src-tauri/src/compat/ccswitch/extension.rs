@@ -234,30 +234,32 @@ impl ExtensionStore {
         self.list_scope(scope, kind)
     }
 
-    /// Bring every detected item in one visible tool/kind scope under product
-    /// management, then return the authoritative refreshed inventory. The
-    /// upstream import paths copy/read existing state but do not rewrite the
-    /// source tool config during adoption.
+    /// Bring one detected item under product management and switch it on for
+    /// this scope, then return the scope's authoritative refreshed inventory.
+    /// The upstream import paths copy/read existing state but do not rewrite
+    /// the source tool config during adoption.
     pub fn adopt_detected(
         &self,
         tool: ToolId,
         kind: ExtensionKind,
+        id: &str,
     ) -> Result<Vec<Extension>, AppError> {
-        self.adopt_detected_scope(ExtensionScope::tool(tool), kind)
+        self.adopt_detected_scope(ExtensionScope::tool(tool), kind, id)
     }
 
     pub fn adopt_detected_scope(
         &self,
         scope: ExtensionScope,
         kind: ExtensionKind,
+        id: &str,
     ) -> Result<Vec<Extension>, AppError> {
         let app_type = app_type_for_scope(scope)?;
         match kind {
             ExtensionKind::Skill => {
                 require_tool_scope(scope, kind)?;
-                skill::adopt_detected(&self.state, &app_type)?;
+                skill::adopt_detected(&self.state, scope, &app_type, id)?;
             }
-            ExtensionKind::Mcp => mcp::adopt_detected(&self.state, &app_type)?,
+            ExtensionKind::Mcp => mcp::adopt_detected(&self.state, scope, &app_type, id)?,
             ExtensionKind::Prompt => return Err(reject_adopt_unsupported(kind)),
         }
 

@@ -248,8 +248,9 @@ impl ExtensionDirectory {
         app_handle: &tauri::AppHandle,
         scope: ExtensionScope,
         kind: ExtensionKind,
+        id: &str,
     ) -> Result<Vec<Extension>, AppError> {
-        gate(app_handle, scope, kind)?.adopt_detected_scope(scope, kind)
+        gate(app_handle, scope, kind)?.adopt_detected_scope(scope, kind, id)
     }
 
     /// Copy one detected Skill into another tool and return that tool's

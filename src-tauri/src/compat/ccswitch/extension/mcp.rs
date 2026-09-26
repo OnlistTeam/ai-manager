@@ -19,7 +19,8 @@ use crate::services::McpService;
 use crate::store::AppState;
 
 use super::{
-    adopt_failed, detail, list_failed, non_empty, reject_adopt_unsupported, toggle_failed,
+    adopt_failed, detail, list_failed, non_empty, not_found, reject_adopt_unsupported,
+    toggle_failed,
 };
 
 mod removal;
@@ -220,49 +221,50 @@ fn same_server(left: &McpServer, right: &McpServer) -> bool {
         && left.tags == right.tags
 }
 
-pub(super) fn adopt_detected(state: &AppState, app_type: &AppType) -> Result<(), AppError> {
+/// Bring one MCP connection found in this scope's own file under product
+/// management. This is upstream's `import_from_*` merge narrowed to a single
+/// id: a new row keeps the live spec and is on only for this scope; an
+/// existing row keeps its fields and gains this scope's flag. Like upstream,
+/// the live file is read, never written.
+pub(super) fn adopt_detected(
+    state: &AppState,
+    scope: ExtensionScope,
+    app_type: &AppType,
+    id: &str,
+) -> Result<(), AppError> {
+    if matches!(app_type, AppType::OpenClaw | AppType::Pi) {
+        return Err(reject_adopt_unsupported(ExtensionKind::Mcp));
+    }
     // MCP rows are global across tools, so discovery, import and verification
     // share the same product write lock as install/toggle/remove.
     let _guard = mcp_write_guard();
-    let managed = McpService::get_all_servers(state).map_err(adopt_failed)?;
-    let detected_ids = scan_live(app_type)
+    let mut managed = McpService::get_all_servers(state).map_err(adopt_failed)?;
+    let found = scan_live(app_type)
         .map_err(adopt_failed)?
         .into_iter()
-        .filter(|server| !managed.contains_key(&server.id))
-        .map(|server| server.id)
-        .collect::<Vec<_>>();
+        .find(|server| server.id == id)
+        .ok_or_else(|| not_found(scope, ExtensionKind::Mcp, id))?;
 
-    if detected_ids.is_empty() {
-        return Ok(());
-    }
-
-    match app_type {
-        AppType::Claude => McpService::import_from_claude(state),
-        AppType::Codex => McpService::import_from_codex(state),
-        AppType::Gemini => McpService::import_from_gemini(state),
-        AppType::GrokBuild => McpService::import_from_grokbuild(state),
-        AppType::OpenCode => McpService::import_from_opencode(state),
-        AppType::Hermes => McpService::import_from_hermes(state),
-        AppType::ClaudeDesktop => McpService::import_from_claude_desktop(state),
-        AppType::OpenClaw | AppType::Pi => {
-            return Err(reject_adopt_unsupported(ExtensionKind::Mcp));
+    let row = match managed.shift_remove(id) {
+        Some(existing) if existing.apps.is_enabled_for(app_type) => return Ok(()),
+        Some(mut existing) => {
+            existing.apps.set_enabled_for(app_type, true);
+            existing
         }
-    }
-    .map_err(adopt_failed)?;
+        None => found,
+    };
+    state.db.save_mcp_server(&row).map_err(adopt_failed)?;
 
-    let refreshed = McpService::get_all_servers(state).map_err(adopt_failed)?;
-    for id in detected_ids {
-        let imported = refreshed
-            .get(&id)
-            .ok_or_else(|| adopt_failed(format!("MCP {id} was absent after import")))?;
-        if !imported.apps.is_enabled_for(app_type) {
-            return Err(adopt_failed(format!(
-                "MCP {id} was not enabled for {} after import",
-                app_type.as_str()
-            )));
-        }
+    let imported = McpService::get_all_servers(state)
+        .map_err(adopt_failed)?
+        .shift_remove(id)
+        .ok_or_else(|| adopt_failed(format!("MCP {id} was absent after import")))?;
+    if !imported.apps.is_enabled_for(app_type) {
+        return Err(adopt_failed(format!(
+            "MCP {id} was not enabled for {} after import",
+            app_type.as_str()
+        )));
     }
-
     Ok(())
 }
 
