@@ -133,10 +133,6 @@ export function ToolDiscoveryGuide({
             </article>
           ))}
         </div>
-
-        <p className="mt-4 text-caption leading-5 text-content-muted">
-          {t("tools.discovery.costNote")}
-        </p>
       </Card>
     </section>
   );

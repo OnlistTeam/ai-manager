@@ -138,9 +138,6 @@ export function ProviderRuntimeContextPanel({
 
         {context ? (
           <div className="space-y-3">
-            <p className="text-caption leading-5 text-content-muted">
-              {t("services.runtime.localOnlyNote")}
-            </p>
             <ul className="divide-y divide-hairline rounded-lg border border-hairline px-4">
               {context.resources
                 .filter(

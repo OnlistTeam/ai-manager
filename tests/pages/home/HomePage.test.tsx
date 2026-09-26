@@ -267,7 +267,7 @@ describe("HomePage", () => {
 
     const dialog = screen.getByRole("dialog", { name: "Open Claude Code" });
     expect(
-      within(dialog).getByText(en.tools.open.localTitle),
+      within(dialog).getByRole("button", { name: en.tools.open.chooseFolder }),
     ).toBeInTheDocument();
     expect(seen).toEqual([]);
     const confirm = within(dialog).getByRole("button", {

@@ -232,7 +232,7 @@
     "sync": {
       "running": "Synchronisation de l'utilisation locale",
       "runningHint": "Analyse des sessions locales en cours. Vous pouvez quitter cette page ; la synchronisation continuera.",
-      "largeHistory": "Une première synchronisation ou un historique volumineux peuvent prendre plusieurs minutes. Inutile de lancer une autre synchronisation ; le résumé enregistré reste visible et se met à jour une fois terminé.",
+      "largeHistory": "Une première synchronisation ou un historique volumineux peuvent prendre plusieurs minutes.",
       "elapsed": "Écoulé : {{seconds}} secondes",
       "action": "Synchroniser l'utilisation locale",
       "success": "{{filesScanned}} fichiers locaux analysés et {{recordsImported}} nouveaux enregistrements ajoutés.",
@@ -242,11 +242,11 @@
     },
     "privacy": {
       "title": "Agrégé et local par conception",
-      "description": "Cette page n'affiche jamais les prompts, réponses, ID de requête, chemins, paramètres de fournisseur ou identifiants. La synchronisation lit les fichiers de session CLI pris en charge sur cet ordinateur et ne contacte aucun fournisseur."
+      "description": "Seule l'utilisation issue des fichiers de session locaux est comptée ; le contenu des conversations n'est jamais affiché."
     },
     "empty": {
       "title": "Aucun enregistrement d'utilisation locale pour l'instant",
-      "description": "Synchronisez les sessions CLI prises en charge pour créer la première vue agrégée. Rien n'est envoyé."
+      "description": "Synchronisez les sessions locales pour voir l'utilisation ici."
     },
     "error": {
       "title": "Impossible de lire l'utilisation locale",
@@ -492,7 +492,7 @@
       "endpointRequired": "Ce lien n'indique aucune adresse pour le point d'accès API.",
       "invalidEncoding": "Les informations contenues dans ce lien sont endommagées et ne peuvent pas être lues.",
       "invalidLink": "Ce n'est pas un lien qu'AI Manager peut lire.",
-      "mcpUnsupportedFields": "Ce lien tente de définir des variables d'environnement ou des en-têtes de requête pour un serveur MCP. AI Manager ne les ajoute pas pour vous, il ne peut donc pas utiliser ce lien.",
+      "mcpUnsupportedFields": "Ce lien définit des variables d'environnement ou des en-têtes de requête pour un serveur MCP, ce qui ne peut pas encore être importé par lien.",
       "missingParameter": "Il manque à ce lien un élément dont AI Manager a besoin pour l'importer.",
       "notPending": "Ce lien n'est plus en attente. Il a peut-être expiré, ou il a peut-être déjà reçu une réponse.",
       "tooLarge": "Ce lien est trop long pour être lu en toute sécurité.",
@@ -667,12 +667,12 @@
       "checkConnectionSettings": "Vérifiez le nom, la clé API et le modèle, puis réessayez.",
       "checkInternetConnection": "Vérifiez votre connexion internet, puis réessayez.",
       "checkLocalFileAccess": "Vérifiez que la compétence est toujours à son emplacement d'origine et que votre système peut l'ouvrir, puis réessayez.",
-      "checkServiceRegion": "Vérifiez les régions prises en charge par l'éditeur. AI Manager ne contournera pas les restrictions de compte ou de région de service.",
+      "checkServiceRegion": "Vérifiez les régions prises en charge par l'éditeur.",
       "checkMcpSettings": "Vérifiez le nom MCP et les détails de connexion, puis réessayez.",
       "checkPromptSettings": "Vérifiez le nom et le contenu de l'instruction, puis réessayez.",
       "checkPermissions": "Vérifiez qu'AI Manager est autorisé à modifier des fichiers dans votre dossier utilisateur, puis réessayez.",
       "checkServiceSettings": "Vérifiez le nom et la clé, puis réessayez.",
-      "configureInstallNetwork": "Consultez le journal du processus. Si un téléchargement de l'éditeur est injoignable, configurez un proxy local dans Réglages et réessayez ; les outils gérés par npm utilisent déjà automatiquement le relais miroir en secours après l'officiel.",
+      "configureInstallNetwork": "Consultez le journal du processus dans Activité. Si un téléchargement est injoignable, configurez un proxy de téléchargement local dans Paramètres et réessayez.",
       "chooseListedVersion": "Choisissez l'une des versions de la liste du registre et réessayez.",
       "installManually": "Vous pouvez installer cet outil vous-même depuis son site officiel.",
       "uninstallDesktopAppManually": "Utilisez les commandes d'applications de votre système d'exploitation pour supprimer cette application de bureau.",
@@ -942,7 +942,7 @@
     "details": {
       "action": "Détails",
       "title": "Détails de {{name}}",
-      "description": "Consultez la configuration locale, la mémoire et le stockage. Gérez les prompts globaux sur leur page dédiée."
+      "description": "Consultez la configuration locale, la mémoire et le stockage de ce logiciel."
     },
     "title": "Gestionnaire de logiciels",
     "description": "Installez, mettez à jour, supprimez ou changez de version de vos logiciels de codage IA.",
@@ -957,7 +957,7 @@
     "discovery": {
       "eyebrow": "Choisir selon l'objectif",
       "title": "Vous ne savez pas quoi installer ?",
-      "description": "Comparez les outils non encore installés selon ce que vous voulez faire. Il s'agit de correspondances de scénarios, pas de placements payants ni de classements.",
+      "description": "Comparez les outils non encore installés selon ce que vous voulez faire.",
       "scenarioLabel": "Choisissez ce que vous voulez faire",
       "scenario": {
         "officialCoding": "Utiliser l'outil de codage officiel d'un éditeur",
@@ -966,15 +966,14 @@
       },
       "publisher": "Publié par {{publisher}}",
       "access": {
-        "vendorOrProvider": "Peut nécessiter un forfait payant, une connexion ou des crédits API de l'éditeur ; l'éditeur définit l'accès et la tarification.",
+        "vendorOrProvider": "Peut nécessiter un forfait payant, une connexion ou des crédits API de l'éditeur.",
         "provider": "Nécessite un fournisseur de modèle ou un modèle local. Certains fournisseurs facturent les crédits API."
       },
-      "choose": "Afficher {{name}}",
-      "costNote": "AI Manager ne vend ni comptes ni crédits. Vérifiez l'éligibilité et la tarification actuelles auprès de l'éditeur ou du fournisseur avant d'installer."
+      "choose": "Afficher {{name}}"
     },
     "version": {
       "title": "Gérer les versions de {{name}}",
-      "description": "Les installations et mises à jour normales utilisent automatiquement la dernière version stable recommandée. N'utilisez ceci que pour la compatibilité, un retour en arrière ou pour choisir manuellement une version publiée.",
+      "description": "Ne choisissez une version manuellement que pour la compatibilité ou un retour en arrière.",
       "loading": "Chargement des versions publiées",
       "current": "Version actuelle",
       "notInstalled": "Non installé",
@@ -990,8 +989,8 @@
       "currentDefault": "La dernière version recommandée est déjà installée.",
       "nonDefaultWarning": "Vous sélectionnez manuellement une version non recommandée. Utilisez-la uniquement pour la compatibilité ou un retour en arrière, après avoir confirmé la version dont vous avez besoin.",
       "defaultChannelNote": "Les installations et mises à jour normales utilisent automatiquement la dernière version stable recommandée, {{version}}. Aucune sélection manuelle n'est nécessaire.",
-      "ownerPreserved": "AI Manager utilisera le gestionnaire de paquets propriétaire de ce CLI. La rétrogradation modifie l'exécutable mais conserve les paramètres de votre outil.",
-      "mirrorUsed": "Le registre par défaut n'a pas répondu, cette liste a donc été chargée via le miroir communautaire. Aucun paramètre global du gestionnaire de paquets n'a été modifié.",
+      "ownerPreserved": "La rétrogradation change la version du programme et conserve les paramètres de votre outil.",
+      "mirrorUsed": "Le registre par défaut n'a pas répondu, cette liste a donc été chargée via le miroir communautaire.",
       "restrictedTitle": "Le changement de version automatique est désactivé pour cette installation",
       "source": {
         "notInstalled": "Non installé · le registre de paquets sera utilisé",
@@ -1006,9 +1005,9 @@
         "unmanaged": "Inconnu ou géré manuellement"
       },
       "restriction": {
-        "nativeInstaller": "Cette copie provient de l'installateur officiel. AI Manager la met à jour avec ce même programme officiel et n'installe jamais de seconde copie.",
+        "nativeInstaller": "Cette copie provient de l'installateur officiel. Utilisez l'action Mettre à jour normale.",
         "brew": "Homebrew est propriétaire de cette copie. Utilisez l'action Mettre à jour normale ; basculer vers une version gérée séparément laisserait deux installations.",
-        "unmanaged": "AI Manager ne peut pas déterminer quel gestionnaire de paquets est propriétaire de cette copie, il n'installera donc pas une autre version par-dessus."
+        "unmanaged": "On ne sait pas quel gestionnaire de paquets est propriétaire de cette copie, sa version ne peut donc pas être changée ici."
       }
     },
     "updateRecovery": {
@@ -1061,7 +1060,7 @@
     },
     "desktopApps": {
       "title": "Applications de bureau",
-      "description": "AI Manager vérifie les applications de bureau signées par l'éditeur séparément de leurs outils en ligne de commande. Il sélectionne un paquet officiel fixe ou une page de téléchargement pour ce système d'exploitation et cette puce ; votre navigateur et l'installateur système terminent le téléchargement et l'installation.",
+      "description": "Ouvrez, téléchargez ou désinstallez les applications de bureau officielles des éditeurs.",
       "loading": "Vérification des applications de bureau",
       "refresh": "Actualiser les applications",
       "refreshError": "La dernière vérification des applications reste affichée. Actualisez à nouveau avant de vous y fier.",
@@ -1073,23 +1072,23 @@
       "items": {
         "codex-app": {
           "surface": "OpenAI desktop app · ChatGPT / Codex",
-          "description": "Utilisez ChatGPT ou Codex dans l'expérience graphique de bureau d'OpenAI tout en gardant l'installation et les mises à jour de Codex CLI séparées."
+          "description": "Utilisez ChatGPT ou Codex dans une fenêtre de bureau."
         },
         "claude-desktop": {
           "surface": "Application de bureau Anthropic",
-          "description": "Utilisez l'expérience graphique de bureau de Claude indépendamment de Claude Code dans Terminal."
+          "description": "Utilisez Claude dans une fenêtre de bureau."
         },
         "cursor": {
           "surface": "Éditeur de code IA Cursor",
-          "description": "Utilisez Cursor comme éditeur de code graphique autonome. Son installation, son compte, ses extensions et ses mises à jour restent gérés par l'éditeur."
+          "description": "Un éditeur de code graphique avec IA intégrée."
         },
         "zcode": {
           "surface": "Application de codage de bureau Z.ai",
-          "description": "Utilisez ZCode comme application de codage graphique autonome. Son installation et ses paramètres restent gérés par l'éditeur."
+          "description": "L'application de codage graphique de Z.ai."
         },
         "cherry-studio": {
           "surface": "Application de bureau Cherry Studio",
-          "description": "Utilisez Cherry Studio comme client de bureau multi-modèles autonome, distinct de tous les CLI gérés."
+          "description": "Un client de bureau pour de nombreux modèles."
         }
       },
       "status": {
@@ -1120,7 +1119,7 @@
         "codex": "Codex CLI",
         "claude-code": "Claude Code"
       },
-      "vendorUpdates": "Le programme de mise à jour de l'éditeur reste la référence. « Télécharger la dernière version » est un relais de récupération, pas une preuve qu'une version plus récente existe. Utilisez votre navigateur ou un proxy système si nécessaire ; AI Manager ne duplique pas les paquets et ne contourne pas les restrictions régionales.",
+      "vendorUpdates": "L'éditeur met à jour l'application. « Télécharger le dernier installateur » ne signifie pas qu'une version plus récente existe.",
       "action": {
         "open": "Ouvrir l'application",
         "openNamed": "Ouvrir {{name}}",
@@ -1151,11 +1150,9 @@
       },
       "downloadHelp": {
         "title": "Télécharger {{name}}",
-        "directDescription": "AI Manager ouvre directement l'installateur officiel de l'éditeur pour cet ordinateur, sans vous faire passer d'abord par une page produit étrangère.",
-        "pageDescription": "Il n'existe pas d'installateur fixe pour ce système, AI Manager ne peut donc qu'ouvrir la page de téléchargement officielle de l'éditeur.",
-        "architecture": "AI Manager identifie localement le système et la puce, vous n'avez donc pas besoin de choisir entre Intel, Apple Silicon, x64 ou Arm64.",
-        "systemOwned": "Votre navigateur télécharge le fichier et l'installateur système vérifie sa signature. AI Manager ne l'installe jamais silencieusement.",
-        "restrictedNetwork": "Si l'adresse officielle est injoignable sur votre réseau, configurez un proxy pour le navigateur ou le système et réessayez. Le proxy de téléchargement CLI d'AI Manager ne contrôle pas le navigateur, et AI Manager ne duplique pas les installateurs tiers ni ne contourne les restrictions régionales.",
+        "directDescription": "Télécharge directement l'installateur officiel pour cet ordinateur.",
+        "pageDescription": "Il n'existe pas d'installateur fixe pour ce système, la page de téléchargement officielle de l'éditeur s'ouvre donc.",
+        "restrictedNetwork": "Si l'adresse officielle est injoignable, configurez un proxy pour le navigateur ou le système et réessayez ; le proxy de téléchargement des Paramètres ne s'applique pas au navigateur.",
         "retry": "Réessayer le téléchargement officiel"
       },
       "uninstall": {
@@ -1184,8 +1181,6 @@
     "open": {
       "title": "Ouvrir {{name}}",
       "description": "Démarrez {{name}} dans le dossier par défaut, ou choisissez d'abord un dossier de projet.",
-      "localTitle": "Votre projet reste privé",
-      "localHint": "Choisir un dossier n'envoie, n'analyse ni ne modifie ses fichiers.",
       "confirm": "Démarrer maintenant",
       "launchDefault": "Démarrer maintenant",
       "chooseFolder": "Choisir un dossier",
@@ -1236,7 +1231,7 @@
       "commands": "Commandes prévues",
       "installations": "Installations détectées",
       "otherInstallation": "Autre installation",
-      "rechecked": "AI Manager revérifie l'installation et le plan de mise à jour avant de démarrer. En cas de changement, il s'arrête et vous demande de revérifier.",
+      "rechecked": "Si l'installation change avant le début de la mise à jour, celle-ci s'arrête et vous demande de revérifier.",
       "paused": "Les mises à jour sont suspendues pendant qu'AI Manager actualise l'état de l'outil et de la tâche.",
       "method": {
         "nativeSelfUpdate": "Utilise le propre programme de mise à jour de {{name}}",
@@ -1264,7 +1259,7 @@
       },
       "blocked": {
         "notInstalled": "L'outil n'est plus installé, il n'y a donc rien à mettre à jour.",
-        "ambiguousInstallation": "Plusieurs installations ont été trouvées, mais AI Manager ne peut pas déterminer laquelle votre ligne de commande utilise actuellement. Il ne devinera pas.",
+        "ambiguousInstallation": "Plusieurs installations ont été trouvées, et on ne sait pas laquelle votre ligne de commande utilise.",
         "unsupportedInstallation": "Cette installation ne dispose pas d'une méthode de mise à jour automatique sûre.",
         "inspectionFailed": "AI Manager n'a pas pu terminer la vérification de cette installation."
       },
@@ -1293,7 +1288,7 @@
       "keepSettingsHint": "Vos paramètres et conversations enregistrées restent sur cet ordinateur, une nouvelle installation reprendra donc là où vous en étiez.",
       "option": {
         "app": "Désinstaller l'application",
-        "appHint": "Toujours traité. La commande exacte ou les chemins du programme pour l'installation détectée sont indiqués ci-dessous.",
+        "appHint": "Toujours inclus. La commande ou les chemins utilisés sont indiqués ci-dessous.",
         "settings": "Supprimer les paramètres",
         "settingsHint": "Supprime le dossier des paramètres de cet outil.",
         "cache": "Supprimer le cache",
@@ -1302,8 +1297,8 @@
       "preview": {
         "loading": "Vérification de la commande et des chemins exacts…",
         "none": "Aucun chemin séparé ; cette option ne supprimera aucun fichier supplémentaire.",
-        "protected": "Ceci se trouve en dehors du périmètre de sécurité de suppression automatique, AI Manager n'y touchera donc pas.",
-        "rechecked": "Le propriétaire de l'installation et les chemins sont revérifiés avant l'exécution. Les valeurs affichées ne sont jamais renvoyées comme instructions de suppression.",
+        "protected": "Ce chemin est hors du périmètre de suppression automatique et sera ignoré.",
+        "rechecked": "La source de l'installation et les chemins sont revérifiés avant la suppression.",
         "kind": {
           "command": "Commande",
           "directory": "Dossier",
@@ -1321,11 +1316,11 @@
       },
       "warning": {
         "sessionsInsideSettings": "Cet outil conserve les conversations enregistrées dans son dossier de paramètres ; supprimer les paramètres les supprime donc aussi.",
-        "outsideHome": "Les fichiers situés en dehors de votre dossier utilisateur ne sont jamais supprimés. Si cet outil y stocke ses paramètres, AI Manager s'arrête avant de supprimer quoi que ce soit et rien n'est perdu. Décochez ces cases et réessayez pour ne supprimer que l'application."
+        "outsideHome": "Les fichiers situés en dehors de votre dossier utilisateur ne sont jamais supprimés. Si cet outil y conserve ses paramètres, décochez ces cases pour ne supprimer que l'application."
       },
       "reason": {
         "nothingToRemove": "Cet outil ne conserve aucun fichier séparé de ce type, il n'y a donc rien à supprimer ici.",
-        "protected": "Ces emplacements se trouvent en dehors de votre dossier utilisateur, AI Manager ne les supprimera donc pas."
+        "protected": "Ces emplacements se trouvent en dehors de votre dossier utilisateur et ne peuvent pas être supprimés automatiquement."
       }
     }
   },
@@ -1357,7 +1352,7 @@
       "nothingInstalled": "Aucun outil installé pour l'instant",
       "review": "Examiner",
       "startTool": "Commencer avec {{name}}",
-      "startHint": "Choisissez un dossier de projet. Votre service vérifie l'accès lors de la première utilisation.",
+      "startHint": "Choisissez un dossier de projet pour commencer.",
       "inventory": {
         "label": "Détails de la configuration",
         "servicesConfigured_one": "{{count}} point d'accès API configuré",
@@ -1568,13 +1563,13 @@
         "operational": "{{name}} a été enregistré et son adresse a répondu"
       },
       "addressRetry": "La configuration est conservée. Vérifiez votre réseau, puis relancez Vérifier l'adresse.",
-      "afterSave": "Après l'enregistrement, AI Manager vérifie uniquement l'adresse du service. {{tool}} vérifie la clé et le modèle à la première utilisation.",
-      "description": "Ajoutez un service API pour {{tool}}. AI Manager le configurera pour vous.",
+      "afterSave": "L'enregistrement vérifie uniquement l'adresse ; {{tool}} vérifie la clé et le modèle à la première utilisation.",
+      "description": "Ajoutez un point d'accès API pour {{tool}}.",
       "errorTitle": "Impossible d'ajouter ce point d'accès",
-      "firstUse": "{{tool}} vérifiera la clé API et le modèle à la première utilisation.",
+      "firstUse": "{{tool}} vérifie la clé et le modèle à la première utilisation.",
       "getKey": "Obtenir une clé API",
       "key": "Clé API",
-      "keyHint": "Enregistrée localement. Vous pouvez afficher et copier la clé dans la fiche et l'éditeur du point d'accès.",
+      "keyHint": "Enregistrée uniquement sur cet ordinateur.",
       "keyPlaceholder": "Collez votre clé API",
       "keyRequired": "Collez une clé API.",
       "model": "Modèle",
@@ -1582,19 +1577,19 @@
       "measuredServices": "Mesuré sur cet ordinateur",
       "name": "Nom",
       "baseUrl": "URL de base",
-      "baseUrlHint": "L'adresse avec laquelle ce service est configuré. Si vous la modifiez, le service est enregistré comme point d'accès personnalisé.",
+      "baseUrlHint": "La modifier enregistre un point d'accès personnalisé.",
       "baseUrlEdited": "Modifiée, elle sera donc enregistrée comme point d'accès personnalisé.",
       "baseUrlInvalid": "Saisissez une adresse HTTPS sans identifiants.",
       "nameRequired": "Saisissez un nom.",
       "noPresetMatch": "Aucun fournisseur correspondant.",
       "openProvider": "Ouvrir le fournisseur",
       "preset": "Fournisseur",
-      "presetHint": "Choisissez un fournisseur : l'adresse et le modèle ci-dessous se remplissent tout seuls. Pour tout autre service, modifiez simplement l'adresse. Seuls les fournisseurs largement connus sont listés, et AI Manager ne les recommande ni ne les revend.",
-      "profileError": "AI Manager n'a pas pu charger son modèle de connexion sécurisé. Vos services enregistrés restent inchangés.",
+      "presetHint": "Choisissez un fournisseur pour remplir l'adresse et le modèle ; pour tout autre, modifiez simplement l'adresse.",
+      "profileError": "AI Manager n'a pas pu charger son modèle de connexion. Vos points d'accès enregistrés restent inchangés.",
       "profileErrorTitle": "Impossible de préparer un nouveau point d'accès",
       "profileRetry": "Recharger la configuration de connexion",
       "retryConnect": "Réessayer d'ajouter ce point d'accès",
-      "retryHint": "AI Manager a actualisé l'état du service enregistré. Vos informations sont toujours là ; vérifiez-les, puis réessayez de vous connecter.",
+      "retryHint": "Vos informations sont toujours là. Vérifiez-les et réessayez.",
       "responseTime": "{{latency}} ms",
       "searchPresets": "Rechercher des fournisseurs…",
       "saved": "{{name}} a été enregistré",
@@ -1612,9 +1607,9 @@
     "description": "Choisissez un outil, puis ajoutez, changez et vérifiez ses points d'accès API.",
     "effective": {
       "selection": {
-        "defaultModel": "Modèle par défaut global : {{model}}. Les paramètres de projet, les options en ligne de commande ou la session en cours peuvent le remplacer.",
-        "recentModel": "Modèle récemment utilisé : {{model}}. Il s'agit d'un historique local, pas de la session en cours ni d'une garantie pour la prochaine sélection.",
-        "unknown": "Le point d'accès actif n'a pas pu être confirmé. Les entrées enregistrées ne prouvent pas leur utilisation. Vérifiez la configuration de l'outil et la sélection du modèle."
+        "defaultModel": "Modèle par défaut global : {{model}}. Les paramètres du projet ou de la session peuvent le remplacer.",
+        "recentModel": "Modèle récemment utilisé : {{model}} (historique local).",
+        "unknown": "Le point d'accès actif n'a pas pu être confirmé. Vérifiez la configuration de l'outil."
       },
       "credential": {
         "unknown": "État des identifiants non confirmé",
@@ -1703,7 +1698,7 @@
       "name": "Nom",
       "nameHint": "Affiché uniquement ici, dans cette application.",
       "nameRequired": "Saisissez un nom.",
-      "retryHint": "AI Manager a actualisé l'état du service enregistré. Vérifiez vos modifications, puis réessayez d'enregistrer.",
+      "retryHint": "Vérifiez vos modifications, puis réessayez d'enregistrer.",
       "retrySave": "Réessayer d'enregistrer ce point d'accès",
       "removeHeaderNamed": "Supprimer l'en-tête {{name}}",
       "removeModelNamed": "Supprimer le modèle {{model}}",
@@ -1723,7 +1718,6 @@
     "runtime": {
       "description": "Découvrez où cet outil lit réellement les instructions globales, la mémoire, la configuration et les sessions de projet.",
       "loading": "Vérification des sources de configuration",
-      "localOnlyNote": "Uniquement les emplacements et tailles des fichiers locaux. Le contenu des fichiers n'est pas envoyé.",
       "notCreated": "Non créé",
       "openConfigFolder": "Ouvrir le dossier de configuration",
       "openConfigFile": "Ouvrir le fichier de configuration",
@@ -1795,7 +1789,7 @@
     "scopeUnsupportedShort": "Non intégré",
     "scopeSharedShort": "Partagé avec une application de bureau",
     "scopeUnsupportedTitle": "AI Manager n'a pas encore intégré la configuration des points d'accès de {{tool}}",
-    "scopeUnsupportedDescription": "Cela signifie qu'AI Manager n'a pas encore d'adaptateur sûr pour cet outil, pas nécessairement que {{tool}} ne peut pas utiliser de services personnalisés. L'outil installé reste visible par souci de clarté.",
+    "scopeUnsupportedDescription": "Les points d'accès de {{tool}} ne peuvent pas encore être configurés ici.",
     "scopeSave": {
       "errorDescription": "Vous consultez toujours {{tool}}. Réessayez pour ouvrir cet outil ici la prochaine fois.",
       "errorTitle": "Vue de l'outil non mémorisée",
@@ -1809,7 +1803,7 @@
       "errorNamed": "Impossible de terminer le basculement vers {{name}}",
       "openNow": "Ouvrir maintenant",
       "reopenHint": "{{tool}} déjà en cours d'exécution conserve son ancien point d'accès jusqu'à ce que vous le rouvriez.",
-      "retryHint": "AI Manager a actualisé l'état du service enregistré. Réessayez le même changement.",
+      "retryHint": "Réessayez le même changement.",
       "retryNamed": "Réessayer de basculer vers {{name}}",
       "switchingNamed": "Basculement vers {{name}}"
     },
@@ -1824,7 +1818,7 @@
     "summary": {
       "activeTitle": "{{service}} est actif pour {{tool}}",
       "checked": "Adresses vérifiées",
-      "description": "Changez de service ou vérifiez si leurs adresses répondent. AI Manager s'occupe de la configuration pour vous.",
+      "description": "Changez de point d'accès ou vérifiez si leurs adresses répondent.",
       "eyebrow": "Aperçu de la connexion",
       "noActiveTitle": "Des points d'accès sont enregistrés pour {{tool}}",
       "saved": "Enregistré",
@@ -1832,7 +1826,7 @@
     },
     "start": {
       "action": "Démarrer {{tool}}",
-      "description": "Choisissez un dossier de projet. {{tool}} s'y ouvre dans Terminal ; le service vérifie la clé et le modèle enregistrés à la première utilisation.",
+      "description": "Choisissez un dossier de projet pour ouvrir {{tool}} dans Terminal.",
       "eyebrow": "Étape suivante",
       "title": "Votre configuration est enregistrée. Démarrez dans {{tool}}"
     },
@@ -1846,7 +1840,7 @@
       "latency": "{{ms}} ms",
       "operational": "Adresse atteinte",
       "retry": "Réessayer",
-      "retryHint": "L'échec de la vérification n'a pas modifié ce service. Réessayez la même vérification.",
+      "retryHint": "L'échec de la vérification n'a pas modifié ce point d'accès. Réessayez.",
       "retryNamed": "Revérifier {{name}}",
       "unreachableHint": "Cette adresse n'a pas pu être atteinte depuis votre réseau actuel. Vous pouvez choisir un autre point d'accès compatible."
     },
@@ -1925,7 +1919,7 @@
     "help": "Aide",
     "location": {
       "action": "Afficher dans le gestionnaire de fichiers",
-      "description": "Localisez le fichier actif de ce logiciel, ou son dossier existant le plus proche s'il n'est pas encore créé.",
+      "description": "Afficher l'emplacement du fichier local de ce logiciel.",
       "promptNote": "Les prompts enregistrés et inactifs n'ont pas de fichiers séparés.",
       "label": "Fichier de configuration",
       "open": "Ouvrir le fichier",
@@ -1942,7 +1936,7 @@
     "scope": {
       "unsupportedShort": "Non intégré",
       "unsupportedTitle": "AI Manager n'a pas encore intégré {{kind}} pour {{tool}}",
-      "unsupportedDescription": "AI Manager ne dispose actuellement pas d'un adaptateur de gestion sûr pour cette entrée. Cela ne signifie pas nécessairement que {{tool}} ne possède pas cette fonctionnalité. L'outil installé reste visible par souci de clarté."
+      "unsupportedDescription": "Cet élément ne peut pas encore être géré ici pour {{tool}}."
     },
     "adoption": {
       "import": "Importer",
@@ -1967,19 +1961,19 @@
     },
     "copy": {
       "title": "Copier « {{name}} » vers une autre application",
-      "description": "AI Manager copie le dossier de la compétence. L'original reste à sa place, et les deux copies deviennent indépendantes.",
+      "description": "Après la copie, les deux copies sont indépendantes.",
       "targetsLabel": "Copier vers ces applications",
       "confirm": "Copier",
       "alreadyHas": "L'a déjà",
       "copied": "Copié",
       "failed": "Non copié",
-      "independent": "Copié. Cette copie évolue désormais de façon indépendante ; la modifier n'affectera pas l'original.",
+      "independent": "Copié. Les deux copies sont indépendantes.",
       "noTargets": "Toutes les autres applications compatibles avec les compétences possèdent déjà celle-ci."
     },
     "card": {
       "itemLabel": "{{name}}, élément {{position}} sur {{total}}",
       "detected": "Trouvé sur ce Mac",
-      "detectedDescription": "Déjà utilisé par cet outil. AI Manager se contente de l'afficher ici et ne le copie ni ne le réécrit.",
+      "detectedDescription": "Déjà utilisé par cet outil. Importez-le pour le gérer ici.",
       "onlyIn": "Seul {{tool}} possède cette compétence",
       "alsoIn": "{{tools, list}} possèdent cette compétence",
       "openLocation": "Ouvrir l'emplacement",
@@ -2043,19 +2037,19 @@
       "catalog": {
         "add": "Ajouter une compétence",
         "title": "Ajouter une compétence",
-        "description": "Choisissez un savoir-faire prêt à l'emploi pour {{tool}}. Le catalogue se charge depuis GitHub tant que cette fenêtre est ouverte, avec un relais de transport vérifié en cas de panne temporaire.",
+        "description": "Choisissez un savoir-faire prêt à l'emploi pour {{tool}}.",
         "searchLabel": "Rechercher dans le catalogue de compétences",
         "searchPlaceholder": "Rechercher des compétences ou des dépôts",
-        "trustNote": "Le dépôt GitHub affiché sur chaque ligne reste la source. Un canal jsDelivr de confiance ne fait que transporter ses fichiers publics vérifiés par taille et SHA-256.",
-        "loading": "Chargement du catalogue de compétences depuis ses sources GitHub…",
+        "trustNote": "Chaque compétence provient du dépôt GitHub indiqué sur sa ligne.",
+        "loading": "Chargement du catalogue de compétences…",
         "errorTitle": "Impossible de charger le catalogue de compétences",
-        "errorDescription": "Réessayez. Si les deux chemins source restent injoignables, ouvrez Réglages et configurez le proxy de téléchargement local.",
+        "errorDescription": "Réessayez. Si l'échec persiste, configurez un proxy de téléchargement local dans Paramètres.",
         "refreshingTitle": "Vérification du dernier catalogue de compétences",
         "refreshingDescription": "Vous pouvez continuer à parcourir le dernier catalogue. L'installation devient disponible une fois la vérification terminée.",
         "refreshErrorTitle": "Impossible d'actualiser le catalogue de compétences",
         "refreshErrorDescription": "Le dernier catalogue reste affiché. L'installation reste suspendue jusqu'à la réussite d'une nouvelle vérification ; si besoin, configurez le proxy de téléchargement local dans Paramètres.",
-        "mirrorTitle": "Catalogue chargé via un relais de confiance",
-        "mirrorDescription": "GitHub n'a pas répondu à cette vérification, AI Manager a donc utilisé jsDelivr pour transporter un instantané vérifié par taille et SHA-256. Le dépôt GitHub reste la référence, et aucun paramètre global n'a changé.",
+        "mirrorTitle": "Catalogue chargé via un canal de secours",
+        "mirrorDescription": "GitHub n'a pas répondu, mais le contenu provient toujours des dépôts d'origine.",
         "retry": "Réessayer",
         "empty": "Aucune compétence disponible",
         "noResults": "Aucune compétence ne correspond à cette recherche",
@@ -2077,12 +2071,12 @@
         "description": "Choisissez une archive locale pour {{tool}}. Le fichier reste sur cet ordinateur.",
         "choose": "Choisir un ZIP et installer",
         "trustTitle": "Utilisez une archive de confiance",
-        "trustDescription": "AI Manager lit l'archive localement et rejette les chemins non sûrs et les extractions surdimensionnées. Ses fichiers peuvent tout de même modifier le comportement de votre outil IA.",
+        "trustDescription": "Ses fichiers peuvent modifier le comportement de votre outil IA.",
         "formatTitle": "Ce que l'archive doit contenir",
         "formatDescription": "Utilisez un fichier .zip contenant au moins un dossier de compétence avec un SKILL.md.",
         "syncTitle": "Et ensuite",
         "syncDescription": "Les nouvelles compétences sans conflit sont ajoutées au stockage géré et synchronisées avec cet outil.",
-        "partialNote": "Si une compétence plus loin dans l'archive échoue, les compétences précédentes peuvent déjà être installées. Activité affiche le résultat et la liste des compétences s'actualise automatiquement.",
+        "partialNote": "Si une compétence échoue en cours de route, les précédentes peuvent déjà être installées. Consultez le résultat dans Activité.",
         "queued": "Installation des compétences depuis un ZIP",
         "queuedDescription": "Vous pouvez continuer à travailler et suivre la progression dans Activité.",
         "errorHint": "Vérifiez le message, choisissez à nouveau l'archive, puis réessayez."
@@ -2092,7 +2086,7 @@
         "title": "Copies de récupération des compétences",
         "description": "Restaurez ou supprimez les copies locales créées avant la suppression d'une compétence gérée. La restauration l'active pour {{tool}}.",
         "localTitle": "Stockées uniquement sur cet ordinateur",
-        "localDescription": "AI Manager conserve jusqu'à 20 copies récentes. Leurs fichiers et chemins ne quittent jamais cet appareil.",
+        "localDescription": "Jusqu'à 20 copies récentes sont conservées.",
         "refresh": "Actualiser",
         "loading": "Lecture des copies de récupération des compétences",
         "errorTitle": "Impossible de lire les copies de récupération des compétences",
@@ -2115,7 +2109,7 @@
       "repositories": {
         "manage": "Gérer les sources",
         "title": "Sources de compétences",
-        "description": "Choisissez quels dépôts GitHub de confiance alimentent le catalogue de compétences. Les compétences installées sont gérées séparément.",
+        "description": "Choisissez les dépôts GitHub qui apparaissent dans le catalogue de compétences.",
         "back": "Retour au catalogue",
         "location": "Dépôt GitHub",
         "locationPlaceholder": "owner/repository or https://github.com/owner/repository",
@@ -2154,7 +2148,7 @@
         "knownCount_one": "{{count}} mise à jour de compétence connue est disponible",
         "knownCount_other": "{{count}} mises à jour de compétences connues sont disponibles",
         "checkErrorTitle": "Impossible de terminer la vérification des mises à jour de compétences",
-        "checkErrorDescription": "Certaines sources de compétences peuvent être injoignables. Les compétences existantes fonctionnent toujours, mais cela ne prouve pas que tout est à jour.",
+        "checkErrorDescription": "Certaines sources de compétences sont injoignables. Les compétences existantes fonctionnent toujours.",
         "retry": "Revérifier",
         "queued": "Mise à jour de {{name}}",
         "queuedDescription": "Vous pouvez continuer à travailler et suivre la progression dans Activité."
@@ -2253,14 +2247,14 @@
         "editTitle": "Modifier {{name}}",
         "description": "Conservez des instructions réutilisables pour {{tool}} sans ouvrir ses fichiers de configuration.",
         "save": "Enregistrer les instructions",
-        "activeBackup": "Ces instructions sont utilisées actuellement. Avant de modifier le fichier actif, AI Manager enregistre une copie de récupération horodatée et vérifie le remplacement.",
+        "activeBackup": "Ces instructions sont utilisées. L'enregistrement les applique immédiatement.",
         "readErrorTitle": "Impossible d'ouvrir ces instructions",
         "retryRead": "Relire",
         "saveErrorTitle": "Impossible d'enregistrer ces instructions",
         "name": "Nom de l'instruction",
         "optionalDescription": "Description (facultatif)",
         "content": "Instructions",
-        "contentHint": "Rédigez du texte brut ou du Markdown. Ces instructions peuvent être envoyées à l'outil IA lors de conversations futures.",
+        "contentHint": "Rédigez du texte brut ou du Markdown.",
         "validation": {
           "name": {
             "required": "Donnez un nom à ces instructions.",
@@ -2378,7 +2372,7 @@
   "sessions": {
     "inventoryError": "La liste des logiciels n'a pas pu être actualisée. Les sessions existantes restent disponibles.",
     "title": "Sessions locales",
-    "description": "Recherchez les conversations enregistrées par vos outils de codage IA et reprenez en toute sécurité les sessions prises en charge dans Terminal.",
+    "description": "Recherchez les conversations enregistrées sur cet ordinateur et reprenez-les dans Terminal.",
     "loading": "Chargement des sessions locales",
     "refresh": "Actualiser",
     "hero": {
@@ -2417,14 +2411,14 @@
     "thread": {
       "title": "Aperçu de la conversation",
       "emptyTitle": "Choisissez une conversation",
-      "emptyDescription": "Le contenu des messages n'est lu qu'après que vous avez explicitement sélectionné une session locale.",
+      "emptyDescription": "Choisissez une conversation pour la lire.",
       "loading": "Chargement de la conversation",
       "errorTitle": "Impossible de lire cette conversation",
       "retry": "Réessayer",
       "limited": "Seule la partie la plus récente est affichée ({{count}} messages au total).",
       "noMessages": "Aucun message lisible n'a été trouvé dans cette session.",
       "messages": "Messages de la session",
-      "messageTruncated": "Ce message long a été raccourci pour un affichage sûr."
+      "messageTruncated": "Ce message est trop long et a été raccourci."
     },
     "resume": {
       "action": "Reprendre dans Terminal",
@@ -2486,7 +2480,7 @@
     },
     "advanced": {
       "label": "Mode avancé",
-      "description": "Affiche des détails techniques tels que l'emplacement des fichiers. D'autres outils avancés arriveront dans de prochaines mises à jour.",
+      "description": "Affiche des détails techniques tels que l'emplacement des fichiers.",
       "saving": "Enregistrement…",
       "saved": "Enregistré",
       "error": "Non enregistré",
@@ -2525,12 +2519,12 @@
     "network": {
       "proxy": {
         "title": "Proxy de téléchargement local",
-        "description": "Pour les mises à jour signées d'AI Manager, les mises à jour natives de Claude et les autres téléchargements CLI officiels qu'un miroir de registre ne peut pas aider, acheminez le trafic sortant via un proxy déjà en cours d'exécution sur cet ordinateur.",
+        "description": "Lorsque les téléchargements d'outils ou d'applications échouent, faites-les passer par un proxy déjà en cours d'exécution sur cet ordinateur.",
         "active": "Actif",
         "protected": "Paramètre protégé",
         "protectedHint": "Un proxy préexistant contient des identifiants ou une adresse distante ; AI Manager l'utilisera mais ne l'affichera pas ici. Remplacez-le par une adresse locale ou effacez-le.",
         "label": "Adresse du proxy local",
-        "hint": "HTTP, HTTPS, SOCKS5 ou SOCKS5H sur localhost/127.0.0.1/::1 avec un port explicite. Les identifiants et les hôtes distants ne sont pas acceptés ici.",
+        "hint": "Par exemple http://127.0.0.1:7890. Adresses locales uniquement, sans identifiants.",
         "loading": "Lecture du proxy de téléchargement",
         "readError": "Impossible de lire le proxy de téléchargement actuel.",
         "save": "Utiliser ce proxy"
@@ -2644,9 +2638,9 @@
       },
       "safety": {
         "title": "Les deux configurations restent intactes",
-        "sourceUntouched": "L'application d'origine et sa base de données locale ne sont jamais modifiées ni supprimées.",
+        "sourceUntouched": "Rien n'est modifié dans CC Switch.",
         "backupFirst": "AI Manager enregistre une sauvegarde de sécurité de sa configuration actuelle avant d'appliquer l'import.",
-        "skipHarmless": "Ignorer ne coûte rien. La configuration de Claude Code, Codex et de vos autres outils est lue et gérée de toute façon ; ce choix n'y change rien. Vous pouvez importer plus tard depuis Paramètres."
+        "skipHarmless": "Vous pouvez ignorer cette étape. Vous pourrez importer plus tard depuis Paramètres."
       },
       "completion": {
         "title": "Configuration importée",
@@ -2685,7 +2679,7 @@
     },
     "updates": {
       "title": "À propos et mises à jour",
-      "description": "Affiche la version installée et l'état du canal de mise à jour signé du produit.",
+      "description": "Consultez la version installée et recherchez des mises à jour.",
       "check": "Vérifier maintenant",
       "retry": "Réessayer",
       "openDownloadPage": "Ouvrir la page de téléchargement officielle",
@@ -2712,7 +2706,7 @@
       "unknown": "Vérification impossible",
       "error": {
         "title": "État de la mise à jour indisponible",
-        "description": "AI Manager n'a pas pu joindre ni vérifier de mise à jour signée après le nombre de tentatives autorisé. Réessayez ou ouvrez la page de téléchargement officielle ; rien n'a été installé."
+        "description": "Impossible de joindre ou de vérifier une mise à jour. Réessayez ou ouvrez la page de téléchargement officielle."
       }
     },
     "backup": {
@@ -2851,7 +2845,7 @@
       "label": "Afficher par outil",
       "unsupportedShort": "Non intégré",
       "unsupportedTitle": "AI Manager n'a pas encore intégré les données locales de {{tool}}",
-      "unsupportedDescription": "Cela signifie qu'AI Manager n'a pas encore de lecteur sûr pour cet outil, pas que {{tool}} n'a aucune donnée locale. L'outil installé reste visible par souci de clarté."
+      "unsupportedDescription": "Les données locales de {{tool}} ne peuvent pas encore être affichées ici."
     },
     "storage": {
       "title": "Contexte et stockage locaux",

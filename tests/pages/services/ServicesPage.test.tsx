@@ -1525,9 +1525,7 @@ describe("ServicesPage", () => {
     });
     expect(alert).toHaveTextContent(en.error.provider.switchFailed);
     expect(alert).toHaveTextContent(en.error.remediation.checkPermissions);
-    expect(alert).toHaveTextContent(
-      "AI Manager refreshed the saved service state. Try the same switch again.",
-    );
+    expect(alert).toHaveTextContent(en.services.switch.retryHint);
     // Technical detail stays folded behind View details, never primary copy.
     expect(within(alert).getByText(/\/private\/tool\.json/)).not.toBeVisible();
     expect(within(otherCard).queryByRole("alert")).toBeNull();
@@ -1576,7 +1574,7 @@ describe("ServicesPage", () => {
 
     const dialog = screen.getByRole("dialog", { name: "Open Claude Code" });
     expect(
-      within(dialog).getByText(en.tools.open.localTitle),
+      within(dialog).getByRole("button", { name: en.tools.open.chooseFolder }),
     ).toBeInTheDocument();
     expect(seen).toEqual([]);
 
@@ -1890,9 +1888,7 @@ describe("ServicesPage", () => {
     });
     expect(alert).toHaveTextContent(en.error.provider.saveFailed);
     expect(alert).toHaveTextContent(en.error.remediation.checkServiceSettings);
-    expect(alert).toHaveTextContent(
-      "AI Manager refreshed the saved service state. Review your changes, then try saving again.",
-    );
+    expect(alert).toHaveTextContent(en.services.form.retryHint);
     // Technical detail stays folded behind View details, never primary copy.
     expect(within(alert).getByText(/\/private\/tool\.json/)).not.toBeVisible();
     expect(alert).not.toHaveTextContent("sk-typed-but-not-saved");

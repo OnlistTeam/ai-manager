@@ -127,7 +127,6 @@ describe("SkillCatalogModal", () => {
       en.extensions.skill.catalog.mirrorDescription,
     );
     expect(notice).toHaveTextContent("GitHub");
-    expect(notice).toHaveTextContent("SHA-256");
   });
 
   it("keeps long catalog descriptions and repository identities readable", async () => {

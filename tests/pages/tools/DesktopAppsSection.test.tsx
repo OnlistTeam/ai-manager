@@ -476,11 +476,10 @@ describe("DesktopAppsSection", () => {
       name: "Download Claude Desktop",
     });
     expect(dialog).toHaveTextContent(
-      "without sending you through a foreign product page first",
+      en.tools.desktopApps.downloadHelp.directDescription,
     );
-    expect(dialog).toHaveTextContent("browser or system proxy");
     expect(dialog).toHaveTextContent(
-      "CLI download proxy does not control the browser",
+      en.tools.desktopApps.downloadHelp.restrictedNetwork,
     );
     await userEvent.click(
       within(dialog).getByRole("button", { name: "Retry official download" }),

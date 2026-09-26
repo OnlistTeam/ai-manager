@@ -232,7 +232,7 @@
     "sync": {
       "running": "로컬 사용량 동기화 중",
       "runningHint": "로컬 세션을 검색하는 중입니다. 이 페이지를 벗어나도 동기화는 계속됩니다.",
-      "largeHistory": "처음 동기화하거나 기록이 많으면 몇 분 정도 걸릴 수 있습니다. 동기화를 다시 시작할 필요는 없으며, 저장된 요약이 계속 표시되다가 완료되면 갱신됩니다.",
+      "largeHistory": "처음 동기화하거나 기록이 많으면 몇 분 정도 걸릴 수 있습니다.",
       "elapsed": "경과 시간: {{seconds}}초",
       "action": "로컬 사용량 동기화",
       "success": "로컬 파일 {{filesScanned}}개를 검색해 새 기록 {{recordsImported}}건을 추가했습니다.",
@@ -242,11 +242,11 @@
     },
     "privacy": {
       "title": "집계와 로컬 처리를 기본 원칙으로",
-      "description": "이 페이지는 프롬프트, 응답, 요청 ID, 경로, 제공자 설정, 자격 증명을 표시하지 않습니다. 동기화는 이 컴퓨터에 있는 지원 대상 CLI 세션 파일을 읽을 뿐, 제공자에게 연결하지 않습니다."
+      "description": "로컬 세션 파일의 사용량만 집계하며 대화 내용은 표시하지 않습니다."
     },
     "empty": {
       "title": "아직 로컬 사용량 기록이 없습니다",
-      "description": "지원되는 CLI 세션을 동기화하면 첫 집계 화면이 만들어집니다. 아무것도 업로드되지 않습니다."
+      "description": "로컬 세션을 동기화하면 여기에 사용량이 표시됩니다."
     },
     "error": {
       "title": "로컬 사용량을 읽을 수 없습니다",
@@ -492,7 +492,7 @@
       "endpointRequired": "이 링크에 API 엔드포인트 주소가 지정되어 있지 않습니다.",
       "invalidEncoding": "이 링크에 담긴 정보가 손상되어 읽을 수 없습니다.",
       "invalidLink": "AI Manager가 읽을 수 있는 링크가 아닙니다.",
-      "mcpUnsupportedFields": "이 링크는 MCP 서버에 환경 변수 값이나 요청 헤더를 설정하려고 합니다. AI Manager는 이를 자동으로 추가하지 않으므로 이 링크를 사용할 수 없습니다.",
+      "mcpUnsupportedFields": "이 링크는 MCP 서버에 환경 변수나 요청 헤더를 설정하려 하며, 링크로는 아직 가져올 수 없습니다.",
       "missingParameter": "이 링크를 가져오는 데 필요한 정보가 빠져 있습니다.",
       "notPending": "이 링크는 더 이상 대기 중이 아닙니다. 만료되었거나 이미 처리되었을 수 있습니다.",
       "tooLarge": "이 링크가 너무 길어 안전하게 읽을 수 없습니다.",
@@ -667,12 +667,12 @@
       "checkConnectionSettings": "이름, API 키, 모델을 확인한 다음 다시 시도하세요.",
       "checkInternetConnection": "인터넷 연결을 확인한 다음 다시 시도하세요.",
       "checkLocalFileAccess": "스킬이 여전히 원래 위치에 있고 시스템이 이를 열 수 있는지 확인한 다음 다시 시도하세요.",
-      "checkServiceRegion": "제조사가 지원하는 지역을 확인하세요. AI Manager는 계정이나 서비스 지역 제한을 우회하지 않습니다.",
+      "checkServiceRegion": "제조사가 지원하는 지역을 확인하세요.",
       "checkMcpSettings": "MCP 이름과 연결 세부 정보를 확인한 다음 다시 시도하세요.",
       "checkPromptSettings": "지침 이름과 내용을 확인한 다음 다시 시도하세요.",
       "checkPermissions": "AI Manager가 홈 폴더의 파일을 변경할 수 있는지 확인한 다음 다시 시도하세요.",
       "checkServiceSettings": "이름과 키를 확인한 다음 다시 시도하세요.",
-      "configureInstallNetwork": "작업 로그를 확인하세요. 제조사 다운로드에 연결할 수 없다면 설정에서 로컬 프록시를 구성한 다음 다시 시도하세요. npm이 소유한 도구는 이미 공식 우선 미러 대체 경로를 자동으로 사용합니다.",
+      "configureInstallNetwork": "활동에서 작업 로그를 확인하세요. 다운로드에 연결할 수 없다면 설정에서 로컬 다운로드 프록시를 구성한 다음 다시 시도하세요.",
       "chooseListedVersion": "레지스트리 목록에 있는 버전 중 하나를 선택한 다음 다시 시도하세요.",
       "installManually": "공식 웹사이트에서 이 도구를 직접 설치할 수 있습니다.",
       "uninstallDesktopAppManually": "운영체제의 앱 관리 기능을 사용해 이 데스크톱 애플리케이션을 제거하세요.",
@@ -942,7 +942,7 @@
     "details": {
       "action": "세부 정보",
       "title": "{{name}} 세부 정보",
-      "description": "로컬 설정, 메모리, 저장 공간을 확인하세요. 전역 프롬프트는 전용 페이지에서 관리합니다."
+      "description": "이 소프트웨어의 로컬 설정, 메모리, 저장 공간을 확인하세요."
     },
     "title": "소프트웨어 관리자",
     "description": "AI 코딩 소프트웨어를 설치, 업데이트, 제거하거나 버전을 전환하세요.",
@@ -957,7 +957,7 @@
     "discovery": {
       "eyebrow": "목적에 맞게 선택",
       "title": "무엇을 설치할지 모르겠나요?",
-      "description": "아직 설치하지 않은 도구를 원하는 작업 기준으로 비교하세요. 이는 시나리오 매칭일 뿐, 유료 광고나 순위가 아닙니다.",
+      "description": "아직 설치하지 않은 도구를 원하는 작업 기준으로 비교하세요.",
       "scenarioLabel": "하려는 작업 선택",
       "scenario": {
         "officialCoding": "제조사의 공식 코딩 도구 사용",
@@ -966,15 +966,14 @@
       },
       "publisher": "{{publisher}} 제공",
       "access": {
-        "vendorOrProvider": "제조사의 유료 플랜, 로그인 또는 API 크레딧이 필요할 수 있으며, 접근 권한과 가격은 제조사가 정합니다.",
+        "vendorOrProvider": "제조사의 유료 플랜, 로그인 또는 API 크레딧이 필요할 수 있습니다.",
         "provider": "모델 제공자나 로컬 모델이 필요합니다. 일부 제공자는 API 크레딧에 요금을 부과합니다."
       },
-      "choose": "{{name}} 보기",
-      "costNote": "AI Manager는 계정이나 크레딧을 판매하지 않습니다. 설치하기 전에 제조사나 제공자에게 현재 자격 요건과 가격을 확인하세요."
+      "choose": "{{name}} 보기"
     },
     "version": {
       "title": "{{name}} 버전 관리",
-      "description": "일반 설치와 업데이트는 권장되는 최신 안정 버전을 자동으로 사용합니다. 이 기능은 호환성, 롤백, 또는 특정 버전을 수동으로 선택할 때만 사용하세요.",
+      "description": "호환성이나 롤백이 필요할 때만 버전을 수동으로 선택하세요.",
       "loading": "게시된 버전을 불러오는 중",
       "current": "현재 버전",
       "notInstalled": "설치되지 않음",
@@ -990,8 +989,8 @@
       "currentDefault": "권장 최신 버전이 이미 설치되어 있습니다.",
       "nonDefaultWarning": "권장하지 않는 버전을 수동으로 선택하고 있습니다. 필요한 버전을 확인한 후 호환성이나 롤백 용도로만 사용하세요.",
       "defaultChannelNote": "일반 설치와 업데이트는 권장되는 최신 안정 버전인 {{version}}을(를) 자동으로 사용합니다. 수동으로 선택할 필요는 없습니다.",
-      "ownerPreserved": "AI Manager는 이 CLI를 소유한 패키지 관리자를 사용합니다. 다운그레이드하면 실행 파일은 바뀌지만 도구 설정은 유지됩니다.",
-      "mirrorUsed": "기본 레지스트리가 응답하지 않아 이 목록은 커뮤니티 미러를 통해 불러왔습니다. 전역 패키지 관리자 설정은 변경되지 않았습니다.",
+      "ownerPreserved": "다운그레이드하면 프로그램 버전만 바뀌고 도구 설정은 유지됩니다.",
+      "mirrorUsed": "기본 레지스트리가 응답하지 않아 이 목록은 커뮤니티 미러를 통해 불러왔습니다.",
       "restrictedTitle": "이 설치에서는 자동 버전 전환이 비활성화되어 있습니다",
       "source": {
         "notInstalled": "설치되지 않음 · 패키지 레지스트리 사용 예정",
@@ -1006,9 +1005,9 @@
         "unmanaged": "알 수 없음 또는 수동 관리"
       },
       "restriction": {
-        "nativeInstaller": "이 사본은 공식 설치 프로그램에서 왔습니다. AI Manager는 같은 공식 프로그램으로 업데이트하며 두 번째 사본을 설치하지 않습니다.",
+        "nativeInstaller": "이 사본은 공식 설치 프로그램에서 왔습니다. 일반 업데이트를 사용하세요.",
         "brew": "Homebrew가 이 사본을 소유하고 있습니다. 일반 업데이트 작업을 사용하세요. 별도로 관리되는 버전으로 전환하면 설치본이 두 개 남게 됩니다.",
-        "unmanaged": "AI Manager는 이 사본을 어떤 패키지 관리자가 소유하는지 확인할 수 없어 다른 버전을 그 위에 설치하지 않습니다."
+        "unmanaged": "이 사본을 어떤 패키지 관리자가 설치했는지 확인할 수 없어 여기서 버전을 전환할 수 없습니다."
       }
     },
     "updateRecovery": {
@@ -1061,7 +1060,7 @@
     },
     "desktopApps": {
       "title": "데스크톱 애플리케이션",
-      "description": "AI Manager는 제조사가 서명한 데스크톱 앱을 명령줄 도구와 별도로 확인합니다. 이 운영체제와 칩에 맞는 고정된 공식 패키지나 다운로드 페이지를 선택하며, 브라우저와 시스템 설치 프로그램이 다운로드와 설치를 완료합니다.",
+      "description": "제조사의 공식 데스크톱 앱을 열거나 다운로드하거나 제거합니다.",
       "loading": "데스크톱 애플리케이션을 확인하는 중",
       "refresh": "앱 새로고침",
       "refreshError": "마지막 앱 확인 결과가 계속 표시됩니다. 신뢰하기 전에 다시 새로고침하세요.",
@@ -1073,23 +1072,23 @@
       "items": {
         "codex-app": {
           "surface": "OpenAI 데스크톱 앱 · ChatGPT / Codex",
-          "description": "Codex CLI 설치와 업데이트는 별도로 유지하면서 OpenAI의 그래픽 데스크톱 환경에서 ChatGPT나 Codex를 사용하세요."
+          "description": "데스크톱 창에서 ChatGPT나 Codex를 사용하세요."
         },
         "claude-desktop": {
           "surface": "Anthropic 데스크톱 앱",
-          "description": "터미널의 Claude Code와 독립적으로 Claude의 그래픽 데스크톱 환경을 사용하세요."
+          "description": "데스크톱 창에서 Claude를 사용하세요."
         },
         "cursor": {
           "surface": "Cursor AI 코드 편집기",
-          "description": "Cursor를 독립적인 그래픽 코드 편집기로 사용하세요. 설치, 계정, 확장 기능, 업데이트는 제조사가 관리합니다."
+          "description": "AI가 내장된 그래픽 코드 편집기입니다."
         },
         "zcode": {
           "surface": "Z.ai 데스크톱 코딩 앱",
-          "description": "ZCode를 독립적인 그래픽 코딩 애플리케이션으로 사용하세요. 설치와 설정은 제조사가 관리합니다."
+          "description": "Z.ai의 그래픽 코딩 앱입니다."
         },
         "cherry-studio": {
           "surface": "Cherry Studio 데스크톱 앱",
-          "description": "관리되는 모든 CLI와 독립적인, 독립형 다중 모델 데스크톱 클라이언트로 Cherry Studio를 사용하세요."
+          "description": "여러 모델을 쓸 수 있는 데스크톱 클라이언트입니다."
         }
       },
       "status": {
@@ -1120,7 +1119,7 @@
         "codex": "Codex CLI",
         "claude-code": "Claude Code"
       },
-      "vendorUpdates": "제조사의 업데이트 프로그램이 항상 우선합니다. \"최신 버전 다운로드\"는 복구용 이동일 뿐, 새 버전이 있다는 증거가 아닙니다. 필요하면 브라우저나 시스템 프록시를 사용하세요. AI Manager는 패키지를 미러링하거나 지역 제한을 우회하지 않습니다.",
+      "vendorUpdates": "앱은 제조사가 업데이트합니다. \"최신 버전 다운로드\"는 새 버전이 있다는 뜻이 아닙니다.",
       "action": {
         "open": "앱 열기",
         "openNamed": "{{name}} 열기",
@@ -1151,11 +1150,9 @@
       },
       "downloadHelp": {
         "title": "{{name}} 다운로드",
-        "directDescription": "AI Manager는 다른 제품 페이지를 거치지 않고 이 컴퓨터에 맞는 제조사의 공식 설치 프로그램을 바로 엽니다.",
-        "pageDescription": "이 시스템에 맞는 고정 설치 프로그램이 없어 AI Manager는 제조사의 공식 다운로드 페이지만 열 수 있습니다.",
-        "architecture": "AI Manager가 시스템과 칩을 로컬에서 식별하므로 Intel, Apple 실리콘, x64, Arm64 중에서 선택할 필요가 없습니다.",
-        "systemOwned": "브라우저가 파일을 다운로드하고 시스템 설치 프로그램이 서명을 확인합니다. AI Manager는 절대 조용히 설치하지 않습니다.",
-        "restrictedNetwork": "네트워크에서 공식 주소에 연결할 수 없다면 브라우저나 시스템 프록시를 설정한 다음 다시 시도하세요. AI Manager의 CLI 다운로드 프록시는 브라우저를 제어하지 않으며, AI Manager는 서드파티 설치 프로그램을 미러링하거나 지역 제한을 우회하지 않습니다.",
+        "directDescription": "이 컴퓨터에 맞는 공식 설치 프로그램을 바로 다운로드합니다.",
+        "pageDescription": "이 시스템에 맞는 고정 설치 프로그램이 없어 제조사의 공식 다운로드 페이지를 엽니다.",
+        "restrictedNetwork": "공식 주소에 연결할 수 없다면 브라우저나 시스템 프록시를 설정한 다음 다시 시도하세요. 설정의 다운로드 프록시는 브라우저에 적용되지 않습니다.",
         "retry": "공식 다운로드 다시 시도"
       },
       "uninstall": {
@@ -1184,8 +1181,6 @@
     "open": {
       "title": "{{name}} 열기",
       "description": "기본 폴더에서 {{name}}을(를) 시작하거나, 먼저 프로젝트 폴더를 선택하세요.",
-      "localTitle": "프로젝트는 비공개로 유지됩니다",
-      "localHint": "폴더를 선택해도 파일이 업로드, 스캔, 변경되지 않습니다.",
       "confirm": "지금 시작",
       "launchDefault": "지금 시작",
       "chooseFolder": "폴더 선택",
@@ -1236,7 +1231,7 @@
       "commands": "예정된 명령",
       "installations": "발견된 설치",
       "otherInstallation": "다른 설치",
-      "rechecked": "AI Manager는 시작하기 전에 설치와 업데이트 계획을 다시 확인합니다. 변경 사항이 있으면 중단하고 다시 검토를 요청합니다.",
+      "rechecked": "업데이트를 시작하기 전에 설치 상태가 바뀌면 중단하고 다시 검토를 요청합니다.",
       "paused": "AI Manager가 도구와 작업 상태를 새로고침하는 동안 업데이트는 일시 중지됩니다.",
       "method": {
         "nativeSelfUpdate": "{{name}}의 자체 업데이트 프로그램 사용",
@@ -1264,7 +1259,7 @@
       },
       "blocked": {
         "notInstalled": "더 이상 이 도구가 설치되어 있지 않아 업데이트할 항목이 없습니다.",
-        "ambiguousInstallation": "설치본이 여러 개 발견되었지만, AI Manager는 명령줄이 현재 어떤 것을 사용하는지 알 수 없습니다. 추측하지 않습니다.",
+        "ambiguousInstallation": "설치본이 여러 개 발견되어 명령줄이 현재 어떤 것을 사용하는지 알 수 없습니다.",
         "unsupportedInstallation": "이 설치에는 안전한 자동 업데이트 방법이 없습니다.",
         "inspectionFailed": "AI Manager가 이 설치 확인을 마치지 못했습니다."
       },
@@ -1293,7 +1288,7 @@
       "keepSettingsHint": "설정과 저장된 대화는 이 컴퓨터에 남아 있으므로, 다시 설치하면 중단한 지점부터 이어갈 수 있습니다.",
       "option": {
         "app": "앱 제거",
-        "appHint": "항상 처리됩니다. 감지된 설치의 정확한 명령이나 프로그램 경로는 아래에 표시됩니다.",
+        "appHint": "항상 포함됩니다. 사용할 명령이나 경로는 아래에 표시됩니다.",
         "settings": "설정 제거",
         "settingsHint": "이 도구의 설정 폴더를 삭제합니다.",
         "cache": "캐시 제거",
@@ -1302,8 +1297,8 @@
       "preview": {
         "loading": "정확한 명령과 경로를 확인하는 중…",
         "none": "별도 경로가 없어 이 옵션으로는 추가 파일이 삭제되지 않습니다.",
-        "protected": "자동 제거 안전 범위를 벗어나 있어 AI Manager가 건드리지 않습니다.",
-        "rechecked": "실행 전에 설치 소유자와 경로를 다시 확인합니다. 표시된 값이 삭제 명령으로 그대로 전달되지는 않습니다.",
+        "protected": "이 경로는 자동 제거 범위를 벗어나 건너뜁니다.",
+        "rechecked": "제거하기 전에 설치 소스와 경로를 다시 확인합니다.",
         "kind": {
           "command": "명령",
           "directory": "폴더",
@@ -1321,11 +1316,11 @@
       },
       "warning": {
         "sessionsInsideSettings": "이 도구는 저장된 대화를 설정 폴더 안에 보관하므로, 설정을 제거하면 대화도 함께 삭제됩니다.",
-        "outsideHome": "홈 폴더 밖에 있는 파일은 절대 삭제되지 않습니다. 이 도구가 그곳에 설정을 저장한다면 AI Manager는 삭제 전에 멈추며 아무것도 손실되지 않습니다. 앱만 제거하려면 이 확인란을 해제하고 다시 시도하세요."
+        "outsideHome": "홈 폴더 밖의 파일은 삭제되지 않습니다. 이 도구의 설정이 그곳에 있다면 이 확인란을 해제해 앱만 제거하세요."
       },
       "reason": {
         "nothingToRemove": "이 도구는 이런 종류의 별도 파일을 보관하지 않아 여기서 삭제할 항목이 없습니다.",
-        "protected": "이 위치는 홈 폴더 밖에 있어 AI Manager가 삭제하지 않습니다."
+        "protected": "이 위치는 홈 폴더 밖에 있어 자동으로 제거할 수 없습니다."
       }
     }
   },
@@ -1357,7 +1352,7 @@
       "nothingInstalled": "아직 설치된 도구가 없습니다",
       "review": "검토",
       "startTool": "{{name}}(으)로 시작",
-      "startHint": "프로젝트 폴더를 선택하세요. 서비스는 처음 사용할 때 접근 권한을 확인합니다.",
+      "startHint": "프로젝트 폴더를 선택해 시작하세요.",
       "inventory": {
         "label": "준비된 설정 세부 정보",
         "servicesConfigured_one": "API 엔드포인트 {{count}}개 설정됨",
@@ -1568,13 +1563,13 @@
         "operational": "{{name}}을(를) 저장했고 주소가 응답했습니다"
       },
       "addressRetry": "설정은 유지됩니다. 네트워크를 확인한 다음 주소 확인을 다시 실행하세요.",
-      "afterSave": "저장 후 AI Manager는 서비스 주소만 확인합니다. {{tool}}이(가) 처음 사용할 때 키와 모델을 확인합니다.",
-      "description": "{{tool}}에 사용할 API 서비스를 추가하세요. AI Manager가 대신 설정해 드립니다.",
+      "afterSave": "저장할 때는 주소만 확인합니다. 키와 모델은 {{tool}}이(가) 처음 사용할 때 확인합니다.",
+      "description": "{{tool}}에 사용할 API 엔드포인트를 추가하세요.",
       "errorTitle": "이 엔드포인트를 추가할 수 없습니다",
-      "firstUse": "{{tool}}이(가) 처음 사용할 때 API 키와 모델을 확인합니다.",
+      "firstUse": "{{tool}}이(가) 처음 사용할 때 키와 모델을 확인합니다.",
       "getKey": "API 키 받기",
       "key": "API 키",
-      "keyHint": "로컬에 저장됩니다. 엔드포인트 카드와 편집기에서 키를 보고 복사할 수 있습니다.",
+      "keyHint": "이 컴퓨터에만 저장됩니다.",
       "keyPlaceholder": "API 키를 붙여넣으세요",
       "keyRequired": "API 키를 붙여넣으세요.",
       "model": "모델",
@@ -1582,19 +1577,19 @@
       "measuredServices": "이 컴퓨터에서 측정됨",
       "name": "이름",
       "baseUrl": "Base URL",
-      "baseUrlHint": "이 서비스에 설정되는 주소입니다. 수정하면 사용자 지정 엔드포인트로 저장됩니다.",
+      "baseUrlHint": "수정하면 사용자 지정 엔드포인트로 저장됩니다.",
       "baseUrlEdited": "수정되었으므로 사용자 지정 엔드포인트로 저장됩니다.",
       "baseUrlInvalid": "자격 증명이 없는 HTTPS 주소를 입력하세요.",
       "nameRequired": "이름을 입력하세요.",
       "noPresetMatch": "일치하는 제공자가 없습니다.",
       "openProvider": "제공자 열기",
       "preset": "제공자",
-      "presetHint": "제공자를 고르면 아래 주소와 모델이 자동으로 채워집니다. 목록에 없는 서비스는 주소를 직접 고치면 됩니다. 널리 알려진 제공자만 표시하며, AI Manager가 이를 보증하거나 재판매하지 않습니다.",
-      "profileError": "AI Manager가 안전한 연결 템플릿을 불러오지 못했습니다. 저장된 서비스는 변경되지 않았습니다.",
+      "presetHint": "제공자를 고르면 주소와 모델이 자동으로 채워집니다. 목록에 없으면 주소를 직접 수정하세요.",
+      "profileError": "AI Manager가 연결 템플릿을 불러오지 못했습니다. 저장된 엔드포인트는 변경되지 않았습니다.",
       "profileErrorTitle": "새 엔드포인트를 준비할 수 없습니다",
       "profileRetry": "연결 설정 다시 불러오기",
       "retryConnect": "이 엔드포인트 다시 추가 시도",
-      "retryHint": "AI Manager가 저장된 서비스 상태를 새로고침했습니다. 입력한 내용은 그대로 있으니 확인한 다음 다시 연결해 보세요.",
+      "retryHint": "입력한 내용은 그대로 있습니다. 확인한 다음 다시 시도하세요.",
       "responseTime": "{{latency}}ms",
       "searchPresets": "제공자 검색…",
       "saved": "{{name}}을(를) 저장했습니다",
@@ -1612,9 +1607,9 @@
     "description": "도구를 선택한 다음 API 엔드포인트를 추가, 전환, 확인하세요.",
     "effective": {
       "selection": {
-        "defaultModel": "전역 기본 모델: {{model}}. 프로젝트 설정, 명령줄 플래그, 현재 세션이 이를 재정의할 수 있습니다.",
-        "recentModel": "최근 사용한 모델: {{model}}. 이는 로컬 기록일 뿐이며 현재 세션이나 다음 선택을 보장하지 않습니다.",
-        "unknown": "활성 엔드포인트를 확인할 수 없습니다. 저장된 항목이 사용 근거는 아닙니다. 도구 설정과 모델 선택을 확인하세요."
+        "defaultModel": "전역 기본 모델: {{model}}. 프로젝트나 세션 설정이 이를 재정의할 수 있습니다.",
+        "recentModel": "최근 사용한 모델: {{model}} (로컬 기록 기준).",
+        "unknown": "활성 엔드포인트를 확인할 수 없습니다. 도구 설정을 확인하세요."
       },
       "credential": {
         "unknown": "자격 증명 상태 확인 안 됨",
@@ -1703,7 +1698,7 @@
       "name": "이름",
       "nameHint": "이 앱 안에서만 표시됩니다.",
       "nameRequired": "이름을 입력하세요.",
-      "retryHint": "AI Manager가 저장된 서비스 상태를 새로고침했습니다. 변경 내용을 확인한 다음 다시 저장해 보세요.",
+      "retryHint": "변경 내용을 확인한 다음 다시 저장해 보세요.",
       "retrySave": "이 엔드포인트 다시 저장 시도",
       "removeHeaderNamed": "헤더 {{name}} 제거",
       "removeModelNamed": "모델 {{model}} 제거",
@@ -1723,7 +1718,6 @@
     "runtime": {
       "description": "이 도구가 실제로 전역 지침, 메모리, 설정, 프로젝트 세션을 읽는 위치를 확인하세요.",
       "loading": "설정 소스를 확인하는 중",
-      "localOnlyNote": "로컬 파일 위치와 크기만 표시됩니다. 파일 내용은 업로드되지 않습니다.",
       "notCreated": "생성되지 않음",
       "openConfigFolder": "설정 폴더 열기",
       "openConfigFile": "설정 파일 열기",
@@ -1795,7 +1789,7 @@
     "scopeUnsupportedShort": "연동 안 됨",
     "scopeSharedShort": "데스크톱 앱과 공유됨",
     "scopeUnsupportedTitle": "AI Manager가 아직 {{tool}} 엔드포인트 설정을 연동하지 않았습니다",
-    "scopeUnsupportedDescription": "이는 AI Manager에 아직 안전한 어댑터가 없다는 뜻이며, {{tool}}이(가) 반드시 사용자 지정 서비스를 사용할 수 없다는 뜻은 아닙니다. 설치된 도구는 명확한 표시를 위해 계속 표시됩니다.",
+    "scopeUnsupportedDescription": "{{tool}}의 엔드포인트는 아직 여기서 설정할 수 없습니다.",
     "scopeSave": {
       "errorDescription": "여전히 {{tool}}을(를) 보고 있습니다. 다음에 여기서 이 도구를 열 수 있도록 다시 시도하세요.",
       "errorTitle": "도구 화면이 기억되지 않았습니다",
@@ -1809,7 +1803,7 @@
       "errorNamed": "{{name}}(으)로 전환을 완료할 수 없습니다",
       "openNow": "지금 열기",
       "reopenHint": "이미 실행 중인 {{tool}}은(는) 다시 열 때까지 이전 엔드포인트를 유지합니다.",
-      "retryHint": "AI Manager가 저장된 서비스 상태를 새로고침했습니다. 같은 전환을 다시 시도하세요.",
+      "retryHint": "같은 전환을 다시 시도하세요.",
       "retryNamed": "{{name}}(으)로 전환 다시 시도",
       "switchingNamed": "{{name}}(으)로 전환하는 중"
     },
@@ -1824,7 +1818,7 @@
     "summary": {
       "activeTitle": "{{tool}}에 {{service}}이(가) 활성화되어 있습니다",
       "checked": "주소 확인됨",
-      "description": "서비스를 전환하거나 주소 응답 여부를 확인하세요. AI Manager가 설정을 대신 처리합니다.",
+      "description": "엔드포인트를 전환하거나 주소가 응답하는지 확인하세요.",
       "eyebrow": "연결 개요",
       "noActiveTitle": "{{tool}}에 저장된 엔드포인트가 있습니다",
       "saved": "저장됨",
@@ -1832,7 +1826,7 @@
     },
     "start": {
       "action": "{{tool}} 시작",
-      "description": "프로젝트 폴더를 선택하세요. {{tool}}이(가) 터미널에서 그 폴더를 열며, 처음 사용할 때 서비스가 저장된 키와 모델을 확인합니다.",
+      "description": "프로젝트 폴더를 선택해 터미널에서 {{tool}}을(를) 여세요.",
       "eyebrow": "다음 단계",
       "title": "설정을 저장했습니다. {{tool}}에서 시작하세요"
     },
@@ -1846,7 +1840,7 @@
       "latency": "{{ms}}ms",
       "operational": "주소에 연결됨",
       "retry": "다시 시도",
-      "retryHint": "실패한 확인은 이 서비스를 변경하지 않았습니다. 같은 확인을 다시 시도하세요.",
+      "retryHint": "실패한 확인은 이 엔드포인트를 변경하지 않았습니다. 다시 시도하세요.",
       "retryNamed": "{{name}} 다시 확인",
       "unreachableHint": "현재 네트워크에서 이 주소에 연결할 수 없습니다. 다른 호환 엔드포인트를 선택할 수 있습니다."
     },
@@ -1925,7 +1919,7 @@
     "help": "도움말",
     "location": {
       "action": "파일 관리자에서 보기",
-      "description": "이 소프트웨어의 실제 파일 위치를 찾거나, 아직 만들어지지 않았다면 가장 가까운 기존 폴더를 찾습니다.",
+      "description": "이 소프트웨어의 로컬 파일 위치를 표시합니다.",
       "promptNote": "저장되었지만 비활성 상태인 프롬프트는 별도 파일이 없습니다.",
       "label": "설정 파일",
       "open": "파일 열기",
@@ -1942,7 +1936,7 @@
     "scope": {
       "unsupportedShort": "연동 안 됨",
       "unsupportedTitle": "AI Manager가 아직 {{tool}}의 {{kind}}을(를) 연동하지 않았습니다",
-      "unsupportedDescription": "이는 AI Manager에 이 항목에 대한 안전한 관리 어댑터가 아직 없다는 뜻이며, {{tool}}에 이 기능이 없다는 뜻은 아닙니다. 설치된 도구는 명확한 표시를 위해 계속 표시됩니다."
+      "unsupportedDescription": "{{tool}}의 이 항목은 아직 여기서 관리할 수 없습니다."
     },
     "adoption": {
       "import": "가져오기",
@@ -1967,19 +1961,19 @@
     },
     "copy": {
       "title": "\"{{name}}\"을(를) 다른 앱으로 복사",
-      "description": "AI Manager가 스킬 폴더를 복사합니다. 원본은 그대로 남고, 이후 두 사본은 서로 독립적으로 관리됩니다.",
+      "description": "복사 후 두 사본은 서로 독립적입니다.",
       "targetsLabel": "복사할 앱",
       "confirm": "복사",
       "alreadyHas": "이미 있음",
       "copied": "복사됨",
       "failed": "복사되지 않음",
-      "independent": "복사했습니다. 이제 이 사본은 독자적으로 진화하며, 변경해도 원본에는 영향을 주지 않습니다.",
+      "independent": "복사했습니다. 두 사본은 서로 독립적입니다.",
       "noTargets": "스킬을 사용할 수 있는 다른 모든 앱에 이미 이 스킬이 있습니다."
     },
     "card": {
       "itemLabel": "{{name}}, {{total}}개 중 {{position}}번째",
       "detected": "이 Mac에서 찾음",
-      "detectedDescription": "이미 이 도구에서 사용 중입니다. AI Manager는 여기서 보여주기만 할 뿐 복사하거나 다시 작성하지 않습니다.",
+      "detectedDescription": "이미 이 도구에서 사용 중입니다. 가져오면 여기서 관리할 수 있습니다.",
       "onlyIn": "{{tool}}에만 이 스킬이 있습니다",
       "alsoIn": "{{tools, list}}에도 이 스킬이 있습니다",
       "openLocation": "위치 열기",
@@ -2043,19 +2037,19 @@
       "catalog": {
         "add": "스킬 추가",
         "title": "스킬 추가",
-        "description": "{{tool}}에 사용할 준비된 노하우를 선택하세요. 이 창이 열려 있는 동안 카탈로그는 GitHub에서 불러오며, 일시적인 장애에 대비해 검증된 대체 전송 경로를 사용합니다.",
+        "description": "{{tool}}에 사용할 준비된 노하우를 선택하세요.",
         "searchLabel": "스킬 카탈로그 검색",
         "searchPlaceholder": "스킬 또는 저장소 검색",
-        "trustNote": "각 행에 표시된 GitHub 저장소가 원본입니다. 신뢰할 수 있는 jsDelivr 채널은 크기와 SHA-256이 검증된 공개 파일만 전달할 수 있습니다.",
-        "loading": "GitHub 소스에서 스킬 카탈로그를 불러오는 중…",
+        "trustNote": "각 스킬은 해당 행에 표시된 GitHub 저장소에서 가져옵니다.",
+        "loading": "스킬 카탈로그를 불러오는 중…",
         "errorTitle": "스킬 카탈로그를 불러올 수 없습니다",
-        "errorDescription": "다시 시도하세요. 두 소스 경로 모두 연결할 수 없다면 설정을 열어 로컬 다운로드 프록시를 구성하세요.",
+        "errorDescription": "다시 시도하세요. 그래도 실패하면 설정에서 로컬 다운로드 프록시를 구성하세요.",
         "refreshingTitle": "최신 스킬 카탈로그를 확인하는 중",
         "refreshingDescription": "이전 카탈로그를 계속 둘러볼 수 있습니다. 확인이 끝나면 설치를 사용할 수 있습니다.",
         "refreshErrorTitle": "스킬 카탈로그를 새로고침할 수 없습니다",
         "refreshErrorDescription": "마지막 카탈로그가 계속 표시됩니다. 새 확인이 성공할 때까지 설치는 일시 중지됩니다. 필요하면 설정에서 로컬 다운로드 프록시를 구성하세요.",
-        "mirrorTitle": "신뢰할 수 있는 대체 경로로 카탈로그를 불러왔습니다",
-        "mirrorDescription": "GitHub가 이번 확인에 응답하지 않아 AI Manager가 jsDelivr를 사용해 크기와 SHA-256이 검증된 스냅샷을 전달했습니다. GitHub 저장소가 여전히 원본이며, 전역 설정은 변경되지 않았습니다.",
+        "mirrorTitle": "대체 경로로 카탈로그를 불러왔습니다",
+        "mirrorDescription": "GitHub가 응답하지 않았지만 내용은 여전히 원래 저장소에서 가져옵니다.",
         "retry": "다시 시도",
         "empty": "사용 가능한 스킬이 없습니다",
         "noResults": "그 검색어와 일치하는 스킬이 없습니다",
@@ -2077,12 +2071,12 @@
         "description": "{{tool}}에 사용할 로컬 아카이브를 선택하세요. 파일은 이 컴퓨터에 남습니다.",
         "choose": "ZIP 선택 후 설치",
         "trustTitle": "신뢰하는 아카이브를 사용하세요",
-        "trustDescription": "AI Manager는 아카이브를 로컬에서 읽고 안전하지 않은 경로와 과도한 크기의 압축 해제를 거부합니다. 그래도 이 파일의 내용이 AI 도구의 동작을 바꿀 수 있습니다.",
+        "trustDescription": "이 파일들은 AI 도구의 동작을 바꿀 수 있습니다.",
         "formatTitle": "아카이브에 필요한 것",
         "formatDescription": "SKILL.md를 포함하는 스킬 폴더가 하나 이상 있는 .zip 파일을 사용하세요.",
         "syncTitle": "다음에 일어나는 일",
         "syncDescription": "충돌하지 않는 새 스킬이 관리 저장소에 추가되고 이 도구와 동기화됩니다.",
-        "partialNote": "아카이브의 이후 스킬이 실패하면 이전 스킬은 이미 설치되어 있을 수 있습니다. 작업에서 결과를 확인할 수 있으며 스킬 목록은 자동으로 새로고침됩니다.",
+        "partialNote": "중간에 스킬 설치가 실패하면 앞의 스킬은 이미 설치되었을 수 있습니다. 결과는 활동에서 확인하세요.",
         "queued": "ZIP에서 스킬을 설치하는 중",
         "queuedDescription": "계속 작업하면서 활동에서 진행 상황을 확인할 수 있습니다.",
         "errorHint": "메시지를 확인하고, 아카이브를 다시 선택한 다음 다시 시도하세요."
@@ -2092,7 +2086,7 @@
         "title": "스킬 복구 사본",
         "description": "관리되는 스킬이 제거되기 전에 만든 로컬 사본을 복원하거나 삭제하세요. 복원하면 {{tool}}에서 다시 사용할 수 있습니다.",
         "localTitle": "이 컴퓨터에만 저장됨",
-        "localDescription": "AI Manager는 최근 사본 최대 20개를 보관합니다. 파일과 경로는 이 기기를 벗어나지 않습니다.",
+        "localDescription": "최근 사본을 최대 20개까지 보관합니다.",
         "refresh": "새로고침",
         "loading": "스킬 복구 사본을 읽는 중",
         "errorTitle": "스킬 복구 사본을 읽을 수 없습니다",
@@ -2115,7 +2109,7 @@
       "repositories": {
         "manage": "소스 관리",
         "title": "스킬 소스",
-        "description": "스킬 카탈로그를 제공할 신뢰할 수 있는 GitHub 저장소를 선택하세요. 설치된 스킬은 별도로 관리됩니다.",
+        "description": "스킬 카탈로그에 표시할 GitHub 저장소를 선택하세요.",
         "back": "카탈로그로 돌아가기",
         "location": "GitHub 저장소",
         "locationPlaceholder": "owner/repository 또는 https://github.com/owner/repository",
@@ -2154,7 +2148,7 @@
         "knownCount_one": "알려진 스킬 업데이트 {{count}}개를 사용할 수 있습니다",
         "knownCount_other": "알려진 스킬 업데이트 {{count}}개를 사용할 수 있습니다",
         "checkErrorTitle": "스킬 업데이트 확인을 마치지 못했습니다",
-        "checkErrorDescription": "일부 스킬 소스에 연결할 수 없을 수 있습니다. 기존 스킬은 계속 작동하지만, 모든 것이 최신이라는 증거는 아닙니다.",
+        "checkErrorDescription": "일부 스킬 소스에 연결할 수 없습니다. 기존 스킬은 계속 작동합니다.",
         "retry": "다시 확인",
         "queued": "{{name}}을(를) 업데이트하는 중",
         "queuedDescription": "계속 작업하면서 활동에서 진행 상황을 확인할 수 있습니다."
@@ -2253,14 +2247,14 @@
         "editTitle": "{{name}} 편집",
         "description": "설정 파일을 열지 않고 {{tool}}에 사용할 재사용 가능한 지침을 관리하세요.",
         "save": "지침 저장",
-        "activeBackup": "이 지침은 현재 사용 중입니다. 실제 파일을 변경하기 전에 AI Manager가 타임스탬프가 있는 복구 사본을 저장하고 교체 내용을 확인합니다.",
+        "activeBackup": "이 지침은 현재 사용 중입니다. 저장하면 바로 적용됩니다.",
         "readErrorTitle": "이 지침을 열 수 없습니다",
         "retryRead": "다시 읽기",
         "saveErrorTitle": "이 지침을 저장할 수 없습니다",
         "name": "지침 이름",
         "optionalDescription": "설명(선택 사항)",
         "content": "지침",
-        "contentHint": "일반 텍스트나 Markdown으로 작성하세요. 이 지침은 이후 대화에서 AI 도구로 전송될 수 있습니다.",
+        "contentHint": "일반 텍스트나 Markdown으로 작성하세요.",
         "validation": {
           "name": {
             "required": "지침 이름을 입력하세요.",
@@ -2378,7 +2372,7 @@
   "sessions": {
     "inventoryError": "소프트웨어 목록을 새로고침할 수 없습니다. 기존 세션은 계속 사용할 수 있습니다.",
     "title": "로컬 세션",
-    "description": "AI 코딩 도구가 저장한 대화를 검색하고, 지원되는 세션을 터미널에서 안전하게 이어서 진행하세요.",
+    "description": "이 컴퓨터에 저장된 대화를 검색하고 터미널에서 이어서 진행하세요.",
     "loading": "로컬 세션을 불러오는 중",
     "refresh": "새로고침",
     "hero": {
@@ -2417,14 +2411,14 @@
     "thread": {
       "title": "대화 미리보기",
       "emptyTitle": "대화를 선택하세요",
-      "emptyDescription": "로컬 세션을 직접 선택해야 메시지 내용을 읽어옵니다.",
+      "emptyDescription": "대화를 선택하면 내용을 볼 수 있습니다.",
       "loading": "대화를 불러오는 중",
       "errorTitle": "이 대화를 읽을 수 없습니다",
       "retry": "다시 시도",
       "limited": "가장 최근 부분만 표시합니다 (전체 메시지 {{count}}개).",
       "noMessages": "이 세션에서 읽을 수 있는 메시지를 찾지 못했습니다.",
       "messages": "세션 메시지",
-      "messageTruncated": "안전한 표시를 위해 이 긴 메시지를 줄였습니다."
+      "messageTruncated": "이 메시지는 너무 길어 줄여서 표시합니다."
     },
     "resume": {
       "action": "터미널에서 이어서 진행",
@@ -2486,7 +2480,7 @@
     },
     "advanced": {
       "label": "고급 모드",
-      "description": "파일 저장 위치 같은 기술적인 세부 정보를 표시합니다. 더 고급 도구는 이후 업데이트에서 제공됩니다.",
+      "description": "파일 저장 위치 같은 기술적인 세부 정보를 표시합니다.",
       "saving": "저장 중…",
       "saved": "저장됨",
       "error": "저장되지 않음",
@@ -2525,12 +2519,12 @@
     "network": {
       "proxy": {
         "title": "로컬 다운로드 프록시",
-        "description": "서명된 AI Manager 업데이트, 네이티브 Claude 업데이트, 레지스트리 미러로 해결되지 않는 다른 공식 CLI 다운로드에 대해, 이 컴퓨터에서 이미 실행 중인 프록시로 아웃바운드 트래픽을 전달합니다.",
+        "description": "도구나 앱 다운로드가 실패하면 이 컴퓨터에서 실행 중인 프록시를 거치게 합니다.",
         "active": "사용 중",
         "protected": "보호된 설정",
         "protectedHint": "기존 프록시에 자격 증명이나 원격 주소가 포함되어 있어 AI Manager는 이를 사용하지만 여기에는 표시하지 않습니다. 로컬 주소로 교체하거나 비워 두세요.",
         "label": "로컬 프록시 주소",
-        "hint": "포트를 명시한 localhost/127.0.0.1/::1 상의 HTTP, HTTPS, SOCKS5 또는 SOCKS5H만 가능합니다. 자격 증명과 원격 호스트는 여기서 허용되지 않습니다.",
+        "hint": "예: http://127.0.0.1:7890. 로컬 주소만 가능하며 자격 증명은 넣을 수 없습니다.",
         "loading": "다운로드 프록시를 읽는 중",
         "readError": "현재 다운로드 프록시를 읽을 수 없습니다.",
         "save": "이 프록시 사용"
@@ -2644,9 +2638,9 @@
       },
       "safety": {
         "title": "두 설정 모두 그대로 유지됩니다",
-        "sourceUntouched": "원본 앱과 그 로컬 데이터베이스는 절대 편집되거나 삭제되지 않습니다.",
+        "sourceUntouched": "CC Switch의 내용은 변경되지 않습니다.",
         "backupFirst": "AI Manager는 가져오기를 적용하기 전에 현재 설정의 안전 백업을 저장합니다.",
-        "skipHarmless": "건너뛰어도 손해는 없습니다. Claude Code, Codex 등 다른 도구의 설정은 이 선택과 관계없이 어느 쪽이든 읽고 관리됩니다. 나중에 설정에서 가져올 수 있습니다."
+        "skipHarmless": "건너뛰어도 괜찮습니다. 나중에 설정에서 가져올 수 있습니다."
       },
       "completion": {
         "title": "설정을 가져왔습니다",
@@ -2685,7 +2679,7 @@
     },
     "updates": {
       "title": "정보 및 업데이트",
-      "description": "설치된 버전과 서명된 제품 업데이트 채널의 상태를 표시합니다.",
+      "description": "설치된 버전을 확인하고 업데이트를 확인합니다.",
       "check": "지금 확인",
       "retry": "다시 시도",
       "openDownloadPage": "공식 다운로드 페이지 열기",
@@ -2712,7 +2706,7 @@
       "unknown": "확인할 수 없음",
       "error": {
         "title": "업데이트 상태를 확인할 수 없습니다",
-        "description": "허용된 시도 횟수 동안 AI Manager가 서명된 업데이트에 연결하거나 확인하지 못했습니다. 다시 시도하거나 공식 다운로드 페이지를 여세요. 아무것도 설치되지 않았습니다."
+        "description": "업데이트에 연결하거나 확인하지 못했습니다. 다시 시도하거나 공식 다운로드 페이지를 여세요."
       }
     },
     "backup": {
@@ -2851,7 +2845,7 @@
       "label": "도구별 보기",
       "unsupportedShort": "연동 안 됨",
       "unsupportedTitle": "AI Manager가 아직 {{tool}}의 로컬 데이터를 연동하지 않았습니다",
-      "unsupportedDescription": "이는 AI Manager에 아직 안전한 읽기 기능이 없다는 뜻이며, {{tool}}에 로컬 데이터가 없다는 뜻은 아닙니다. 설치된 도구는 명확한 표시를 위해 계속 표시됩니다."
+      "unsupportedDescription": "{{tool}}의 로컬 데이터는 아직 여기서 표시할 수 없습니다."
     },
     "storage": {
       "title": "로컬 컨텍스트와 저장소",

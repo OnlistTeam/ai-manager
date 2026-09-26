@@ -777,7 +777,7 @@ describe("TaskCenter", () => {
     await user.click(openButton);
     const modal = await screen.findByRole("dialog", { name: "Open Codex" });
     expect(
-      within(modal).getByText(en.tools.open.localTitle),
+      within(modal).getByRole("button", { name: en.tools.open.chooseFolder }),
     ).toBeInTheDocument();
     expect(seen).toEqual([]);
     const confirm = within(modal).getByRole("button", {

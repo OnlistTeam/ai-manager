@@ -689,9 +689,7 @@ describe("ProviderFormModal", () => {
     });
     expect(alert).toHaveTextContent(en.error.provider.saveFailed);
     expect(alert).toHaveTextContent(en.error.remediation.checkServiceSettings);
-    expect(alert).toHaveTextContent(
-      "AI Manager refreshed the saved service state. Review your changes, then try saving again.",
-    );
+    expect(alert).toHaveTextContent(en.services.form.retryHint);
     // Technical detail stays folded behind View details, never primary copy.
     expect(within(alert).getByText(/private\/tool\.json/)).not.toBeVisible();
 

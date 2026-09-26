@@ -1389,10 +1389,7 @@ describe("ToolsPage", () => {
     );
     const dialog = screen.getByRole("dialog");
     expect(
-      within(dialog).getByText(en.tools.open.localTitle),
-    ).toBeInTheDocument();
-    expect(
-      within(dialog).getByText(en.tools.open.localHint),
+      within(dialog).getByRole("button", { name: en.tools.open.chooseFolder }),
     ).toBeInTheDocument();
     expect(seen).toEqual([]);
 

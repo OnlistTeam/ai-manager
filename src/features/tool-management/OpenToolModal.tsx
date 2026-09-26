@@ -1,11 +1,5 @@
 import { useRef, type ReactNode, type RefObject } from "react";
-import {
-  AlertTriangle,
-  FolderOpen,
-  RefreshCw,
-  ShieldCheck,
-  Shuffle,
-} from "lucide-react";
+import { AlertTriangle, FolderOpen, RefreshCw, Shuffle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { Tool } from "@/entities/tool";
 import { Button } from "@/shared/ui/Button";
@@ -94,20 +88,8 @@ export function OpenToolModal({
         </>
       }
     >
-      <div className="flex items-start gap-3 rounded-lg border border-success/20 bg-success/10 p-3">
-        <ShieldCheck
-          className="mt-0.5 h-5 w-5 shrink-0 text-success"
-          aria-hidden="true"
-        />
-        <p className="text-caption text-content-muted">
-          <span className="mb-0.5 block text-body text-content">
-            {t("tools.open.localTitle")}
-          </span>
-          {t("tools.open.localHint")}
-        </p>
-      </div>
       {providerRecovery ? (
-        <div className="mt-3 rounded-xl border border-warning/20 bg-warning/[0.07] p-3">
+        <div className="rounded-xl border border-warning/20 bg-warning/[0.07] p-3">
           <div className="flex items-start gap-3">
             <AlertTriangle
               className="mt-0.5 h-5 w-5 shrink-0 text-warning"

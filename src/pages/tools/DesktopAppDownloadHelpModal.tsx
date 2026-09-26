@@ -1,4 +1,4 @@
-import { AlertCircle, Download, Globe2, ShieldCheck } from "lucide-react";
+import { AlertCircle, Download, Globe2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { DesktopApp } from "@/entities/desktop-app";
 import { toErrorCopy } from "@/shared/lib/nativeError";
@@ -52,12 +52,6 @@ export function DesktopAppDownloadHelpModal({
       }
     >
       <div className="grid gap-3">
-        <HelpItem icon={Download}>
-          {t("tools.desktopApps.downloadHelp.architecture")}
-        </HelpItem>
-        <HelpItem icon={ShieldCheck}>
-          {t("tools.desktopApps.downloadHelp.systemOwned")}
-        </HelpItem>
         <HelpItem icon={Globe2}>
           {t("tools.desktopApps.downloadHelp.restrictedNetwork")}
         </HelpItem>

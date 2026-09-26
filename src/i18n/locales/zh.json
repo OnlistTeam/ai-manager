@@ -232,7 +232,7 @@
     "sync": {
       "running": "正在同步本机用量",
       "runningHint": "正在扫描本机会话；可以切换到其他页面，同步会继续。",
-      "largeHistory": "首次同步或历史记录较多时可能需要几分钟。请勿重复同步；已有汇总会保留，完成后自动更新。",
+      "largeHistory": "首次同步或历史记录较多时可能需要几分钟。",
       "elapsed": "已用时 {{seconds}} 秒",
       "action": "同步本机用量",
       "success": "已扫描 {{filesScanned}} 个本机文件，新增 {{recordsImported}} 条记录。",
@@ -242,11 +242,11 @@
     },
     "privacy": {
       "title": "只聚合，只留在本机",
-      "description": "这里不会显示提示词、回答、请求 ID、路径、服务配置或凭据。同步只读取这台电脑上受支持 CLI 的会话文件，不会联系服务商。"
+      "description": "只统计本机会话文件里的用量，不显示对话内容。"
     },
     "empty": {
       "title": "还没有本机用量记录",
-      "description": "同步受支持 CLI 的本机会话，就能生成第一份聚合视图；不会上传任何内容。"
+      "description": "同步本机会话后，这里会显示用量。"
     },
     "error": {
       "title": "没能读取本机用量",
@@ -492,7 +492,7 @@
       "endpointRequired": "这个链接没有写明 API 端点的地址。",
       "invalidEncoding": "链接里打包的内容已损坏，无法读取。",
       "invalidLink": "AI 管家读不懂这个链接。",
-      "mcpUnsupportedFields": "这个链接要为 MCP 服务器设置环境值或请求头。AI 管家不会替你添加这些内容，所以无法使用这个链接。",
+      "mcpUnsupportedFields": "这个链接要为 MCP 服务器设置环境变量或请求头，暂不支持从链接导入。",
       "missingParameter": "这个链接缺少导入所需的内容。",
       "notPending": "这个链接已经不在等待中了，可能已过期，也可能已经处理过。",
       "tooLarge": "这个链接太长，无法安全读取。",
@@ -667,12 +667,12 @@
       "checkConnectionSettings": "检查一下名称、API 密钥和模型，然后再试一次。",
       "checkInternetConnection": "检查网络连接后再试一次。",
       "checkLocalFileAccess": "确认这个 Skill 仍在原位置，并允许系统打开它，然后再试一次。",
-      "checkServiceRegion": "请核对厂商支持的地区。AI 管家不会绕过账号或服务地区限制。",
+      "checkServiceRegion": "请核对厂商支持的地区。",
       "checkMcpSettings": "检查 MCP 名称和连接信息，然后再试一次。",
       "checkPromptSettings": "检查提示词名称和内容，然后再试一次。",
       "checkPermissions": "确认 AI 管家可以修改你个人文件夹里的文件，然后再试一次。",
       "checkServiceSettings": "检查一下名称和密钥，然后再试一次。",
-      "configureInstallNetwork": "查看过程日志。如果厂商下载地址无法访问，请在设置中配置本机代理后重试；npm 所属工具已经自动采用官方优先、兼容镜像兜底的策略。",
+      "configureInstallNetwork": "查看“活动”里的过程日志；如果下载地址无法访问，请在“设置”中配置本机下载代理后重试。",
       "chooseListedVersion": "请从版本目录中选择一个版本后重试。",
       "installManually": "你可以到这个工具的官网自己安装。",
       "uninstallDesktopAppManually": "请使用系统的应用管理功能移除这个桌面 App。",
@@ -941,7 +941,7 @@
     "details": {
       "action": "详情",
       "title": "{{name}} 的软件详情",
-      "description": "查看本机配置、记忆与存储；全局提示词在专属页面统一管理。"
+      "description": "查看这个软件的本机配置、记忆与存储。"
     },
     "title": "软件管理",
     "description": "安装、更新、卸载或切换 AI 编程软件版本。",
@@ -956,7 +956,7 @@
     "discovery": {
       "eyebrow": "按目标选择",
       "title": "不知道该安装哪个？",
-      "description": "按你想完成的事情，对比尚未安装的工具。这里展示的是场景匹配，不是付费推广或排名。",
+      "description": "按你想完成的事情，对比尚未安装的工具。",
       "scenarioLabel": "选择你想做的事情",
       "scenario": {
         "officialCoding": "使用厂商官方编程工具",
@@ -965,15 +965,14 @@
       },
       "publisher": "发布方：{{publisher}}",
       "access": {
-        "vendorOrProvider": "可能需要厂商的付费方案、登录账号或 API 额度；准入与价格由厂商决定。",
+        "vendorOrProvider": "可能需要厂商的付费方案、登录账号或 API 额度。",
         "provider": "需要连接模型服务商或本地模型；部分服务商会收取 API 额度费用。"
       },
-      "choose": "查看 {{name}}",
-      "costNote": "AI 管家不销售账号或额度。安装前请向发布方或服务商确认当前准入条件与价格。"
+      "choose": "查看 {{name}}"
     },
     "version": {
       "title": "管理 {{name}} 版本",
-      "description": "普通安装与更新会自动使用推荐的最新稳定版。这里只用于兼容、回退或手动选择已发布版本。",
+      "description": "只在需要兼容或回退时手动选择版本。",
       "loading": "正在载入已发布版本",
       "current": "当前版本",
       "notInstalled": "尚未安装",
@@ -989,8 +988,8 @@
       "currentDefault": "当前已是推荐最新版。",
       "nonDefaultWarning": "你正在手动选择非推荐版本。仅在项目兼容或回退时使用，并先确认这个版本符合要求。",
       "defaultChannelNote": "普通安装与更新会自动使用推荐的最新稳定版 {{version}}，无需手动选择。",
-      "ownerPreserved": "AI 管家会继续使用当前 CLI 所属的包管理器。降级只更换程序版本，不删除工具设置。",
-      "mirrorUsed": "默认 registry 没有响应，本次目录已通过社区镜像载入；没有修改全局 npm 设置。",
+      "ownerPreserved": "降级只更换程序版本，工具设置会保留。",
+      "mirrorUsed": "默认 registry 没有响应，本次已通过社区镜像载入版本列表。",
       "restrictedTitle": "这份安装不能自动切换版本",
       "source": {
         "notInstalled": "尚未安装 · 将使用 npm",
@@ -1005,9 +1004,9 @@
         "unmanaged": "未知或手动管理"
       },
       "restriction": {
-        "nativeInstaller": "这份程序由官方安装器安装。AI 管家会用同一套官方程序更新它，不会另装一份。",
+        "nativeInstaller": "这份程序由官方安装器安装，请使用普通“更新”。",
         "brew": "这份程序由 Homebrew 管理，请使用普通“更新”；改装 npm 版本会留下两份安装。",
-        "unmanaged": "AI 管家无法确认这份程序属于哪个包管理器，因此不会覆盖安装另一个版本。"
+        "unmanaged": "无法确认这份程序由哪个包管理器安装，不能在这里切换版本。"
       }
     },
     "updateRecovery": {
@@ -1060,7 +1059,7 @@
     },
     "desktopApps": {
       "title": "桌面应用",
-      "description": "AI 管家会把厂商签名的桌面 App 与命令行工具分开检查，并按当前系统和芯片选择固定的官方安装包或下载页；下载和安装由浏览器与系统安装器完成。",
+      "description": "打开、下载或卸载厂商官方的桌面 App。",
       "loading": "正在检查桌面应用",
       "refresh": "刷新 App",
       "refreshError": "仍显示上一次 App 检查结果；使用前请再刷新一次。",
@@ -1072,23 +1071,23 @@
       "items": {
         "codex-app": {
           "surface": "OpenAI 桌面应用 · ChatGPT / Codex",
-          "description": "在 OpenAI 的图形桌面界面里使用 ChatGPT 或 Codex，同时让 Codex CLI 的安装和更新保持独立。"
+          "description": "在桌面界面里使用 ChatGPT 或 Codex。"
         },
         "claude-desktop": {
           "surface": "Anthropic 桌面应用",
-          "description": "在图形桌面界面里使用 Claude，与终端中的 Claude Code 分开管理。"
+          "description": "在桌面界面里使用 Claude。"
         },
         "cursor": {
           "surface": "Cursor AI 代码编辑器",
-          "description": "把 Cursor 作为独立的图形代码编辑器使用；安装、账号、扩展与更新继续由厂商负责。"
+          "description": "带 AI 的图形代码编辑器。"
         },
         "zcode": {
           "surface": "Z.ai 桌面编程应用",
-          "description": "把 ZCode 作为独立的图形编程应用使用；安装与设置继续由厂商负责。"
+          "description": "Z.ai 的图形编程应用。"
         },
         "cherry-studio": {
           "surface": "Cherry Studio 桌面应用",
-          "description": "把 Cherry Studio 作为独立的多模型桌面客户端使用，不与任何受管 CLI 混为同一安装。"
+          "description": "可接入多种模型的桌面客户端。"
         }
       },
       "status": {
@@ -1119,7 +1118,7 @@
         "codex": "Codex CLI",
         "claude-code": "Claude Code"
       },
-      "vendorUpdates": "App 的自动更新仍由厂商负责。“下载最新安装包”只是恢复交接，不代表检测到了新版本。网络需要时请使用浏览器或系统代理；AI 管家不镜像安装包，也不绕过地区限制。",
+      "vendorUpdates": "App 由厂商自动更新；“下载最新安装包”不代表有新版本。",
       "action": {
         "open": "打开 App",
         "openNamed": "打开 {{name}}",
@@ -1150,11 +1149,9 @@
       },
       "downloadHelp": {
         "title": "下载 {{name}}",
-        "directDescription": "AI 管家会直接打开适合这台电脑的厂商官方安装包，不先跳转国外介绍页。",
-        "pageDescription": "当前系统没有固定安装包，AI 管家只能打开厂商官方下载页。",
-        "architecture": "系统和芯片类型由 AI 管家在本机判断，不需要你选择 Intel、Apple 芯片、x64 或 Arm64。",
-        "systemOwned": "浏览器负责下载，系统安装器负责检查签名并安装；AI 管家不会静默安装。",
-        "restrictedNetwork": "如果官方地址在当前网络无法访问，请先在浏览器或系统中设置代理后重试。AI 管家的 CLI 下载代理不会接管浏览器，也不会镜像第三方安装包或绕过地区限制。",
+        "directDescription": "会直接下载适合这台电脑的官方安装包。",
+        "pageDescription": "当前系统没有固定安装包，会打开厂商官方下载页。",
+        "restrictedNetwork": "如果官方地址打不开，请给浏览器或系统设置代理后重试；设置里的下载代理对浏览器不生效。",
         "retry": "重试官方下载"
       },
       "uninstall": {
@@ -1183,8 +1180,6 @@
     "open": {
       "title": "打开 {{name}}",
       "description": "可以直接从默认目录启动，也可以选择一个项目文件夹后启动 {{name}}。",
-      "localTitle": "你的项目不会离开这台电脑",
-      "localHint": "选择文件夹不会上传、扫描或修改里面的文件。",
       "confirm": "直接启动",
       "launchDefault": "直接启动",
       "chooseFolder": "选择目录启动",
@@ -1235,7 +1230,7 @@
       "commands": "计划执行的命令",
       "installations": "检测到的安装",
       "otherInstallation": "其他安装",
-      "rechecked": "真正开始前，AI 管家会再次核对安装和更新计划；如果发生变化，会停止并请你重新确认。",
+      "rechecked": "开始前如果安装情况有变化，会停下来请你重新确认。",
       "paused": "AI 管家刷新工具和任务状态期间，更新暂时停用。",
       "method": {
         "nativeSelfUpdate": "通过 {{name}} 自带更新器更新",
@@ -1263,7 +1258,7 @@
       },
       "blocked": {
         "notInstalled": "这个工具已经不在电脑上，没有可更新的内容。",
-        "ambiguousInstallation": "检测到多份安装，但 AI 管家无法确定命令行当前使用哪一份，因此不会猜测。",
+        "ambiguousInstallation": "检测到多份安装，无法确定命令行当前用的是哪一份。",
         "unsupportedInstallation": "这份安装没有可安全自动执行的更新方式。",
         "inspectionFailed": "AI 管家没能完成这份安装的检查。"
       },
@@ -1292,7 +1287,7 @@
       "keepSettingsHint": "你的设置和聊天记录会留在这台电脑上，重新安装后可以接着用。",
       "option": {
         "app": "卸载 App",
-        "appHint": "总是会处理；下面是当前安装来源对应的实际命令或程序路径。",
+        "appHint": "总会执行，下面是将要执行的命令或路径。",
         "settings": "删除设置",
         "settingsHint": "删除这个工具的配置目录。",
         "cache": "删除缓存",
@@ -1301,8 +1296,8 @@
       "preview": {
         "loading": "正在核对实际命令和路径…",
         "none": "没有独立路径；这个选项不会额外删除文件。",
-        "protected": "超出自动删除的安全边界，AI 管家不会处理这个路径。",
-        "rechecked": "真正执行前会再次核对安装来源和路径；界面里显示的内容不会作为删除指令传回。",
+        "protected": "这个路径不在自动删除范围内，会被跳过。",
+        "rechecked": "执行前会再次核对安装来源和路径。",
         "kind": {
           "command": "命令",
           "directory": "文件夹",
@@ -1320,11 +1315,11 @@
       },
       "warning": {
         "sessionsInsideSettings": "这个工具把聊天记录存在自己的设置目录里，删除设置会把这些记录一起删掉。",
-        "outsideHome": "放在个人文件夹之外的文件永远不会被删除。如果这个工具的设置在那里，AI 管家会在删除任何东西之前停下，什么都不会丢；取消这些勾选再试一次，就能只移除 App。"
+        "outsideHome": "个人文件夹之外的文件不会被删除；如果设置放在那里，请取消这些勾选，只移除 App。"
       },
       "reason": {
         "nothingToRemove": "这个工具没有单独的这类文件，所以这一项没有东西可删。",
-        "protected": "这些位置在你的个人文件夹之外，AI 管家不会去删。"
+        "protected": "这些位置在个人文件夹之外，不能自动删除。"
       }
     }
   },
@@ -1356,7 +1351,7 @@
       "nothingInstalled": "还没有装任何工具",
       "review": "去看看",
       "startTool": "用 {{name}} 开始工作",
-      "startHint": "选择一个项目文件夹；服务商会在第一次使用时验证访问权限。",
+      "startHint": "选择一个项目文件夹开始。",
       "inventory": {
         "label": "已就绪的环境详情",
         "servicesConfigured_one": "已配置 {{count}} 个 API 端点",
@@ -1567,13 +1562,13 @@
         "operational": "{{name}} 已保存，地址可以访问"
       },
       "addressRetry": "配置已经保留。请检查网络，然后再次“检查地址”。",
-      "afterSave": "保存后，AI 管家只会检查服务地址是否有响应；API 密钥和模型权限会在 {{tool}} 第一次实际使用时验证。",
-      "description": "为 {{tool}} 添加一个 API 服务，其余配置交给 AI 管家。",
+      "afterSave": "保存后只检查地址能否访问，密钥和模型会在 {{tool}} 第一次使用时验证。",
+      "description": "为 {{tool}} 添加一个 API 端点。",
       "errorTitle": "没能添加这个端点",
-      "firstUse": "{{tool}} 第一次实际使用时，服务商才会验证 API 密钥和模型权限。",
+      "firstUse": "密钥和模型会在 {{tool}} 第一次使用时验证。",
       "getKey": "获取 API 密钥",
       "key": "API 密钥",
-      "keyHint": "保存在本机，可在端点卡片和编辑框中查看、复制。",
+      "keyHint": "只保存在这台电脑上。",
       "keyPlaceholder": "粘贴 API 密钥",
       "keyRequired": "请粘贴 API 密钥。",
       "model": "模型",
@@ -1581,19 +1576,19 @@
       "measuredServices": "本机实测",
       "name": "名称",
       "baseUrl": "Base URL",
-      "baseUrlHint": "这个服务配置的地址。改动之后会按自定义端点保存。",
-      "baseUrlEdited": "已改动，会按自定义端点保存。",
+      "baseUrlHint": "改动后会存为自定义端点。",
+      "baseUrlEdited": "已改动，会存为自定义端点。",
       "baseUrlInvalid": "请输入不含凭据的 HTTPS 地址。",
       "nameRequired": "请输入名称。",
       "noPresetMatch": "没有匹配的服务商。",
       "openProvider": "打开服务商",
       "preset": "服务商",
-      "presetHint": "选一家服务商，下面的地址和模型会自动填好；不在列表里的，直接改地址。这里只收录广为人知的服务商，AI 管家不为其背书也不转售。",
-      "profileError": "AI 管家没能读取安全连接模板，已保存的服务不会受到影响。",
+      "presetHint": "选一家服务商会自动填好地址和模型；不在列表里的，直接改地址。",
+      "profileError": "AI 管家没能读取连接模板，已保存的端点不受影响。",
       "profileErrorTitle": "暂时不能添加新端点",
       "profileRetry": "重新读取连接模板",
       "retryConnect": "重新添加这个端点",
-      "retryHint": "AI 管家已经重新读取能确认的服务状态。你填写的内容还在；请检查后重新连接。",
+      "retryHint": "你填写的内容还在，请检查后再试一次。",
       "responseTime": "{{latency}} 毫秒",
       "searchPresets": "搜索服务商…",
       "saved": "{{name}} 已保存",
@@ -1611,9 +1606,9 @@
     "description": "选择软件，添加、切换和检查它使用的 API 端点。",
     "effective": {
       "selection": {
-        "defaultModel": "全局默认模型：{{model}}。项目配置、命令行参数或当前会话可能覆盖它。",
-        "recentModel": "最近使用的模型：{{model}}。这是本机历史记录，不代表当前会话，也不保证下次会使用它。",
-        "unknown": "无法确认使用中的端点；不会根据已保存列表猜测。请检查软件配置与模型选择。"
+        "defaultModel": "全局默认模型：{{model}}，可能被项目或会话设置覆盖。",
+        "recentModel": "最近使用的模型：{{model}}（来自本机历史记录）。",
+        "unknown": "无法确认正在使用的端点，请检查软件配置。"
       },
       "credential": {
         "unknown": "无法确认凭证状态",
@@ -1702,7 +1697,7 @@
       "name": "名称",
       "nameHint": "只在这个应用里显示。",
       "nameRequired": "请输入名称。",
-      "retryHint": "AI 管家已经重新读取能确认的服务状态。请检查你的修改，然后再试一次保存。",
+      "retryHint": "请检查你的修改，然后再保存一次。",
       "retrySave": "重新保存这个端点",
       "removeHeaderNamed": "移除 Header {{name}}",
       "removeModelNamed": "移除模型 {{model}}",
@@ -1722,7 +1717,6 @@
     "runtime": {
       "description": "查看这个工具实际读取的全局提示词、记忆、配置和项目会话位置。",
       "loading": "正在检查配置来源",
-      "localOnlyNote": "仅查看本机文件位置与容量，不上传文件内容。",
       "notCreated": "未创建",
       "openConfigFolder": "打开配置文件夹",
       "openConfigFile": "打开配置文件",
@@ -1794,7 +1788,7 @@
     "scopeUnsupportedShort": "尚未接入",
     "scopeSharedShort": "由桌面应用共用",
     "scopeUnsupportedTitle": "AI 管家尚未接入 {{tool}} 的端点配置",
-    "scopeUnsupportedDescription": "这是 AI 管家当前没有安全适配，不代表 {{tool}} 本身一定不支持自定义服务。软件仍会显示在这里，方便你确认安装状态。",
+    "scopeUnsupportedDescription": "暂时不能在这里为 {{tool}} 配置端点。",
     "scopeSave": {
       "errorDescription": "你仍在查看 {{tool}}。重试后，下次会继续从这里打开。",
       "errorTitle": "未能记住这个工具页面",
@@ -1808,7 +1802,7 @@
       "errorNamed": "没能完成切换到“{{name}}”",
       "openNow": "现在打开",
       "reopenHint": "正在运行的 {{tool}} 不会自动换用，重新打开后才会使用它。",
-      "retryHint": "AI 管家已经重新读取能确认的服务状态。请再试一次相同的切换。",
+      "retryHint": "请再试一次相同的切换。",
       "retryNamed": "重新切换到 {{name}}",
       "switchingNamed": "正在切换到 {{name}}"
     },
@@ -1823,7 +1817,7 @@
     "summary": {
       "activeTitle": "{{tool}} 正在使用 {{service}}",
       "checked": "已检查地址",
-      "description": "在这里切换服务或检查服务地址是否有响应，其余设置交给 AI 管家。",
+      "description": "在这里切换端点，或检查地址是否有响应。",
       "eyebrow": "连接概览",
       "noActiveTitle": "{{tool}} 的端点配置已保存",
       "saved": "已保存",
@@ -1831,7 +1825,7 @@
     },
     "start": {
       "action": "启动 {{tool}}",
-      "description": "选择一个项目文件夹。AI 管家会在终端中打开 {{tool}}；已保存的密钥和模型会在第一次请求时由服务商验证。",
+      "description": "选择一个项目文件夹，在终端中打开 {{tool}}。",
       "eyebrow": "下一步",
       "title": "配置已保存，可以开始使用 {{tool}}"
     },
@@ -1845,7 +1839,7 @@
       "latency": "{{ms}} 毫秒",
       "operational": "地址可以访问",
       "retry": "再试一次",
-      "retryHint": "这次检查失败没有改动服务。可以再运行一次相同的检查。",
+      "retryHint": "检查失败不会改动端点，可以再试一次。",
       "retryNamed": "重新检查 {{name}}",
       "unreachableHint": "当前网络无法访问这个地址。你可以改用其他兼容端点。"
     },
@@ -1867,7 +1861,7 @@
       "prompt": "提示词",
       "send": "发送",
       "sending": "正在等待端点回应…",
-      "cost": "这会真实调用一次该服务，消耗你的额度。",
+      "cost": "这会真实调用一次，消耗你的额度。",
       "result": "结果",
       "resultMeta": "HTTP {{status}} · {{ms}} 毫秒",
       "replyEmpty": "端点回应了，但没有返回内容。",
@@ -1924,7 +1918,7 @@
     "help": "说明",
     "location": {
       "action": "打开所在位置",
-      "description": "定位当前软件使用的本机文件；若尚未创建，则打开最近的已有目录。",
+      "description": "打开当前软件使用的本机文件所在位置。",
       "promptNote": "保存但未启用的提示词不会单独生成文件。",
       "label": "配置文件",
       "open": "打开文件",
@@ -1941,7 +1935,7 @@
     "scope": {
       "unsupportedShort": "尚未接入",
       "unsupportedTitle": "AI 管家尚未接入 {{tool}} 的{{kind}}",
-      "unsupportedDescription": "这是 AI 管家当前没有可安全管理的适配入口，不代表 {{tool}} 本身一定没有这项功能。软件仍会显示在这里，方便你确认安装状态。"
+      "unsupportedDescription": "暂时不能在这里管理 {{tool}} 的这类内容。"
     },
     "adoption": {
       "import": "导入",
@@ -1966,19 +1960,19 @@
     },
     "copy": {
       "title": "把「{{name}}」复制到其他软件",
-      "description": "AI 管家会把这个技能文件夹复制一份过去。原来的那份不动，复制后两边各自独立、互不影响。",
+      "description": "复制后两份各自独立，互不影响。",
       "targetsLabel": "复制到哪些软件",
       "confirm": "复制",
       "alreadyHas": "已经有了",
       "copied": "已复制",
       "failed": "没能复制",
-      "independent": "复制好了。这份副本从现在起独立演化，改它不会影响原来那份。",
+      "independent": "复制好了，两份互不影响。",
       "noTargets": "其他能用技能的软件都已经有这个技能了。"
     },
     "card": {
       "itemLabel": "{{name}}，第 {{position}} 项，共 {{total}} 项",
       "detected": "在这台 Mac 上找到",
-      "detectedDescription": "它已经在这个工具中使用；AI 管家只显示它，不会复制或改写。",
+      "detectedDescription": "它已经在这个工具中使用，导入后可以在这里管理。",
       "onlyIn": "只有 {{tool}} 有这个技能",
       "alsoIn": "{{tools, list}} 都有这个技能",
       "openLocation": "打开所在位置",
@@ -2042,19 +2036,19 @@
       "catalog": {
         "add": "添加技能",
         "title": "添加技能",
-        "description": "为 {{tool}} 选择现成的做事方法。打开窗口时从 GitHub 载入目录；主路径临时故障时可通过校验后的传输回退恢复。",
+        "description": "为 {{tool}} 选择现成的做事方法。",
         "searchLabel": "搜索技能目录",
         "searchPlaceholder": "搜索技能或仓库",
-        "trustNote": "每一行标出的 GitHub 仓库始终是内容来源。受信 jsDelivr 通道只会传输通过大小和 SHA-256 校验的公开文件。",
-        "loading": "正在从 GitHub 来源载入技能目录…",
+        "trustNote": "技能内容来自每一行标出的 GitHub 仓库。",
+        "loading": "正在载入技能目录…",
         "errorTitle": "没能载入技能目录",
-        "errorDescription": "请再试一次。如果两条来源路径仍不可达，请到“设置”配置“本机下载代理”。",
+        "errorDescription": "请再试一次；仍然不行时，到“设置”配置本机下载代理。",
         "refreshingTitle": "正在检查最新技能目录",
         "refreshingDescription": "仍可浏览上次的目录。检查完成后才可安装。",
         "refreshErrorTitle": "没能刷新技能目录",
         "refreshErrorDescription": "仍在显示上次的目录。新检查成功前安装会暂停；需要时可到“设置”配置“本机下载代理”。",
-        "mirrorTitle": "已通过受信回退载入目录",
-        "mirrorDescription": "GitHub 本次没有响应，AI 管家已通过 jsDelivr 传输并校验快照的大小与 SHA-256。GitHub 仓库仍是权威来源，也没有修改任何全局设置。",
+        "mirrorTitle": "已通过备用通道载入目录",
+        "mirrorDescription": "GitHub 暂时没有响应，内容仍来自原仓库。",
         "retry": "再试一次",
         "empty": "没有可用的技能",
         "noResults": "没有符合搜索条件的技能",
@@ -2076,12 +2070,12 @@
         "description": "为 {{tool}} 选择本地压缩包。文件只在这台电脑上处理。",
         "choose": "选择 ZIP 并安装",
         "trustTitle": "只使用你信任的压缩包",
-        "trustDescription": "AI 管家会在本机读取压缩包，并拒绝不安全路径和超量解压；其中的文件仍可能改变 AI 工具的行为。",
+        "trustDescription": "压缩包里的文件会影响 AI 工具的行为。",
         "formatTitle": "压缩包需要包含什么",
         "formatDescription": "请选择 .zip 文件，其中至少有一个包含 SKILL.md 的技能文件夹。",
         "syncTitle": "接下来会做什么",
         "syncDescription": "新的、没有目录冲突的技能会加入统一管理，并同步到这个工具。",
-        "partialNote": "如果压缩包中后面的某个技能安装失败，前面的技能可能已经装好。任务会显示结果，技能列表也会自动刷新。",
+        "partialNote": "如果中途有技能安装失败，前面的可能已经装好，结果见“活动”。",
         "queued": "正在从 ZIP 安装技能",
         "queuedDescription": "你可以继续使用 AI 管家，并在“活动”中查看进度。",
         "errorHint": "请检查提示，重新选择压缩包后再试一次。"
@@ -2091,7 +2085,7 @@
         "title": "技能恢复副本",
         "description": "恢复或删除移除受管技能前创建的本地副本。恢复后会为 {{tool}} 启用这个技能。",
         "localTitle": "只保存在这台电脑上",
-        "localDescription": "AI 管家最多保留最近 20 份副本，文件和路径不会离开这台设备。",
+        "localDescription": "最多保留最近 20 份副本。",
         "refresh": "刷新",
         "loading": "正在读取技能恢复副本",
         "errorTitle": "没能读取技能恢复副本",
@@ -2114,7 +2108,7 @@
       "repositories": {
         "manage": "管理来源",
         "title": "技能来源",
-        "description": "选择哪些可信 GitHub 仓库用于提供技能目录。已经安装的技能会单独管理。",
+        "description": "选择哪些 GitHub 仓库出现在技能目录里。",
         "back": "返回技能目录",
         "location": "GitHub 仓库",
         "locationPlaceholder": "owner/repository 或 https://github.com/owner/repository",
@@ -2153,7 +2147,7 @@
         "knownCount_one": "发现 {{count}} 个已知技能更新",
         "knownCount_other": "发现 {{count}} 个已知技能更新",
         "checkErrorTitle": "没能完成技能更新检查",
-        "checkErrorDescription": "部分技能来源可能暂时无法访问。现有技能仍可使用，但目前不能据此判断所有技能都是最新版。",
+        "checkErrorDescription": "部分技能来源暂时无法访问，现有技能仍可正常使用。",
         "retry": "重新检查",
         "queued": "正在更新 {{name}}",
         "queuedDescription": "你可以继续使用 AI 管家，并在“活动”中查看进度。"
@@ -2252,14 +2246,14 @@
         "editTitle": "编辑 {{name}}",
         "description": "直接管理 {{tool}} 的常用说明，不必打开它的配置文件。",
         "save": "保存提示词",
-        "activeBackup": "这份提示词正在使用。改动实时文件前，AI 管家会保存带时间戳的恢复副本，并校验替换结果。",
+        "activeBackup": "这份提示词正在使用，保存后立即生效。",
         "readErrorTitle": "没能打开这份提示词",
         "retryRead": "重新读取",
         "saveErrorTitle": "没能保存这份提示词",
         "name": "提示词名称",
         "optionalDescription": "说明（可选）",
         "content": "提示词内容",
-        "contentHint": "可以写普通文本或 Markdown。以后对话时，这些说明可能会发送给 AI 工具。",
+        "contentHint": "可以写普通文本或 Markdown。",
         "validation": {
           "name": {
             "required": "请给这份提示词起个名字。",
@@ -2377,7 +2371,7 @@
   "sessions": {
     "inventoryError": "软件列表暂时无法刷新，你仍可浏览已有会话。",
     "title": "本地会话",
-    "description": "搜索 AI 编程工具保存在本机的对话，并在终端中安全恢复受支持的会话。",
+    "description": "搜索保存在本机的对话，并在终端中恢复。",
     "loading": "正在读取本地会话",
     "refresh": "刷新",
     "hero": {
@@ -2416,14 +2410,14 @@
     "thread": {
       "title": "对话预览",
       "emptyTitle": "请选择一个对话",
-      "emptyDescription": "只有在你明确选择本地会话后，AI 管家才会读取消息内容。",
+      "emptyDescription": "选择一个对话查看内容。",
       "loading": "正在读取对话",
       "errorTitle": "没能读取这个对话",
       "retry": "重试",
       "limited": "只显示了最近的一部分（共 {{count}} 条）。",
       "noMessages": "这个会话中没有可读取的消息。",
       "messages": "会话消息",
-      "messageTruncated": "这条长消息已为安全显示而截短。"
+      "messageTruncated": "这条消息太长，已截短显示。"
     },
     "resume": {
       "action": "在终端恢复",
@@ -2485,7 +2479,7 @@
     },
     "advanced": {
       "label": "高级模式",
-      "description": "会显示文件存放位置这类技术细节。更多高级功能会在后续更新里加上。",
+      "description": "显示文件存放位置等技术细节。",
       "saving": "正在保存…",
       "saved": "已保存",
       "error": "未保存",
@@ -2524,12 +2518,12 @@
     "network": {
       "proxy": {
         "title": "本机下载代理",
-        "description": "AI 管家签名更新、Claude 原生更新等官方下载无法靠 registry 镜像解决时，可让出站流量经过这台电脑上已经运行的代理。",
+        "description": "下载工具或更新失败时，让下载经过这台电脑上正在运行的代理。",
         "active": "已启用",
         "protected": "受保护设置",
         "protectedHint": "已有代理包含凭据或远程地址，AI 管家会继续使用，但不会在这里显示。你可以换成本机地址，或清除它。",
         "label": "本机代理地址",
-        "hint": "支持 localhost、127.0.0.1 或 ::1 上带明确端口的 HTTP、HTTPS、SOCKS5、SOCKS5H；这里不接受账号密码或远程主机。",
+        "hint": "例如 http://127.0.0.1:7890，只支持本机地址，不能带账号密码。",
         "loading": "正在读取下载代理",
         "readError": "没能读取当前下载代理。",
         "save": "使用这个代理"
@@ -2643,9 +2637,9 @@
       },
       "safety": {
         "title": "两边配置都会妥善保留",
-        "sourceUntouched": "绝不会修改或删除原始应用及其本地数据库。",
+        "sourceUntouched": "CC Switch 的数据不会被改动。",
         "backupFirst": "应用导入前，AI 管家会先备份当前配置。",
-        "skipHarmless": "跳过不损失任何东西：Claude Code、Codex 等工具自己的配置，AI 管家本来就会读取和管理，与这里的选择无关。之后也能随时在设置里导入。"
+        "skipHarmless": "跳过也没关系，之后可以随时在设置里导入。"
       },
       "completion": {
         "title": "配置已导入",
@@ -2684,7 +2678,7 @@
     },
     "updates": {
       "title": "关于与更新",
-      "description": "显示当前安装版本和产品签名更新通道的状态。",
+      "description": "查看当前版本并检查更新。",
       "check": "立即检查",
       "retry": "再试一次",
       "openDownloadPage": "打开官方下载页",
@@ -2711,7 +2705,7 @@
       "unknown": "没能检查",
       "error": {
         "title": "暂时无法读取更新状态",
-        "description": "在限定次数内，AI 管家仍无法连接或验证签名更新。你可以重试或打开官方下载页；没有安装任何内容。"
+        "description": "没能连接或验证更新，可以重试或打开官方下载页。"
       }
     },
     "backup": {
@@ -2850,7 +2844,7 @@
       "label": "按工具查看",
       "unsupportedShort": "尚未接入",
       "unsupportedTitle": "AI 管家尚未接入 {{tool}} 的本机数据",
-      "unsupportedDescription": "这是 AI 管家当前没有安全的读取适配，不代表 {{tool}} 没有本机数据。软件仍会显示在这里，方便你确认安装状态。"
+      "unsupportedDescription": "暂时不能在这里查看 {{tool}} 的本机数据。"
     },
     "storage": {
       "title": "本机上下文与存储",
