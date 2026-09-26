@@ -52,13 +52,16 @@ export function DownloadProxyCard() {
   return (
     <section aria-labelledby={`${fieldId}-title`}>
       <Card padding="lg" className="rounded-xl">
-        <div className="flex items-start gap-4">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10">
-            <Network className="h-5 w-5 text-brand" aria-hidden="true" />
+        <div className="flex items-start gap-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand/10">
+            <Network className="h-4 w-4 text-brand" aria-hidden="true" />
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h3 id={`${fieldId}-title`} className="text-heading text-content">
+              <h3
+                id={`${fieldId}-title`}
+                className="text-body font-medium text-content"
+              >
                 {t("preferences.network.proxy.title")}
               </h3>
               {query.data?.configured ? (
@@ -76,7 +79,7 @@ export function DownloadProxyCard() {
             </div>
             <p
               id={descriptionId}
-              className="mt-1 text-caption leading-5 text-content-muted"
+              className="mt-0.5 text-caption text-content-muted"
             >
               {t("preferences.network.proxy.description")}
             </p>
@@ -94,13 +97,13 @@ export function DownloadProxyCard() {
 
         {query.isPending ? (
           <DetectionStatus
-            className="mt-5 min-h-20"
+            className="mt-3 min-h-16"
             label={t("preferences.network.proxy.loading")}
           />
         ) : query.isError ? (
           <div
             role="alert"
-            className="mt-5 flex items-center gap-3 text-caption text-danger"
+            className="mt-3 flex items-center gap-3 text-caption text-danger"
           >
             <AlertCircle className="h-4 w-4" aria-hidden="true" />
             <span className="min-w-0 flex-1">
@@ -115,7 +118,7 @@ export function DownloadProxyCard() {
             </Button>
           </div>
         ) : enabled ? (
-          <div className="mt-5">
+          <div className="mt-3">
             {query.data?.protected ? (
               <p className="mb-3 rounded-lg border border-warning/25 bg-warning/5 px-3 py-2 text-caption text-content-muted">
                 {t("preferences.network.proxy.protectedHint")}
@@ -142,7 +145,7 @@ export function DownloadProxyCard() {
                 }}
               />
             </Field>
-            <div className="mt-4 flex justify-end">
+            <div className="mt-3 flex justify-end">
               <Button
                 size="sm"
                 variant="secondary"

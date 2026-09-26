@@ -34,14 +34,9 @@ export function AboutSection() {
   }
 
   return (
-    <section aria-labelledby={headingId} className="flex flex-col gap-4">
-      <SectionHeader
-        as="h3"
-        headingId={headingId}
-        title={t("about.title")}
-        description={t("about.description")}
-      />
-      <Card className="flex flex-col gap-4">
+    <section aria-labelledby={headingId} className="flex flex-col gap-3">
+      <SectionHeader as="h3" headingId={headingId} title={t("about.title")} />
+      <Card className="flex flex-col gap-3">
         <div className="flex items-start gap-3">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-layer-1 text-brand">
             <Scale className="h-4 w-4" aria-hidden="true" />
@@ -58,7 +53,7 @@ export function AboutSection() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-1.5 border-t border-hairline pt-4 text-caption leading-5 text-content-muted">
+        <div className="flex flex-col gap-1.5 border-t border-hairline pt-3 text-caption leading-5 text-content-muted">
           <p className="text-content">{t("about.copyright")}</p>
           <p>{t("about.license")}</p>
           <p>{t("about.upstream")}</p>

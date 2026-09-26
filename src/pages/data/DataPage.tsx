@@ -18,7 +18,7 @@ export function DataPage() {
     ? selectedScope
     : null;
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <SectionHeader
         as="h1"
         title={t("sessions.title")}

@@ -26,7 +26,7 @@ function SettingsGroup({
   const headingId = useId();
 
   return (
-    <section aria-labelledby={headingId} className="flex flex-col gap-4">
+    <section aria-labelledby={headingId} className="flex flex-col gap-2">
       <h2 id={headingId} className="text-overline text-content-muted">
         {title}
       </h2>
@@ -73,13 +73,9 @@ export function SettingsPage({ onOpenServices }: SettingsPageProps) {
       role="region"
       aria-label={t("preferences.title")}
       tabIndex={-1}
-      className="flex flex-col gap-8 outline-none"
+      className="flex flex-col gap-6 outline-none"
     >
-      <SectionHeader
-        as="h1"
-        title={t("preferences.title")}
-        description={t("preferences.description")}
-      />
+      <SectionHeader as="h1" title={t("preferences.title")} />
 
       {settingsInitiallyLoading ? (
         <SettingsSkeleton label={t("preferences.loading")} />

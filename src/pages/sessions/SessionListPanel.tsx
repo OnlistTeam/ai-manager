@@ -35,7 +35,7 @@ export function SessionListPanel({
 
   return (
     <Card padding="none" className="min-w-0 overflow-hidden rounded-xl">
-      <div className="flex items-center justify-between gap-3 border-b border-hairline px-4 py-3">
+      <div className="flex items-center justify-between gap-3 border-b border-hairline px-4 py-2">
         <h2 className="text-heading text-content">
           {t("sessions.list.title")}
         </h2>
@@ -44,7 +44,7 @@ export function SessionListPanel({
         </Badge>
       </div>
       <ul
-        className="max-h-[680px] overflow-y-auto p-2"
+        className="max-h-[680px] overflow-y-auto p-1.5"
         aria-label={t("sessions.list.title")}
       >
         {visibleItems.map((session) => {
@@ -56,7 +56,7 @@ export function SessionListPanel({
                 type="button"
                 aria-pressed={active}
                 onClick={() => onSelect(session.reference)}
-                className={`my-0.5 flex w-full min-w-0 items-start gap-3 rounded-lg border px-3 py-3 text-left transition-colors ${
+                className={`my-0.5 flex w-full min-w-0 items-center gap-3 rounded-lg border px-3 py-2 text-left transition-colors ${
                   active
                     ? "border-brand/30 bg-brand/10"
                     : "border-transparent hover:border-hairline hover:bg-layer-2"
@@ -64,11 +64,13 @@ export function SessionListPanel({
               >
                 <ToolArtwork
                   toolId={session.tool}
-                  className="h-10 w-10 rounded-lg"
+                  className="h-8 w-8 rounded-lg"
                 />
+                {/* Two lines: what it was (title, time) and where (preview,
+                    project). Each side truncates instead of wrapping. */}
                 <span className="min-w-0 flex-1">
                   <span className="flex min-w-0 items-center gap-2">
-                    <span className="truncate text-body font-semibold text-content">
+                    <span className="truncate text-body font-medium text-content">
                       {session.title ?? t("sessions.list.untitled")}
                     </span>
                     {session.resumable ? (
@@ -77,24 +79,24 @@ export function SessionListPanel({
                         aria-label={t("sessions.list.resumable")}
                       />
                     ) : null}
+                    {time ? (
+                      <span className="ml-auto inline-flex shrink-0 items-center gap-1 text-caption text-content-muted">
+                        <Clock3 className="h-3.5 w-3.5" aria-hidden="true" />
+                        {time}
+                      </span>
+                    ) : null}
                   </span>
-                  <span className="mt-0.5 block truncate text-caption text-content-muted">
-                    {session.preview ?? t(`sessions.tool.${session.tool}`)}
-                  </span>
-                  <span className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-caption text-content-muted">
+                  <span className="flex min-w-0 items-center gap-3 text-caption text-content-muted">
+                    <span className="min-w-0 flex-1 truncate">
+                      {session.preview ?? t(`sessions.tool.${session.tool}`)}
+                    </span>
                     {session.projectName ? (
-                      <span className="inline-flex min-w-0 items-center gap-1">
+                      <span className="inline-flex min-w-0 max-w-[40%] shrink-0 items-center gap-1">
                         <Folder
                           className="h-3.5 w-3.5 shrink-0"
                           aria-hidden="true"
                         />
                         <span className="truncate">{session.projectName}</span>
-                      </span>
-                    ) : null}
-                    {time ? (
-                      <span className="inline-flex items-center gap-1">
-                        <Clock3 className="h-3.5 w-3.5" aria-hidden="true" />
-                        {time}
                       </span>
                     ) : null}
                   </span>

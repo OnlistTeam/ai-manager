@@ -33,7 +33,7 @@ export function OpenClawWorkspacePage() {
     <div
       role="region"
       aria-label={t("openClawWorkspace.title")}
-      className="flex min-w-0 flex-col gap-6"
+      className="flex min-w-0 flex-col gap-4"
     >
       <SectionHeader
         as="h2"

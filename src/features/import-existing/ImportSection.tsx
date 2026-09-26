@@ -86,7 +86,7 @@ export function ImportSection() {
           aria-busy={discoveryInitiallyLoading || undefined}
           className="rounded-xl"
         >
-          <div className="flex flex-wrap items-center justify-between gap-3 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
             <div className="flex min-w-0 items-start gap-3">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-layer-1 text-brand">
                 {run.data ? (

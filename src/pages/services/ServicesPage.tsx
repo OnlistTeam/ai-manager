@@ -37,7 +37,7 @@ export function ServicesPage({
   );
 
   return (
-    <div className="flex min-w-0 flex-col gap-5">
+    <div className="flex min-w-0 flex-col gap-4">
       <SectionHeader
         as="h1"
         title={t("services.title")}

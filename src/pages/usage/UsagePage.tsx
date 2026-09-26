@@ -40,7 +40,7 @@ export function UsagePage() {
       role="region"
       aria-label={t("usage.title")}
       tabIndex={-1}
-      className="flex min-w-0 flex-col gap-6 outline-none"
+      className="flex min-w-0 flex-col gap-4 outline-none"
     >
       <SectionHeader
         as="h2"
@@ -170,7 +170,7 @@ export function UsagePage() {
         ) : (
           <>
             <UsageHero overview={usage.data} />
-            <div className="grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.75fr)] xl:items-start">
+            <div className="grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.75fr)] xl:items-start">
               <UsageTrendChart days={usage.data.trend} />
               <Card padding="lg" className="rounded-xl">
                 <ShieldCheck

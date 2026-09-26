@@ -65,7 +65,7 @@ export function SessionsPage({ tool, showHeader = true }: SessionsPageProps) {
       <div
         role="region"
         aria-label={t("sessions.title")}
-        className="flex min-w-0 flex-col gap-6"
+        className="flex min-w-0 flex-col gap-4"
       >
         {showHeader ? (
           <SectionHeader

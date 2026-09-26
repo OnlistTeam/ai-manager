@@ -18,7 +18,7 @@ export function LanguageCard() {
 
   return (
     <Card padding="none" className="overflow-hidden rounded-xl">
-      <div className="grid gap-3 px-5 py-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+      <div className="grid gap-3 px-4 py-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
         <div className="flex min-w-0 items-start gap-3">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-layer-1 text-brand">
             <Globe className="h-4 w-4" aria-hidden="true" />

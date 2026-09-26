@@ -25,16 +25,16 @@ export function FirstBackupCard({
       padding="none"
       className="overflow-hidden border-brand/15 bg-layer-1 shadow-sm"
     >
-      <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-brand/15 bg-brand/10 text-brand shadow-sm">
-          <ShieldCheck className="h-5 w-5" aria-hidden="true" />
+      <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-brand/15 bg-brand/10 text-brand shadow-sm">
+          <ShieldCheck className="h-4 w-4" aria-hidden="true" />
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <p className="text-body font-medium text-content">{title}</p>
             <Badge tone="success">{t("preferences.backup.empty.local")}</Badge>
           </div>
-          <p className="mt-1 text-caption leading-5 text-content-muted">
+          <p className="mt-0.5 text-caption text-content-muted">
             {t("preferences.backup.empty.description")}
           </p>
         </div>

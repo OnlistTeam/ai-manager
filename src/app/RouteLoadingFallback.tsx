@@ -58,7 +58,7 @@ export function RouteLoadingFallback({
         role="status"
         aria-live="polite"
         aria-label={t("nav.loadingPage")}
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-4"
       >
         <SectionHeader
           as="h1"

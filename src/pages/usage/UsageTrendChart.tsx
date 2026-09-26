@@ -37,7 +37,7 @@ export function UsageTrendChart({ days }: { days: readonly UsageDay[] }) {
         aria-label={t("usage.trend.label", {
           value: formatCount(total, locale),
         })}
-        className="mt-6"
+        className="mt-4"
       >
         <div
           aria-hidden="true"

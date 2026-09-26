@@ -85,11 +85,10 @@ export function UpdateSection() {
                 : t("preferences.updates.note");
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-3">
       <SectionHeader
         as="h3"
         title={t("preferences.updates.title")}
-        description={t("preferences.updates.description")}
         action={
           devBuild ? undefined : (
             <Button
@@ -148,14 +147,14 @@ export function UpdateSection() {
         </SettingRow>
         {downloading ? (
           <Progress
-            className="mt-4"
+            className="mt-3"
             value={downloadProgress(status.data)}
             indeterminate={!status.data?.totalBytes}
             label={t("preferences.updates.downloadProgress")}
           />
         ) : null}
         {failed ? (
-          <div className="mt-4 flex justify-end">
+          <div className="mt-3 flex justify-end">
             <Button
               variant="secondary"
               loading={openDownloadPage.isPending}
