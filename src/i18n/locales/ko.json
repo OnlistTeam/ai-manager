@@ -2338,6 +2338,7 @@
         "failed": "도구가 받은 오류"
       },
       "attempt": {
+        "pending": "{{name}}: 응답 대기 중",
         "ok": "{{name}}: 응답함",
         "failed": "{{name}}: 실패({{reason}})",
         "skipped": "{{name}}: 일시 중지되어 건너뜀"

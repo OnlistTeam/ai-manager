@@ -43,8 +43,11 @@ an error. Recording at those points costs a few lines in the inherited file.
      body's `model`, or the `models/<name>` path segment), at most 128
      characters;
    - the services tried, in order, each as provider id, provider name,
-     outcome (`ok`, `failed`, `skipped`), HTTP status when the service
-     answered with an error, a short error category, and milliseconds;
+     outcome (`pending`, `ok`, `failed`, `skipped`), HTTP status when the
+     service answered with an error, a short error category, and
+     milliseconds. A try is pushed as `pending` the moment it starts and is
+     replaced by its outcome when it ends, so the renderer can show a request
+     on its way to a service before that service answers;
    - the final status (`pending`, `ok`, `failed`), its error category, the
      total milliseconds (a streamed answer is timed to its end), and whether
      more than one service was tried.

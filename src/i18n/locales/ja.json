@@ -2337,6 +2337,7 @@
         "failed": "ツールが受けたエラー"
       },
       "attempt": {
+        "pending": "{{name}}：応答待ち",
         "ok": "{{name}}：応答あり",
         "failed": "{{name}}：失敗（{{reason}}）",
         "skipped": "{{name}}：一時停止中のためスキップ"

@@ -73,6 +73,64 @@ fn a_direct_success_is_pending_until_the_response_is_released() {
 }
 
 #[test]
+fn a_started_try_is_pushed_as_pending_and_replaced_by_its_outcome() {
+    let (log, recorded) = trace_log();
+    let (a, b) = (provider("a", "Service A"), provider("b", "Service B"));
+    let mut trace = RequestTrace::start(log.clone(), ToolId::ClaudeCode, None);
+    trace.attempt(&a, None);
+
+    let entry = log.snapshot().entries[0].clone();
+    assert_eq!(entry.status, RoutingTraceStatus::Pending);
+    assert_eq!(entry.attempts.len(), 1);
+    assert_eq!(entry.attempts[0].outcome, RoutingAttemptOutcome::Pending);
+    assert_eq!(entry.attempts[0].error, None);
+
+    trace.attempt(&b, Some(&upstream(429)));
+    let attempts = log.snapshot().entries[0].attempts.clone();
+    assert_eq!(
+        attempts
+            .iter()
+            .map(|attempt| (attempt.provider_id.as_str(), attempt.outcome))
+            .collect::<Vec<_>>(),
+        vec![
+            ("a", RoutingAttemptOutcome::Failed),
+            ("b", RoutingAttemptOutcome::Pending),
+        ]
+    );
+
+    trace.answered(&b);
+    drop(trace);
+    let entry = log.snapshot().entries[0].clone();
+    assert_eq!(entry.attempts.len(), 2);
+    assert_eq!(entry.attempts[1].outcome, RoutingAttemptOutcome::Ok);
+    assert_eq!(entry.status, RoutingTraceStatus::Ok);
+    // Every step was pushed: begin, a pending, a failed, b pending, b ok, done.
+    let outcomes = recorded
+        .0
+        .lock()
+        .expect("events")
+        .iter()
+        .map(|update| {
+            update
+                .entry
+                .attempts
+                .iter()
+                .map(|attempt| attempt.outcome)
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(outcomes.len(), 6);
+    assert_eq!(outcomes[1], vec![RoutingAttemptOutcome::Pending]);
+    assert_eq!(
+        outcomes[3],
+        vec![
+            RoutingAttemptOutcome::Failed,
+            RoutingAttemptOutcome::Pending
+        ]
+    );
+}
+
+#[test]
 fn failover_records_each_try_in_order_with_its_category() {
     let (log, _) = trace_log();
     let (a, b, c) = (

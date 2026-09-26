@@ -2338,6 +2338,7 @@
         "failed": "Errors seen by tools"
       },
       "attempt": {
+        "pending": "{{name}}: waiting for an answer",
         "ok": "{{name}}: answered",
         "failed": "{{name}}: failed ({{reason}})",
         "skipped": "{{name}}: skipped while paused"

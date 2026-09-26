@@ -2337,6 +2337,7 @@
         "failed": "软件收到的错误"
       },
       "attempt": {
+        "pending": "{{name}}：等待回应",
         "ok": "{{name}}：已应答",
         "failed": "{{name}}：失败（{{reason}}）",
         "skipped": "{{name}}：暂停中，已跳过"

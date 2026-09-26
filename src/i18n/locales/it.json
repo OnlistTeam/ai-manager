@@ -2338,6 +2338,7 @@
         "failed": "Errori visti dagli strumenti"
       },
       "attempt": {
+        "pending": "{{name}}: in attesa di risposta",
         "ok": "{{name}}: ha risposto",
         "failed": "{{name}}: non riuscito ({{reason}})",
         "skipped": "{{name}}: saltato perché in pausa"

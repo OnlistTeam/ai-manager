@@ -2,6 +2,8 @@
 //!
 //! The forwarder calls these at the points where it already decides: a
 //! service passed over, a try started, the answer began, the request failed.
+//! A started try is pushed at once as a `pending` attempt and replaced by its
+//! outcome when it ends, so the renderer can show a request on its way.
 //! Everything here reduces inherited types to the content-free trace entry;
 //! request bodies are read only for the requested model name.
 
@@ -109,6 +111,17 @@ impl RequestTrace {
             return;
         };
         recording.close_open(previous_error);
+        recording.log.push_attempt(
+            recording.seq,
+            RoutingTraceAttempt {
+                provider_id: provider.id.clone(),
+                provider_name: provider.name.clone(),
+                outcome: RoutingAttemptOutcome::Pending,
+                http_status: None,
+                error: None,
+                ms: 0,
+            },
+        );
         recording.open = Some(OpenAttempt {
             provider_id: provider.id.clone(),
             provider_name: provider.name.clone(),
@@ -124,7 +137,7 @@ impl RequestTrace {
         };
         let open = recording.open.take();
         let ms = open.as_ref().map_or(0, |open| elapsed_ms(open.started));
-        recording.log.push_attempt(
+        recording.log.settle_attempt(
             recording.seq,
             RoutingTraceAttempt {
                 provider_id: provider.id.clone(),
@@ -153,7 +166,7 @@ impl Recording {
         let Some(open) = self.open.take() else {
             return;
         };
-        self.log.push_attempt(
+        self.log.settle_attempt(
             self.seq,
             RoutingTraceAttempt {
                 provider_id: open.provider_id,
@@ -186,7 +199,7 @@ impl Drop for RequestTrace {
             return;
         }
         if let Some(open) = recording.open.take() {
-            recording.log.push_attempt(
+            recording.log.settle_attempt(
                 recording.seq,
                 RoutingTraceAttempt {
                     provider_id: open.provider_id,

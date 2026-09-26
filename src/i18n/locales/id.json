@@ -2338,6 +2338,7 @@
         "failed": "Galat yang diterima alat"
       },
       "attempt": {
+        "pending": "{{name}}: menunggu jawaban",
         "ok": "{{name}}: menjawab",
         "failed": "{{name}}: gagal ({{reason}})",
         "skipped": "{{name}}: dilewati karena dijeda"

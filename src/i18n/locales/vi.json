@@ -2338,6 +2338,7 @@
         "failed": "Lỗi công cụ nhận được"
       },
       "attempt": {
+        "pending": "{{name}}: đang chờ phản hồi",
         "ok": "{{name}}: đã trả lời",
         "failed": "{{name}}: thất bại ({{reason}})",
         "skipped": "{{name}}: bỏ qua vì đang tạm dừng"

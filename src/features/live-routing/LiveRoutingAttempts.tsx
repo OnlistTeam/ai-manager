@@ -1,12 +1,18 @@
-import { ArrowRight, Check, SkipForward, X } from "lucide-react";
+import { ArrowRight, Check, Ellipsis, SkipForward, X } from "lucide-react";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import type { RoutingTraceAttempt } from "@/entities/routing";
 import { cn } from "@/shared/ui/cn";
 import { maskEmails } from "./liveRoutingFormat";
 
-const OUTCOME_ICON = { ok: Check, failed: X, skipped: SkipForward } as const;
+const OUTCOME_ICON = {
+  pending: Ellipsis,
+  ok: Check,
+  failed: X,
+  skipped: SkipForward,
+} as const;
 const OUTCOME_TONE = {
+  pending: "text-content-muted motion-safe:animate-pulse",
   ok: "text-success",
   failed: "text-danger",
   skipped: "text-content-muted",

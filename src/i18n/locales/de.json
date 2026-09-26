@@ -2338,6 +2338,7 @@
         "failed": "Fehler bei Tools"
       },
       "attempt": {
+        "pending": "{{name}}: wartet auf Antwort",
         "ok": "{{name}}: hat geantwortet",
         "failed": "{{name}}: fehlgeschlagen ({{reason}})",
         "skipped": "{{name}}: pausiert, übersprungen"

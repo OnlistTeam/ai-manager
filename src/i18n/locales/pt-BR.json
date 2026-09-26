@@ -2338,6 +2338,7 @@
         "failed": "Erros vistos pelas ferramentas"
       },
       "attempt": {
+        "pending": "{{name}}: aguardando resposta",
         "ok": "{{name}}: respondeu",
         "failed": "{{name}}: falhou ({{reason}})",
         "skipped": "{{name}}: ignorado por estar pausado"
