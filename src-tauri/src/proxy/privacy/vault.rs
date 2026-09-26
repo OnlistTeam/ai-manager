@@ -14,7 +14,7 @@ pub(crate) const DEFAULT_CAPACITY: usize = 4096;
 /// Context-recognized values kept for verbatim matching. Short values are
 /// not kept because they would match ordinary words.
 const KNOWN_CAPACITY: usize = 256;
-const KNOWN_MIN_CHARS: usize = 6;
+pub(crate) const KNOWN_MIN_CHARS: usize = 6;
 
 pub(crate) struct Vault {
     capacity: usize,

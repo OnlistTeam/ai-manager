@@ -72,7 +72,7 @@ pub use operation::{
     Operation, OperationExtension, OperationId, OperationKind, OperationLogEntry, OperationLogKind,
     OperationOutput, OperationStatus, ToolUpdateRecovery,
 };
-pub use privacy_protection::PrivacyProtection;
+pub use privacy_protection::{normalize_privacy_words, PrivacyProtection, PrivacyProtectionPatch};
 pub use prompt::{PromptDetail, PromptDraft};
 pub use provider::{
     Provider, ProviderAdvancedDraft, ProviderConnectionPreset, ProviderConnectionProfile,

@@ -12,8 +12,8 @@ use std::sync::Arc;
 
 use crate::database::Database;
 use crate::domain::{
-    AppError, DesktopAppId, DownloadStrategy, ErrorCode, ExtensionKind, ExtensionScope,
-    ProductSettings, TerminalAppId, ToolId,
+    normalize_privacy_words, AppError, DesktopAppId, DownloadStrategy, ErrorCode, ExtensionKind,
+    ExtensionScope, PrivacyProtection, ProductSettings, TerminalAppId, ToolId,
 };
 use crate::platform::redact::{redact_secrets, truncate_tail};
 use crate::store::AppState;
@@ -28,11 +28,14 @@ const EXTENSION_SCOPE_KEY: &str = "aimgr.extensionScope";
 const EXTENSION_KIND_KEY: &str = "aimgr.extensionKind";
 const DOWNLOAD_STRATEGY_KEY: &str = "aimgr.downloadStrategy";
 const TERMINAL_APP_KEY: &str = "aimgr.terminalApp";
-/// ADR-0049. Kept out of `ProductSettings` so it has exactly one write path.
-const PRIVACY_PROTECTION_KEY: &str = "aimgr.privacyProtection";
+/// ADR-0049. Kept out of `ProductSettings` so they have exactly one write path.
+const PRIVACY_MASK_SECRETS_KEY: &str = "aimgr.privacy.maskSecrets";
+const PRIVACY_MASK_PERSONAL_KEY: &str = "aimgr.privacy.maskPersonal";
+/// A JSON array of strings.
+const PRIVACY_WORDS_KEY: &str = "aimgr.privacy.words";
 
 /// All product keys. For the guard test and manual inspection; the production path never iterates it.
-pub const PRODUCT_SETTING_KEYS: [&str; 8] = [
+pub const PRODUCT_SETTING_KEYS: [&str; 10] = [
     ADVANCED_MODE_KEY,
     IMPORT_PROMPT_SEEN_KEY,
     TOOL_SCOPE_KEY,
@@ -40,7 +43,9 @@ pub const PRODUCT_SETTING_KEYS: [&str; 8] = [
     EXTENSION_KIND_KEY,
     DOWNLOAD_STRATEGY_KEY,
     TERMINAL_APP_KEY,
-    PRIVACY_PROTECTION_KEY,
+    PRIVACY_MASK_SECRETS_KEY,
+    PRIVACY_MASK_PERSONAL_KEY,
+    PRIVACY_WORDS_KEY,
 ];
 
 /// An empty string = never chosen. The upstream DAO exposes no "delete a key" interface, and
@@ -133,16 +138,29 @@ fn decode_download_strategy(raw: Option<String>) -> DownloadStrategy {
     DownloadStrategy::Automatic
 }
 
-/// Privacy protection is on unless the user turned it off: a missing,
-/// empty or unrecognized value reads as on.
-fn decode_privacy_protection(raw: Option<String>) -> bool {
-    raw.as_deref() != Some("false")
+/// A missing, empty or unrecognized value reads as `default`.
+fn decode_flag(raw: Option<String>, default: bool) -> bool {
+    match raw.as_deref() {
+        Some("true") => true,
+        Some("false") => false,
+        _ => default,
+    }
+}
+
+/// A missing or unreadable list reads as no words. The stored list was
+/// normalized when it was saved; normalizing again keeps a hand-edited value
+/// inside the same limits.
+fn decode_privacy_words(raw: Option<String>) -> Vec<String> {
+    raw.as_deref()
+        .and_then(|raw| serde_json::from_str::<Vec<String>>(raw).ok())
+        .and_then(|words| normalize_privacy_words(&words).ok())
+        .unwrap_or_default()
 }
 
 /// Everything a backup restore or archive import must keep from this machine.
 pub struct PreservedPreferences {
     settings: ProductSettings,
-    privacy_protection: bool,
+    privacy_protection: PrivacyProtection,
 }
 
 /// Handle to the upstream KV store. The fields are private, so the layers above can never reach `Database`.
@@ -210,18 +228,35 @@ impl SettingsStore {
         })
     }
 
-    pub fn load_privacy_protection(&self) -> Result<bool, AppError> {
-        Ok(decode_privacy_protection(
-            self.db
-                .get_setting(PRIVACY_PROTECTION_KEY)
-                .map_err(load_failed)?,
-        ))
+    /// Unset values read as the defaults: keys and passwords hidden,
+    /// personal information not, no words.
+    pub fn load_privacy_protection(&self) -> Result<PrivacyProtection, AppError> {
+        let defaults = PrivacyProtection::default();
+        let read = |key: &str| self.db.get_setting(key).map_err(load_failed);
+        Ok(PrivacyProtection {
+            mask_secrets: decode_flag(read(PRIVACY_MASK_SECRETS_KEY)?, defaults.mask_secrets),
+            mask_personal: decode_flag(read(PRIVACY_MASK_PERSONAL_KEY)?, defaults.mask_personal),
+            words: decode_privacy_words(read(PRIVACY_WORDS_KEY)?),
+        })
     }
 
-    /// Writes the switch and returns the value read back.
-    pub fn save_privacy_protection(&self, enabled: bool) -> Result<bool, AppError> {
+    /// Writes all three values and returns what is read back.
+    pub fn save_privacy_protection(
+        &self,
+        settings: &PrivacyProtection,
+    ) -> Result<PrivacyProtection, AppError> {
+        let words = serde_json::to_string(&settings.words).map_err(save_failed)?;
         self.db
-            .set_setting(PRIVACY_PROTECTION_KEY, bool_value(enabled))
+            .set_setting(PRIVACY_MASK_SECRETS_KEY, bool_value(settings.mask_secrets))
+            .map_err(save_failed)?;
+        self.db
+            .set_setting(
+                PRIVACY_MASK_PERSONAL_KEY,
+                bool_value(settings.mask_personal),
+            )
+            .map_err(save_failed)?;
+        self.db
+            .set_setting(PRIVACY_WORDS_KEY, &words)
             .map_err(save_failed)?;
         self.load_privacy_protection()
     }
@@ -237,7 +272,7 @@ impl SettingsStore {
     /// Writes captured preferences back after the database was replaced.
     pub fn reinstate(&self, preserved: PreservedPreferences) -> Result<(), AppError> {
         self.save(preserved.settings)?;
-        self.save_privacy_protection(preserved.privacy_protection)?;
+        self.save_privacy_protection(&preserved.privacy_protection)?;
         Ok(())
     }
 
@@ -276,180 +311,5 @@ impl SettingsStore {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::{
-        decode_kind, decode_scope, decode_tool, encode_kind, encode_scope, encode_tool,
-        SettingsStore, ADVANCED_MODE_KEY, DOWNLOAD_STRATEGY_KEY, PRIVACY_PROTECTION_KEY,
-        PRODUCT_SETTING_KEYS,
-    };
-    use crate::database::Database;
-    use crate::domain::{
-        DesktopAppId, DownloadStrategy, ExtensionKind, ExtensionScope, ProductSettings,
-        TerminalAppId, ToolId,
-    };
-    use std::sync::Arc;
-
-    fn store() -> SettingsStore {
-        SettingsStore::with_db(Arc::new(Database::memory().expect("in-memory database")))
-    }
-
-    #[test]
-    fn every_product_key_carries_the_product_prefix() {
-        // Decision 1: all 16 keys upstream writes into this table are snake_case with not a
-        // single dot, so a dotted prefix cannot structurally collide. This test guards the
-        // prefix itself — so nobody adding a key later casually writes a bare name.
-        for key in PRODUCT_SETTING_KEYS {
-            assert!(
-                key.starts_with("aimgr."),
-                "{key} must live under the product prefix"
-            );
-        }
-        assert_eq!(PRODUCT_SETTING_KEYS.len(), 8);
-    }
-
-    #[test]
-    fn a_database_without_any_product_key_reads_as_defaults() {
-        assert_eq!(store().load().expect("load"), ProductSettings::default());
-    }
-
-    #[test]
-    fn legacy_preferences_migrate_to_automatic_official_first() {
-        for legacy in ["officialOnly", "chinaResilient"] {
-            let store = store();
-            store
-                .db
-                .set_setting(DOWNLOAD_STRATEGY_KEY, legacy)
-                .expect("seed legacy preference");
-            assert_eq!(
-                store.load().expect("load").download_strategy,
-                DownloadStrategy::Automatic
-            );
-        }
-    }
-
-    #[test]
-    fn saving_round_trips_through_the_real_table() {
-        let store = store();
-        let wanted = ProductSettings {
-            advanced_mode: true,
-            import_prompt_seen: true,
-            tool_scope: Some(ToolId::OpenCode),
-            extension_scope: Some(ExtensionScope::desktop_app(DesktopAppId::ClaudeDesktop)),
-            extension_kind: Some(ExtensionKind::Prompt),
-            download_strategy: DownloadStrategy::Automatic,
-            terminal_app: Some(TerminalAppId::Ghostty),
-        };
-        assert_eq!(store.save(wanted).expect("save"), wanted);
-        assert_eq!(store.load().expect("load"), wanted);
-        assert_eq!(
-            store
-                .db
-                .get_setting(DOWNLOAD_STRATEGY_KEY)
-                .expect("read persisted strategy")
-                .as_deref(),
-            Some("automatic")
-        );
-    }
-
-    #[test]
-    fn clearing_a_scope_reads_back_as_never_chosen() {
-        let store = store();
-        store
-            .save(ProductSettings {
-                tool_scope: Some(ToolId::Codex),
-                ..ProductSettings::default()
-            })
-            .expect("save a scope");
-        let cleared = store.save(ProductSettings::default()).expect("clear it");
-        assert_eq!(cleared.tool_scope, None);
-        assert_eq!(store.load().expect("load").tool_scope, None);
-    }
-
-    #[test]
-    fn a_value_this_build_does_not_understand_degrades_to_never_chosen() {
-        // Restoring another machine's database, or removing a ToolId in the future, both end
-        // up here. One forgotten tab is not worth making the whole settings read fail.
-        assert_eq!(decode_tool(Some("claude".to_string())), None);
-        assert_eq!(decode_tool(Some(String::new())), None);
-        assert_eq!(decode_tool(None), None);
-        assert_eq!(decode_kind(Some("mcpServer".to_string())), None);
-        assert_eq!(decode_kind(Some(String::new())), None);
-        assert_eq!(decode_scope(Some("tool:claude".to_string())), None);
-        assert_eq!(decode_scope(Some("desktop-app:future".to_string())), None);
-    }
-
-    #[test]
-    fn the_encoding_is_the_domain_string_and_nothing_else() {
-        for id in ToolId::ALL {
-            assert_eq!(encode_tool(Some(id)), id.as_str());
-            assert_eq!(
-                decode_tool(Some(encode_tool(Some(id)).to_string())),
-                Some(id)
-            );
-        }
-        for kind in ExtensionKind::ALL {
-            assert_eq!(encode_kind(Some(kind)), kind.as_str());
-            assert_eq!(
-                decode_kind(Some(encode_kind(Some(kind)).to_string())),
-                Some(kind)
-            );
-        }
-        for scope in [
-            ExtensionScope::tool(ToolId::Codex),
-            ExtensionScope::desktop_app(DesktopAppId::ClaudeDesktop),
-        ] {
-            assert_eq!(decode_scope(Some(encode_scope(Some(scope)))), Some(scope));
-        }
-        assert_eq!(encode_tool(None), "");
-        assert_eq!(encode_kind(None), "");
-        assert_eq!(encode_scope(None), "");
-    }
-
-    #[test]
-    fn what_we_write_is_what_the_upstream_bool_reader_understands() {
-        // `get_bool_flag` only accepts "true" and "1". This pins our writing down to match it —
-        // writing "yes" would make advanced mode impossible to turn on, without any error.
-        let store = store();
-        store
-            .save(ProductSettings {
-                advanced_mode: true,
-                ..ProductSettings::default()
-            })
-            .expect("save");
-        assert!(store.db.get_bool_flag(ADVANCED_MODE_KEY).expect("flag"));
-        assert!(store.load().expect("load").advanced_mode);
-    }
-
-    #[test]
-    fn privacy_protection_is_on_until_the_user_turns_it_off() {
-        let store = store();
-        assert!(store.load_privacy_protection().expect("default"));
-        assert!(!store.save_privacy_protection(false).expect("turn off"));
-        assert_eq!(
-            store
-                .db
-                .get_setting(PRIVACY_PROTECTION_KEY)
-                .expect("stored")
-                .as_deref(),
-            Some("false")
-        );
-        assert!(store.save_privacy_protection(true).expect("turn on"));
-        store
-            .db
-            .set_setting(PRIVACY_PROTECTION_KEY, "")
-            .expect("blank value");
-        assert!(store.load_privacy_protection().expect("blank reads as on"));
-    }
-
-    #[test]
-    fn preserved_preferences_include_privacy_protection() {
-        let store = store();
-        store.save_privacy_protection(false).expect("turn off");
-        let preserved = store.preserve().expect("preserve");
-        store
-            .save_privacy_protection(true)
-            .expect("simulate a restore");
-        store.reinstate(preserved).expect("reinstate");
-        assert!(!store.load_privacy_protection().expect("load"));
-    }
-}
+#[path = "settings/tests.rs"]
+mod tests;

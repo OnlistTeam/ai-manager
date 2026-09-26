@@ -147,6 +147,8 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.operation.notFound",
     "error.operation.notRunning",
     "error.operation.toolBusy",
+    "error.privacy.tooManyWords",
+    "error.privacy.wordTooLong",
     "error.prompt.contentInvalid",
     "error.prompt.contentRequired",
     "error.prompt.contentTooLong",
@@ -483,6 +485,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 333);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 335);
     }
 }

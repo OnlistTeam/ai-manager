@@ -8,6 +8,7 @@ use super::engine::Engine;
 use super::layer::restore_json_bytes;
 use super::placeholder::{HashKey, PLACEHOLDER};
 use super::stream::SseRestorer;
+use super::Rules;
 
 const KEY: &str = "sk-ant-api03-Ab3dEf9hIjKlMnOpQrStUvWxYz0123456789";
 const EMAIL: &str = "zhang.san@company.cn";
@@ -18,16 +19,11 @@ fn engine() -> Arc<Engine> {
 }
 
 fn mask(engine: &Engine, body: &mut Value) -> usize {
-    let mut count = 0;
-    engine.mask_value(body, &mut count);
-    count
+    engine.mask_value(body, &Rules::detectors())
 }
 
 fn placeholder_of(engine: &Engine, text: &str) -> String {
-    let mut count = 0;
-    engine
-        .mask_text(text, &mut count)
-        .expect("text is sensitive")
+    engine.mask_text(text).expect("text is sensitive")
 }
 
 fn no_raw_values(body: &Value) {
@@ -166,7 +162,7 @@ fn unknown_placeholders_are_left_as_they_are() {
 fn switched_off_protection_leaves_the_body_byte_identical() {
     // Configured but off: the global engine exists and stays empty, so other
     // proxy tests running in parallel are unaffected.
-    super::configure([9; 32], false);
+    super::configure([9; 32], Rules::off());
     let body = json!({"messages": [{"role": "user", "content": format!("{KEY} {EMAIL}")}]});
     let bytes = serde_json::to_vec(&body).unwrap();
     let mut forwarded = body.clone();
