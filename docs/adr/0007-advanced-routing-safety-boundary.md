@@ -2,6 +2,8 @@
 
 - Status: Accepted
 - Date: 2026-08-24
+- Amended by ADR-0050: live routing mode; decision 4 now also admits the
+  per-request trace fields listed there.
 
 > 2026-08-30: ADR-0031 supersedes this document's Advanced Mode navigation gate; the controlled local routing and IPC safety boundaries are unchanged.
 
