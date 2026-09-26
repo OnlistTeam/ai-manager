@@ -550,6 +550,8 @@
       "commandInvalid": "Ese comando no se pudo añadir de forma segura.",
       "commandRequired": "Introduce el programa que debe ejecutar esta conexión.",
       "descriptionTooLong": "Limita la descripción a 240 caracteres o menos.",
+      "envInvalid": "Revisa las variables de entorno: los nombres usan letras, números y guiones bajos, no empiezan por un número y no se repiten.",
+      "headersInvalid": "Revisa los encabezados de solicitud: los nombres usan letras, números y guiones y no se repiten, y los valores ocupan una sola línea.",
       "installCleanupFailed": "No se pudo añadir la conexión, y AI Manager no pudo deshacer completamente el cambio intentado.",
       "installFailed": "No se pudo añadir la conexión MCP.",
       "nameInvalid": "Ese nombre de conexión contiene caracteres no admitidos.",
@@ -2201,7 +2203,7 @@
       "install": {
         "add": "Añadir MCP",
         "title": "Añadir una conexión MCP",
-        "description": "Conecta {{tool}} sin pegar JSON de configuración.",
+        "description": "Conecta {{tool}} a un programa local o a un servicio remoto.",
         "confirm": "Añadir conexión",
         "name": "Nombre de la conexión",
         "nameHint": "Usa un nombre que reconozcas en Extensiones.",
@@ -2230,9 +2232,34 @@
         "url": "URL del servidor",
         "urlHint": "Usa HTTPS. HTTP solo se acepta para este equipo.",
         "urlPlaceholder": "https://mcp.example.com",
+        "env": {
+          "label": "Variables de entorno (opcional)",
+          "hint": "Los servicios que piden una clave de API suelen esperarla aquí.",
+          "add": "Añadir variable",
+          "namePlaceholder": "API_KEY"
+        },
+        "headers": {
+          "label": "Encabezados de solicitud (opcional)",
+          "hint": "Los servicios que piden iniciar sesión suelen esperar un token aquí.",
+          "add": "Añadir encabezado",
+          "namePlaceholder": "Authorization"
+        },
+        "variable": {
+          "name": "Nombre",
+          "value": "Valor",
+          "remove": "Quitar esta fila"
+        },
+        "paste": {
+          "open": "Pegar configuración",
+          "label": "Configuración MCP",
+          "hint": "Pega el JSON de las instrucciones del servidor para rellenar el formulario.",
+          "apply": "Rellenar formulario",
+          "invalid": "Esto no parece una configuración MCP. Pega el bloque JSON que la contiene.",
+          "filled": "Formulario rellenado. Revísalo y luego añade la conexión.",
+          "filledFirst": "El texto pegado tenía varias conexiones. Se usó la primera: {{name}}."
+        },
         "trustLocal": "Esto ejecuta el programa indicado en tu equipo. Añade solo software de confianza.",
         "trustRemote": "Esto envía tráfico MCP a la dirección de arriba. Añade solo servicios de confianza.",
-        "noSecrets": "Este formulario guiado no tiene campos para contraseñas, encabezados ni variables de entorno.",
         "queued": "Añadiendo {{name}}",
         "queuedDescription": "Puedes seguir trabajando y ver el progreso en Tareas."
       },

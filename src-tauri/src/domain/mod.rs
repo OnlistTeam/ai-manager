@@ -53,7 +53,7 @@ pub use health::{
     ConfigHealth, ConfigReadStatus, HealthProviderTarget, HealthSnapshot, McpHealth, ProviderHealth,
 };
 pub use import::{ImportOutcome, ImportPreview, ImportSummary};
-pub use mcp::{McpConnectionDraft, McpInstallDraft};
+pub use mcp::{McpConnectionDraft, McpInstallDraft, McpVariableDraft};
 pub use model_probe::{
     ModelCatalog, ModelCatalogRejection, ModelProbeOutcome, ModelProbeReply, ModelProbeRequest,
     ProbeModel, ProbeModelKind, ProviderWireProtocol, MAX_PROBE_IMAGE_BASE64_BYTES,

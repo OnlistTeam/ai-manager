@@ -550,6 +550,8 @@
       "commandInvalid": "Dieser Befehl konnte nicht sicher hinzugefügt werden.",
       "commandRequired": "Geben Sie das Programm ein, das diese Verbindung ausführen soll.",
       "descriptionTooLong": "Beschränken Sie die Beschreibung auf höchstens 240 Zeichen.",
+      "envInvalid": "Prüfen Sie die Umgebungsvariablen: Namen bestehen aus Buchstaben, Ziffern und Unterstrichen, beginnen nicht mit einer Ziffer und kommen nur einmal vor.",
+      "headersInvalid": "Prüfen Sie die Anfrage-Header: Namen bestehen aus Buchstaben, Ziffern und Bindestrichen und kommen nur einmal vor; Werte bleiben einzeilig.",
       "installCleanupFailed": "Die Verbindung konnte nicht hinzugefügt werden, und AI Manager konnte den Versuch nicht vollständig rückgängig machen.",
       "installFailed": "Die MCP-Verbindung konnte nicht hinzugefügt werden.",
       "nameInvalid": "Dieser Verbindungsname enthält nicht unterstützte Zeichen.",
@@ -2201,7 +2203,7 @@
       "install": {
         "add": "MCP hinzufügen",
         "title": "Eine MCP-Verbindung hinzufügen",
-        "description": "Verbinden Sie {{tool}}, ohne Konfigurations-JSON einzufügen.",
+        "description": "Verbinden Sie {{tool}} mit einem lokalen Programm oder einem Remote-Dienst.",
         "confirm": "Verbindung hinzufügen",
         "name": "Verbindungsname",
         "nameHint": "Verwenden Sie einen Namen, den Sie in Erweiterungen wiedererkennen.",
@@ -2230,9 +2232,34 @@
         "url": "Server-URL",
         "urlHint": "Verwenden Sie HTTPS. HTTP wird nur für diesen Computer akzeptiert.",
         "urlPlaceholder": "https://mcp.example.com",
+        "env": {
+          "label": "Umgebungsvariablen (optional)",
+          "hint": "Dienste mit API-Schlüssel erwarten ihn meist hier.",
+          "add": "Variable hinzufügen",
+          "namePlaceholder": "API_KEY"
+        },
+        "headers": {
+          "label": "Anfrage-Header (optional)",
+          "hint": "Dienste mit Anmeldung erwarten ihr Token meist hier.",
+          "add": "Header hinzufügen",
+          "namePlaceholder": "Authorization"
+        },
+        "variable": {
+          "name": "Name",
+          "value": "Wert",
+          "remove": "Diese Zeile entfernen"
+        },
+        "paste": {
+          "open": "Konfiguration einfügen",
+          "label": "MCP-Konfiguration",
+          "hint": "Fügen Sie das JSON aus der Anleitung des Servers ein, um das Formular auszufüllen.",
+          "apply": "Formular ausfüllen",
+          "invalid": "Das sieht nicht nach einer MCP-Konfiguration aus. Fügen Sie den JSON-Block ein, der sie enthält.",
+          "filled": "Formular ausgefüllt. Prüfen Sie es und fügen Sie dann die Verbindung hinzu.",
+          "filledFirst": "Der eingefügte Text enthielt mehrere Verbindungen. Die erste wurde übernommen: {{name}}."
+        },
         "trustLocal": "Dies führt das genannte Programm auf Ihrem Computer aus. Fügen Sie nur Software hinzu, der Sie vertrauen.",
         "trustRemote": "Dies sendet MCP-Datenverkehr an die obige Adresse. Fügen Sie nur Dienste hinzu, denen Sie vertrauen.",
-        "noSecrets": "Dieses geführte Formular hat keine Felder für Passwörter, Header oder Umgebungsvariablen.",
         "queued": "{{name}} wird hinzugefügt",
         "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen."
       },

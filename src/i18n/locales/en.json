@@ -550,6 +550,8 @@
       "commandInvalid": "That command could not be added safely.",
       "commandRequired": "Enter the program this connection should run.",
       "descriptionTooLong": "Keep the description to 240 characters or fewer.",
+      "envInvalid": "Check the environment variables: names use letters, digits and underscores, don't start with a digit, and aren't repeated.",
+      "headersInvalid": "Check the request headers: names use letters, digits and hyphens and aren't repeated, and values stay on one line.",
       "installCleanupFailed": "The connection could not be added, and AI Manager could not fully clean up the attempted change.",
       "installFailed": "The MCP connection could not be added.",
       "nameInvalid": "That connection name contains unsupported characters.",
@@ -2201,7 +2203,7 @@
       "install": {
         "add": "Add MCP",
         "title": "Add an MCP connection",
-        "description": "Connect {{tool}} without pasting configuration JSON.",
+        "description": "Connect {{tool}} to a local program or a remote service.",
         "confirm": "Add Connection",
         "name": "Connection name",
         "nameHint": "Use a name you will recognize in Extensions.",
@@ -2230,9 +2232,34 @@
         "url": "Server URL",
         "urlHint": "Use HTTPS. HTTP is accepted only for this computer.",
         "urlPlaceholder": "https://mcp.example.com",
+        "env": {
+          "label": "Environment variables (optional)",
+          "hint": "Services that need an API key usually take it here.",
+          "add": "Add variable",
+          "namePlaceholder": "API_KEY"
+        },
+        "headers": {
+          "label": "Request headers (optional)",
+          "hint": "Services that need a sign-in usually take a token here.",
+          "add": "Add header",
+          "namePlaceholder": "Authorization"
+        },
+        "variable": {
+          "name": "Name",
+          "value": "Value",
+          "remove": "Remove this row"
+        },
+        "paste": {
+          "open": "Paste configuration",
+          "label": "MCP configuration",
+          "hint": "Paste the JSON from the server's instructions to fill in the form.",
+          "apply": "Fill in form",
+          "invalid": "This doesn't look like an MCP configuration. Paste the JSON block that contains it.",
+          "filled": "Form filled in. Check it, then add the connection.",
+          "filledFirst": "The paste had several connections. Filled in the first one: {{name}}."
+        },
         "trustLocal": "This runs the named program on your computer. Add only software you trust.",
         "trustRemote": "This sends MCP traffic to the address above. Add only services you trust.",
-        "noSecrets": "This guided form has no fields for passwords, headers or environment variables.",
         "queued": "Adding {{name}}",
         "queuedDescription": "You can keep working and follow progress in Tasks."
       },

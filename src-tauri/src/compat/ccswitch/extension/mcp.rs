@@ -13,7 +13,7 @@ use serde_json::{Map, Value};
 use crate::app_config::{AppType, McpApps, McpServer, MultiAppConfig};
 use crate::domain::{
     AppError, ErrorCode, Extension, ExtensionKind, ExtensionManagement, ExtensionScope,
-    McpConnectionDraft, McpInstallDraft,
+    McpConnectionDraft, McpInstallDraft, McpVariableDraft,
 };
 use crate::services::McpService;
 use crate::store::AppState;
@@ -362,9 +362,17 @@ fn server_from_draft(id: &str, app_type: &AppType, draft: &McpInstallDraft) -> M
 }
 
 pub(super) fn connection_spec(connection: &McpConnectionDraft) -> Value {
+    // Upstream's unified spec (`mcp/validation.rs`) is Claude's shape: `env`
+    // for a local command, `headers` for a remote one. Each tool adapter
+    // renames them where its own format differs (Codex `http_headers`,
+    // OpenCode `environment`).
     let mut spec = Map::new();
     match connection {
-        McpConnectionDraft::Stdio { command, arguments } => {
+        McpConnectionDraft::Stdio {
+            command,
+            arguments,
+            env,
+        } => {
             spec.insert("type".to_string(), Value::String("stdio".to_string()));
             spec.insert(
                 "command".to_string(),
@@ -376,17 +384,36 @@ pub(super) fn connection_spec(connection: &McpConnectionDraft) -> Value {
                     Value::Array(arguments.iter().cloned().map(Value::String).collect()),
                 );
             }
+            insert_variables(&mut spec, "env", env);
         }
-        McpConnectionDraft::Http { url } => {
+        McpConnectionDraft::Http { url, headers } => {
             spec.insert("type".to_string(), Value::String("http".to_string()));
             spec.insert("url".to_string(), Value::String(url.trim().to_string()));
+            insert_variables(&mut spec, "headers", headers);
         }
-        McpConnectionDraft::Sse { url } => {
+        McpConnectionDraft::Sse { url, headers } => {
             spec.insert("type".to_string(), Value::String("sse".to_string()));
             spec.insert("url".to_string(), Value::String(url.trim().to_string()));
+            insert_variables(&mut spec, "headers", headers);
         }
     }
     Value::Object(spec)
+}
+
+fn insert_variables(spec: &mut Map<String, Value>, key: &str, variables: &[McpVariableDraft]) {
+    if variables.is_empty() {
+        return;
+    }
+    let object = variables
+        .iter()
+        .map(|variable| {
+            (
+                variable.normalized_name().to_string(),
+                Value::String(variable.normalized_value().to_string()),
+            )
+        })
+        .collect::<Map<_, _>>();
+    spec.insert(key.to_string(), Value::Object(object));
 }
 
 fn rollback_or_escalate(state: &AppState, id: &str, original: AppError) -> AppError {

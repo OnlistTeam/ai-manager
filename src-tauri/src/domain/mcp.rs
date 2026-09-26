@@ -1,9 +1,10 @@
 //! Product-owned MCP installation input.
 //!
 //! The renderer sends a small, typed draft instead of a free-form MCP JSON
-//! object. The draft is inbound-only: it deliberately does not implement
-//! `Serialize`, and it has no environment/header/token fields. Upstream format
-//! synthesis stays behind the compatibility boundary.
+//! object. The draft is inbound-only: it deliberately implements neither
+//! `Serialize` nor `Debug`, because environment variables and request headers
+//! usually carry an API key (ADR-0047). Upstream format synthesis stays behind
+//! the compatibility boundary.
 
 use serde::Deserialize;
 use url::{Host, Url};
@@ -16,6 +17,9 @@ const MAX_COMMAND_CHARS: usize = 512;
 const MAX_ARGUMENTS: usize = 64;
 const MAX_ARGUMENT_CHARS: usize = 2_048;
 const MAX_URL_BYTES: usize = 2_048;
+const MAX_VARIABLES: usize = 64;
+const MAX_VARIABLE_NAME_CHARS: usize = 128;
+const MAX_VARIABLE_VALUE_CHARS: usize = 8_192;
 
 #[derive(Clone, PartialEq, Eq, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -32,13 +36,82 @@ pub enum McpConnectionDraft {
         command: String,
         #[serde(default)]
         arguments: Vec<String>,
+        #[serde(default)]
+        env: Vec<McpVariableDraft>,
     },
     Http {
         url: String,
+        #[serde(default)]
+        headers: Vec<McpVariableDraft>,
     },
     Sse {
         url: String,
+        #[serde(default)]
+        headers: Vec<McpVariableDraft>,
     },
+}
+
+/// One environment variable (local) or request header (remote). An ordered
+/// list rather than a map so a repeated name reaches validation instead of
+/// being dropped silently by the JSON decoder. The value is often a secret:
+/// it never appears in an error, log line, or technical message.
+#[derive(Clone, PartialEq, Eq, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct McpVariableDraft {
+    pub name: String,
+    pub value: String,
+}
+
+impl McpVariableDraft {
+    pub fn normalized_name(&self) -> &str {
+        self.name.trim()
+    }
+
+    pub fn normalized_value(&self) -> &str {
+        self.value.trim()
+    }
+}
+
+#[derive(Clone, Copy)]
+enum VariableKind {
+    Env,
+    Header,
+}
+
+impl VariableKind {
+    fn message_key(self) -> &'static str {
+        match self {
+            Self::Env => "error.mcp.envInvalid",
+            Self::Header => "error.mcp.headersInvalid",
+        }
+    }
+
+    fn valid_name(self, name: &str) -> bool {
+        match self {
+            // POSIX portable names: every tool that launches the server accepts them.
+            Self::Env => {
+                let mut characters = name.chars();
+                characters
+                    .next()
+                    .is_some_and(|first| first.is_ascii_alphabetic() || first == '_')
+                    && characters.all(|next| next.is_ascii_alphanumeric() || next == '_')
+            }
+            // RFC 9110 `token`.
+            Self::Header => {
+                !name.is_empty()
+                    && name.chars().all(|next| {
+                        next.is_ascii_alphanumeric() || "!#$%&'*+-.^_`|~".contains(next)
+                    })
+            }
+        }
+    }
+
+    fn same_name(self, left: &str, right: &str) -> bool {
+        match self {
+            Self::Env => left == right,
+            Self::Header => left.eq_ignore_ascii_case(right),
+        }
+    }
 }
 
 impl McpInstallDraft {
@@ -69,9 +142,18 @@ impl McpInstallDraft {
         }
 
         match &self.connection {
-            McpConnectionDraft::Stdio { command, arguments } => validate_stdio(command, arguments),
-            McpConnectionDraft::Http { url } | McpConnectionDraft::Sse { url } => {
-                validate_remote_url(url)
+            McpConnectionDraft::Stdio {
+                command,
+                arguments,
+                env,
+            } => {
+                validate_stdio(command, arguments)?;
+                validate_variables(env, VariableKind::Env)
+            }
+            McpConnectionDraft::Http { url, headers }
+            | McpConnectionDraft::Sse { url, headers } => {
+                validate_remote_url(url)?;
+                validate_variables(headers, VariableKind::Header)
             }
         }
     }
@@ -122,6 +204,36 @@ fn validate_stdio(command: &str, arguments: &[String]) -> Result<(), AppError> {
             "error.mcp.argumentsInvalid",
             "MCP local command has an invalid argument",
         ));
+    }
+    Ok(())
+}
+
+fn validate_variables(variables: &[McpVariableDraft], kind: VariableKind) -> Result<(), AppError> {
+    // Technical messages name the rule that failed, never the variable: a
+    // header name such as `X-Api-Key-sk-...` is rare, a value never belongs here.
+    let failed = |technical: &'static str| invalid(kind.message_key(), technical);
+    if variables.len() > MAX_VARIABLES {
+        return Err(failed("MCP connection has too many variables"));
+    }
+    for (index, variable) in variables.iter().enumerate() {
+        let name = variable.normalized_name();
+        if name.chars().count() > MAX_VARIABLE_NAME_CHARS || !kind.valid_name(name) {
+            return Err(failed(
+                "MCP variable name is empty or has invalid characters",
+            ));
+        }
+        let value = variable.normalized_value();
+        if value.chars().count() > MAX_VARIABLE_VALUE_CHARS || has_control(value) {
+            return Err(failed(
+                "MCP variable value is too long or not a single line",
+            ));
+        }
+        if variables[..index]
+            .iter()
+            .any(|earlier| kind.same_name(earlier.normalized_name(), name))
+        {
+            return Err(failed("MCP variable name is repeated"));
+        }
     }
     Ok(())
 }
@@ -188,7 +300,33 @@ fn invalid(message_key: &'static str, technical: &'static str) -> AppError {
 
 #[cfg(test)]
 mod tests {
-    use super::{McpConnectionDraft, McpInstallDraft};
+    use super::{McpConnectionDraft, McpInstallDraft, McpVariableDraft};
+
+    fn variable(name: &str, value: &str) -> McpVariableDraft {
+        McpVariableDraft {
+            name: name.to_string(),
+            value: value.to_string(),
+        }
+    }
+
+    fn remote(headers: Vec<McpVariableDraft>) -> McpInstallDraft {
+        McpInstallDraft {
+            name: "Remote".to_string(),
+            description: None,
+            connection: McpConnectionDraft::Http {
+                url: "https://mcp.example.test".to_string(),
+                headers,
+            },
+        }
+    }
+
+    fn local_with_env(env: Vec<McpVariableDraft>) -> McpInstallDraft {
+        let mut draft = local();
+        if let McpConnectionDraft::Stdio { env: slot, .. } = &mut draft.connection {
+            *slot = env;
+        }
+        draft
+    }
 
     fn local() -> McpInstallDraft {
         McpInstallDraft {
@@ -197,6 +335,7 @@ mod tests {
             connection: McpConnectionDraft::Stdio {
                 command: "npx".to_string(),
                 arguments: vec!["-y".to_string(), "server-filesystem".to_string()],
+                env: Vec::new(),
             },
         }
     }
@@ -225,6 +364,7 @@ mod tests {
                 description: None,
                 connection: McpConnectionDraft::Http {
                     url: url.to_string(),
+                    headers: Vec::new(),
                 },
             };
             draft.validate().expect(url);
@@ -235,6 +375,7 @@ mod tests {
             description: None,
             connection: McpConnectionDraft::Sse {
                 url: "http://mcp.example.test/events".to_string(),
+                headers: Vec::new(),
             },
         }
         .validate()
@@ -243,24 +384,91 @@ mod tests {
     }
 
     #[test]
-    fn embedded_url_credentials_and_free_form_secret_fields_are_rejected() {
+    fn embedded_url_credentials_and_free_form_fields_are_rejected() {
         let credentials = McpInstallDraft {
             name: "Remote".to_string(),
             description: None,
             connection: McpConnectionDraft::Http {
                 url: "https://user:secret@mcp.example.test".to_string(),
+                headers: Vec::new(),
             },
         }
         .validate()
         .expect_err("embedded credentials are rejected");
         assert_eq!(credentials.message_key, "error.mcp.urlCredentials");
 
-        let unknown = serde_json::from_str::<McpInstallDraft>(
+        for payload in [
+            r#"{"name":"Remote","description":null,"connection":{"transport":"http","url":"https://mcp.example.test","token":"secret"}}"#,
             r#"{"name":"Remote","description":null,"connection":{"transport":"http","url":"https://mcp.example.test","headers":{"Authorization":"secret"}}}"#,
+            r#"{"name":"Files","description":null,"connection":{"transport":"stdio","command":"npx","env":[{"name":"A","value":"b","secret":true}]}}"#,
+        ] {
+            assert!(
+                serde_json::from_str::<McpInstallDraft>(payload).is_err(),
+                "{payload}"
+            );
+        }
+    }
+
+    #[test]
+    fn local_env_and_remote_headers_travel_as_ordered_name_value_pairs() {
+        let local = serde_json::from_str::<McpInstallDraft>(
+            r#"{"name":"GitHub","description":null,"connection":{"transport":"stdio","command":"npx","arguments":[],"env":[{"name":"GITHUB_TOKEN","value":" ghp_example "},{"name":"_DEBUG","value":""}]}}"#,
         )
-        .err()
-        .expect("headers are outside the product draft");
-        assert!(unknown.to_string().contains("unknown field"));
+        .expect("env list decodes");
+        local.validate().expect("env is valid");
+        let McpConnectionDraft::Stdio { env, .. } = &local.connection else {
+            panic!("stdio draft");
+        };
+        assert_eq!(env[0].normalized_name(), "GITHUB_TOKEN");
+        assert_eq!(env[0].normalized_value(), "ghp_example");
+
+        remote(vec![
+            variable("Authorization", "Bearer abc"),
+            variable("X-Api-Key", "abc"),
+        ])
+        .validate()
+        .expect("headers are valid");
+    }
+
+    #[test]
+    fn variable_names_values_and_repeats_are_checked_without_echoing_them() {
+        for env in [
+            vec![variable("1TOKEN", "x")],
+            vec![variable("MY-TOKEN", "x")],
+            vec![variable("  ", "x")],
+            vec![variable("TOKEN", "line\nbreak")],
+            vec![variable("TOKEN", "a"), variable("TOKEN", "b")],
+            vec![variable("TOKEN", &"x".repeat(8_193))],
+        ] {
+            let error = local_with_env(env)
+                .validate()
+                .expect_err("invalid env is rejected");
+            assert_eq!(error.message_key, "error.mcp.envInvalid");
+            let technical = error.technical_message.unwrap_or_default();
+            assert!(!technical.contains("TOKEN") && !technical.contains("break"));
+        }
+
+        let repeated = remote(vec![
+            variable("Authorization", "a"),
+            variable("authorization", "b"),
+        ])
+        .validate()
+        .expect_err("header names are case-insensitive");
+        assert_eq!(repeated.message_key, "error.mcp.headersInvalid");
+
+        let spaced = remote(vec![variable("X Api Key", "a")])
+            .validate()
+            .expect_err("a header name is a single token");
+        assert_eq!(spaced.message_key, "error.mcp.headersInvalid");
+
+        let many = local_with_env(
+            (0..65)
+                .map(|index| variable(&format!("VAR_{index}"), "x"))
+                .collect(),
+        )
+        .validate()
+        .expect_err("variable count is bounded");
+        assert_eq!(many.message_key, "error.mcp.envInvalid");
     }
 
     #[test]

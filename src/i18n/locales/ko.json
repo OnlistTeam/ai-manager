@@ -550,6 +550,8 @@
       "commandInvalid": "그 명령을 안전하게 추가할 수 없습니다.",
       "commandRequired": "이 연결이 실행할 프로그램을 입력하세요.",
       "descriptionTooLong": "설명을 240자 이하로 입력하세요.",
+      "envInvalid": "환경 변수를 확인하세요. 이름은 영문자, 숫자, 밑줄만 쓰고 숫자로 시작하거나 중복될 수 없습니다.",
+      "headersInvalid": "요청 헤더를 확인하세요. 이름은 영문자, 숫자, 하이픈만 쓰고 중복될 수 없으며 값은 한 줄이어야 합니다.",
       "installCleanupFailed": "연결을 추가하지 못했고, AI Manager가 시도한 변경 사항을 완전히 정리하지도 못했습니다.",
       "installFailed": "MCP 연결을 추가할 수 없습니다.",
       "nameInvalid": "그 연결 이름에 지원되지 않는 문자가 있습니다.",
@@ -2201,7 +2203,7 @@
       "install": {
         "add": "MCP 추가",
         "title": "MCP 연결 추가",
-        "description": "설정 JSON을 붙여넣지 않고 {{tool}}을(를) 연결하세요.",
+        "description": "{{tool}}을(를) 로컬 프로그램이나 원격 서비스에 연결하세요.",
         "confirm": "연결 추가",
         "name": "연결 이름",
         "nameHint": "확장 기능에서 알아볼 수 있는 이름을 사용하세요.",
@@ -2230,9 +2232,34 @@
         "url": "서버 URL",
         "urlHint": "HTTPS를 사용하세요. HTTP는 이 컴퓨터에 대해서만 허용됩니다.",
         "urlPlaceholder": "https://mcp.example.com",
+        "env": {
+          "label": "환경 변수(선택 사항)",
+          "hint": "API 키가 필요한 서비스는 보통 여기에 입력합니다.",
+          "add": "환경 변수 추가",
+          "namePlaceholder": "API_KEY"
+        },
+        "headers": {
+          "label": "요청 헤더(선택 사항)",
+          "hint": "로그인이 필요한 서비스는 보통 여기에 토큰을 입력합니다.",
+          "add": "헤더 추가",
+          "namePlaceholder": "Authorization"
+        },
+        "variable": {
+          "name": "이름",
+          "value": "값",
+          "remove": "이 행 삭제"
+        },
+        "paste": {
+          "open": "설정 붙여넣기",
+          "label": "MCP 설정",
+          "hint": "안내 문서의 JSON을 붙여넣으면 아래 양식이 채워집니다.",
+          "apply": "양식 채우기",
+          "invalid": "MCP 설정으로 인식하지 못했습니다. 설정이 담긴 JSON을 붙여넣으세요.",
+          "filled": "양식을 채웠습니다. 확인한 뒤 추가하세요.",
+          "filledFirst": "여러 연결이 있어 첫 번째인 {{name}}을(를) 채웠습니다."
+        },
         "trustLocal": "이 항목은 이 컴퓨터에서 지정한 프로그램을 실행합니다. 신뢰하는 소프트웨어만 추가하세요.",
         "trustRemote": "이 항목은 위 주소로 MCP 트래픽을 보냅니다. 신뢰하는 서비스만 추가하세요.",
-        "noSecrets": "이 가이드 양식에는 비밀번호, 헤더, 환경 변수 입력란이 없습니다.",
         "queued": "{{name}}을(를) 추가하는 중",
         "queuedDescription": "계속 작업하면서 작업에서 진행 상황을 확인할 수 있습니다."
       },

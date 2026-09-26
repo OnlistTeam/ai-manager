@@ -100,6 +100,8 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.mcp.commandInvalid",
     "error.mcp.commandRequired",
     "error.mcp.descriptionTooLong",
+    "error.mcp.envInvalid",
+    "error.mcp.headersInvalid",
     "error.mcp.installCleanupFailed",
     "error.mcp.installFailed",
     "error.mcp.nameInvalid",
@@ -480,6 +482,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 330);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 332);
     }
 }

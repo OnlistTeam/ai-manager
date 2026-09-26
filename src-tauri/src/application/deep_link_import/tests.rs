@@ -180,7 +180,8 @@ fn mcp_servers_become_the_product_typed_draft_without_a_free_form_payload() {
     // shape rather than by formatting it.
     assert!(matches!(
         &draft.connection,
-        McpConnectionDraft::Sse { url } if url == "https://mcp.example.test/v1"
+        McpConnectionDraft::Sse { url, headers }
+            if url == "https://mcp.example.test/v1" && headers.is_empty()
     ));
     draft.validate().expect("the product draft accepts it");
 }

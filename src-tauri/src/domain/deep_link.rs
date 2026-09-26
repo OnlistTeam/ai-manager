@@ -491,10 +491,10 @@ fn parse_mcp_connection(spec: &Value) -> Result<DeepLinkMcpConnection, AppError>
         )
     })?;
 
-    // `env` and `headers` are exactly where an MCP credential lives, and the
-    // product's typed install draft has no field for either (ARCHITECTURE 6.6).
-    // Accepting the link and silently dropping them would install a server that
-    // cannot authenticate, so refuse instead.
+    // `env` and `headers` are exactly where an MCP credential lives. The
+    // install draft can carry them since ADR-0047, but link import has not been
+    // extended to preview and confirm them, and silently dropping them would
+    // install a server that cannot authenticate, so refuse instead.
     if spec.contains_key("env") || spec.contains_key("headers") {
         return Err(invalid(
             "error.deepLink.mcpUnsupportedFields",

@@ -192,6 +192,8 @@ Both items below were resolved before the feature was built.
 - **MCP servers carrying `env` or `headers` are refused.** The product's typed MCP install draft
   deliberately has no field for either, so accepting the link and dropping them would install a
   server that cannot authenticate.
+  ADR-0047 later gave the draft both fields; link import still refuses them, because its preview
+  cannot show and confirm a credential.
 - **Credential detection reuses `platform::redact`.** Proving a tool-native blob is credential-free
   would otherwise need a second, per-tool, per-format table that drifts from the first. The
   existing detector is format-agnostic, so it also sees a key inside a TOML string or an

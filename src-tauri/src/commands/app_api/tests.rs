@@ -285,6 +285,7 @@ async fn a_successful_mcp_start_is_scheduled_and_reaches_a_terminal_state() {
         description: None,
         connection: McpConnectionDraft::Http {
             url: "https://mcp.example.test".to_string(),
+            headers: Vec::new(),
         },
     };
     let request =

@@ -23,6 +23,7 @@ fn draft(name: &str) -> McpInstallDraft {
         connection: McpConnectionDraft::Stdio {
             command: "npx".to_string(),
             arguments: vec!["-y".to_string(), "server-package".to_string()],
+            env: Vec::new(),
         },
     }
 }

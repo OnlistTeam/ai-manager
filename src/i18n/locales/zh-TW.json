@@ -550,6 +550,8 @@
       "commandInvalid": "無法安全加入這個程式命令。",
       "commandRequired": "填寫這個連線要執行的程式。",
       "descriptionTooLong": "說明不能超過 240 個字元。",
+      "envInvalid": "請檢查環境變數：名稱只能用字母、數字和底線，不能以數字開頭，也不能重複。",
+      "headersInvalid": "請檢查請求標頭：名稱只能用字母、數字和連字號，不能重複，值不能換行。",
       "installCleanupFailed": "連線沒有加入成功，而且 AI 管家無法完全清理這次變更。",
       "installFailed": "無法加入這個 MCP 連線。",
       "nameInvalid": "連線名稱包含不支援的字元。",
@@ -2200,7 +2202,7 @@
       "install": {
         "add": "加入 MCP",
         "title": "加入 MCP 連線",
-        "description": "不用貼上設定 JSON，直接把 {{tool}} 連到本機程式或遠端服務。",
+        "description": "把 {{tool}} 連到本機程式或遠端服務。",
         "confirm": "加入連線",
         "name": "連線名稱",
         "nameHint": "取一個之後在擴充功能清單中容易辨認的名稱。",
@@ -2229,9 +2231,34 @@
         "url": "伺服器網址",
         "urlHint": "請使用 HTTPS；只有這台電腦上的網址可以使用 HTTP。",
         "urlPlaceholder": "https://mcp.example.com",
+        "env": {
+          "label": "環境變數（選填）",
+          "hint": "需要 API Key 的服務，通常填在這裡。",
+          "add": "新增環境變數",
+          "namePlaceholder": "API_KEY"
+        },
+        "headers": {
+          "label": "請求標頭（選填）",
+          "hint": "需要登入的服務，通常把權杖填在這裡。",
+          "add": "新增請求標頭",
+          "namePlaceholder": "Authorization"
+        },
+        "variable": {
+          "name": "名稱",
+          "value": "值",
+          "remove": "刪除這一列"
+        },
+        "paste": {
+          "open": "貼上設定",
+          "label": "MCP 設定",
+          "hint": "貼上說明文件裡的 JSON，會自動填好下面的表單。",
+          "apply": "填入表單",
+          "invalid": "無法辨識這段設定，請貼上包含 MCP 設定的 JSON。",
+          "filled": "已填入表單，檢查後即可新增。",
+          "filledFirst": "貼上的內容有多個連線，已填入第一個：{{name}}。"
+        },
         "trustLocal": "這會在你的電腦上執行上面填寫的程式，請只加入你信任的軟體。",
         "trustRemote": "MCP 資料會傳送到上面的網址，請只加入你信任的服務。",
-        "noSecrets": "這個引導表單不提供密碼、要求標頭或環境變數欄位。",
         "queued": "正在加入 {{name}}",
         "queuedDescription": "你可以繼續使用應用程式，並在「任務」中查看進度。"
       },

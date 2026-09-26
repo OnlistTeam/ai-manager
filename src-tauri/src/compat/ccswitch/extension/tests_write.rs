@@ -2,11 +2,18 @@ use super::prompt::guard_enabled;
 use super::{not_found, reject_disable, toggle_failed};
 use crate::domain::{
     DesktopAppId, ErrorCode, ExtensionKind, ExtensionManagement, ExtensionScope,
-    McpConnectionDraft, McpInstallDraft, ToolId,
+    McpConnectionDraft, McpInstallDraft, McpVariableDraft, ToolId,
 };
 
 fn scope(tool: ToolId) -> ExtensionScope {
     ExtensionScope::tool(tool)
+}
+
+fn variable(name: &str, value: &str) -> McpVariableDraft {
+    McpVariableDraft {
+        name: name.to_string(),
+        value: value.to_string(),
+    }
 }
 
 #[test]
@@ -67,31 +74,54 @@ fn the_upstream_detail_is_redacted_and_truncated_before_it_is_kept() {
 }
 
 #[test]
-fn guided_mcp_connection_specs_are_synthesized_without_secret_slots() {
+fn guided_mcp_connection_specs_use_the_upstream_env_and_headers_slots() {
     let local = super::mcp::connection_spec(&McpConnectionDraft::Stdio {
         command: " npx ".to_string(),
         arguments: vec!["-y".to_string(), "server-package".to_string()],
+        env: vec![
+            variable(" GITHUB_TOKEN ", " ghp_example "),
+            variable("A_DEBUG", ""),
+        ],
     });
     assert_eq!(
         local,
         serde_json::json!({
             "type": "stdio",
             "command": "npx",
-            "args": ["-y", "server-package"]
+            "args": ["-y", "server-package"],
+            "env": {"GITHUB_TOKEN": "ghp_example", "A_DEBUG": ""}
         })
     );
+    // The draft's order survives: `serde_json` preserves insertion order here.
+    let names = local["env"]
+        .as_object()
+        .expect("env object")
+        .keys()
+        .cloned()
+        .collect::<Vec<_>>();
+    assert_eq!(names, ["GITHUB_TOKEN", "A_DEBUG"]);
 
     let remote = super::mcp::connection_spec(&McpConnectionDraft::Http {
         url: " https://mcp.example.test/v1 ".to_string(),
+        headers: vec![variable("Authorization", "Bearer abc")],
     });
     assert_eq!(
         remote,
-        serde_json::json!({"type": "http", "url": "https://mcp.example.test/v1"})
+        serde_json::json!({
+            "type": "http",
+            "url": "https://mcp.example.test/v1",
+            "headers": {"Authorization": "Bearer abc"}
+        })
     );
-    for forbidden in ["env", "headers", "token", "authorization"] {
-        assert!(!local.to_string().to_ascii_lowercase().contains(forbidden));
-        assert!(!remote.to_string().to_ascii_lowercase().contains(forbidden));
-    }
+
+    let bare = super::mcp::connection_spec(&McpConnectionDraft::Sse {
+        url: "https://mcp.example.test/events".to_string(),
+        headers: Vec::new(),
+    });
+    assert_eq!(
+        bare,
+        serde_json::json!({"type": "sse", "url": "https://mcp.example.test/events"})
+    );
 }
 
 #[test]
@@ -492,6 +522,7 @@ fn local_draft() -> McpInstallDraft {
         connection: McpConnectionDraft::Stdio {
             command: "npx".to_string(),
             arguments: vec!["-y".to_string(), "server-files".to_string()],
+            env: Vec::new(),
         },
     }
 }
@@ -549,6 +580,74 @@ fn guided_install_writes_the_real_upstream_db_and_live_config_then_verifies() {
         assert_eq!(server["args"], serde_json::json!(["-y", "server-files"]));
     }
     assert!(server.get("env").is_none());
+}
+
+#[test]
+#[serial_test::serial]
+fn guided_install_carries_env_and_headers_into_each_tool_format() {
+    use std::sync::Arc;
+
+    let temp = tempfile::tempdir().expect("temp home");
+    let _home = TestHome::set(temp.path());
+    std::fs::create_dir_all(temp.path().join(".claude")).expect("initialized Claude dir");
+    std::fs::create_dir_all(temp.path().join(".codex")).expect("initialized Codex dir");
+    std::fs::write(temp.path().join(".claude.json"), br#"{"theme":"dark"}"#)
+        .expect("seed Claude config");
+    std::fs::write(
+        temp.path().join(".codex/config.toml"),
+        "model = \"gpt-5\"\n",
+    )
+    .expect("seed Codex config");
+    let state = crate::store::AppState::new(Arc::new(
+        crate::database::Database::memory().expect("memory database"),
+    ));
+
+    let mut local = local_draft();
+    if let McpConnectionDraft::Stdio { env, .. } = &mut local.connection {
+        env.push(variable("GITHUB_TOKEN", "ghp_example"));
+    }
+    super::mcp::install(
+        &state,
+        scope(ToolId::ClaudeCode),
+        &crate::app_config::AppType::Claude,
+        "github-a1b2c3d4",
+        &local,
+    )
+    .expect("local install succeeds");
+    let claude: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(temp.path().join(".claude.json")).expect("read Claude config"),
+    )
+    .expect("valid Claude config");
+    assert_eq!(
+        claude["mcpServers"]["github-a1b2c3d4"]["env"],
+        serde_json::json!({"GITHUB_TOKEN": "ghp_example"})
+    );
+
+    let remote = McpInstallDraft {
+        name: "Docs".to_string(),
+        description: None,
+        connection: McpConnectionDraft::Http {
+            url: "https://mcp.example.test/v1".to_string(),
+            headers: vec![variable("Authorization", "Bearer abc")],
+        },
+    };
+    super::mcp::install(
+        &state,
+        scope(ToolId::Codex),
+        &crate::app_config::AppType::Codex,
+        "docs-a1b2c3d4",
+        &remote,
+    )
+    .expect("remote install succeeds");
+    let codex: toml::Value = toml::from_str(
+        &std::fs::read_to_string(temp.path().join(".codex/config.toml"))
+            .expect("read Codex config"),
+    )
+    .expect("valid Codex config");
+    assert_eq!(
+        codex["mcp_servers"]["docs-a1b2c3d4"]["http_headers"]["Authorization"].as_str(),
+        Some("Bearer abc")
+    );
 }
 
 #[test]

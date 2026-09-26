@@ -27,6 +27,7 @@ describe("native.mcp", () => {
         transport: "stdio",
         command: "npx",
         arguments: ["-y", "server-filesystem"],
+        env: [{ name: "FILES_TOKEN", value: "example-token" }],
       },
     };
 
@@ -38,20 +39,37 @@ describe("native.mcp", () => {
     expect(JSON.stringify(seen)).not.toContain('"server"');
   });
 
-  it("rejects secret-bearing free-form fields before native IPC", () => {
-    const unsafe = {
-      name: "Private server",
-      description: null,
-      connection: {
+  it("rejects free-form config shapes before native IPC", () => {
+    const unsafe = [
+      {
         transport: "http",
         url: "https://mcp.example.test",
         headers: { Authorization: "Bearer secret" },
       },
-    } as unknown as McpInstallDraft;
+      {
+        transport: "http",
+        url: "https://mcp.example.test",
+        headers: [],
+        token: "secret",
+      },
+      {
+        transport: "stdio",
+        command: "npx",
+        arguments: [],
+        env: [{ name: "TOKEN", value: "secret", extra: true }],
+      },
+    ];
 
-    expect(() =>
-      native.mcp.install({ kind: "tool", id: "codex" }, unsafe),
-    ).toThrow();
+    for (const connection of unsafe) {
+      const draft = {
+        name: "Private server",
+        description: null,
+        connection,
+      } as unknown as McpInstallDraft;
+      expect(() =>
+        native.mcp.install({ kind: "tool", id: "codex" }, draft),
+      ).toThrow();
+    }
     expect(seen).toEqual([]);
   });
 
@@ -101,6 +119,7 @@ describe("native.mcp", () => {
           connection: {
             transport: "http",
             url: "https://mcp.example.test",
+            headers: [],
           },
         },
       )

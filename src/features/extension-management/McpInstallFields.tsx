@@ -8,9 +8,13 @@ import { cn } from "@/shared/ui/cn";
 import type {
   McpInstallErrors,
   McpInstallValues,
+  McpTextField,
   McpTransport,
+  McpVariableKind,
+  McpVariableRow,
 } from "./mcpInstallForm";
 import { McpTransportPicker } from "./McpTransportPicker";
+import { McpVariableRows } from "./McpVariableRows";
 
 const NAME_ID = "mcp-install-name";
 const DESCRIPTION_ID = "mcp-install-description";
@@ -25,7 +29,8 @@ interface McpInstallFieldsProps {
   nameRef: RefObject<HTMLInputElement>;
   commandRef: RefObject<HTMLInputElement>;
   urlRef: RefObject<HTMLInputElement>;
-  onFieldChange: (field: keyof McpInstallValues, value: string) => void;
+  onFieldChange: (field: McpTextField, value: string) => void;
+  onVariablesChange: (kind: McpVariableKind, rows: McpVariableRow[]) => void;
   onTransportChange: (transport: McpTransport) => void;
 }
 
@@ -37,9 +42,12 @@ export function McpInstallFields({
   commandRef,
   urlRef,
   onFieldChange,
+  onVariablesChange,
   onTransportChange,
 }: McpInstallFieldsProps) {
   const { t } = useTranslation();
+  const variableKind: McpVariableKind =
+    values.transport === "stdio" ? "env" : "headers";
 
   return (
     <>
@@ -135,6 +143,15 @@ export function McpInstallFields({
         </Field>
       )}
 
+      <McpVariableRows
+        key={variableKind}
+        kind={variableKind}
+        rows={values[variableKind]}
+        error={errors[variableKind]}
+        disabled={disabled}
+        onChange={(rows) => onVariablesChange(variableKind, rows)}
+      />
+
       <Field
         id={DESCRIPTION_ID}
         label={t("extensions.mcp.install.optionalDescription")}
@@ -167,8 +184,7 @@ export function McpInstallFields({
             values.transport === "stdio"
               ? "extensions.mcp.install.trustLocal"
               : "extensions.mcp.install.trustRemote",
-          )}{" "}
-          {t("extensions.mcp.install.noSecrets")}
+          )}
         </p>
       </aside>
     </>

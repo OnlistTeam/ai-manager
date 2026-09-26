@@ -6,13 +6,18 @@ import { toErrorCopy } from "@/shared/lib/nativeError";
 import { Button } from "@/shared/ui/Button";
 import { Modal } from "@/shared/ui/Modal";
 import { ExtensionMutationPausedNotice } from "./ExtensionMutationPausedNotice";
+import type { McpPastedConnection } from "./mcpConfigPaste";
+import { McpConfigPastePanel } from "./McpConfigPastePanel";
 import {
   EMPTY_MCP_INSTALL_VALUES,
   mcpDraftFrom,
   validateMcpInstall,
   type McpInstallErrors,
   type McpInstallValues,
+  type McpTextField,
   type McpTransport,
+  type McpVariableKind,
+  type McpVariableRow,
 } from "./mcpInstallForm";
 import { McpInstallFields } from "./McpInstallFields";
 import { useInstallMcp } from "./useMcpInstallation";
@@ -57,9 +62,23 @@ export function McpInstallModal({
     setErrors((current) => ({ ...current, [field]: undefined }));
     if (install.error) resetInstall();
   };
-  const changeField = (field: keyof McpInstallValues, value: string) => {
+  const changeField = (field: McpTextField, value: string) => {
     setValues((current) => ({ ...current, [field]: value }));
-    clearError(field as keyof McpInstallErrors);
+    clearError(field);
+  };
+  const changeVariables = (kind: McpVariableKind, rows: McpVariableRow[]) => {
+    setValues((current) => ({ ...current, [kind]: rows }));
+    clearError(kind);
+  };
+  const fillFromPaste = ({ name, fields }: McpPastedConnection) => {
+    setValues((current) => ({
+      ...current,
+      ...fields,
+      name: name ?? current.name,
+    }));
+    setErrors({});
+    if (install.error) resetInstall();
+    nameRef.current?.focus();
   };
   const chooseTransport = (transport: McpTransport) => {
     setValues((current) => ({ ...current, transport }));
@@ -121,6 +140,11 @@ export function McpInstallModal({
         className="scrollbar-subtle flex max-h-[56vh] flex-col gap-4 overflow-y-auto pr-1"
         onSubmit={submit}
       >
+        <McpConfigPastePanel
+          disabled={install.isPending}
+          onApply={fillFromPaste}
+        />
+
         <McpInstallFields
           values={values}
           errors={errors}
@@ -129,6 +153,7 @@ export function McpInstallModal({
           commandRef={commandRef}
           urlRef={urlRef}
           onFieldChange={changeField}
+          onVariablesChange={changeVariables}
           onTransportChange={chooseTransport}
         />
 

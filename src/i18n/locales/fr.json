@@ -550,6 +550,8 @@
       "commandInvalid": "Cette commande n'a pas pu être ajoutée en toute sécurité.",
       "commandRequired": "Saisissez le programme que cette connexion doit exécuter.",
       "descriptionTooLong": "Limitez la description à 240 caractères maximum.",
+      "envInvalid": "Vérifiez les variables d'environnement : les noms utilisent des lettres, des chiffres et des tirets bas, ne commencent pas par un chiffre et ne se répètent pas.",
+      "headersInvalid": "Vérifiez les en-têtes de requête : les noms utilisent des lettres, des chiffres et des tirets et ne se répètent pas, et les valeurs tiennent sur une ligne.",
       "installCleanupFailed": "La connexion n'a pas pu être ajoutée, et AI Manager n'a pas pu entièrement annuler la tentative de modification.",
       "installFailed": "La connexion MCP n'a pas pu être ajoutée.",
       "nameInvalid": "Ce nom de connexion contient des caractères non pris en charge.",
@@ -2201,7 +2203,7 @@
       "install": {
         "add": "Ajouter MCP",
         "title": "Ajouter une connexion MCP",
-        "description": "Connectez {{tool}} sans coller de JSON de configuration.",
+        "description": "Connectez {{tool}} à un programme local ou à un service distant.",
         "confirm": "Ajouter la connexion",
         "name": "Nom de la connexion",
         "nameHint": "Utilisez un nom que vous reconnaîtrez dans Extensions.",
@@ -2230,9 +2232,34 @@
         "url": "URL du serveur",
         "urlHint": "Utilisez HTTPS. HTTP n'est accepté que pour cet ordinateur.",
         "urlPlaceholder": "https://mcp.example.com",
+        "env": {
+          "label": "Variables d'environnement (facultatif)",
+          "hint": "Les services qui demandent une clé API l'attendent généralement ici.",
+          "add": "Ajouter une variable",
+          "namePlaceholder": "API_KEY"
+        },
+        "headers": {
+          "label": "En-têtes de requête (facultatif)",
+          "hint": "Les services qui demandent une connexion attendent généralement un jeton ici.",
+          "add": "Ajouter un en-tête",
+          "namePlaceholder": "Authorization"
+        },
+        "variable": {
+          "name": "Nom",
+          "value": "Valeur",
+          "remove": "Supprimer cette ligne"
+        },
+        "paste": {
+          "open": "Coller une configuration",
+          "label": "Configuration MCP",
+          "hint": "Collez le JSON des instructions du serveur pour remplir le formulaire.",
+          "apply": "Remplir le formulaire",
+          "invalid": "Cela ne ressemble pas à une configuration MCP. Collez le bloc JSON qui la contient.",
+          "filled": "Formulaire rempli. Vérifiez-le, puis ajoutez la connexion.",
+          "filledFirst": "Le texte collé contenait plusieurs connexions. La première a été reprise : {{name}}."
+        },
         "trustLocal": "Cela exécute le programme indiqué sur votre ordinateur. N'ajoutez que des logiciels de confiance.",
         "trustRemote": "Cela envoie du trafic MCP vers l'adresse ci-dessus. N'ajoutez que des services de confiance.",
-        "noSecrets": "Ce formulaire guidé ne comporte aucun champ pour les mots de passe, en-têtes ou variables d'environnement.",
         "queued": "Ajout de {{name}}",
         "queuedDescription": "Vous pouvez continuer à travailler et suivre la progression dans Activité."
       },

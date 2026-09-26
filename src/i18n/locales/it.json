@@ -550,6 +550,8 @@
       "commandInvalid": "Non è stato possibile aggiungere in sicurezza quel comando.",
       "commandRequired": "Inserisci il programma che questa connessione deve eseguire.",
       "descriptionTooLong": "Mantieni la descrizione entro 240 caratteri.",
+      "envInvalid": "Controlla le variabili d'ambiente: i nomi usano lettere, cifre e trattini bassi, non iniziano con una cifra e non si ripetono.",
+      "headersInvalid": "Controlla le intestazioni della richiesta: i nomi usano lettere, cifre e trattini e non si ripetono, e i valori stanno su una riga.",
       "installCleanupFailed": "Non è stato possibile aggiungere la connessione, e AI Manager non è riuscito a ripulire completamente la modifica tentata.",
       "installFailed": "Non è stato possibile aggiungere la connessione MCP.",
       "nameInvalid": "Quel nome di connessione contiene caratteri non supportati.",
@@ -2201,7 +2203,7 @@
       "install": {
         "add": "Aggiungi MCP",
         "title": "Aggiungi una connessione MCP",
-        "description": "Connetti {{tool}} senza incollare JSON di configurazione.",
+        "description": "Collega {{tool}} a un programma locale o a un servizio remoto.",
         "confirm": "Aggiungi connessione",
         "name": "Nome della connessione",
         "nameHint": "Usa un nome che riconoscerai in Estensioni.",
@@ -2230,9 +2232,34 @@
         "url": "URL del server",
         "urlHint": "Usa HTTPS. HTTP è accettato solo per questo computer.",
         "urlPlaceholder": "https://mcp.example.com",
+        "env": {
+          "label": "Variabili d'ambiente (facoltative)",
+          "hint": "I servizi che richiedono una chiave API di solito la ricevono qui.",
+          "add": "Aggiungi variabile",
+          "namePlaceholder": "API_KEY"
+        },
+        "headers": {
+          "label": "Intestazioni della richiesta (facoltative)",
+          "hint": "I servizi che richiedono l'accesso di solito ricevono qui un token.",
+          "add": "Aggiungi intestazione",
+          "namePlaceholder": "Authorization"
+        },
+        "variable": {
+          "name": "Nome",
+          "value": "Valore",
+          "remove": "Rimuovi questa riga"
+        },
+        "paste": {
+          "open": "Incolla configurazione",
+          "label": "Configurazione MCP",
+          "hint": "Incolla il JSON delle istruzioni del server per compilare il modulo.",
+          "apply": "Compila il modulo",
+          "invalid": "Non sembra una configurazione MCP. Incolla il blocco JSON che la contiene.",
+          "filled": "Modulo compilato. Controllalo, poi aggiungi la connessione.",
+          "filledFirst": "Il testo incollato conteneva più connessioni. È stata usata la prima: {{name}}."
+        },
         "trustLocal": "Questo esegue il programma indicato sul tuo computer. Aggiungi solo software di cui ti fidi.",
         "trustRemote": "Questo invia traffico MCP all'indirizzo qui sopra. Aggiungi solo servizi di cui ti fidi.",
-        "noSecrets": "Questo modulo guidato non ha campi per password, header o variabili d'ambiente.",
         "queued": "Aggiunta di {{name}} in corso",
         "queuedDescription": "Puoi continuare a lavorare e seguire l'avanzamento in Attività."
       },

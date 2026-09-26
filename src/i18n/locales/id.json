@@ -550,6 +550,8 @@
       "commandInvalid": "Perintah tersebut tidak dapat ditambahkan dengan aman.",
       "commandRequired": "Masukkan program yang harus dijalankan koneksi ini.",
       "descriptionTooLong": "Jaga deskripsi hingga 240 karakter atau kurang.",
+      "envInvalid": "Periksa variabel lingkungan: nama hanya memakai huruf, angka, dan garis bawah, tidak diawali angka, dan tidak berulang.",
+      "headersInvalid": "Periksa header permintaan: nama hanya memakai huruf, angka, dan tanda hubung, tidak berulang, dan nilainya satu baris.",
       "installCleanupFailed": "Koneksi tidak dapat ditambahkan, dan AI Manager tidak dapat sepenuhnya membersihkan perubahan yang dicoba.",
       "installFailed": "Koneksi MCP tidak dapat ditambahkan.",
       "nameInvalid": "Nama koneksi tersebut berisi karakter yang tidak didukung.",
@@ -2201,7 +2203,7 @@
       "install": {
         "add": "Tambah MCP",
         "title": "Tambahkan koneksi MCP",
-        "description": "Hubungkan {{tool}} tanpa menempelkan JSON konfigurasi.",
+        "description": "Hubungkan {{tool}} ke program lokal atau layanan jarak jauh.",
         "confirm": "Tambah Koneksi",
         "name": "Nama koneksi",
         "nameHint": "Gunakan nama yang akan Anda kenali di Ekstensi.",
@@ -2230,9 +2232,34 @@
         "url": "URL Server",
         "urlHint": "Gunakan HTTPS. HTTP hanya diterima untuk komputer ini.",
         "urlPlaceholder": "https://mcp.example.com",
+        "env": {
+          "label": "Variabel lingkungan (opsional)",
+          "hint": "Layanan yang memerlukan kunci API biasanya menerimanya di sini.",
+          "add": "Tambah variabel",
+          "namePlaceholder": "API_KEY"
+        },
+        "headers": {
+          "label": "Header permintaan (opsional)",
+          "hint": "Layanan yang memerlukan login biasanya menerima token di sini.",
+          "add": "Tambah header",
+          "namePlaceholder": "Authorization"
+        },
+        "variable": {
+          "name": "Nama",
+          "value": "Nilai",
+          "remove": "Hapus baris ini"
+        },
+        "paste": {
+          "open": "Tempel konfigurasi",
+          "label": "Konfigurasi MCP",
+          "hint": "Tempel JSON dari petunjuk server untuk mengisi formulir.",
+          "apply": "Isi formulir",
+          "invalid": "Ini tidak tampak seperti konfigurasi MCP. Tempel blok JSON yang memuatnya.",
+          "filled": "Formulir sudah diisi. Periksa, lalu tambahkan koneksinya.",
+          "filledFirst": "Teks yang ditempel berisi beberapa koneksi. Yang pertama dipakai: {{name}}."
+        },
         "trustLocal": "Ini menjalankan program yang disebutkan di komputer Anda. Tambahkan hanya perangkat lunak yang Anda percaya.",
         "trustRemote": "Ini mengirim lalu lintas MCP ke alamat di atas. Tambahkan hanya layanan yang Anda percaya.",
-        "noSecrets": "Formulir terpandu ini tidak memiliki kolom untuk kata sandi, header, atau variabel lingkungan.",
         "queued": "Menambahkan {{name}}",
         "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas."
       },

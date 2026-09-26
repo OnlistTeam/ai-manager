@@ -245,9 +245,16 @@ fn mcp_draft(server: &DeepLinkMcpServer) -> McpInstallDraft {
             DeepLinkMcpConnection::Stdio { command, args } => McpConnectionDraft::Stdio {
                 command: command.clone(),
                 arguments: args.clone(),
+                env: Vec::new(),
             },
-            DeepLinkMcpConnection::Http { url } => McpConnectionDraft::Http { url: url.clone() },
-            DeepLinkMcpConnection::Sse { url } => McpConnectionDraft::Sse { url: url.clone() },
+            DeepLinkMcpConnection::Http { url } => McpConnectionDraft::Http {
+                url: url.clone(),
+                headers: Vec::new(),
+            },
+            DeepLinkMcpConnection::Sse { url } => McpConnectionDraft::Sse {
+                url: url.clone(),
+                headers: Vec::new(),
+            },
         },
     }
 }

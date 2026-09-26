@@ -2,21 +2,40 @@ import type { McpInstallDraft } from "@/native";
 
 export type McpTransport = "stdio" | "http" | "sse";
 
+/** Environment variables for a local command, request headers for a remote one. */
+export type McpVariableKind = "env" | "headers";
+
+export interface McpVariableRow {
+  /** Stable React key only; never sent to native. */
+  id: string;
+  name: string;
+  value: string;
+}
+
 export interface McpInstallValues {
   name: string;
   description: string;
   transport: McpTransport;
   command: string;
   argumentsText: string;
+  env: McpVariableRow[];
   url: string;
+  headers: McpVariableRow[];
 }
+
+export type McpTextField = Exclude<
+  keyof McpInstallValues,
+  McpVariableKind | "transport"
+>;
 
 export interface McpInstallErrors {
   name?: string;
   description?: string;
   command?: string;
   argumentsText?: string;
+  env?: string;
   url?: string;
+  headers?: string;
 }
 
 export const EMPTY_MCP_INSTALL_VALUES: McpInstallValues = {
@@ -25,8 +44,24 @@ export const EMPTY_MCP_INSTALL_VALUES: McpInstallValues = {
   transport: "stdio",
   command: "",
   argumentsText: "",
+  env: [],
   url: "",
+  headers: [],
 };
+
+const MAX_VARIABLES = 64;
+const MAX_VARIABLE_NAME_CHARS = 128;
+const MAX_VARIABLE_VALUE_CHARS = 8_192;
+const ENV_NAME = /^[A-Za-z_][A-Za-z0-9_]*$/;
+// RFC 9110 `token`.
+const HEADER_NAME = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
+
+let nextRowId = 0;
+
+export function mcpVariableRow(name = "", value = ""): McpVariableRow {
+  nextRowId += 1;
+  return { id: `mcp-variable-${nextRowId}`, name, value };
+}
 
 function count(value: string): number {
   return Array.from(value).length;
@@ -44,6 +79,39 @@ function argumentsFrom(text: string): string[] {
     .split("\n")
     .map((value) => value.trim())
     .filter(Boolean);
+}
+
+/** A row left completely blank is an unused slot, not an error. */
+function variablesFrom(rows: McpVariableRow[]) {
+  return rows
+    .map((row) => ({ name: row.name.trim(), value: row.value.trim() }))
+    .filter((row) => row.name || row.value);
+}
+
+/** Values are often API keys: the result is a message key and never echoes one. */
+function variablesError(
+  rows: McpVariableRow[],
+  kind: McpVariableKind,
+): string | undefined {
+  const error =
+    kind === "env" ? "error.mcp.envInvalid" : "error.mcp.headersInvalid";
+  const pattern = kind === "env" ? ENV_NAME : HEADER_NAME;
+  const variables = variablesFrom(rows);
+  if (variables.length > MAX_VARIABLES) return error;
+
+  const seen = new Set<string>();
+  for (const { name, value } of variables) {
+    if (count(name) > MAX_VARIABLE_NAME_CHARS || !pattern.test(name)) {
+      return error;
+    }
+    if (count(value) > MAX_VARIABLE_VALUE_CHARS || containsControl(value)) {
+      return error;
+    }
+    const identity = kind === "env" ? name : name.toLowerCase();
+    if (seen.has(identity)) return error;
+    seen.add(identity);
+  }
+  return undefined;
 }
 
 function loopback(hostname: string): boolean {
@@ -105,9 +173,13 @@ export function validateMcpInstall(values: McpInstallValues): McpInstallErrors {
     ) {
       errors.argumentsText = "error.mcp.argumentsInvalid";
     }
+    const env = variablesError(values.env, "env");
+    if (env) errors.env = env;
   } else {
     const error = urlError(values.url);
     if (error) errors.url = error;
+    const headers = variablesError(values.headers, "headers");
+    if (headers) errors.headers = headers;
   }
   return errors;
 }
@@ -124,6 +196,7 @@ export function mcpDraftFrom(values: McpInstallValues): McpInstallDraft {
         transport: "stdio",
         command: values.command.trim(),
         arguments: argumentsFrom(values.argumentsText),
+        env: variablesFrom(values.env),
       },
     };
   }
@@ -132,6 +205,7 @@ export function mcpDraftFrom(values: McpInstallValues): McpInstallDraft {
     connection: {
       transport: values.transport,
       url: values.url.trim(),
+      headers: variablesFrom(values.headers),
     },
   };
 }

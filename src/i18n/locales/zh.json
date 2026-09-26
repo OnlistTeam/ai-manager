@@ -550,6 +550,8 @@
       "commandInvalid": "这个程序命令无法安全添加。",
       "commandRequired": "填写这个连接要运行的程序。",
       "descriptionTooLong": "说明不能超过 240 个字符。",
+      "envInvalid": "请检查环境变量：名称只能用字母、数字和下划线，不能以数字开头，也不能重复。",
+      "headersInvalid": "请检查请求头：名称只能用字母、数字和连字符，不能重复，值不能换行。",
       "installCleanupFailed": "连接没有添加成功，而且 AI 管家没能完全清理这次改动。",
       "installFailed": "没能添加这个 MCP 连接。",
       "nameInvalid": "连接名称里有不支持的字符。",
@@ -2200,7 +2202,7 @@
       "install": {
         "add": "添加 MCP",
         "title": "添加 MCP 连接",
-        "description": "不用粘贴配置 JSON，直接把 {{tool}} 接到本地程序或远程服务。",
+        "description": "把 {{tool}} 接到本地程序或远程服务。",
         "confirm": "添加连接",
         "name": "连接名称",
         "nameHint": "起一个之后在扩展列表里容易认出的名字。",
@@ -2229,9 +2231,34 @@
         "url": "服务器地址",
         "urlHint": "请使用 HTTPS；只有这台电脑上的地址可以使用 HTTP。",
         "urlPlaceholder": "https://mcp.example.com",
+        "env": {
+          "label": "环境变量（可选）",
+          "hint": "需要 API Key 的服务，通常填在这里。",
+          "add": "添加环境变量",
+          "namePlaceholder": "API_KEY"
+        },
+        "headers": {
+          "label": "请求头（可选）",
+          "hint": "需要登录的服务，通常把令牌填在这里。",
+          "add": "添加请求头",
+          "namePlaceholder": "Authorization"
+        },
+        "variable": {
+          "name": "名称",
+          "value": "值",
+          "remove": "删除这一行"
+        },
+        "paste": {
+          "open": "粘贴配置",
+          "label": "MCP 配置",
+          "hint": "粘贴说明文档里的 JSON，会自动填好下面的表单。",
+          "apply": "填入表单",
+          "invalid": "没能识别这段配置，请粘贴包含 MCP 配置的 JSON。",
+          "filled": "已填入表单，检查后即可添加。",
+          "filledFirst": "粘贴内容里有多个连接，已填入第一个：{{name}}。"
+        },
         "trustLocal": "这会在你的电脑上运行上面填写的程序，请只添加你信任的软件。",
         "trustRemote": "MCP 数据会发送到上面的地址，请只添加你信任的服务。",
-        "noSecrets": "这个引导表单不提供密码、请求头或环境变量字段。",
         "queued": "正在添加 {{name}}",
         "queuedDescription": "你可以继续使用应用，并在“任务”中查看进度。"
       },

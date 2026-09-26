@@ -550,6 +550,8 @@
       "commandInvalid": "Không thể thêm lệnh đó một cách an toàn.",
       "commandRequired": "Nhập chương trình mà kết nối này sẽ chạy.",
       "descriptionTooLong": "Giữ mô tả trong giới hạn 240 ký tự trở xuống.",
+      "envInvalid": "Hãy kiểm tra biến môi trường: tên chỉ gồm chữ cái, chữ số và dấu gạch dưới, không bắt đầu bằng chữ số và không trùng nhau.",
+      "headersInvalid": "Hãy kiểm tra header yêu cầu: tên chỉ gồm chữ cái, chữ số và dấu gạch nối, không trùng nhau, và giá trị nằm trên một dòng.",
       "installCleanupFailed": "Không thể thêm kết nối này, và AI Manager không thể dọn dẹp hoàn toàn thay đổi vừa thử.",
       "installFailed": "Không thể thêm kết nối MCP này.",
       "nameInvalid": "Tên kết nối đó chứa ký tự không được hỗ trợ.",
@@ -2201,7 +2203,7 @@
       "install": {
         "add": "Thêm MCP",
         "title": "Thêm một kết nối MCP",
-        "description": "Kết nối {{tool}} mà không cần dán cấu hình JSON.",
+        "description": "Kết nối {{tool}} với chương trình cục bộ hoặc dịch vụ từ xa.",
         "confirm": "Thêm kết nối",
         "name": "Tên kết nối",
         "nameHint": "Dùng một tên bạn sẽ nhận ra trong Extensions.",
@@ -2230,9 +2232,34 @@
         "url": "URL máy chủ",
         "urlHint": "Dùng HTTPS. HTTP chỉ được chấp nhận cho máy tính này.",
         "urlPlaceholder": "https://mcp.example.com",
+        "env": {
+          "label": "Biến môi trường (tùy chọn)",
+          "hint": "Dịch vụ cần khóa API thường nhận khóa ở đây.",
+          "add": "Thêm biến",
+          "namePlaceholder": "API_KEY"
+        },
+        "headers": {
+          "label": "Header yêu cầu (tùy chọn)",
+          "hint": "Dịch vụ cần đăng nhập thường nhận token ở đây.",
+          "add": "Thêm header",
+          "namePlaceholder": "Authorization"
+        },
+        "variable": {
+          "name": "Tên",
+          "value": "Giá trị",
+          "remove": "Xóa dòng này"
+        },
+        "paste": {
+          "open": "Dán cấu hình",
+          "label": "Cấu hình MCP",
+          "hint": "Dán JSON trong hướng dẫn của máy chủ để điền biểu mẫu.",
+          "apply": "Điền vào biểu mẫu",
+          "invalid": "Nội dung này không giống cấu hình MCP. Hãy dán khối JSON chứa cấu hình.",
+          "filled": "Đã điền biểu mẫu. Kiểm tra lại rồi thêm kết nối.",
+          "filledFirst": "Nội dung dán có nhiều kết nối. Đã điền kết nối đầu tiên: {{name}}."
+        },
         "trustLocal": "Thao tác này chạy chương trình được đặt tên trên máy tính của bạn. Chỉ thêm phần mềm bạn tin tưởng.",
         "trustRemote": "Thao tác này gửi lưu lượng MCP đến địa chỉ ở trên. Chỉ thêm dịch vụ bạn tin tưởng.",
-        "noSecrets": "Biểu mẫu hướng dẫn này không có trường cho mật khẩu, header hoặc biến môi trường.",
         "queued": "Đang thêm {{name}}",
         "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks."
       },

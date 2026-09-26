@@ -527,13 +527,14 @@ references; bodies are read only after explicit selection and under byte limits;
 argv on the backend and hands it to the terminal launcher. Local context items report path and
 size; the prompt item defers to the extensions page when `canManagePrompts` is true (ADR-0037).
 
-### 6.6 Extensions (ADR-0014, ADR-0022, ADR-0037)
+### 6.6 Extensions (ADR-0014, ADR-0022, ADR-0037, ADR-0047)
 
 `ExtensionStore` projects MCP servers, Skills, and Prompts into one `Extension` shape per
 `(tool, kind)` scope without configuration payloads. Guided MCP installation accepts a strict
-inbound draft (name, stdio command and arguments, or an HTTPS/loopback URL; never JSON, env,
-headers, or tokens); Skill installation, ZIP installation, updates, backups, and trusted sources
-wrap the mature `SkillService`; Prompt bodies are read only on demand and the active file is
+inbound draft (name; a stdio command, arguments and environment variables, or an HTTPS/loopback
+URL and request headers; never free-form JSON). Pasted README JSON is parsed into those fields in
+the renderer and never crosses IPC. Skill installation, ZIP installation, updates, backups, and
+trusted sources wrap the mature `SkillService`; Prompt bodies are read only on demand and the active file is
 edited through the eight-step path. Skill and MCP tasks take the same `OperationManager` lock.
 
 ### 6.7 Backups, transfer, and import (ADR-0002, ADR-0030)
