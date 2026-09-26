@@ -10,6 +10,7 @@ import { mcp } from "./commands/mcp";
 import { networkProxy } from "./commands/networkProxy";
 import { openClawWorkspace } from "./commands/openclawWorkspace";
 import { operations } from "./commands/operations";
+import { privacyProtection } from "./commands/privacyProtection";
 import { prompts } from "./commands/prompts";
 import { providers } from "./commands/providers";
 import { routing } from "./commands/routing";
@@ -38,6 +39,7 @@ export const native = {
   mcp,
   networkProxy,
   openClawWorkspace,
+  privacyProtection,
   settings,
   skills,
   backup,
@@ -176,6 +178,8 @@ export {
 export type { ErrorCode, NativeErrorPayload } from "./schemas/error";
 export { networkProxySettingsSchema } from "./schemas/networkProxy";
 export type { NetworkProxySettings } from "./schemas/networkProxy";
+export { privacyProtectionSchema } from "./schemas/privacyProtection";
+export type { PrivacyProtection } from "./schemas/privacyProtection";
 export {
   MAX_OPENCLAW_WORKSPACE_CONTENT_BYTES,
   MAX_OPENCLAW_WORKSPACE_SEARCH_CHARS,

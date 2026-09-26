@@ -2345,6 +2345,11 @@
     "stale": "Le dernier instantané de routage reste affiché car la dernière actualisation ne s'est pas terminée.",
     "actionError": {
       "title": "La modification du routage ne s'est pas terminée"
+    },
+    "privacy": {
+      "label": "Protection de la vie privée",
+      "description": "Quand les requêtes passent par AI Manager, les clés, mots de passe, e-mails, numéros de téléphone, d'identité et de carte bancaire sont remplacés par des espaces réservés avant d'atteindre le service, puis rétablis dans la réponse.",
+      "unavailable": "Impossible de lire ce réglage pour le moment."
     }
   },
   "sessions": {

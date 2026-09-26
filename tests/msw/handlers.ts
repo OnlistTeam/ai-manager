@@ -32,6 +32,9 @@ export const handlers = [
   http.post(`${TAURI_ENDPOINT}/app_network_proxy_get`, () =>
     success({ configured: false, url: null, protected: false }),
   ),
+  http.post(`${TAURI_ENDPOINT}/app_privacy_protection_get`, () =>
+    success({ enabled: true }),
+  ),
   http.post(
     `${TAURI_ENDPOINT}/app_desktop_preferences_save`,
     async ({ request }) => {

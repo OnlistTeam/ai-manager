@@ -2345,6 +2345,11 @@
     "stale": "Der letzte Routing-Stand wird weiterhin angezeigt, da die letzte Aktualisierung nicht abgeschlossen wurde.",
     "actionError": {
       "title": "Routing-Änderung wurde nicht abgeschlossen"
+    },
+    "privacy": {
+      "label": "Datenschutz",
+      "description": "Laufen Anfragen über AI Manager, werden Schlüssel, Passwörter, E-Mail-Adressen, Telefonnummern, Ausweis- und Bankkartennummern vor dem Senden an den Dienst durch Platzhalter ersetzt und in der Antwort wiederhergestellt.",
+      "unavailable": "Diese Einstellung kann gerade nicht gelesen werden."
     }
   },
   "sessions": {

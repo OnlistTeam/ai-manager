@@ -2345,6 +2345,11 @@
     "stale": "Snapshot perutean terakhir masih ditampilkan karena penyegaran terbaru belum selesai.",
     "actionError": {
       "title": "Perubahan perutean tidak selesai"
+    },
+    "privacy": {
+      "label": "Perlindungan privasi",
+      "description": "Saat permintaan melewati AI Manager, kunci, kata sandi, email, nomor telepon, nomor identitas, dan nomor kartu bank diganti dengan placeholder sebelum sampai ke layanan, lalu dikembalikan di balasan.",
+      "unavailable": "Pengaturan ini belum bisa dibaca sekarang."
     }
   },
   "sessions": {

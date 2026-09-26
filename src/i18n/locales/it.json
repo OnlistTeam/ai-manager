@@ -2345,6 +2345,11 @@
     "stale": "Viene ancora mostrato l'ultimo snapshot dell'instradamento perché l'ultimo aggiornamento non è terminato.",
     "actionError": {
       "title": "La modifica dell'instradamento non è terminata"
+    },
+    "privacy": {
+      "label": "Protezione della privacy",
+      "description": "Quando le richieste passano da AI Manager, chiavi, password, email, numeri di telefono, di documento e di carta bancaria vengono sostituiti con segnaposto prima di arrivare al servizio e ripristinati nella risposta.",
+      "unavailable": "Al momento non è possibile leggere questa impostazione."
     }
   },
   "sessions": {

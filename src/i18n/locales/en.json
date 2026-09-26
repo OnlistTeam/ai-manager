@@ -2345,6 +2345,11 @@
     "stale": "The last routing snapshot is still shown because the latest refresh did not finish.",
     "actionError": {
       "title": "Routing change did not finish"
+    },
+    "privacy": {
+      "label": "Privacy protection",
+      "description": "When requests go through AI Manager, keys, passwords, emails, phone numbers, ID and bank card numbers are replaced with placeholders before they reach the service, and put back in the reply.",
+      "unavailable": "This setting can't be read right now."
     }
   },
   "sessions": {
