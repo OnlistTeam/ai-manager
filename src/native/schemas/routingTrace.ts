@@ -25,7 +25,7 @@ export const routingTraceAttemptSchema = z
   .object({
     providerId: z.string().min(1).max(256),
     providerName: z.string().min(1).max(256),
-    outcome: z.enum(["ok", "failed", "skipped"]),
+    outcome: z.enum(["pending", "ok", "failed", "skipped"]),
     httpStatus: z.number().int().min(100).max(599).nullable(),
     error: routingErrorCategorySchema.nullable(),
     ms: countSchema,

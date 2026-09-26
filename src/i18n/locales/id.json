@@ -2330,18 +2330,13 @@
       "pending": "Berlangsung",
       "unknownModel": "Model tidak disebutkan",
       "noAttempt": "Tidak ada layanan tersedia",
-      "flow": {
-        "routed": "{{name}}: melalui AI Manager",
-        "direct": "{{name}}: langsung",
-        "manager": "AI Manager",
-        "noServices": "Belum ada layanan"
-      },
       "counts": {
         "requests": "Permintaan",
         "rerouted": "Dialihkan",
         "failed": "Galat yang diterima alat"
       },
       "attempt": {
+        "pending": "{{name}}: menunggu jawaban",
         "ok": "{{name}}: menjawab",
         "failed": "{{name}}: gagal ({{reason}})",
         "skipped": "{{name}}: dilewati karena dijeda"
@@ -2366,6 +2361,30 @@
         "title": "Beberapa alat tidak dapat dirutekan; sisanya kini melalui AI Manager.",
         "noneTitle": "Tidak ada alat yang dapat dirutekan; semuanya tetap terhubung langsung.",
         "item": "{{name}}: {{reason}}"
+      },
+      "header": {
+        "title": "Perutean",
+        "live": "Langsung",
+        "hideEmails": "Sembunyikan email"
+      },
+      "stage": {
+        "label": "Ke mana permintaan pergi",
+        "yourTools": "Alat Anda",
+        "noRequests": "Belum ada permintaan",
+        "servicesLabel": "Layanan, sesuai urutan dicoba",
+        "waiting": "Menunggu",
+        "resting": "Dijeda",
+        "hub": "AI Manager"
+      },
+      "caption": {
+        "sent": "Permintaan {{tool}} dikirim ke {{name}}…",
+        "choosing": "{{tool}} mengirim permintaan; memilih layanan…",
+        "rerouted": "{{previous}}: {{reason}}. Beralih ke {{name}}",
+        "skipped": "{{previous}} sedang dijeda. Beralih ke {{name}}",
+        "passedOver": "{{name}} sedang dijeda dan dilewati",
+        "failedTry": "{{name}}: {{reason}}",
+        "answered": "{{name}} menjawab dalam {{duration}}",
+        "gaveUp": "{{tool}} menerima galat: {{reason}}"
       }
     },
     "privacy": {

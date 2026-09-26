@@ -2329,18 +2329,13 @@
       "pending": "処理中",
       "unknownModel": "モデル指定なし",
       "noAttempt": "利用できるサービスがありません",
-      "flow": {
-        "routed": "{{name}}：AI Manager 経由",
-        "direct": "{{name}}：直接接続",
-        "manager": "AI Manager",
-        "noServices": "サービスなし"
-      },
       "counts": {
         "requests": "リクエスト",
         "rerouted": "迂回",
         "failed": "ツールが受けたエラー"
       },
       "attempt": {
+        "pending": "{{name}}：応答待ち",
         "ok": "{{name}}：応答あり",
         "failed": "{{name}}：失敗（{{reason}}）",
         "skipped": "{{name}}：一時停止中のためスキップ"
@@ -2365,6 +2360,30 @@
         "title": "一部のツールは経由できませんでした。ほかのツールは AI Manager を経由しています。",
         "noneTitle": "経由できたツールはありません。すべて直接接続のままです。",
         "item": "{{name}}：{{reason}}"
+      },
+      "header": {
+        "title": "ルーティング",
+        "live": "ライブ",
+        "hideEmails": "メールを伏せる"
+      },
+      "stage": {
+        "label": "リクエストの行き先",
+        "yourTools": "あなたのツール",
+        "noRequests": "まだリクエストはありません",
+        "servicesLabel": "試す順に並んだサービス",
+        "waiting": "応答待ち",
+        "resting": "一時停止中",
+        "hub": "AI Manager"
+      },
+      "caption": {
+        "sent": "{{tool}} のリクエストを {{name}} に送りました…",
+        "choosing": "{{tool}} からリクエストが届きました。サービスを選んでいます…",
+        "rerouted": "{{previous}}：{{reason}}。{{name}} に切り替えます",
+        "skipped": "{{previous}} は一時停止中です。{{name}} に切り替えます",
+        "passedOver": "{{name}} は一時停止中のためスキップしました",
+        "failedTry": "{{name}}：{{reason}}",
+        "answered": "{{name}} が {{duration}} で応答しました",
+        "gaveUp": "{{tool}} にエラーが返りました：{{reason}}"
       }
     },
     "privacy": {

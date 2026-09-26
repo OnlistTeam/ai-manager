@@ -2330,18 +2330,13 @@
       "pending": "En curso",
       "unknownModel": "Modelo no indicado",
       "noAttempt": "Ningún servicio disponible",
-      "flow": {
-        "routed": "{{name}}: a través de AI Manager",
-        "direct": "{{name}}: directo",
-        "manager": "AI Manager",
-        "noServices": "Aún sin servicio"
-      },
       "counts": {
         "requests": "Solicitudes",
         "rerouted": "Desviadas",
         "failed": "Errores que vieron las herramientas"
       },
       "attempt": {
+        "pending": "{{name}}: esperando respuesta",
         "ok": "{{name}}: respondió",
         "failed": "{{name}}: falló ({{reason}})",
         "skipped": "{{name}}: omitido por estar en pausa"
@@ -2366,6 +2361,30 @@
         "title": "Algunas herramientas no se pudieron enrutar; las demás ya pasan por AI Manager.",
         "noneTitle": "No se pudo enrutar ninguna herramienta; todo sigue en conexión directa.",
         "item": "{{name}}: {{reason}}"
+      },
+      "header": {
+        "title": "Enrutamiento",
+        "live": "En vivo",
+        "hideEmails": "Ocultar correos"
+      },
+      "stage": {
+        "label": "A dónde van las solicitudes",
+        "yourTools": "Tus herramientas",
+        "noRequests": "Aún no hay solicitudes",
+        "servicesLabel": "Servicios, en el orden en que se prueban",
+        "waiting": "Esperando",
+        "resting": "En pausa",
+        "hub": "AI Manager"
+      },
+      "caption": {
+        "sent": "{{tool}} envió una solicitud a {{name}}…",
+        "choosing": "{{tool}} envió una solicitud; eligiendo un servicio…",
+        "rerouted": "{{previous}}: {{reason}}. Probando con {{name}}",
+        "skipped": "{{previous}} está en pausa. Probando con {{name}}",
+        "passedOver": "{{name}} está en pausa y se omitió",
+        "failedTry": "{{name}}: {{reason}}",
+        "answered": "{{name}} respondió en {{duration}}",
+        "gaveUp": "{{tool}} recibió un error: {{reason}}"
       }
     },
     "privacy": {

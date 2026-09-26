@@ -9,8 +9,8 @@ use std::collections::VecDeque;
 use std::sync::{Mutex, MutexGuard, PoisonError};
 
 use crate::domain::{
-    RoutingErrorCategory, RoutingTraceAttempt, RoutingTraceCounts, RoutingTraceEntry,
-    RoutingTraceSnapshot, RoutingTraceStatus, RoutingTraceUpdate, ToolId,
+    RoutingAttemptOutcome, RoutingErrorCategory, RoutingTraceAttempt, RoutingTraceCounts,
+    RoutingTraceEntry, RoutingTraceSnapshot, RoutingTraceStatus, RoutingTraceUpdate, ToolId,
     MAX_ROUTING_TRACE_ATTEMPTS, MAX_ROUTING_TRACE_ENTRIES,
 };
 
@@ -110,9 +110,27 @@ impl RoutingTraceLog {
         update.entry.seq
     }
 
-    /// Appends one finished try. Tries beyond the bound are dropped.
+    /// Appends one try, finished or still `pending`. Tries beyond the bound
+    /// are dropped.
     pub fn push_attempt(&self, seq: u64, attempt: RoutingTraceAttempt) {
         self.change(seq, |entry, _| {
+            if entry.attempts.len() < MAX_ROUTING_TRACE_ATTEMPTS {
+                entry.attempts.push(attempt);
+            }
+        });
+    }
+
+    /// Ends a try: replaces the last attempt when it is the same service's
+    /// `pending` try, and appends it otherwise.
+    pub fn settle_attempt(&self, seq: u64, attempt: RoutingTraceAttempt) {
+        self.change(seq, |entry, _| {
+            let replaces_pending = entry.attempts.last().is_some_and(|last| {
+                last.outcome == RoutingAttemptOutcome::Pending
+                    && last.provider_id == attempt.provider_id
+            });
+            if replaces_pending {
+                entry.attempts.pop();
+            }
             if entry.attempts.len() < MAX_ROUTING_TRACE_ATTEMPTS {
                 entry.attempts.push(attempt);
             }

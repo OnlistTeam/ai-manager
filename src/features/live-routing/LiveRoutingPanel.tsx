@@ -1,40 +1,26 @@
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  EMPTY_ROUTING_TRACE,
-  useRoutingOverview,
-  useRoutingTrace,
-  type ToolId,
-} from "@/entities/routing";
+import { useRoutingOverview, useRoutingTrace } from "@/entities/routing";
 import { Button } from "@/shared/ui/Button";
 import { cn } from "@/shared/ui/cn";
-import { LiveRoutingCounters } from "./LiveRoutingCounters";
-import { LiveRoutingFlow } from "./LiveRoutingFlow";
-import { LiveRoutingList } from "./LiveRoutingList";
+import { LiveRoutingHeader } from "./LiveRoutingHeader";
+import { LiveRoutingLive } from "./LiveRoutingLive";
+import { useHideEmails } from "./useHideEmails";
 
 export interface LiveRoutingPanelProps {
   className?: string;
 }
 
 /**
- * The live view of live routing (ADR-0050): where requests come from, where
- * they went, and the recent requests one per line. Reads its own data, so a
- * page only decides where to place it.
+ * The live view of live routing (ADR-0050): a stage that plays each request
+ * from the tool through AI Manager to the services it tried, one sentence
+ * about the latest step, the totals, and the recent requests one per line.
+ * Reads its own data, so a page only decides where to place it.
  */
 export function LiveRoutingPanel({ className }: LiveRoutingPanelProps) {
   const { t } = useTranslation();
   const overview = useRoutingOverview();
   const trace = useRoutingTrace();
-  const snapshot = trace.data ?? EMPTY_ROUTING_TRACE;
-  const busyTools = useMemo(
-    () =>
-      new Set<ToolId>(
-        snapshot.entries
-          .filter((entry) => entry.status === "pending")
-          .map((entry) => entry.tool),
-      ),
-    [snapshot.entries],
-  );
+  const [hideEmails, setHideEmails] = useHideEmails();
 
   return (
     <section
@@ -45,14 +31,16 @@ export function LiveRoutingPanel({ className }: LiveRoutingPanelProps) {
         className,
       )}
     >
-      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-hairline px-3 py-2.5">
-        {overview.data ? (
-          <LiveRoutingFlow overview={overview.data} busyTools={busyTools} />
-        ) : null}
-        <LiveRoutingCounters counts={snapshot.counts} />
-      </div>
+      <LiveRoutingHeader
+        hideEmails={hideEmails}
+        onHideEmailsChange={setHideEmails}
+      />
       {trace.data ? (
-        <LiveRoutingList entries={trace.data.entries} />
+        <LiveRoutingLive
+          overview={overview.data}
+          snapshot={trace.data}
+          hideEmails={hideEmails}
+        />
       ) : trace.isError ? (
         <div
           role="alert"

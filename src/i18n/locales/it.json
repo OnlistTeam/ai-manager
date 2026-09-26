@@ -2330,18 +2330,13 @@
       "pending": "In corso",
       "unknownModel": "Modello non indicato",
       "noAttempt": "Nessun servizio disponibile",
-      "flow": {
-        "routed": "{{name}}: tramite AI Manager",
-        "direct": "{{name}}: diretto",
-        "manager": "AI Manager",
-        "noServices": "Ancora nessun servizio"
-      },
       "counts": {
         "requests": "Richieste",
         "rerouted": "Deviate",
         "failed": "Errori visti dagli strumenti"
       },
       "attempt": {
+        "pending": "{{name}}: in attesa di risposta",
         "ok": "{{name}}: ha risposto",
         "failed": "{{name}}: non riuscito ({{reason}})",
         "skipped": "{{name}}: saltato perché in pausa"
@@ -2366,6 +2361,30 @@
         "title": "Alcuni strumenti non sono stati instradati; gli altri ora passano da AI Manager.",
         "noneTitle": "Nessuno strumento è stato instradato; tutto resta in connessione diretta.",
         "item": "{{name}}: {{reason}}"
+      },
+      "header": {
+        "title": "Instradamento",
+        "live": "Dal vivo",
+        "hideEmails": "Nascondi email"
+      },
+      "stage": {
+        "label": "Dove vanno le richieste",
+        "yourTools": "I tuoi strumenti",
+        "noRequests": "Ancora nessuna richiesta",
+        "servicesLabel": "Servizi, nell’ordine in cui vengono provati",
+        "waiting": "In attesa",
+        "resting": "In pausa",
+        "hub": "AI Manager"
+      },
+      "caption": {
+        "sent": "{{tool}} ha inviato una richiesta a {{name}}…",
+        "choosing": "{{tool}} ha inviato una richiesta; scelta del servizio…",
+        "rerouted": "{{previous}}: {{reason}}. Si passa a {{name}}",
+        "skipped": "{{previous}} è in pausa. Si passa a {{name}}",
+        "passedOver": "{{name}} è in pausa ed è stato saltato",
+        "failedTry": "{{name}}: {{reason}}",
+        "answered": "{{name}} ha risposto in {{duration}}",
+        "gaveUp": "{{tool}} ha ricevuto un errore: {{reason}}"
       }
     },
     "privacy": {

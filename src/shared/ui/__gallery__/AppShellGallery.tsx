@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppShell } from "@/app/AppShell";
 import { isAppRoute } from "@/app/routes";
 import { seedAppShellGallery } from "./AppShellGallery.fixtures";
+import { startRoutingTraceReplay } from "./AppShellGallery.traceReplay";
 
 const galleryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +37,12 @@ export function AppShellGallery() {
     document.documentElement.dataset.windowPreview = "browser";
     return null;
   });
+
+  useEffect(() => {
+    const search = new URLSearchParams(window.location.search);
+    if (search.get("replay") !== "trace") return;
+    return startRoutingTraceReplay(galleryClient);
+  }, []);
 
   return (
     <QueryClientProvider client={galleryClient}>

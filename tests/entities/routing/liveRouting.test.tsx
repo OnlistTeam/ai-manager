@@ -109,6 +109,40 @@ describe("useRoutingTrace", () => {
   });
 });
 
+describe("useRoutingTrace while the seed read is in flight", () => {
+  it("keeps a change pushed before the read resolves", async () => {
+    let release: () => void = () => undefined;
+    const gate = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_routing_trace`, async () => {
+        await gate;
+        return HttpResponse.json(snapshot([entry(1)], 1));
+      }),
+    );
+    const client = createTestQueryClient();
+    const { result } = renderHook(() => useRoutingTrace(), {
+      wrapper: withQueryClient(client),
+    });
+    await waitFor(() => expect(result.current.isFetching).toBe(true));
+
+    act(() => {
+      client.setQueryData(
+        routingKeys.trace(),
+        mergeRoutingTraceUpdate(undefined, {
+          revision: 2,
+          counts: { ...COUNTS, requests: 2 },
+          entry: entry(2, 2, "pending"),
+        }),
+      );
+    });
+    release();
+    await waitFor(() => expect(result.current.isFetching).toBe(false));
+    expect(result.current.data?.entries.map(({ seq }) => seq)).toEqual([2, 1]);
+  });
+});
+
 describe("useSetLiveRoutingMode", () => {
   it("commits the returned overview", async () => {
     const overview = {

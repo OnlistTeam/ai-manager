@@ -1,12 +1,18 @@
-import { ArrowRight, Check, SkipForward, X } from "lucide-react";
+import { ArrowRight, Check, Ellipsis, SkipForward, X } from "lucide-react";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import type { RoutingTraceAttempt } from "@/entities/routing";
 import { cn } from "@/shared/ui/cn";
-import { maskEmails } from "./liveRoutingFormat";
+import { serviceLabel } from "./liveRoutingFormat";
 
-const OUTCOME_ICON = { ok: Check, failed: X, skipped: SkipForward } as const;
+const OUTCOME_ICON = {
+  pending: Ellipsis,
+  ok: Check,
+  failed: X,
+  skipped: SkipForward,
+} as const;
 const OUTCOME_TONE = {
+  pending: "text-content-muted motion-safe:animate-pulse",
   ok: "text-success",
   failed: "text-danger",
   skipped: "text-content-muted",
@@ -15,8 +21,10 @@ const OUTCOME_TONE = {
 /** `Service A ✕ → Service B ✓`: every service tried, in order. */
 export function LiveRoutingAttempts({
   attempts,
+  hideEmails,
 }: {
   attempts: readonly RoutingTraceAttempt[];
+  hideEmails: boolean;
 }) {
   const { t } = useTranslation();
 
@@ -32,7 +40,7 @@ export function LiveRoutingAttempts({
     <span className="flex min-w-0 items-center gap-1 overflow-hidden">
       {attempts.map((attempt, index) => {
         const Icon = OUTCOME_ICON[attempt.outcome];
-        const name = maskEmails(attempt.providerName);
+        const name = serviceLabel(attempt.providerName, hideEmails);
         const reason = attempt.error
           ? t(`routing.live.errorCategory.${attempt.error}`)
           : "";
@@ -54,7 +62,8 @@ export function LiveRoutingAttempts({
               title={label}
               data-attempt-outcome={attempt.outcome}
               className={cn(
-                "inline-flex min-w-0 items-center gap-0.5",
+                // Every service keeps a few letters when space runs out.
+                "inline-flex min-w-10 items-center gap-0.5",
                 attempt.outcome === "skipped" && "text-content-muted",
               )}
             >

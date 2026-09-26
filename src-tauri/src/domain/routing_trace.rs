@@ -20,6 +20,9 @@ pub const MAX_ROUTING_TRACE_MODEL_CHARS: usize = 128;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum RoutingAttemptOutcome {
+    /// The try has started and no answer or error has arrived yet. It is
+    /// replaced by the try's final outcome when it ends.
+    Pending,
     Ok,
     Failed,
     /// The service was passed over without a request, e.g. while it is paused
@@ -166,6 +169,10 @@ mod tests {
                 "error": "rateLimited",
                 "ms": 12
             })
+        );
+        assert_eq!(
+            serde_json::to_value(RoutingAttemptOutcome::Pending).expect("serialize outcome"),
+            serde_json::json!("pending")
         );
     }
 }

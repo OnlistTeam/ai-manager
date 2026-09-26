@@ -2330,18 +2330,13 @@
       "pending": "Em andamento",
       "unknownModel": "Modelo não informado",
       "noAttempt": "Nenhum serviço disponível",
-      "flow": {
-        "routed": "{{name}}: pelo AI Manager",
-        "direct": "{{name}}: direto",
-        "manager": "AI Manager",
-        "noServices": "Nenhum serviço ainda"
-      },
       "counts": {
         "requests": "Solicitações",
         "rerouted": "Desviadas",
         "failed": "Erros vistos pelas ferramentas"
       },
       "attempt": {
+        "pending": "{{name}}: aguardando resposta",
         "ok": "{{name}}: respondeu",
         "failed": "{{name}}: falhou ({{reason}})",
         "skipped": "{{name}}: ignorado por estar pausado"
@@ -2366,6 +2361,30 @@
         "title": "Algumas ferramentas não puderam ser roteadas; as demais agora passam pelo AI Manager.",
         "noneTitle": "Nenhuma ferramenta pôde ser roteada; tudo continua em conexão direta.",
         "item": "{{name}}: {{reason}}"
+      },
+      "header": {
+        "title": "Roteamento",
+        "live": "Ao vivo",
+        "hideEmails": "Ocultar e-mails"
+      },
+      "stage": {
+        "label": "Para onde vão as solicitações",
+        "yourTools": "Suas ferramentas",
+        "noRequests": "Nenhuma solicitação ainda",
+        "servicesLabel": "Serviços, na ordem em que são tentados",
+        "waiting": "Aguardando",
+        "resting": "Pausado",
+        "hub": "AI Manager"
+      },
+      "caption": {
+        "sent": "{{tool}} enviou uma solicitação para {{name}}…",
+        "choosing": "{{tool}} enviou uma solicitação; escolhendo um serviço…",
+        "rerouted": "{{previous}}: {{reason}}. Tentando {{name}}",
+        "skipped": "{{previous}} está pausado. Tentando {{name}}",
+        "passedOver": "{{name}} está pausado e foi ignorado",
+        "failedTry": "{{name}}: {{reason}}",
+        "answered": "{{name}} respondeu em {{duration}}",
+        "gaveUp": "{{tool}} recebeu um erro: {{reason}}"
       }
     },
     "privacy": {

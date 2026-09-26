@@ -147,3 +147,25 @@ fn tries_per_request_are_bounded() {
         MAX_ROUTING_TRACE_ATTEMPTS
     );
 }
+
+#[test]
+fn settling_replaces_the_same_services_pending_try_and_appends_otherwise() {
+    let (log, _) = log();
+    let seq = log.begin(ToolId::Codex, None, 0);
+    log.push_attempt(seq, attempt("a", RoutingAttemptOutcome::Pending));
+    log.settle_attempt(seq, attempt("a", RoutingAttemptOutcome::Failed));
+    log.settle_attempt(seq, attempt("b", RoutingAttemptOutcome::Ok));
+
+    let attempts = log.snapshot().entries[0].attempts.clone();
+    assert_eq!(
+        attempts
+            .iter()
+            .map(|attempt| (attempt.provider_id.as_str(), attempt.outcome))
+            .collect::<Vec<_>>(),
+        vec![
+            ("a", RoutingAttemptOutcome::Failed),
+            ("b", RoutingAttemptOutcome::Ok),
+        ]
+    );
+    assert!(log.snapshot().entries[0].failed_over);
+}

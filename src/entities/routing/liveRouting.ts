@@ -64,11 +64,15 @@ export function useRoutingTrace(): UseQueryResult<RoutingTraceSnapshot, Error> {
 
   return useQuery({
     queryKey: routingKeys.trace(),
-    queryFn: async () =>
-      mergeRoutingTraceSnapshot(
+    queryFn: async () => {
+      const read = await native.routing.trace();
+      // Read the cache only now: changes pushed while the read was in
+      // flight are already in it and must survive the seed.
+      return mergeRoutingTraceSnapshot(
         queryClient.getQueryData<RoutingTraceSnapshot>(routingKeys.trace()),
-        await native.routing.trace(),
-      ),
+        read,
+      );
+    },
     staleTime: Number.POSITIVE_INFINITY,
     refetchOnWindowFocus: false,
   });

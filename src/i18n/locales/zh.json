@@ -2329,18 +2329,13 @@
       "pending": "进行中",
       "unknownModel": "未注明模型",
       "noAttempt": "没有可用的服务",
-      "flow": {
-        "routed": "{{name}}：经 AI 管家",
-        "direct": "{{name}}：直连",
-        "manager": "AI 管家",
-        "noServices": "暂无服务"
-      },
       "counts": {
         "requests": "请求",
         "rerouted": "改道",
         "failed": "软件收到的错误"
       },
       "attempt": {
+        "pending": "{{name}}：等待回应",
         "ok": "{{name}}：已应答",
         "failed": "{{name}}：失败（{{reason}}）",
         "skipped": "{{name}}：暂停中，已跳过"
@@ -2365,6 +2360,30 @@
         "title": "部分软件未能接入，其余已经过 AI 管家。",
         "noneTitle": "没有软件接入成功，一切保持直连。",
         "item": "{{name}}：{{reason}}"
+      },
+      "header": {
+        "title": "路由",
+        "live": "实时",
+        "hideEmails": "邮箱打码"
+      },
+      "stage": {
+        "label": "请求的走向",
+        "yourTools": "你的软件",
+        "noRequests": "还没有请求",
+        "servicesLabel": "服务（按尝试顺序）",
+        "waiting": "等待回应",
+        "resting": "暂停中",
+        "hub": "AI 管家"
+      },
+      "caption": {
+        "sent": "{{tool}} 的请求发给了 {{name}}…",
+        "choosing": "{{tool}} 发来一个请求，正在选服务…",
+        "rerouted": "{{previous}} {{reason}}，改走 {{name}}",
+        "skipped": "{{previous}} 暂停中，改走 {{name}}",
+        "passedOver": "{{name}} 暂停中，已跳过",
+        "failedTry": "{{name}} {{reason}}",
+        "answered": "{{name}} 用 {{duration}}答完",
+        "gaveUp": "{{tool}} 收到了错误：{{reason}}"
       }
     },
     "privacy": {

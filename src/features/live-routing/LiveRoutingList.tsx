@@ -9,32 +9,30 @@ import { LiveRoutingRow } from "./LiveRoutingRow";
  */
 export function LiveRoutingList({
   entries,
+  hideEmails,
+  compact,
 }: {
   entries: readonly RoutingTraceEntry[];
+  hideEmails: boolean;
+  compact: boolean;
 }) {
   const { t } = useTranslation();
   const [seededUpTo] = useState(() =>
     entries.reduce((highest, entry) => Math.max(highest, entry.seq), 0),
   );
 
-  if (entries.length === 0) {
-    return (
-      <p className="px-3 py-3 text-caption text-content-muted">
-        {t("routing.live.empty")}
-      </p>
-    );
-  }
-
   return (
     <ol
       aria-label={t("routing.live.listLabel")}
-      className="max-h-80 overflow-y-auto"
+      className="max-h-80 overflow-y-auto border-t border-hairline"
     >
       {entries.map((entry) => (
         <LiveRoutingRow
           key={entry.seq}
           entry={entry}
           fresh={entry.seq > seededUpTo}
+          hideEmails={hideEmails}
+          compact={compact}
         />
       ))}
     </ol>

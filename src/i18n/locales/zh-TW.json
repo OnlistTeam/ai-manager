@@ -2329,18 +2329,13 @@
       "pending": "進行中",
       "unknownModel": "未註明模型",
       "noAttempt": "沒有可用的服務",
-      "flow": {
-        "routed": "{{name}}：經 AI 管家",
-        "direct": "{{name}}：直連",
-        "manager": "AI 管家",
-        "noServices": "尚無服務"
-      },
       "counts": {
         "requests": "請求",
         "rerouted": "改道",
         "failed": "軟體收到的錯誤"
       },
       "attempt": {
+        "pending": "{{name}}：等待回應",
         "ok": "{{name}}：已回應",
         "failed": "{{name}}：失敗（{{reason}}）",
         "skipped": "{{name}}：暫停中，已略過"
@@ -2365,6 +2360,30 @@
         "title": "部分軟體未能接入，其餘已經過 AI 管家。",
         "noneTitle": "沒有軟體接入成功，一切保持直連。",
         "item": "{{name}}：{{reason}}"
+      },
+      "header": {
+        "title": "路由",
+        "live": "即時",
+        "hideEmails": "信箱打碼"
+      },
+      "stage": {
+        "label": "請求的走向",
+        "yourTools": "你的軟體",
+        "noRequests": "還沒有請求",
+        "servicesLabel": "服務（依嘗試順序）",
+        "waiting": "等待回應",
+        "resting": "暫停中",
+        "hub": "AI 管家"
+      },
+      "caption": {
+        "sent": "{{tool}} 的請求送到了 {{name}}…",
+        "choosing": "{{tool}} 送來一個請求，正在挑選服務…",
+        "rerouted": "{{previous}} {{reason}}，改走 {{name}}",
+        "skipped": "{{previous}} 暫停中，改走 {{name}}",
+        "passedOver": "{{name}} 暫停中，已略過",
+        "failedTry": "{{name}} {{reason}}",
+        "answered": "{{name}} 用 {{duration}}回答完畢",
+        "gaveUp": "{{tool}} 收到了錯誤：{{reason}}"
       }
     },
     "privacy": {

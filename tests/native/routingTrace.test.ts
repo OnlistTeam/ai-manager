@@ -113,6 +113,23 @@ describe("native.routing live mode and trace", () => {
     expect(bodies).toEqual([{ enabled: true }]);
   });
 
+  it("accepts a try that is still in progress", () => {
+    const inProgress = {
+      ...traceEntry,
+      attempts: [{ ...traceEntry.attempts[1], outcome: "pending", ms: 0 }],
+      status: "pending",
+      totalMs: null,
+      failedOver: false,
+    };
+    expect(
+      routingTraceUpdateSchema.safeParse({
+        revision: 13,
+        counts: snapshot.counts,
+        entry: inProgress,
+      }).success,
+    ).toBe(true);
+  });
+
   it.each([
     ["a request body", { ...traceEntry, requestBody: '{"messages":[]}' }],
     [
