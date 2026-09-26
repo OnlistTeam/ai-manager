@@ -89,11 +89,15 @@ describe("HomeLiveRouting", () => {
       ).toBeEnabled(),
     );
     expect(screen.queryByText(en.routing.live.empty)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(en.routing.privacy.label),
+    ).not.toBeInTheDocument();
   });
 
-  it("shows the live requests under the switch while it is on", async () => {
+  it("shows privacy protection and the live requests while it is on", async () => {
     mount(true);
 
     expect(await screen.findByText(en.routing.live.empty)).toBeInTheDocument();
+    expect(screen.getByText(en.routing.privacy.label)).toBeInTheDocument();
   });
 });

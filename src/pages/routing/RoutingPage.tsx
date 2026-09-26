@@ -14,6 +14,7 @@ import {
   useSwitchRoutingProvider,
 } from "@/entities/routing";
 import { LiveRoutingPanel, LiveRoutingSwitch } from "@/features/live-routing";
+import { PrivacyProtectionSwitch } from "@/features/routing-privacy";
 import { ConfirmActionModal } from "@/features/tool-management";
 import { toErrorCopy } from "@/shared/lib/nativeError";
 import { Button } from "@/shared/ui/Button";
@@ -149,6 +150,7 @@ export function RoutingPage() {
         <>
           <Card className="flex flex-col gap-2">
             <LiveRoutingSwitch disabled={ownBusy || confirmingStop} />
+            <PrivacyProtectionSwitch className="border-t border-hairline pb-0" />
             <RoutingSummary
               overview={overview.data}
               busy={busy}

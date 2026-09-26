@@ -6,6 +6,7 @@ import { healthKeys, type ProviderConnectivity } from "@/entities/health";
 import { importKeys } from "@/entities/import";
 import { networkProxyKeys } from "@/entities/network-proxy";
 import { operationKeys } from "@/entities/operation";
+import { privacyProtectionKeys } from "@/entities/privacy-protection";
 import { providerKeys } from "@/entities/provider";
 import { routingKeys } from "@/entities/routing";
 import { sessionKeys } from "@/entities/session";
@@ -761,6 +762,7 @@ export function seedAppShellGallery(client: QueryClient): void {
   );
   client.setQueryData(routingKeys.overview(), ROUTING);
   client.setQueryData(routingKeys.trace(), ROUTING_TRACE);
+  client.setQueryData(privacyProtectionKeys.current(), { enabled: true });
   client.setQueryData(extensionKeys.localInventory(), LOCAL_EXTENSIONS);
   seedExtensionLists(client);
   client.setQueryData(usageKeys.overview(), USAGE);
