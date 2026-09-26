@@ -23,12 +23,15 @@ const TAB_LABEL_KEYS: Record<ServicesTab, string> = {
 export interface ServicesPageProps {
   preferredToolId?: ToolId | null;
   preferredTab?: ServicesTab | null;
+  /** Opens the privacy section of the settings page. */
+  onOpenPrivacySettings?: () => void;
 }
 
 /** One page heading; endpoints, local routing and usage are its inner tabs. */
 export function ServicesPage({
   preferredToolId = null,
   preferredTab = null,
+  onOpenPrivacySettings,
 }: ServicesPageProps) {
   const { t } = useTranslation();
   const { tab, toolIntent, select } = useServicesTab(
@@ -66,7 +69,7 @@ export function ServicesPage({
         {tab === "services" ? (
           <ServicesEndpointsPanel preferredToolId={toolIntent} />
         ) : tab === "routing" ? (
-          <RoutingPage />
+          <RoutingPage onOpenPrivacySettings={onOpenPrivacySettings} />
         ) : (
           <UsagePage />
         )}

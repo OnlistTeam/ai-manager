@@ -1,5 +1,5 @@
 import { EyeOff, Minimize2, PanelTop, Rocket } from "lucide-react";
-import { useId, useState, type ComponentType } from "react";
+import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   useDesktopPreferences,
@@ -11,70 +11,10 @@ import { Button } from "@/shared/ui/Button";
 import { Card } from "@/shared/ui/Card";
 import { DetectionStatus } from "@/shared/ui/DetectionStatus";
 import { EmptyState } from "@/shared/ui/EmptyState";
-import { Switch } from "@/shared/ui/Switch";
-import {
-  PreferenceSaveStatus,
-  type PreferenceSaveState,
-} from "@/shared/ui/PreferenceSaveStatus";
+import type { PreferenceSaveState } from "@/shared/ui/PreferenceSaveStatus";
+import { PreferenceSwitchRow } from "./PreferenceRow";
 
 type PreferenceName = keyof DesktopPreferences;
-
-function DesktopPreferenceRow({
-  icon: Icon,
-  label,
-  description,
-  checked,
-  disabled,
-  saveState,
-  onChange,
-}: {
-  icon: ComponentType<{ className?: string }>;
-  label: string;
-  description: string;
-  checked: boolean;
-  disabled: boolean;
-  saveState: PreferenceSaveState;
-  onChange: (checked: boolean) => void;
-}) {
-  const controlId = useId();
-  const descriptionId = useId();
-  const statusId = useId();
-  const describedBy =
-    saveState === "idle" ? descriptionId : `${descriptionId} ${statusId}`;
-
-  return (
-    <div className="grid gap-3 border-b border-hairline py-3 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
-      <div className="flex min-w-0 items-start gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-layer-1 text-brand">
-          <Icon className="h-4 w-4" aria-hidden="true" />
-        </span>
-        <div className="min-w-0">
-          <label
-            htmlFor={controlId}
-            className="text-body font-medium text-content"
-          >
-            {label}
-          </label>
-          <p
-            id={descriptionId}
-            className="mt-0.5 text-caption text-content-muted"
-          >
-            {description}
-          </p>
-          <PreferenceSaveStatus id={statusId} state={saveState} />
-        </div>
-      </div>
-      <Switch
-        id={controlId}
-        checked={checked}
-        disabled={disabled}
-        aria-label={label}
-        aria-describedby={describedBy}
-        onCheckedChange={onChange}
-      />
-    </div>
-  );
-}
 
 export function DesktopPreferencesCard() {
   const { t } = useTranslation();
@@ -120,7 +60,7 @@ export function DesktopPreferencesCard() {
           />
         ) : preferences.data ? (
           <div className="px-4">
-            <DesktopPreferenceRow
+            <PreferenceSwitchRow
               icon={Rocket}
               label={t("preferences.desktop.launch.label")}
               description={t(
@@ -141,7 +81,7 @@ export function DesktopPreferencesCard() {
                 })
               }
             />
-            <DesktopPreferenceRow
+            <PreferenceSwitchRow
               icon={EyeOff}
               label={t("preferences.desktop.silent.label")}
               description={
@@ -165,7 +105,7 @@ export function DesktopPreferencesCard() {
                 })
               }
             />
-            <DesktopPreferenceRow
+            <PreferenceSwitchRow
               icon={PanelTop}
               label={t("preferences.desktop.tray.label", { location })}
               description={t("preferences.desktop.tray.description", {
@@ -187,7 +127,7 @@ export function DesktopPreferencesCard() {
                 })
               }
             />
-            <DesktopPreferenceRow
+            <PreferenceSwitchRow
               icon={Minimize2}
               label={t("preferences.desktop.close.label")}
               description={t(

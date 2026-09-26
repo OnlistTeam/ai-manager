@@ -3,6 +3,7 @@ import { extensionScopeKey, type ExtensionKind } from "@/entities/extension";
 import type { ToolId } from "@/entities/tool";
 import type { ExtensionsTab } from "@/pages/extensions/useExtensionsWorkspaceTab";
 import type { ServicesTab } from "@/pages/services/useServicesTab";
+import type { SettingsSection } from "@/pages/settings/settingsSections";
 import type { AppRoute } from "./routes";
 
 /**
@@ -17,6 +18,8 @@ export interface RouteIntents {
   /** Which kind tab to land on. Without it the page falls back to the remembered kind. */
   extensionsKind: ExtensionKind | null;
   toolDetails: ToolId | null;
+  /** Which settings section to bring into view. */
+  settingsSection: SettingsSection | null;
 }
 
 const NO_INTENTS: RouteIntents = {
@@ -25,6 +28,7 @@ const NO_INTENTS: RouteIntents = {
   extensionsTab: null,
   extensionsKind: null,
   toolDetails: null,
+  settingsSection: null,
 };
 
 function extensionsTabKey(tab: ExtensionsTab | null): string | null {
@@ -37,7 +41,8 @@ function sameIntents(a: RouteIntents, b: RouteIntents): boolean {
     a.servicesTab === b.servicesTab &&
     extensionsTabKey(a.extensionsTab) === extensionsTabKey(b.extensionsTab) &&
     a.extensionsKind === b.extensionsKind &&
-    a.toolDetails === b.toolDetails
+    a.toolDetails === b.toolDetails &&
+    a.settingsSection === b.settingsSection
   );
 }
 
@@ -87,10 +92,17 @@ export function useRouteIntents(navigate: (route: AppRoute) => void) {
     [open],
   );
 
+  const openSettings = useCallback(
+    (section?: SettingsSection) =>
+      open("settings", { settingsSection: section ?? null }),
+    [open],
+  );
+
   return {
     intents,
     openRoute,
     openServices,
     openExtensions,
+    openSettings,
   };
 }

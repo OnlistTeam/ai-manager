@@ -2,6 +2,7 @@ import { invokeNative } from "../client";
 import {
   privacyProtectionSchema,
   type PrivacyProtection,
+  type PrivacyProtectionPatch,
 } from "../schemas/privacyProtection";
 
 export const privacyProtection = {
@@ -9,10 +10,10 @@ export const privacyProtection = {
     return invokeNative("app_privacy_protection_get", privacyProtectionSchema);
   },
 
-  /** Returns the value read back after saving. */
-  set(enabled: boolean): Promise<PrivacyProtection> {
+  /** Applies `patch` and returns every setting as read back after saving. */
+  set(patch: PrivacyProtectionPatch): Promise<PrivacyProtection> {
     return invokeNative("app_privacy_protection_set", privacyProtectionSchema, {
-      enabled,
+      patch,
     });
   },
 };

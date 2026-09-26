@@ -49,4 +49,13 @@ describe("task-specific route handoffs", () => {
     act(() => result.current.openRoute("home"));
     expect(result.current.intents.toolDetails).toBeNull();
   });
+  it("opens the privacy section of the settings page once", () => {
+    const navigate = vi.fn();
+    const { result } = renderHook(() => useRouteIntents(navigate));
+    act(() => result.current.openSettings("privacy"));
+    expect(navigate).toHaveBeenLastCalledWith("settings");
+    expect(result.current.intents.settingsSection).toBe("privacy");
+    act(() => result.current.openRoute("settings"));
+    expect(result.current.intents.settingsSection).toBeNull();
+  });
 });

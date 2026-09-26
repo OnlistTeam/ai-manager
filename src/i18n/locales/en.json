@@ -608,6 +608,10 @@
       "toolBusy": "Another task is already running for this tool. Wait for it to finish.",
       "desktopAppBusy": "Another task is already running for this desktop app. Wait for it to finish."
     },
+    "privacy": {
+      "tooManyWords": "Keep the list to 100 words or fewer.",
+      "wordTooLong": "Keep each word to 128 characters or fewer."
+    },
     "prompt": {
       "contentInvalid": "Those instructions contain a character that cannot be saved safely.",
       "contentRequired": "Write the instructions this tool should follow.",
@@ -2365,9 +2369,16 @@
       }
     },
     "privacy": {
-      "label": "Privacy protection",
-      "description": "When requests go through AI Manager, keys, passwords, emails, phone numbers, ID and bank card numbers are replaced with placeholders before they reach the service, and put back in the reply.",
-      "unavailable": "This setting can't be read right now."
+      "summary": "Privacy: {{parts}}",
+      "secretsHidden": "keys and passwords hidden",
+      "secretsShown": "keys and passwords not hidden",
+      "personalHidden": "personal information hidden",
+      "personalShown": "personal information not hidden",
+      "words_one": "{{count}} custom word",
+      "words_other": "{{count}} custom words",
+      "unavailable": "settings can't be read right now",
+      "openSettings": "Settings",
+      "openSettingsLabel": "Open privacy settings"
     }
   },
   "sessions": {
@@ -2472,6 +2483,7 @@
     "groups": {
       "general": "General",
       "network": "Network",
+      "privacy": "Privacy",
       "backup": "Backup and restore",
       "about": "About"
     },
@@ -2529,6 +2541,28 @@
         "loading": "Reading the download proxy",
         "readError": "Could not read the current download proxy.",
         "save": "Use this proxy"
+      }
+    },
+    "privacy": {
+      "title": "Privacy protection",
+      "description": "Applies to requests that go through AI Manager (live routing or local routing), not to tools that connect to a service directly.",
+      "loading": "Reading privacy settings…",
+      "error": {
+        "title": "Privacy settings can't be read",
+        "description": "Try again in a moment."
+      },
+      "secrets": {
+        "label": "Hide keys and passwords",
+        "description": "API keys, private keys, tokens and passwords go to the service as placeholders and are put back in the reply."
+      },
+      "personal": {
+        "label": "Hide personal information",
+        "description": "Also replace email addresses, phone numbers, ID numbers and bank card numbers."
+      },
+      "words": {
+        "label": "Hide these words",
+        "description": "Words you don't want the service to see, separated by commas.",
+        "placeholder": "Names, codenames, host names"
       }
     },
     "check": {

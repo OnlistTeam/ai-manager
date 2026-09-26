@@ -181,7 +181,10 @@ export type { ErrorCode, NativeErrorPayload } from "./schemas/error";
 export { networkProxySettingsSchema } from "./schemas/networkProxy";
 export type { NetworkProxySettings } from "./schemas/networkProxy";
 export { privacyProtectionSchema } from "./schemas/privacyProtection";
-export type { PrivacyProtection } from "./schemas/privacyProtection";
+export type {
+  PrivacyProtection,
+  PrivacyProtectionPatch,
+} from "./schemas/privacyProtection";
 export {
   MAX_OPENCLAW_WORKSPACE_CONTENT_BYTES,
   MAX_OPENCLAW_WORKSPACE_SEARCH_CHARS,

@@ -4,4 +4,4 @@ export {
   usePrivacyProtection,
   useSetPrivacyProtection,
 } from "./queries";
-export type { PrivacyProtection } from "@/native";
+export type { PrivacyProtection, PrivacyProtectionPatch } from "@/native";

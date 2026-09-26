@@ -1,15 +1,22 @@
 import { isLiveRoutingOn, useRoutingOverview } from "@/entities/routing";
 import { LiveRoutingPanel, LiveRoutingSwitch } from "@/features/live-routing";
-import { PrivacyProtectionSwitch } from "@/features/routing-privacy";
+import { PrivacyStatusLine } from "@/features/routing-privacy";
 import { Card } from "@/shared/ui/Card";
 
+export interface HomeLiveRoutingProps {
+  /** Opens the privacy section of the settings page. */
+  onOpenPrivacySettings?: () => void;
+}
+
 /**
- * The live routing switch, with privacy protection (ADR-0049) and the live
- * request list under it while the mode is on (ADR-0050). Off, the home page
- * keeps only the switch: both only mean something for requests that go
- * through AI Manager.
+ * The live routing switch, with what privacy protection hides (ADR-0049)
+ * and the live request list under it while the mode is on (ADR-0050). Off,
+ * the home page keeps only the switch: both only mean something for
+ * requests that go through AI Manager.
  */
-export function HomeLiveRouting() {
+export function HomeLiveRouting({
+  onOpenPrivacySettings,
+}: HomeLiveRoutingProps) {
   const overview = useRoutingOverview();
   const on = overview.data ? isLiveRoutingOn(overview.data) : false;
 
@@ -18,7 +25,10 @@ export function HomeLiveRouting() {
       <LiveRoutingSwitch />
       {on ? (
         <>
-          <PrivacyProtectionSwitch className="border-t border-hairline pb-0" />
+          <PrivacyStatusLine
+            onOpenSettings={onOpenPrivacySettings}
+            className="border-t border-hairline pt-3"
+          />
           <LiveRoutingPanel />
         </>
       ) : null}

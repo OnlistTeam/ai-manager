@@ -7,7 +7,11 @@ import {
   type UseQueryResult,
 } from "@tanstack/react-query";
 import { sessionCacheOptions } from "@/lib/query/sessionCache";
-import { native, type PrivacyProtection } from "@/native";
+import {
+  native,
+  type PrivacyProtection,
+  type PrivacyProtectionPatch,
+} from "@/native";
 
 export const privacyProtectionKeys = {
   all: ["privacy-protection"] as const,
@@ -29,15 +33,15 @@ export function usePrivacyProtection(): UseQueryResult<
   return useQuery(privacyProtectionQueryOptions());
 }
 
-/** Saves the switch; the cache takes the value the backend read back. */
+/** Saves a partial change; the cache takes every value the backend read back. */
 export function useSetPrivacyProtection(): UseMutationResult<
   PrivacyProtection,
   Error,
-  boolean
+  PrivacyProtectionPatch
 > {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (enabled) => native.privacyProtection.set(enabled),
+    mutationFn: (patch) => native.privacyProtection.set(patch),
     onSuccess: (saved) => {
       queryClient.setQueryData(privacyProtectionKeys.current(), saved);
     },

@@ -608,6 +608,10 @@
       "toolBusy": "Tugas lain sudah berjalan untuk alat ini. Tunggu sampai selesai.",
       "desktopAppBusy": "Tugas lain sudah berjalan untuk aplikasi desktop ini. Tunggu sampai selesai."
     },
+    "privacy": {
+      "tooManyWords": "Maksimal 100 kata.",
+      "wordTooLong": "Setiap kata maksimal 128 karakter."
+    },
     "prompt": {
       "contentInvalid": "Instruksi tersebut berisi karakter yang tidak dapat disimpan dengan aman.",
       "contentRequired": "Tulis instruksi yang harus diikuti alat ini.",
@@ -2365,9 +2369,15 @@
       }
     },
     "privacy": {
-      "label": "Perlindungan privasi",
-      "description": "Saat permintaan melewati AI Manager, kunci, kata sandi, email, nomor telepon, nomor identitas, dan nomor kartu bank diganti dengan placeholder sebelum sampai ke layanan, lalu dikembalikan di balasan.",
-      "unavailable": "Pengaturan ini belum bisa dibaca sekarang."
+      "summary": "Privasi: {{parts}}",
+      "secretsHidden": "kunci dan kata sandi disembunyikan",
+      "secretsShown": "kunci dan kata sandi tidak disembunyikan",
+      "personalHidden": "informasi pribadi disembunyikan",
+      "personalShown": "informasi pribadi tidak disembunyikan",
+      "words_other": "{{count}} kata sendiri",
+      "unavailable": "pengaturan belum bisa dibaca",
+      "openSettings": "Pengaturan",
+      "openSettingsLabel": "Buka pengaturan privasi"
     }
   },
   "sessions": {
@@ -2472,6 +2482,7 @@
     "groups": {
       "general": "Umum",
       "network": "Jaringan",
+      "privacy": "Privasi",
       "backup": "Cadangan dan pemulihan",
       "about": "Tentang"
     },
@@ -2529,6 +2540,28 @@
         "loading": "Membaca proxy unduhan",
         "readError": "Tidak dapat membaca proxy unduhan saat ini.",
         "save": "Gunakan proxy ini"
+      }
+    },
+    "privacy": {
+      "title": "Perlindungan privasi",
+      "description": "Berlaku untuk permintaan yang melewati AI Manager (perutean langsung atau perutean lokal), bukan untuk alat yang terhubung langsung ke layanan.",
+      "loading": "Membaca pengaturan privasi…",
+      "error": {
+        "title": "Pengaturan privasi belum bisa dibaca",
+        "description": "Coba lagi sebentar lagi."
+      },
+      "secrets": {
+        "label": "Sembunyikan kunci dan kata sandi",
+        "description": "Kunci API, kunci privat, token, dan kata sandi dikirim ke layanan sebagai placeholder dan dikembalikan di balasan."
+      },
+      "personal": {
+        "label": "Sembunyikan informasi pribadi",
+        "description": "Ganti juga email, nomor telepon, nomor identitas, dan nomor kartu bank."
+      },
+      "words": {
+        "label": "Sembunyikan kata-kata ini",
+        "description": "Kata yang tidak ingin dilihat layanan, pisahkan dengan koma.",
+        "placeholder": "Nama orang, nama sandi, nama host"
       }
     },
     "check": {
