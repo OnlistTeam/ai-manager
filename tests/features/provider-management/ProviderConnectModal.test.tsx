@@ -657,7 +657,7 @@ describe("ProviderConnectModal", () => {
 
     expect(
       within(dialog).getByRole("alert", {
-        name: "Service actions are paused",
+        name: "Endpoint actions are paused",
       }),
     ).toBeInTheDocument();
     expect(key).toHaveValue("sk-kept-in-dialog");
@@ -697,7 +697,7 @@ describe("ProviderConnectModal", () => {
     );
 
     const alert = screen.getByRole("alert", {
-      name: "Could not finish connecting this service",
+      name: "Could not add this endpoint",
     });
     expect(alert).toHaveTextContent(en.error.provider.createFailed);
     expect(alert).toHaveTextContent(
@@ -715,7 +715,7 @@ describe("ProviderConnectModal", () => {
     expect(onErrorReset).toHaveBeenCalled();
     await userEvent.click(
       screen.getByRole("button", {
-        name: "Try connecting this service again",
+        name: "Try adding this endpoint again",
       }),
     );
     expect(onSubmit).toHaveBeenCalledWith({

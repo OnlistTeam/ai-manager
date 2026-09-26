@@ -685,7 +685,7 @@ describe("ProviderFormModal", () => {
     );
 
     const alert = screen.getByRole("alert", {
-      name: "Could not finish saving this service",
+      name: "Could not save this endpoint",
     });
     expect(alert).toHaveTextContent(en.error.provider.saveFailed);
     expect(alert).toHaveTextContent(en.error.remediation.checkServiceSettings);
@@ -697,7 +697,7 @@ describe("ProviderFormModal", () => {
 
     await userEvent.click(
       screen.getByRole("button", {
-        name: "Try saving this service again",
+        name: "Try saving this endpoint again",
       }),
     );
     expect(onSubmit).toHaveBeenCalledWith({

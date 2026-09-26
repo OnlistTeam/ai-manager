@@ -633,37 +633,37 @@
       "unsupportedTool": "AI Manager chưa tích hợp chỉ dẫn cố định cho công cụ này."
     },
     "provider": {
-      "createFailed": "Không thể kết nối dịch vụ này.",
-      "listFailed": "Không thể đọc các dịch vụ của công cụ này.",
+      "createFailed": "Không thể thêm điểm cuối này.",
+      "listFailed": "Không thể đọc các điểm cuối của công cụ này.",
       "modelProbeImageTooLarge": "Hình ảnh được tạo ra quá lớn để hiển thị.",
       "modelProbeModelInvalid": "Nhập tên mô hình trước.",
       "modelProbePromptInvalid": "Nhập một prompt trong giới hạn 200 ký tự trở xuống.",
-      "modelProbeTimeout": "Dịch vụ này không phản hồi kịp thời.",
-      "modelProbeUnreachable": "Không thể kết nối đến dịch vụ này.",
-      "modelProbeUnreadable": "Dịch vụ này đã phản hồi bằng thứ mà ứng dụng không đọc được.",
-      "nameRequired": "Đặt tên cho dịch vụ này trước.",
-      "notFound": "Dịch vụ đó không còn ở đây nữa.",
-      "notTestable": "Dịch vụ này không có địa chỉ để kiểm tra.",
-      "removeActive": "Chuyển sang một dịch vụ khác trước khi xóa dịch vụ này.",
-      "removeFailed": "Không thể xóa dịch vụ này một cách an toàn.",
-      "removePanicked": "Đã có lỗi xảy ra khi xóa dịch vụ này.",
-      "removeRestoreFailed": "Không thể xóa dịch vụ này, và AI Manager không thể xác nhận rằng thiết lập trước đó đã được khôi phục đầy đủ.",
-      "removeUnsupported": "Dịch vụ này dùng thiết lập riêng của công cụ và không thể xóa ở đây.",
-      "removeVerifyFailed": "AI Manager không thể xác nhận rằng dịch vụ đã được xóa.",
+      "modelProbeTimeout": "Điểm cuối này không phản hồi kịp thời.",
+      "modelProbeUnreachable": "Không thể kết nối đến điểm cuối này.",
+      "modelProbeUnreadable": "Điểm cuối này đã phản hồi bằng thứ mà ứng dụng không đọc được.",
+      "nameRequired": "Đặt tên cho điểm cuối này trước.",
+      "notFound": "Điểm cuối đó không còn ở đây nữa.",
+      "notTestable": "Điểm cuối này không có địa chỉ để kiểm tra.",
+      "removeActive": "Chuyển sang một điểm cuối khác trước khi xóa điểm cuối này.",
+      "removeFailed": "Không thể xóa điểm cuối này một cách an toàn.",
+      "removePanicked": "Đã có lỗi xảy ra khi xóa điểm cuối này.",
+      "removeRestoreFailed": "Không thể xóa điểm cuối này, và AI Manager không thể xác nhận rằng thiết lập trước đó đã được khôi phục đầy đủ.",
+      "removeUnsupported": "Điểm cuối này dùng thiết lập riêng của công cụ và không thể xóa ở đây.",
+      "removeVerifyFailed": "AI Manager không thể xác nhận rằng điểm cuối đã được xóa.",
       "runtimeContextFailed": "Không thể kiểm tra các nguồn cấu hình của công cụ này.",
       "runtimeResourceNotFound": "Tài nguyên cục bộ đó không còn khả dụng nữa.",
       "runtimeResourceOpenFailed": "Không thể mở tài nguyên cục bộ đó.",
-      "saveFailed": "Không thể lưu thay đổi cho dịch vụ này.",
-      "saveRestoreFailed": "Không thể lưu dịch vụ này, và AI Manager không thể xác nhận rằng thiết lập trước đó đã được khôi phục đầy đủ.",
+      "saveFailed": "Không thể lưu thay đổi cho điểm cuối này.",
+      "saveRestoreFailed": "Không thể lưu điểm cuối này, và AI Manager không thể xác nhận rằng thiết lập trước đó đã được khôi phục đầy đủ.",
       "settingsPreserveFailed": "Điểm cuối đã được chuyển đổi, nhưng các thiết lập khác của công cụ này không thể giữ nguyên.",
       "storeUnavailable": "Ứng dụng vẫn đang khởi động.",
-      "switchFailed": "Không thể chuyển sang dịch vụ này.",
+      "switchFailed": "Không thể chuyển sang điểm cuối này.",
       "testFailed": "Không thể chạy kiểm tra.",
-      "unsupportedTool": "AI Manager chưa tích hợp dịch vụ AI cho công cụ này.",
-      "reorderFailed": "Không lưu được thứ tự mới. Danh sách đã trở lại như cũ; hãy thử di chuyển dịch vụ lần nữa."
+      "unsupportedTool": "AI Manager chưa tích hợp điểm cuối API cho công cụ này.",
+      "reorderFailed": "Không lưu được thứ tự mới. Danh sách đã trở lại như cũ; hãy thử di chuyển điểm cuối lần nữa."
     },
     "remediation": {
-      "chooseAnotherService": "Chọn một dịch vụ khác cho công cụ này, rồi thử lại.",
+      "chooseAnotherService": "Chọn một điểm cuối khác cho công cụ này, rồi thử lại.",
       "checkConnectionSettings": "Kiểm tra tên, khóa API và mô hình, rồi thử lại.",
       "checkInternetConnection": "Kiểm tra kết nối internet của bạn, rồi thử lại.",
       "checkLocalFileAccess": "Đảm bảo Skill vẫn ở vị trí ban đầu và hệ thống của bạn có thể mở được, rồi thử lại.",
@@ -682,7 +682,7 @@
       "openToolManually": "Mở terminal trong thư mục dự án của bạn và khởi động công cụ ở đó.",
       "refreshSessions": "Làm mới danh sách phiên và chọn lại cuộc hội thoại.",
       "recheckUpdate": "Kiểm tra lại thông tin cập nhật trước khi tiếp tục.",
-      "removeInTool": "Xóa dịch vụ này từ thiết lập riêng của công cụ.",
+      "removeInTool": "Xóa điểm cuối này trong thiết lập riêng của công cụ.",
       "retryOrViewDetails": "Thử lại, hoặc mở Xem chi tiết để biết chuyện gì đã xảy ra.",
       "useOriginalUpdateChannel": "Dùng trình cập nhật gốc của bản cài đặt này, hoặc gỡ nó một cách tường minh trước khi cài qua npm.",
       "uninstallManually": "Bạn có thể tự xóa các tệp còn lại, rồi chạy Kiểm tra lại.",
@@ -690,9 +690,9 @@
     },
     "routing": {
       "changeFailed": "AI Manager không thể hoàn tất thay đổi định tuyến đó một cách an toàn.",
-      "providerNotEligible": "Dịch vụ đó không thể tham gia chuyển đổi dự phòng tự động.",
-      "providerUnavailable": "Dịch vụ đó không còn khả dụng cho định tuyến nữa.",
-      "queueLocked": "Tắt chuyển đổi dự phòng tự động trước khi xóa dịch vụ đang hoạt động hoặc cuối cùng này.",
+      "providerNotEligible": "Điểm cuối đó không thể tham gia chuyển đổi dự phòng tự động.",
+      "providerUnavailable": "Điểm cuối đó không còn khả dụng cho định tuyến nữa.",
+      "queueLocked": "Tắt chuyển đổi dự phòng tự động trước khi xóa điểm cuối đang hoạt động hoặc cuối cùng này.",
       "readFailed": "AI Manager không thể đọc trạng thái định tuyến cục bộ.",
       "storeUnavailable": "Định tuyến cục bộ chưa sẵn sàng.",
       "takeoverRequired": "Bật tính năng tiếp quản định tuyến cho công cụ này trước.",
@@ -1191,8 +1191,8 @@
       "chooseFolder": "Chọn thư mục",
       "launched": "{{name}} đã mở trong Terminal.",
       "providerUnreachable": "{{name}} không phản hồi",
-      "providerUnreachableHint": "Không có gì được mở và cấu hình đã lưu không bị thay đổi. Hãy kiểm tra lại hoặc thử một dịch vụ tương thích đã lưu khác.",
-      "noSavedAlternative": "Không có dịch vụ tương thích đã lưu nào khác để kiểm tra.",
+      "providerUnreachableHint": "Không có gì được mở và cấu hình đã lưu không bị thay đổi. Hãy kiểm tra lại hoặc thử một điểm cuối tương thích đã lưu khác.",
+      "noSavedAlternative": "Không có điểm cuối tương thích đã lưu nào khác để kiểm tra.",
       "retry": "Thử lại",
       "retryNamed": "Thử mở {{name}} lại"
     },
@@ -1345,7 +1345,7 @@
     },
     "card": {
       "title": "Môi trường AI",
-      "description": "Công cụ, dịch vụ và tiện ích mở rộng được kiểm tra tại một nơi",
+      "description": "Phần mềm, điểm cuối API và MCP được kiểm tra tại một nơi",
       "checking": "Đang kiểm tra môi trường AI của bạn",
       "toolsInstalled_one": "Đã cài {{count}} công cụ",
       "toolsInstalled_other": "Đã cài {{count}} công cụ",
@@ -1360,15 +1360,15 @@
       "startHint": "Chọn một thư mục dự án. Dịch vụ của bạn sẽ xác minh quyền truy cập trong lần dùng đầu tiên.",
       "inventory": {
         "label": "Chi tiết thiết lập sẵn sàng",
-        "servicesConfigured_one": "Đã cấu hình {{count}} dịch vụ AI",
-        "servicesConfigured_other": "Đã cấu hình {{count}} dịch vụ AI",
+        "servicesConfigured_one": "Đã cấu hình {{count}} điểm cuối API",
+        "servicesConfigured_other": "Đã cấu hình {{count}} điểm cuối API",
         "mcpEnabled": "MCP đã bật: {{enabled}}/{{total}}",
         "noMcp": "Chưa có kết nối MCP nào"
       },
       "actions": {
-        "tools": "Mở Công cụ AI",
-        "services": "Mở Điểm cuối API",
-        "extensions": "Mở Kỹ năng & MCP"
+        "tools": "Mở Phần mềm",
+        "services": "Mở API Endpoints",
+        "extensions": "Mở Skills"
       }
     },
     "health": {
@@ -1378,12 +1378,12 @@
       "issues_one": "Phát hiện {{count}} vấn đề",
       "issues_other": "Phát hiện {{count}} vấn đề",
       "lastChecked": "Lần kiểm tra gần nhất: {{time}}",
-      "checkingConnections": "Đang kiểm tra kết nối dịch vụ",
+      "checkingConnections": "Đang kiểm tra kết nối điểm cuối",
       "connectionError": "Không thể bắt đầu kiểm tra kết nối. Vui lòng thử lại.",
       "noTools": {
         "title": "Bắt đầu với một công cụ lập trình AI",
         "description": "Khi đã cài một công cụ, việc kiểm tra tình trạng sẽ bao gồm nó.",
-        "action": "Xem Công cụ AI"
+        "action": "Mở Phần mềm"
       }
     },
     "quickActions": {
@@ -1392,8 +1392,8 @@
       "installDescription": "Thêm Claude Code, Codex hoặc OpenCode",
       "updateAll": "Cập nhật tất cả",
       "updateDescription": "Giữ các công cụ đã cài luôn ở phiên bản mới nhất",
-      "connectService": "Kết nối dịch vụ AI",
-      "connectDescription": "Quản lý các dịch vụ và khóa mà công cụ của bạn sử dụng",
+      "connectService": "Kết nối điểm cuối API",
+      "connectDescription": "Quản lý các điểm cuối và khóa mà công cụ của bạn sử dụng",
       "laterHint": "Sẽ có trong bản cập nhật sau"
     },
     "updateAll": {
@@ -1401,7 +1401,7 @@
       "title_other": "Cập nhật {{count}} công cụ?",
       "reviewTitle_one": "Xem lại {{count}} bản cập nhật công cụ",
       "reviewTitle_other": "Xem lại {{count}} bản cập nhật công cụ",
-      "description": "{{names, list}} sẽ được cập nhật trong nền. Bạn có thể tiếp tục dùng AI Manager và theo dõi tiến trình trong mục Nhiệm vụ.",
+      "description": "{{names, list}} sẽ được cập nhật trong nền. Bạn có thể tiếp tục dùng AI Manager và theo dõi tiến trình trong mục Hoạt động.",
       "previewSummary": "{{ready}} có thể cập nhật ngay. {{skipped}} sẽ bị bỏ qua cho đến khi việc cài đặt được xem lại.",
       "skippedSummary_one": "{{count}} công cụ bị bỏ qua vì không thể xác nhận phương thức cập nhật.",
       "skippedSummary_other": "{{count}} công cụ bị bỏ qua vì không thể xác nhận phương thức cập nhật.",
@@ -1412,8 +1412,8 @@
       "failure": {
         "partial": {
           "title": "Một số bản cập nhật đang chạy",
-          "description_one": "{{count}} bản cập nhật đã bắt đầu trong mục Nhiệm vụ. Chỉ công cụ chưa bắt đầu vẫn còn được chọn.",
-          "description_other": "{{count}} bản cập nhật đã bắt đầu trong mục Nhiệm vụ. Chỉ những công cụ chưa bắt đầu vẫn còn được chọn."
+          "description_one": "{{count}} bản cập nhật đã bắt đầu trong mục Hoạt động. Chỉ công cụ chưa bắt đầu vẫn còn được chọn.",
+          "description_other": "{{count}} bản cập nhật đã bắt đầu trong mục Hoạt động. Chỉ những công cụ chưa bắt đầu vẫn còn được chọn."
         },
         "all": {
           "title": "Không thể bắt đầu cập nhật",
@@ -1423,10 +1423,10 @@
       },
       "hints": {
         "current": "Mọi thứ đã được cập nhật",
-        "running": "Các bản cập nhật đang chạy trong mục Nhiệm vụ",
+        "running": "Các bản cập nhật đang chạy trong mục Hoạt động",
         "checking": "Đang kiểm tra những gì có thể cập nhật",
         "unavailable": "Trạng thái cập nhật hiện không khả dụng",
-        "review": "Xem lại bản cập nhật này trong Công cụ AI"
+        "review": "Xem lại bản cập nhật này trong mục Phần mềm"
       }
     },
     "error": {
@@ -1472,14 +1472,14 @@
     "toolAuthority": {
       "openLabel": "Hoạt động: {{status}}; thao tác công cụ không khả dụng",
       "unavailableTitle": "Thao tác công cụ không khả dụng",
-      "unavailableDescription": "Lịch sử nhiệm vụ vẫn được hiển thị, nhưng AI Manager không thể xác nhận công cụ nào có thể mở.",
+      "unavailableDescription": "Lịch sử hoạt động vẫn được hiển thị, nhưng AI Manager không thể xác nhận công cụ nào có thể mở.",
       "refreshTitle": "Không thể làm mới công cụ của bạn",
       "refreshDescription": "Chi tiết công cụ gần nhất vẫn đang được hiển thị. Việc mở một công cụ đã hoàn tất sẽ tạm dừng cho đến khi có một lần kiểm tra mới thành công.",
       "retry": "Kiểm tra lại công cụ",
       "pausedTitle": "Việc mở công cụ đang tạm dừng",
       "pausedDescription": "AI Manager phải xác nhận công cụ hiện tại trước khi có thể chọn thư mục dự án. Hủy cửa sổ này, sau đó kiểm tra lại công cụ của bạn trong Hoạt động.",
       "changedTitle": "Công cụ này không còn sẵn sàng để mở",
-      "changedDescription": "Lần kiểm tra gần nhất không còn hiển thị công cụ này là một bản cài đặt có thể khởi chạy. Hủy cửa sổ này và xem lại Công cụ AI."
+      "changedDescription": "Lần kiểm tra gần nhất không còn hiển thị công cụ này là một bản cài đặt có thể khởi chạy. Hủy cửa sổ này và xem lại trong mục Phần mềm."
     },
     "empty": {
       "title": "Chưa có hoạt động nào",
@@ -1495,7 +1495,7 @@
       "uninstall": "Gỡ bỏ {{name}}",
       "repair": "Sửa chữa {{name}}",
       "changeVersion": "Đổi phiên bản {{name}}",
-      "testProviders": "Kiểm tra dịch vụ {{name}}",
+      "testProviders": "Kiểm tra điểm cuối của {{name}}",
       "scan": "Kiểm tra hệ thống"
     },
     "extension": {
@@ -1546,7 +1546,7 @@
       "useNamed": "Dùng {{name}}"
     },
     "card": {
-      "custom": "Dịch vụ tùy chỉnh",
+      "custom": "Điểm cuối tùy chỉnh",
       "saved": "Đã lưu",
       "defaultModel": "Model mặc định",
       "recentModel": "Dùng gần đây",
@@ -1554,7 +1554,7 @@
       "inUse": "Đang dùng",
       "noKey": "Chưa lưu khóa nào",
       "notInEffect": "Đã chọn, nhưng chưa có hiệu lực",
-      "official": "Dịch vụ chính thức",
+      "official": "Điểm cuối chính thức",
       "overriddenBy": "Đã chọn, nhưng bị {{source}} ghi đè",
       "savedEndpoint": "Điểm cuối đã lưu trong AI Manager",
       "toolSignIn": "Dùng đăng nhập của {{tool}}"
@@ -1563,14 +1563,14 @@
       "activateNow": "Dùng ngay",
       "activateQuestion": "Dùng ngay trong {{tool}}?",
       "address": {
-        "degraded": "{{name}} đã được lưu, nhưng địa chỉ dịch vụ của nó phản hồi chậm",
-        "failed": "{{name}} đã được lưu, nhưng địa chỉ dịch vụ của nó không phản hồi",
-        "operational": "{{name}} đã được lưu và địa chỉ dịch vụ của nó đã phản hồi"
+        "degraded": "{{name}} đã được lưu, nhưng địa chỉ của nó phản hồi chậm",
+        "failed": "{{name}} đã được lưu, nhưng địa chỉ của nó không phản hồi",
+        "operational": "{{name}} đã được lưu và địa chỉ của nó đã phản hồi"
       },
       "addressRetry": "Cấu hình được giữ nguyên. Kiểm tra mạng của bạn, sau đó chạy lại Kiểm tra địa chỉ.",
       "afterSave": "Sau khi lưu, AI Manager chỉ kiểm tra địa chỉ dịch vụ. {{tool}} xác minh khóa và model ở lần dùng đầu tiên.",
       "description": "Thêm một dịch vụ API cho {{tool}}. AI Manager sẽ cấu hình nó giúp bạn.",
-      "errorTitle": "Không thể hoàn tất kết nối dịch vụ này",
+      "errorTitle": "Không thể thêm điểm cuối này",
       "firstUse": "{{tool}} sẽ xác minh khóa API và model ở lần dùng đầu tiên.",
       "getKey": "Lấy khóa API",
       "key": "Khóa API",
@@ -1581,33 +1581,33 @@
       "modelRequired": "Nhập một model.",
       "measuredServices": "Đo trên máy tính này",
       "name": "Tên",
-      "baseUrl": "Địa chỉ",
+      "baseUrl": "Base URL",
       "baseUrlHint": "Địa chỉ mà dịch vụ này được cấu hình. Nếu bạn sửa, dịch vụ sẽ được lưu như một điểm cuối tùy chỉnh.",
       "baseUrlEdited": "Đã sửa nên sẽ được lưu như điểm cuối tùy chỉnh.",
       "baseUrlInvalid": "Hãy nhập địa chỉ HTTPS không chứa thông tin đăng nhập.",
       "nameRequired": "Nhập một tên.",
-      "noPresetMatch": "Không có dịch vụ nào khớp.",
-      "openProvider": "Mở dịch vụ",
-      "preset": "Mẫu dịch vụ dựng sẵn",
+      "noPresetMatch": "Không có nhà cung cấp nào khớp.",
+      "openProvider": "Mở nhà cung cấp",
+      "preset": "Nhà cung cấp",
       "presetHint": "Chọn một nhà cung cấp, địa chỉ và mô hình bên dưới sẽ tự điền; với dịch vụ không có trong danh sách, chỉ cần sửa địa chỉ. Chỉ liệt kê các nhà cung cấp được biết đến rộng rãi, và AI Manager không xác nhận hay bán lại chúng.",
       "profileError": "AI Manager không thể tải mẫu kết nối an toàn của nó. Các dịch vụ đã lưu của bạn không bị ảnh hưởng.",
-      "profileErrorTitle": "Không thể chuẩn bị một kết nối mới",
+      "profileErrorTitle": "Không thể chuẩn bị điểm cuối mới",
       "profileRetry": "Tải lại cấu hình kết nối",
-      "retryConnect": "Thử kết nối lại dịch vụ này",
+      "retryConnect": "Thử thêm lại điểm cuối này",
       "retryHint": "AI Manager đã làm mới trạng thái dịch vụ đã lưu. Chi tiết của bạn vẫn còn ở đây; xem lại, sau đó thử kết nối lại.",
       "responseTime": "{{latency}} ms",
-      "searchPresets": "Tìm dịch vụ…",
+      "searchPresets": "Tìm nhà cung cấp…",
       "saved": "{{name}} đã được lưu",
       "speedSorted": "Sắp xếp theo phép đo mới nhất của máy tính này.",
-      "speedTest": "Kiểm tra dịch vụ nào phản hồi nhanh nhất",
+      "speedTest": "Kiểm tra xem cái nào phản hồi nhanh nhất",
       "speedTestAgain": "Kiểm tra lại",
-      "speedTestFailed": "Không thể đo các dịch vụ này. Kiểm tra mạng của bạn và thử lại.",
-      "speedTesting": "Đang kiểm tra địa chỉ dịch vụ…",
+      "speedTestFailed": "Không thể đo tốc độ các nhà cung cấp này. Kiểm tra mạng của bạn và thử lại.",
+      "speedTesting": "Đang kiểm tra địa chỉ…",
       "title": "Kết nối {{service}}",
       "unreachable": "Không thể kết nối",
       "toolDefault": "Mặc định của {{tool}}",
       "toolDefaultGroup": "Kết nối mặc định của {{tool}}",
-      "otherServices": "Các dịch vụ khác có thể dùng"
+      "otherServices": "Nhà cung cấp khác"
     },
     "description": "Chọn một công cụ, sau đó thêm, chuyển và kiểm tra các điểm cuối API của nó.",
     "effective": {
@@ -1637,7 +1637,7 @@
     "external": {
       "badge": "Đặt ngoài ứng dụng",
       "endpoint": "Điểm cuối đang có hiệu lực",
-      "overrides": "{{name}} sẽ dùng địa chỉ này. Nó được ưu tiên hơn những gì bạn chọn bên dưới."
+      "overrides": "{{name}} sẽ dùng địa chỉ này. Nó được ưu tiên hơn điểm cuối bạn chọn bên dưới."
     },
     "endpoints": {
       "title": "Điểm cuối của {{tool}}",
@@ -1645,30 +1645,30 @@
       "count_other": "{{count}} điểm cuối đã lưu"
     },
     "empty": {
-      "description": "Kết nối một dịch vụ API và AI Manager sẽ thiết lập công cụ này giúp bạn.",
+      "description": "Kết nối một điểm cuối API và AI Manager sẽ thiết lập công cụ này giúp bạn.",
       "title": "Chưa có gì ở đây"
     },
     "error": {
       "description": "Hãy thử lại, hoặc mở công cụ một lần rồi quay lại.",
-      "title": "Không thể đọc các dịch vụ"
+      "title": "Không thể đọc các điểm cuối"
     },
     "refreshError": {
-      "description": "Các dịch vụ đã lưu gần nhất vẫn được hiển thị. Các thao tác dịch vụ tạm dừng cho đến khi một lần kiểm tra mới thành công.",
-      "title": "Không thể làm mới API Endpoints"
+      "description": "Các điểm cuối đã lưu gần nhất vẫn được hiển thị. Các thao tác với điểm cuối tạm dừng cho đến khi một lần kiểm tra mới thành công.",
+      "title": "Không thể làm mới điểm cuối API"
     },
     "form": {
       "addHeader": "Thêm header",
       "addModel": "Thêm model",
       "advancedHint": "Chỉ hiển thị các cài đặt chung được công cụ này hỗ trợ. Các trường khác không bị ảnh hưởng.",
-      "advancedManaged": "Dịch vụ này được quản lý bởi công cụ hoặc đăng nhập tài khoản. Cài đặt điểm cuối của nó chỉ đọc ở đây.",
+      "advancedManaged": "Điểm cuối này được quản lý bởi công cụ hoặc đăng nhập tài khoản. Cài đặt của nó chỉ đọc ở đây.",
       "advancedTitle": "Cài đặt nâng cao",
       "baseUrl": "Base URL",
       "baseUrlHint": "Nhập đúng như tài liệu của nhà cung cấp, kể cả phần /v1 ở cuối.",
       "baseUrlVersionDoubled": "Công cụ này tự thêm phiên bản vào địa chỉ, nên /{{segment}} ở cuối sẽ bị lặp và yêu cầu sẽ thất bại. Thường chỉ cần xóa nó đi.",
       "routeAdd": "Thêm tuyến",
-      "routeAddLabel": "Tuyến dịch vụ mới",
+      "routeAddLabel": "Tuyến mới",
       "routeAddPlaceholder": "https://api.example.com/v1",
-      "routeDuplicate": "Tuyến đó đã có trong dịch vụ này.",
+      "routeDuplicate": "Tuyến đó đã có trong điểm cuối này.",
       "routeEmpty": "Thêm hoặc nhập ít nhất một tuyến trước khi kiểm tra.",
       "routeFixed": "Cố định",
       "routeInvalid": "Dùng một URL HTTPS không chứa thông tin xác thực, hoặc HTTP chỉ cho localhost.",
@@ -1676,14 +1676,14 @@
       "routeLimit": "Giữ tối đa 32 tuyến, kể cả tuyến hiện tại.",
       "routeRemove": "Xóa tuyến {{route}}",
       "routeUnreachable": "Không thể kết nối",
-      "routes": "Tuyến dịch vụ",
+      "routes": "Tuyến",
       "routesAuto": "Chọn tuyến nhanh nhất sau mỗi lần kiểm tra",
-      "routesHint": "Lưu nhiều Base URL cho một dịch vụ và dùng URL nhanh nhất sau khi kiểm tra.",
+      "routesHint": "Lưu nhiều Base URL cho một điểm cuối và dùng URL nhanh nhất sau khi kiểm tra.",
       "routesTest": "Kiểm tra tuyến",
       "routesTestFailed": "Không thể kiểm tra các tuyến này. Kiểm tra mạng của bạn và thử lại.",
       "routesTesting": "Đang kiểm tra tuyến…",
       "description": "Thay đổi tên, khóa hoặc model.",
-      "errorTitle": "Không thể hoàn tất lưu dịch vụ này",
+      "errorTitle": "Không thể lưu điểm cuối này",
       "headerKeepValue": "Để trống để giữ giá trị đã lưu",
       "headerNameNamed": "Tên header {{index}}",
       "headerNamePlaceholder": "X-Tenant-ID",
@@ -1694,7 +1694,7 @@
       "headerValuePlaceholder": "Giá trị header",
       "key": "Khóa API",
       "keyHint": "Để trống để giữ khóa đã lưu sẵn.",
-      "keyHintEmpty": "Dán khóa bạn nhận được từ dịch vụ này.",
+      "keyHintEmpty": "Dán khóa bạn nhận được từ nhà cung cấp.",
       "modelNamed": "Model {{index}}",
       "modelRequired": "Nhập một ID model hoặc xóa hàng chưa hoàn tất.",
       "models": "Model",
@@ -1704,22 +1704,22 @@
       "nameHint": "Chỉ hiển thị ở đây, trong ứng dụng này.",
       "nameRequired": "Nhập một tên.",
       "retryHint": "AI Manager đã làm mới trạng thái dịch vụ đã lưu. Xem lại các thay đổi của bạn, sau đó thử lưu lại.",
-      "retrySave": "Thử lưu lại dịch vụ này",
+      "retrySave": "Thử lưu lại điểm cuối này",
       "removeHeaderNamed": "Xóa header {{name}}",
       "removeModelNamed": "Xóa model {{model}}",
       "save": "Lưu",
-      "settingsLoading": "Đang tải cài đặt dịch vụ an toàn…",
+      "settingsLoading": "Đang tải cài đặt điểm cuối…",
       "settingsUnavailable": "Không thể đọc các cài đặt bổ sung. Bạn vẫn có thể lưu tên hoặc thay khóa; các cài đặt đó sẽ không bị ảnh hưởng.",
-      "title": "Sửa dịch vụ",
+      "title": "Sửa điểm cuối",
       "routesManage": "Quản lý & kiểm tra",
       "routesDone": "Xong",
-      "modelPick": "Chọn từ danh sách mô hình của dịch vụ",
+      "modelPick": "Chọn từ danh sách mô hình của điểm cuối",
       "modelSearch": "Tìm mô hình",
       "modelNoMatch": "Không có mô hình phù hợp",
       "modelListStale": "Khóa hoặc Base URL đã thay đổi. Hãy lưu trước để đọc danh sách mô hình mới.",
       "modelListFailed": "Không đọc được danh sách mô hình. Bạn có thể nhập trực tiếp tên mô hình."
     },
-    "loading": "Đang tải dịch vụ",
+    "loading": "Đang tải điểm cuối",
     "runtime": {
       "description": "Xem công cụ này thực sự đọc hướng dẫn toàn cục, bộ nhớ, cấu hình và phiên dự án ở đâu.",
       "loading": "Đang kiểm tra nguồn cấu hình",
@@ -1776,17 +1776,17 @@
       "title": "Ngữ cảnh và lưu trữ cục bộ"
     },
     "noTools": {
-      "description": "Cài đặt một công cụ trước, sau đó dịch vụ của nó sẽ xuất hiện ở đây.",
+      "description": "Cài đặt một công cụ trước, sau đó các điểm cuối của nó sẽ xuất hiện ở đây.",
       "title": "Chưa có công cụ nào để thiết lập"
     },
     "refresh": "Làm mới",
     "remove": {
-      "activeHint": "Chọn một dịch vụ khác trước khi xóa dịch vụ này.",
-      "confirm": "Xóa dịch vụ",
-      "description": "Thao tác này xóa dịch vụ đã lưu khỏi AI Manager và {{tool}}.",
-      "errorTitle": "Không thể hoàn tất xóa dịch vụ này",
-      "errorRetry": "Xem lại dịch vụ và thử lại.",
-      "managedHint": "Dịch vụ này dùng cấu hình riêng của công cụ và không thể xóa ở đây.",
+      "activeHint": "Chọn một điểm cuối khác trước khi xóa điểm cuối này.",
+      "confirm": "Xóa điểm cuối",
+      "description": "Thao tác này xóa điểm cuối đã lưu khỏi AI Manager và {{tool}}.",
+      "errorTitle": "Không thể xóa điểm cuối này",
+      "errorRetry": "Xem lại điểm cuối và thử lại.",
+      "managedHint": "Điểm cuối này dùng cấu hình riêng của công cụ và không thể xóa ở đây.",
       "removed": "Đã xóa {{name}}",
       "retryNamed": "Thử xóa lại {{name}}",
       "title": "Xóa {{name}}?"
@@ -1794,7 +1794,7 @@
     "scope": "Công cụ AI",
     "scopeUnsupportedShort": "Chưa tích hợp",
     "scopeSharedShort": "Dùng chung với một ứng dụng desktop",
-    "scopeUnsupportedTitle": "AI Manager chưa tích hợp cấu hình dịch vụ cho {{tool}}",
+    "scopeUnsupportedTitle": "AI Manager chưa tích hợp cấu hình điểm cuối cho {{tool}}",
     "scopeUnsupportedDescription": "Điều này có nghĩa là AI Manager chưa có adapter an toàn; không nhất thiết có nghĩa là {{tool}} không thể dùng dịch vụ tùy chỉnh. Công cụ đã cài đặt vẫn được hiển thị ở đây để rõ ràng.",
     "scopeSave": {
       "errorDescription": "Bạn vẫn đang xem {{tool}}. Hãy thử lại để mở công cụ này ở đây vào lần sau.",
@@ -1814,19 +1814,19 @@
       "switchingNamed": "Đang chuyển sang {{name}}"
     },
     "failover": {
-      "tryNext": "Thử dịch vụ khả dụng tiếp theo",
-      "tryNextNamed": "Thử dịch vụ khả dụng đã lưu tiếp theo cho {{name}}",
-      "noneAvailable": "Không có dịch vụ đã lưu nào khác phản hồi. Cấu hình hiện tại không bị thay đổi.",
+      "tryNext": "Thử điểm cuối khả dụng tiếp theo",
+      "tryNextNamed": "Thử điểm cuối khả dụng đã lưu tiếp theo cho {{name}}",
+      "noneAvailable": "Không có điểm cuối đã lưu nào khác phản hồi. Cấu hình hiện tại không bị thay đổi.",
       "automaticSuccess": "{{from}} không phản hồi. Đã chuyển sang {{to}}.",
-      "manualSuccess": "Đã chuyển từ {{from}} sang dịch vụ khả dụng {{to}}.",
-      "unknownService": "Dịch vụ không xác định"
+      "manualSuccess": "Đã chuyển từ {{from}} sang điểm cuối khả dụng {{to}}.",
+      "unknownService": "Điểm cuối không xác định"
     },
     "summary": {
       "activeTitle": "{{service}} đang hoạt động cho {{tool}}",
       "checked": "Địa chỉ đã kiểm tra",
       "description": "Chuyển dịch vụ hoặc kiểm tra xem địa chỉ của chúng có phản hồi không. AI Manager xử lý việc thiết lập giúp bạn.",
       "eyebrow": "Tổng quan kết nối",
-      "noActiveTitle": "Các dịch vụ đã lưu cho {{tool}}",
+      "noActiveTitle": "Các điểm cuối đã lưu cho {{tool}}",
       "saved": "Đã lưu",
       "testable": "Có thể kiểm tra địa chỉ"
     },
@@ -1837,8 +1837,8 @@
       "title": "Cấu hình của bạn đã được lưu. Khởi động trong {{tool}}"
     },
     "test": {
-      "browseCompatible": "Duyệt dịch vụ tương thích",
-      "browseCompatibleNamed": "Duyệt dịch vụ tương thích cho {{name}}",
+      "browseCompatible": "Duyệt điểm cuối tương thích",
+      "browseCompatibleNamed": "Duyệt điểm cuối tương thích cho {{name}}",
       "checkingNamed": "Đang kiểm tra {{name}}",
       "degraded": "Địa chỉ phản hồi chậm",
       "errorNamed": "Không thể kiểm tra địa chỉ cho {{name}}",
@@ -1848,7 +1848,7 @@
       "retry": "Thử lại",
       "retryHint": "Lần kiểm tra thất bại không làm thay đổi dịch vụ này. Thử lại cùng lần kiểm tra.",
       "retryNamed": "Kiểm tra lại {{name}}",
-      "unreachableHint": "Không thể kết nối đến địa chỉ này từ mạng hiện tại của bạn. Bạn có thể chọn một dịch vụ tương thích khác."
+      "unreachableHint": "Không thể kết nối đến địa chỉ này từ mạng hiện tại của bạn. Bạn có thể chọn một điểm cuối tương thích khác."
     },
     "probe": {
       "title": "Kiểm tra {{name}}",
@@ -1858,8 +1858,8 @@
       "modelLoading": "Đang đọc danh sách model…",
       "modelReload": "Tải lại",
       "modelManual": "Tên model",
-      "modelManualHint": "Dịch vụ này không công bố danh sách model, vì vậy hãy tự nhập tên model.",
-      "modelRefused": "Dịch vụ đã từ chối danh sách model (HTTP {{status}}).",
+      "modelManualHint": "Điểm cuối này không công bố danh sách model, vì vậy hãy tự nhập tên model.",
+      "modelRefused": "Điểm cuối đã từ chối danh sách model (HTTP {{status}}).",
       "modelTruncated": "Đang hiển thị {{count}} đầu tiên.",
       "kind": "Đầu ra",
       "kindText": "Văn bản",
@@ -1867,16 +1867,16 @@
       "kindHint": "Văn bản dùng endpoint chat, Hình ảnh dùng endpoint tạo ảnh.",
       "prompt": "Prompt",
       "send": "Gửi",
-      "sending": "Đang chờ dịch vụ…",
+      "sending": "Đang chờ điểm cuối…",
       "cost": "Thao tác này gửi một yêu cầu thực và dùng hạn mức của bạn.",
       "result": "Kết quả",
       "resultMeta": "HTTP {{status}} · {{ms}} ms",
-      "replyEmpty": "Dịch vụ đã trả lời nhưng không trả về gì.",
-      "replyRefused": "Dịch vụ đã từ chối yêu cầu này.",
-      "replyImageLinkOnly": "Dịch vụ trả về một liên kết thay vì dữ liệu hình ảnh, nên không thể hiển thị hình ảnh ở đây.",
+      "replyEmpty": "Điểm cuối đã trả lời nhưng không trả về gì.",
+      "replyRefused": "Điểm cuối đã từ chối yêu cầu này.",
+      "replyImageLinkOnly": "Điểm cuối trả về một liên kết thay vì dữ liệu hình ảnh, nên không thể hiển thị hình ảnh ở đây.",
       "imageAlt": "Hình ảnh được tạo bởi {{model}}",
       "adopt": "Dùng model này",
-      "adopted": "Đã lưu vào dịch vụ này.",
+      "adopted": "Đã lưu vào điểm cuối này.",
       "adoptFailed": "Không thể lưu model.",
       "addressWorksInstead": "Địa chỉ này không có tuyến đó. Đã thử {{url}} và nhận được phản hồi.",
       "useAddress": "Dùng địa chỉ đó",
@@ -1886,17 +1886,17 @@
     },
     "title": "API Endpoints",
     "toolsError": {
-      "description": "AI Manager không thể kiểm tra bạn có công cụ nào. Hãy thử lại để xem dịch vụ của chúng.",
+      "description": "AI Manager không thể kiểm tra bạn có công cụ nào. Hãy thử lại để xem điểm cuối của chúng.",
       "title": "Không thể đọc các công cụ của bạn"
     },
     "toolsRefreshError": {
       "title": "Không thể làm mới các công cụ của bạn",
-      "description": "Kết quả kiểm tra công cụ và dịch vụ gần nhất vẫn được hiển thị. Việc kết nối, chuyển, kiểm tra, sửa, xóa và khởi động tạm dừng cho đến khi một lần kiểm tra công cụ mới thành công.",
+      "description": "Kết quả kiểm tra công cụ và điểm cuối gần nhất vẫn được hiển thị. Việc kết nối, chuyển, kiểm tra, sửa, xóa và khởi động tạm dừng cho đến khi một lần kiểm tra công cụ mới thành công.",
       "action": "Kiểm tra lại công cụ"
     },
     "actionsPaused": {
-      "title": "Các thao tác dịch vụ đang tạm dừng",
-      "description": "AI Manager phải xác nhận công cụ hiện tại và trạng thái dịch vụ trước khi có thể thực hiện thay đổi khác hoặc khởi động công cụ."
+      "title": "Các thao tác với điểm cuối đang tạm dừng",
+      "description": "AI Manager phải xác nhận trạng thái công cụ và điểm cuối hiện tại trước khi có thể thực hiện thay đổi khác hoặc khởi động công cụ."
     },
     "shellVariable": {
       "at": "Dòng {{line}} của {{path}}",
@@ -1910,12 +1910,15 @@
     },
     "reorder": {
       "handle": "Đổi vị trí của {{name}}",
-      "roleDescription": "dịch vụ có thể di chuyển",
-      "instructions": "Để di chuyển dịch vụ này, nhấn Space hoặc Enter, dùng phím mũi tên lên và xuống để di chuyển, rồi nhấn Space hoặc Enter lần nữa để thả. Nhấn Esc để hủy.",
+      "roleDescription": "điểm cuối có thể di chuyển",
+      "instructions": "Để di chuyển điểm cuối này, nhấn Space hoặc Enter, dùng phím mũi tên lên và xuống để di chuyển, rồi nhấn Space hoặc Enter lần nữa để thả. Nhấn Esc để hủy.",
       "picked": "Đã chọn {{name}}, vị trí {{position}} trên {{count}}.",
       "moved": "{{name}} hiện ở vị trí {{position}} trên {{count}}.",
       "dropped": "Đã thả {{name}} ở vị trí {{position}} trên {{count}}.",
       "cancelled": "Đã hủy di chuyển. {{name}} vẫn ở vị trí {{position}} trên {{count}}."
+    },
+    "tab": {
+      "endpoints": "Danh sách điểm cuối"
     }
   },
   "extensions": {
@@ -1959,7 +1962,7 @@
     "scopeSave": {
       "saving": "Đang ghi nhớ chế độ xem này",
       "errorTitle": "Chế độ xem này chưa được ghi nhớ",
-      "errorDescription": "Bạn vẫn có thể tiếp tục làm việc ở đây. Hãy thử lại để AI Manager mở cùng chế độ xem extension này vào lần sau.",
+      "errorDescription": "Bạn vẫn có thể tiếp tục làm việc ở đây. Hãy thử lại để AI Manager mở lại trang này vào lần sau.",
       "retry": "Thử lại"
     },
     "copy": {
@@ -2050,7 +2053,7 @@
         "refreshingTitle": "Đang kiểm tra danh mục Skill mới nhất",
         "refreshingDescription": "Bạn có thể tiếp tục duyệt danh mục gần nhất. Cài đặt sẽ khả dụng khi kiểm tra hoàn tất.",
         "refreshErrorTitle": "Không thể làm mới danh mục Skill",
-        "refreshErrorDescription": "Danh mục gần nhất vẫn được hiển thị. Việc cài đặt tạm dừng cho đến khi một lần kiểm tra mới thành công; nếu cần, hãy cấu hình Local download proxy trong Settings.",
+        "refreshErrorDescription": "Danh mục gần nhất vẫn được hiển thị. Việc cài đặt tạm dừng cho đến khi một lần kiểm tra mới thành công; nếu cần, hãy cấu hình Proxy tải xuống cục bộ trong Cài đặt.",
         "mirrorTitle": "Danh mục được tải qua phương án dự phòng đáng tin cậy",
         "mirrorDescription": "GitHub không phản hồi lần kiểm tra này, vì vậy AI Manager đã dùng jsDelivr để truyền tải một ảnh chụp đã được xác minh kích thước và SHA-256. Repository GitHub vẫn là nguồn có thẩm quyền, và không có cài đặt toàn cục nào thay đổi.",
         "retry": "Thử lại",
@@ -2066,7 +2069,7 @@
         "installErrorNamed": "Không thể bắt đầu cài đặt {{name}}",
         "retryInstallNamed": "Thử cài đặt lại {{name}}",
         "queued": "Đang cài đặt {{name}}",
-        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks."
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong mục Hoạt động."
       },
       "zip": {
         "action": "Cài đặt từ ZIP",
@@ -2081,7 +2084,7 @@
         "syncDescription": "Các Skill mới, không xung đột được thêm vào bộ nhớ được quản lý và đồng bộ với công cụ này.",
         "partialNote": "Nếu một Skill sau trong tệp lưu trữ thất bại, các Skill trước đó có thể đã được cài đặt. Tasks hiển thị kết quả và danh sách Skill tự động làm mới.",
         "queued": "Đang cài đặt Skills từ tệp ZIP",
-        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong mục Hoạt động.",
         "errorHint": "Xem lại thông báo, chọn lại tệp lưu trữ, và thử lại."
       },
       "backups": {
@@ -2100,7 +2103,7 @@
         "restore": "Khôi phục",
         "restoreNamed": "Khôi phục {{name}} từ bản sao khôi phục này",
         "restoreQueued": "Đang khôi phục {{name}}",
-        "restoreQueuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
+        "restoreQueuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong mục Hoạt động.",
         "delete": "Xóa",
         "deleteNamed": "Xóa bản sao khôi phục cho {{name}}",
         "deleteTitle": "Xóa bản sao khôi phục cho {{name}}?",
@@ -2143,7 +2146,7 @@
         "description": "Thao tác này xóa Skill được quản lý khỏi AI Manager và mọi công cụ AI đang bật Skill này.",
         "confirm": "Xóa Skill",
         "queued": "Đang xóa {{name}}",
-        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong mục Hoạt động.",
         "errorRetry": "Xem lại thông báo và thử lại."
       },
       "update": {
@@ -2154,7 +2157,7 @@
         "checkErrorDescription": "Một số nguồn Skill có thể không kết nối được. Các Skill hiện có vẫn hoạt động, nhưng điều này không đảm bảo mọi thứ đều mới nhất.",
         "retry": "Kiểm tra lại",
         "queued": "Đang cập nhật {{name}}",
-        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks."
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong mục Hoạt động."
       },
       "empty": {
         "title": "Chưa có skill nào",
@@ -2170,7 +2173,7 @@
         "description": "Kết nối {{tool}} với chương trình cục bộ hoặc dịch vụ từ xa.",
         "confirm": "Thêm kết nối",
         "name": "Tên kết nối",
-        "nameHint": "Dùng một tên bạn sẽ nhận ra trong Extensions.",
+        "nameHint": "Dùng một tên bạn dễ nhận ra trong danh sách.",
         "optionalDescription": "Mô tả (tùy chọn)",
         "transport": {
           "label": "Kết nối như thế nào?",
@@ -2225,15 +2228,15 @@
         "trustLocal": "Thao tác này chạy chương trình được đặt tên trên máy tính của bạn. Chỉ thêm phần mềm bạn tin tưởng.",
         "trustRemote": "Thao tác này gửi lưu lượng MCP đến địa chỉ ở trên. Chỉ thêm dịch vụ bạn tin tưởng.",
         "queued": "Đang thêm {{name}}",
-        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks."
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong mục Hoạt động."
       },
       "remove": {
         "title": "Xóa {{name}}?",
         "description": "Thao tác này xóa kết nối đã lưu khỏi AI Manager và mọi công cụ AI đang bật kết nối này.",
         "confirm": "Xóa kết nối",
         "queued": "Đang xóa {{name}}",
-        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
-        "errorRetry": "Kiểm tra chi tiết tác vụ trước khi thử lại."
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong mục Hoạt động.",
+        "errorRetry": "Xem chi tiết trong mục Hoạt động trước khi thử lại."
       },
       "empty": {
         "title": "Chưa có kết nối nào",
@@ -2323,8 +2326,8 @@
     "target": {
       "routed": "Đã định tuyến",
       "direct": "Trực tiếp",
-      "current": "Dịch vụ hiện tại: {{name}}",
-      "noProvider": "Trước tiên hãy chọn một dịch vụ hiện tại trong API Endpoints."
+      "current": "Điểm cuối hiện tại: {{name}}",
+      "noProvider": "Trước tiên hãy chọn một điểm cuối hiện tại trong API Endpoints."
     },
     "takeover": {
       "title": "Tiếp quản định tuyến",
@@ -2333,20 +2336,20 @@
     },
     "failover": {
       "title": "Tự động chuyển dự phòng",
-      "description": "Thử các dịch vụ còn hoạt động theo thứ tự P1, P2 khi một yêu cầu thất bại.",
+      "description": "Thử các điểm cuối còn hoạt động theo thứ tự P1, P2 khi một yêu cầu thất bại.",
       "label": "Tự động chuyển dự phòng cho {{name}}"
     },
     "queue": {
       "title": "Thứ tự chuyển dự phòng",
       "description": "P1 được chọn khi chuyển dự phòng bắt đầu.",
-      "count_one": "{{count}} dịch vụ",
-      "count_other": "{{count}} dịch vụ",
-      "empty": "Thêm một dịch vụ, hoặc bật chuyển dự phòng để dùng dịch vụ hiện tại làm P1.",
-      "selectLabel": "Dịch vụ để thêm vào chuyển dự phòng",
-      "selectLabelNamed": "Dịch vụ để thêm vào chuyển dự phòng của {{name}}",
-      "selectPlaceholder": "Chọn một dịch vụ",
+      "count_one": "{{count}} điểm cuối",
+      "count_other": "{{count}} điểm cuối",
+      "empty": "Thêm một điểm cuối, hoặc bật chuyển dự phòng để dùng điểm cuối hiện tại làm P1.",
+      "selectLabel": "Điểm cuối để thêm vào chuyển dự phòng",
+      "selectLabelNamed": "Điểm cuối để thêm vào chuyển dự phòng của {{name}}",
+      "selectPlaceholder": "Chọn một điểm cuối",
       "add": "Thêm",
-      "addNamed": "Thêm dịch vụ đã chọn vào chuyển dự phòng của {{name}}"
+      "addNamed": "Thêm điểm cuối đã chọn vào chuyển dự phòng của {{name}}"
     },
     "provider": {
       "current": "Hiện tại",
@@ -2538,10 +2541,10 @@
         "action": {
           "updateTool": "Cập nhật ngay",
           "repairTool": "Sửa ngay",
-          "reviewTool": "Xem lại AI Tools",
-          "connectService": "Kết nối một dịch vụ",
+          "reviewTool": "Mở Phần mềm",
+          "connectService": "Kết nối một điểm cuối",
           "reviewService": "Xem lại API Endpoints",
-          "reviewExtensions": "Xem lại Extensions"
+          "reviewExtensions": "Mở MCP"
         }
       },
       "item": {
@@ -2566,13 +2569,13 @@
           "description": "Đây chỉ là thông tin và không được tính là một vấn đề."
         },
         "providerReady": {
-          "title": "{{name}} đã cấu hình dịch vụ AI",
-          "description_one": "{{count}} cấu hình dịch vụ đang được dùng.",
-          "description_other": "{{count}} cấu hình dịch vụ đang được dùng."
+          "title": "{{name}} đã cấu hình điểm cuối API",
+          "description_one": "{{count}} cấu hình điểm cuối đang được dùng.",
+          "description_other": "{{count}} cấu hình điểm cuối đang được dùng."
         },
         "providerMissing": {
-          "title": "{{name}} chưa cấu hình dịch vụ AI",
-          "description": "Mở API Endpoints và chọn hoặc cấu hình một dịch vụ cho công cụ này."
+          "title": "{{name}} chưa cấu hình điểm cuối API",
+          "description": "Mở API Endpoints và chọn hoặc thêm một điểm cuối cho công cụ này."
         },
         "configReadable": {
           "title": "Có thể đọc cấu hình của {{name}}",
@@ -2601,7 +2604,7 @@
           },
           "notChecked": {
             "title": "{{provider}} chưa được kiểm tra trong phiên này",
-            "description": "Chạy Kiểm tra trong API Endpoints nếu bạn muốn thử kết nối này."
+            "description": "Chọn Kiểm tra trong API Endpoints để kiểm tra kết nối này."
           }
         },
         "mcp": {
@@ -2610,17 +2613,17 @@
         },
         "mcpInventoryUnavailable": {
           "title": "Không thể kiểm tra các kết nối MCP cục bộ",
-          "description": "Mở Extensions để thử lại việc kiểm kê cục bộ trước khi cho rằng mọi kết nối đều đang được quản lý."
+          "description": "Mở MCP để kiểm tra lại danh sách cục bộ."
         },
         "mcpInventoryPartial": {
           "title": "Một số vị trí MCP cục bộ cần kiểm tra lại",
-          "description": "Số vị trí cần xem xét: {{count}}. Một vị trí được hỗ trợ không thể kiểm tra, hoặc bảng kiểm kê có giới hạn đã đầy. Xem Extensions để biết bước tiếp theo đầy đủ."
+          "description": "Không thể kiểm tra {{count}} vị trí. Hãy xem lại trong MCP."
         }
       }
     },
     "import": {
       "title": "Nhập từ CC Switch",
-      "description": "Đưa các dịch vụ AI, máy chủ MCP và skill từ CC Switch vào AI Manager. Không có gì trong CC Switch bị thay đổi.",
+      "description": "Đưa các điểm cuối API, máy chủ MCP và skill từ CC Switch vào AI Manager. Không có gì trong CC Switch bị thay đổi.",
       "reimport": "Nhập từ CC Switch",
       "loading": "Đang tìm cấu hình CC Switch",
       "retry": "Kiểm tra lại",
@@ -2629,11 +2632,11 @@
       "again": "Nhập lại",
       "skip": "Bỏ qua",
       "success": "Đã nhập cấu hình hiện có.",
-      "collision": "Nếu một dịch vụ hoặc extension đã tồn tại, phiên bản nhập vào sẽ thay thế nó. Mọi thứ khác được giữ nguyên.",
+      "collision": "Nếu cùng một điểm cuối, máy chủ MCP hoặc skill đã tồn tại, phiên bản nhập vào sẽ thay thế nó. Mọi thứ khác được giữ nguyên.",
       "sourceDetail": "Cơ sở dữ liệu CC Switch cục bộ, được mở ở chế độ chỉ đọc",
       "prompt": {
         "title": "Đã tìm thấy cấu hình CC Switch",
-        "description": "CC Switch đã được cài đặt trên máy này. Đưa các dịch vụ AI, máy chủ MCP và skill của nó sang đây?"
+        "description": "CC Switch đã được cài đặt trên máy này. Đưa các điểm cuối API, máy chủ MCP và skill của nó sang đây?"
       },
       "confirm": {
         "title": "Nhập cấu hình hiện có này?",
@@ -2647,16 +2650,16 @@
       },
       "completion": {
         "title": "Đã nhập cấu hình",
-        "description": "Các dịch vụ, máy chủ MCP và skill được hỗ trợ giờ đã có trong AI Manager.",
+        "description": "Các điểm cuối API, máy chủ MCP và skill được hỗ trợ giờ đã có trong AI Manager.",
         "countLabel": "Mục đã nhập",
         "nextStepTitle": "Chọn những gì mỗi công cụ nên dùng",
-        "nextStep": "Mở API Endpoints và chọn một dịch vụ đã nhập cho mỗi công cụ khi bạn sẵn sàng.",
+        "nextStep": "Mở API Endpoints và chọn một điểm cuối đã nhập cho mỗi công cụ khi bạn sẵn sàng.",
         "continue": "Tiếp tục"
       },
       "count": {
         "label": "Mục sẵn sàng để nhập",
-        "services_one": "{{count}} Dịch vụ AI",
-        "services_other": "{{count}} Dịch vụ AI",
+        "services_one": "{{count}} điểm cuối API",
+        "services_other": "{{count}} điểm cuối API",
         "mcpServers_one": "{{count}} Máy chủ MCP",
         "mcpServers_other": "{{count}} Máy chủ MCP",
         "skills_one": "{{count}} Skill",
@@ -2767,7 +2770,7 @@
         },
         "imported": {
           "title": "Đã nhập cấu hình",
-          "description": "AI Manager hiện đang dùng các dịch vụ và extension từ tệp lưu trữ đó."
+          "description": "AI Manager hiện đang dùng các điểm cuối và extension từ tệp lưu trữ đó."
         },
         "renamed": {
           "title": "Đã đổi tên điểm khôi phục",
@@ -2783,17 +2786,17 @@
         },
         "warning": {
           "title": "Khôi phục hoàn tất, nhưng một công cụ cần được kiểm tra",
-          "description": "Một công cụ chưa nhận thay đổi dịch vụ. Xem lại API Endpoints và chọn lại dịch vụ bạn muốn."
+          "description": "Một công cụ chưa nhận thay đổi điểm cuối. Xem lại API Endpoints và chọn lại điểm cuối bạn muốn."
         },
         "importWarning": {
           "title": "Nhập hoàn tất, nhưng một công cụ cần được kiểm tra",
-          "description": "Tệp lưu trữ đã được nhập, nhưng một công cụ chưa nhận thay đổi dịch vụ. Xem lại API Endpoints và chọn lại dịch vụ bạn muốn."
+          "description": "Tệp lưu trữ đã được nhập, nhưng một công cụ chưa nhận thay đổi điểm cuối. Xem lại API Endpoints và chọn lại điểm cuối bạn muốn."
         },
         "reviewServices": "Xem lại API Endpoints"
       },
       "empty": {
         "title": "Bảo vệ cấu hình hiện tại của bạn",
-        "description": "Tạo một điểm khôi phục cục bộ trước khi thay đổi công cụ hoặc dịch vụ.",
+        "description": "Tạo một điểm khôi phục cục bộ trước khi thay đổi công cụ hoặc điểm cuối.",
         "local": "Chỉ cục bộ"
       },
       "error": {
@@ -2806,7 +2809,7 @@
         "description": "Danh sách sao lưu gần nhất vẫn được hiển thị. Các thao tác sao lưu tạm dừng cho đến khi một lần kiểm tra mới thành công."
       },
       "restorePoint": {
-        "replaces": "Các dịch vụ, extension và lựa chọn trong AI Manager sẽ trở về điểm khôi phục này.",
+        "replaces": "Các điểm cuối, extension và lựa chọn trong AI Manager sẽ trở về điểm khôi phục này.",
         "installed": "Các công cụ lập trình AI đã cài đặt vẫn ở trên máy này.",
         "followUp": "Sau khi khôi phục, AI Manager sẽ báo cho bạn nếu một công cụ cần được kiểm tra."
       },
@@ -2815,10 +2818,10 @@
       },
       "transfer": {
         "secretTitle": "Coi tệp lưu trữ này như một mật khẩu",
-        "secretDescription": "Một bản sao có thể mang theo có thể chứa khóa dịch vụ và các cấu hình riêng tư khác. Hãy lưu trữ an toàn và chỉ chia sẻ với người bạn tin tưởng.",
+        "secretDescription": "Một bản sao có thể mang theo có thể chứa khóa API và các cấu hình riêng tư khác. Hãy lưu trữ an toàn và chỉ chia sẻ với người bạn tin tưởng.",
         "confirmTitle": "Nhập tệp lưu trữ cấu hình này?",
         "confirmDescription": "Chỉ chọn tệp lưu trữ sau khi đã xem lại những gì sẽ thay đổi.",
-        "confirmReplace": "Các dịch vụ, extension và lịch sử đã lưu trữ đang được quản lý sẽ bị thay thế bởi tệp lưu trữ này.",
+        "confirmReplace": "Các điểm cuối, extension và lịch sử đã lưu trữ đang được quản lý sẽ bị thay thế bởi tệp lưu trữ này.",
         "confirmSafety": "AI Manager tạo một điểm khôi phục cục bộ trước khi thay thế dữ liệu hiện tại.",
         "confirmTrust": "Chỉ nhập một tệp lưu trữ do bạn tạo ra hoặc nhận từ người bạn tin tưởng.",
         "confirmInstalled": "Các công cụ lập trình AI đã cài đặt vẫn ở trên máy này.",

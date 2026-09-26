@@ -999,7 +999,7 @@ describe("TaskCenter", () => {
       name: "This tool is no longer ready to open",
     });
     expect(alert).toHaveTextContent(
-      "The latest check no longer shows this tool as a launchable install. Cancel this window and review AI Tools.",
+      "The latest check no longer shows this tool as a launchable install. Cancel this window and review it in Software.",
     );
     const confirm = within(modal).getByRole("button", {
       name: en.tools.open.confirm,
@@ -1052,7 +1052,7 @@ describe("TaskCenter", () => {
       name: "Tool actions are unavailable",
     });
     expect(warning).toHaveTextContent(
-      "Task history is still shown, but AI Manager couldn't confirm which tools can open.",
+      "Activity history is still shown, but AI Manager couldn't confirm which tools can open.",
     );
     expect(within(panel).getByText("Install codex")).toBeInTheDocument();
     expect(within(panel).queryByRole("button", { name: /Open/ })).toBeNull();

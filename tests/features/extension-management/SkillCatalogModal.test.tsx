@@ -441,7 +441,7 @@ describe("SkillCatalogModal", () => {
     await waitFor(() => expect(onOpenChange).toHaveBeenCalledWith(false));
     expect(body).toEqual({ tool: "claude-code", skill: CATALOG[0] });
     expect(toastMocks.info).toHaveBeenCalledWith("Installing Code review", {
-      description: "You can keep working and follow progress in Tasks.",
+      description: "You can keep working and follow progress in Activity.",
     });
   });
 

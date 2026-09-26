@@ -633,37 +633,37 @@
       "unsupportedTool": "AI Manager non ha integrato le istruzioni permanenti per questo strumento."
     },
     "provider": {
-      "createFailed": "Impossibile connettere questo servizio.",
-      "listFailed": "Impossibile leggere i servizi per questo strumento.",
+      "createFailed": "Impossibile aggiungere questo endpoint.",
+      "listFailed": "Impossibile leggere gli endpoint per questo strumento.",
       "modelProbeImageTooLarge": "L'immagine generata era troppo grande per essere mostrata.",
       "modelProbeModelInvalid": "Inserisci prima un nome di modello.",
       "modelProbePromptInvalid": "Inserisci un prompt di 200 caratteri o meno.",
-      "modelProbeTimeout": "Il servizio non ha risposto in tempo.",
-      "modelProbeUnreachable": "Impossibile raggiungere questo servizio.",
-      "modelProbeUnreadable": "Il servizio ha risposto con qualcosa che questa app non è riuscita a leggere.",
-      "nameRequired": "Assegna prima un nome a questo servizio.",
-      "notFound": "Quel servizio non è più presente.",
-      "notTestable": "Questo servizio non ha un indirizzo da controllare.",
-      "removeActive": "Passa a un altro servizio prima di rimuovere questo.",
-      "removeFailed": "Non è stato possibile rimuovere in sicurezza il servizio.",
-      "removePanicked": "Qualcosa è andato storto durante la rimozione di questo servizio.",
-      "removeRestoreFailed": "Non è stato possibile rimuovere il servizio, e AI Manager non è riuscito a confermare che la configurazione precedente fosse stata ripristinata completamente.",
-      "removeUnsupported": "Questo servizio usa una configurazione specifica per lo strumento e non può essere rimosso qui.",
-      "removeVerifyFailed": "AI Manager non è riuscito a confermare che il servizio fosse stato rimosso.",
+      "modelProbeTimeout": "L'endpoint non ha risposto in tempo.",
+      "modelProbeUnreachable": "Impossibile raggiungere questo endpoint.",
+      "modelProbeUnreadable": "L'endpoint ha risposto con qualcosa che questa app non è riuscita a leggere.",
+      "nameRequired": "Assegna prima un nome a questo endpoint.",
+      "notFound": "Quell'endpoint non è più presente.",
+      "notTestable": "Questo endpoint non ha un indirizzo da controllare.",
+      "removeActive": "Passa a un altro endpoint prima di rimuovere questo.",
+      "removeFailed": "Non è stato possibile rimuovere in sicurezza l'endpoint.",
+      "removePanicked": "Qualcosa è andato storto durante la rimozione di questo endpoint.",
+      "removeRestoreFailed": "Non è stato possibile rimuovere l'endpoint, e AI Manager non è riuscito a confermare che la configurazione precedente fosse stata ripristinata completamente.",
+      "removeUnsupported": "Questo endpoint usa una configurazione specifica per lo strumento e non può essere rimosso qui.",
+      "removeVerifyFailed": "AI Manager non è riuscito a confermare che l'endpoint fosse stato rimosso.",
       "runtimeContextFailed": "Impossibile analizzare le fonti di configurazione di questo strumento.",
       "runtimeResourceNotFound": "Quella risorsa locale non è più disponibile.",
       "runtimeResourceOpenFailed": "Impossibile aprire quella risorsa locale.",
-      "saveFailed": "Impossibile salvare le modifiche a questo servizio.",
-      "saveRestoreFailed": "Non è stato possibile salvare il servizio, e AI Manager non è riuscito a confermare che la configurazione precedente fosse stata ripristinata completamente.",
+      "saveFailed": "Impossibile salvare le modifiche a questo endpoint.",
+      "saveRestoreFailed": "Non è stato possibile salvare l'endpoint, e AI Manager non è riuscito a confermare che la configurazione precedente fosse stata ripristinata completamente.",
       "settingsPreserveFailed": "L'endpoint è stato cambiato, ma non è stato possibile preservare le altre impostazioni di questo strumento.",
       "storeUnavailable": "L'app si sta ancora avviando.",
-      "switchFailed": "Impossibile passare a questo servizio.",
+      "switchFailed": "Impossibile passare a questo endpoint.",
       "testFailed": "Non è stato possibile eseguire il controllo.",
-      "unsupportedTool": "AI Manager non ha integrato i servizi AI per questo strumento.",
-      "reorderFailed": "Impossibile salvare il nuovo ordine. L'elenco è tornato com'era; prova a spostare di nuovo il servizio."
+      "unsupportedTool": "AI Manager non ha ancora integrato gli endpoint API per questo strumento.",
+      "reorderFailed": "Impossibile salvare il nuovo ordine. L'elenco è tornato com'era; prova a spostare di nuovo l'endpoint."
     },
     "remediation": {
-      "chooseAnotherService": "Scegli un altro servizio per questo strumento, poi riprova.",
+      "chooseAnotherService": "Scegli un altro endpoint per questo strumento, poi riprova.",
       "checkConnectionSettings": "Controlla il nome, la chiave API e il modello, poi riprova.",
       "checkInternetConnection": "Controlla la tua connessione a Internet, poi riprova.",
       "checkLocalFileAccess": "Assicurati che la Competenza sia ancora nella sua posizione originale e che il tuo sistema possa aprirla, poi riprova.",
@@ -682,7 +682,7 @@
       "openToolManually": "Apri un terminale nella tua cartella di progetto e avvia lì lo strumento.",
       "refreshSessions": "Aggiorna l'elenco delle sessioni e scegli di nuovo la conversazione.",
       "recheckUpdate": "Controlla di nuovo i dettagli dell'aggiornamento prima di continuare.",
-      "removeInTool": "Rimuovi questo servizio dalla sua configurazione specifica per lo strumento.",
+      "removeInTool": "Rimuovi questo endpoint dalla sua configurazione specifica per lo strumento.",
       "retryOrViewDetails": "Riprova, oppure apri Visualizza dettagli per vedere cosa è successo.",
       "useOriginalUpdateChannel": "Usa l'updater originale di questa installazione, oppure rimuovila esplicitamente prima di installare tramite npm.",
       "uninstallManually": "Puoi eliminare tu stesso i file rimanenti, poi esegui di nuovo Verifica.",
@@ -690,9 +690,9 @@
     },
     "routing": {
       "changeFailed": "AI Manager non è riuscito a completare in sicurezza quella modifica di instradamento.",
-      "providerNotEligible": "Quel servizio non può partecipare al failover automatico.",
-      "providerUnavailable": "Quel servizio non è più disponibile per l'instradamento.",
-      "queueLocked": "Disattiva il failover automatico prima di rimuovere questo servizio attivo o finale.",
+      "providerNotEligible": "Quell'endpoint non può partecipare al failover automatico.",
+      "providerUnavailable": "Quell'endpoint non è più disponibile per l'instradamento.",
+      "queueLocked": "Disattiva il failover automatico prima di rimuovere questo endpoint attivo o finale.",
       "readFailed": "AI Manager non è riuscito a leggere lo stato locale dell'instradamento.",
       "storeUnavailable": "L'instradamento locale non è ancora pronto.",
       "takeoverRequired": "Attiva prima il controllo dell'instradamento per questo strumento.",
@@ -1191,8 +1191,8 @@
       "chooseFolder": "Scegli cartella",
       "launched": "{{name}} si è aperto nel Terminale.",
       "providerUnreachable": "{{name}} non ha risposto",
-      "providerUnreachableHint": "Non è stato aperto nulla e la configurazione salvata non è stata modificata. Controlla di nuovo o prova un altro servizio compatibile salvato.",
-      "noSavedAlternative": "Nessun altro servizio compatibile salvato è disponibile per il controllo.",
+      "providerUnreachableHint": "Non è stato aperto nulla e la configurazione salvata non è stata modificata. Controlla di nuovo o prova un altro endpoint compatibile salvato.",
+      "noSavedAlternative": "Nessun altro endpoint compatibile salvato è disponibile per il controllo.",
       "retry": "Riprova",
       "retryNamed": "Prova di nuovo ad aprire {{name}}"
     },
@@ -1345,7 +1345,7 @@
     },
     "card": {
       "title": "Ambiente AI",
-      "description": "Strumenti, servizi ed estensioni controllati in un unico posto",
+      "description": "Software, endpoint API e MCP controllati in un unico posto",
       "checking": "Verifica del tuo ambiente AI",
       "toolsInstalled_one": "{{count}} strumento installato",
       "toolsInstalled_other": "{{count}} strumenti installati",
@@ -1360,15 +1360,15 @@
       "startHint": "Scegli una cartella di progetto. Il tuo servizio verifica l'accesso al primo utilizzo.",
       "inventory": {
         "label": "Dettagli della configurazione pronta",
-        "servicesConfigured_one": "{{count}} servizio AI configurato",
-        "servicesConfigured_other": "{{count}} servizi AI configurati",
+        "servicesConfigured_one": "{{count}} endpoint API configurato",
+        "servicesConfigured_other": "{{count}} endpoint API configurati",
         "mcpEnabled": "MCP abilitati: {{enabled}} su {{total}}",
         "noMcp": "Ancora nessuna connessione MCP"
       },
       "actions": {
-        "tools": "Apri Strumenti AI",
+        "tools": "Apri Software",
         "services": "Apri Endpoint API",
-        "extensions": "Apri Competenze e MCP"
+        "extensions": "Apri Competenze"
       }
     },
     "health": {
@@ -1378,12 +1378,12 @@
       "issues_one": "{{count}} problema trovato",
       "issues_other": "{{count}} problemi trovati",
       "lastChecked": "Ultimo controllo: {{time}}",
-      "checkingConnections": "Verifica delle connessioni ai servizi",
+      "checkingConnections": "Verifica delle connessioni agli endpoint",
       "connectionError": "Impossibile avviare il controllo della connessione. Riprova.",
       "noTools": {
         "title": "Inizia con uno strumento di programmazione AI",
         "description": "Una volta installato, il controllo dello stato lo includerà.",
-        "action": "Sfoglia Strumenti AI"
+        "action": "Apri Software"
       }
     },
     "quickActions": {
@@ -1392,8 +1392,8 @@
       "installDescription": "Aggiungi Claude Code, Codex o OpenCode",
       "updateAll": "Aggiorna tutto",
       "updateDescription": "Mantieni gli strumenti installati all'ultima versione",
-      "connectService": "Connetti servizio AI",
-      "connectDescription": "Gestisci i servizi e le chiavi usati dai tuoi strumenti",
+      "connectService": "Connetti endpoint API",
+      "connectDescription": "Gestisci gli endpoint e le chiavi usati dai tuoi strumenti",
       "laterHint": "Disponibile in un aggiornamento futuro"
     },
     "updateAll": {
@@ -1426,7 +1426,7 @@
         "running": "Gli aggiornamenti sono già in corso in Attività",
         "checking": "Verifica di cosa può essere aggiornato",
         "unavailable": "Lo stato degli aggiornamenti non è disponibile in questo momento",
-        "review": "Controlla questo aggiornamento in Strumenti AI"
+        "review": "Controlla questo aggiornamento in Software"
       }
     },
     "error": {
@@ -1479,7 +1479,7 @@
       "pausedTitle": "L'apertura degli strumenti è in pausa",
       "pausedDescription": "AI Manager deve confermare lo strumento attuale prima di poter scegliere una cartella di progetto. Chiudi questa finestra, poi controlla di nuovo i tuoi strumenti in Attività.",
       "changedTitle": "Questo strumento non è più pronto per essere aperto",
-      "changedDescription": "L'ultimo controllo non mostra più questo strumento come un'installazione avviabile. Chiudi questa finestra e controlla Strumenti AI."
+      "changedDescription": "L'ultimo controllo non mostra più questo strumento come un'installazione avviabile. Chiudi questa finestra e controllalo in Software."
     },
     "empty": {
       "title": "Ancora nessuna attività",
@@ -1495,7 +1495,7 @@
       "uninstall": "Rimuovi {{name}}",
       "repair": "Ripara {{name}}",
       "changeVersion": "Cambia versione di {{name}}",
-      "testProviders": "Controlla i servizi di {{name}}",
+      "testProviders": "Controlla gli endpoint di {{name}}",
       "scan": "Controllo di sistema"
     },
     "extension": {
@@ -1546,7 +1546,7 @@
       "useNamed": "Usa {{name}}"
     },
     "card": {
-      "custom": "Servizio personalizzato",
+      "custom": "Endpoint personalizzato",
       "saved": "Salvato",
       "defaultModel": "Modello predefinito",
       "recentModel": "Usato di recente",
@@ -1554,7 +1554,7 @@
       "inUse": "In uso",
       "noKey": "Ancora nessuna chiave salvata",
       "notInEffect": "Selezionato, ma non attivo",
-      "official": "Servizio ufficiale",
+      "official": "Endpoint ufficiale",
       "overriddenBy": "Selezionato, ma sovrascritto da {{source}}",
       "savedEndpoint": "Endpoint salvato in AI Manager",
       "toolSignIn": "Usa l'accesso di {{tool}}"
@@ -1563,14 +1563,14 @@
       "activateNow": "Usa ora",
       "activateQuestion": "Usarlo ora in {{tool}}?",
       "address": {
-        "degraded": "{{name}} è stato salvato, ma il suo indirizzo di servizio ha risposto lentamente",
-        "failed": "{{name}} è stato salvato, ma il suo indirizzo di servizio non ha risposto",
-        "operational": "{{name}} è stato salvato e il suo indirizzo di servizio ha risposto"
+        "degraded": "{{name}} è stato salvato, ma il suo indirizzo ha risposto lentamente",
+        "failed": "{{name}} è stato salvato, ma il suo indirizzo non ha risposto",
+        "operational": "{{name}} è stato salvato e il suo indirizzo ha risposto"
       },
       "addressRetry": "La configurazione viene mantenuta. Controlla la rete, poi esegui di nuovo Controlla indirizzo.",
       "afterSave": "Dopo il salvataggio, AI Manager controlla solo l'indirizzo del servizio. {{tool}} verifica la chiave e il modello al primo utilizzo.",
       "description": "Aggiungi un servizio API per {{tool}}. AI Manager lo configurerà per te.",
-      "errorTitle": "Impossibile completare la connessione di questo servizio",
+      "errorTitle": "Impossibile aggiungere questo endpoint",
       "firstUse": "{{tool}} verificherà la API Key e il modello al primo utilizzo.",
       "getKey": "Ottieni API Key",
       "key": "API Key",
@@ -1581,33 +1581,33 @@
       "modelRequired": "Inserisci un modello.",
       "measuredServices": "Misurato su questo computer",
       "name": "Nome",
-      "baseUrl": "Indirizzo",
+      "baseUrl": "URL di base",
       "baseUrlHint": "L'indirizzo con cui viene configurato questo servizio. Se lo modifichi, il servizio viene salvato come endpoint personalizzato.",
       "baseUrlEdited": "Modificato, quindi verrà salvato come endpoint personalizzato.",
       "baseUrlInvalid": "Inserisci un indirizzo HTTPS senza credenziali.",
       "nameRequired": "Inserisci un nome.",
-      "noPresetMatch": "Nessun servizio corrispondente.",
-      "openProvider": "Apri servizio",
-      "preset": "Servizio preimpostato",
+      "noPresetMatch": "Nessun fornitore corrispondente.",
+      "openProvider": "Apri fornitore",
+      "preset": "Fornitore",
       "presetHint": "Scegli un provider e l'indirizzo e il modello qui sotto si compilano da soli; per qualsiasi altro servizio basta modificare l'indirizzo. Sono elencati solo provider ampiamente conosciuti, e AI Manager non li approva né li rivende.",
       "profileError": "AI Manager non è riuscito a caricare il suo modello di connessione sicuro. I tuoi servizi salvati restano invariati.",
-      "profileErrorTitle": "Impossibile preparare una nuova connessione",
+      "profileErrorTitle": "Impossibile preparare un nuovo endpoint",
       "profileRetry": "Carica di nuovo la configurazione della connessione",
-      "retryConnect": "Prova di nuovo a connettere questo servizio",
+      "retryConnect": "Prova di nuovo ad aggiungere questo endpoint",
       "retryHint": "AI Manager ha aggiornato lo stato dei servizi salvati. I tuoi dati sono ancora qui; controllali, poi prova di nuovo a connetterti.",
       "responseTime": "{{latency}} ms",
-      "searchPresets": "Cerca servizi…",
+      "searchPresets": "Cerca fornitori…",
       "saved": "{{name}} è stato salvato",
       "speedSorted": "Ordinato in base all'ultima misurazione di questo computer.",
       "speedTest": "Verifica quale risponde più velocemente",
       "speedTestAgain": "Verifica di nuovo",
-      "speedTestFailed": "Impossibile misurare questi servizi. Controlla la rete e riprova.",
-      "speedTesting": "Verifica degli indirizzi dei servizi in corso…",
+      "speedTestFailed": "Impossibile misurare questi fornitori. Controlla la rete e riprova.",
+      "speedTesting": "Verifica degli indirizzi in corso…",
       "title": "Connetti {{service}}",
       "unreachable": "Non raggiungibile",
       "toolDefault": "Predefinito per {{tool}}",
       "toolDefaultGroup": "Connessione predefinita di {{tool}}",
-      "otherServices": "Altri servizi utilizzabili"
+      "otherServices": "Altri fornitori"
     },
     "description": "Scegli uno strumento, poi aggiungi, cambia e controlla i suoi endpoint API.",
     "effective": {
@@ -1637,7 +1637,7 @@
     "external": {
       "badge": "Fuori da questa app",
       "endpoint": "Endpoint attivo ora",
-      "overrides": "{{name}} userà questo indirizzo. Ha la priorità su quello che scegli qui sotto."
+      "overrides": "{{name}} userà questo indirizzo. Ha la priorità sull'endpoint che scegli qui sotto."
     },
     "endpoints": {
       "title": "Endpoint di {{tool}}",
@@ -1645,30 +1645,30 @@
       "count_other": "{{count}} endpoint salvati"
     },
     "empty": {
-      "description": "Connetti un servizio API e AI Manager configurerà questo strumento per te.",
+      "description": "Connetti un endpoint API e AI Manager configurerà questo strumento per te.",
       "title": "Ancora niente qui"
     },
     "error": {
       "description": "Riprova, oppure apri lo strumento una volta e torna qui.",
-      "title": "Impossibile leggere i servizi"
+      "title": "Impossibile leggere gli endpoint"
     },
     "refreshError": {
-      "description": "Vengono ancora mostrati gli ultimi servizi salvati. Le azioni sui servizi restano in pausa finché un nuovo controllo non va a buon fine.",
-      "title": "Impossibile aggiornare i servizi AI"
+      "description": "Vengono ancora mostrati gli ultimi endpoint salvati. Le azioni sugli endpoint restano in pausa finché un nuovo controllo non va a buon fine.",
+      "title": "Impossibile aggiornare gli endpoint API"
     },
     "form": {
       "addHeader": "Aggiungi header",
       "addModel": "Aggiungi modello",
       "advancedHint": "Vengono mostrate solo le impostazioni comuni supportate da questo strumento. Gli altri campi restano invariati.",
-      "advancedManaged": "Questo servizio è gestito dallo strumento o da un accesso account. Le sue impostazioni dell'endpoint restano di sola lettura qui.",
+      "advancedManaged": "Questo endpoint è gestito dallo strumento o da un accesso account. Le sue impostazioni restano di sola lettura qui.",
       "advancedTitle": "Impostazioni avanzate",
       "baseUrl": "URL di base",
       "baseUrlHint": "Copialo esattamente come nella documentazione del fornitore, incluso un eventuale /v1 finale.",
       "baseUrlVersionDoubled": "Questo strumento aggiunge da sé una versione all'indirizzo, quindi il /{{segment}} finale verrebbe duplicato e le richieste non andrebbero a buon fine. Di solito basta rimuoverlo.",
       "routeAdd": "Aggiungi percorso",
-      "routeAddLabel": "Nuovo percorso del servizio",
+      "routeAddLabel": "Nuovo percorso",
       "routeAddPlaceholder": "https://api.example.com/v1",
-      "routeDuplicate": "Questo percorso è già presente in questo servizio.",
+      "routeDuplicate": "Questo percorso è già presente in questo endpoint.",
       "routeEmpty": "Aggiungi o inserisci almeno un percorso prima di verificare.",
       "routeFixed": "Fisso",
       "routeInvalid": "Usa un URL HTTPS senza credenziali, oppure HTTP solo per localhost.",
@@ -1676,14 +1676,14 @@
       "routeLimit": "Mantieni al massimo 32 percorsi, incluso quello attuale.",
       "routeRemove": "Rimuovi il percorso {{route}}",
       "routeUnreachable": "Non raggiungibile",
-      "routes": "Percorsi del servizio",
+      "routes": "Percorsi",
       "routesAuto": "Seleziona il percorso più veloce dopo ogni verifica",
-      "routesHint": "Conserva più URL di base per un servizio e usa il più veloce dopo una verifica.",
+      "routesHint": "Conserva più URL di base per un endpoint e usa il più veloce dopo una verifica.",
       "routesTest": "Verifica percorsi",
       "routesTestFailed": "Impossibile verificare questi percorsi. Controlla la rete e riprova.",
       "routesTesting": "Verifica dei percorsi in corso…",
       "description": "Cambia il nome, la chiave o il modello.",
-      "errorTitle": "Impossibile completare il salvataggio di questo servizio",
+      "errorTitle": "Impossibile salvare questo endpoint",
       "headerKeepValue": "Lascia vuoto per mantenere il valore salvato",
       "headerNameNamed": "Nome dell'header {{index}}",
       "headerNamePlaceholder": "X-Tenant-ID",
@@ -1694,7 +1694,7 @@
       "headerValuePlaceholder": "Valore dell'header",
       "key": "API Key",
       "keyHint": "Lascia vuoto per mantenere la chiave già salvata.",
-      "keyHintEmpty": "Incolla la chiave ottenuta da questo servizio.",
+      "keyHintEmpty": "Incolla la chiave ottenuta dal fornitore.",
       "modelNamed": "Modello {{index}}",
       "modelRequired": "Inserisci un ID modello o rimuovi la riga incompleta.",
       "models": "Modelli",
@@ -1704,22 +1704,22 @@
       "nameHint": "Mostrato solo qui, in questa app.",
       "nameRequired": "Inserisci un nome.",
       "retryHint": "AI Manager ha aggiornato lo stato dei servizi salvati. Controlla le modifiche, poi prova di nuovo a salvare.",
-      "retrySave": "Prova di nuovo a salvare questo servizio",
+      "retrySave": "Prova di nuovo a salvare questo endpoint",
       "removeHeaderNamed": "Rimuovi l'header {{name}}",
       "removeModelNamed": "Rimuovi il modello {{model}}",
       "save": "Salva",
-      "settingsLoading": "Caricamento delle impostazioni sicure del servizio…",
+      "settingsLoading": "Caricamento delle impostazioni dell'endpoint…",
       "settingsUnavailable": "Impossibile leggere le impostazioni aggiuntive. Puoi comunque salvare il nome o sostituire la chiave; quelle impostazioni resteranno invariate.",
-      "title": "Modifica servizio",
+      "title": "Modifica endpoint",
       "routesManage": "Gestisci e verifica",
       "routesDone": "Fine",
-      "modelPick": "Scegli dall’elenco dei modelli del servizio",
+      "modelPick": "Scegli dall’elenco dei modelli dell'endpoint",
       "modelSearch": "Cerca modelli",
       "modelNoMatch": "Nessun modello corrispondente",
       "modelListStale": "La chiave o l’URL di base è cambiato. Salva prima di leggere il nuovo elenco dei modelli.",
       "modelListFailed": "Impossibile leggere l’elenco dei modelli. Puoi digitare direttamente il nome del modello."
     },
-    "loading": "Caricamento dei servizi",
+    "loading": "Caricamento degli endpoint",
     "runtime": {
       "description": "Scopri dove questo strumento legge effettivamente le istruzioni globali, la memoria, la configurazione e le sessioni di progetto.",
       "loading": "Controllo delle fonti di configurazione",
@@ -1776,17 +1776,17 @@
       "title": "Contesto locale e archiviazione"
     },
     "noTools": {
-      "description": "Installa prima uno strumento, poi i suoi servizi compariranno qui.",
+      "description": "Installa prima uno strumento, poi i suoi endpoint compariranno qui.",
       "title": "Ancora nessuno strumento da configurare"
     },
     "refresh": "Aggiorna",
     "remove": {
-      "activeHint": "Scegli un altro servizio prima di rimuovere questo.",
-      "confirm": "Rimuovi servizio",
-      "description": "Questo rimuove il servizio salvato da AI Manager e da {{tool}}.",
-      "errorTitle": "Impossibile completare la rimozione di questo servizio",
-      "errorRetry": "Controlla il servizio e riprova.",
-      "managedHint": "Questo servizio usa una configurazione specifica dello strumento e non può essere rimosso da qui.",
+      "activeHint": "Scegli un altro endpoint prima di rimuovere questo.",
+      "confirm": "Rimuovi endpoint",
+      "description": "Questo rimuove l'endpoint salvato da AI Manager e da {{tool}}.",
+      "errorTitle": "Impossibile rimuovere questo endpoint",
+      "errorRetry": "Controlla l'endpoint e riprova.",
+      "managedHint": "Questo endpoint usa una configurazione specifica dello strumento e non può essere rimosso da qui.",
       "removed": "{{name}} rimosso",
       "retryNamed": "Prova di nuovo a rimuovere {{name}}",
       "title": "Rimuovere {{name}}?"
@@ -1794,7 +1794,7 @@
     "scope": "Strumento AI",
     "scopeUnsupportedShort": "Non integrato",
     "scopeSharedShort": "Condiviso con un'app desktop",
-    "scopeUnsupportedTitle": "AI Manager non ha ancora integrato la configurazione dei servizi di {{tool}}",
+    "scopeUnsupportedTitle": "AI Manager non ha ancora integrato la configurazione degli endpoint di {{tool}}",
     "scopeUnsupportedDescription": "Questo significa che AI Manager non ha ancora un adattatore sicuro; non significa necessariamente che {{tool}} non possa usare servizi personalizzati. Lo strumento installato resta visibile per chiarezza.",
     "scopeSave": {
       "errorDescription": "Stai ancora visualizzando {{tool}}. Riprova in modo da aprire questo strumento qui la prossima volta.",
@@ -1814,19 +1814,19 @@
       "switchingNamed": "Passaggio a {{name}} in corso"
     },
     "failover": {
-      "tryNext": "Prova il prossimo servizio disponibile",
-      "tryNextNamed": "Prova il prossimo servizio salvato disponibile per {{name}}",
-      "noneAvailable": "Nessun altro servizio salvato ha risposto. La configurazione attuale non è stata modificata.",
+      "tryNext": "Prova il prossimo endpoint disponibile",
+      "tryNextNamed": "Prova il prossimo endpoint salvato disponibile per {{name}}",
+      "noneAvailable": "Nessun altro endpoint salvato ha risposto. La configurazione attuale non è stata modificata.",
       "automaticSuccess": "{{from}} non ha risposto. Passato a {{to}}.",
-      "manualSuccess": "Passato da {{from}} al servizio disponibile {{to}}.",
-      "unknownService": "Servizio sconosciuto"
+      "manualSuccess": "Passato da {{from}} all'endpoint disponibile {{to}}.",
+      "unknownService": "Endpoint sconosciuto"
     },
     "summary": {
       "activeTitle": "{{service}} è attivo per {{tool}}",
       "checked": "Indirizzi controllati",
       "description": "Cambia servizio o controlla se i loro indirizzi rispondono. AI Manager gestisce la configurazione per te.",
       "eyebrow": "Panoramica della connessione",
-      "noActiveTitle": "I servizi sono salvati per {{tool}}",
+      "noActiveTitle": "Gli endpoint sono salvati per {{tool}}",
       "saved": "Salvato",
       "testable": "Indirizzo verificabile"
     },
@@ -1837,8 +1837,8 @@
       "title": "La tua configurazione è salvata. Avvia in {{tool}}"
     },
     "test": {
-      "browseCompatible": "Sfoglia servizi compatibili",
-      "browseCompatibleNamed": "Sfoglia servizi compatibili per {{name}}",
+      "browseCompatible": "Sfoglia endpoint compatibili",
+      "browseCompatibleNamed": "Sfoglia endpoint compatibili per {{name}}",
       "checkingNamed": "Controllo di {{name}} in corso",
       "degraded": "L'indirizzo ha risposto lentamente",
       "errorNamed": "Impossibile controllare l'indirizzo di {{name}}",
@@ -1848,7 +1848,7 @@
       "retry": "Riprova",
       "retryHint": "Il controllo non riuscito non ha modificato questo servizio. Prova di nuovo lo stesso controllo.",
       "retryNamed": "Controlla di nuovo {{name}}",
-      "unreachableHint": "Non è stato possibile raggiungere questo indirizzo dalla tua rete attuale. Puoi scegliere un altro servizio compatibile."
+      "unreachableHint": "Non è stato possibile raggiungere questo indirizzo dalla tua rete attuale. Puoi scegliere un altro endpoint compatibile."
     },
     "probe": {
       "title": "Verifica {{name}}",
@@ -1858,8 +1858,8 @@
       "modelLoading": "Lettura dell'elenco dei modelli…",
       "modelReload": "Ricarica",
       "modelManual": "Nome del modello",
-      "modelManualHint": "Questo servizio non pubblica un elenco di modelli, quindi digita tu stesso il nome del modello.",
-      "modelRefused": "Il servizio ha rifiutato l'elenco dei modelli (HTTP {{status}}).",
+      "modelManualHint": "Questo endpoint non pubblica un elenco di modelli, quindi digita tu stesso il nome del modello.",
+      "modelRefused": "L'endpoint ha rifiutato l'elenco dei modelli (HTTP {{status}}).",
       "modelTruncated": "Vengono mostrati i primi {{count}}.",
       "kind": "Output",
       "kindText": "Testo",
@@ -1867,16 +1867,16 @@
       "kindHint": "Testo usa l'endpoint di chat, Immagine quello di generazione immagini.",
       "prompt": "Prompt",
       "send": "Invia",
-      "sending": "In attesa del servizio…",
+      "sending": "In attesa dell'endpoint…",
       "cost": "Questo invia una richiesta reale e usa la tua quota.",
       "result": "Risultato",
       "resultMeta": "HTTP {{status}} · {{ms}} ms",
-      "replyEmpty": "Il servizio ha risposto ma non ha restituito nulla.",
-      "replyRefused": "Il servizio ha rifiutato questa richiesta.",
-      "replyImageLinkOnly": "Il servizio ha restituito un link invece dei dati dell'immagine, quindi l'immagine non può essere mostrata qui.",
+      "replyEmpty": "L'endpoint ha risposto ma non ha restituito nulla.",
+      "replyRefused": "L'endpoint ha rifiutato questa richiesta.",
+      "replyImageLinkOnly": "L'endpoint ha restituito un link invece dei dati dell'immagine, quindi l'immagine non può essere mostrata qui.",
       "imageAlt": "Immagine generata da {{model}}",
       "adopt": "Usa questo modello",
-      "adopted": "Salvato in questo servizio.",
+      "adopted": "Salvato in questo endpoint.",
       "adoptFailed": "Impossibile salvare il modello.",
       "addressWorksInstead": "Questo indirizzo non espone quella rotta. {{url}} è stato provato e ha risposto.",
       "useAddress": "Usa quell'indirizzo",
@@ -1886,17 +1886,17 @@
     },
     "title": "Endpoint API",
     "toolsError": {
-      "description": "AI Manager non è riuscito a verificare quali strumenti hai. Riprova per vedere i loro servizi.",
+      "description": "AI Manager non è riuscito a verificare quali strumenti hai. Riprova per vedere i loro endpoint.",
       "title": "Impossibile leggere i tuoi strumenti"
     },
     "toolsRefreshError": {
       "title": "Impossibile aggiornare i tuoi strumenti",
-      "description": "Vengono ancora mostrati l'ultimo controllo degli strumenti e i relativi servizi. Connettere, cambiare, controllare, modificare, rimuovere e avviare restano in pausa finché un nuovo controllo degli strumenti non va a buon fine.",
+      "description": "Vengono ancora mostrati l'ultimo controllo degli strumenti e i relativi endpoint. Connettere, cambiare, controllare, modificare, rimuovere e avviare restano in pausa finché un nuovo controllo degli strumenti non va a buon fine.",
       "action": "Controlla di nuovo gli strumenti"
     },
     "actionsPaused": {
-      "title": "Le azioni sui servizi sono in pausa",
-      "description": "AI Manager deve confermare lo strumento e lo stato del servizio attuali prima di poter apportare un'altra modifica o avviare lo strumento."
+      "title": "Le azioni sugli endpoint sono in pausa",
+      "description": "AI Manager deve confermare lo strumento e lo stato dell'endpoint attuali prima di poter apportare un'altra modifica o avviare lo strumento."
     },
     "shellVariable": {
       "at": "Riga {{line}} di {{path}}",
@@ -1910,12 +1910,15 @@
     },
     "reorder": {
       "handle": "Sposta {{name}}",
-      "roleDescription": "servizio spostabile",
-      "instructions": "Per spostare questo servizio, premi Spazio o Invio, spostalo con le frecce su e giù, poi premi di nuovo Spazio o Invio per rilasciarlo. Premi Esc per annullare.",
+      "roleDescription": "endpoint spostabile",
+      "instructions": "Per spostare questo endpoint, premi Spazio o Invio, spostalo con le frecce su e giù, poi premi di nuovo Spazio o Invio per rilasciarlo. Premi Esc per annullare.",
       "picked": "{{name}} selezionato, posizione {{position}} di {{count}}.",
       "moved": "{{name}} ora è in posizione {{position}} di {{count}}.",
       "dropped": "{{name}} rilasciato in posizione {{position}} di {{count}}.",
       "cancelled": "Spostamento annullato. {{name}} resta in posizione {{position}} di {{count}}."
+    },
+    "tab": {
+      "endpoints": "Elenco endpoint"
     }
   },
   "extensions": {
@@ -1959,7 +1962,7 @@
     "scopeSave": {
       "saving": "Memorizzazione di questa vista",
       "errorTitle": "Questa vista non è stata memorizzata",
-      "errorDescription": "Puoi continuare a lavorare qui. Riprova in modo che AI Manager apra la stessa vista delle estensioni la prossima volta.",
+      "errorDescription": "Puoi continuare a lavorare qui. Riprova in modo che AI Manager apra la stessa vista la prossima volta.",
       "retry": "Riprova"
     },
     "copy": {
@@ -2170,7 +2173,7 @@
         "description": "Collega {{tool}} a un programma locale o a un servizio remoto.",
         "confirm": "Aggiungi connessione",
         "name": "Nome della connessione",
-        "nameHint": "Usa un nome che riconoscerai in Estensioni.",
+        "nameHint": "Usa un nome che riconoscerai nell'elenco.",
         "optionalDescription": "Descrizione (facoltativa)",
         "transport": {
           "label": "Come si connette?",
@@ -2233,7 +2236,7 @@
         "confirm": "Rimuovi connessione",
         "queued": "Rimozione di {{name}} in corso",
         "queuedDescription": "Puoi continuare a lavorare e seguire l'avanzamento in Attività.",
-        "errorRetry": "Controlla i dettagli dell'attività prima di riprovare."
+        "errorRetry": "Controlla i dettagli in Attività prima di riprovare."
       },
       "empty": {
         "title": "Ancora nessuna connessione",
@@ -2323,8 +2326,8 @@
     "target": {
       "routed": "Instradato",
       "direct": "Diretto",
-      "current": "Servizio attuale: {{name}}",
-      "noProvider": "Scegli prima un servizio attuale in Endpoint API."
+      "current": "Endpoint attuale: {{name}}",
+      "noProvider": "Scegli prima un endpoint attuale in Endpoint API."
     },
     "takeover": {
       "title": "Passaggio all'instradamento",
@@ -2333,20 +2336,20 @@
     },
     "failover": {
       "title": "Failover automatico",
-      "description": "Prova i servizi funzionanti nell'ordine P1, P2 quando una richiesta non riesce.",
+      "description": "Prova gli endpoint funzionanti nell'ordine P1, P2 quando una richiesta non riesce.",
       "label": "Failover automatico per {{name}}"
     },
     "queue": {
       "title": "Ordine di failover",
       "description": "P1 viene selezionato quando il failover si avvia.",
-      "count_one": "{{count}} servizio",
-      "count_other": "{{count}} servizi",
-      "empty": "Aggiungi un servizio, oppure attiva il failover per usare il servizio attuale come P1.",
-      "selectLabel": "Servizio da aggiungere al failover",
-      "selectLabelNamed": "Servizio da aggiungere al failover di {{name}}",
-      "selectPlaceholder": "Scegli un servizio",
+      "count_one": "{{count}} endpoint",
+      "count_other": "{{count}} endpoint",
+      "empty": "Aggiungi un endpoint, oppure attiva il failover per usare l'endpoint attuale come P1.",
+      "selectLabel": "Endpoint da aggiungere al failover",
+      "selectLabelNamed": "Endpoint da aggiungere al failover di {{name}}",
+      "selectPlaceholder": "Scegli un endpoint",
       "add": "Aggiungi",
-      "addNamed": "Aggiungi il servizio selezionato al failover di {{name}}"
+      "addNamed": "Aggiungi l'endpoint selezionato al failover di {{name}}"
     },
     "provider": {
       "current": "Attuale",
@@ -2538,10 +2541,10 @@
         "action": {
           "updateTool": "Aggiorna ora",
           "repairTool": "Ripara ora",
-          "reviewTool": "Controlla Strumenti AI",
-          "connectService": "Connetti un servizio",
+          "reviewTool": "Apri Software",
+          "connectService": "Connetti un endpoint",
           "reviewService": "Controlla Endpoint API",
-          "reviewExtensions": "Controlla Estensioni"
+          "reviewExtensions": "Apri MCP"
         }
       },
       "item": {
@@ -2566,13 +2569,13 @@
           "description": "Questo è solo informativo e non viene conteggiato come un problema."
         },
         "providerReady": {
-          "title": "{{name}} ha un servizio AI configurato",
-          "description_one": "{{count}} configurazione di servizio è in uso.",
-          "description_other": "{{count}} configurazioni di servizio sono in uso."
+          "title": "{{name}} ha un endpoint API configurato",
+          "description_one": "{{count}} configurazione di endpoint è in uso.",
+          "description_other": "{{count}} configurazioni di endpoint sono in uso."
         },
         "providerMissing": {
-          "title": "{{name}} non ha nessun servizio AI configurato",
-          "description": "Apri Endpoint API e scegli o configura un servizio per questo strumento."
+          "title": "{{name}} non ha nessun endpoint API configurato",
+          "description": "Apri Endpoint API e scegli o aggiungi un endpoint per questo strumento."
         },
         "configReadable": {
           "title": "La configurazione di {{name}} può essere letta",
@@ -2601,7 +2604,7 @@
           },
           "notChecked": {
             "title": "{{provider}} non è stato controllato in questa sessione",
-            "description": "Esegui Verifica in Endpoint API se vuoi testare questa connessione."
+            "description": "Seleziona Verifica in Endpoint API per controllare questa connessione."
           }
         },
         "mcp": {
@@ -2610,17 +2613,17 @@
         },
         "mcpInventoryUnavailable": {
           "title": "Impossibile analizzare le connessioni MCP locali",
-          "description": "Apri Estensioni per riprovare l'inventario locale prima di presumere che ogni connessione sia gestita."
+          "description": "Apri MCP per controllare di nuovo l'inventario locale."
         },
         "mcpInventoryPartial": {
           "title": "Alcune posizioni MCP locali richiedono un altro controllo",
-          "description": "Posizioni che richiedono una verifica: {{count}}. Non è stato possibile analizzare una posizione supportata, oppure l'inventario limitato era pieno. Controlla Estensioni per il passo successivo completo."
+          "description": "Non è stato possibile controllare {{count}} posizioni. Esaminale in MCP."
         }
       }
     },
     "import": {
       "title": "Importa da CC Switch",
-      "description": "Porta i servizi AI, i server MCP e le competenze da CC Switch in AI Manager. Niente cambia in CC Switch.",
+      "description": "Porta gli endpoint API, i server MCP e le competenze da CC Switch in AI Manager. Niente cambia in CC Switch.",
       "reimport": "Importa da CC Switch",
       "loading": "Ricerca di una configurazione CC Switch",
       "retry": "Controlla di nuovo",
@@ -2629,11 +2632,11 @@
       "again": "Importa di nuovo",
       "skip": "Salta",
       "success": "Configurazione esistente importata.",
-      "collision": "Se lo stesso servizio o la stessa estensione esistono già, la versione importata li sostituisce. Tutto il resto resta invariato.",
+      "collision": "Se lo stesso endpoint, server MCP o competenza esiste già, la versione importata lo sostituisce. Tutto il resto resta invariato.",
       "sourceDetail": "Il database locale di CC Switch, aperto in sola lettura",
       "prompt": {
         "title": "Trovata una configurazione CC Switch",
-        "description": "CC Switch è stato installato su questo computer. Vuoi portare qui i suoi servizi AI, server MCP e competenze?"
+        "description": "CC Switch è stato installato su questo computer. Vuoi portare qui i suoi endpoint API, server MCP e competenze?"
       },
       "confirm": {
         "title": "Importare questa configurazione esistente?",
@@ -2647,16 +2650,16 @@
       },
       "completion": {
         "title": "Configurazione importata",
-        "description": "I servizi, i server MCP e le competenze supportati sono ora in AI Manager.",
+        "description": "Gli endpoint API, i server MCP e le competenze supportati sono ora in AI Manager.",
         "countLabel": "Elementi importati",
-        "nextStepTitle": "Scegli cosa deve usare ogni strumento",
-        "nextStep": "Apri Endpoint API e seleziona un servizio importato per ogni strumento quando sei pronto.",
+        "nextStepTitle": "Scegli l'endpoint per ogni strumento",
+        "nextStep": "Apri Endpoint API e seleziona un endpoint importato per ogni strumento quando sei pronto.",
         "continue": "Continua"
       },
       "count": {
         "label": "Elementi pronti per l'importazione",
-        "services_one": "{{count}} servizio AI",
-        "services_other": "{{count}} servizi AI",
+        "services_one": "{{count}} endpoint API",
+        "services_other": "{{count}} endpoint API",
         "mcpServers_one": "{{count}} server MCP",
         "mcpServers_other": "{{count}} server MCP",
         "skills_one": "{{count}} competenza",
@@ -2767,7 +2770,7 @@
         },
         "imported": {
           "title": "Configurazione importata",
-          "description": "AI Manager sta ora usando i servizi e le estensioni di quell'archivio."
+          "description": "AI Manager sta ora usando gli endpoint e le estensioni di quell'archivio."
         },
         "renamed": {
           "title": "Punto di ripristino rinominato",
@@ -2783,17 +2786,17 @@
         },
         "warning": {
           "title": "Ripristino completato, ma uno strumento richiede attenzione",
-          "description": "Uno strumento non ha recepito la modifica del servizio. Controlla Endpoint API e scegli di nuovo il servizio che vuoi."
+          "description": "Uno strumento non ha recepito la modifica dell'endpoint. Controlla Endpoint API e scegli di nuovo l'endpoint che vuoi."
         },
         "importWarning": {
           "title": "Importazione completata, ma uno strumento richiede attenzione",
-          "description": "L'archivio è stato importato, ma uno strumento non ha recepito la modifica del servizio. Controlla Endpoint API e scegli di nuovo il servizio che vuoi."
+          "description": "L'archivio è stato importato, ma uno strumento non ha recepito la modifica dell'endpoint. Controlla Endpoint API e scegli di nuovo l'endpoint che vuoi."
         },
         "reviewServices": "Controlla Endpoint API"
       },
       "empty": {
         "title": "Proteggi la tua configurazione attuale",
-        "description": "Crea un punto di ripristino locale prima di modificare strumenti o servizi.",
+        "description": "Crea un punto di ripristino locale prima di modificare strumenti o endpoint.",
         "local": "Solo locale"
       },
       "error": {
@@ -2806,7 +2809,7 @@
         "description": "Viene ancora mostrato l'ultimo elenco dei backup. Le azioni sui backup restano in pausa finché un nuovo controllo non va a buon fine."
       },
       "restorePoint": {
-        "replaces": "I servizi, le estensioni e le scelte in AI Manager tornano a questo punto di ripristino.",
+        "replaces": "Gli endpoint, le estensioni e le scelte in AI Manager tornano a questo punto di ripristino.",
         "installed": "Gli strumenti AI per la programmazione installati restano su questo computer.",
         "followUp": "Dopo il ripristino, AI Manager ti avvisa se uno strumento richiede attenzione."
       },
@@ -2815,10 +2818,10 @@
       },
       "transfer": {
         "secretTitle": "Tratta l'archivio come una password",
-        "secretDescription": "Una copia portatile può contenere chiavi di servizio e altre configurazioni private. Conservala in modo sicuro e condividila solo con persone di cui ti fidi.",
+        "secretDescription": "Una copia portatile può contenere chiavi API e altre configurazioni private. Conservala in modo sicuro e condividila solo con persone di cui ti fidi.",
         "confirmTitle": "Importare questo archivio di configurazione?",
         "confirmDescription": "Scegli l'archivio solo dopo aver controllato cosa cambierà.",
-        "confirmReplace": "I servizi gestiti, le estensioni e la cronologia salvata verranno sostituiti dall'archivio.",
+        "confirmReplace": "Gli endpoint gestiti, le estensioni e la cronologia salvata verranno sostituiti dall'archivio.",
         "confirmSafety": "AI Manager crea un punto di ripristino locale prima di sostituire i dati attuali.",
         "confirmTrust": "Importa solo un archivio che hai creato o ricevuto da qualcuno di cui ti fidi.",
         "confirmInstalled": "Gli strumenti AI per la programmazione installati restano su questo computer.",

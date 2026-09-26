@@ -487,20 +487,20 @@
       "timeoutZero": "為了安全，AI 管家沒有繼續這一步。"
     },
     "deepLink": {
-      "credentialRequired": "這個連結沒有金鑰，而 API 接入點沒有金鑰就無法儲存。請向服務商索取一條帶金鑰的連結。",
+      "credentialRequired": "這個連結沒有金鑰，而 API 端點沒有金鑰就無法儲存。請向服務商索取一條帶金鑰的連結。",
       "duplicateParameter": "這個連結有重複的欄位，無法讀取。",
-      "endpointRequired": "這個連結沒有寫明 API 接入點的位址。",
+      "endpointRequired": "這個連結沒有寫明 API 端點的位址。",
       "invalidEncoding": "連結裡打包的內容已損壞，無法讀取。",
-      "invalidLink": "AI Manager 讀不懂這個連結。",
+      "invalidLink": "AI 管家讀不懂這個連結。",
       "mcpUnsupportedFields": "這個連結要為 MCP 伺服器設定環境值或請求標頭。AI Manager 不會替你加入這些內容，所以無法使用這個連結。",
       "missingParameter": "這個連結缺少匯入所需的內容。",
       "notPending": "這個連結已經不在等待中了，可能已過期，也可能已經處理過。",
       "tooLarge": "這個連結太長，無法安全讀取。",
-      "toolUnavailable": "AI Manager 不管理這個連結指向的應用程式。",
-      "unknownParameter": "這個連結裡有 AI Manager 不認識的欄位。",
-      "unsupportedResource": "這個連結要匯入的東西，AI Manager 目前不支援。",
-      "unsupportedScheme": "這個連結不屬於 AI Manager。",
-      "unsupportedVersion": "這個連結使用的格式比目前版本的 AI Manager 還新。",
+      "toolUnavailable": "AI 管家不管理這個連結指向的應用程式。",
+      "unknownParameter": "這個連結裡有 AI 管家不認識的欄位。",
+      "unsupportedResource": "這個連結要匯入的東西，AI 管家目前不支援。",
+      "unsupportedScheme": "這個連結不屬於 AI 管家。",
+      "unsupportedVersion": "這個連結使用的格式比目前版本的 AI 管家還新。",
       "valueTooLong": "這個連結裡有一項內容遠超正常長度。"
     },
     "desktopApp": {
@@ -595,10 +595,10 @@
       "verifyFailed": "AI 管家無法確認 OpenClaw 工作區變更已生效。"
     },
     "operation": {
-      "cancelFailed": "AI Manager 無法安全停止這個工作。已等待相關程序結束，並將工作標記為失敗。",
+      "cancelFailed": "AI 管家無法安全停止這個工作。已等待相關程序結束，並將工作標記為失敗。",
       "cancelNotRequested": "這個工作沒有收到取消要求。",
       "cancelPending": "這個工作正在取消。",
-      "cancelUnconfirmed": "AI Manager 尚未確認這個工作已經停止。",
+      "cancelUnconfirmed": "AI 管家尚未確認這個工作已經停止。",
       "cancelled": "這個工作已取消。",
       "invalidId": "工作參照無效。",
       "invalidTransition": "這個工作已經結束了。",
@@ -633,37 +633,37 @@
       "unsupportedTool": "AI 管家尚未接入這個工具的常駐提示詞。"
     },
     "provider": {
-      "createFailed": "沒能連線這個服務。",
-      "listFailed": "讀不到這個工具的服務清單。",
+      "createFailed": "沒能新增這個端點。",
+      "listFailed": "讀不到這個工具的端點清單。",
       "modelProbeImageTooLarge": "產生的圖片太大，無法顯示。",
       "modelProbeModelInvalid": "先填一個模型名稱。",
       "modelProbePromptInvalid": "提示詞不能空白，且不超過 200 個字元。",
-      "modelProbeTimeout": "服務沒有在時間內回應。",
-      "modelProbeUnreachable": "連不上這個服務。",
-      "modelProbeUnreadable": "服務回傳的內容這個應用讀不懂。",
-      "nameRequired": "先給這個服務取個名字。",
-      "notFound": "這個服務已經不在了。",
-      "notTestable": "這個服務沒有可以檢查的位址。",
-      "removeActive": "請先改用另一個服務，再移除這個服務。",
-      "removeFailed": "沒能安全移除這個服務。",
-      "removePanicked": "移除這個服務時出了問題。",
-      "removeRestoreFailed": "這個服務沒能移除，而且 AI 管家無法確認之前的設定已完整還原。",
-      "removeUnsupported": "這個服務使用工具自己的專用設定，不能在這裡移除。",
-      "removeVerifyFailed": "AI 管家沒能確認這個服務已經移除。",
+      "modelProbeTimeout": "端點沒有在時間內回應。",
+      "modelProbeUnreachable": "連不上這個端點。",
+      "modelProbeUnreadable": "端點回傳的內容這個應用讀不懂。",
+      "nameRequired": "先給這個端點取個名字。",
+      "notFound": "這個端點已經不在了。",
+      "notTestable": "這個端點沒有可以檢查的位址。",
+      "removeActive": "請先改用另一個端點，再移除這個端點。",
+      "removeFailed": "沒能安全移除這個端點。",
+      "removePanicked": "移除這個端點時出了問題。",
+      "removeRestoreFailed": "這個端點沒能移除，而且 AI 管家無法確認之前的設定已完整還原。",
+      "removeUnsupported": "這個端點使用工具自己的專用設定，不能在這裡移除。",
+      "removeVerifyFailed": "AI 管家沒能確認這個端點已經移除。",
       "runtimeContextFailed": "沒能檢查這個工具的設定來源。",
       "runtimeResourceNotFound": "這個本機資源已經無法使用。",
       "runtimeResourceOpenFailed": "無法開啟這個本機資源。",
-      "saveFailed": "這個服務的變更沒能儲存。",
-      "saveRestoreFailed": "這個服務沒能儲存，而且 AI 管家無法確認之前的設定已完整還原。",
+      "saveFailed": "這個端點的變更沒能儲存。",
+      "saveRestoreFailed": "這個端點沒能儲存，而且 AI 管家無法確認之前的設定已完整還原。",
       "settingsPreserveFailed": "端點已切換，但沒能保留這個工具原有的其他設定。",
       "storeUnavailable": "應用程式還在啟動中。",
-      "switchFailed": "沒能切換到這個服務。",
+      "switchFailed": "沒能切換到這個端點。",
       "testFailed": "這次檢查沒能跑起來。",
-      "unsupportedTool": "AI 管家尚未接入這個工具的 AI 服務。",
+      "unsupportedTool": "AI 管家尚未接入這個工具的 API 端點。",
       "reorderFailed": "沒能儲存新的順序，列表已恢復原樣，請再拖一次試試。"
     },
     "remediation": {
-      "chooseAnotherService": "先為這個工具選擇另一個服務，然後再試一次。",
+      "chooseAnotherService": "先為這個工具選擇另一個端點，然後再試一次。",
       "checkConnectionSettings": "檢查一下名稱、API 金鑰和模型，然後再試一次。",
       "checkInternetConnection": "檢查網路連線後再試一次。",
       "checkLocalFileAccess": "確認這個 Skill 仍在原位置，並允許系統開啟它，然後再試一次。",
@@ -682,7 +682,7 @@
       "openToolManually": "在專案資料夾裡開啟終端機，再手動啟動這個工具。",
       "refreshSessions": "重新整理工作階段清單，然後再次選擇這個對話。",
       "recheckUpdate": "請重新檢查更新方式後再繼續。",
-      "removeInTool": "請到這個工具自己的專用設定中移除服務。",
+      "removeInTool": "請到這個工具自己的專用設定中移除端點。",
       "retryOrViewDetails": "可以再試一次，或者打開「查看詳情」看看發生了什麼。",
       "useOriginalUpdateChannel": "請使用這份安裝原來的更新管道；也可以先明確移除，再透過 npm 安裝。",
       "uninstallManually": "你可以自己刪掉剩下的檔案，然後重新檢查一次。",
@@ -690,9 +690,9 @@
     },
     "routing": {
       "changeFailed": "AI 管家無法安全完成這次路由變更。",
-      "providerNotEligible": "這個服務不能加入自動容錯移轉。",
-      "providerUnavailable": "這個服務已無法用於路由。",
-      "queueLocked": "請先關閉自動容錯移轉，再移除目前服務或最後一個服務。",
+      "providerNotEligible": "這個端點不能加入自動容錯移轉。",
+      "providerUnavailable": "這個端點已無法用於路由。",
+      "queueLocked": "請先關閉自動容錯移轉，再移除目前端點或最後一個端點。",
       "readFailed": "AI 管家無法讀取本機路由狀態。",
       "storeUnavailable": "本機路由尚未準備好。",
       "takeoverRequired": "請先為這個工具開啟路由接管。",
@@ -969,7 +969,7 @@
         "provider": "需要連接模型服務商或本機模型；部分服務商會收取 API 額度費用。"
       },
       "choose": "查看 {{name}}",
-      "costNote": "AI Manager 不銷售帳號或額度。安裝前請向發佈方或服務商確認目前的存取資格與價格。"
+      "costNote": "AI 管家不銷售帳號或額度。安裝前請向發佈方或服務商確認目前的存取資格與價格。"
     },
     "version": {
       "title": "管理 {{name}} 版本",
@@ -1012,17 +1012,17 @@
     },
     "updateRecovery": {
       "title": "這次更新需要復原",
-      "available": "更新後工具已損壞。AI Manager 可以透過同一套件管理器復原到已驗證版本 {{version}}。",
+      "available": "更新後工具已損壞。AI 管家可以透過同一套件管理器復原到已驗證版本 {{version}}。",
       "action": "復原 {{version}}",
       "namedAction": "將 {{name}} 復原到 {{version}}",
       "confirmTitle": "將 {{name}} 復原到 {{version}}？",
-      "confirmBody": "AI Manager 將透過同一套件管理器重新安裝更新前相符的已驗證版本，並精確檢查該版本。工具設定會保留。",
+      "confirmBody": "AI 管家將透過同一套件管理器重新安裝更新前相符的已驗證版本，並精確檢查該版本。工具設定會保留。",
       "confirm": "復原 {{version}}",
       "advisory": {
         "historyUnavailable": "更新前沒有相符的已驗證版本記錄。請使用此工具的一般安裝程式或所屬套件管理器修復。",
         "ownershipChanged": "目前安裝歸屬與已驗證歷史不再一致，因此自動復原維持關閉。請使用擁有此副本的套件管理器或安裝程式修復。",
         "ownerUnsupported": "此安裝來源不支援安全的自動版本復原。請使用其一般安裝程式或套件管理器復原流程。",
-        "inspectionFailed": "AI Manager 無法安全核對版本歷史或安裝歸屬。自動復原維持關閉；請查看詳細資料並使用此工具的一般復原流程。"
+        "inspectionFailed": "AI 管家無法安全核對版本歷史或安裝歸屬。自動復原維持關閉；請查看詳細資料並使用此工具的一般復原流程。"
       }
     },
     "summary": {
@@ -1190,8 +1190,8 @@
       "chooseFolder": "選擇目錄啟動",
       "launched": "已在終端機裡開啟 {{name}}。",
       "providerUnreachable": "「{{name}}」沒有回應",
-      "providerUnreachableHint": "工具尚未開啟，已儲存的設定也沒有變更。你可以重新檢查，或嘗試其他已儲存的相容服務。",
-      "noSavedAlternative": "沒有其他已儲存的相容服務可供檢查。",
+      "providerUnreachableHint": "工具尚未開啟，已儲存的設定也沒有變更。你可以重新檢查，或嘗試其他已儲存的相容端點。",
+      "noSavedAlternative": "沒有其他已儲存的相容端點可供檢查。",
       "retry": "再試一次",
       "retryNamed": "重新開啟 {{name}}"
     },
@@ -1344,7 +1344,7 @@
     },
     "card": {
       "title": "AI 環境",
-      "description": "工具、服務和擴充的狀態，一眼就能看清",
+      "description": "軟體、API 端點和 MCP 的狀態，一眼就能看清",
       "checking": "正在檢查你的 AI 環境",
       "toolsInstalled_one": "已裝好 {{count}} 個工具",
       "toolsInstalled_other": "已裝好 {{count}} 個工具",
@@ -1359,15 +1359,15 @@
       "startHint": "選擇一個專案資料夾；服務商會在第一次使用時驗證存取權限。",
       "inventory": {
         "label": "已就緒的環境詳情",
-        "servicesConfigured_one": "已設定 {{count}} 個 AI 服務",
-        "servicesConfigured_other": "已設定 {{count}} 個 AI 服務",
+        "servicesConfigured_one": "已設定 {{count}} 個 API 端點",
+        "servicesConfigured_other": "已設定 {{count}} 個 API 端點",
         "mcpEnabled": "MCP 已啟用：{{enabled}} / {{total}}",
         "noMcp": "還沒有 MCP 連線"
       },
       "actions": {
-        "tools": "打開 AI 工具",
-        "services": "打開 AI 服務",
-        "extensions": "打開 AI 擴充功能"
+        "tools": "打開軟體管理",
+        "services": "打開 API 端點",
+        "extensions": "打開技能"
       }
     },
     "health": {
@@ -1377,12 +1377,12 @@
       "issues_one": "發現 {{count}} 個問題",
       "issues_other": "發現 {{count}} 個問題",
       "lastChecked": "上次檢查 {{time}}",
-      "checkingConnections": "正在檢查服務連線",
+      "checkingConnections": "正在檢查端點連線",
       "connectionError": "連線檢查沒能開始，請再試一次。",
       "noTools": {
         "title": "先選擇一個 AI 程式設計工具",
         "description": "安裝後，健檢會把它納入檢查範圍。",
-        "action": "瀏覽 AI 工具"
+        "action": "打開軟體管理"
       }
     },
     "quickActions": {
@@ -1391,8 +1391,8 @@
       "installDescription": "加入 Claude Code、Codex 或 OpenCode",
       "updateAll": "全部更新",
       "updateDescription": "讓已安裝的工具保持最新",
-      "connectService": "連接 AI 服務",
-      "connectDescription": "集中管理工具使用的服務和金鑰",
+      "connectService": "連接 API 端點",
+      "connectDescription": "集中管理工具使用的端點和金鑰",
       "laterHint": "會在後續更新裡補上"
     },
     "updateAll": {
@@ -1400,7 +1400,7 @@
       "title_other": "更新 {{count}} 個工具？",
       "reviewTitle_one": "檢查 {{count}} 個工具的更新",
       "reviewTitle_other": "檢查 {{count}} 個工具的更新",
-      "description": "{{names, list}} 會在背景更新。你可以繼續使用 AI 管家，並在「工作」中查看進度。",
+      "description": "{{names, list}} 會在背景更新。你可以繼續使用 AI 管家，並在「活動」中查看進度。",
       "previewSummary": "{{ready}} 個目前可以更新，{{skipped}} 個會先略過，等待處理安裝問題。",
       "skippedSummary_one": "{{count}} 個工具因無法確認更新方式而被略過。",
       "skippedSummary_other": "{{count}} 個工具因無法確認更新方式而被略過。",
@@ -1411,8 +1411,8 @@
       "failure": {
         "partial": {
           "title": "部分更新已開始",
-          "description_one": "{{count}} 項更新已進入「工作」。未能啟動的工具仍保持選取。",
-          "description_other": "{{count}} 項更新已進入「工作」。未能啟動的工具仍保持選取。"
+          "description_one": "{{count}} 項更新已進入「活動」。未能啟動的工具仍保持選取。",
+          "description_other": "{{count}} 項更新已進入「活動」。未能啟動的工具仍保持選取。"
         },
         "all": {
           "title": "更新未能開始",
@@ -1422,10 +1422,10 @@
       },
       "hints": {
         "current": "已經全部是最新版本",
-        "running": "更新已經在「工作」中進行",
+        "running": "更新已經在「活動」中進行",
         "checking": "正在確認哪些工具可以更新",
         "unavailable": "暫時無法確認更新狀態",
-        "review": "請到 AI 工具中查看這項更新"
+        "review": "請到「軟體管理」中查看這項更新"
       }
     },
     "error": {
@@ -1471,14 +1471,14 @@
     "toolAuthority": {
       "openLabel": "活動：{{status}}；工具操作暫時無法使用",
       "unavailableTitle": "工具操作暫時無法使用",
-      "unavailableDescription": "工作記錄仍會顯示，但 AI 管家無法確認哪些工具可以開啟。",
+      "unavailableDescription": "活動記錄仍會顯示，但 AI 管家無法確認哪些工具可以開啟。",
       "refreshTitle": "無法重新整理工具狀態",
       "refreshDescription": "仍在顯示上次的工具資訊。新的檢查成功前，已完成工作中的「開啟」操作會暫停。",
       "retry": "重新檢查工具",
       "pausedTitle": "開啟工具已暫停",
       "pausedDescription": "AI 管家需要先確認目前的工具狀態，才能讓你選擇專案資料夾。請取消此視窗，然後在「活動」中重新檢查工具。",
       "changedTitle": "此工具已無法直接開啟",
-      "changedDescription": "最新檢查已不再將此工具列為可啟動的已安裝工具。請取消此視窗，並前往「AI 工具」查看。"
+      "changedDescription": "最新檢查已不再將此工具列為可啟動的已安裝工具。請取消此視窗，並前往「軟體管理」查看。"
     },
     "empty": {
       "title": "還沒有活動記錄",
@@ -1494,7 +1494,7 @@
       "uninstall": "移除 {{name}}",
       "repair": "修復 {{name}}",
       "changeVersion": "切換 {{name}} 版本",
-      "testProviders": "檢查 {{name}} 的全部服務",
+      "testProviders": "檢查 {{name}} 的全部端點",
       "scan": "環境檢查"
     },
     "extension": {
@@ -1545,7 +1545,7 @@
       "useNamed": "使用 {{name}}"
     },
     "card": {
-      "custom": "自訂服務",
+      "custom": "自訂端點",
       "saved": "已儲存",
       "defaultModel": "預設模型",
       "recentModel": "最近使用",
@@ -1553,23 +1553,23 @@
       "inUse": "正在使用",
       "noKey": "還沒有儲存金鑰",
       "notInEffect": "已選取，但目前沒有生效",
-      "official": "官方服務",
+      "official": "官方端點",
       "overriddenBy": "已選取，但被 {{source}} 覆蓋",
-      "savedEndpoint": "AI Manager 中儲存的端點",
+      "savedEndpoint": "AI 管家中儲存的端點",
       "toolSignIn": "使用 {{tool}} 的登入狀態"
     },
     "connect": {
       "activateNow": "現在使用",
       "activateQuestion": "現在讓 {{tool}} 使用它嗎？",
       "address": {
-        "degraded": "{{name}} 已儲存，但服務位址回應較慢",
-        "failed": "{{name}} 已儲存，但服務位址沒有回應",
-        "operational": "{{name}} 已儲存，服務位址可以連線"
+        "degraded": "{{name}} 已儲存，但位址回應較慢",
+        "failed": "{{name}} 已儲存，但位址沒有回應",
+        "operational": "{{name}} 已儲存，位址可以連線"
       },
       "addressRetry": "設定已經保留。請檢查網路，然後再次「檢查位址」。",
       "afterSave": "儲存後，AI 管家只會檢查服務位址是否有回應；API 金鑰和模型權限會在 {{tool}} 第一次實際使用時驗證。",
       "description": "為 {{tool}} 新增一個 API 服務，其餘設定交給 AI 管家。",
-      "errorTitle": "未能完成連線這個服務",
+      "errorTitle": "沒能新增這個端點",
       "firstUse": "{{tool}} 第一次實際使用時，服務商才會驗證 API 金鑰和模型權限。",
       "getKey": "取得 API 金鑰",
       "key": "API 金鑰",
@@ -1580,33 +1580,33 @@
       "modelRequired": "請輸入模型。",
       "measuredServices": "這台電腦實測",
       "name": "名稱",
-      "baseUrl": "服務位址",
+      "baseUrl": "Base URL",
       "baseUrlHint": "這個服務設定的位址。改動之後會以自訂端點儲存。",
       "baseUrlEdited": "已改動，會以自訂端點儲存。",
       "baseUrlInvalid": "請輸入不含憑證的 HTTPS 位址。",
       "nameRequired": "請輸入名稱。",
-      "noPresetMatch": "沒有相符的服務。",
+      "noPresetMatch": "沒有相符的服務商。",
       "openProvider": "開啟服務商",
-      "preset": "服務預設",
+      "preset": "服務商",
       "presetHint": "選一家服務商，下面的位址和模型會自動填好；不在清單裡的，直接改位址。這裡只收錄廣為人知的服務商，AI 管家不為其背書也不轉售。",
       "profileError": "AI 管家沒能讀取安全連線範本，已儲存的服務不會受到影響。",
-      "profileErrorTitle": "暫時不能新增服務",
+      "profileErrorTitle": "暫時不能新增端點",
       "profileRetry": "重新讀取連線範本",
-      "retryConnect": "重新連線這個服務",
+      "retryConnect": "重新新增這個端點",
       "retryHint": "AI 管家已重新讀取能確認的服務狀態。你填寫的內容還在；請檢查後重新連線。",
       "responseTime": "{{latency}} 毫秒",
-      "searchPresets": "搜尋服務…",
+      "searchPresets": "搜尋服務商…",
       "saved": "{{name}} 已儲存",
       "speedSorted": "已依這台電腦的最新實測結果排序。",
       "speedTest": "測試哪個回應最快",
       "speedTestAgain": "重新測速",
-      "speedTestFailed": "無法測量這些服務，請檢查網路後再試。",
-      "speedTesting": "正在測試服務位址…",
+      "speedTestFailed": "無法測速，請檢查網路後再試。",
+      "speedTesting": "正在測速…",
       "title": "連線 {{service}}",
       "unreachable": "不可達",
       "toolDefault": "{{tool}} 預設",
       "toolDefaultGroup": "{{tool}} 預設連接",
-      "otherServices": "其他可用服務"
+      "otherServices": "其他服務商"
     },
     "description": "選擇軟體，新增、切換與檢查它使用的 API 端點。",
     "effective": {
@@ -1636,7 +1636,7 @@
     "external": {
       "badge": "應用程式之外設定的",
       "endpoint": "現在生效的位址",
-      "overrides": "{{name}} 實際會用這個位址。它優先於你在下面選的服務。"
+      "overrides": "{{name}} 實際會用這個位址。它優先於你在下面選的端點。"
     },
     "endpoints": {
       "title": "{{tool}} 的端點",
@@ -1644,30 +1644,30 @@
       "count_other": "已儲存 {{count}} 個端點"
     },
     "empty": {
-      "description": "連線一個 API 服務，AI 管家會替你設定好這個工具。",
+      "description": "連接一個 API 端點，AI 管家會替你設定好這個工具。",
       "title": "這裡還是空的"
     },
     "error": {
       "description": "再試一次，或者先打開一次這個工具再回來。",
-      "title": "讀不到服務清單"
+      "title": "讀不到端點清單"
     },
     "refreshError": {
-      "description": "仍顯示上次儲存的服務。新的檢查成功前，服務操作會保持暫停。",
-      "title": "無法重新整理 AI 服務"
+      "description": "仍顯示上次儲存的端點。新的檢查成功前，端點操作會保持暫停。",
+      "title": "無法重新整理 API 端點"
     },
     "form": {
       "addHeader": "新增 Header",
       "addModel": "新增模型",
       "advancedHint": "這裡只顯示目前工具真正支援的常用設定，其他欄位會保持原樣。",
-      "advancedManaged": "這個服務由工具或帳號登入管理，端點設定在這裡保持唯讀。",
+      "advancedManaged": "這個端點由工具或帳號登入管理，設定在這裡保持唯讀。",
       "advancedTitle": "進階設定",
       "baseUrl": "Base URL",
       "baseUrlHint": "依服務商文件原樣填寫，包括結尾的 /v1 之類，不要自行增減。",
       "baseUrlVersionDoubled": "這個工具會自己在位址後面加上版本號，結尾的 /{{segment}} 會重複，實際請求會失敗。一般刪掉它即可。",
       "routeAdd": "新增線路",
-      "routeAddLabel": "新的服務線路",
+      "routeAddLabel": "新的線路",
       "routeAddPlaceholder": "https://api.example.com/v1",
-      "routeDuplicate": "這個服務裡已經有這條線路。",
+      "routeDuplicate": "這個端點裡已經有這條線路。",
       "routeEmpty": "請先新增或輸入至少一條線路再測速。",
       "routeFixed": "已固定",
       "routeInvalid": "請使用不含憑據的 HTTPS URL；HTTP 只允許本機回環位址。",
@@ -1675,14 +1675,14 @@
       "routeLimit": "包括目前線路在內，最多保留 32 條線路。",
       "routeRemove": "移除線路 {{route}}",
       "routeUnreachable": "無法連線",
-      "routes": "服務線路",
+      "routes": "線路",
       "routesAuto": "每次測速後選擇最快線路",
-      "routesHint": "同一個服務可以保存多個 Base URL，測速後選用最快的一條。",
+      "routesHint": "同一個端點可以儲存多個 Base URL，測速後選用最快的一條。",
       "routesTest": "測試線路",
       "routesTestFailed": "未能測試這些線路，請檢查網路後重試。",
       "routesTesting": "正在測試線路…",
       "description": "修改名稱、金鑰或模型。",
-      "errorTitle": "未能完成儲存這個服務",
+      "errorTitle": "沒能儲存這個端點",
       "headerKeepValue": "留空以保留已儲存的值",
       "headerNameNamed": "第 {{index}} 個 Header 名稱",
       "headerNamePlaceholder": "X-Tenant-ID",
@@ -1693,7 +1693,7 @@
       "headerValuePlaceholder": "Header 值",
       "key": "API 金鑰",
       "keyHint": "留空就繼續用現在這把金鑰。",
-      "keyHintEmpty": "把這個服務給你的金鑰貼進來。",
+      "keyHintEmpty": "把服務商給你的金鑰貼進來。",
       "modelNamed": "第 {{index}} 個模型",
       "modelRequired": "請輸入模型 ID，或移除這筆未完成的模型。",
       "models": "模型",
@@ -1703,22 +1703,22 @@
       "nameHint": "只在這個應用程式裡顯示。",
       "nameRequired": "請輸入名稱。",
       "retryHint": "AI 管家已重新讀取能確認的服務狀態。請檢查你的修改，然後再試一次儲存。",
-      "retrySave": "重新儲存這個服務",
+      "retrySave": "重新儲存這個端點",
       "removeHeaderNamed": "移除 Header {{name}}",
       "removeModelNamed": "移除模型 {{model}}",
       "save": "儲存",
-      "settingsLoading": "正在讀取安全的服務設定…",
+      "settingsLoading": "正在讀取端點設定…",
       "settingsUnavailable": "未能讀取附加設定。你仍可儲存名稱或更換金鑰；其他設定會保持不變。",
-      "title": "編輯服務",
+      "title": "編輯端點",
       "routesManage": "管理與測速",
       "routesDone": "完成",
-      "modelPick": "從服務的模型清單中選擇",
+      "modelPick": "從端點的模型清單中選擇",
       "modelSearch": "搜尋模型",
       "modelNoMatch": "沒有符合的模型",
       "modelListStale": "金鑰或 Base URL 改過了，儲存後才能讀取新的模型清單。",
       "modelListFailed": "沒能讀取模型清單，可以直接輸入模型名稱。"
     },
-    "loading": "正在讀取服務",
+    "loading": "正在讀取端點",
     "runtime": {
       "description": "查看這個工具實際讀取的全域提示詞、記憶、設定與專案工作階段位置。",
       "loading": "正在檢查設定來源",
@@ -1775,17 +1775,17 @@
       "title": "本機上下文與儲存空間"
     },
     "noTools": {
-      "description": "先裝一個工具，它的服務就會出現在這裡。",
+      "description": "先裝一個工具，它的端點就會出現在這裡。",
       "title": "還沒有可設定的工具"
     },
     "refresh": "重新整理",
     "remove": {
-      "activeHint": "請先改用另一個服務，再移除這個服務。",
-      "confirm": "移除服務",
-      "description": "這會從 AI 管家和 {{tool}} 中移除已儲存的服務。",
-      "errorTitle": "未能完成移除這個服務",
-      "errorRetry": "請檢查這個服務後再試一次。",
-      "managedHint": "這個服務使用工具自己的專用設定，不能在這裡移除。",
+      "activeHint": "請先改用另一個端點，再移除這個端點。",
+      "confirm": "移除端點",
+      "description": "這會從 AI 管家和 {{tool}} 中移除已儲存的端點。",
+      "errorTitle": "沒能移除這個端點",
+      "errorRetry": "請檢查這個端點後再試一次。",
+      "managedHint": "這個端點使用工具自己的專用設定，不能在這裡移除。",
       "removed": "已移除 {{name}}",
       "retryNamed": "重新移除 {{name}}",
       "title": "移除 {{name}}？"
@@ -1793,7 +1793,7 @@
     "scope": "AI 工具",
     "scopeUnsupportedShort": "尚未接入",
     "scopeSharedShort": "由桌面應用共用",
-    "scopeUnsupportedTitle": "AI 管家尚未接入 {{tool}} 的服務設定",
+    "scopeUnsupportedTitle": "AI 管家尚未接入 {{tool}} 的端點設定",
     "scopeUnsupportedDescription": "這表示 AI 管家目前沒有安全適配，不代表 {{tool}} 本身一定不支援自訂服務。軟體仍會顯示在這裡，方便你確認安裝狀態。",
     "scopeSave": {
       "errorDescription": "你仍在查看 {{tool}}。重試後，下次會繼續從這裡開啟。",
@@ -1813,19 +1813,19 @@
       "switchingNamed": "正在切換到 {{name}}"
     },
     "failover": {
-      "tryNext": "嘗試下一個可用服務",
-      "tryNextNamed": "為 {{name}} 嘗試下一個已儲存的可用服務",
-      "noneAvailable": "沒有其他已儲存的服務回應。目前設定沒有變更。",
+      "tryNext": "嘗試下一個可用端點",
+      "tryNextNamed": "為 {{name}} 嘗試下一個已儲存的可用端點",
+      "noneAvailable": "沒有其他已儲存的端點回應。目前設定沒有變更。",
       "automaticSuccess": "「{{from}}」沒有回應，已改用「{{to}}」。",
       "manualSuccess": "已從「{{from}}」改用可連線的「{{to}}」。",
-      "unknownService": "未知服務"
+      "unknownService": "未知端點"
     },
     "summary": {
       "activeTitle": "{{tool}} 正在使用 {{service}}",
       "checked": "已檢查位址",
       "description": "在這裡切換服務或檢查服務位址是否有回應，其餘設定交給 AI 管家。",
       "eyebrow": "連線概覽",
-      "noActiveTitle": "{{tool}} 的服務設定已儲存",
+      "noActiveTitle": "{{tool}} 的端點設定已儲存",
       "saved": "已儲存",
       "testable": "可檢查位址"
     },
@@ -1836,8 +1836,8 @@
       "title": "設定已儲存，可以開始使用 {{tool}}"
     },
     "test": {
-      "browseCompatible": "瀏覽相容服務",
-      "browseCompatibleNamed": "為 {{name}} 瀏覽相容服務",
+      "browseCompatible": "瀏覽相容端點",
+      "browseCompatibleNamed": "為 {{name}} 瀏覽相容端點",
       "checkingNamed": "正在檢查 {{name}}",
       "degraded": "位址回應較慢",
       "errorNamed": "未能檢查「{{name}}」的位址",
@@ -1847,7 +1847,7 @@
       "retry": "再試一次",
       "retryHint": "這次檢查失敗沒有變更服務。可以再執行一次相同的檢查。",
       "retryNamed": "重新檢查 {{name}}",
-      "unreachableHint": "目前網路無法連線至這個位址。你可以改用其他相容服務。"
+      "unreachableHint": "目前網路無法連線至這個位址。你可以改用其他相容端點。"
     },
     "probe": {
       "title": "測試 {{name}}",
@@ -1857,8 +1857,8 @@
       "modelLoading": "正在讀取模型清單…",
       "modelReload": "重新讀取",
       "modelManual": "模型名稱",
-      "modelManualHint": "這個服務不提供模型清單，請自己填模型名稱。",
-      "modelRefused": "服務拒絕了模型清單請求（HTTP {{status}}）。",
+      "modelManualHint": "這個端點不提供模型清單，請自己填模型名稱。",
+      "modelRefused": "端點拒絕了模型清單請求（HTTP {{status}}）。",
       "modelTruncated": "只顯示前 {{count}} 個。",
       "kind": "輸出",
       "kindText": "文字",
@@ -1866,16 +1866,16 @@
       "kindHint": "文字走對話介面，圖片走生圖介面。",
       "prompt": "提示詞",
       "send": "傳送",
-      "sending": "正在等待服務回應…",
+      "sending": "正在等待端點回應…",
       "cost": "這會真實呼叫一次該服務，消耗你的額度。",
       "result": "結果",
       "resultMeta": "HTTP {{status}} · {{ms}} 毫秒",
-      "replyEmpty": "服務回應了，但沒有回傳內容。",
-      "replyRefused": "服務拒絕了這次請求。",
-      "replyImageLinkOnly": "服務回傳的是一個連結而不是圖片資料，這裡無法顯示。",
+      "replyEmpty": "端點回應了，但沒有回傳內容。",
+      "replyRefused": "端點拒絕了這次請求。",
+      "replyImageLinkOnly": "端點回傳的是一個連結而不是圖片資料，這裡無法顯示。",
       "imageAlt": "{{model}} 產生的圖片",
       "adopt": "用這個模型",
-      "adopted": "已儲存到這個服務。",
+      "adopted": "已儲存到這個端點。",
       "adoptFailed": "沒能儲存模型。",
       "addressWorksInstead": "這個位址上沒有這條介面；試了 {{url}}，那邊可以用。",
       "useAddress": "改用這個位址",
@@ -1885,17 +1885,17 @@
     },
     "title": "API 端點",
     "toolsError": {
-      "description": "AI 管家沒能查看這台電腦上的工具，所以看不到它們的服務。再試一次。",
+      "description": "AI 管家沒能查看這台電腦上的工具，所以看不到它們的端點。再試一次。",
       "title": "讀不到你的工具"
     },
     "toolsRefreshError": {
       "title": "未能重新整理工具狀態",
-      "description": "仍顯示上次檢查到的工具和服務。新的工具檢查成功前，連線、切換、檢查、編輯、移除和啟動操作會暫停。",
+      "description": "仍顯示上次檢查到的工具和端點。新的工具檢查成功前，連線、切換、檢查、編輯、移除和啟動操作會暫停。",
       "action": "重新檢查工具"
     },
     "actionsPaused": {
-      "title": "服務操作已暫停",
-      "description": "AI 管家需要先確認目前工具和服務狀態，才能繼續變更設定或啟動工具。"
+      "title": "端點操作已暫停",
+      "description": "AI 管家需要先確認目前工具和端點狀態，才能繼續變更設定或啟動工具。"
     },
     "shellVariable": {
       "at": "{{path}} 第 {{line}} 行",
@@ -1909,12 +1909,15 @@
     },
     "reorder": {
       "handle": "調整 {{name}} 的位置",
-      "roleDescription": "可移動的服務",
-      "instructions": "要移動這個服務，請按空白鍵或 Enter 拿起，用上下方向鍵移動，再按空白鍵或 Enter 放下。按 Esc 取消。",
+      "roleDescription": "可移動的端點",
+      "instructions": "要移動這個端點，請按空白鍵或 Enter 拿起，用上下方向鍵移動，再按空白鍵或 Enter 放下。按 Esc 取消。",
       "picked": "已拿起 {{name}}，目前在第 {{position}} 位，共 {{count}} 個。",
       "moved": "{{name}} 現在在第 {{position}} 位，共 {{count}} 個。",
       "dropped": "{{name}} 已放在第 {{position}} 位，共 {{count}} 個。",
       "cancelled": "已取消移動，{{name}} 仍在第 {{position}} 位，共 {{count}} 個。"
+    },
+    "tab": {
+      "endpoints": "端點清單"
     }
   },
   "extensions": {
@@ -1958,7 +1961,7 @@
     "scopeSave": {
       "saving": "正在記住這個頁面",
       "errorTitle": "未能記住這個頁面",
-      "errorDescription": "你可以繼續在這裡操作。重試後，AI 管家下次會繼續開啟這個擴充功能頁面。",
+      "errorDescription": "你可以繼續在這裡操作。重試後，AI 管家下次會繼續開啟這個頁面。",
       "retry": "重試"
     },
     "copy": {
@@ -2065,7 +2068,7 @@
         "installErrorNamed": "未能開始安裝「{{name}}」",
         "retryInstallNamed": "重新安裝 {{name}}",
         "queued": "正在安裝 {{name}}",
-        "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。"
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「活動」中查看進度。"
       },
       "zip": {
         "action": "從 ZIP 安裝",
@@ -2080,7 +2083,7 @@
         "syncDescription": "新的、沒有目錄衝突的技能會加入統一管理，並同步到這個工具。",
         "partialNote": "如果壓縮檔中後面的某個技能安裝失敗，前面的技能可能已經安裝。工作會顯示結果，技能清單也會自動重新整理。",
         "queued": "正在從 ZIP 安裝技能",
-        "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。",
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「活動」中查看進度。",
         "errorHint": "請檢查提示，重新選擇壓縮檔後再試一次。"
       },
       "backups": {
@@ -2099,7 +2102,7 @@
         "restore": "復原",
         "restoreNamed": "從復原副本還原 {{name}}",
         "restoreQueued": "正在復原 {{name}}",
-        "restoreQueuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。",
+        "restoreQueuedDescription": "你可以繼續使用 AI 管家，並在「活動」中查看進度。",
         "delete": "刪除",
         "deleteNamed": "刪除 {{name}} 的復原副本",
         "deleteTitle": "刪除 {{name}} 的復原副本嗎？",
@@ -2142,7 +2145,7 @@
         "description": "這會從 AI 管家以及所有已啟用它的 AI 工具中移除這項受管理的技能。",
         "confirm": "移除技能",
         "queued": "正在移除 {{name}}",
-        "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。",
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「活動」中查看進度。",
         "errorRetry": "請查看提示後再試一次。"
       },
       "update": {
@@ -2153,7 +2156,7 @@
         "checkErrorDescription": "部分技能來源可能暫時無法連線。現有技能仍可使用，但目前不能據此判斷所有技能都是最新版。",
         "retry": "重新檢查",
         "queued": "正在更新 {{name}}",
-        "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。"
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「活動」中查看進度。"
       },
       "empty": {
         "title": "還沒有技能",
@@ -2169,7 +2172,7 @@
         "description": "把 {{tool}} 連到本機程式或遠端服務。",
         "confirm": "加入連線",
         "name": "連線名稱",
-        "nameHint": "取一個之後在擴充功能清單中容易辨認的名稱。",
+        "nameHint": "取一個之後在清單中容易辨認的名稱。",
         "optionalDescription": "說明（選填）",
         "transport": {
           "label": "它如何連線？",
@@ -2224,15 +2227,15 @@
         "trustLocal": "這會在你的電腦上執行上面填寫的程式，請只加入你信任的軟體。",
         "trustRemote": "MCP 資料會傳送到上面的網址，請只加入你信任的服務。",
         "queued": "正在加入 {{name}}",
-        "queuedDescription": "你可以繼續使用應用程式，並在「任務」中查看進度。"
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「活動」中查看進度。"
       },
       "remove": {
         "title": "移除 {{name}}？",
         "description": "這會從 AI 管家和所有已開啟它的 AI 工具中移除這個連線。",
         "confirm": "移除連線",
         "queued": "正在移除 {{name}}",
-        "queuedDescription": "你可以繼續使用應用程式，並在「任務」中查看進度。",
-        "errorRetry": "再次嘗試前，請先在「任務」中查看詳情。"
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「活動」中查看進度。",
+        "errorRetry": "再次嘗試前，請先在「活動」中查看詳情。"
       },
       "empty": {
         "title": "還沒有連線",
@@ -2322,8 +2325,8 @@
     "target": {
       "routed": "已路由",
       "direct": "直連",
-      "current": "目前服務：{{name}}",
-      "noProvider": "請先在 AI 服務中選擇目前服務。"
+      "current": "目前端點：{{name}}",
+      "noProvider": "請先在「API 端點」中選擇目前端點。"
     },
     "takeover": {
       "title": "路由接管",
@@ -2332,20 +2335,20 @@
     },
     "failover": {
       "title": "自動容錯移轉",
-      "description": "請求失敗時依 P1、P2 順序嘗試健康服務。",
+      "description": "請求失敗時依 P1、P2 順序嘗試健康的端點。",
       "label": "{{name}} 的自動容錯移轉"
     },
     "queue": {
       "title": "容錯移轉順序",
       "description": "開啟容錯移轉時會先切到 P1。",
-      "count_one": "{{count}} 個服務",
-      "count_other": "{{count}} 個服務",
-      "empty": "加入服務；也可以直接開啟容錯移轉，把目前服務作為 P1。",
-      "selectLabel": "要加入容錯移轉的服務",
-      "selectLabelNamed": "要加入 {{name}} 容錯移轉的服務",
-      "selectPlaceholder": "選擇服務",
+      "count_one": "{{count}} 個端點",
+      "count_other": "{{count}} 個端點",
+      "empty": "加入端點；也可以直接開啟容錯移轉，把目前端點作為 P1。",
+      "selectLabel": "要加入容錯移轉的端點",
+      "selectLabelNamed": "要加入 {{name}} 容錯移轉的端點",
+      "selectPlaceholder": "選擇端點",
       "add": "加入",
-      "addNamed": "將所選服務加入 {{name}} 的容錯移轉"
+      "addNamed": "將所選端點加入 {{name}} 的容錯移轉"
     },
     "provider": {
       "current": "目前",
@@ -2537,10 +2540,10 @@
         "action": {
           "updateTool": "立即更新",
           "repairTool": "立即修復",
-          "reviewTool": "查看 AI 工具",
-          "connectService": "連接服務",
+          "reviewTool": "打開軟體管理",
+          "connectService": "連接端點",
           "reviewService": "查看 API 端點",
-          "reviewExtensions": "查看擴充功能"
+          "reviewExtensions": "打開 MCP"
         }
       },
       "item": {
@@ -2565,13 +2568,13 @@
           "description": "這只是一項資訊，不會被算作問題。"
         },
         "providerReady": {
-          "title": "{{name}} 已設定 AI 服務",
-          "description_one": "正在使用 {{count}} 份服務設定。",
-          "description_other": "正在使用 {{count}} 份服務設定。"
+          "title": "{{name}} 已設定 API 端點",
+          "description_one": "正在使用 {{count}} 份端點設定。",
+          "description_other": "正在使用 {{count}} 份端點設定。"
         },
         "providerMissing": {
-          "title": "{{name}} 尚未設定 AI 服務",
-          "description": "開啟「API 端點」，為這個工具選擇或設定一項服務。"
+          "title": "{{name}} 尚未設定 API 端點",
+          "description": "開啟「API 端點」，為這個工具選擇或新增一個端點。"
         },
         "configReadable": {
           "title": "可以讀取 {{name}} 的設定",
@@ -2609,17 +2612,17 @@
         },
         "mcpInventoryUnavailable": {
           "title": "無法檢查本機 MCP 連接",
-          "description": "請開啟「擴充功能」重試本機清單檢查，不要在未核實時假定所有連接都已納管。"
+          "description": "請開啟「MCP」重新檢查本機清單。"
         },
         "mcpInventoryPartial": {
           "title": "部分本機 MCP 位置需要重新檢查",
-          "description": "有 {{count}} 個支援的位置無法檢查，或有界清單已滿。請在「擴充功能」中查看完整下一步。"
+          "description": "有 {{count}} 個位置無法檢查，請到「MCP」中查看。"
         }
       }
     },
     "import": {
       "title": "從 CC Switch 匯入",
-      "description": "把 CC Switch 裡的 AI 服務、MCP 伺服器和技能帶到 AI 管家，CC Switch 的資料保持不變。",
+      "description": "把 CC Switch 裡的 API 端點、MCP 伺服器和技能帶到 AI 管家，CC Switch 的資料保持不變。",
       "reimport": "從 CC Switch 匯入",
       "loading": "正在尋找 CC Switch 的設定",
       "retry": "重新尋找",
@@ -2628,11 +2631,11 @@
       "again": "再次匯入",
       "skip": "跳過",
       "success": "既有設定已匯入。",
-      "collision": "如果同一個服務或擴充功能已經存在，將以匯入來源中的版本為準；其他內容會保留。",
+      "collision": "如果同一個端點、MCP 伺服器或技能已經存在，將以匯入來源中的版本為準；其他內容會保留。",
       "sourceDetail": "CC Switch 的本機資料庫（唯讀）",
       "prompt": {
         "title": "偵測到 CC Switch 的設定",
-        "description": "這台電腦上裝過 CC Switch。要把它的 AI 服務、MCP 伺服器和技能帶過來嗎？"
+        "description": "這台電腦上裝過 CC Switch。要把它的 API 端點、MCP 伺服器和技能帶過來嗎？"
       },
       "confirm": {
         "title": "匯入這份既有設定？",
@@ -2646,16 +2649,16 @@
       },
       "completion": {
         "title": "設定已匯入",
-        "description": "支援的 AI 服務、MCP 伺服器和技能已經帶到 AI 管家。",
+        "description": "支援的 API 端點、MCP 伺服器和技能已經帶到 AI 管家。",
         "countLabel": "已匯入的內容",
-        "nextStepTitle": "接著選擇要使用的服務",
-        "nextStep": "準備好後，開啟「API 端點」，為每個工具選擇剛匯入的服務。",
+        "nextStepTitle": "接著選擇要使用的端點",
+        "nextStep": "準備好後，開啟「API 端點」，為每個工具選擇剛匯入的端點。",
         "continue": "繼續"
       },
       "count": {
         "label": "可匯入的內容",
-        "services_one": "{{count}} 個 AI 服務",
-        "services_other": "{{count}} 個 AI 服務",
+        "services_one": "{{count}} 個 API 端點",
+        "services_other": "{{count}} 個 API 端點",
         "mcpServers_one": "{{count}} 個 MCP 伺服器",
         "mcpServers_other": "{{count}} 個 MCP 伺服器",
         "skills_one": "{{count}} 個技能",
@@ -2766,7 +2769,7 @@
         },
         "imported": {
           "title": "設定已匯入",
-          "description": "AI 管家現在使用這份封存檔裡的服務和擴充功能。"
+          "description": "AI 管家現在使用這份封存檔裡的端點和擴充功能。"
         },
         "renamed": {
           "title": "還原點已重新命名",
@@ -2782,17 +2785,17 @@
         },
         "warning": {
           "title": "還原完成，但有一個工具需要處理",
-          "description": "有一個工具沒有套用服務變更。請檢查「API 端點」並重新選擇要用的服務。"
+          "description": "有一個工具沒有套用端點變更。請檢查「API 端點」並重新選擇要用的端點。"
         },
         "importWarning": {
           "title": "匯入完成，但有一個工具需要處理",
-          "description": "設定封存檔已經匯入，但有一個工具沒有套用服務變更。請檢查「API 端點」並重新選擇要用的服務。"
+          "description": "設定封存檔已經匯入，但有一個工具沒有套用端點變更。請檢查「API 端點」並重新選擇要用的端點。"
         },
         "reviewServices": "檢查 API 端點"
       },
       "empty": {
         "title": "保護目前的設定",
-        "description": "變更工具或服務之前，先建立一個本機還原點。",
+        "description": "變更工具或端點之前，先建立一個本機還原點。",
         "local": "僅儲存在本機"
       },
       "error": {
@@ -2805,7 +2808,7 @@
         "description": "仍顯示上一次的備份清單。備份操作會暫停，直到新的檢查成功。"
       },
       "restorePoint": {
-        "replaces": "AI 管家裡的服務、擴充功能和選擇會回到這份還原點的狀態。",
+        "replaces": "AI 管家裡的端點、擴充功能和選擇會回到這份還原點的狀態。",
         "installed": "已經安裝的 AI 程式設計工具不會從電腦上移除。",
         "followUp": "還原完成後，如果有工具需要處理，AI 管家會明確告訴你。"
       },
@@ -2814,10 +2817,10 @@
       },
       "transfer": {
         "secretTitle": "像保管密碼一樣保管封存檔",
-        "secretDescription": "可移轉副本可能包含服務金鑰和其他私密設定。請安全存放，只分享給你信任的人。",
+        "secretDescription": "可移轉副本可能包含 API 金鑰和其他私密設定。請安全存放，只分享給你信任的人。",
         "confirmTitle": "匯入這份設定封存檔？",
         "confirmDescription": "確認下列影響後，再選擇要匯入的封存檔。",
-        "confirmReplace": "已管理的服務、擴充功能和儲存的歷史會被封存檔內容取代。",
+        "confirmReplace": "已管理的端點、擴充功能和儲存的歷史會被封存檔內容取代。",
         "confirmSafety": "取代目前資料前，AI 管家會先建立一個本機還原點。",
         "confirmTrust": "只匯入你自己建立或來自可信對象的封存檔。",
         "confirmInstalled": "已經安裝的 AI 程式設計工具仍會留在這台電腦上。",
@@ -2872,22 +2875,22 @@
   },
   "deeplink": {
     "resource": {
-      "provider": "一個 API 接入點",
+      "provider": "一個 API 端點",
       "mcp": "MCP 伺服器",
       "prompt": "一條全域提示詞",
       "skill": "一個技能"
     },
     "origin": {
-      "argv": "這個連結是從 AI Manager 之外開啟的，請確認它的來源。",
+      "argv": "這個連結是從 AI 管家之外開啟的，請確認它的來源。",
       "paste": "這個連結是你自己貼上的，請確認它來自你信任的服務商。"
     },
     "credential": {
-      "apiKey": "連結裡帶著金鑰。它會隨 API 接入點一起儲存，而且不會顯示在這個畫面上。",
-      "config": "連結的設定裡帶著金鑰。它會隨 API 接入點一起儲存，而且不會顯示在這個畫面上。"
+      "apiKey": "連結裡帶著金鑰。它會隨 API 端點一起儲存，而且不會顯示在這個畫面上。",
+      "config": "連結的設定裡帶著金鑰。它會隨 API 端點一起儲存，而且不會顯示在這個畫面上。"
     },
     "blocked": {
-      "noSupportedTool": "AI Manager 不管理這個連結指向的應用程式，因此沒有可新增的內容。",
-      "credentialRequired": "這個連結沒有金鑰，而 API 接入點沒有金鑰就無法儲存。請向服務商索取一條帶金鑰的連結。"
+      "noSupportedTool": "AI 管家不管理這個連結指向的應用程式，因此沒有可新增的內容。",
+      "credentialRequired": "這個連結沒有金鑰，而 API 端點沒有金鑰就無法儲存。請向服務商索取一條帶金鑰的連結。"
     },
     "summary": {
       "label": "這個連結會新增什麼",
@@ -2896,7 +2899,7 @@
       "targets": "用於",
       "items": "內容",
       "separator": "、",
-      "unmanagedTarget": "AI Manager 不管理的應用程式"
+      "unmanagedTarget": "AI 管家不管理的應用程式"
     },
     "confirm": {
       "title": "要從連結新增嗎？",
@@ -2916,7 +2919,7 @@
       "title": "從連結新增",
       "description": "貼上服務商提供的一鍵匯入連結。",
       "label": "連結",
-      "hint": "AI Manager 會先讀取連結並請你確認，之後才會儲存。",
+      "hint": "AI 管家會先讀取連結並請你確認，之後才會儲存。",
       "placeholder": "aimanager://v1/import?...",
       "action": "讀取連結"
     }

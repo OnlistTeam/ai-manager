@@ -632,7 +632,7 @@ describe("ExtensionsPage", () => {
       }),
     );
     expect(toastMocks.info).toHaveBeenCalledWith("Removing Code review", {
-      description: "You can keep working and follow progress in Tasks.",
+      description: "You can keep working and follow progress in Activity.",
     });
   });
 

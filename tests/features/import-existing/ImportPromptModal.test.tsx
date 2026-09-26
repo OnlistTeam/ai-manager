@@ -283,7 +283,7 @@ describe("ImportPromptModal", () => {
     const importButton = within(dialog).getByRole("button", {
       name: en.preferences.import.action,
     });
-    expect(dialog).toHaveTextContent("12 AI Services");
+    expect(dialog).toHaveTextContent("12 API Endpoints");
     expect(importButton).toBeDisabled();
     expect(
       within(dialog).getByRole("button", {

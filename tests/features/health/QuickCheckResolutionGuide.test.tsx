@@ -125,7 +125,7 @@ describe("QuickCheckResolutionGuide", () => {
     ).toBeVisible();
     expect(screen.getByText("Claude Code has an update")).toBeVisible();
     expect(
-      screen.getByText("Claude Code has no AI service configured"),
+      screen.getByText("Claude Code has no API endpoint configured"),
     ).toBeVisible();
 
     await userEvent.click(
@@ -152,7 +152,7 @@ describe("QuickCheckResolutionGuide", () => {
     );
 
     await userEvent.click(
-      screen.getByRole("button", { name: "Connect a service" }),
+      screen.getByRole("button", { name: "Connect an endpoint" }),
     );
     expect(props.onOpenServices).toHaveBeenCalledWith("claude-code");
   });

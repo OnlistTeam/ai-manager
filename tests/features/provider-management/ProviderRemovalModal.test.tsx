@@ -199,7 +199,7 @@ describe("ProviderRemovalModal", () => {
 
     expect(
       within(dialog).getByRole("alert", {
-        name: "Service actions are paused",
+        name: "Endpoint actions are paused",
       }),
     ).toBeInTheDocument();
     expect(

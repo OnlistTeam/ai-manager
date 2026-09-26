@@ -173,13 +173,13 @@ describe("RoutingPage", () => {
     );
     await userEvent.selectOptions(
       screen.getByRole("combobox", {
-        name: "Service to add to Claude Code failover",
+        name: "Endpoint to add to Claude Code failover",
       }),
       "provider-c",
     );
     await userEvent.click(
       screen.getByRole("button", {
-        name: "Add the selected service to Claude Code failover",
+        name: "Add the selected endpoint to Claude Code failover",
       }),
     );
 

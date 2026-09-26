@@ -164,7 +164,7 @@ describe("McpInstallModal", () => {
     expect(body).not.toHaveProperty("id");
     expect(JSON.stringify(body)).not.toMatch(/"(headers|token|mcpServers)"/);
     expect(toastMocks.info).toHaveBeenCalledWith("Adding Filesystem", {
-      description: "You can keep working and follow progress in Tasks.",
+      description: "You can keep working and follow progress in Activity.",
     });
   });
 

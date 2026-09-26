@@ -101,7 +101,7 @@ describe("SkillRemovalModal", () => {
     await waitFor(() => expect(onOpenChange).toHaveBeenCalledWith(false));
     expect(body).toEqual({ tool: "claude-code", skill: SKILL.id });
     expect(toastMocks.info).toHaveBeenCalledWith("Removing Code review", {
-      description: "You can keep working and follow progress in Tasks.",
+      description: "You can keep working and follow progress in Activity.",
     });
   });
 

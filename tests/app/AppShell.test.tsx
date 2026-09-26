@@ -502,7 +502,7 @@ describe("AppShell", () => {
     expect(viewport).toHaveProperty("scrollTop", 0);
   });
 
-  it("routes Home's Connect action to AI Services", async () => {
+  it("routes Home's Connect action to API Endpoints", async () => {
     renderShell();
     await userEvent.click(
       await screen.findByRole("button", {
@@ -606,7 +606,7 @@ describe("AppShell", () => {
       name: en.home.health.title,
     });
     expect(
-      within(guide).getByText("Claude Code has no AI service configured"),
+      within(guide).getByText("Claude Code has no API endpoint configured"),
     ).toBeInTheDocument();
     await userEvent.click(
       within(guide).getByRole("button", {
@@ -856,7 +856,7 @@ describe("AppShell", () => {
     expect(screen.queryByRole("button", { name: "Check Setup" })).toBeNull();
     await userEvent.click(
       await within(health).findByRole("button", {
-        name: "Connect a service",
+        name: "Connect an endpoint",
       }),
     );
 

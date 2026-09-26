@@ -487,9 +487,9 @@
       "timeoutZero": "安全のため、AI Manager はこの操作を中止しました。"
     },
     "deepLink": {
-      "credentialRequired": "このリンクにはキーがありません。キーのない API 接続先は保存できません。キーを含むリンクを提供元に依頼してください。",
+      "credentialRequired": "このリンクにはキーがありません。キーのない API エンドポイントは保存できません。キーを含むリンクを提供元に依頼してください。",
       "duplicateParameter": "このリンクには同じ項目が重複しているため、読み取れません。",
-      "endpointRequired": "このリンクには API 接続先のアドレスが書かれていません。",
+      "endpointRequired": "このリンクには API エンドポイントのアドレスが書かれていません。",
       "invalidEncoding": "リンクに埋め込まれた内容が壊れていて読み取れません。",
       "invalidLink": "AI Manager が理解できるリンクではありません。",
       "mcpUnsupportedFields": "このリンクは MCP サーバーに環境値やリクエストヘッダーを設定しようとしています。AI Manager はそれらを代わりに追加しないため、このリンクは使えません。",
@@ -633,37 +633,37 @@
       "unsupportedTool": "AI Manager はこのツールの常設指示と未連携です。"
     },
     "provider": {
-      "createFailed": "このサービスに接続できませんでした。",
-      "listFailed": "このツールのサービス一覧を読み込めませんでした。",
+      "createFailed": "このエンドポイントを追加できませんでした。",
+      "listFailed": "このツールのエンドポイント一覧を読み込めませんでした。",
       "modelProbeImageTooLarge": "生成された画像が大きすぎて表示できません。",
       "modelProbeModelInvalid": "先にモデル名を入力してください。",
       "modelProbePromptInvalid": "プロンプトは 200 文字以内で入力してください。",
-      "modelProbeTimeout": "サービスから時間内に応答がありませんでした。",
-      "modelProbeUnreachable": "このサービスに接続できませんでした。",
-      "modelProbeUnreadable": "サービスの応答をこのアプリでは読み取れませんでした。",
-      "nameRequired": "このサービスに名前を付けてください。",
-      "notFound": "そのサービスはもうありません。",
-      "notTestable": "このサービスには確認できるアドレスがありません。",
-      "removeActive": "先に別のサービスへ切り替えてから、このサービスを削除してください。",
-      "removeFailed": "このサービスを安全に削除できませんでした。",
-      "removePanicked": "このサービスの削除中に問題が発生しました。",
-      "removeRestoreFailed": "サービスを削除できず、以前の設定が完全に復元されたことも確認できませんでした。",
-      "removeUnsupported": "このサービスはツール固有の設定を使用しているため、ここでは削除できません。",
-      "removeVerifyFailed": "このサービスが削除されたことを確認できませんでした。",
+      "modelProbeTimeout": "エンドポイントから時間内に応答がありませんでした。",
+      "modelProbeUnreachable": "このエンドポイントに接続できませんでした。",
+      "modelProbeUnreadable": "エンドポイントの応答をこのアプリでは読み取れませんでした。",
+      "nameRequired": "このエンドポイントに名前を付けてください。",
+      "notFound": "そのエンドポイントはもうありません。",
+      "notTestable": "このエンドポイントには確認できるアドレスがありません。",
+      "removeActive": "先に別のエンドポイントへ切り替えてから、このエンドポイントを削除してください。",
+      "removeFailed": "このエンドポイントを安全に削除できませんでした。",
+      "removePanicked": "このエンドポイントの削除中に問題が発生しました。",
+      "removeRestoreFailed": "エンドポイントを削除できず、以前の設定が完全に復元されたことも確認できませんでした。",
+      "removeUnsupported": "このエンドポイントはツール固有の設定を使用しているため、ここでは削除できません。",
+      "removeVerifyFailed": "このエンドポイントが削除されたことを確認できませんでした。",
       "runtimeContextFailed": "このツールの設定元を確認できませんでした。",
       "runtimeResourceNotFound": "そのローカルリソースは利用できなくなりました。",
       "runtimeResourceOpenFailed": "そのローカルリソースを開けませんでした。",
-      "saveFailed": "このサービスの変更を保存できませんでした。",
-      "saveRestoreFailed": "サービスを保存できず、以前の設定が完全に復元されたことも確認できませんでした。",
+      "saveFailed": "このエンドポイントの変更を保存できませんでした。",
+      "saveRestoreFailed": "エンドポイントを保存できず、以前の設定が完全に復元されたことも確認できませんでした。",
       "settingsPreserveFailed": "エンドポイントは切り替わりましたが、このツールの他の設定を保持できませんでした。",
       "storeUnavailable": "アプリはまだ起動中です。",
-      "switchFailed": "このサービスに切り替えられませんでした。",
+      "switchFailed": "このエンドポイントに切り替えられませんでした。",
       "testFailed": "確認を実行できませんでした。",
-      "unsupportedTool": "AI Manager はこのツールの AI サービスと未連携です。",
-      "reorderFailed": "新しい並び順を保存できませんでした。一覧は元に戻っています。もう一度動かしてください。"
+      "unsupportedTool": "AI Manager はこのツールの API エンドポイントにまだ対応していません。",
+      "reorderFailed": "新しい並び順を保存できませんでした。一覧は元に戻っています。もう一度エンドポイントを動かしてください。"
     },
     "remediation": {
-      "chooseAnotherService": "このツールで別のサービスを選び、もう一度お試しください。",
+      "chooseAnotherService": "このツールで別のエンドポイントを選び、もう一度お試しください。",
       "checkConnectionSettings": "名前、API キー、モデルを確認して、もう一度お試しください。",
       "checkInternetConnection": "インターネット接続を確認して、もう一度お試しください。",
       "checkLocalFileAccess": "Skill が元の場所に残っていて、OS から開けることを確認して、もう一度お試しください。",
@@ -682,7 +682,7 @@
       "openToolManually": "プロジェクトフォルダーでターミナルを開き、このツールを手動で起動してください。",
       "refreshSessions": "セッション一覧を更新し、会話をもう一度選んでください。",
       "recheckUpdate": "続行する前に更新方法をもう一度確認してください。",
-      "removeInTool": "このツール固有の設定からサービスを削除してください。",
+      "removeInTool": "このツール固有の設定からエンドポイントを削除してください。",
       "retryOrViewDetails": "もう一度試すか、「詳細を表示」で状況を確認してください。",
       "useOriginalUpdateChannel": "このインストール元の更新機能を使うか、明示的に削除してから npm でインストールしてください。",
       "uninstallManually": "残ったファイルはご自分で削除し、もう一度確認してください。",
@@ -690,9 +690,9 @@
     },
     "routing": {
       "changeFailed": "AI Manager はこのルーティング変更を安全に完了できませんでした。",
-      "providerNotEligible": "このサービスは自動フェイルオーバーに参加できません。",
-      "providerUnavailable": "このサービスはルーティングに利用できなくなりました。",
-      "queueLocked": "現在または最後のサービスを外す前に、自動フェイルオーバーを無効にしてください。",
+      "providerNotEligible": "このエンドポイントは自動フェイルオーバーに参加できません。",
+      "providerUnavailable": "このエンドポイントはルーティングに利用できなくなりました。",
+      "queueLocked": "現在または最後のエンドポイントを外す前に、自動フェイルオーバーを無効にしてください。",
       "readFailed": "AI Manager はローカルルーティングの状態を読み取れませんでした。",
       "storeUnavailable": "ローカルルーティングはまだ準備できていません。",
       "takeoverRequired": "先にこのツールのルーティング引き継ぎを有効にしてください。",
@@ -1190,8 +1190,8 @@
       "chooseFolder": "フォルダーを選ぶ",
       "launched": "{{name}} をターミナルで開きました。",
       "providerUnreachable": "{{name}} が応答しませんでした",
-      "providerUnreachableHint": "ツールは開かれておらず、保存済みの設定も変更されていません。再確認するか、別の保存済み互換サービスをお試しください。",
-      "noSavedAlternative": "確認できる別の保存済み互換サービスがありません。",
+      "providerUnreachableHint": "ツールは開かれておらず、保存済みの設定も変更されていません。再確認するか、別の保存済み互換エンドポイントをお試しください。",
+      "noSavedAlternative": "確認できる別の保存済み互換エンドポイントがありません。",
       "retry": "もう一度試す",
       "retryNamed": "{{name}} をもう一度開く"
     },
@@ -1344,7 +1344,7 @@
     },
     "card": {
       "title": "AI 環境",
-      "description": "ツール、サービス、拡張機能の状態をひと目で確認",
+      "description": "ソフトウェア、API エンドポイント、MCP の状態をひと目で確認",
       "checking": "AI 環境を確認しています",
       "toolsInstalled_one": "{{count}} 個のツールが使えます",
       "toolsInstalled_other": "{{count}} 個のツールが使えます",
@@ -1359,15 +1359,15 @@
       "startHint": "プロジェクトフォルダーを選択してください。アクセス権は初回利用時にサービス側で検証されます。",
       "inventory": {
         "label": "準備済み環境の詳細",
-        "servicesConfigured_one": "AI サービスを {{count}} 件設定済み",
-        "servicesConfigured_other": "AI サービスを {{count}} 件設定済み",
+        "servicesConfigured_one": "API エンドポイントを {{count}} 件設定済み",
+        "servicesConfigured_other": "API エンドポイントを {{count}} 件設定済み",
         "mcpEnabled": "MCP 有効：{{enabled}} / {{total}}",
         "noMcp": "MCP 接続はまだありません"
       },
       "actions": {
-        "tools": "AI ツールを開く",
+        "tools": "ソフトウェア管理を開く",
         "services": "API エンドポイントを開く",
-        "extensions": "Skills / MCP を開く"
+        "extensions": "スキルを開く"
       }
     },
     "health": {
@@ -1377,12 +1377,12 @@
       "issues_one": "{{count}} 件の問題が見つかりました",
       "issues_other": "{{count}} 件の問題が見つかりました",
       "lastChecked": "最終チェック {{time}}",
-      "checkingConnections": "サービス接続を確認しています",
+      "checkingConnections": "エンドポイントの接続を確認しています",
       "connectionError": "接続チェックを開始できませんでした。もう一度お試しください。",
       "noTools": {
         "title": "まず AI コーディングツールを選んでください",
         "description": "インストールすると、ヘルスチェックの対象になります。",
-        "action": "AI ツールを見る"
+        "action": "ソフトウェア管理を開く"
       }
     },
     "quickActions": {
@@ -1391,8 +1391,8 @@
       "installDescription": "Claude Code、Codex、OpenCode を追加",
       "updateAll": "すべて更新",
       "updateDescription": "インストール済みのツールを最新に保つ",
-      "connectService": "AI サービスに接続",
-      "connectDescription": "ツールが使うサービスとキーをまとめて管理",
+      "connectService": "API エンドポイントを接続",
+      "connectDescription": "ツールが使うエンドポイントとキーをまとめて管理",
       "laterHint": "今後のアップデートで追加されます"
     },
     "updateAll": {
@@ -1400,7 +1400,7 @@
       "title_other": "{{count}} 個のツールを更新しますか？",
       "reviewTitle_one": "{{count}} 個のツール更新を確認",
       "reviewTitle_other": "{{count}} 個のツール更新を確認",
-      "description": "{{names, list}} はバックグラウンドで更新されます。AI Manager を使い続けながら、タスクで進行状況を確認できます。",
+      "description": "{{names, list}} はバックグラウンドで更新されます。AI Manager を使い続けながら、アクティビティで進行状況を確認できます。",
       "previewSummary": "{{ready}} 個は今すぐ更新できます。{{skipped}} 個はインストールを確認するまでスキップされます。",
       "skippedSummary_one": "更新方法を確認できないため、{{count}} 個のツールをスキップしました。",
       "skippedSummary_other": "更新方法を確認できないため、{{count}} 個のツールをスキップしました。",
@@ -1411,8 +1411,8 @@
       "failure": {
         "partial": {
           "title": "一部の更新を開始しました",
-          "description_one": "{{count}} 件の更新をタスクで開始しました。開始できなかったツールだけが選択されたままです。",
-          "description_other": "{{count}} 件の更新をタスクで開始しました。開始できなかったツールだけが選択されたままです。"
+          "description_one": "{{count}} 件の更新をアクティビティで開始しました。開始できなかったツールだけが選択されたままです。",
+          "description_other": "{{count}} 件の更新をアクティビティで開始しました。開始できなかったツールだけが選択されたままです。"
         },
         "all": {
           "title": "更新を開始できませんでした",
@@ -1422,10 +1422,10 @@
       },
       "hints": {
         "current": "すべて最新です",
-        "running": "更新はタスクですでに実行中です",
+        "running": "更新はアクティビティですでに実行中です",
         "checking": "更新できるツールを確認しています",
         "unavailable": "現在、更新状態を確認できません",
-        "review": "AI ツールでこの更新を確認してください"
+        "review": "「ソフトウェア管理」でこの更新を確認してください"
       }
     },
     "error": {
@@ -1457,28 +1457,28 @@
       "label": "アクティビティを読み込んでいます…"
     },
     "unavailable": {
-      "summary": "タスクの状態を取得できません",
-      "title": "タスクを読み込めませんでした",
-      "description": "もう一度試してタスク一覧を更新してください。",
+      "summary": "アクティビティの状態を取得できません",
+      "title": "アクティビティを読み込めませんでした",
+      "description": "もう一度試してアクティビティを更新してください。",
       "retry": "もう一度試す"
     },
     "refreshError": {
-      "summary": "前回確認したタスク状態を表示しています",
-      "title": "タスクを更新できませんでした",
+      "summary": "前回確認したアクティビティの状態を表示しています",
+      "title": "アクティビティを更新できませんでした",
       "description": "前回確認した履歴を表示しています。新しい進捗がまだ反映されていない可能性があります。",
-      "retry": "タスクを更新"
+      "retry": "アクティビティを更新"
     },
     "toolAuthority": {
       "openLabel": "アクティビティ：{{status}}。ツール操作は利用できません",
       "unavailableTitle": "ツール操作を利用できません",
-      "unavailableDescription": "タスク履歴は引き続き表示されますが、どのツールを開けるか確認できませんでした。",
+      "unavailableDescription": "アクティビティの履歴は引き続き表示されますが、どのツールを開けるか確認できませんでした。",
       "refreshTitle": "ツールの状態を更新できませんでした",
       "refreshDescription": "前回確認したツール情報を表示しています。新しい確認が成功するまで、完了したタスクからツールを開く操作は一時停止します。",
       "retry": "ツールを再確認",
       "pausedTitle": "ツールを開く操作は一時停止中です",
       "pausedDescription": "プロジェクトフォルダーを選ぶ前に、現在のツール状態を確認する必要があります。この画面をキャンセルし、「アクティビティ」でツールを再確認してください。",
       "changedTitle": "このツールは現在開けません",
-      "changedDescription": "最新の確認では、起動できるインストール済みツールとして認識されませんでした。この画面をキャンセルし、「AI ツール」で状態を確認してください。"
+      "changedDescription": "最新の確認では、起動できるインストール済みツールとして認識されませんでした。この画面をキャンセルし、「ソフトウェア管理」で状態を確認してください。"
     },
     "empty": {
       "title": "アクティビティはまだありません",
@@ -1494,7 +1494,7 @@
       "uninstall": "{{name}} を削除",
       "repair": "{{name}} を修復",
       "changeVersion": "{{name}} のバージョンを変更",
-      "testProviders": "{{name}} のサービスを確認",
+      "testProviders": "{{name}} のエンドポイントを確認",
       "scan": "環境チェック"
     },
     "extension": {
@@ -1545,7 +1545,7 @@
       "useNamed": "{{name}}を使用"
     },
     "card": {
-      "custom": "カスタムサービス",
+      "custom": "カスタムエンドポイント",
       "saved": "保存済み",
       "defaultModel": "既定のモデル",
       "recentModel": "最近使用",
@@ -1553,7 +1553,7 @@
       "inUse": "使用中",
       "noKey": "キーはまだ保存されていません",
       "notInEffect": "選択済みですが、現在は有効ではありません",
-      "official": "公式サービス",
+      "official": "公式エンドポイント",
       "overriddenBy": "選択済みですが {{source}} に上書きされています",
       "savedEndpoint": "AI Manager に保存されたエンドポイント",
       "toolSignIn": "{{tool}} のサインインを使用"
@@ -1562,14 +1562,14 @@
       "activateNow": "今すぐ使う",
       "activateQuestion": "今すぐ {{tool}} で使いますか？",
       "address": {
-        "degraded": "{{name}}を保存しましたが、サービスのアドレスの応答が遅れています",
-        "failed": "{{name}}を保存しましたが、サービスのアドレスが応答しませんでした",
-        "operational": "{{name}}を保存し、サービスのアドレスに到達できました"
+        "degraded": "{{name}}を保存しましたが、アドレスの応答が遅れています",
+        "failed": "{{name}}を保存しましたが、アドレスが応答しませんでした",
+        "operational": "{{name}}を保存し、アドレスから応答がありました"
       },
       "addressRetry": "設定は保存されています。ネットワークを確認してから、もう一度「アドレスを確認」を実行してください。",
       "afterSave": "保存後、AI Manager が確認するのはサービスのアドレスが応答するかどうかだけです。キーとモデルの権限は、{{tool}} の初回利用時に検証されます。",
       "description": "{{tool}} に API サービスを追加します。設定は AI Manager におまかせください。",
-      "errorTitle": "このサービスへの接続を完了できませんでした",
+      "errorTitle": "このエンドポイントを追加できませんでした",
       "firstUse": "{{tool}} の初回利用時に、API キーとモデルの権限が検証されます。",
       "getKey": "API キーを取得",
       "key": "API キー",
@@ -1580,33 +1580,33 @@
       "modelRequired": "モデルを入力してください。",
       "measuredServices": "このコンピューターでの測定",
       "name": "名前",
-      "baseUrl": "サービスのアドレス",
+      "baseUrl": "Base URL",
       "baseUrlHint": "このサービスに設定されるアドレスです。変更するとカスタムエンドポイントとして保存されます。",
       "baseUrlEdited": "変更されたため、カスタムエンドポイントとして保存されます。",
       "baseUrlInvalid": "認証情報を含まない HTTPS アドレスを入力してください。",
       "nameRequired": "名前を入力してください。",
-      "noPresetMatch": "一致するサービスがありません。",
-      "openProvider": "サービスを開く",
-      "preset": "サービスプリセット",
+      "noPresetMatch": "一致する提供元がありません。",
+      "openProvider": "提供元を開く",
+      "preset": "提供元",
       "presetHint": "提供元を選ぶと、下のアドレスとモデルが自動で入ります。一覧にないサービスはアドレスを直接書き換えてください。掲載しているのは広く知られた提供元のみで、AI Manager が推奨も再販もしていません。",
       "profileError": "安全な接続テンプレートを読み込めませんでした。保存済みのサービスは変更されていません。",
-      "profileErrorTitle": "新しい接続を準備できませんでした",
+      "profileErrorTitle": "新しいエンドポイントを準備できませんでした",
       "profileRetry": "接続テンプレートを再読み込み",
-      "retryConnect": "このサービスへの接続をもう一度試す",
+      "retryConnect": "このエンドポイントをもう一度追加",
       "retryHint": "AI Manager が確認できる保存済みサービスの状態を読み直しました。入力内容は残っています。確認して、もう一度接続してください。",
       "responseTime": "応答 {{latency}} ms",
-      "searchPresets": "サービスを検索…",
+      "searchPresets": "提供元を検索…",
       "saved": "{{name}}を保存しました",
       "speedSorted": "このコンピューターでの最新の測定結果順です。",
-      "speedTest": "応答が最も速いサービスを測定",
+      "speedTest": "どれが最も速く応答するか測定",
       "speedTestAgain": "再測定",
-      "speedTestFailed": "サービスを測定できませんでした。ネットワークを確認して再試行してください。",
-      "speedTesting": "サービスのアドレスを測定中…",
+      "speedTestFailed": "提供元を測定できませんでした。ネットワークを確認して再試行してください。",
+      "speedTesting": "アドレスを測定中…",
       "title": "{{service}} に接続",
       "unreachable": "到達不可",
       "toolDefault": "{{tool}} の既定",
       "toolDefaultGroup": "{{tool}} の既定の接続先",
-      "otherServices": "ほかに使えるサービス"
+      "otherServices": "ほかの提供元"
     },
     "description": "ツールを選び、使用する API エンドポイントを追加・切り替え・確認します。",
     "effective": {
@@ -1636,7 +1636,7 @@
     "external": {
       "badge": "アプリの外で設定",
       "endpoint": "現在有効なアドレス",
-      "overrides": "{{name}} は実際にこのアドレスを使います。下で選んだサービスより優先されます。"
+      "overrides": "{{name}} は実際にこのアドレスを使います。下で選んだエンドポイントより優先されます。"
     },
     "endpoints": {
       "title": "{{tool}} のエンドポイント",
@@ -1644,30 +1644,30 @@
       "count_other": "{{count}} 件のエンドポイントを保存済み"
     },
     "empty": {
-      "description": "API サービスに接続すると、AI Manager がこのツールを設定します。",
+      "description": "API エンドポイントを接続すると、AI Manager がこのツールを設定します。",
       "title": "まだ何もありません"
     },
     "error": {
       "description": "もう一度お試しいただくか、一度ツールを開いてから戻ってきてください。",
-      "title": "サービス一覧を読み込めませんでした"
+      "title": "エンドポイント一覧を読み込めませんでした"
     },
     "refreshError": {
-      "description": "前回保存したサービスを引き続き表示しています。新しい確認が完了するまで、サービス操作は一時停止します。",
-      "title": "AI サービスを更新できませんでした"
+      "description": "前回保存したエンドポイントを引き続き表示しています。新しい確認が完了するまで、エンドポイントの操作は一時停止します。",
+      "title": "API エンドポイントを更新できませんでした"
     },
     "form": {
       "addHeader": "ヘッダーを追加",
       "addModel": "モデルを追加",
       "advancedHint": "このツールが実際に対応している一般的な設定だけを表示します。ほかの項目は変更しません。",
-      "advancedManaged": "このサービスはツールまたはアカウントログインで管理されています。エンドポイント設定はここでは読み取り専用です。",
+      "advancedManaged": "このエンドポイントはツールまたはアカウントログインで管理されています。設定はここでは読み取り専用です。",
       "advancedTitle": "詳細設定",
       "baseUrl": "Base URL",
       "baseUrlHint": "プロバイダーのドキュメントどおりに入力してください。末尾の /v1 なども含めます。",
       "baseUrlVersionDoubled": "このツールはアドレスに自動でバージョンを付け加えるため、末尾の /{{segment}} が重複してリクエストが失敗します。通常は削除すれば動作します。",
       "routeAdd": "ルートを追加",
-      "routeAddLabel": "新しいサービスルート",
+      "routeAddLabel": "新しいルート",
       "routeAddPlaceholder": "https://api.example.com/v1",
-      "routeDuplicate": "このサービスには同じルートがすでにあります。",
+      "routeDuplicate": "このエンドポイントには同じルートがすでにあります。",
       "routeEmpty": "テストする前にルートを 1 つ以上追加または入力してください。",
       "routeFixed": "固定済み",
       "routeInvalid": "認証情報を含まない HTTPS URL を使用してください。HTTP は localhost だけで使用できます。",
@@ -1675,14 +1675,14 @@
       "routeLimit": "現在のルートを含め、最大 32 件まで保存できます。",
       "routeRemove": "ルート {{route}} を削除",
       "routeUnreachable": "到達不可",
-      "routes": "サービスルート",
+      "routes": "ルート",
       "routesAuto": "テストのたびに最速ルートを選択",
-      "routesHint": "1 つのサービスに複数の Base URL を保存し、テスト後に最速のものを使えます。",
+      "routesHint": "1 つのエンドポイントに複数の Base URL を保存し、テスト後に最速のものを使えます。",
       "routesTest": "ルートをテスト",
       "routesTestFailed": "ルートをテストできませんでした。ネットワークを確認して、もう一度お試しください。",
       "routesTesting": "ルートをテスト中…",
       "description": "名前、キー、モデルを変更します。",
-      "errorTitle": "このサービスの保存を完了できませんでした",
+      "errorTitle": "このエンドポイントを保存できませんでした",
       "headerKeepValue": "空のままなら保存済みの値を維持",
       "headerNameNamed": "ヘッダー {{index}} の名前",
       "headerNamePlaceholder": "X-Tenant-ID",
@@ -1693,7 +1693,7 @@
       "headerValuePlaceholder": "ヘッダー値",
       "key": "API キー",
       "keyHint": "空のままにすると、保存済みのキーをそのまま使います。",
-      "keyHintEmpty": "このサービスから受け取ったキーを貼り付けてください。",
+      "keyHintEmpty": "提供元から受け取ったキーを貼り付けてください。",
       "modelNamed": "モデル {{index}}",
       "modelRequired": "モデル ID を入力するか、未完成の行を削除してください。",
       "models": "モデル",
@@ -1703,22 +1703,22 @@
       "nameHint": "このアプリの中だけで表示されます。",
       "nameRequired": "名前を入力してください。",
       "retryHint": "AI Manager が確認できる保存済みサービスの状態を読み直しました。変更内容を確認して、もう一度保存してください。",
-      "retrySave": "このサービスの保存をもう一度試す",
+      "retrySave": "このエンドポイントをもう一度保存",
       "removeHeaderNamed": "ヘッダー {{name}} を削除",
       "removeModelNamed": "モデル {{model}} を削除",
       "save": "保存",
-      "settingsLoading": "安全なサービス設定を読み込んでいます…",
+      "settingsLoading": "エンドポイントの設定を読み込んでいます…",
       "settingsUnavailable": "追加設定を読み込めませんでした。名前の保存やキーの差し替えは可能で、ほかの設定は変更されません。",
-      "title": "サービスを編集",
+      "title": "エンドポイントを編集",
       "routesManage": "管理と速度テスト",
       "routesDone": "完了",
-      "modelPick": "サービスのモデル一覧から選択",
+      "modelPick": "エンドポイントのモデル一覧から選択",
       "modelSearch": "モデルを検索",
       "modelNoMatch": "一致するモデルがありません",
       "modelListStale": "キーまたは Base URL が変更されています。保存すると新しいモデル一覧を読み込めます。",
       "modelListFailed": "モデル一覧を読み込めませんでした。モデル名を直接入力できます。"
     },
-    "loading": "サービスを読み込んでいます",
+    "loading": "エンドポイントを読み込んでいます",
     "runtime": {
       "description": "このツールが実際に読み取るグローバル指示、メモリ、設定、プロジェクトセッションの場所を確認します。",
       "loading": "設定元を確認中",
@@ -1740,7 +1740,7 @@
       },
       "resource": {
         "configuration": {
-          "description": "接続先、ログイン、ツール設定です。既存ファイルは既定のアプリで、未作成の場合は保存先フォルダーを開きます。",
+          "description": "エンドポイント、ログイン、ツール設定です。既存ファイルは既定のアプリで、未作成の場合は保存先フォルダーを開きます。",
           "title": "実行時設定"
         },
         "instructions": {
@@ -1775,17 +1775,17 @@
       "title": "ローカルコンテキストと保存先"
     },
     "noTools": {
-      "description": "先にツールを入れると、そのサービスがここに出ます。",
+      "description": "先にツールを入れると、そのエンドポイントがここに出ます。",
       "title": "設定できるツールがまだありません"
     },
     "refresh": "再読み込み",
     "remove": {
-      "activeHint": "先に別のサービスへ切り替えてから、このサービスを削除してください。",
-      "confirm": "サービスを削除",
-      "description": "保存済みのサービスを AI Manager と {{tool}} から削除します。",
-      "errorTitle": "このサービスの削除を完了できませんでした",
-      "errorRetry": "サービスを確認して、もう一度お試しください。",
-      "managedHint": "このサービスはツール固有の設定を使用しているため、ここでは削除できません。",
+      "activeHint": "先に別のエンドポイントへ切り替えてから、このエンドポイントを削除してください。",
+      "confirm": "エンドポイントを削除",
+      "description": "保存済みのエンドポイントを AI Manager と {{tool}} から削除します。",
+      "errorTitle": "このエンドポイントを削除できませんでした",
+      "errorRetry": "エンドポイントを確認して、もう一度お試しください。",
+      "managedHint": "このエンドポイントはツール固有の設定を使用しているため、ここでは削除できません。",
       "removed": "{{name}}を削除しました",
       "retryNamed": "{{name}}の削除をもう一度試す",
       "title": "{{name}}を削除しますか？"
@@ -1793,7 +1793,7 @@
     "scope": "AI ツール",
     "scopeUnsupportedShort": "未連携",
     "scopeSharedShort": "デスクトップアプリと共用",
-    "scopeUnsupportedTitle": "AI Manager は {{tool}} のサービス設定と未連携です",
+    "scopeUnsupportedTitle": "AI Manager は {{tool}} のエンドポイント設定にまだ対応していません",
     "scopeUnsupportedDescription": "AI Manager に安全なアダプターがまだないという意味で、{{tool}} 自体がカスタムサービスに非対応とは限りません。インストール済みの確認のため、ツールは表示しています。",
     "scopeSave": {
       "errorDescription": "現在も {{tool}} を表示しています。再試行すると、次回もここから開けます。",
@@ -1807,25 +1807,25 @@
       "appliedNamed": "{{name}} に切り替えました",
       "errorNamed": "{{name}} への切り替えを完了できませんでした",
       "openNow": "今すぐ開く",
-      "reopenHint": "実行中の {{tool}} は自動では切り替わりません。開き直すと新しい接続先を使います。",
+      "reopenHint": "実行中の {{tool}} は自動では切り替わりません。開き直すと新しいエンドポイントを使います。",
       "retryHint": "AI Manager が確認できる保存済みサービスの状態を読み直しました。同じ切り替えをもう一度お試しください。",
       "retryNamed": "{{name}} への切り替えをもう一度試す",
       "switchingNamed": "{{name}} に切り替えています"
     },
     "failover": {
-      "tryNext": "次の利用可能なサービスを試す",
-      "tryNextNamed": "{{name}} の次の保存済み利用可能サービスを試す",
-      "noneAvailable": "応答する別の保存済みサービスはありませんでした。現在の設定は変更されていません。",
+      "tryNext": "次の利用可能なエンドポイントを試す",
+      "tryNextNamed": "{{name}} の次の保存済み利用可能エンドポイントを試す",
+      "noneAvailable": "応答する別の保存済みエンドポイントはありませんでした。現在の設定は変更されていません。",
       "automaticSuccess": "{{from}} が応答しなかったため、{{to}} に切り替えました。",
-      "manualSuccess": "{{from}} から利用可能な {{to}} に切り替えました。",
-      "unknownService": "不明なサービス"
+      "manualSuccess": "{{from}} から利用可能なエンドポイント {{to}} に切り替えました。",
+      "unknownService": "不明なエンドポイント"
     },
     "summary": {
       "activeTitle": "{{tool}} は {{service}} を使用中",
       "checked": "確認済みのアドレス",
       "description": "ここでサービスを切り替えたり、アドレスが応答するか確認したりできます。設定は AI Manager におまかせください。",
       "eyebrow": "接続の概要",
-      "noActiveTitle": "{{tool}} のサービスを保存しました",
+      "noActiveTitle": "{{tool}} のエンドポイントを保存しました",
       "saved": "保存済み",
       "testable": "アドレス確認可能"
     },
@@ -1836,8 +1836,8 @@
       "title": "設定を保存しました。{{tool}} を始めましょう"
     },
     "test": {
-      "browseCompatible": "互換サービスを見る",
-      "browseCompatibleNamed": "{{name}} の互換サービスを見る",
+      "browseCompatible": "互換エンドポイントを見る",
+      "browseCompatibleNamed": "{{name}} の互換エンドポイントを見る",
       "checkingNamed": "{{name}} を確認しています",
       "degraded": "アドレスの応答が遅れています",
       "errorNamed": "{{name}} のアドレスを確認できませんでした",
@@ -1847,7 +1847,7 @@
       "retry": "もう一度試す",
       "retryHint": "確認に失敗しても、このサービスは変更されていません。同じ確認をもう一度お試しください。",
       "retryNamed": "{{name}} をもう一度確認する",
-      "unreachableHint": "現在のネットワークからこのアドレスに到達できませんでした。別の互換サービスを選択できます。"
+      "unreachableHint": "現在のネットワークからこのアドレスに到達できませんでした。別の互換エンドポイントを選択できます。"
     },
     "probe": {
       "title": "{{name}} をテスト",
@@ -1857,8 +1857,8 @@
       "modelLoading": "モデル一覧を読み込んでいます…",
       "modelReload": "再読み込み",
       "modelManual": "モデル名",
-      "modelManualHint": "このサービスはモデル一覧を公開していません。モデル名を入力してください。",
-      "modelRefused": "サービスがモデル一覧を拒否しました（HTTP {{status}}）。",
+      "modelManualHint": "このエンドポイントはモデル一覧を公開していません。モデル名を入力してください。",
+      "modelRefused": "エンドポイントがモデル一覧を拒否しました（HTTP {{status}}）。",
       "modelTruncated": "先頭の {{count}} 件のみ表示しています。",
       "kind": "出力",
       "kindText": "テキスト",
@@ -1866,16 +1866,16 @@
       "kindHint": "「文字」はチャットのエンドポイント、「画像」は画像生成のエンドポイントを使います。",
       "prompt": "プロンプト",
       "send": "送信",
-      "sending": "サービスの応答を待っています…",
+      "sending": "エンドポイントの応答を待っています…",
       "cost": "実際にリクエストを 1 回送信し、残量を消費します。",
       "result": "結果",
       "resultMeta": "HTTP {{status}} · {{ms}} ミリ秒",
-      "replyEmpty": "サービスは応答しましたが、内容がありませんでした。",
-      "replyRefused": "サービスがこのリクエストを拒否しました。",
-      "replyImageLinkOnly": "サービスは画像データではなくリンクを返したため、ここでは表示できません。",
+      "replyEmpty": "エンドポイントは応答しましたが、内容がありませんでした。",
+      "replyRefused": "エンドポイントがこのリクエストを拒否しました。",
+      "replyImageLinkOnly": "エンドポイントは画像データではなくリンクを返したため、ここでは表示できません。",
       "imageAlt": "{{model}} が生成した画像",
       "adopt": "このモデルを使う",
-      "adopted": "このサービスに保存しました。",
+      "adopted": "このエンドポイントに保存しました。",
       "adoptFailed": "モデルを保存できませんでした。",
       "addressWorksInstead": "このアドレスにはそのルートがありません。{{url}} を試したところ応答しました。",
       "useAddress": "このアドレスに変更",
@@ -1885,17 +1885,17 @@
     },
     "title": "API エンドポイント",
     "toolsError": {
-      "description": "ツールを確認できなかったため、サービスも表示できません。もう一度お試しください。",
+      "description": "ツールを確認できなかったため、エンドポイントも表示できません。もう一度お試しください。",
       "title": "ツールを読み取れませんでした"
     },
     "toolsRefreshError": {
       "title": "ツールの状態を更新できませんでした",
-      "description": "前回確認したツールとサービスを表示しています。新しいツール確認に成功するまで、接続・切り替え・確認・編集・削除・起動は一時停止します。",
+      "description": "前回確認したツールとエンドポイントを表示しています。新しいツール確認に成功するまで、接続・切り替え・確認・編集・削除・起動は一時停止します。",
       "action": "ツールを再確認"
     },
     "actionsPaused": {
-      "title": "サービス操作は一時停止中です",
-      "description": "設定の変更やツールの起動を続けるには、AI Manager が現在のツールとサービスの状態を確認する必要があります。"
+      "title": "エンドポイントの操作は一時停止中です",
+      "description": "設定の変更やツールの起動を続けるには、AI Manager が現在のツールとエンドポイントの状態を確認する必要があります。"
     },
     "shellVariable": {
       "at": "{{path}} の {{line}} 行目",
@@ -1909,12 +1909,15 @@
     },
     "reorder": {
       "handle": "{{name}}の位置を変更",
-      "roleDescription": "移動できるサービス",
-      "instructions": "このサービスを動かすには、Space キーか Enter キーで持ち上げ、上下の矢印キーで移動し、もう一度 Space キーか Enter キーで置きます。Esc キーで取り消します。",
+      "roleDescription": "移動できるエンドポイント",
+      "instructions": "このエンドポイントを動かすには、Space キーか Enter キーで持ち上げ、上下の矢印キーで移動し、もう一度 Space キーか Enter キーで置きます。Esc キーで取り消します。",
       "picked": "{{name}}を持ち上げました。{{count}} 件中 {{position}} 番目です。",
       "moved": "{{name}}は {{count}} 件中 {{position}} 番目になりました。",
       "dropped": "{{name}}を {{count}} 件中 {{position}} 番目に置きました。",
       "cancelled": "移動を取り消しました。{{name}}は {{count}} 件中 {{position}} 番目のままです。"
+    },
+    "tab": {
+      "endpoints": "エンドポイント一覧"
     }
   },
   "extensions": {
@@ -1958,7 +1961,7 @@
     "scopeSave": {
       "saving": "この画面を記憶しています",
       "errorTitle": "この画面を記憶できませんでした",
-      "errorDescription": "このまま操作を続けられます。再試行すると、次回も同じ拡張機能画面から開けます。",
+      "errorDescription": "このまま操作を続けられます。再試行すると、次回も同じ画面から開けます。",
       "retry": "もう一度試す"
     },
     "copy": {
@@ -2065,7 +2068,7 @@
         "installErrorNamed": "{{name}} のインストールを開始できませんでした",
         "retryInstallNamed": "{{name}} のインストールを再試行",
         "queued": "{{name}} をインストールしています",
-        "queuedDescription": "そのまま作業を続け、タスクで進捗を確認できます。"
+        "queuedDescription": "そのまま作業を続け、アクティビティで進捗を確認できます。"
       },
       "zip": {
         "action": "ZIP からインストール",
@@ -2080,7 +2083,7 @@
         "syncDescription": "新しく、フォルダー名が競合しないスキルを管理対象に追加し、このツールへ同期します。",
         "partialNote": "アーカイブ内の後続スキルで失敗した場合、前のスキルはすでにインストール済みのことがあります。結果はタスクに表示され、スキル一覧も自動更新されます。",
         "queued": "ZIP からスキルをインストールしています",
-        "queuedDescription": "そのまま作業を続け、タスクで進捗を確認できます。",
+        "queuedDescription": "そのまま作業を続け、アクティビティで進捗を確認できます。",
         "errorHint": "メッセージを確認し、アーカイブを選び直してもう一度お試しください。"
       },
       "backups": {
@@ -2099,7 +2102,7 @@
         "restore": "復元",
         "restoreNamed": "復元用コピーから {{name}} を復元",
         "restoreQueued": "{{name}} を復元しています",
-        "restoreQueuedDescription": "そのまま作業を続け、タスクで進捗を確認できます。",
+        "restoreQueuedDescription": "そのまま作業を続け、アクティビティで進捗を確認できます。",
         "delete": "削除",
         "deleteNamed": "{{name}} の復元用コピーを削除",
         "deleteTitle": "{{name}} の復元用コピーを削除しますか？",
@@ -2142,7 +2145,7 @@
         "description": "AI Manager と、この管理対象スキルが有効なすべての AI ツールから削除します。",
         "confirm": "スキルを削除",
         "queued": "{{name}} を削除しています",
-        "queuedDescription": "そのまま作業を続け、タスクで進捗を確認できます。",
+        "queuedDescription": "そのまま作業を続け、アクティビティで進捗を確認できます。",
         "errorRetry": "メッセージを確認して、もう一度お試しください。"
       },
       "update": {
@@ -2153,7 +2156,7 @@
         "checkErrorDescription": "一部のスキル配布元に接続できない可能性があります。既存のスキルは使えますが、すべてが最新版とは断定できません。",
         "retry": "もう一度確認",
         "queued": "{{name}} を更新しています",
-        "queuedDescription": "そのまま作業を続け、タスクで進捗を確認できます。"
+        "queuedDescription": "そのまま作業を続け、アクティビティで進捗を確認できます。"
       },
       "empty": {
         "title": "スキルはまだありません",
@@ -2169,7 +2172,7 @@
         "description": "{{tool}} をローカルプログラムまたはリモートサービスにつなぎます。",
         "confirm": "接続を追加",
         "name": "接続名",
-        "nameHint": "拡張機能の一覧で見分けやすい名前を付けてください。",
+        "nameHint": "一覧で見分けやすい名前を付けてください。",
         "optionalDescription": "説明（任意）",
         "transport": {
           "label": "接続方法",
@@ -2224,15 +2227,15 @@
         "trustLocal": "上に入力したプログラムがこのコンピューターで実行されます。信頼できるソフトウェアだけを追加してください。",
         "trustRemote": "MCP のデータが上の URL に送信されます。信頼できるサービスだけを追加してください。",
         "queued": "{{name}} を追加中",
-        "queuedDescription": "作業を続けながら、「タスク」で進行状況を確認できます。"
+        "queuedDescription": "そのまま作業を続け、アクティビティで進捗を確認できます。"
       },
       "remove": {
         "title": "{{name}} を削除しますか？",
         "description": "保存された接続を AI Manager と、その接続が有効なすべての AI ツールから削除します。",
         "confirm": "接続を削除",
         "queued": "{{name}} を削除しています",
-        "queuedDescription": "作業を続けながら、「タスク」で進行状況を確認できます。",
-        "errorRetry": "もう一度試す前に、「タスク」で詳細を確認してください。"
+        "queuedDescription": "そのまま作業を続け、アクティビティで進捗を確認できます。",
+        "errorRetry": "もう一度試す前に、アクティビティで詳細を確認してください。"
       },
       "empty": {
         "title": "接続はまだありません",
@@ -2290,7 +2293,7 @@
   "routing": {
     "toolScope": "AI ソフトウェア",
     "title": "ローカルルーティング",
-    "description": "リクエストをローカル転送し、障害時の予備接続先への自動切り替えを設定できます。",
+    "description": "リクエストをローカル転送し、障害時に予備のエンドポイントへ自動で切り替えるよう設定できます。",
     "summary": {
       "inactive": "ローカルルーティングはオフです。各ツールは元の接続を使用します。",
       "needsRestore": "ルーティングは停止しましたが、ツールの接続先は変更されたままです。設定を復元してください。",
@@ -2322,8 +2325,8 @@
     "target": {
       "routed": "ルーティング中",
       "direct": "直接接続",
-      "current": "現在のサービス：{{name}}",
-      "noProvider": "先に AI サービスで現在のサービスを選択してください。"
+      "current": "現在のエンドポイント：{{name}}",
+      "noProvider": "先に「API エンドポイント」で現在のエンドポイントを選択してください。"
     },
     "takeover": {
       "title": "ルーティング引き継ぎ",
@@ -2332,20 +2335,20 @@
     },
     "failover": {
       "title": "自動フェイルオーバー",
-      "description": "失敗時に正常なサービスを P1、P2 の順で試します。",
+      "description": "失敗時に正常なエンドポイントを P1、P2 の順で試します。",
       "label": "{{name}} の自動フェイルオーバー"
     },
     "queue": {
       "title": "フェイルオーバー順序",
       "description": "開始時に P1 が選択されます。",
-      "count_one": "{{count}} サービス",
-      "count_other": "{{count}} サービス",
-      "empty": "サービスを追加するか、フェイルオーバーを有効にして現在のサービスを P1 にします。",
-      "selectLabel": "フェイルオーバーへ追加するサービス",
-      "selectLabelNamed": "{{name}} のフェイルオーバーへ追加するサービス",
-      "selectPlaceholder": "サービスを選択",
+      "count_one": "{{count}} エンドポイント",
+      "count_other": "{{count}} エンドポイント",
+      "empty": "エンドポイントを追加するか、フェイルオーバーを有効にして現在のエンドポイントを P1 にします。",
+      "selectLabel": "フェイルオーバーへ追加するエンドポイント",
+      "selectLabelNamed": "{{name}} のフェイルオーバーへ追加するエンドポイント",
+      "selectPlaceholder": "エンドポイントを選択",
       "add": "追加",
-      "addNamed": "選択したサービスを {{name}} のフェイルオーバーへ追加"
+      "addNamed": "選択したエンドポイントを {{name}} のフェイルオーバーへ追加"
     },
     "provider": {
       "current": "現在",
@@ -2537,10 +2540,10 @@
         "action": {
           "updateTool": "今すぐ更新",
           "repairTool": "今すぐ修復",
-          "reviewTool": "AI ツールを確認",
-          "connectService": "サービスを接続",
-          "reviewService": "AI サービスを確認",
-          "reviewExtensions": "拡張機能を確認"
+          "reviewTool": "ソフトウェア管理を開く",
+          "connectService": "エンドポイントを接続",
+          "reviewService": "API エンドポイントを確認",
+          "reviewExtensions": "MCP を開く"
         }
       },
       "item": {
@@ -2565,13 +2568,13 @@
           "description": "これは情報表示であり、問題として数えられません。"
         },
         "providerReady": {
-          "title": "{{name}} に AI サービスが設定されています",
-          "description_one": "{{count}} 件のサービス設定を使用しています。",
-          "description_other": "{{count}} 件のサービス設定を使用しています。"
+          "title": "{{name}} に API エンドポイントが設定されています",
+          "description_one": "{{count}} 件のエンドポイント設定を使用しています。",
+          "description_other": "{{count}} 件のエンドポイント設定を使用しています。"
         },
         "providerMissing": {
-          "title": "{{name}} に AI サービスが設定されていません",
-          "description": "「API エンドポイント」を開き、このツールで使うサービスを選択または設定してください。"
+          "title": "{{name}} に API エンドポイントが設定されていません",
+          "description": "「API エンドポイント」を開き、このツールで使うエンドポイントを選択または追加してください。"
         },
         "configReadable": {
           "title": "{{name}} の設定を読み取れます",
@@ -2609,17 +2612,17 @@
         },
         "mcpInventoryUnavailable": {
           "title": "ローカル MCP 接続を確認できませんでした",
-          "description": "すべて管理済みと判断せず、「拡張機能」を開いてローカル一覧を再確認してください。"
+          "description": "「MCP」を開いてローカル一覧を再確認してください。"
         },
         "mcpInventoryPartial": {
           "title": "一部のローカル MCP 保存場所を再確認してください",
-          "description": "対応する保存場所 {{count}} 件を確認できなかったか、件数上限に達しました。「拡張機能」で次の手順を確認してください。"
+          "description": "{{count}} 件の場所を確認できませんでした。「MCP」で確認してください。"
         }
       }
     },
     "import": {
       "title": "CC Switch からインポート",
-      "description": "CC Switch にある AI サービス、MCP サーバー、スキルを AI Manager に取り込みます。CC Switch 側は変更されません。",
+      "description": "CC Switch にある API エンドポイント、MCP サーバー、スキルを AI Manager に取り込みます。CC Switch 側は変更されません。",
       "reimport": "CC Switch からインポート",
       "loading": "CC Switch の設定を探しています",
       "retry": "もう一度確認",
@@ -2628,11 +2631,11 @@
       "again": "もう一度インポート",
       "skip": "スキップ",
       "success": "既存設定をインポートしました。",
-      "collision": "同じサービスまたは拡張機能がある場合は、インポート元の内容に置き換わります。それ以外はそのまま残ります。",
+      "collision": "同じエンドポイント、MCP サーバー、スキルがある場合は、インポート元の内容に置き換わります。それ以外はそのまま残ります。",
       "sourceDetail": "CC Switch のローカルデータベース（読み取り専用）",
       "prompt": {
         "title": "CC Switch の設定が見つかりました",
-        "description": "このコンピューターには CC Switch がインストールされています。その AI サービス、MCP サーバー、スキルを取り込みますか？"
+        "description": "このコンピューターには CC Switch がインストールされています。その API エンドポイント、MCP サーバー、スキルを取り込みますか？"
       },
       "confirm": {
         "title": "この既存設定をインポートしますか？",
@@ -2646,16 +2649,16 @@
       },
       "completion": {
         "title": "設定をインポートしました",
-        "description": "対応する AI サービス、MCP サーバー、スキルを AI Manager に取り込みました。",
+        "description": "対応する API エンドポイント、MCP サーバー、スキルを AI Manager に取り込みました。",
         "countLabel": "インポートした項目",
-        "nextStepTitle": "次に使うサービスを選びます",
-        "nextStep": "準備ができたら「API エンドポイント」を開き、各ツールで取り込んだサービスを選んでください。",
+        "nextStepTitle": "次に各ツールで使うものを選びます",
+        "nextStep": "準備ができたら「API エンドポイント」を開き、各ツールで取り込んだエンドポイントを選んでください。",
         "continue": "続ける"
       },
       "count": {
         "label": "インポートできる項目",
-        "services_one": "AI サービス {{count}} 件",
-        "services_other": "AI サービス {{count}} 件",
+        "services_one": "API エンドポイント {{count}} 件",
+        "services_other": "API エンドポイント {{count}} 件",
         "mcpServers_one": "MCP サーバー {{count}} 件",
         "mcpServers_other": "MCP サーバー {{count}} 件",
         "skills_one": "スキル {{count}} 件",
@@ -2766,7 +2769,7 @@
         },
         "imported": {
           "title": "設定を読み込みました",
-          "description": "AI Manager はこのアーカイブのサービスと拡張機能を使用しています。"
+          "description": "AI Manager はこのアーカイブのエンドポイントと拡張機能を使用しています。"
         },
         "renamed": {
           "title": "復元ポイントの名前を変更しました",
@@ -2782,17 +2785,17 @@
         },
         "warning": {
           "title": "復元が完了しました。1 つのツールを確認してください",
-          "description": "サービスの変更が反映されていないツールがあります。「API エンドポイント」で使いたいサービスを選び直してください。"
+          "description": "エンドポイントの変更が反映されていないツールがあります。「API エンドポイント」で使いたいエンドポイントを選び直してください。"
         },
         "importWarning": {
           "title": "読み込み完了。1 つのツールを確認してください",
-          "description": "アーカイブの読み込みは完了しましたが、サービスの変更が反映されていないツールがあります。「API エンドポイント」で使いたいサービスを選び直してください。"
+          "description": "アーカイブの読み込みは完了しましたが、エンドポイントの変更が反映されていないツールがあります。「API エンドポイント」で使いたいエンドポイントを選び直してください。"
         },
-        "reviewServices": "AI サービスを確認"
+        "reviewServices": "API エンドポイントを確認"
       },
       "empty": {
         "title": "現在の設定を守る",
-        "description": "ツールやサービスを変更する前に、このパソコンに復元ポイントを作成しましょう。",
+        "description": "ツールやエンドポイントを変更する前に、このパソコンに復元ポイントを作成しましょう。",
         "local": "このパソコン内のみ"
       },
       "error": {
@@ -2805,7 +2808,7 @@
         "description": "前回のバックアップ一覧を引き続き表示しています。新しい確認が完了するまで、バックアップ操作は一時停止します。"
       },
       "restorePoint": {
-        "replaces": "AI Manager のサービス・拡張機能・選択内容が、この復元ポイントの状態に戻ります。",
+        "replaces": "AI Manager のエンドポイント・拡張機能・選択内容が、この復元ポイントの状態に戻ります。",
         "installed": "インストール済みの AI コーディングツールは、このパソコンに残ります。",
         "followUp": "復元後に確認が必要なツールがあれば、AI Manager が明確にお知らせします。"
       },
@@ -2814,10 +2817,10 @@
       },
       "transfer": {
         "secretTitle": "アーカイブはパスワードと同じように扱ってください",
-        "secretDescription": "持ち運び用コピーにはサービスキーなどの非公開設定が含まれる場合があります。安全に保管し、信頼できる相手とのみ共有してください。",
+        "secretDescription": "持ち運び用コピーには API キーなどの非公開設定が含まれる場合があります。安全に保管し、信頼できる相手とのみ共有してください。",
         "confirmTitle": "この設定アーカイブを読み込みますか？",
         "confirmDescription": "変更内容を確認してから、読み込むアーカイブを選んでください。",
-        "confirmReplace": "管理対象のサービス、拡張機能、保存済み履歴がアーカイブの内容に置き換わります。",
+        "confirmReplace": "管理対象のエンドポイント、拡張機能、保存済み履歴がアーカイブの内容に置き換わります。",
         "confirmSafety": "現在のデータを置き換える前に、AI Manager がローカル復元ポイントを作成します。",
         "confirmTrust": "自分で作成したもの、または信頼できる相手から受け取ったアーカイブだけを読み込んでください。",
         "confirmInstalled": "インストール済みの AI コーディングツールはこのパソコンに残ります。",
@@ -2872,7 +2875,7 @@
   },
   "deeplink": {
     "resource": {
-      "provider": "API 接続先",
+      "provider": "API エンドポイント",
       "mcp": "MCP サーバー",
       "prompt": "全体プロンプト",
       "skill": "スキル"
@@ -2882,12 +2885,12 @@
       "paste": "このリンクはあなた自身が貼り付けたものです。信頼できる提供元か確認してください。"
     },
     "credential": {
-      "apiKey": "リンクにキーが含まれています。API 接続先と一緒に保存され、この画面には表示されません。",
-      "config": "リンクの設定にキーが含まれています。API 接続先と一緒に保存され、この画面には表示されません。"
+      "apiKey": "リンクにキーが含まれています。API エンドポイントと一緒に保存され、この画面には表示されません。",
+      "config": "リンクの設定にキーが含まれています。API エンドポイントと一緒に保存され、この画面には表示されません。"
     },
     "blocked": {
       "noSupportedTool": "このリンクが対象とするアプリは AI Manager の管理対象ではないため、追加できるものがありません。",
-      "credentialRequired": "このリンクにはキーがありません。キーのない API 接続先は保存できません。キーを含むリンクを提供元に依頼してください。"
+      "credentialRequired": "このリンクにはキーがありません。キーのない API エンドポイントは保存できません。キーを含むリンクを提供元に依頼してください。"
     },
     "summary": {
       "label": "このリンクが追加する内容",

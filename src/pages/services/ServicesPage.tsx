@@ -15,7 +15,7 @@ const TAB_PREFIX = "services-page";
 const PANEL_ID = "services-page-panel";
 
 const TAB_LABEL_KEYS: Record<ServicesTab, string> = {
-  services: "nav.services",
+  services: "services.tab.endpoints",
   routing: "nav.routing",
   usage: "nav.usage",
 };

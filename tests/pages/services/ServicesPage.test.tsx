@@ -1065,7 +1065,7 @@ describe("ServicesPage", () => {
 
     releaseRefresh?.();
     const alert = await within(presetDialog).findByRole("alert", {
-      name: "Could not finish connecting this service",
+      name: "Could not add this endpoint",
     });
     expect(alert).toHaveTextContent(en.error.provider.createFailed);
     expect(alert).toHaveTextContent(
@@ -1078,7 +1078,7 @@ describe("ServicesPage", () => {
     expect(key).toHaveValue("sk-typed-but-not-saved");
 
     const retry = within(presetDialog).getByRole("button", {
-      name: "Try connecting this service again",
+      name: "Try adding this endpoint again",
     });
     expect(retry).toBe(control);
     expect(retry).toHaveFocus();
@@ -1373,7 +1373,7 @@ describe("ServicesPage", () => {
       ),
     ).toBeInTheDocument();
     expect(toastMocks.success).toHaveBeenCalledWith(
-      "Switched from My Relay to the available service Backup.",
+      "Switched from My Relay to the available endpoint Backup.",
       expect.objectContaining({
         description: en.services.switch.reopenHint.replace(
           "{{tool}}",
@@ -1886,7 +1886,7 @@ describe("ServicesPage", () => {
 
     releaseRefresh?.();
     const alert = await within(dialog).findByRole("alert", {
-      name: "Could not finish saving this service",
+      name: "Could not save this endpoint",
     });
     expect(alert).toHaveTextContent(en.error.provider.saveFailed);
     expect(alert).toHaveTextContent(en.error.remediation.checkServiceSettings);
@@ -1900,7 +1900,7 @@ describe("ServicesPage", () => {
     expect(key).toHaveValue("sk-typed-but-not-saved");
 
     const retry = within(dialog).getByRole("button", {
-      name: "Try saving this service again",
+      name: "Try saving this endpoint again",
     });
     expect(retry).toBe(control);
     expect(retry).toHaveFocus();
@@ -2249,7 +2249,7 @@ describe("ServicesPage", () => {
       name: "Could not refresh your tools",
     });
     expect(alert).toHaveTextContent(
-      "The last tool check and services are still shown.",
+      "The last tool check and endpoints are still shown.",
     );
     expect(screen.getByText("My Relay")).toBeInTheDocument();
     expect(
@@ -2327,10 +2327,10 @@ describe("ServicesPage", () => {
       queryKey: providerKeys.list("claude-code"),
     });
     const paused = await within(dialog).findByRole("alert", {
-      name: "Service actions are paused",
+      name: "Endpoint actions are paused",
     });
     expect(paused).toHaveTextContent(
-      "AI Manager must confirm the current tool and service state",
+      "AI Manager must confirm the current tool and endpoint state",
     );
     expect(name).toHaveValue("Draft Relay");
     expect(key).toHaveValue("sk-kept-locally");
@@ -2371,7 +2371,7 @@ describe("ServicesPage", () => {
     void client.invalidateQueries({ queryKey: toolKeys.all });
     expect(
       await within(dialog).findByRole("alert", {
-        name: "Service actions are paused",
+        name: "Endpoint actions are paused",
       }),
     ).toBeInTheDocument();
     const confirm = within(dialog).getByRole("button", {
@@ -2843,9 +2843,9 @@ describe("ServicesPage tabs", () => {
       within(tabs)
         .getAllByRole("tab")
         .map((tab) => tab.textContent),
-    ).toEqual([en.nav.services, en.nav.routing, en.nav.usage]);
+    ).toEqual([en.services.tab.endpoints, en.nav.routing, en.nav.usage]);
     expect(
-      within(tabs).getByRole("tab", { name: en.nav.services }),
+      within(tabs).getByRole("tab", { name: en.services.tab.endpoints }),
     ).toHaveAttribute("aria-selected", "true");
     expect(await screen.findByText("My Relay")).toBeInTheDocument();
     expect(screen.queryByRole("region", { name: en.routing.title })).toBeNull();
@@ -2878,7 +2878,9 @@ describe("ServicesPage tabs", () => {
     expect(screen.queryByText("My Relay")).toBeNull();
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
 
-    await userEvent.click(screen.getByRole("tab", { name: en.nav.services }));
+    await userEvent.click(
+      screen.getByRole("tab", { name: en.services.tab.endpoints }),
+    );
     expect(await screen.findByText("My Relay")).toBeInTheDocument();
   });
 
@@ -2895,7 +2897,9 @@ describe("ServicesPage tabs", () => {
       await screen.findByRole("region", { name: en.usage.title }),
     ).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("tab", { name: en.nav.services }));
+    await userEvent.click(
+      screen.getByRole("tab", { name: en.services.tab.endpoints }),
+    );
     expect(
       await screen.findByRole("tab", { name: "Claude Code" }),
     ).toHaveAttribute("aria-selected", "true");
@@ -2918,7 +2922,9 @@ describe("ServicesPage tabs", () => {
 
     await userEvent.click(screen.getByRole("tab", { name: en.nav.usage }));
     await screen.findByRole("region", { name: en.usage.title });
-    await userEvent.click(screen.getByRole("tab", { name: en.nav.services }));
+    await userEvent.click(
+      screen.getByRole("tab", { name: en.services.tab.endpoints }),
+    );
     expect(await screen.findByRole("tab", { name: "Codex" })).toHaveAttribute(
       "aria-selected",
       "true",

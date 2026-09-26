@@ -117,7 +117,7 @@ describe("ImportSection", () => {
     });
     expect(region).toHaveTextContent(en.preferences.import.reimport);
     expect(region).toHaveTextContent(en.preferences.import.description);
-    expect(region).not.toHaveTextContent("2 AI Services");
+    expect(region).not.toHaveTextContent("2 API Endpoints");
     expect(region).not.toHaveTextContent(en.preferences.import.collision);
 
     await userEvent.click(importButton);
@@ -126,7 +126,7 @@ describe("ImportSection", () => {
       name: en.preferences.import.confirm.title,
     });
     expect(dialog).toHaveTextContent(en.preferences.import.sourceDetail);
-    expect(dialog).toHaveTextContent("2 AI Services");
+    expect(dialog).toHaveTextContent("2 API Endpoints");
     expect(dialog).toHaveTextContent("3 MCP Servers");
     expect(dialog).toHaveTextContent("4 Skills");
     expect(dialog).toHaveTextContent(
@@ -232,7 +232,7 @@ describe("ImportSection", () => {
       name: REFRESH_ERROR_TITLE,
     });
     expect(warning).toHaveTextContent(REFRESH_ERROR_DESCRIPTION);
-    expect(dialog).toHaveTextContent("2 AI Services");
+    expect(dialog).toHaveTextContent("2 API Endpoints");
     expect(
       within(dialog).getByRole("button", {
         name: en.preferences.import.action,

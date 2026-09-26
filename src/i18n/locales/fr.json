@@ -633,37 +633,37 @@
       "unsupportedTool": "AI Manager n'a pas encore intégré les instructions permanentes pour cet outil."
     },
     "provider": {
-      "createFailed": "Impossible de connecter ce service.",
-      "listFailed": "Impossible de lire les services de cet outil.",
+      "createFailed": "Impossible d'ajouter ce point d'accès.",
+      "listFailed": "Impossible de lire les points d'accès de cet outil.",
       "modelProbeImageTooLarge": "L'image générée était trop volumineuse pour être affichée.",
       "modelProbeModelInvalid": "Saisissez d'abord un nom de modèle.",
       "modelProbePromptInvalid": "Saisissez un prompt de 200 caractères maximum.",
-      "modelProbeTimeout": "Le service n'a pas répondu à temps.",
-      "modelProbeUnreachable": "Impossible d'atteindre ce service.",
-      "modelProbeUnreadable": "Le service a répondu avec un contenu que cette application n'a pas pu lire.",
-      "nameRequired": "Donnez d'abord un nom à ce service.",
-      "notFound": "Ce service n'est plus disponible.",
-      "notTestable": "Ce service n'a aucune adresse à vérifier.",
-      "removeActive": "Passez à un autre service avant de supprimer celui-ci.",
-      "removeFailed": "Le service n'a pas pu être supprimé en toute sécurité.",
-      "removePanicked": "Une erreur est survenue lors de la suppression de ce service.",
-      "removeRestoreFailed": "Le service n'a pas pu être supprimé, et AI Manager n'a pas pu confirmer que la configuration précédente a été entièrement restaurée.",
-      "removeUnsupported": "Ce service utilise une configuration spécifique à l'outil et ne peut pas être supprimé ici.",
-      "removeVerifyFailed": "AI Manager n'a pas pu confirmer que le service a été supprimé.",
+      "modelProbeTimeout": "Le point d'accès n'a pas répondu à temps.",
+      "modelProbeUnreachable": "Impossible d'atteindre ce point d'accès.",
+      "modelProbeUnreadable": "Le point d'accès a répondu avec un contenu que cette application n'a pas pu lire.",
+      "nameRequired": "Donnez d'abord un nom à ce point d'accès.",
+      "notFound": "Ce point d'accès n'est plus disponible.",
+      "notTestable": "Ce point d'accès n'a aucune adresse à vérifier.",
+      "removeActive": "Passez à un autre point d'accès avant de supprimer celui-ci.",
+      "removeFailed": "Le point d'accès n'a pas pu être supprimé en toute sécurité.",
+      "removePanicked": "Une erreur est survenue lors de la suppression de ce point d'accès.",
+      "removeRestoreFailed": "Le point d'accès n'a pas pu être supprimé, et AI Manager n'a pas pu confirmer que la configuration précédente a été entièrement restaurée.",
+      "removeUnsupported": "Ce point d'accès utilise une configuration spécifique à l'outil et ne peut pas être supprimé ici.",
+      "removeVerifyFailed": "AI Manager n'a pas pu confirmer que le point d'accès a été supprimé.",
       "runtimeContextFailed": "Impossible d'examiner les sources de configuration de cet outil.",
       "runtimeResourceNotFound": "Cette ressource locale n'est plus disponible.",
       "runtimeResourceOpenFailed": "Impossible d'ouvrir cette ressource locale.",
-      "saveFailed": "Impossible d'enregistrer les modifications de ce service.",
-      "saveRestoreFailed": "Le service n'a pas pu être enregistré, et AI Manager n'a pas pu confirmer que la configuration précédente a été entièrement restaurée.",
+      "saveFailed": "Impossible d'enregistrer les modifications de ce point d'accès.",
+      "saveRestoreFailed": "Le point d'accès n'a pas pu être enregistré, et AI Manager n'a pas pu confirmer que la configuration précédente a été entièrement restaurée.",
       "settingsPreserveFailed": "Le point d'accès a été changé, mais les autres paramètres de cet outil n'ont pas pu être préservés.",
       "storeUnavailable": "L'application démarre encore.",
-      "switchFailed": "Impossible de basculer vers ce service.",
+      "switchFailed": "Impossible de basculer vers ce point d'accès.",
       "testFailed": "La vérification n'a pas pu s'exécuter.",
-      "unsupportedTool": "AI Manager n'a pas encore intégré les services IA pour cet outil.",
-      "reorderFailed": "Impossible d'enregistrer le nouvel ordre. La liste est revenue à son état précédent ; déplacez à nouveau le service."
+      "unsupportedTool": "AI Manager n'a pas encore intégré les points d'accès API pour cet outil.",
+      "reorderFailed": "Impossible d'enregistrer le nouvel ordre. La liste est revenue à son état précédent ; déplacez à nouveau le point d'accès."
     },
     "remediation": {
-      "chooseAnotherService": "Choisissez un autre service pour cet outil, puis réessayez.",
+      "chooseAnotherService": "Choisissez un autre point d'accès pour cet outil, puis réessayez.",
       "checkConnectionSettings": "Vérifiez le nom, la clé API et le modèle, puis réessayez.",
       "checkInternetConnection": "Vérifiez votre connexion internet, puis réessayez.",
       "checkLocalFileAccess": "Vérifiez que la compétence est toujours à son emplacement d'origine et que votre système peut l'ouvrir, puis réessayez.",
@@ -682,7 +682,7 @@
       "openToolManually": "Ouvrez un terminal dans votre dossier de projet et démarrez l'outil depuis là.",
       "refreshSessions": "Actualisez la liste des sessions et choisissez à nouveau la conversation.",
       "recheckUpdate": "Revérifiez les détails de la mise à jour avant de continuer.",
-      "removeInTool": "Supprimez ce service depuis sa configuration spécifique à l'outil.",
+      "removeInTool": "Supprimez ce point d'accès depuis sa configuration spécifique à l'outil.",
       "retryOrViewDetails": "Réessayez, ou ouvrez Voir les détails pour savoir ce qui s'est passé.",
       "useOriginalUpdateChannel": "Utilisez le programme de mise à jour d'origine de cette installation, ou supprimez-la explicitement avant d'installer via npm.",
       "uninstallManually": "Vous pouvez supprimer vous-même les fichiers restants, puis relancer Revérifier.",
@@ -690,9 +690,9 @@
     },
     "routing": {
       "changeFailed": "AI Manager n'a pas pu terminer cette modification de routage en toute sécurité.",
-      "providerNotEligible": "Ce service ne peut pas participer au basculement automatique.",
-      "providerUnavailable": "Ce service n'est plus disponible pour le routage.",
-      "queueLocked": "Désactivez le basculement automatique avant de supprimer ce service actif ou final.",
+      "providerNotEligible": "Ce point d'accès ne peut pas participer au basculement automatique.",
+      "providerUnavailable": "Ce point d'accès n'est plus disponible pour le routage.",
+      "queueLocked": "Désactivez le basculement automatique avant de supprimer ce point d'accès actif ou final.",
       "readFailed": "AI Manager n'a pas pu lire l'état du routage local.",
       "storeUnavailable": "Le routage local n'est pas encore prêt.",
       "takeoverRequired": "Activez d'abord la prise en charge du routage pour cet outil.",
@@ -1191,8 +1191,8 @@
       "chooseFolder": "Choisir un dossier",
       "launched": "{{name}} s'est ouvert dans Terminal.",
       "providerUnreachable": "{{name}} n'a pas répondu",
-      "providerUnreachableHint": "Rien n'a été ouvert et la configuration enregistrée n'a pas changé. Revérifiez ou essayez un autre service compatible enregistré.",
-      "noSavedAlternative": "Aucun autre service compatible enregistré n'est disponible à vérifier.",
+      "providerUnreachableHint": "Rien n'a été ouvert et la configuration enregistrée n'a pas changé. Revérifiez ou essayez un autre point d'accès compatible enregistré.",
+      "noSavedAlternative": "Aucun autre point d'accès compatible enregistré n'est disponible à vérifier.",
       "retry": "Réessayer",
       "retryNamed": "Réessayer d'ouvrir {{name}}"
     },
@@ -1345,7 +1345,7 @@
     },
     "card": {
       "title": "Environnement IA",
-      "description": "Outils, services et extensions vérifiés au même endroit",
+      "description": "Logiciels, points d'accès API et MCP vérifiés au même endroit",
       "checking": "Vérification de votre environnement IA",
       "toolsInstalled_one": "{{count}} outil installé",
       "toolsInstalled_other": "{{count}} outils installés",
@@ -1360,15 +1360,15 @@
       "startHint": "Choisissez un dossier de projet. Votre service vérifie l'accès lors de la première utilisation.",
       "inventory": {
         "label": "Détails de la configuration",
-        "servicesConfigured_one": "{{count}} service IA configuré",
-        "servicesConfigured_other": "{{count}} services IA configurés",
+        "servicesConfigured_one": "{{count}} point d'accès API configuré",
+        "servicesConfigured_other": "{{count}} points d'accès API configurés",
         "mcpEnabled": "MCP activé : {{enabled}} sur {{total}}",
         "noMcp": "Aucune connexion MCP pour l'instant"
       },
       "actions": {
-        "tools": "Ouvrir les outils IA",
+        "tools": "Ouvrir Logiciels",
         "services": "Ouvrir les points d'accès API",
-        "extensions": "Ouvrir Compétences et MCP"
+        "extensions": "Ouvrir Compétences"
       }
     },
     "health": {
@@ -1378,12 +1378,12 @@
       "issues_one": "{{count}} problème détecté",
       "issues_other": "{{count}} problèmes détectés",
       "lastChecked": "Dernière vérification : {{time}}",
-      "checkingConnections": "Vérification des connexions aux services",
+      "checkingConnections": "Vérification des connexions aux points d'accès",
       "connectionError": "La vérification de connexion n'a pas pu démarrer. Réessayez.",
       "noTools": {
         "title": "Commencez avec un outil de codage IA",
         "description": "Une fois un outil installé, le bilan de santé le prend en compte.",
-        "action": "Parcourir les outils IA"
+        "action": "Ouvrir Logiciels"
       }
     },
     "quickActions": {
@@ -1392,8 +1392,8 @@
       "installDescription": "Ajoutez Claude Code, Codex ou OpenCode",
       "updateAll": "Tout mettre à jour",
       "updateDescription": "Gardez vos outils installés à jour",
-      "connectService": "Connecter un service IA",
-      "connectDescription": "Gérez les services et les clés utilisés par vos outils",
+      "connectService": "Connecter un point d'accès API",
+      "connectDescription": "Gérez les points d'accès et les clés utilisés par vos outils",
       "laterHint": "Disponible dans une future mise à jour"
     },
     "updateAll": {
@@ -1401,7 +1401,7 @@
       "title_other": "Mettre à jour {{count}} outils ?",
       "reviewTitle_one": "Vérifier {{count}} mise à jour d'outil",
       "reviewTitle_other": "Vérifier {{count}} mises à jour d'outils",
-      "description": "{{names, list}} seront mis à jour en arrière-plan. Vous pouvez continuer à utiliser AI Manager et suivre la progression dans Tâches.",
+      "description": "{{names, list}} seront mis à jour en arrière-plan. Vous pouvez continuer à utiliser AI Manager et suivre la progression dans Activité.",
       "previewSummary": "{{ready}} peuvent être mis à jour maintenant. {{skipped}} seront ignorés jusqu'à ce que leur installation soit vérifiée.",
       "skippedSummary_one": "{{count}} outil a été ignoré car sa méthode de mise à jour n'a pas pu être confirmée.",
       "skippedSummary_other": "{{count}} outils ont été ignorés car leurs méthodes de mise à jour n'ont pas pu être confirmées.",
@@ -1412,8 +1412,8 @@
       "failure": {
         "partial": {
           "title": "Certaines mises à jour sont en cours",
-          "description_one": "{{count}} mise à jour démarrée dans Tâches. Seul l'outil qui n'a pas démarré reste sélectionné.",
-          "description_other": "{{count}} mises à jour démarrées dans Tâches. Seuls les outils qui n'ont pas démarré restent sélectionnés."
+          "description_one": "{{count}} mise à jour démarrée dans Activité. Seul l'outil qui n'a pas démarré reste sélectionné.",
+          "description_other": "{{count}} mises à jour démarrées dans Activité. Seuls les outils qui n'ont pas démarré restent sélectionnés."
         },
         "all": {
           "title": "Les mises à jour n'ont pas pu démarrer",
@@ -1423,10 +1423,10 @@
       },
       "hints": {
         "current": "Tout est déjà à jour",
-        "running": "Des mises à jour sont déjà en cours dans Tâches",
+        "running": "Des mises à jour sont déjà en cours dans Activité",
         "checking": "Vérification de ce qui peut être mis à jour",
         "unavailable": "L'état des mises à jour est indisponible pour le moment",
-        "review": "Vérifier cette mise à jour dans Outils IA"
+        "review": "Vérifier cette mise à jour dans Logiciels"
       }
     },
     "error": {
@@ -1472,14 +1472,14 @@
     "toolAuthority": {
       "openLabel": "Activité : {{status}} ; actions sur les outils indisponibles",
       "unavailableTitle": "Les actions sur les outils sont indisponibles",
-      "unavailableDescription": "L'historique des tâches reste affiché, mais AI Manager n'a pas pu confirmer quels outils peuvent s'ouvrir.",
+      "unavailableDescription": "L'historique d'activité reste affiché, mais AI Manager n'a pas pu confirmer quels outils peuvent s'ouvrir.",
       "refreshTitle": "Impossible d'actualiser vos outils",
       "refreshDescription": "Les derniers détails des outils restent affichés. L'ouverture d'un outil terminé reste suspendue jusqu'à la réussite d'une nouvelle vérification.",
       "retry": "Revérifier les outils",
       "pausedTitle": "L'ouverture des outils est suspendue",
       "pausedDescription": "AI Manager doit confirmer l'outil actuel avant de pouvoir choisir un dossier de projet. Annulez cette fenêtre, puis revérifiez vos outils dans Activité.",
       "changedTitle": "Cet outil n'est plus prêt à être ouvert",
-      "changedDescription": "La dernière vérification ne montre plus cet outil comme une installation lançable. Annulez cette fenêtre et vérifiez Outils IA."
+      "changedDescription": "La dernière vérification ne montre plus cet outil comme une installation lançable. Annulez cette fenêtre et vérifiez-le dans Logiciels."
     },
     "empty": {
       "title": "Aucune activité pour l'instant",
@@ -1495,7 +1495,7 @@
       "uninstall": "Supprimer {{name}}",
       "repair": "Réparer {{name}}",
       "changeVersion": "Changer la version de {{name}}",
-      "testProviders": "Vérifier les services de {{name}}",
+      "testProviders": "Vérifier les points d'accès de {{name}}",
       "scan": "Vérification du système"
     },
     "extension": {
@@ -1546,7 +1546,7 @@
       "useNamed": "Utiliser {{name}}"
     },
     "card": {
-      "custom": "Service personnalisé",
+      "custom": "Point d'accès personnalisé",
       "saved": "Enregistré",
       "defaultModel": "Modèle par défaut",
       "recentModel": "Utilisé récemment",
@@ -1554,7 +1554,7 @@
       "inUse": "En cours d'utilisation",
       "noKey": "Aucune clé enregistrée pour l'instant",
       "notInEffect": "Sélectionné, mais non actif",
-      "official": "Service officiel",
+      "official": "Point d'accès officiel",
       "overriddenBy": "Sélectionné, mais remplacé par {{source}}",
       "savedEndpoint": "Point d'accès enregistré dans AI Manager",
       "toolSignIn": "Utilise la connexion de {{tool}}"
@@ -1563,14 +1563,14 @@
       "activateNow": "Utiliser maintenant",
       "activateQuestion": "L'utiliser dans {{tool}} maintenant ?",
       "address": {
-        "degraded": "{{name}} a été enregistré, mais son adresse de service a répondu lentement",
-        "failed": "{{name}} a été enregistré, mais son adresse de service n'a pas répondu",
-        "operational": "{{name}} a été enregistré et son adresse de service a répondu"
+        "degraded": "{{name}} a été enregistré, mais son adresse a répondu lentement",
+        "failed": "{{name}} a été enregistré, mais son adresse n'a pas répondu",
+        "operational": "{{name}} a été enregistré et son adresse a répondu"
       },
       "addressRetry": "La configuration est conservée. Vérifiez votre réseau, puis relancez Vérifier l'adresse.",
       "afterSave": "Après l'enregistrement, AI Manager vérifie uniquement l'adresse du service. {{tool}} vérifie la clé et le modèle à la première utilisation.",
       "description": "Ajoutez un service API pour {{tool}}. AI Manager le configurera pour vous.",
-      "errorTitle": "Impossible de terminer la connexion à ce service",
+      "errorTitle": "Impossible d'ajouter ce point d'accès",
       "firstUse": "{{tool}} vérifiera la clé API et le modèle à la première utilisation.",
       "getKey": "Obtenir une clé API",
       "key": "Clé API",
@@ -1581,33 +1581,33 @@
       "modelRequired": "Saisissez un modèle.",
       "measuredServices": "Mesuré sur cet ordinateur",
       "name": "Nom",
-      "baseUrl": "Adresse",
+      "baseUrl": "URL de base",
       "baseUrlHint": "L'adresse avec laquelle ce service est configuré. Si vous la modifiez, le service est enregistré comme point d'accès personnalisé.",
       "baseUrlEdited": "Modifiée, elle sera donc enregistrée comme point d'accès personnalisé.",
       "baseUrlInvalid": "Saisissez une adresse HTTPS sans identifiants.",
       "nameRequired": "Saisissez un nom.",
-      "noPresetMatch": "Aucun service correspondant.",
-      "openProvider": "Ouvrir le service",
-      "preset": "Service prédéfini",
+      "noPresetMatch": "Aucun fournisseur correspondant.",
+      "openProvider": "Ouvrir le fournisseur",
+      "preset": "Fournisseur",
       "presetHint": "Choisissez un fournisseur : l'adresse et le modèle ci-dessous se remplissent tout seuls. Pour tout autre service, modifiez simplement l'adresse. Seuls les fournisseurs largement connus sont listés, et AI Manager ne les recommande ni ne les revend.",
       "profileError": "AI Manager n'a pas pu charger son modèle de connexion sécurisé. Vos services enregistrés restent inchangés.",
-      "profileErrorTitle": "Impossible de préparer une nouvelle connexion",
+      "profileErrorTitle": "Impossible de préparer un nouveau point d'accès",
       "profileRetry": "Recharger la configuration de connexion",
-      "retryConnect": "Réessayer de connecter ce service",
+      "retryConnect": "Réessayer d'ajouter ce point d'accès",
       "retryHint": "AI Manager a actualisé l'état du service enregistré. Vos informations sont toujours là ; vérifiez-les, puis réessayez de vous connecter.",
       "responseTime": "{{latency}} ms",
-      "searchPresets": "Rechercher des services…",
+      "searchPresets": "Rechercher des fournisseurs…",
       "saved": "{{name}} a été enregistré",
       "speedSorted": "Trié selon la dernière mesure de cet ordinateur.",
       "speedTest": "Tester lequel répond le plus vite",
       "speedTestAgain": "Tester à nouveau",
-      "speedTestFailed": "Impossible de mesurer ces services. Vérifiez votre réseau et réessayez.",
-      "speedTesting": "Test des adresses de service en cours…",
+      "speedTestFailed": "Impossible de mesurer ces fournisseurs. Vérifiez votre réseau et réessayez.",
+      "speedTesting": "Test des adresses en cours…",
       "title": "Connecter {{service}}",
       "unreachable": "Injoignable",
       "toolDefault": "Par défaut pour {{tool}}",
       "toolDefaultGroup": "Connexion par défaut de {{tool}}",
-      "otherServices": "Autres services utilisables"
+      "otherServices": "Autres fournisseurs"
     },
     "description": "Choisissez un outil, puis ajoutez, changez et vérifiez ses points d'accès API.",
     "effective": {
@@ -1637,7 +1637,7 @@
     "external": {
       "badge": "Hors de cette application",
       "endpoint": "Point d'accès actuellement actif",
-      "overrides": "{{name}} utilisera cette adresse. Elle prime sur ce que vous choisissez ci-dessous."
+      "overrides": "{{name}} utilisera cette adresse. Elle prime sur le point d'accès que vous choisissez ci-dessous."
     },
     "endpoints": {
       "title": "Points d'accès de {{tool}}",
@@ -1645,30 +1645,30 @@
       "count_other": "{{count}} points d'accès enregistrés"
     },
     "empty": {
-      "description": "Connectez un service API et AI Manager configurera cet outil pour vous.",
+      "description": "Connectez un point d'accès API et AI Manager configurera cet outil pour vous.",
       "title": "Rien ici pour l'instant"
     },
     "error": {
       "description": "Réessayez, ou ouvrez l'outil une fois puis revenez.",
-      "title": "Impossible de lire les services"
+      "title": "Impossible de lire les points d'accès"
     },
     "refreshError": {
-      "description": "Les derniers services enregistrés restent affichés. Les actions sur les services restent suspendues jusqu'à la réussite d'une nouvelle vérification.",
-      "title": "Impossible d'actualiser les services IA"
+      "description": "Les derniers points d'accès enregistrés restent affichés. Les actions sur les points d'accès restent suspendues jusqu'à la réussite d'une nouvelle vérification.",
+      "title": "Impossible d'actualiser les points d'accès API"
     },
     "form": {
       "addHeader": "Ajouter un en-tête",
       "addModel": "Ajouter un modèle",
       "advancedHint": "Seuls les paramètres courants pris en charge par cet outil sont affichés. Les autres champs restent inchangés.",
-      "advancedManaged": "Ce service est géré par l'outil ou par une connexion de compte. Ses paramètres de point d'accès restent en lecture seule ici.",
+      "advancedManaged": "Ce point d'accès est géré par l'outil ou par une connexion de compte. Ses paramètres restent en lecture seule ici.",
       "advancedTitle": "Paramètres avancés",
       "baseUrl": "URL de base",
       "baseUrlHint": "Copiez-la telle qu’elle figure dans la documentation du fournisseur, y compris un éventuel /v1 final.",
       "baseUrlVersionDoubled": "Cet outil ajoute lui-même une version à l'adresse : le /{{segment}} final serait doublé et les requêtes échoueraient. En général, il suffit de le supprimer.",
       "routeAdd": "Ajouter une route",
-      "routeAddLabel": "Nouvelle route de service",
+      "routeAddLabel": "Nouvelle route",
       "routeAddPlaceholder": "https://api.example.com/v1",
-      "routeDuplicate": "Cette route existe déjà dans ce service.",
+      "routeDuplicate": "Cette route existe déjà dans ce point d'accès.",
       "routeEmpty": "Ajoutez ou saisissez au moins une route avant de tester.",
       "routeFixed": "Fixe",
       "routeInvalid": "Utilisez une URL HTTPS sans identifiants, ou HTTP uniquement pour localhost.",
@@ -1676,14 +1676,14 @@
       "routeLimit": "Conservez au maximum 32 routes, y compris la route actuelle.",
       "routeRemove": "Supprimer la route {{route}}",
       "routeUnreachable": "Injoignable",
-      "routes": "Routes du service",
+      "routes": "Routes",
       "routesAuto": "Sélectionner la route la plus rapide après chaque test",
-      "routesHint": "Conservez plusieurs URL de base pour un service et utilisez la plus rapide après un test.",
+      "routesHint": "Conservez plusieurs URL de base pour un point d'accès et utilisez la plus rapide après un test.",
       "routesTest": "Tester les routes",
       "routesTestFailed": "Impossible de tester ces routes. Vérifiez votre réseau et réessayez.",
       "routesTesting": "Test des routes en cours…",
       "description": "Modifiez le nom, la clé ou le modèle.",
-      "errorTitle": "Impossible de terminer l'enregistrement de ce service",
+      "errorTitle": "Impossible d'enregistrer ce point d'accès",
       "headerKeepValue": "Laissez vide pour conserver la valeur enregistrée",
       "headerNameNamed": "Nom de l'en-tête {{index}}",
       "headerNamePlaceholder": "X-Tenant-ID",
@@ -1694,7 +1694,7 @@
       "headerValuePlaceholder": "Valeur de l'en-tête",
       "key": "Clé API",
       "keyHint": "Laissez vide pour conserver la clé déjà enregistrée.",
-      "keyHintEmpty": "Collez la clé obtenue auprès de ce service.",
+      "keyHintEmpty": "Collez la clé obtenue auprès du fournisseur.",
       "modelNamed": "Modèle {{index}}",
       "modelRequired": "Saisissez un ID de modèle ou supprimez la ligne inachevée.",
       "models": "Modèles",
@@ -1704,22 +1704,22 @@
       "nameHint": "Affiché uniquement ici, dans cette application.",
       "nameRequired": "Saisissez un nom.",
       "retryHint": "AI Manager a actualisé l'état du service enregistré. Vérifiez vos modifications, puis réessayez d'enregistrer.",
-      "retrySave": "Réessayer d'enregistrer ce service",
+      "retrySave": "Réessayer d'enregistrer ce point d'accès",
       "removeHeaderNamed": "Supprimer l'en-tête {{name}}",
       "removeModelNamed": "Supprimer le modèle {{model}}",
       "save": "Enregistrer",
-      "settingsLoading": "Chargement des paramètres sécurisés du service…",
+      "settingsLoading": "Chargement des paramètres du point d'accès…",
       "settingsUnavailable": "Les paramètres supplémentaires n'ont pas pu être lus. Vous pouvez toujours enregistrer le nom ou remplacer la clé ; ces paramètres resteront inchangés.",
-      "title": "Modifier le service",
+      "title": "Modifier le point d'accès",
       "routesManage": "Gérer et tester",
       "routesDone": "Terminé",
-      "modelPick": "Choisir dans la liste des modèles du service",
+      "modelPick": "Choisir dans la liste des modèles du point d'accès",
       "modelSearch": "Rechercher des modèles",
       "modelNoMatch": "Aucun modèle correspondant",
       "modelListStale": "La clé ou l’URL de base a changé. Enregistrez d’abord pour lire la nouvelle liste de modèles.",
       "modelListFailed": "Impossible de lire la liste des modèles. Vous pouvez saisir le nom du modèle."
     },
-    "loading": "Chargement des services",
+    "loading": "Chargement des points d'accès",
     "runtime": {
       "description": "Découvrez où cet outil lit réellement les instructions globales, la mémoire, la configuration et les sessions de projet.",
       "loading": "Vérification des sources de configuration",
@@ -1776,17 +1776,17 @@
       "title": "Contexte et stockage locaux"
     },
     "noTools": {
-      "description": "Installez d'abord un outil, ses services apparaîtront ensuite ici.",
+      "description": "Installez d'abord un outil, ses points d'accès apparaîtront ensuite ici.",
       "title": "Aucun outil à configurer pour l'instant"
     },
     "refresh": "Actualiser",
     "remove": {
-      "activeHint": "Choisissez un autre service avant de supprimer celui-ci.",
-      "confirm": "Supprimer le service",
-      "description": "Cela supprime le service enregistré d'AI Manager et de {{tool}}.",
-      "errorTitle": "Impossible de terminer la suppression de ce service",
-      "errorRetry": "Vérifiez le service et réessayez.",
-      "managedHint": "Ce service utilise une configuration spécifique à l'outil et ne peut pas être supprimé ici.",
+      "activeHint": "Choisissez un autre point d'accès avant de supprimer celui-ci.",
+      "confirm": "Supprimer le point d'accès",
+      "description": "Cela supprime le point d'accès enregistré d'AI Manager et de {{tool}}.",
+      "errorTitle": "Impossible de supprimer ce point d'accès",
+      "errorRetry": "Vérifiez le point d'accès et réessayez.",
+      "managedHint": "Ce point d'accès utilise une configuration spécifique à l'outil et ne peut pas être supprimé ici.",
       "removed": "{{name}} supprimé",
       "retryNamed": "Réessayer de supprimer {{name}}",
       "title": "Supprimer {{name}} ?"
@@ -1794,7 +1794,7 @@
     "scope": "Outil IA",
     "scopeUnsupportedShort": "Non intégré",
     "scopeSharedShort": "Partagé avec une application de bureau",
-    "scopeUnsupportedTitle": "AI Manager n'a pas encore intégré la configuration des services de {{tool}}",
+    "scopeUnsupportedTitle": "AI Manager n'a pas encore intégré la configuration des points d'accès de {{tool}}",
     "scopeUnsupportedDescription": "Cela signifie qu'AI Manager n'a pas encore d'adaptateur sûr pour cet outil, pas nécessairement que {{tool}} ne peut pas utiliser de services personnalisés. L'outil installé reste visible par souci de clarté.",
     "scopeSave": {
       "errorDescription": "Vous consultez toujours {{tool}}. Réessayez pour ouvrir cet outil ici la prochaine fois.",
@@ -1814,19 +1814,19 @@
       "switchingNamed": "Basculement vers {{name}}"
     },
     "failover": {
-      "tryNext": "Essayer le prochain service disponible",
-      "tryNextNamed": "Essayer le prochain service enregistré disponible pour {{name}}",
-      "noneAvailable": "Aucun autre service enregistré n'a répondu. La configuration actuelle n'a pas changé.",
+      "tryNext": "Essayer le prochain point d'accès disponible",
+      "tryNextNamed": "Essayer le prochain point d'accès enregistré disponible pour {{name}}",
+      "noneAvailable": "Aucun autre point d'accès enregistré n'a répondu. La configuration actuelle n'a pas changé.",
       "automaticSuccess": "{{from}} n'a pas répondu. Basculé vers {{to}}.",
-      "manualSuccess": "Basculé de {{from}} vers le service disponible {{to}}.",
-      "unknownService": "Service inconnu"
+      "manualSuccess": "Basculé de {{from}} vers le point d'accès disponible {{to}}.",
+      "unknownService": "Point d'accès inconnu"
     },
     "summary": {
       "activeTitle": "{{service}} est actif pour {{tool}}",
       "checked": "Adresses vérifiées",
       "description": "Changez de service ou vérifiez si leurs adresses répondent. AI Manager s'occupe de la configuration pour vous.",
       "eyebrow": "Aperçu de la connexion",
-      "noActiveTitle": "Des services sont enregistrés pour {{tool}}",
+      "noActiveTitle": "Des points d'accès sont enregistrés pour {{tool}}",
       "saved": "Enregistré",
       "testable": "Adresse vérifiable"
     },
@@ -1837,8 +1837,8 @@
       "title": "Votre configuration est enregistrée. Démarrez dans {{tool}}"
     },
     "test": {
-      "browseCompatible": "Parcourir les services compatibles",
-      "browseCompatibleNamed": "Parcourir les services compatibles pour {{name}}",
+      "browseCompatible": "Parcourir les points d'accès compatibles",
+      "browseCompatibleNamed": "Parcourir les points d'accès compatibles pour {{name}}",
       "checkingNamed": "Vérification de {{name}}",
       "degraded": "L'adresse a répondu lentement",
       "errorNamed": "Impossible de vérifier l'adresse de {{name}}",
@@ -1848,7 +1848,7 @@
       "retry": "Réessayer",
       "retryHint": "L'échec de la vérification n'a pas modifié ce service. Réessayez la même vérification.",
       "retryNamed": "Revérifier {{name}}",
-      "unreachableHint": "Cette adresse n'a pas pu être atteinte depuis votre réseau actuel. Vous pouvez choisir un autre service compatible."
+      "unreachableHint": "Cette adresse n'a pas pu être atteinte depuis votre réseau actuel. Vous pouvez choisir un autre point d'accès compatible."
     },
     "probe": {
       "title": "Tester {{name}}",
@@ -1858,8 +1858,8 @@
       "modelLoading": "Lecture de la liste des modèles…",
       "modelReload": "Recharger",
       "modelManual": "Nom du modèle",
-      "modelManualHint": "Ce service ne publie pas de liste de modèles, saisissez donc vous-même le nom du modèle.",
-      "modelRefused": "Le service a refusé la liste des modèles (HTTP {{status}}).",
+      "modelManualHint": "Ce point d'accès ne publie pas de liste de modèles, saisissez donc vous-même le nom du modèle.",
+      "modelRefused": "Le point d'accès a refusé la liste des modèles (HTTP {{status}}).",
       "modelTruncated": "Affichage des {{count}} premiers.",
       "kind": "Sortie",
       "kindText": "Texte",
@@ -1867,16 +1867,16 @@
       "kindHint": "Texte utilise le point de terminaison de chat, Image celui de génération d'images.",
       "prompt": "Prompt",
       "send": "Envoyer",
-      "sending": "En attente du service…",
+      "sending": "En attente du point d'accès…",
       "cost": "Ceci envoie une requête réelle et utilise votre quota.",
       "result": "Résultat",
       "resultMeta": "HTTP {{status}} · {{ms}} ms",
-      "replyEmpty": "Le service a répondu mais n'a rien retourné.",
-      "replyRefused": "Le service a refusé cette requête.",
-      "replyImageLinkOnly": "Le service a retourné un lien au lieu de données image, l'image ne peut donc pas être affichée ici.",
+      "replyEmpty": "Le point d'accès a répondu mais n'a rien retourné.",
+      "replyRefused": "Le point d'accès a refusé cette requête.",
+      "replyImageLinkOnly": "Le point d'accès a retourné un lien au lieu de données image, l'image ne peut donc pas être affichée ici.",
       "imageAlt": "Image générée par {{model}}",
       "adopt": "Utiliser ce modèle",
-      "adopted": "Enregistré pour ce service.",
+      "adopted": "Enregistré pour ce point d'accès.",
       "adoptFailed": "Impossible d'enregistrer le modèle.",
       "addressWorksInstead": "Cette adresse ne propose pas cette route. {{url}} a été essayée et a répondu.",
       "useAddress": "Utiliser cette adresse",
@@ -1886,17 +1886,17 @@
     },
     "title": "Points d'accès API",
     "toolsError": {
-      "description": "AI Manager n'a pas pu vérifier quels outils vous possédez. Réessayez pour voir leurs services.",
+      "description": "AI Manager n'a pas pu vérifier quels outils vous possédez. Réessayez pour voir leurs points d'accès.",
       "title": "Impossible de lire vos outils"
     },
     "toolsRefreshError": {
       "title": "Impossible d'actualiser vos outils",
-      "description": "La dernière vérification des outils et les services restent affichés. La connexion, le changement, la vérification, la modification, la suppression et le démarrage restent suspendus jusqu'à la réussite d'une nouvelle vérification des outils.",
+      "description": "La dernière vérification des outils et les points d'accès restent affichés. La connexion, le changement, la vérification, la modification, la suppression et le démarrage restent suspendus jusqu'à la réussite d'une nouvelle vérification des outils.",
       "action": "Revérifier les outils"
     },
     "actionsPaused": {
-      "title": "Les actions sur les services sont suspendues",
-      "description": "AI Manager doit confirmer l'outil actuel et l'état du service avant de pouvoir effectuer un autre changement ou démarrer l'outil."
+      "title": "Les actions sur les points d'accès sont suspendues",
+      "description": "AI Manager doit confirmer l'outil actuel et l'état du point d'accès avant de pouvoir effectuer un autre changement ou démarrer l'outil."
     },
     "shellVariable": {
       "at": "Ligne {{line}} de {{path}}",
@@ -1910,12 +1910,15 @@
     },
     "reorder": {
       "handle": "Déplacer {{name}}",
-      "roleDescription": "service déplaçable",
-      "instructions": "Pour déplacer ce service, appuyez sur Espace ou Entrée, déplacez-le avec les flèches haut et bas, puis appuyez de nouveau sur Espace ou Entrée pour le déposer. Appuyez sur Échap pour annuler.",
+      "roleDescription": "point d'accès déplaçable",
+      "instructions": "Pour déplacer ce point d'accès, appuyez sur Espace ou Entrée, déplacez-le avec les flèches haut et bas, puis appuyez de nouveau sur Espace ou Entrée pour le déposer. Appuyez sur Échap pour annuler.",
       "picked": "{{name}} saisi, position {{position}} sur {{count}}.",
       "moved": "{{name}} est maintenant en position {{position}} sur {{count}}.",
       "dropped": "{{name}} déposé en position {{position}} sur {{count}}.",
       "cancelled": "Déplacement annulé. {{name}} reste en position {{position}} sur {{count}}."
+    },
+    "tab": {
+      "endpoints": "Points d'accès"
     }
   },
   "extensions": {
@@ -1959,7 +1962,7 @@
     "scopeSave": {
       "saving": "Mémorisation de cette vue",
       "errorTitle": "Cette vue n'a pas été mémorisée",
-      "errorDescription": "Vous pouvez continuer à travailler ici. Réessayez pour qu'AI Manager ouvre la même vue d'extension la prochaine fois.",
+      "errorDescription": "Vous pouvez continuer à travailler ici. Réessayez pour qu'AI Manager ouvre la même vue la prochaine fois.",
       "retry": "Réessayer"
     },
     "copy": {
@@ -2050,7 +2053,7 @@
         "refreshingTitle": "Vérification du dernier catalogue de compétences",
         "refreshingDescription": "Vous pouvez continuer à parcourir le dernier catalogue. L'installation devient disponible une fois la vérification terminée.",
         "refreshErrorTitle": "Impossible d'actualiser le catalogue de compétences",
-        "refreshErrorDescription": "Le dernier catalogue reste affiché. L'installation reste suspendue jusqu'à la réussite d'une nouvelle vérification ; si besoin, configurez le proxy de téléchargement local dans Réglages.",
+        "refreshErrorDescription": "Le dernier catalogue reste affiché. L'installation reste suspendue jusqu'à la réussite d'une nouvelle vérification ; si besoin, configurez le proxy de téléchargement local dans Paramètres.",
         "mirrorTitle": "Catalogue chargé via un relais de confiance",
         "mirrorDescription": "GitHub n'a pas répondu à cette vérification, AI Manager a donc utilisé jsDelivr pour transporter un instantané vérifié par taille et SHA-256. Le dépôt GitHub reste la référence, et aucun paramètre global n'a changé.",
         "retry": "Réessayer",
@@ -2170,7 +2173,7 @@
         "description": "Connectez {{tool}} à un programme local ou à un service distant.",
         "confirm": "Ajouter la connexion",
         "name": "Nom de la connexion",
-        "nameHint": "Utilisez un nom que vous reconnaîtrez dans Extensions.",
+        "nameHint": "Utilisez un nom que vous reconnaîtrez dans la liste.",
         "optionalDescription": "Description (facultatif)",
         "transport": {
           "label": "Comment se connecte-t-elle ?",
@@ -2233,7 +2236,7 @@
         "confirm": "Supprimer la connexion",
         "queued": "Suppression de {{name}}",
         "queuedDescription": "Vous pouvez continuer à travailler et suivre la progression dans Activité.",
-        "errorRetry": "Vérifiez les détails de la tâche avant de réessayer."
+        "errorRetry": "Vérifiez les détails dans Activité avant de réessayer."
       },
       "empty": {
         "title": "Aucune connexion pour l'instant",
@@ -2323,8 +2326,8 @@
     "target": {
       "routed": "Routé",
       "direct": "Direct",
-      "current": "Service actuel : {{name}}",
-      "noProvider": "Choisissez d'abord un service actuel dans Points d'accès API."
+      "current": "Point d'accès actuel : {{name}}",
+      "noProvider": "Choisissez d'abord un point d'accès actuel dans Points d'accès API."
     },
     "takeover": {
       "title": "Prise en charge du routage",
@@ -2333,20 +2336,20 @@
     },
     "failover": {
       "title": "Basculement automatique",
-      "description": "Essaie les services sains dans l'ordre P1, P2 en cas d'échec d'une requête.",
+      "description": "Essaie les points d'accès sains dans l'ordre P1, P2 en cas d'échec d'une requête.",
       "label": "Basculement automatique pour {{name}}"
     },
     "queue": {
       "title": "Ordre de basculement",
       "description": "P1 est sélectionné au démarrage du basculement.",
-      "count_one": "{{count}} service",
-      "count_other": "{{count}} services",
-      "empty": "Ajoutez un service, ou activez le basculement pour utiliser le service actuel comme P1.",
-      "selectLabel": "Service à ajouter au basculement",
-      "selectLabelNamed": "Service à ajouter au basculement de {{name}}",
-      "selectPlaceholder": "Choisissez un service",
+      "count_one": "{{count}} point d'accès",
+      "count_other": "{{count}} points d'accès",
+      "empty": "Ajoutez un point d'accès, ou activez le basculement pour utiliser le point d'accès actuel comme P1.",
+      "selectLabel": "Point d'accès à ajouter au basculement",
+      "selectLabelNamed": "Point d'accès à ajouter au basculement de {{name}}",
+      "selectPlaceholder": "Choisissez un point d'accès",
       "add": "Ajouter",
-      "addNamed": "Ajouter le service sélectionné au basculement de {{name}}"
+      "addNamed": "Ajouter le point d'accès sélectionné au basculement de {{name}}"
     },
     "provider": {
       "current": "Actuel",
@@ -2538,10 +2541,10 @@
         "action": {
           "updateTool": "Mettre à jour maintenant",
           "repairTool": "Réparer maintenant",
-          "reviewTool": "Vérifier Outils IA",
-          "connectService": "Connecter un service",
+          "reviewTool": "Ouvrir Logiciels",
+          "connectService": "Connecter un point d'accès",
           "reviewService": "Vérifier Points d'accès API",
-          "reviewExtensions": "Vérifier Extensions"
+          "reviewExtensions": "Ouvrir MCP"
         }
       },
       "item": {
@@ -2566,13 +2569,13 @@
           "description": "Ceci est informatif et n'est pas compté comme un problème."
         },
         "providerReady": {
-          "title": "{{name}} a un service IA configuré",
-          "description_one": "{{count}} configuration de service est utilisée.",
-          "description_other": "{{count}} configurations de service sont utilisées."
+          "title": "{{name}} a un point d'accès API configuré",
+          "description_one": "{{count}} configuration de point d'accès est utilisée.",
+          "description_other": "{{count}} configurations de point d'accès sont utilisées."
         },
         "providerMissing": {
-          "title": "{{name}} n'a aucun service IA configuré",
-          "description": "Ouvrez Points d'accès API et choisissez ou configurez un service pour cet outil."
+          "title": "{{name}} n'a aucun point d'accès API configuré",
+          "description": "Ouvrez Points d'accès API et choisissez ou ajoutez un point d'accès pour cet outil."
         },
         "configReadable": {
           "title": "La configuration de {{name}} peut être lue",
@@ -2601,7 +2604,7 @@
           },
           "notChecked": {
             "title": "{{provider}} n'a pas été vérifié durant cette session",
-            "description": "Lancez Vérifier dans Points d'accès API si vous voulez tester cette connexion."
+            "description": "Sélectionnez Tester dans Points d'accès API pour vérifier cette connexion."
           }
         },
         "mcp": {
@@ -2610,17 +2613,17 @@
         },
         "mcpInventoryUnavailable": {
           "title": "Impossible d'examiner les connexions MCP locales",
-          "description": "Ouvrez Extensions pour relancer l'inventaire local avant de supposer que toutes les connexions sont gérées."
+          "description": "Ouvrez MCP pour vérifier à nouveau l'inventaire local."
         },
         "mcpInventoryPartial": {
           "title": "Certains emplacements MCP locaux nécessitent une nouvelle vérification",
-          "description": "Emplacements à vérifier : {{count}}. Un emplacement pris en charge n'a pas pu être examiné, ou l'inventaire limité était plein. Consultez Extensions pour connaître la prochaine étape complète."
+          "description": "{{count}} emplacements n'ont pas pu être vérifiés. Consultez-les dans MCP."
         }
       }
     },
     "import": {
       "title": "Importer depuis CC Switch",
-      "description": "Faites venir les services IA, serveurs MCP et compétences de CC Switch dans AI Manager. Rien ne change dans CC Switch.",
+      "description": "Faites venir les points d'accès API, serveurs MCP et compétences de CC Switch dans AI Manager. Rien ne change dans CC Switch.",
       "reimport": "Importer depuis CC Switch",
       "loading": "Recherche d'une configuration CC Switch",
       "retry": "Revérifier",
@@ -2629,11 +2632,11 @@
       "again": "Importer à nouveau",
       "skip": "Ignorer",
       "success": "Configuration existante importée.",
-      "collision": "Si le même service ou la même extension existe déjà, la version importée le remplace. Tout le reste est conservé.",
+      "collision": "Si le même point d'accès, serveur MCP ou compétence existe déjà, la version importée le remplace. Tout le reste est conservé.",
       "sourceDetail": "La base de données locale de CC Switch, ouverte en lecture seule",
       "prompt": {
         "title": "Configuration CC Switch trouvée",
-        "description": "CC Switch a été installé sur cet ordinateur. Faire venir ses services IA, serveurs MCP et compétences ?"
+        "description": "CC Switch a été installé sur cet ordinateur. Faire venir ses points d'accès API, serveurs MCP et compétences ?"
       },
       "confirm": {
         "title": "Importer cette configuration existante ?",
@@ -2647,16 +2650,16 @@
       },
       "completion": {
         "title": "Configuration importée",
-        "description": "Les services, serveurs MCP et compétences pris en charge sont désormais dans AI Manager.",
+        "description": "Les points d'accès API, serveurs MCP et compétences pris en charge sont désormais dans AI Manager.",
         "countLabel": "Éléments importés",
-        "nextStepTitle": "Choisissez ce que chaque outil doit utiliser",
-        "nextStep": "Ouvrez Points d'accès API et sélectionnez un service importé pour chaque outil quand vous êtes prêt.",
+        "nextStepTitle": "Choisissez le point d'accès de chaque outil",
+        "nextStep": "Ouvrez Points d'accès API et sélectionnez un point d'accès importé pour chaque outil quand vous êtes prêt.",
         "continue": "Continuer"
       },
       "count": {
         "label": "Éléments prêts à importer",
-        "services_one": "{{count}} service IA",
-        "services_other": "{{count}} services IA",
+        "services_one": "{{count}} point d'accès API",
+        "services_other": "{{count}} points d'accès API",
         "mcpServers_one": "{{count}} serveur MCP",
         "mcpServers_other": "{{count}} serveurs MCP",
         "skills_one": "{{count}} compétence",
@@ -2767,7 +2770,7 @@
         },
         "imported": {
           "title": "Configuration importée",
-          "description": "AI Manager utilise désormais les services et extensions de cette archive."
+          "description": "AI Manager utilise désormais les points d'accès et extensions de cette archive."
         },
         "renamed": {
           "title": "Point de restauration renommé",
@@ -2783,17 +2786,17 @@
         },
         "warning": {
           "title": "Restauration terminée, mais un outil nécessite votre attention",
-          "description": "Un outil n'a pas pris en compte le changement de service. Vérifiez Points d'accès API et choisissez de nouveau le service souhaité."
+          "description": "Un outil n'a pas pris en compte le changement de point d'accès. Vérifiez Points d'accès API et choisissez de nouveau le point d'accès souhaité."
         },
         "importWarning": {
           "title": "Import terminé, mais un outil nécessite votre attention",
-          "description": "L'archive a été importée, mais un outil n'a pas pris en compte le changement de service. Vérifiez Points d'accès API et choisissez de nouveau le service souhaité."
+          "description": "L'archive a été importée, mais un outil n'a pas pris en compte le changement de point d'accès. Vérifiez Points d'accès API et choisissez de nouveau le point d'accès souhaité."
         },
         "reviewServices": "Vérifier Points d'accès API"
       },
       "empty": {
         "title": "Protégez votre configuration actuelle",
-        "description": "Créez un point de restauration local avant de modifier des outils ou des services.",
+        "description": "Créez un point de restauration local avant de modifier des outils ou des points d'accès.",
         "local": "Local uniquement"
       },
       "error": {
@@ -2806,7 +2809,7 @@
         "description": "La dernière liste de sauvegardes reste affichée. Les actions de sauvegarde restent suspendues jusqu'à la réussite d'une nouvelle vérification."
       },
       "restorePoint": {
-        "replaces": "Les services, extensions et choix dans AI Manager reviennent à ce point de restauration.",
+        "replaces": "Les points d'accès, extensions et choix dans AI Manager reviennent à ce point de restauration.",
         "installed": "Les outils de codage IA installés restent sur cet ordinateur.",
         "followUp": "Après la restauration, AI Manager vous indique si un outil nécessite votre attention."
       },
@@ -2815,10 +2818,10 @@
       },
       "transfer": {
         "secretTitle": "Traitez l'archive comme un mot de passe",
-        "secretDescription": "Une copie portable peut contenir des clés de service et d'autres configurations privées. Conservez-la en sécurité et ne la partagez qu'avec des personnes de confiance.",
+        "secretDescription": "Une copie portable peut contenir des clés API et d'autres configurations privées. Conservez-la en sécurité et ne la partagez qu'avec des personnes de confiance.",
         "confirmTitle": "Importer cette archive de configuration ?",
         "confirmDescription": "Choisissez l'archive seulement après avoir vérifié ce qui va changer.",
-        "confirmReplace": "Les services gérés, les extensions et l'historique enregistré seront remplacés par l'archive.",
+        "confirmReplace": "Les points d'accès gérés, les extensions et l'historique enregistré seront remplacés par l'archive.",
         "confirmSafety": "AI Manager crée un point de restauration local avant de remplacer ses données actuelles.",
         "confirmTrust": "N'importez qu'une archive que vous avez créée ou reçue d'une personne de confiance.",
         "confirmInstalled": "Les outils de codage IA installés restent sur cet ordinateur.",

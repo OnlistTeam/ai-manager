@@ -608,7 +608,7 @@ describe("HomePage", () => {
       name: en.home.health.title,
     });
     expect(
-      within(guide).getByText("Claude Code has no AI service configured"),
+      within(guide).getByText("Claude Code has no API endpoint configured"),
     ).toBeInTheDocument();
     expect(screen.queryByText(/needs attention/)).not.toBeInTheDocument();
 
@@ -912,7 +912,7 @@ describe("HomePage", () => {
       name: "Some updates are now running",
     });
     expect(alert).toHaveTextContent(
-      "1 update started in Tasks. Only the tool that did not start remains selected.",
+      "1 update started in Activity. Only the tool that did not start remains selected.",
     );
     expect(alert).not.toHaveTextContent("/Users/alice/tool");
     const retryDialog = screen.getByRole("dialog", {
@@ -1024,7 +1024,7 @@ describe("HomePage", () => {
     );
     await userEvent.click(
       within(skipped).getByRole("button", {
-        name: "Review this update in AI Tools",
+        name: "Review this update in Software",
       }),
     );
     expect(onOpenTools).toHaveBeenCalledOnce();
@@ -1154,7 +1154,7 @@ describe("HomePage", () => {
     ]);
 
     expect(
-      await screen.findByText("Review this update in AI Tools"),
+      await screen.findByText("Review this update in Software"),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: en.home.quickActions.updateAll }),
@@ -1205,7 +1205,7 @@ describe("HomePage", () => {
       name: en.home.quickActions.updateAll,
     });
     expect(
-      await screen.findByText("Updates are already running in Tasks"),
+      await screen.findByText("Updates are already running in Activity"),
     ).toBeInTheDocument();
     expect(updateAll).toBeDisabled();
   });

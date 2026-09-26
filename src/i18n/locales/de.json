@@ -633,37 +633,37 @@
       "unsupportedTool": "AI Manager hat feste Anweisungen für dieses Tool nicht integriert."
     },
     "provider": {
-      "createFailed": "Dieser Dienst konnte nicht verbunden werden.",
-      "listFailed": "Die Dienste für dieses Tool konnten nicht gelesen werden.",
+      "createFailed": "Dieser Endpunkt konnte nicht hinzugefügt werden.",
+      "listFailed": "Die Endpunkte für dieses Tool konnten nicht gelesen werden.",
       "modelProbeImageTooLarge": "Das erzeugte Bild war zu groß, um angezeigt zu werden.",
       "modelProbeModelInvalid": "Geben Sie zuerst einen Modellnamen ein.",
       "modelProbePromptInvalid": "Geben Sie einen Prompt mit höchstens 200 Zeichen ein.",
-      "modelProbeTimeout": "Der Dienst hat nicht rechtzeitig geantwortet.",
-      "modelProbeUnreachable": "Dieser Dienst konnte nicht erreicht werden.",
-      "modelProbeUnreadable": "Der Dienst hat mit etwas geantwortet, das diese App nicht lesen konnte.",
-      "nameRequired": "Geben Sie diesem Dienst zuerst einen Namen.",
-      "notFound": "Dieser Dienst ist nicht mehr vorhanden.",
-      "notTestable": "Dieser Dienst hat keine Adresse zum Prüfen.",
-      "removeActive": "Wechseln Sie zu einem anderen Dienst, bevor Sie diesen entfernen.",
-      "removeFailed": "Der Dienst konnte nicht sicher entfernt werden.",
-      "removePanicked": "Beim Entfernen dieses Dienstes ist etwas schiefgelaufen.",
-      "removeRestoreFailed": "Der Dienst konnte nicht entfernt werden, und AI Manager konnte nicht bestätigen, dass die vorherige Einrichtung vollständig wiederhergestellt wurde.",
-      "removeUnsupported": "Dieser Dienst verwendet eine toolspezifische Einrichtung und kann hier nicht entfernt werden.",
-      "removeVerifyFailed": "AI Manager konnte nicht bestätigen, dass der Dienst entfernt wurde.",
+      "modelProbeTimeout": "Der Endpunkt hat nicht rechtzeitig geantwortet.",
+      "modelProbeUnreachable": "Dieser Endpunkt konnte nicht erreicht werden.",
+      "modelProbeUnreadable": "Der Endpunkt hat mit etwas geantwortet, das diese App nicht lesen konnte.",
+      "nameRequired": "Geben Sie diesem Endpunkt zuerst einen Namen.",
+      "notFound": "Dieser Endpunkt ist nicht mehr vorhanden.",
+      "notTestable": "Dieser Endpunkt hat keine Adresse zum Prüfen.",
+      "removeActive": "Wechseln Sie zu einem anderen Endpunkt, bevor Sie diesen entfernen.",
+      "removeFailed": "Der Endpunkt konnte nicht sicher entfernt werden.",
+      "removePanicked": "Beim Entfernen dieses Endpunkts ist etwas schiefgelaufen.",
+      "removeRestoreFailed": "Der Endpunkt konnte nicht entfernt werden, und AI Manager konnte nicht bestätigen, dass die vorherige Einrichtung vollständig wiederhergestellt wurde.",
+      "removeUnsupported": "Dieser Endpunkt verwendet eine toolspezifische Einrichtung und kann hier nicht entfernt werden.",
+      "removeVerifyFailed": "AI Manager konnte nicht bestätigen, dass der Endpunkt entfernt wurde.",
       "runtimeContextFailed": "Die Konfigurationsquellen dieses Tools konnten nicht geprüft werden.",
       "runtimeResourceNotFound": "Diese lokale Ressource ist nicht mehr verfügbar.",
       "runtimeResourceOpenFailed": "Diese lokale Ressource konnte nicht geöffnet werden.",
-      "saveFailed": "Die Änderungen an diesem Dienst konnten nicht gespeichert werden.",
-      "saveRestoreFailed": "Der Dienst konnte nicht gespeichert werden, und AI Manager konnte nicht bestätigen, dass die vorherige Einrichtung vollständig wiederhergestellt wurde.",
+      "saveFailed": "Die Änderungen an diesem Endpunkt konnten nicht gespeichert werden.",
+      "saveRestoreFailed": "Der Endpunkt konnte nicht gespeichert werden, und AI Manager konnte nicht bestätigen, dass die vorherige Einrichtung vollständig wiederhergestellt wurde.",
       "settingsPreserveFailed": "Der Endpunkt wurde gewechselt, die übrigen Einstellungen dieses Tools konnten aber nicht erhalten werden.",
       "storeUnavailable": "Die App startet noch.",
-      "switchFailed": "Es konnte nicht zu diesem Dienst gewechselt werden.",
+      "switchFailed": "Es konnte nicht zu diesem Endpunkt gewechselt werden.",
       "testFailed": "Die Prüfung konnte nicht durchgeführt werden.",
-      "unsupportedTool": "AI Manager hat KI-Dienste für dieses Tool nicht integriert.",
-      "reorderFailed": "Die neue Reihenfolge konnte nicht gespeichert werden. Die Liste ist wieder wie vorher; verschieben Sie den Dienst bitte erneut."
+      "unsupportedTool": "AI Manager hat API-Endpunkte für dieses Tool noch nicht integriert.",
+      "reorderFailed": "Die neue Reihenfolge konnte nicht gespeichert werden. Die Liste ist wieder wie vorher; verschieben Sie den Endpunkt bitte erneut."
     },
     "remediation": {
-      "chooseAnotherService": "Wählen Sie einen anderen Dienst für dieses Tool und versuchen Sie es erneut.",
+      "chooseAnotherService": "Wählen Sie einen anderen Endpunkt für dieses Tool und versuchen Sie es erneut.",
       "checkConnectionSettings": "Prüfen Sie Name, API-Schlüssel und Modell und versuchen Sie es erneut.",
       "checkInternetConnection": "Prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
       "checkLocalFileAccess": "Stellen Sie sicher, dass sich der Skill noch am ursprünglichen Ort befindet und Ihr System ihn öffnen kann, und versuchen Sie es erneut.",
@@ -682,7 +682,7 @@
       "openToolManually": "Öffnen Sie ein Terminal in Ihrem Projektordner und starten Sie das Tool dort.",
       "refreshSessions": "Aktualisieren Sie die Sitzungsliste und wählen Sie die Unterhaltung erneut aus.",
       "recheckUpdate": "Prüfen Sie die Update-Details erneut, bevor Sie fortfahren.",
-      "removeInTool": "Entfernen Sie diesen Dienst aus seiner toolspezifischen Einrichtung.",
+      "removeInTool": "Entfernen Sie diesen Endpunkt aus seiner toolspezifischen Einrichtung.",
       "retryOrViewDetails": "Versuchen Sie es erneut, oder öffnen Sie Details anzeigen, um zu sehen, was passiert ist.",
       "useOriginalUpdateChannel": "Verwenden Sie den ursprünglichen Updater dieser Installation, oder entfernen Sie sie ausdrücklich, bevor Sie über npm installieren.",
       "uninstallManually": "Sie können die verbleibenden Dateien selbst löschen und dann erneut prüfen lassen.",
@@ -690,9 +690,9 @@
     },
     "routing": {
       "changeFailed": "AI Manager konnte diese Routing-Änderung nicht sicher abschließen.",
-      "providerNotEligible": "Dieser Dienst kann nicht am automatischen Failover teilnehmen.",
-      "providerUnavailable": "Dieser Dienst steht für das Routing nicht mehr zur Verfügung.",
-      "queueLocked": "Schalten Sie den automatischen Failover aus, bevor Sie diesen aktiven oder letzten Dienst entfernen.",
+      "providerNotEligible": "Dieser Endpunkt kann nicht am automatischen Failover teilnehmen.",
+      "providerUnavailable": "Dieser Endpunkt steht für das Routing nicht mehr zur Verfügung.",
+      "queueLocked": "Schalten Sie den automatischen Failover aus, bevor Sie diesen aktiven oder letzten Endpunkt entfernen.",
       "readFailed": "AI Manager konnte den Status des lokalen Routings nicht lesen.",
       "storeUnavailable": "Lokales Routing ist noch nicht bereit.",
       "takeoverRequired": "Schalten Sie zuerst die Routing-Übernahme für dieses Tool ein.",
@@ -961,7 +961,7 @@
       "scenarioLabel": "Wählen Sie, was Sie tun möchten",
       "scenario": {
         "officialCoding": "Das offizielle Programmier-Tool eines Anbieters verwenden",
-        "modelChoice": "Zwischen Modellen und Diensten wählen",
+        "modelChoice": "Zwischen Modellen und Anbietern wählen",
         "personalAutomation": "Einen persönlichen Assistenten oder eine Automatisierung erstellen"
       },
       "publisher": "Veröffentlicht von {{publisher}}",
@@ -1191,8 +1191,8 @@
       "chooseFolder": "Ordner wählen",
       "launched": "{{name}} wurde im Terminal geöffnet.",
       "providerUnreachable": "{{name}} hat nicht geantwortet",
-      "providerUnreachableHint": "Es wurde nichts geöffnet, und die gespeicherte Einrichtung wurde nicht geändert. Prüfen Sie erneut oder versuchen Sie einen anderen gespeicherten kompatiblen Dienst.",
-      "noSavedAlternative": "Kein anderer gespeicherter kompatibler Dienst ist zum Prüfen verfügbar.",
+      "providerUnreachableHint": "Es wurde nichts geöffnet, und die gespeicherte Einrichtung wurde nicht geändert. Prüfen Sie erneut oder versuchen Sie einen anderen gespeicherten kompatiblen Endpunkt.",
+      "noSavedAlternative": "Kein anderer gespeicherter kompatibler Endpunkt ist zum Prüfen verfügbar.",
       "retry": "Erneut versuchen",
       "retryNamed": "{{name}} erneut öffnen"
     },
@@ -1345,7 +1345,7 @@
     },
     "card": {
       "title": "KI-Umgebung",
-      "description": "Tools, Dienste und Erweiterungen an einem Ort geprüft",
+      "description": "Software, API-Endpunkte und MCP an einem Ort geprüft",
       "checking": "Ihre KI-Umgebung wird geprüft",
       "toolsInstalled_one": "{{count}} Tool installiert",
       "toolsInstalled_other": "{{count}} Tools installiert",
@@ -1360,15 +1360,15 @@
       "startHint": "Wählen Sie einen Projektordner. Ihr Dienst prüft den Zugriff bei der ersten Verwendung.",
       "inventory": {
         "label": "Details zur Einrichtung",
-        "servicesConfigured_one": "{{count}} KI-Dienst konfiguriert",
-        "servicesConfigured_other": "{{count}} KI-Dienste konfiguriert",
+        "servicesConfigured_one": "{{count}} API-Endpunkt konfiguriert",
+        "servicesConfigured_other": "{{count}} API-Endpunkte konfiguriert",
         "mcpEnabled": "MCP aktiviert: {{enabled}} von {{total}}",
         "noMcp": "Noch keine MCP-Verbindungen"
       },
       "actions": {
-        "tools": "KI-Tools öffnen",
+        "tools": "Software öffnen",
         "services": "API-Endpunkte öffnen",
-        "extensions": "Skills & MCP öffnen"
+        "extensions": "Skills öffnen"
       }
     },
     "health": {
@@ -1378,12 +1378,12 @@
       "issues_one": "{{count}} Problem gefunden",
       "issues_other": "{{count}} Probleme gefunden",
       "lastChecked": "Zuletzt geprüft: {{time}}",
-      "checkingConnections": "Dienstverbindungen werden geprüft",
+      "checkingConnections": "Endpunktverbindungen werden geprüft",
       "connectionError": "Die Verbindungsprüfung konnte nicht gestartet werden. Versuchen Sie es erneut.",
       "noTools": {
         "title": "Mit einem KI-Programmiertool starten",
         "description": "Sobald eines installiert ist, deckt die Statusprüfung es ab.",
-        "action": "KI-Tools durchsuchen"
+        "action": "Software öffnen"
       }
     },
     "quickActions": {
@@ -1392,8 +1392,8 @@
       "installDescription": "Claude Code, Codex oder OpenCode hinzufügen",
       "updateAll": "Alle aktualisieren",
       "updateDescription": "Installierte Tools auf dem neuesten Stand halten",
-      "connectService": "KI-Dienst verbinden",
-      "connectDescription": "Die Dienste und Schlüssel verwalten, die Ihre Tools verwenden",
+      "connectService": "API-Endpunkt verbinden",
+      "connectDescription": "Die Endpunkte und Schlüssel verwalten, die Ihre Tools verwenden",
       "laterHint": "Kommt in einem späteren Update"
     },
     "updateAll": {
@@ -1401,7 +1401,7 @@
       "title_other": "{{count}} Tools aktualisieren?",
       "reviewTitle_one": "{{count}} Tool-Update prüfen",
       "reviewTitle_other": "{{count}} Tool-Updates prüfen",
-      "description": "{{names, list}} wird im Hintergrund aktualisiert. Sie können AI Manager weiter verwenden und den Fortschritt unter Aufgaben verfolgen.",
+      "description": "{{names, list}} wird im Hintergrund aktualisiert. Sie können AI Manager weiter verwenden und den Fortschritt unter Aktivität verfolgen.",
       "previewSummary": "{{ready}} können jetzt aktualisiert werden. {{skipped}} werden übersprungen, bis ihre Installation geprüft wurde.",
       "skippedSummary_one": "{{count}} Tool wurde übersprungen, weil seine Update-Methode nicht bestätigt werden konnte.",
       "skippedSummary_other": "{{count}} Tools wurden übersprungen, weil ihre Update-Methoden nicht bestätigt werden konnten.",
@@ -1412,8 +1412,8 @@
       "failure": {
         "partial": {
           "title": "Einige Updates laufen jetzt",
-          "description_one": "{{count}} Update in Aufgaben gestartet. Nur das Tool, das nicht gestartet ist, bleibt ausgewählt.",
-          "description_other": "{{count}} Updates in Aufgaben gestartet. Nur die Tools, die nicht gestartet sind, bleiben ausgewählt."
+          "description_one": "{{count}} Update unter Aktivität gestartet. Nur das Tool, das nicht gestartet ist, bleibt ausgewählt.",
+          "description_other": "{{count}} Updates unter Aktivität gestartet. Nur die Tools, die nicht gestartet sind, bleiben ausgewählt."
         },
         "all": {
           "title": "Updates konnten nicht gestartet werden",
@@ -1423,10 +1423,10 @@
       },
       "hints": {
         "current": "Alles ist bereits auf dem neuesten Stand",
-        "running": "Updates laufen bereits unter Aufgaben",
+        "running": "Updates laufen bereits unter Aktivität",
         "checking": "Wird geprüft, was aktualisiert werden kann",
         "unavailable": "Update-Status ist gerade nicht verfügbar",
-        "review": "Dieses Update unter KI-Tools prüfen"
+        "review": "Dieses Update unter Software prüfen"
       }
     },
     "error": {
@@ -1472,14 +1472,14 @@
     "toolAuthority": {
       "openLabel": "Aktivität: {{status}}, Tool-Aktionen nicht verfügbar",
       "unavailableTitle": "Tool-Aktionen sind nicht verfügbar",
-      "unavailableDescription": "Der Aufgabenverlauf wird weiterhin angezeigt, aber AI Manager konnte nicht bestätigen, welche Tools geöffnet werden können.",
+      "unavailableDescription": "Der Aktivitätsverlauf wird weiterhin angezeigt, aber AI Manager konnte nicht bestätigen, welche Tools geöffnet werden können.",
       "refreshTitle": "Ihre Tools konnten nicht aktualisiert werden",
       "refreshDescription": "Die letzten Tool-Details werden weiterhin angezeigt. Das Öffnen eines abgeschlossenen Tools bleibt pausiert, bis eine neue Prüfung erfolgreich ist.",
       "retry": "Tools erneut prüfen",
       "pausedTitle": "Öffnen von Tools ist pausiert",
       "pausedDescription": "AI Manager muss das aktuelle Tool bestätigen, bevor ein Projektordner gewählt werden kann. Brechen Sie dieses Fenster ab und prüfen Sie Ihre Tools erneut unter Aktivität.",
       "changedTitle": "Dieses Tool ist nicht mehr bereit zum Öffnen",
-      "changedDescription": "Die letzte Prüfung zeigt dieses Tool nicht mehr als startbare Installation. Brechen Sie dieses Fenster ab und prüfen Sie KI-Tools."
+      "changedDescription": "Die letzte Prüfung zeigt dieses Tool nicht mehr als startbare Installation. Brechen Sie dieses Fenster ab und prüfen Sie es unter Software."
     },
     "empty": {
       "title": "Noch keine Aktivität",
@@ -1495,7 +1495,7 @@
       "uninstall": "{{name}} entfernen",
       "repair": "{{name}} reparieren",
       "changeVersion": "Version von {{name}} ändern",
-      "testProviders": "Dienste von {{name}} prüfen",
+      "testProviders": "Endpunkte von {{name}} prüfen",
       "scan": "Systemprüfung"
     },
     "extension": {
@@ -1546,7 +1546,7 @@
       "useNamed": "{{name}} verwenden"
     },
     "card": {
-      "custom": "Benutzerdefinierter Dienst",
+      "custom": "Benutzerdefinierter Endpunkt",
       "saved": "Gespeichert",
       "defaultModel": "Standardmodell",
       "recentModel": "Zuletzt verwendet",
@@ -1554,7 +1554,7 @@
       "inUse": "In Verwendung",
       "noKey": "Noch kein Schlüssel gespeichert",
       "notInEffect": "Ausgewählt, aber nicht aktiv",
-      "official": "Offizieller Dienst",
+      "official": "Offizieller Endpunkt",
       "overriddenBy": "Ausgewählt, aber von {{source}} überschrieben",
       "savedEndpoint": "Endpunkt in AI Manager gespeichert",
       "toolSignIn": "Verwendet die Anmeldung von {{tool}}"
@@ -1563,14 +1563,14 @@
       "activateNow": "Jetzt verwenden",
       "activateQuestion": "Jetzt in {{tool}} verwenden?",
       "address": {
-        "degraded": "{{name}} wurde gespeichert, aber die Dienstadresse hat langsam geantwortet",
-        "failed": "{{name}} wurde gespeichert, aber die Dienstadresse hat nicht geantwortet",
-        "operational": "{{name}} wurde gespeichert, und die Dienstadresse hat geantwortet"
+        "degraded": "{{name}} wurde gespeichert, aber die Adresse hat langsam geantwortet",
+        "failed": "{{name}} wurde gespeichert, aber die Adresse hat nicht geantwortet",
+        "operational": "{{name}} wurde gespeichert, und die Adresse hat geantwortet"
       },
       "addressRetry": "Die Konfiguration bleibt erhalten. Prüfen Sie Ihr Netzwerk und führen Sie Adresse prüfen erneut aus.",
       "afterSave": "Nach dem Speichern prüft AI Manager nur die Dienstadresse. {{tool}} prüft Schlüssel und Modell bei der ersten Verwendung.",
       "description": "Fügen Sie einen API-Dienst für {{tool}} hinzu. AI Manager konfiguriert ihn für Sie.",
-      "errorTitle": "Das Verbinden dieses Dienstes konnte nicht abgeschlossen werden",
+      "errorTitle": "Dieser Endpunkt konnte nicht hinzugefügt werden",
       "firstUse": "{{tool}} prüft den API-Schlüssel und das Modell bei der ersten Verwendung.",
       "getKey": "API-Schlüssel holen",
       "key": "API-Schlüssel",
@@ -1581,33 +1581,33 @@
       "modelRequired": "Geben Sie ein Modell ein.",
       "measuredServices": "Auf diesem Computer gemessen",
       "name": "Name",
-      "baseUrl": "Adresse",
+      "baseUrl": "Basis-URL",
       "baseUrlHint": "Die Adresse, mit der dieser Dienst eingerichtet wird. Wenn Sie sie ändern, wird der Dienst als benutzerdefinierter Endpunkt gespeichert.",
       "baseUrlEdited": "Geändert, wird daher als benutzerdefinierter Endpunkt gespeichert.",
       "baseUrlInvalid": "Geben Sie eine HTTPS-Adresse ohne Zugangsdaten ein.",
       "nameRequired": "Geben Sie einen Namen ein.",
-      "noPresetMatch": "Kein passender Dienst.",
-      "openProvider": "Dienst öffnen",
-      "preset": "Dienstvorlage",
+      "noPresetMatch": "Kein passender Anbieter.",
+      "openProvider": "Anbieter öffnen",
+      "preset": "Anbieter",
       "presetHint": "Wählen Sie einen Anbieter, dann füllen sich Adresse und Modell unten von selbst; für alles andere passen Sie einfach die Adresse an. Aufgeführt sind nur weithin bekannte Anbieter, und AI Manager empfiehlt oder verkauft sie nicht weiter.",
       "profileError": "AI Manager konnte seine sichere Verbindungsvorlage nicht laden. Ihre gespeicherten Dienste sind unverändert.",
-      "profileErrorTitle": "Eine neue Verbindung konnte nicht vorbereitet werden",
+      "profileErrorTitle": "Ein neuer Endpunkt konnte nicht vorbereitet werden",
       "profileRetry": "Verbindungseinrichtung erneut laden",
-      "retryConnect": "Diesen Dienst erneut verbinden versuchen",
+      "retryConnect": "Diesen Endpunkt erneut hinzufügen",
       "retryHint": "AI Manager hat den gespeicherten Dienststatus aktualisiert. Ihre Angaben sind noch da; prüfen Sie sie und versuchen Sie die Verbindung erneut.",
       "responseTime": "{{latency}} ms",
-      "searchPresets": "Dienste suchen …",
+      "searchPresets": "Anbieter suchen …",
       "saved": "{{name}} wurde gespeichert",
       "speedSorted": "Sortiert nach der letzten Messung dieses Computers.",
       "speedTest": "Testen, welcher am schnellsten antwortet",
       "speedTestAgain": "Erneut testen",
-      "speedTestFailed": "Diese Dienste konnten nicht gemessen werden. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
-      "speedTesting": "Dienstadressen werden getestet …",
+      "speedTestFailed": "Diese Anbieter konnten nicht gemessen werden. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
+      "speedTesting": "Adressen werden getestet …",
       "title": "{{service}} verbinden",
       "unreachable": "Nicht erreichbar",
       "toolDefault": "Standard für {{tool}}",
       "toolDefaultGroup": "Standardverbindung von {{tool}}",
-      "otherServices": "Weitere nutzbare Dienste"
+      "otherServices": "Weitere Anbieter"
     },
     "description": "Wählen Sie ein Tool, fügen Sie dann seine API-Endpunkte hinzu, wechseln Sie sie und prüfen Sie sie.",
     "effective": {
@@ -1637,7 +1637,7 @@
     "external": {
       "badge": "Außerhalb dieser App",
       "endpoint": "Derzeit aktiver Endpunkt",
-      "overrides": "{{name}} verwendet diese Adresse. Sie hat Vorrang vor allem, was Sie unten auswählen."
+      "overrides": "{{name}} verwendet diese Adresse. Sie hat Vorrang vor dem Endpunkt, den Sie unten auswählen."
     },
     "endpoints": {
       "title": "{{tool}}-Endpunkte",
@@ -1645,30 +1645,30 @@
       "count_other": "{{count}} Endpunkte gespeichert"
     },
     "empty": {
-      "description": "Verbinden Sie einen API-Dienst, und AI Manager richtet dieses Tool für Sie ein.",
+      "description": "Verbinden Sie einen API-Endpunkt, und AI Manager richtet dieses Tool für Sie ein.",
       "title": "Hier ist noch nichts"
     },
     "error": {
       "description": "Versuchen Sie es erneut, oder öffnen Sie das Tool einmal und kommen Sie zurück.",
-      "title": "Die Dienste konnten nicht gelesen werden"
+      "title": "Die Endpunkte konnten nicht gelesen werden"
     },
     "refreshError": {
-      "description": "Die zuletzt gespeicherten Dienste werden weiterhin angezeigt. Dienstaktionen bleiben pausiert, bis eine neue Prüfung erfolgreich ist.",
-      "title": "KI-Dienste konnten nicht aktualisiert werden"
+      "description": "Die zuletzt gespeicherten Endpunkte werden weiterhin angezeigt. Endpunktaktionen bleiben pausiert, bis eine neue Prüfung erfolgreich ist.",
+      "title": "API-Endpunkte konnten nicht aktualisiert werden"
     },
     "form": {
       "addHeader": "Header hinzufügen",
       "addModel": "Modell hinzufügen",
       "advancedHint": "Es werden nur von diesem Tool unterstützte allgemeine Einstellungen angezeigt. Andere Felder bleiben unangetastet.",
-      "advancedManaged": "Dieser Dienst wird vom Tool oder einer Kontoanmeldung verwaltet. Seine Endpunkteinstellungen bleiben hier schreibgeschützt.",
+      "advancedManaged": "Dieser Endpunkt wird vom Tool oder einer Kontoanmeldung verwaltet. Seine Einstellungen bleiben hier schreibgeschützt.",
       "advancedTitle": "Erweiterte Einstellungen",
       "baseUrl": "Basis-URL",
       "baseUrlHint": "Genau wie in der Dokumentation des Anbieters eintragen, einschließlich eines abschließenden /v1.",
       "baseUrlVersionDoubled": "Dieses Tool hängt selbst eine Version an die Adresse an. Das abschließende /{{segment}} käme doppelt vor und Anfragen würden fehlschlagen. Meist genügt es, es zu entfernen.",
       "routeAdd": "Route hinzufügen",
-      "routeAddLabel": "Neue Dienstroute",
+      "routeAddLabel": "Neue Route",
       "routeAddPlaceholder": "https://api.example.com/v1",
-      "routeDuplicate": "Diese Route ist bereits in diesem Dienst enthalten.",
+      "routeDuplicate": "Diese Route ist bereits in diesem Endpunkt enthalten.",
       "routeEmpty": "Fügen Sie mindestens eine Route hinzu, bevor Sie testen.",
       "routeFixed": "Fest",
       "routeInvalid": "Verwenden Sie eine zugangsdatenfreie HTTPS-URL, oder HTTP nur für localhost.",
@@ -1676,14 +1676,14 @@
       "routeLimit": "Behalten Sie höchstens 32 Routen, einschließlich der aktuellen.",
       "routeRemove": "Route {{route}} entfernen",
       "routeUnreachable": "Nicht erreichbar",
-      "routes": "Dienstrouten",
+      "routes": "Routen",
       "routesAuto": "Nach jedem Test die schnellste Route wählen",
-      "routesHint": "Mehrere Basis-URLs für einen Dienst behalten und nach einem Test die schnellste nutzen.",
+      "routesHint": "Mehrere Basis-URLs für einen Endpunkt behalten und nach einem Test die schnellste nutzen.",
       "routesTest": "Routen testen",
       "routesTestFailed": "Diese Routen konnten nicht getestet werden. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
       "routesTesting": "Routen werden getestet …",
       "description": "Ändern Sie Name, Schlüssel oder Modell.",
-      "errorTitle": "Das Speichern dieses Dienstes konnte nicht abgeschlossen werden",
+      "errorTitle": "Dieser Endpunkt konnte nicht gespeichert werden",
       "headerKeepValue": "Leer lassen, um den gespeicherten Wert zu behalten",
       "headerNameNamed": "Name von Header {{index}}",
       "headerNamePlaceholder": "X-Tenant-ID",
@@ -1694,7 +1694,7 @@
       "headerValuePlaceholder": "Header-Wert",
       "key": "API-Schlüssel",
       "keyHint": "Leer lassen, um den bereits gespeicherten Schlüssel zu behalten.",
-      "keyHintEmpty": "Fügen Sie den Schlüssel ein, den Sie von diesem Dienst erhalten haben.",
+      "keyHintEmpty": "Fügen Sie den Schlüssel ein, den Sie vom Anbieter erhalten haben.",
       "modelNamed": "Modell {{index}}",
       "modelRequired": "Geben Sie eine Modell-ID ein, oder entfernen Sie die unvollständige Zeile.",
       "models": "Modelle",
@@ -1704,22 +1704,22 @@
       "nameHint": "Wird nur hier, in dieser App, angezeigt.",
       "nameRequired": "Geben Sie einen Namen ein.",
       "retryHint": "AI Manager hat den gespeicherten Dienststatus aktualisiert. Prüfen Sie Ihre Änderungen und versuchen Sie erneut zu speichern.",
-      "retrySave": "Diesen Dienst erneut speichern versuchen",
+      "retrySave": "Diesen Endpunkt erneut speichern",
       "removeHeaderNamed": "Header {{name}} entfernen",
       "removeModelNamed": "Modell {{model}} entfernen",
       "save": "Speichern",
-      "settingsLoading": "Sichere Diensteinstellungen werden geladen …",
+      "settingsLoading": "Endpunkteinstellungen werden geladen …",
       "settingsUnavailable": "Die zusätzlichen Einstellungen konnten nicht gelesen werden. Sie können weiterhin den Namen speichern oder den Schlüssel ersetzen; diese Einstellungen bleiben unangetastet.",
-      "title": "Dienst bearbeiten",
+      "title": "Endpunkt bearbeiten",
       "routesManage": "Verwalten & testen",
       "routesDone": "Fertig",
-      "modelPick": "Aus der Modellliste des Dienstes wählen",
+      "modelPick": "Aus der Modellliste des Endpunkts wählen",
       "modelSearch": "Modelle suchen",
       "modelNoMatch": "Keine passenden Modelle",
       "modelListStale": "Schlüssel oder Basis-URL wurden geändert. Erst speichern, dann die neue Modellliste lesen.",
       "modelListFailed": "Die Modellliste konnte nicht gelesen werden. Sie können den Modellnamen direkt eingeben."
     },
-    "loading": "Dienste werden geladen",
+    "loading": "Endpunkte werden geladen",
     "runtime": {
       "description": "Sehen Sie, wo dieses Tool tatsächlich globale Anweisungen, Memory, Konfiguration und Projektsitzungen liest.",
       "loading": "Konfigurationsquellen werden geprüft",
@@ -1776,17 +1776,17 @@
       "title": "Lokaler Kontext und Speicher"
     },
     "noTools": {
-      "description": "Installieren Sie zuerst ein Tool, dann erscheinen hier seine Dienste.",
+      "description": "Installieren Sie zuerst ein Tool, dann erscheinen hier seine Endpunkte.",
       "title": "Noch kein Tool zum Einrichten"
     },
     "refresh": "Aktualisieren",
     "remove": {
-      "activeHint": "Wählen Sie einen anderen Dienst, bevor Sie diesen entfernen.",
-      "confirm": "Dienst entfernen",
-      "description": "Dies entfernt den gespeicherten Dienst aus AI Manager und {{tool}}.",
-      "errorTitle": "Das Entfernen dieses Dienstes konnte nicht abgeschlossen werden",
-      "errorRetry": "Prüfen Sie den Dienst und versuchen Sie es erneut.",
-      "managedHint": "Dieser Dienst verwendet eine toolspezifische Einrichtung und kann hier nicht entfernt werden.",
+      "activeHint": "Wählen Sie einen anderen Endpunkt, bevor Sie diesen entfernen.",
+      "confirm": "Endpunkt entfernen",
+      "description": "Dies entfernt den gespeicherten Endpunkt aus AI Manager und {{tool}}.",
+      "errorTitle": "Dieser Endpunkt konnte nicht entfernt werden",
+      "errorRetry": "Prüfen Sie den Endpunkt und versuchen Sie es erneut.",
+      "managedHint": "Dieser Endpunkt verwendet eine toolspezifische Einrichtung und kann hier nicht entfernt werden.",
       "removed": "{{name}} entfernt",
       "retryNamed": "{{name}} erneut entfernen versuchen",
       "title": "{{name}} entfernen?"
@@ -1794,7 +1794,7 @@
     "scope": "KI-Tool",
     "scopeUnsupportedShort": "Nicht integriert",
     "scopeSharedShort": "Mit einer Desktop-App geteilt",
-    "scopeUnsupportedTitle": "AI Manager hat die Diensteinrichtung von {{tool}} nicht integriert",
+    "scopeUnsupportedTitle": "AI Manager hat die Endpunkteinrichtung von {{tool}} nicht integriert",
     "scopeUnsupportedDescription": "Das bedeutet, AI Manager hat noch keinen sicheren Adapter dafür; es bedeutet nicht zwingend, dass {{tool}} keine benutzerdefinierten Dienste verwenden kann. Das installierte Tool bleibt zur Klarheit sichtbar.",
     "scopeSave": {
       "errorDescription": "Sie betrachten weiterhin {{tool}}. Versuchen Sie es erneut, damit AI Manager dieses Tool beim nächsten Mal hier öffnet.",
@@ -1814,19 +1814,19 @@
       "switchingNamed": "Wechselt zu {{name}}"
     },
     "failover": {
-      "tryNext": "Nächsten verfügbaren Dienst versuchen",
-      "tryNextNamed": "Den nächsten gespeicherten verfügbaren Dienst für {{name}} versuchen",
-      "noneAvailable": "Kein anderer gespeicherter Dienst hat geantwortet. Die aktuelle Einrichtung wurde nicht verändert.",
+      "tryNext": "Nächsten verfügbaren Endpunkt versuchen",
+      "tryNextNamed": "Den nächsten gespeicherten verfügbaren Endpunkt für {{name}} versuchen",
+      "noneAvailable": "Kein anderer gespeicherter Endpunkt hat geantwortet. Die aktuelle Einrichtung wurde nicht verändert.",
       "automaticSuccess": "{{from}} hat nicht geantwortet. Zu {{to}} gewechselt.",
-      "manualSuccess": "Von {{from}} zum verfügbaren Dienst {{to}} gewechselt.",
-      "unknownService": "Unbekannter Dienst"
+      "manualSuccess": "Von {{from}} zum verfügbaren Endpunkt {{to}} gewechselt.",
+      "unknownService": "Unbekannter Endpunkt"
     },
     "summary": {
       "activeTitle": "{{service}} ist aktiv für {{tool}}",
       "checked": "Adressen geprüft",
       "description": "Wechseln Sie Dienste, oder prüfen Sie, ob ihre Adressen antworten. AI Manager übernimmt die Einrichtung für Sie.",
       "eyebrow": "Verbindungsübersicht",
-      "noActiveTitle": "Dienste sind für {{tool}} gespeichert",
+      "noActiveTitle": "Endpunkte sind für {{tool}} gespeichert",
       "saved": "Gespeichert",
       "testable": "Adresse kann geprüft werden"
     },
@@ -1837,8 +1837,8 @@
       "title": "Ihre Einrichtung ist gespeichert. Starten Sie in {{tool}}"
     },
     "test": {
-      "browseCompatible": "Kompatible Dienste durchsuchen",
-      "browseCompatibleNamed": "Kompatible Dienste für {{name}} durchsuchen",
+      "browseCompatible": "Kompatible Endpunkte durchsuchen",
+      "browseCompatibleNamed": "Kompatible Endpunkte für {{name}} durchsuchen",
       "checkingNamed": "{{name}} wird geprüft",
       "degraded": "Adresse hat langsam geantwortet",
       "errorNamed": "Die Adresse für {{name}} konnte nicht geprüft werden",
@@ -1848,7 +1848,7 @@
       "retry": "Erneut versuchen",
       "retryHint": "Die fehlgeschlagene Prüfung hat diesen Dienst nicht verändert. Versuchen Sie dieselbe Prüfung erneut.",
       "retryNamed": "{{name}} erneut prüfen",
-      "unreachableHint": "Diese Adresse konnte von Ihrem aktuellen Netzwerk aus nicht erreicht werden. Sie können einen anderen kompatiblen Dienst wählen."
+      "unreachableHint": "Diese Adresse konnte von Ihrem aktuellen Netzwerk aus nicht erreicht werden. Sie können einen anderen kompatiblen Endpunkt wählen."
     },
     "probe": {
       "title": "{{name}} testen",
@@ -1858,8 +1858,8 @@
       "modelLoading": "Die Modellliste wird gelesen …",
       "modelReload": "Neu laden",
       "modelManual": "Modellname",
-      "modelManualHint": "Dieser Dienst veröffentlicht keine Modellliste, geben Sie den Modellnamen daher selbst ein.",
-      "modelRefused": "Der Dienst hat die Modellliste abgelehnt (HTTP {{status}}).",
+      "modelManualHint": "Dieser Endpunkt veröffentlicht keine Modellliste, geben Sie den Modellnamen daher selbst ein.",
+      "modelRefused": "Der Endpunkt hat die Modellliste abgelehnt (HTTP {{status}}).",
       "modelTruncated": "Zeigt die ersten {{count}}.",
       "kind": "Ausgabe",
       "kindText": "Text",
@@ -1867,16 +1867,16 @@
       "kindHint": "Text nutzt den Chat-Endpunkt, Bild den Endpunkt zur Bilderzeugung.",
       "prompt": "Prompt",
       "send": "Senden",
-      "sending": "Wartet auf den Dienst …",
+      "sending": "Wartet auf den Endpunkt …",
       "cost": "Dies sendet eine echte Anfrage und verbraucht Ihr Kontingent.",
       "result": "Ergebnis",
       "resultMeta": "HTTP {{status}} · {{ms}} ms",
-      "replyEmpty": "Der Dienst hat geantwortet, aber nichts zurückgegeben.",
-      "replyRefused": "Der Dienst hat diese Anfrage abgelehnt.",
-      "replyImageLinkOnly": "Der Dienst hat einen Link statt Bilddaten zurückgegeben, das Bild kann hier daher nicht angezeigt werden.",
+      "replyEmpty": "Der Endpunkt hat geantwortet, aber nichts zurückgegeben.",
+      "replyRefused": "Der Endpunkt hat diese Anfrage abgelehnt.",
+      "replyImageLinkOnly": "Der Endpunkt hat einen Link statt Bilddaten zurückgegeben, das Bild kann hier daher nicht angezeigt werden.",
       "imageAlt": "Von {{model}} erzeugtes Bild",
       "adopt": "Dieses Modell verwenden",
-      "adopted": "Für diesen Dienst gespeichert.",
+      "adopted": "Für diesen Endpunkt gespeichert.",
       "adoptFailed": "Das Modell konnte nicht gespeichert werden.",
       "addressWorksInstead": "Diese Adresse bietet die Route nicht an. {{url}} wurde ausprobiert und hat geantwortet.",
       "useAddress": "Diese Adresse übernehmen",
@@ -1886,17 +1886,17 @@
     },
     "title": "API-Endpunkte",
     "toolsError": {
-      "description": "AI Manager konnte nicht prüfen, welche Tools Sie haben. Versuchen Sie es erneut, um deren Dienste zu sehen.",
+      "description": "AI Manager konnte nicht prüfen, welche Tools Sie haben. Versuchen Sie es erneut, um deren Endpunkte zu sehen.",
       "title": "Ihre Tools konnten nicht gelesen werden"
     },
     "toolsRefreshError": {
       "title": "Ihre Tools konnten nicht aktualisiert werden",
-      "description": "Die letzte Tool-Prüfung und Dienste werden weiterhin angezeigt. Verbinden, Wechseln, Prüfen, Bearbeiten, Entfernen und Starten bleiben pausiert, bis eine neue Tool-Prüfung erfolgreich ist.",
+      "description": "Die letzte Tool-Prüfung und Endpunkte werden weiterhin angezeigt. Verbinden, Wechseln, Prüfen, Bearbeiten, Entfernen und Starten bleiben pausiert, bis eine neue Tool-Prüfung erfolgreich ist.",
       "action": "Tools erneut prüfen"
     },
     "actionsPaused": {
-      "title": "Dienstaktionen sind pausiert",
-      "description": "AI Manager muss das aktuelle Tool und den Dienststatus bestätigen, bevor eine weitere Änderung oder das Starten des Tools möglich ist."
+      "title": "Endpunktaktionen sind pausiert",
+      "description": "AI Manager muss das aktuelle Tool und den Endpunktstatus bestätigen, bevor eine weitere Änderung oder das Starten des Tools möglich ist."
     },
     "shellVariable": {
       "at": "Zeile {{line}} von {{path}}",
@@ -1910,12 +1910,15 @@
     },
     "reorder": {
       "handle": "{{name}} verschieben",
-      "roleDescription": "verschiebbarer Dienst",
-      "instructions": "Um diesen Dienst zu verschieben, drücken Sie die Leertaste oder die Eingabetaste, bewegen Sie ihn mit den Pfeiltasten nach oben oder unten und drücken Sie dann erneut die Leertaste oder die Eingabetaste, um ihn abzulegen. Mit Escape brechen Sie ab.",
+      "roleDescription": "verschiebbarer Endpunkt",
+      "instructions": "Um diesen Endpunkt zu verschieben, drücken Sie die Leertaste oder die Eingabetaste, bewegen Sie ihn mit den Pfeiltasten nach oben oder unten und drücken Sie dann erneut die Leertaste oder die Eingabetaste, um ihn abzulegen. Mit Escape brechen Sie ab.",
       "picked": "{{name}} aufgenommen, Position {{position}} von {{count}}.",
       "moved": "{{name}} ist jetzt auf Position {{position}} von {{count}}.",
       "dropped": "{{name}} auf Position {{position}} von {{count}} abgelegt.",
       "cancelled": "Verschieben abgebrochen. {{name}} bleibt auf Position {{position}} von {{count}}."
+    },
+    "tab": {
+      "endpoints": "Endpunkte"
     }
   },
   "extensions": {
@@ -1959,7 +1962,7 @@
     "scopeSave": {
       "saving": "Diese Ansicht wird gemerkt",
       "errorTitle": "Diese Ansicht wurde nicht gemerkt",
-      "errorDescription": "Sie können hier weiterarbeiten. Versuchen Sie es erneut, damit AI Manager beim nächsten Mal dieselbe Erweiterungsansicht öffnet.",
+      "errorDescription": "Sie können hier weiterarbeiten. Versuchen Sie es erneut, damit AI Manager beim nächsten Mal dieselbe Ansicht öffnet.",
       "retry": "Erneut versuchen"
     },
     "copy": {
@@ -2066,7 +2069,7 @@
         "installErrorNamed": "Die Installation von {{name}} konnte nicht gestartet werden",
         "retryInstallNamed": "Installation von {{name}} erneut versuchen",
         "queued": "{{name}} wird installiert",
-        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen."
+        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aktivität verfolgen."
       },
       "zip": {
         "action": "ZIP installieren",
@@ -2081,7 +2084,7 @@
         "syncDescription": "Neue, nicht in Konflikt stehende Skills werden dem verwalteten Speicher hinzugefügt und mit diesem Tool synchronisiert.",
         "partialNote": "Wenn ein späterer Skill im Archiv fehlschlägt, sind frühere Skills möglicherweise bereits installiert. Aufgaben zeigen das Ergebnis, und die Skill-Liste wird automatisch aktualisiert.",
         "queued": "Skills werden aus einem ZIP installiert",
-        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen.",
+        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aktivität verfolgen.",
         "errorHint": "Prüfen Sie die Meldung, wählen Sie das Archiv erneut und versuchen Sie es noch einmal."
       },
       "backups": {
@@ -2100,7 +2103,7 @@
         "restore": "Wiederherstellen",
         "restoreNamed": "{{name}} aus dieser Wiederherstellungskopie wiederherstellen",
         "restoreQueued": "{{name}} wird wiederhergestellt",
-        "restoreQueuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen.",
+        "restoreQueuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aktivität verfolgen.",
         "delete": "Löschen",
         "deleteNamed": "Die Wiederherstellungskopie für {{name}} löschen",
         "deleteTitle": "Die Wiederherstellungskopie für {{name}} löschen?",
@@ -2143,7 +2146,7 @@
         "description": "Dies entfernt den verwalteten Skill aus AI Manager und aus jedem KI-Tool, in dem er aktiviert ist.",
         "confirm": "Skill entfernen",
         "queued": "{{name}} wird entfernt",
-        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen.",
+        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aktivität verfolgen.",
         "errorRetry": "Prüfen Sie die Meldung und versuchen Sie es erneut."
       },
       "update": {
@@ -2154,7 +2157,7 @@
         "checkErrorDescription": "Einige Skill-Quellen sind möglicherweise nicht erreichbar. Vorhandene Skills funktionieren weiterhin, das ist aber kein Nachweis, dass alles aktuell ist.",
         "retry": "Erneut prüfen",
         "queued": "{{name}} wird aktualisiert",
-        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen."
+        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aktivität verfolgen."
       },
       "empty": {
         "title": "Noch keine Skills",
@@ -2170,7 +2173,7 @@
         "description": "Verbinden Sie {{tool}} mit einem lokalen Programm oder einem Remote-Dienst.",
         "confirm": "Verbindung hinzufügen",
         "name": "Verbindungsname",
-        "nameHint": "Verwenden Sie einen Namen, den Sie in Erweiterungen wiedererkennen.",
+        "nameHint": "Verwenden Sie einen Namen, den Sie in der Liste wiedererkennen.",
         "optionalDescription": "Beschreibung (optional)",
         "transport": {
           "label": "Wie verbindet es sich?",
@@ -2225,15 +2228,15 @@
         "trustLocal": "Dies führt das genannte Programm auf Ihrem Computer aus. Fügen Sie nur Software hinzu, der Sie vertrauen.",
         "trustRemote": "Dies sendet MCP-Datenverkehr an die obige Adresse. Fügen Sie nur Dienste hinzu, denen Sie vertrauen.",
         "queued": "{{name}} wird hinzugefügt",
-        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen."
+        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aktivität verfolgen."
       },
       "remove": {
         "title": "{{name}} entfernen?",
         "description": "Dies entfernt die gespeicherte Verbindung aus AI Manager und aus jedem KI-Tool, in dem sie eingeschaltet ist.",
         "confirm": "Verbindung entfernen",
         "queued": "{{name}} wird entfernt",
-        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen.",
-        "errorRetry": "Prüfen Sie die Aufgabendetails, bevor Sie es erneut versuchen."
+        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aktivität verfolgen.",
+        "errorRetry": "Prüfen Sie die Details unter Aktivität, bevor Sie es erneut versuchen."
       },
       "empty": {
         "title": "Noch keine Verbindungen",
@@ -2323,8 +2326,8 @@
     "target": {
       "routed": "Geroutet",
       "direct": "Direkt",
-      "current": "Aktueller Dienst: {{name}}",
-      "noProvider": "Wählen Sie zuerst einen aktuellen Dienst unter API-Endpunkte."
+      "current": "Aktueller Endpunkt: {{name}}",
+      "noProvider": "Wählen Sie zuerst einen aktuellen Endpunkt unter API-Endpunkte."
     },
     "takeover": {
       "title": "Routing-Übernahme",
@@ -2333,20 +2336,20 @@
     },
     "failover": {
       "title": "Automatischer Failover",
-      "description": "Versucht gesunde Dienste in der Reihenfolge P1, P2, wenn eine Anfrage fehlschlägt.",
+      "description": "Versucht gesunde Endpunkte in der Reihenfolge P1, P2, wenn eine Anfrage fehlschlägt.",
       "label": "Automatischer Failover für {{name}}"
     },
     "queue": {
       "title": "Failover-Reihenfolge",
       "description": "P1 wird ausgewählt, wenn der Failover startet.",
-      "count_one": "{{count}} Dienst",
-      "count_other": "{{count}} Dienste",
-      "empty": "Fügen Sie einen Dienst hinzu, oder schalten Sie Failover ein, um den aktuellen Dienst als P1 zu verwenden.",
-      "selectLabel": "Dienst zum Failover hinzufügen",
-      "selectLabelNamed": "Dienst zum Failover von {{name}} hinzufügen",
-      "selectPlaceholder": "Dienst wählen",
+      "count_one": "{{count}} Endpunkt",
+      "count_other": "{{count}} Endpunkte",
+      "empty": "Fügen Sie einen Endpunkt hinzu, oder schalten Sie Failover ein, um den aktuellen Endpunkt als P1 zu verwenden.",
+      "selectLabel": "Endpunkt zum Failover hinzufügen",
+      "selectLabelNamed": "Endpunkt zum Failover von {{name}} hinzufügen",
+      "selectPlaceholder": "Endpunkt wählen",
       "add": "Hinzufügen",
-      "addNamed": "Ausgewählten Dienst zum Failover von {{name}} hinzufügen"
+      "addNamed": "Ausgewählten Endpunkt zum Failover von {{name}} hinzufügen"
     },
     "provider": {
       "current": "Aktuell",
@@ -2538,10 +2541,10 @@
         "action": {
           "updateTool": "Jetzt aktualisieren",
           "repairTool": "Jetzt reparieren",
-          "reviewTool": "KI-Tools prüfen",
-          "connectService": "Einen Dienst verbinden",
+          "reviewTool": "Software öffnen",
+          "connectService": "Einen Endpunkt verbinden",
           "reviewService": "API-Endpunkte prüfen",
-          "reviewExtensions": "Erweiterungen prüfen"
+          "reviewExtensions": "MCP öffnen"
         }
       },
       "item": {
@@ -2566,13 +2569,13 @@
           "description": "Dies dient nur zur Information und zählt nicht als Problem."
         },
         "providerReady": {
-          "title": "{{name}} hat einen KI-Dienst konfiguriert",
-          "description_one": "{{count}} Dienstkonfiguration ist in Verwendung.",
-          "description_other": "{{count}} Dienstkonfigurationen sind in Verwendung."
+          "title": "{{name}} hat einen API-Endpunkt konfiguriert",
+          "description_one": "{{count}} Endpunktkonfiguration ist in Verwendung.",
+          "description_other": "{{count}} Endpunktkonfigurationen sind in Verwendung."
         },
         "providerMissing": {
-          "title": "{{name}} hat keinen KI-Dienst konfiguriert",
-          "description": "Öffnen Sie API-Endpunkte und wählen oder konfigurieren Sie einen Dienst für dieses Tool."
+          "title": "{{name}} hat keinen API-Endpunkt konfiguriert",
+          "description": "Öffnen Sie API-Endpunkte und wählen Sie einen Endpunkt für dieses Tool aus oder fügen Sie einen hinzu."
         },
         "configReadable": {
           "title": "Die Konfiguration von {{name}} kann gelesen werden",
@@ -2601,7 +2604,7 @@
           },
           "notChecked": {
             "title": "{{provider}} wurde in dieser Sitzung nicht geprüft",
-            "description": "Führen Sie Prüfen unter API-Endpunkte aus, um diese Verbindung zu testen."
+            "description": "Wählen Sie Testen unter API-Endpunkte, um diese Verbindung zu prüfen."
           }
         },
         "mcp": {
@@ -2610,17 +2613,17 @@
         },
         "mcpInventoryUnavailable": {
           "title": "Lokale MCP-Verbindungen konnten nicht geprüft werden",
-          "description": "Öffnen Sie Erweiterungen, um die lokale Bestandsaufnahme erneut zu versuchen, bevor Sie annehmen, dass jede Verbindung verwaltet wird."
+          "description": "Öffnen Sie MCP, um die lokale Bestandsaufnahme erneut zu prüfen."
         },
         "mcpInventoryPartial": {
           "title": "Einige lokale MCP-Orte benötigen eine weitere Prüfung",
-          "description": "Zu prüfende Orte: {{count}}. Ein unterstützter Ort konnte nicht geprüft werden, oder die begrenzte Bestandsaufnahme war voll. Details zum nächsten Schritt finden Sie unter Erweiterungen."
+          "description": "{{count}} Orte konnten nicht geprüft werden. Sehen Sie sie unter MCP an."
         }
       }
     },
     "import": {
       "title": "Aus CC Switch importieren",
-      "description": "Übernehmen Sie die KI-Dienste, MCP-Server und Skills von CC Switch in AI Manager. In CC Switch ändert sich nichts.",
+      "description": "Übernehmen Sie die API-Endpunkte, MCP-Server und Skills von CC Switch in AI Manager. In CC Switch ändert sich nichts.",
       "reimport": "Aus CC Switch importieren",
       "loading": "Es wird nach einer CC-Switch-Konfiguration gesucht",
       "retry": "Erneut prüfen",
@@ -2629,11 +2632,11 @@
       "again": "Erneut importieren",
       "skip": "Überspringen",
       "success": "Vorhandene Einrichtung importiert.",
-      "collision": "Existiert derselbe Dienst oder dieselbe Erweiterung bereits, ersetzt die importierte Version ihn. Alles andere bleibt erhalten.",
+      "collision": "Existiert derselbe Endpunkt, MCP-Server oder Skill bereits, ersetzt die importierte Version ihn. Alles andere bleibt erhalten.",
       "sourceDetail": "Die lokale CC-Switch-Datenbank, schreibgeschützt geöffnet",
       "prompt": {
         "title": "Eine CC-Switch-Konfiguration gefunden",
-        "description": "CC Switch ist auf diesem Computer installiert. Sollen dessen KI-Dienste, MCP-Server und Skills übernommen werden?"
+        "description": "CC Switch ist auf diesem Computer installiert. Sollen dessen API-Endpunkte, MCP-Server und Skills übernommen werden?"
       },
       "confirm": {
         "title": "Diese vorhandene Einrichtung importieren?",
@@ -2647,16 +2650,16 @@
       },
       "completion": {
         "title": "Einrichtung importiert",
-        "description": "Die unterstützten Dienste, MCP-Server und Skills befinden sich jetzt in AI Manager.",
+        "description": "Die unterstützten API-Endpunkte, MCP-Server und Skills befinden sich jetzt in AI Manager.",
         "countLabel": "Importierte Einträge",
-        "nextStepTitle": "Wählen, was jedes Tool verwenden soll",
-        "nextStep": "Öffnen Sie API-Endpunkte und wählen Sie für jedes Tool einen importierten Dienst, sobald Sie bereit sind.",
+        "nextStepTitle": "Endpunkt für jedes Tool wählen",
+        "nextStep": "Öffnen Sie API-Endpunkte und wählen Sie für jedes Tool einen importierten Endpunkt, sobald Sie bereit sind.",
         "continue": "Weiter"
       },
       "count": {
         "label": "Bereit zum Import",
-        "services_one": "{{count}} KI-Dienst",
-        "services_other": "{{count}} KI-Dienste",
+        "services_one": "{{count}} API-Endpunkt",
+        "services_other": "{{count}} API-Endpunkte",
         "mcpServers_one": "{{count}} MCP-Server",
         "mcpServers_other": "{{count}} MCP-Server",
         "skills_one": "{{count}} Skill",
@@ -2767,7 +2770,7 @@
         },
         "imported": {
           "title": "Konfiguration importiert",
-          "description": "AI Manager verwendet jetzt die Dienste und Erweiterungen aus diesem Archiv."
+          "description": "AI Manager verwendet jetzt die Endpunkte und Erweiterungen aus diesem Archiv."
         },
         "renamed": {
           "title": "Wiederherstellungspunkt umbenannt",
@@ -2783,17 +2786,17 @@
         },
         "warning": {
           "title": "Wiederherstellung abgeschlossen, aber ein Tool erfordert Aufmerksamkeit",
-          "description": "Ein Tool hat die Dienständerung nicht übernommen. Prüfen Sie API-Endpunkte und wählen Sie den gewünschten Dienst erneut."
+          "description": "Ein Tool hat die Endpunktänderung nicht übernommen. Prüfen Sie API-Endpunkte und wählen Sie den gewünschten Endpunkt erneut."
         },
         "importWarning": {
           "title": "Import abgeschlossen, aber ein Tool erfordert Aufmerksamkeit",
-          "description": "Das Archiv wurde importiert, aber ein Tool hat die Dienständerung nicht übernommen. Prüfen Sie API-Endpunkte und wählen Sie den gewünschten Dienst erneut."
+          "description": "Das Archiv wurde importiert, aber ein Tool hat die Endpunktänderung nicht übernommen. Prüfen Sie API-Endpunkte und wählen Sie den gewünschten Endpunkt erneut."
         },
         "reviewServices": "API-Endpunkte prüfen"
       },
       "empty": {
         "title": "Schützen Sie Ihre aktuelle Einrichtung",
-        "description": "Erstellen Sie einen lokalen Wiederherstellungspunkt, bevor Sie Tools oder Dienste ändern.",
+        "description": "Erstellen Sie einen lokalen Wiederherstellungspunkt, bevor Sie Tools oder Endpunkte ändern.",
         "local": "Nur lokal"
       },
       "error": {
@@ -2806,7 +2809,7 @@
         "description": "Die letzte Sicherungsliste wird weiterhin angezeigt. Sicherungsaktionen bleiben pausiert, bis eine neue Prüfung erfolgreich ist."
       },
       "restorePoint": {
-        "replaces": "Dienste, Erweiterungen und Einstellungen in AI Manager kehren zu diesem Wiederherstellungspunkt zurück.",
+        "replaces": "Endpunkte, Erweiterungen und Einstellungen in AI Manager kehren zu diesem Wiederherstellungspunkt zurück.",
         "installed": "Installierte KI-Programmiertools bleiben auf diesem Computer.",
         "followUp": "Nach der Wiederherstellung teilt AI Manager Ihnen mit, ob ein Tool Aufmerksamkeit erfordert."
       },
@@ -2815,10 +2818,10 @@
       },
       "transfer": {
         "secretTitle": "Behandeln Sie das Archiv wie ein Passwort",
-        "secretDescription": "Eine portable Kopie kann Dienstschlüssel und andere private Konfiguration enthalten. Bewahren Sie sie sicher auf und teilen Sie sie nur mit Personen, denen Sie vertrauen.",
+        "secretDescription": "Eine portable Kopie kann API-Schlüssel und andere private Konfiguration enthalten. Bewahren Sie sie sicher auf und teilen Sie sie nur mit Personen, denen Sie vertrauen.",
         "confirmTitle": "Dieses Konfigurationsarchiv importieren?",
         "confirmDescription": "Wählen Sie das Archiv erst, nachdem Sie geprüft haben, was sich ändert.",
-        "confirmReplace": "Verwaltete Dienste, Erweiterungen und gespeicherter Verlauf werden durch das Archiv ersetzt.",
+        "confirmReplace": "Verwaltete Endpunkte, Erweiterungen und gespeicherter Verlauf werden durch das Archiv ersetzt.",
         "confirmSafety": "AI Manager erstellt einen lokalen Wiederherstellungspunkt, bevor die aktuellen Daten ersetzt werden.",
         "confirmTrust": "Importieren Sie nur ein Archiv, das Sie selbst erstellt haben oder von jemandem erhalten haben, dem Sie vertrauen.",
         "confirmInstalled": "Installierte KI-Programmiertools bleiben auf diesem Computer.",

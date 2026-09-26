@@ -633,37 +633,37 @@
       "unsupportedTool": "AI Manager has not integrated standing instructions for this tool."
     },
     "provider": {
-      "createFailed": "Could not connect this service.",
-      "listFailed": "Could not read the services for this tool.",
+      "createFailed": "Could not add this endpoint.",
+      "listFailed": "Could not read the endpoints for this tool.",
       "modelProbeImageTooLarge": "The generated image was too large to show.",
       "modelProbeModelInvalid": "Enter a model name first.",
       "modelProbePromptInvalid": "Enter a prompt of 200 characters or fewer.",
-      "modelProbeTimeout": "The service did not answer in time.",
-      "modelProbeUnreachable": "Could not reach this service.",
-      "modelProbeUnreadable": "The service answered with something this app could not read.",
-      "nameRequired": "Give this service a name first.",
-      "notFound": "That service is no longer here.",
-      "notTestable": "This service has no address to check.",
-      "removeActive": "Switch to another service before removing this one.",
-      "removeFailed": "The service could not be removed safely.",
-      "removePanicked": "Something went wrong while removing this service.",
-      "removeRestoreFailed": "The service could not be removed, and AI Manager could not confirm that the previous setup was fully restored.",
-      "removeUnsupported": "This service uses a tool-specific setup and cannot be removed here.",
-      "removeVerifyFailed": "AI Manager could not confirm that the service was removed.",
+      "modelProbeTimeout": "The endpoint did not answer in time.",
+      "modelProbeUnreachable": "Could not reach this endpoint.",
+      "modelProbeUnreadable": "The endpoint answered with something this app could not read.",
+      "nameRequired": "Give this endpoint a name first.",
+      "notFound": "That endpoint is no longer here.",
+      "notTestable": "This endpoint has no address to check.",
+      "removeActive": "Switch to another endpoint before removing this one.",
+      "removeFailed": "The endpoint could not be removed safely.",
+      "removePanicked": "Something went wrong while removing this endpoint.",
+      "removeRestoreFailed": "The endpoint could not be removed, and AI Manager could not confirm that the previous setup was fully restored.",
+      "removeUnsupported": "This endpoint uses a tool-specific setup and cannot be removed here.",
+      "removeVerifyFailed": "AI Manager could not confirm that the endpoint was removed.",
       "runtimeContextFailed": "Could not inspect this tool's configuration sources.",
       "runtimeResourceNotFound": "That local resource is no longer available.",
       "runtimeResourceOpenFailed": "Could not open that local resource.",
-      "saveFailed": "Could not save the changes to this service.",
-      "saveRestoreFailed": "The service could not be saved, and AI Manager could not confirm that the previous setup was fully restored.",
+      "saveFailed": "Could not save the changes to this endpoint.",
+      "saveRestoreFailed": "The endpoint could not be saved, and AI Manager could not confirm that the previous setup was fully restored.",
       "settingsPreserveFailed": "The endpoint was switched, but this tool's other settings could not be preserved.",
       "storeUnavailable": "The app is still starting up.",
-      "switchFailed": "Could not switch to this service.",
+      "switchFailed": "Could not switch to this endpoint.",
       "testFailed": "The check could not run.",
-      "unsupportedTool": "AI Manager has not integrated AI services for this tool.",
-      "reorderFailed": "Could not save the new order. The list is back as it was; try moving the service again."
+      "unsupportedTool": "AI Manager has not integrated API endpoints for this tool.",
+      "reorderFailed": "Could not save the new order. The list is back as it was; try moving the endpoint again."
     },
     "remediation": {
-      "chooseAnotherService": "Choose another service for this tool, then try again.",
+      "chooseAnotherService": "Choose another endpoint for this tool, then try again.",
       "checkConnectionSettings": "Check the name, API key, and model, then try again.",
       "checkInternetConnection": "Check your internet connection, then try again.",
       "checkLocalFileAccess": "Make sure the Skill is still in its original location and your system can open it, then try again.",
@@ -682,7 +682,7 @@
       "openToolManually": "Open a terminal in your project folder and start the tool there.",
       "refreshSessions": "Refresh the session list and choose the conversation again.",
       "recheckUpdate": "Check the update details again before continuing.",
-      "removeInTool": "Remove this service from its tool-specific setup.",
+      "removeInTool": "Remove this endpoint from its tool-specific setup.",
       "retryOrViewDetails": "Try again, or open View Details to see what happened.",
       "useOriginalUpdateChannel": "Use this installation's original updater, or remove it explicitly before installing through npm.",
       "uninstallManually": "You can delete the remaining files yourself, then run Check again.",
@@ -690,9 +690,9 @@
     },
     "routing": {
       "changeFailed": "AI Manager could not complete that routing change safely.",
-      "providerNotEligible": "That service cannot participate in automatic failover.",
-      "providerUnavailable": "That service is no longer available for routing.",
-      "queueLocked": "Turn off automatic failover before removing this active or final service.",
+      "providerNotEligible": "That endpoint cannot participate in automatic failover.",
+      "providerUnavailable": "That endpoint is no longer available for routing.",
+      "queueLocked": "Turn off automatic failover before removing this active or final endpoint.",
       "readFailed": "AI Manager could not read the local routing state.",
       "storeUnavailable": "Local routing is not ready yet.",
       "takeoverRequired": "Turn on routing takeover for this tool first.",
@@ -1191,8 +1191,8 @@
       "chooseFolder": "Choose folder",
       "launched": "{{name}} opened in Terminal.",
       "providerUnreachable": "{{name}} did not respond",
-      "providerUnreachableHint": "Nothing was opened and the saved setup was not changed. Check again or try another saved compatible service.",
-      "noSavedAlternative": "No other saved compatible service is available to check.",
+      "providerUnreachableHint": "Nothing was opened and the saved setup was not changed. Check again or try another saved compatible endpoint.",
+      "noSavedAlternative": "No other saved compatible endpoint is available to check.",
       "retry": "Try again",
       "retryNamed": "Try opening {{name}} again"
     },
@@ -1345,7 +1345,7 @@
     },
     "card": {
       "title": "AI Environment",
-      "description": "Tools, services and extensions checked in one place",
+      "description": "Software, API endpoints and MCP checked in one place",
       "checking": "Checking your AI environment",
       "toolsInstalled_one": "{{count}} tool installed",
       "toolsInstalled_other": "{{count}} tools installed",
@@ -1360,15 +1360,15 @@
       "startHint": "Choose a project folder. Your service verifies access on first use.",
       "inventory": {
         "label": "Ready setup details",
-        "servicesConfigured_one": "{{count}} AI service configured",
-        "servicesConfigured_other": "{{count}} AI services configured",
+        "servicesConfigured_one": "{{count}} API endpoint configured",
+        "servicesConfigured_other": "{{count}} API endpoints configured",
         "mcpEnabled": "MCP enabled: {{enabled}} of {{total}}",
         "noMcp": "No MCP connections yet"
       },
       "actions": {
-        "tools": "Open AI Tools",
+        "tools": "Open Software",
         "services": "Open API Endpoints",
-        "extensions": "Open Skills & MCP"
+        "extensions": "Open Skills"
       }
     },
     "health": {
@@ -1378,12 +1378,12 @@
       "issues_one": "{{count}} problem found",
       "issues_other": "{{count}} problems found",
       "lastChecked": "Last checked {{time}}",
-      "checkingConnections": "Checking service connections",
+      "checkingConnections": "Checking endpoint connections",
       "connectionError": "The connection check could not start. Try again.",
       "noTools": {
         "title": "Start with an AI coding tool",
         "description": "Once one is installed, the health check covers it.",
-        "action": "Browse AI Tools"
+        "action": "Open Software"
       }
     },
     "quickActions": {
@@ -1392,8 +1392,8 @@
       "installDescription": "Add Claude Code, Codex or OpenCode",
       "updateAll": "Update All",
       "updateDescription": "Keep installed tools on their latest version",
-      "connectService": "Connect AI Service",
-      "connectDescription": "Manage the services and keys your tools use",
+      "connectService": "Connect API Endpoint",
+      "connectDescription": "Manage the endpoints and keys your tools use",
       "laterHint": "Arrives in a later update"
     },
     "updateAll": {
@@ -1401,7 +1401,7 @@
       "title_other": "Update {{count}} tools?",
       "reviewTitle_one": "Review {{count}} tool update",
       "reviewTitle_other": "Review {{count}} tool updates",
-      "description": "{{names, list}} will update in the background. You can keep using AI Manager and follow progress in Tasks.",
+      "description": "{{names, list}} will update in the background. You can keep using AI Manager and follow progress in Activity.",
       "previewSummary": "{{ready}} can update now. {{skipped}} will be skipped until its installation is reviewed.",
       "skippedSummary_one": "{{count}} tool was skipped because its update method could not be confirmed.",
       "skippedSummary_other": "{{count}} tools were skipped because their update methods could not be confirmed.",
@@ -1412,8 +1412,8 @@
       "failure": {
         "partial": {
           "title": "Some updates are now running",
-          "description_one": "{{count}} update started in Tasks. Only the tool that did not start remains selected.",
-          "description_other": "{{count}} updates started in Tasks. Only the tools that did not start remain selected."
+          "description_one": "{{count}} update started in Activity. Only the tool that did not start remains selected.",
+          "description_other": "{{count}} updates started in Activity. Only the tools that did not start remain selected."
         },
         "all": {
           "title": "Updates could not start",
@@ -1423,10 +1423,10 @@
       },
       "hints": {
         "current": "Everything is already up to date",
-        "running": "Updates are already running in Tasks",
+        "running": "Updates are already running in Activity",
         "checking": "Checking what can be updated",
         "unavailable": "Update status is unavailable right now",
-        "review": "Review this update in AI Tools"
+        "review": "Review this update in Software"
       }
     },
     "error": {
@@ -1472,14 +1472,14 @@
     "toolAuthority": {
       "openLabel": "Activity: {{status}}; tool actions unavailable",
       "unavailableTitle": "Tool actions are unavailable",
-      "unavailableDescription": "Task history is still shown, but AI Manager couldn't confirm which tools can open.",
+      "unavailableDescription": "Activity history is still shown, but AI Manager couldn't confirm which tools can open.",
       "refreshTitle": "Couldn't refresh your tools",
       "refreshDescription": "The last tool details are still shown. Opening a completed tool stays paused until a new check succeeds.",
       "retry": "Check tools again",
       "pausedTitle": "Opening tools is paused",
       "pausedDescription": "AI Manager must confirm the current tool before it can choose a project folder. Cancel this window, then check your tools again in Activity.",
       "changedTitle": "This tool is no longer ready to open",
-      "changedDescription": "The latest check no longer shows this tool as a launchable install. Cancel this window and review AI Tools."
+      "changedDescription": "The latest check no longer shows this tool as a launchable install. Cancel this window and review it in Software."
     },
     "empty": {
       "title": "No activity yet",
@@ -1495,7 +1495,7 @@
       "uninstall": "Remove {{name}}",
       "repair": "Repair {{name}}",
       "changeVersion": "Change {{name}} version",
-      "testProviders": "Check {{name}} services",
+      "testProviders": "Check {{name}} endpoints",
       "scan": "System check"
     },
     "extension": {
@@ -1546,7 +1546,7 @@
       "useNamed": "Use {{name}}"
     },
     "card": {
-      "custom": "Custom service",
+      "custom": "Custom endpoint",
       "saved": "Saved",
       "defaultModel": "Default model",
       "recentModel": "Recently used",
@@ -1554,7 +1554,7 @@
       "inUse": "In use",
       "noKey": "No key saved yet",
       "notInEffect": "Selected, but not in effect",
-      "official": "Official service",
+      "official": "Official endpoint",
       "overriddenBy": "Selected, but overridden by {{source}}",
       "savedEndpoint": "Endpoint saved in AI Manager",
       "toolSignIn": "Uses {{tool}} sign-in"
@@ -1563,14 +1563,14 @@
       "activateNow": "Use now",
       "activateQuestion": "Use it in {{tool}} now?",
       "address": {
-        "degraded": "{{name}} was saved, but its service address responded slowly",
-        "failed": "{{name}} was saved, but its service address did not respond",
-        "operational": "{{name}} was saved and its service address responded"
+        "degraded": "{{name}} was saved, but its address responded slowly",
+        "failed": "{{name}} was saved, but its address did not respond",
+        "operational": "{{name}} was saved and its address responded"
       },
       "addressRetry": "The configuration is kept. Check your network, then run Check address again.",
       "afterSave": "After saving, AI Manager checks the service address only. {{tool}} verifies the key and model on first use.",
       "description": "Add an API service for {{tool}}. AI Manager will configure it for you.",
-      "errorTitle": "Could not finish connecting this service",
+      "errorTitle": "Could not add this endpoint",
       "firstUse": "{{tool}} will verify the API key and model on first use.",
       "getKey": "Get API key",
       "key": "API key",
@@ -1581,33 +1581,33 @@
       "modelRequired": "Enter a model.",
       "measuredServices": "Measured on this computer",
       "name": "Name",
-      "baseUrl": "Address",
+      "baseUrl": "Base URL",
       "baseUrlHint": "The address this service is configured with. Edit it and the service is saved as a custom endpoint.",
       "baseUrlEdited": "Edited, so this will be saved as a custom endpoint.",
       "baseUrlInvalid": "Enter a credential-free HTTPS address.",
       "nameRequired": "Enter a name.",
-      "noPresetMatch": "No matching service.",
-      "openProvider": "Open service",
-      "preset": "Service preset",
+      "noPresetMatch": "No matching provider.",
+      "openProvider": "Open provider",
+      "preset": "Provider",
       "presetHint": "Pick a provider and the address and model below fill themselves in; for anything not listed, just edit the address. Only widely known providers are listed, and AI Manager neither endorses nor resells them.",
       "profileError": "AI Manager could not load its safe connection template. Your saved services are unchanged.",
-      "profileErrorTitle": "Could not prepare a new connection",
+      "profileErrorTitle": "Could not prepare a new endpoint",
       "profileRetry": "Load connection setup again",
-      "retryConnect": "Try connecting this service again",
+      "retryConnect": "Try adding this endpoint again",
       "retryHint": "AI Manager refreshed the saved service state. Your details are still here; review them, then try connecting again.",
       "responseTime": "{{latency}} ms",
-      "searchPresets": "Search services…",
+      "searchPresets": "Search providers…",
       "saved": "{{name}} was saved",
       "speedSorted": "Sorted by this computer's latest measurement.",
       "speedTest": "Test which responds fastest",
       "speedTestAgain": "Test again",
-      "speedTestFailed": "Could not measure these services. Check your network and try again.",
-      "speedTesting": "Testing service addresses…",
+      "speedTestFailed": "Could not measure these providers. Check your network and try again.",
+      "speedTesting": "Testing addresses…",
       "title": "Connect {{service}}",
       "unreachable": "Unreachable",
       "toolDefault": "{{tool}} default",
       "toolDefaultGroup": "{{tool}} connects here by default",
-      "otherServices": "Other services you can use"
+      "otherServices": "Other providers"
     },
     "description": "Choose a tool, then add, switch, and check its API endpoints.",
     "effective": {
@@ -1637,7 +1637,7 @@
     "external": {
       "badge": "Outside this app",
       "endpoint": "Endpoint in effect now",
-      "overrides": "{{name}} will use this address. It overrides whatever you pick below."
+      "overrides": "{{name}} will use this address. It overrides the endpoint you pick below."
     },
     "endpoints": {
       "title": "{{tool}} endpoints",
@@ -1645,30 +1645,30 @@
       "count_other": "{{count}} endpoints saved"
     },
     "empty": {
-      "description": "Connect an API service and AI Manager will set up this tool for you.",
+      "description": "Connect an API endpoint and AI Manager will set up this tool for you.",
       "title": "Nothing here yet"
     },
     "error": {
       "description": "Try again, or open the tool once and come back.",
-      "title": "Could not read the services"
+      "title": "Could not read the endpoints"
     },
     "refreshError": {
-      "description": "The last saved services are still shown. Service actions stay paused until a new check succeeds.",
-      "title": "Could not refresh AI Services"
+      "description": "The last saved endpoints are still shown. Endpoint actions stay paused until a new check succeeds.",
+      "title": "Could not refresh API endpoints"
     },
     "form": {
       "addHeader": "Add header",
       "addModel": "Add model",
       "advancedHint": "Only common settings supported by this tool are shown. Other fields stay untouched.",
-      "advancedManaged": "This service is managed by the tool or an account login. Its endpoint settings stay read-only here.",
+      "advancedManaged": "This endpoint is managed by the tool or an account login. Its settings stay read-only here.",
       "advancedTitle": "Advanced settings",
       "baseUrl": "Base URL",
       "baseUrlHint": "Copy it exactly as the provider's docs show, including any trailing /v1.",
       "baseUrlVersionDoubled": "This tool adds its own version to the address, so the trailing /{{segment}} would appear twice and requests would fail. Usually you can just remove it.",
       "routeAdd": "Add route",
-      "routeAddLabel": "New service route",
+      "routeAddLabel": "New route",
       "routeAddPlaceholder": "https://api.example.com/v1",
-      "routeDuplicate": "That route is already in this service.",
+      "routeDuplicate": "That route is already in this endpoint.",
       "routeEmpty": "Add or enter at least one route before testing.",
       "routeFixed": "Fixed",
       "routeInvalid": "Use a credential-free HTTPS URL, or HTTP only for localhost.",
@@ -1676,14 +1676,14 @@
       "routeLimit": "Keep at most 32 routes, including the current one.",
       "routeRemove": "Remove route {{route}}",
       "routeUnreachable": "Unreachable",
-      "routes": "Service routes",
+      "routes": "Routes",
       "routesAuto": "Select the fastest route after each test",
-      "routesHint": "Keep several Base URLs for one service and use the fastest after a test.",
+      "routesHint": "Keep several Base URLs for one endpoint and use the fastest after a test.",
       "routesTest": "Test routes",
       "routesTestFailed": "Could not test these routes. Check your network and try again.",
       "routesTesting": "Testing routes…",
       "description": "Change the name, key, or model.",
-      "errorTitle": "Could not finish saving this service",
+      "errorTitle": "Could not save this endpoint",
       "headerKeepValue": "Leave empty to keep the saved value",
       "headerNameNamed": "Header {{index}} name",
       "headerNamePlaceholder": "X-Tenant-ID",
@@ -1694,7 +1694,7 @@
       "headerValuePlaceholder": "Header value",
       "key": "API key",
       "keyHint": "Leave it empty to keep the key that's already saved.",
-      "keyHintEmpty": "Paste the key you got from this service.",
+      "keyHintEmpty": "Paste the key you got from the provider.",
       "modelNamed": "Model {{index}}",
       "modelRequired": "Enter a model ID or remove the unfinished row.",
       "models": "Models",
@@ -1704,22 +1704,22 @@
       "nameHint": "Only shown here, in this app.",
       "nameRequired": "Enter a name.",
       "retryHint": "AI Manager refreshed the saved service state. Review your changes, then try saving again.",
-      "retrySave": "Try saving this service again",
+      "retrySave": "Try saving this endpoint again",
       "removeHeaderNamed": "Remove header {{name}}",
       "removeModelNamed": "Remove model {{model}}",
       "save": "Save",
-      "settingsLoading": "Loading safe service settings…",
+      "settingsLoading": "Loading endpoint settings…",
       "settingsUnavailable": "The extra settings could not be read. You can still save the name or replace the key; those settings will stay untouched.",
-      "title": "Edit service",
+      "title": "Edit endpoint",
       "routesManage": "Manage & test",
       "routesDone": "Done",
-      "modelPick": "Choose from the service's model list",
+      "modelPick": "Choose from the endpoint's model list",
       "modelSearch": "Search models",
       "modelNoMatch": "No matching models",
       "modelListStale": "The key or Base URL has changed. Save first to read the new model list.",
       "modelListFailed": "Couldn't read the model list. You can type the model name instead."
     },
-    "loading": "Loading services",
+    "loading": "Loading endpoints",
     "runtime": {
       "description": "See where this tool actually reads global instructions, memory, configuration, and project sessions.",
       "loading": "Checking configuration sources",
@@ -1776,17 +1776,17 @@
       "title": "Local context and storage"
     },
     "noTools": {
-      "description": "Install a tool first, then its services show up here.",
+      "description": "Install a tool first, then its endpoints show up here.",
       "title": "No tool to set up yet"
     },
     "refresh": "Refresh",
     "remove": {
-      "activeHint": "Choose another service before removing this one.",
-      "confirm": "Remove Service",
-      "description": "This removes the saved service from AI Manager and {{tool}}.",
-      "errorTitle": "Could not finish removing this service",
-      "errorRetry": "Review the service and try again.",
-      "managedHint": "This service uses a tool-specific setup and can't be removed here.",
+      "activeHint": "Choose another endpoint before removing this one.",
+      "confirm": "Remove Endpoint",
+      "description": "This removes the saved endpoint from AI Manager and {{tool}}.",
+      "errorTitle": "Could not remove this endpoint",
+      "errorRetry": "Review the endpoint and try again.",
+      "managedHint": "This endpoint uses a tool-specific setup and can't be removed here.",
       "removed": "Removed {{name}}",
       "retryNamed": "Try removing {{name}} again",
       "title": "Remove {{name}}?"
@@ -1794,7 +1794,7 @@
     "scope": "AI tool",
     "scopeUnsupportedShort": "Not integrated",
     "scopeSharedShort": "Shared with a desktop app",
-    "scopeUnsupportedTitle": "AI Manager has not integrated {{tool}} service setup",
+    "scopeUnsupportedTitle": "AI Manager has not integrated {{tool}} endpoint setup",
     "scopeUnsupportedDescription": "This means AI Manager has no safe adapter yet; it does not necessarily mean {{tool}} cannot use custom services. The installed tool remains visible for clarity.",
     "scopeSave": {
       "errorDescription": "You're still viewing {{tool}}. Try again to open this tool here next time.",
@@ -1814,19 +1814,19 @@
       "switchingNamed": "Switching to {{name}}"
     },
     "failover": {
-      "tryNext": "Try next available service",
-      "tryNextNamed": "Try the next saved available service for {{name}}",
-      "noneAvailable": "No other saved service responded. The current setup was not changed.",
+      "tryNext": "Try next available endpoint",
+      "tryNextNamed": "Try the next saved available endpoint for {{name}}",
+      "noneAvailable": "No other saved endpoint responded. The current setup was not changed.",
       "automaticSuccess": "{{from}} did not respond. Switched to {{to}}.",
-      "manualSuccess": "Switched from {{from}} to the available service {{to}}.",
-      "unknownService": "Unknown service"
+      "manualSuccess": "Switched from {{from}} to the available endpoint {{to}}.",
+      "unknownService": "Unknown endpoint"
     },
     "summary": {
       "activeTitle": "{{service}} is active for {{tool}}",
       "checked": "Addresses checked",
       "description": "Switch services or check whether their addresses respond. AI Manager handles the setup for you.",
       "eyebrow": "Connection overview",
-      "noActiveTitle": "Services are saved for {{tool}}",
+      "noActiveTitle": "Endpoints are saved for {{tool}}",
       "saved": "Saved",
       "testable": "Can check address"
     },
@@ -1837,8 +1837,8 @@
       "title": "Your setup is saved. Start in {{tool}}"
     },
     "test": {
-      "browseCompatible": "Browse compatible services",
-      "browseCompatibleNamed": "Browse compatible services for {{name}}",
+      "browseCompatible": "Browse compatible endpoints",
+      "browseCompatibleNamed": "Browse compatible endpoints for {{name}}",
       "checkingNamed": "Checking {{name}}",
       "degraded": "Address responded slowly",
       "errorNamed": "Could not check the address for {{name}}",
@@ -1848,7 +1848,7 @@
       "retry": "Try again",
       "retryHint": "The failed check did not change this service. Try the same check again.",
       "retryNamed": "Check {{name}} again",
-      "unreachableHint": "This address could not be reached from your current network. You can choose another compatible service."
+      "unreachableHint": "This address could not be reached from your current network. You can choose another compatible endpoint."
     },
     "probe": {
       "title": "Test {{name}}",
@@ -1858,8 +1858,8 @@
       "modelLoading": "Reading the model list…",
       "modelReload": "Reload",
       "modelManual": "Model name",
-      "modelManualHint": "This service does not publish a model list, so type the model name yourself.",
-      "modelRefused": "The service refused the model list (HTTP {{status}}).",
+      "modelManualHint": "This endpoint does not publish a model list, so type the model name yourself.",
+      "modelRefused": "The endpoint refused the model list (HTTP {{status}}).",
       "modelTruncated": "Showing the first {{count}}.",
       "kind": "Output",
       "kindText": "Text",
@@ -1867,16 +1867,16 @@
       "kindHint": "Text uses the chat endpoint; Image uses the image-generation endpoint.",
       "prompt": "Prompt",
       "send": "Send",
-      "sending": "Waiting for the service…",
+      "sending": "Waiting for the endpoint…",
       "cost": "This sends one real request and uses your quota.",
       "result": "Result",
       "resultMeta": "HTTP {{status}} · {{ms}} ms",
-      "replyEmpty": "The service answered but returned nothing.",
-      "replyRefused": "The service refused this request.",
-      "replyImageLinkOnly": "The service returned a link instead of image data, so the image cannot be shown here.",
+      "replyEmpty": "The endpoint answered but returned nothing.",
+      "replyRefused": "The endpoint refused this request.",
+      "replyImageLinkOnly": "The endpoint returned a link instead of image data, so the image cannot be shown here.",
       "imageAlt": "Image generated by {{model}}",
       "adopt": "Use this model",
-      "adopted": "Saved to this service.",
+      "adopted": "Saved to this endpoint.",
       "adoptFailed": "Could not save the model.",
       "addressWorksInstead": "That route is not on this address, but {{url}} answered when it was tried.",
       "useAddress": "Use that address",
@@ -1886,17 +1886,17 @@
     },
     "title": "API Endpoints",
     "toolsError": {
-      "description": "AI Manager could not check which tools you have. Try again to see their services.",
+      "description": "AI Manager could not check which tools you have. Try again to see their endpoints.",
       "title": "Could not read your tools"
     },
     "toolsRefreshError": {
       "title": "Could not refresh your tools",
-      "description": "The last tool check and services are still shown. Connecting, switching, checking, editing, removing, and starting stay paused until a new tool check succeeds.",
+      "description": "The last tool check and endpoints are still shown. Connecting, switching, checking, editing, removing, and starting stay paused until a new tool check succeeds.",
       "action": "Check tools again"
     },
     "actionsPaused": {
-      "title": "Service actions are paused",
-      "description": "AI Manager must confirm the current tool and service state before it can make another change or start the tool."
+      "title": "Endpoint actions are paused",
+      "description": "AI Manager must confirm the current tool and endpoint state before it can make another change or start the tool."
     },
     "shellVariable": {
       "at": "Line {{line}} of {{path}}",
@@ -1910,12 +1910,15 @@
     },
     "reorder": {
       "handle": "Reorder {{name}}",
-      "roleDescription": "movable service",
-      "instructions": "To move this service, press Space or Enter, move it with the Up and Down arrow keys, then press Space or Enter again to put it down. Press Escape to cancel.",
+      "roleDescription": "movable endpoint",
+      "instructions": "To move this endpoint, press Space or Enter, move it with the Up and Down arrow keys, then press Space or Enter again to put it down. Press Escape to cancel.",
       "picked": "Picked up {{name}}, position {{position}} of {{count}}.",
       "moved": "{{name}} is now at position {{position}} of {{count}}.",
       "dropped": "{{name}} put down at position {{position}} of {{count}}.",
       "cancelled": "Move cancelled. {{name}} stays at position {{position}} of {{count}}."
+    },
+    "tab": {
+      "endpoints": "Endpoints"
     }
   },
   "extensions": {
@@ -2066,7 +2069,7 @@
         "installErrorNamed": "Could not start installing {{name}}",
         "retryInstallNamed": "Retry installing {{name}}",
         "queued": "Installing {{name}}",
-        "queuedDescription": "You can keep working and follow progress in Tasks."
+        "queuedDescription": "You can keep working and follow progress in Activity."
       },
       "zip": {
         "action": "Install ZIP",
@@ -2081,7 +2084,7 @@
         "syncDescription": "New, non-conflicting Skills are added to managed storage and synchronized to this tool.",
         "partialNote": "If a later Skill in the archive fails, earlier Skills may already be installed. Tasks show the result and the Skill list refreshes automatically.",
         "queued": "Installing Skills from a ZIP",
-        "queuedDescription": "You can keep working and follow progress in Tasks.",
+        "queuedDescription": "You can keep working and follow progress in Activity.",
         "errorHint": "Review the message, choose the archive again, and retry."
       },
       "backups": {
@@ -2100,7 +2103,7 @@
         "restore": "Restore",
         "restoreNamed": "Restore {{name}} from this recovery copy",
         "restoreQueued": "Restoring {{name}}",
-        "restoreQueuedDescription": "You can keep working and follow progress in Tasks.",
+        "restoreQueuedDescription": "You can keep working and follow progress in Activity.",
         "delete": "Delete",
         "deleteNamed": "Delete the recovery copy for {{name}}",
         "deleteTitle": "Delete the recovery copy for {{name}}?",
@@ -2143,7 +2146,7 @@
         "description": "This removes the managed Skill from AI Manager and every AI tool where it is enabled.",
         "confirm": "Remove Skill",
         "queued": "Removing {{name}}",
-        "queuedDescription": "You can keep working and follow progress in Tasks.",
+        "queuedDescription": "You can keep working and follow progress in Activity.",
         "errorRetry": "Review the message and try again."
       },
       "update": {
@@ -2154,7 +2157,7 @@
         "checkErrorDescription": "Some Skill sources may be unreachable. Existing Skills still work, but this is not proof that everything is current.",
         "retry": "Check again",
         "queued": "Updating {{name}}",
-        "queuedDescription": "You can keep working and follow progress in Tasks."
+        "queuedDescription": "You can keep working and follow progress in Activity."
       },
       "empty": {
         "title": "No skills yet",
@@ -2170,7 +2173,7 @@
         "description": "Connect {{tool}} to a local program or a remote service.",
         "confirm": "Add Connection",
         "name": "Connection name",
-        "nameHint": "Use a name you will recognize in Extensions.",
+        "nameHint": "Use a name you will recognize in the list.",
         "optionalDescription": "Description (optional)",
         "transport": {
           "label": "How does it connect?",
@@ -2225,14 +2228,14 @@
         "trustLocal": "This runs the named program on your computer. Add only software you trust.",
         "trustRemote": "This sends MCP traffic to the address above. Add only services you trust.",
         "queued": "Adding {{name}}",
-        "queuedDescription": "You can keep working and follow progress in Tasks."
+        "queuedDescription": "You can keep working and follow progress in Activity."
       },
       "remove": {
         "title": "Remove {{name}}?",
         "description": "This removes the saved connection from AI Manager and every AI tool where it is turned on.",
         "confirm": "Remove Connection",
         "queued": "Removing {{name}}",
-        "queuedDescription": "You can keep working and follow progress in Tasks.",
+        "queuedDescription": "You can keep working and follow progress in Activity.",
         "errorRetry": "Check the task details before trying again."
       },
       "empty": {
@@ -2323,8 +2326,8 @@
     "target": {
       "routed": "Routed",
       "direct": "Direct",
-      "current": "Current service: {{name}}",
-      "noProvider": "Choose a current service in API Endpoints first."
+      "current": "Current endpoint: {{name}}",
+      "noProvider": "Choose a current endpoint in API Endpoints first."
     },
     "takeover": {
       "title": "Routing takeover",
@@ -2333,20 +2336,20 @@
     },
     "failover": {
       "title": "Automatic failover",
-      "description": "Try healthy services in P1, P2 order when a request fails.",
+      "description": "Try healthy endpoints in P1, P2 order when a request fails.",
       "label": "Automatic failover for {{name}}"
     },
     "queue": {
       "title": "Failover order",
       "description": "P1 is selected when failover starts.",
-      "count_one": "{{count}} service",
-      "count_other": "{{count}} services",
-      "empty": "Add a service, or turn on failover to use the current service as P1.",
-      "selectLabel": "Service to add to failover",
-      "selectLabelNamed": "Service to add to {{name}} failover",
-      "selectPlaceholder": "Choose a service",
+      "count_one": "{{count}} endpoint",
+      "count_other": "{{count}} endpoints",
+      "empty": "Add an endpoint, or turn on failover to use the current endpoint as P1.",
+      "selectLabel": "Endpoint to add to failover",
+      "selectLabelNamed": "Endpoint to add to {{name}} failover",
+      "selectPlaceholder": "Choose an endpoint",
       "add": "Add",
-      "addNamed": "Add the selected service to {{name}} failover"
+      "addNamed": "Add the selected endpoint to {{name}} failover"
     },
     "provider": {
       "current": "Current",
@@ -2538,10 +2541,10 @@
         "action": {
           "updateTool": "Update now",
           "repairTool": "Fix now",
-          "reviewTool": "Review AI Tools",
-          "connectService": "Connect a service",
+          "reviewTool": "Open Software",
+          "connectService": "Connect an endpoint",
           "reviewService": "Review API Endpoints",
-          "reviewExtensions": "Review Extensions"
+          "reviewExtensions": "Open MCP"
         }
       },
       "item": {
@@ -2566,13 +2569,13 @@
           "description": "This is informational and is not counted as a problem."
         },
         "providerReady": {
-          "title": "{{name}} has an AI service configured",
-          "description_one": "{{count}} service configuration is in use.",
-          "description_other": "{{count}} service configurations are in use."
+          "title": "{{name}} has an API endpoint configured",
+          "description_one": "{{count}} endpoint configuration is in use.",
+          "description_other": "{{count}} endpoint configurations are in use."
         },
         "providerMissing": {
-          "title": "{{name}} has no AI service configured",
-          "description": "Open API Endpoints and choose or configure a service for this tool."
+          "title": "{{name}} has no API endpoint configured",
+          "description": "Open API Endpoints and choose or add an endpoint for this tool."
         },
         "configReadable": {
           "title": "{{name}} configuration can be read",
@@ -2610,17 +2613,17 @@
         },
         "mcpInventoryUnavailable": {
           "title": "Local MCP connections could not be inspected",
-          "description": "Open Extensions to retry the local inventory before assuming every connection is managed."
+          "description": "Open MCP to check the local inventory again."
         },
         "mcpInventoryPartial": {
           "title": "Some local MCP locations need another check",
-          "description": "Locations needing review: {{count}}. A supported location could not be inspected, or the bounded inventory was full. Review Extensions for the complete next step."
+          "description": "{{count}} locations could not be checked. Review them in MCP."
         }
       }
     },
     "import": {
       "title": "Import from CC Switch",
-      "description": "Bring the AI services, MCP servers and skills from CC Switch into AI Manager. Nothing in CC Switch changes.",
+      "description": "Bring the API endpoints, MCP servers and skills from CC Switch into AI Manager. Nothing in CC Switch changes.",
       "reimport": "Import from CC Switch",
       "loading": "Looking for a CC Switch configuration",
       "retry": "Check again",
@@ -2629,11 +2632,11 @@
       "again": "Import again",
       "skip": "Skip",
       "success": "Existing setup imported.",
-      "collision": "If the same service or extension already exists, the imported version replaces it. Everything else stays.",
+      "collision": "If the same endpoint, MCP server or skill already exists, the imported version replaces it. Everything else stays.",
       "sourceDetail": "The local CC Switch database, opened read-only",
       "prompt": {
         "title": "Found a CC Switch configuration",
-        "description": "CC Switch has been installed on this computer. Bring its AI services, MCP servers and skills across?"
+        "description": "CC Switch has been installed on this computer. Bring its API endpoints, MCP servers and skills across?"
       },
       "confirm": {
         "title": "Import this existing setup?",
@@ -2647,16 +2650,16 @@
       },
       "completion": {
         "title": "Setup imported",
-        "description": "The supported services, MCP servers and skills are now in AI Manager.",
+        "description": "The supported API endpoints, MCP servers and skills are now in AI Manager.",
         "countLabel": "Imported items",
         "nextStepTitle": "Choose what each tool should use",
-        "nextStep": "Open API Endpoints and select an imported service for each tool when you are ready.",
+        "nextStep": "Open API Endpoints and select an imported endpoint for each tool when you are ready.",
         "continue": "Continue"
       },
       "count": {
         "label": "Items ready to import",
-        "services_one": "{{count}} AI Service",
-        "services_other": "{{count}} AI Services",
+        "services_one": "{{count}} API Endpoint",
+        "services_other": "{{count}} API Endpoints",
         "mcpServers_one": "{{count}} MCP Server",
         "mcpServers_other": "{{count}} MCP Servers",
         "skills_one": "{{count}} Skill",
@@ -2767,7 +2770,7 @@
         },
         "imported": {
           "title": "Configuration imported",
-          "description": "AI Manager is now using the services and extensions from that archive."
+          "description": "AI Manager is now using the endpoints and extensions from that archive."
         },
         "renamed": {
           "title": "Restore point renamed",
@@ -2783,17 +2786,17 @@
         },
         "warning": {
           "title": "Restore complete, but one tool needs attention",
-          "description": "A tool did not pick up the service change. Review API Endpoints and choose the service you want again."
+          "description": "A tool did not pick up the endpoint change. Review API Endpoints and choose the endpoint you want again."
         },
         "importWarning": {
           "title": "Import complete, but one tool needs attention",
-          "description": "The archive was imported, but one tool did not pick up the service change. Review API Endpoints and choose the service you want again."
+          "description": "The archive was imported, but one tool did not pick up the endpoint change. Review API Endpoints and choose the endpoint you want again."
         },
         "reviewServices": "Review API Endpoints"
       },
       "empty": {
         "title": "Protect your current setup",
-        "description": "Create a local restore point before changing tools or services.",
+        "description": "Create a local restore point before changing tools or endpoints.",
         "local": "Local only"
       },
       "error": {
@@ -2806,7 +2809,7 @@
         "description": "The last backup list is still shown. Backup actions stay paused until a new check succeeds."
       },
       "restorePoint": {
-        "replaces": "Services, extensions and choices in AI Manager return to this restore point.",
+        "replaces": "Endpoints, extensions and choices in AI Manager return to this restore point.",
         "installed": "Installed AI coding tools stay on this computer.",
         "followUp": "After the restore, AI Manager tells you if a tool needs attention."
       },
@@ -2815,10 +2818,10 @@
       },
       "transfer": {
         "secretTitle": "Treat the archive like a password",
-        "secretDescription": "A portable copy can contain service keys and other private configuration. Store it securely and share it only with people you trust.",
+        "secretDescription": "A portable copy can contain API keys and other private configuration. Store it securely and share it only with people you trust.",
         "confirmTitle": "Import this configuration archive?",
         "confirmDescription": "Choose the archive only after reviewing what will change.",
-        "confirmReplace": "Managed services, extensions and stored history will be replaced by the archive.",
+        "confirmReplace": "Managed endpoints, extensions and stored history will be replaced by the archive.",
         "confirmSafety": "AI Manager creates a local restore point before replacing its current data.",
         "confirmTrust": "Import only an archive you created or received from someone you trust.",
         "confirmInstalled": "Installed AI coding tools stay on this computer.",
