@@ -1324,40 +1324,16 @@
   },
   "home": {
     "pageLabel": "ホーム",
-    "greeting": {
-      "morning": "おはようございます",
-      "afternoon": "こんにちは",
-      "evening": "こんばんは"
-    },
-    "subtitle": {
-      "ready": "AI コーディング環境は正常です",
-      "checking": "環境を確認してから、次に行うことをご案内します",
-      "stale": "ホームを再確認する間、前回の結果を表示しています",
-      "attention": "いくつか確認したいことがあります",
-      "action": "対応が必要な項目があります"
-    },
-    "card": {
-      "title": "AI 環境",
-      "description": "ソフトウェア、API エンドポイント、MCP の状態をひと目で確認",
+    "status": {
       "checking": "AI 環境を確認しています",
-      "toolsInstalled_one": "{{count}} 個のツールが使えます",
-      "toolsInstalled_other": "{{count}} 個のツールが使えます",
-      "updatesAvailable_one": "{{count}} 件の更新があります",
-      "updatesAvailable_other": "{{count}} 件の更新があります",
+      "allGood": "すべて最新です",
       "needAttention_one": "{{count}} 件の確認が必要です",
       "needAttention_other": "{{count}} 件の確認が必要です",
-      "allGood": "すべて最新です",
       "nothingInstalled": "まだツールがありません",
+      "updatesAvailable_one": "{{count}} 件の更新があります",
+      "updatesAvailable_other": "{{count}} 件の更新があります",
       "review": "確認する",
       "startTool": "{{name}} で始める",
-      "startHint": "プロジェクトフォルダーを選んで始めましょう。",
-      "inventory": {
-        "label": "準備済み環境の詳細",
-        "servicesConfigured_one": "API エンドポイントを {{count}} 件設定済み",
-        "servicesConfigured_other": "API エンドポイントを {{count}} 件設定済み",
-        "mcpEnabled": "MCP 有効：{{enabled}} / {{total}}",
-        "noMcp": "MCP 接続はまだありません"
-      },
       "actions": {
         "tools": "ソフトウェア管理を開く",
         "services": "API エンドポイントを開く",
@@ -1367,41 +1343,38 @@
     "health": {
       "title": "ヘルスチェック",
       "recheck": "再チェック",
-      "allGood": "すべて正常です",
-      "issues_one": "{{count}} 件の問題が見つかりました",
-      "issues_other": "{{count}} 件の問題が見つかりました",
       "lastChecked": "最終チェック {{time}}",
       "checkingConnections": "エンドポイントの接続を確認しています",
-      "connectionError": "接続チェックを開始できませんでした。もう一度お試しください。",
-      "noTools": {
-        "title": "まず AI コーディングツールを選んでください",
-        "description": "インストールすると、ヘルスチェックの対象になります。",
-        "action": "ソフトウェア管理を開く"
-      }
+      "connectionError": "接続チェックを開始できませんでした。もう一度お試しください。"
     },
-    "quickActions": {
-      "title": "クイック操作",
-      "installTool": "AI ツールをインストール",
-      "installDescription": "Claude Code、Codex、OpenCode を追加",
+    "tools": {
+      "title": "マイツール",
+      "install": "AI ツールをインストール",
       "updateAll": "すべて更新",
-      "updateDescription": "インストール済みのツールを最新に保つ",
-      "connectService": "API エンドポイントを接続",
-      "connectDescription": "ツールが使うエンドポイントとキーをまとめて管理",
-      "laterHint": "今後のアップデートで追加されます"
+      "empty": "インストール済みのツールはどれも API エンドポイントを使いません。",
+      "official": "公式ログイン",
+      "notConnected": "未接続",
+      "added_one": "{{count}} 件のエンドポイントを追加済み",
+      "added_other": "{{count}} 件のエンドポイントを追加済み",
+      "modelInTool": "モデルは {{tool}} で選択",
+      "unavailable": "エンドポイントを読み取れません",
+      "switchTo": "切り替え先…",
+      "switchNamed": "{{tool}} が使うエンドポイントを切り替え",
+      "connect": "接続",
+      "connectNamed": "{{tool}} に API エンドポイントを接続",
+      "update": "更新",
+      "updateNamed": "{{tool}} を更新",
+      "openNamed": "{{tool}} の API エンドポイントを開く",
+      "switchUnreachable": "{{name}} が応答しなかったため、何も変更していません。"
     },
     "updateAll": {
-      "title_one": "{{count}} 個のツールを更新しますか？",
-      "title_other": "{{count}} 個のツールを更新しますか？",
       "reviewTitle_one": "{{count}} 個のツール更新を確認",
       "reviewTitle_other": "{{count}} 個のツール更新を確認",
-      "description": "{{names, list}} はバックグラウンドで更新されます。AI Manager を使い続けながら、アクティビティで進行状況を確認できます。",
       "previewSummary": "{{ready}} 個は今すぐ更新できます。{{skipped}} 個はインストールを確認するまでスキップされます。",
       "skippedSummary_one": "更新方法を確認できないため、{{count}} 個のツールをスキップしました。",
       "skippedSummary_other": "更新方法を確認できないため、{{count}} 個のツールをスキップしました。",
       "confirm_one": "{{count}} 個のツールを更新",
       "confirm_other": "{{count}} 個のツールを更新",
-      "retry_one": "このツールを再試行",
-      "retry_other": "未開始の項目を再試行",
       "failure": {
         "partial": {
           "title": "一部の更新を開始しました",
@@ -1415,7 +1388,6 @@
         }
       },
       "hints": {
-        "current": "すべて最新です",
         "running": "更新はアクティビティですでに実行中です",
         "checking": "更新できるツールを確認しています",
         "unavailable": "現在、更新状態を確認できません",

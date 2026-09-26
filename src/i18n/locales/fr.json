@@ -1325,40 +1325,16 @@
   },
   "home": {
     "pageLabel": "Accueil",
-    "greeting": {
-      "morning": "Bonjour",
-      "afternoon": "Bon après-midi",
-      "evening": "Bonsoir"
-    },
-    "subtitle": {
-      "ready": "Votre environnement de codage IA est prêt.",
-      "checking": "Vérification de votre configuration avant de suggérer la prochaine étape.",
-      "stale": "Affichage de la dernière vérification pendant l'actualisation de l'accueil.",
-      "attention": "Quelques points méritent votre attention.",
-      "action": "Quelque chose nécessite votre attention."
-    },
-    "card": {
-      "title": "Environnement IA",
-      "description": "Logiciels, points d'accès API et MCP vérifiés au même endroit",
+    "status": {
       "checking": "Vérification de votre environnement IA",
-      "toolsInstalled_one": "{{count}} outil installé",
-      "toolsInstalled_other": "{{count}} outils installés",
-      "updatesAvailable_one": "{{count}} mise à jour disponible",
-      "updatesAvailable_other": "{{count}} mises à jour disponibles",
+      "allGood": "Tout est à jour",
       "needAttention_one": "{{count}} élément nécessite votre attention",
       "needAttention_other": "{{count}} éléments nécessitent votre attention",
-      "allGood": "Tout est à jour",
       "nothingInstalled": "Aucun outil installé pour l'instant",
+      "updatesAvailable_one": "{{count}} mise à jour disponible",
+      "updatesAvailable_other": "{{count}} mises à jour disponibles",
       "review": "Examiner",
       "startTool": "Commencer avec {{name}}",
-      "startHint": "Choisissez un dossier de projet pour commencer.",
-      "inventory": {
-        "label": "Détails de la configuration",
-        "servicesConfigured_one": "{{count}} point d'accès API configuré",
-        "servicesConfigured_other": "{{count}} points d'accès API configurés",
-        "mcpEnabled": "MCP activé : {{enabled}} sur {{total}}",
-        "noMcp": "Aucune connexion MCP pour l'instant"
-      },
       "actions": {
         "tools": "Ouvrir Logiciels",
         "services": "Ouvrir les points d'accès API",
@@ -1368,41 +1344,38 @@
     "health": {
       "title": "Bilan de santé",
       "recheck": "Revérifier",
-      "allGood": "Tout va bien",
-      "issues_one": "{{count}} problème détecté",
-      "issues_other": "{{count}} problèmes détectés",
       "lastChecked": "Dernière vérification : {{time}}",
       "checkingConnections": "Vérification des connexions aux points d'accès",
-      "connectionError": "La vérification de connexion n'a pas pu démarrer. Réessayez.",
-      "noTools": {
-        "title": "Commencez avec un outil de codage IA",
-        "description": "Une fois un outil installé, le bilan de santé le prend en compte.",
-        "action": "Ouvrir Logiciels"
-      }
+      "connectionError": "La vérification de connexion n'a pas pu démarrer. Réessayez."
     },
-    "quickActions": {
-      "title": "Actions rapides",
-      "installTool": "Installer un outil IA",
-      "installDescription": "Ajoutez Claude Code, Codex ou OpenCode",
+    "tools": {
+      "title": "Mes outils",
+      "install": "Installer un outil IA",
       "updateAll": "Tout mettre à jour",
-      "updateDescription": "Gardez vos outils installés à jour",
-      "connectService": "Connecter un point d'accès API",
-      "connectDescription": "Gérez les points d'accès et les clés utilisés par vos outils",
-      "laterHint": "Disponible dans une future mise à jour"
+      "empty": "Aucun de vos outils installés n'utilise de point d'accès API.",
+      "official": "Connexion officielle",
+      "notConnected": "Non connecté",
+      "added_one": "{{count}} point d'accès ajouté",
+      "added_other": "{{count}} points d'accès ajoutés",
+      "modelInTool": "Modèle choisi dans {{tool}}",
+      "unavailable": "Impossible de lire les points d'accès",
+      "switchTo": "Basculer vers…",
+      "switchNamed": "Changer le point d'accès utilisé par {{tool}}",
+      "connect": "Connecter",
+      "connectNamed": "Connecter un point d'accès API à {{tool}}",
+      "update": "Mettre à jour",
+      "updateNamed": "Mettre à jour {{tool}}",
+      "openNamed": "Ouvrir les points d'accès API de {{tool}}",
+      "switchUnreachable": "{{name}} n'a pas répondu, rien n'a donc été modifié."
     },
     "updateAll": {
-      "title_one": "Mettre à jour {{count}} outil ?",
-      "title_other": "Mettre à jour {{count}} outils ?",
       "reviewTitle_one": "Vérifier {{count}} mise à jour d'outil",
       "reviewTitle_other": "Vérifier {{count}} mises à jour d'outils",
-      "description": "{{names, list}} seront mis à jour en arrière-plan. Vous pouvez continuer à utiliser AI Manager et suivre la progression dans Activité.",
       "previewSummary": "{{ready}} peuvent être mis à jour maintenant. {{skipped}} seront ignorés jusqu'à ce que leur installation soit vérifiée.",
       "skippedSummary_one": "{{count}} outil a été ignoré car sa méthode de mise à jour n'a pas pu être confirmée.",
       "skippedSummary_other": "{{count}} outils ont été ignorés car leurs méthodes de mise à jour n'ont pas pu être confirmées.",
       "confirm_one": "Mettre à jour {{count}} outil",
       "confirm_other": "Mettre à jour {{count}} outils",
-      "retry_one": "Réessayer l'outil",
-      "retry_other": "Réessayer le reste",
       "failure": {
         "partial": {
           "title": "Certaines mises à jour sont en cours",
@@ -1416,7 +1389,6 @@
         }
       },
       "hints": {
-        "current": "Tout est déjà à jour",
         "running": "Des mises à jour sont déjà en cours dans Activité",
         "checking": "Vérification de ce qui peut être mis à jour",
         "unavailable": "L'état des mises à jour est indisponible pour le moment",

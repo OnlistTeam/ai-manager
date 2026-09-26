@@ -1,32 +1,25 @@
-import { Download, PlugZap, RefreshCw } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type { ToolId } from "@/entities/tool";
+import type { Tool, ToolId } from "@/entities/tool";
+import { QuickCheckResolutionGuide } from "@/features/health";
 import {
-  QuickCheckResolutionGuide,
-  summarizeEnvironment,
-} from "@/features/health";
-import {
-  firstLaunchableTool,
-  OpenToolModal,
-  UpdateConfirmationModal,
   busyTools,
+  firstLaunchableTool,
   useToolLaunchFlow,
 } from "@/features/tool-management";
 import { Card } from "@/shared/ui/Card";
-import { SectionHeader } from "@/shared/ui/SectionHeader";
-import { EnvironmentHero } from "./EnvironmentHero";
-import { EnvironmentHeroSkeleton } from "./EnvironmentHeroSkeleton";
+import { HomeDialogs } from "./HomeDialogs";
 import {
-  HomeActionCheckingNotice,
-  HomeActionPausedNotice,
   HomeRefreshNotice,
+  HomeStatusChecking,
   HomeUnavailableState,
 } from "./HomeReadinessNotice";
+import { HomeStatusLine } from "./HomeStatusLine";
+import { HomeToolList } from "./HomeToolList";
 import {
   recommendHomeAction,
   type HomeDestination,
 } from "./homeRecommendation";
-import { QuickActions, type QuickAction } from "./QuickActions";
+import { connectableTools, coveredByToolRow } from "./homeToolConnection";
 import { UpdateAllFailureNotice } from "./UpdateAllFailureNotice";
 import { updateAllHintKey } from "./updateAllHint";
 import { useHomeReadinessRecovery } from "./useHomeReadinessRecovery";
@@ -61,7 +54,16 @@ export function HomePage({
 
   const list = check.tools.data ?? [];
   const summary = check.data;
-  const heroPending = check.isPending || !summary;
+  const rows = connectableTools(list);
+  const rowToolIds = new Set<string>(rows.map((tool) => tool.id));
+  const findings = summary
+    ? summary.items.filter(
+        (item) =>
+          item.status !== "ready" &&
+          item.resolution !== undefined &&
+          !coveredByToolRow(item, rowToolIds),
+      )
+    : [];
   const startTool =
     summary?.status === "ready" && !actionsBlocked
       ? firstLaunchableTool(list)
@@ -71,56 +73,30 @@ export function HomePage({
   const updateable = outdated.filter((tool) => tool.capabilities.canUpdate);
   const busy = busyTools(operations.data ?? []);
   const readyToUpdate = updateable.filter((tool) => !busy.has(tool.id));
-  const updateAll = useHomeUpdateAll({
+  const updates = useHomeUpdateAll({
     readyToUpdate,
     actionsBlocked,
     refetchOperations: operations.refetch,
   });
-  const updateAllDisabled =
-    actionsBlocked || readyToUpdate.length === 0 || updateAll.scheduling;
-  const updateHintKey = updateAllHintKey({
-    scheduling: updateAll.scheduling,
-    sourcesUnavailable,
-    sourcesPending,
-    retrying,
-    readyCount: readyToUpdate.length,
-    updateableBusy: updateable.some((tool) => busy.has(tool.id)),
-    outdatedCount: outdated.length,
-    checkingVersions: check.tools.checkingVersions,
-    unverified: summarizeEnvironment(list).unverified,
-  });
-
-  const actions: readonly QuickAction[] = [
-    {
-      id: "install",
-      labelKey: "home.quickActions.installTool",
-      descriptionKey: "home.quickActions.installDescription",
-      icon: Download,
-      onSelect: () => onOpenTools(),
-    },
-    {
-      id: "updateAll",
-      labelKey: "home.quickActions.updateAll",
-      descriptionKey: "home.quickActions.updateDescription",
-      icon: RefreshCw,
-      disabled: updateAllDisabled,
-      hintKey: updateHintKey,
-      onSelect: updateAll.start,
-    },
-    {
-      id: "connect",
-      labelKey: "home.quickActions.connectService",
-      descriptionKey: "home.quickActions.connectDescription",
-      icon: PlugZap,
-      onSelect: () => onOpenServices(),
-    },
-  ];
 
   const destinations: Record<HomeDestination, () => void> = {
     tools: () => onOpenTools(),
-    services: () => onOpenServices(),
+    services: () => onOpenServices(recommendation?.toolId ?? undefined),
     mcp: () => onOpenMcp(),
   };
+
+  const updateFor = (tool: Tool) =>
+    tool.status !== "updateAvailable"
+      ? null
+      : {
+          running: busy.has(tool.id),
+          disabled: actionsBlocked || updates.scheduling,
+          // A tool this app cannot update itself is reviewed where its
+          // installation is explained, not in a dialog that could only refuse.
+          onSelect: tool.capabilities.canUpdate
+            ? () => updates.start([tool])
+            : onOpenTools,
+        };
 
   return (
     <div
@@ -128,7 +104,7 @@ export function HomePage({
       role="region"
       aria-label={t("home.pageLabel")}
       tabIndex={-1}
-      className="flex min-w-0 flex-col gap-8 outline-none"
+      className="flex min-w-0 flex-col gap-4 outline-none"
     >
       {refreshFailed ? (
         <HomeRefreshNotice
@@ -144,13 +120,10 @@ export function HomePage({
           retryButtonRef={retryButtonRef}
           onRetry={retryHome}
         />
-      ) : heroPending ? (
-        <EnvironmentHeroSkeleton
-          title={t("home.card.title")}
-          label={t("home.card.checking")}
-        />
+      ) : check.isPending || !summary ? (
+        <HomeStatusChecking />
       ) : (
-        <EnvironmentHero
+        <HomeStatusLine
           summary={summary}
           recommendation={recommendation}
           startTool={startTool}
@@ -159,29 +132,20 @@ export function HomePage({
           checkingConnections={check.isCheckingConnections}
           connectionCheckError={check.connectionCheckError}
           onRecheck={() => void check.recheck()}
-          onReview={(destination) => {
-            if (destination === "services") {
-              onOpenServices(recommendation?.toolId ?? undefined);
-              return;
-            }
-            destinations[destination]();
-          }}
+          onReview={(destination) => destinations[destination]()}
           onStart={launch.openTool}
         />
       )}
 
-      {/* The hero carries the count and the primary action; this list is the
-          one place that names the findings. A finding is a row with a next
-          step: "Pi is not installed" and "2 MCP servers" are inventory facts,
-          and putting them in a health check buries the rows that matter. */}
-      {summary &&
-      !checkUnavailable &&
-      summary.items.some(
-        (item) => item.status !== "ready" && item.resolution !== undefined,
-      ) ? (
-        <Card padding="lg" role="region" aria-label={t("home.health.title")}>
+      {/* Slot: the live routing switch and its panel mount here, between the
+          status line and the findings, in a later change. */}
+
+      {/* The status line counts; this list names each finding with its next
+          step. Findings a tool row already shows are left to that row. */}
+      {summary && !checkUnavailable && findings.length > 0 ? (
+        <Card padding="sm" role="region" aria-label={t("home.health.title")}>
           <QuickCheckResolutionGuide
-            summary={summary}
+            summary={{ ...summary, items: findings }}
             tools={list}
             onOpenTools={onOpenTools}
             onOpenServices={onOpenServices}
@@ -190,72 +154,55 @@ export function HomePage({
         </Card>
       ) : null}
 
-      <section className="flex flex-col gap-3">
-        <SectionHeader title={t("home.quickActions.title")} />
-        <QuickActions actions={actions} />
-      </section>
+      {summary && !checkUnavailable && summary.installedCount > 0 ? (
+        <HomeToolList
+          tools={rows}
+          updateAll={
+            outdated.length === 0
+              ? null
+              : {
+                  disabled:
+                    actionsBlocked ||
+                    readyToUpdate.length === 0 ||
+                    updates.scheduling,
+                  loading: updates.scheduling && updates.bulk,
+                  hintKey: updateAllHintKey({
+                    scheduling: updates.scheduling,
+                    sourcesUnavailable,
+                    sourcesPending,
+                    retrying,
+                    readyCount: readyToUpdate.length,
+                    updateableBusy: updateable.some((tool) =>
+                      busy.has(tool.id),
+                    ),
+                  }),
+                  onSelect: () => updates.start(),
+                }
+          }
+          updateFor={updateFor}
+          onInstall={onOpenTools}
+          onOpenTool={launch.openTool}
+          onOpenServices={onOpenServices}
+        />
+      ) : null}
 
-      {updateAll.skippedCount > 0 && updateAll.pending.length === 0 ? (
+      {updates.skippedCount > 0 && updates.pending.length === 0 ? (
         <UpdateAllFailureNotice
           failedCount={0}
           startedCount={0}
-          skippedCount={updateAll.skippedCount}
+          skippedCount={updates.skippedCount}
           onReviewSkipped={onOpenTools}
         />
       ) : null}
 
-      <UpdateConfirmationModal
-        open={updateAll.pending.length > 0}
-        tools={updateAll.pending}
-        previews={updateAll.previews.data}
-        loading={updateAll.previews.isPending}
-        refreshing={
-          updateAll.previews.isFetching && updateAll.previews.data !== undefined
-        }
-        previewError={updateAll.previews.error}
-        submitting={updateAll.scheduling}
-        mutationError={null}
-        returnFocusFallbackRef={pageRef}
-        actionPaused={actionsBlocked || !updateAll.stillAuthorized}
-        bulk
-        notice={
-          <>
-            {retrying && !refreshFailed ? <HomeActionCheckingNotice /> : null}
-            {refreshFailed ? <HomeActionPausedNotice /> : null}
-            {updateAll.failure ? (
-              <UpdateAllFailureNotice
-                {...updateAll.failure}
-                skippedCount={updateAll.skippedCount}
-                onReviewSkipped={onOpenTools}
-              />
-            ) : null}
-          </>
-        }
-        onOpenChange={updateAll.setOpen}
-        onRefresh={updateAll.refresh}
-        onConfirm={updateAll.confirm}
-      />
-
-      <OpenToolModal
-        tool={launch.tool}
-        busy={launch.busy}
-        confirmDisabled={actionsBlocked}
-        error={launch.error}
-        providerRecovery={launch.providerRecovery}
-        notice={
-          retrying && !refreshFailed ? (
-            <HomeActionCheckingNotice />
-          ) : refreshFailed ? (
-            <HomeActionPausedNotice />
-          ) : null
-        }
-        onOpenChange={launch.onOpenChange}
-        onLaunchDefault={() => {
-          if (!actionsBlocked) launch.confirm("default");
-        }}
-        onChooseFolder={() => {
-          if (!actionsBlocked) launch.confirm("choose");
-        }}
+      <HomeDialogs
+        updates={updates}
+        launch={launch}
+        pageRef={pageRef}
+        actionsBlocked={actionsBlocked}
+        retrying={retrying}
+        refreshFailed={refreshFailed}
+        onReviewSkipped={onOpenTools}
       />
     </div>
   );

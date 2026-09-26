@@ -7,19 +7,12 @@ export interface UpdateAllHintInputs {
   readyCount: number;
   /** Some tool that could update already has a task running. */
   updateableBusy: boolean;
-  outdatedCount: number;
-  checkingVersions: boolean;
-  /** Installed tools whose latest version is still unknown. */
-  unverified: number;
 }
 
 /**
- * "Everything is already up to date" is a positive assertion, and it's only
- * earned once every installed tool's latest version has actually been
- * checked. Still checking → confirming; can't check (offline/rate-limited) →
- * temporarily unable to confirm. Not knowing means we don't get to conclude
- * on its behalf.
- * Returns undefined when the action needs no hint because it is simply ready.
+ * Update All is only on screen while some installed tool has an update, so
+ * the hint never has to say "everything is current"; it only explains why the
+ * button cannot start right now. Returns undefined when it simply can.
  */
 export function updateAllHintKey(
   input: UpdateAllHintInputs,
@@ -31,8 +24,5 @@ export function updateAllHintKey(
   }
   if (input.readyCount > 0) return undefined;
   if (input.updateableBusy) return "home.updateAll.hints.running";
-  if (input.outdatedCount > 0) return "home.updateAll.hints.review";
-  if (input.checkingVersions) return "home.updateAll.hints.checking";
-  if (input.unverified > 0) return "home.updateAll.hints.unavailable";
-  return "home.updateAll.hints.current";
+  return "home.updateAll.hints.review";
 }

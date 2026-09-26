@@ -12,9 +12,9 @@ export interface HomeRecommendation {
   toolId: ToolId | null;
   destination: HomeDestination;
   actionKey:
-    | "home.card.actions.tools"
-    | "home.card.actions.services"
-    | "home.card.actions.mcp";
+    | "home.status.actions.tools"
+    | "home.status.actions.services"
+    | "home.status.actions.mcp";
 }
 
 const DESTINATION: Record<QuickCheckItemKind, HomeDestination> = {
@@ -26,9 +26,9 @@ const DESTINATION: Record<QuickCheckItemKind, HomeDestination> = {
 };
 
 const ACTION_KEY: Record<HomeDestination, HomeRecommendation["actionKey"]> = {
-  tools: "home.card.actions.tools",
-  services: "home.card.actions.services",
-  mcp: "home.card.actions.mcp",
+  tools: "home.status.actions.tools",
+  services: "home.status.actions.services",
+  mcp: "home.status.actions.mcp",
 };
 
 /**

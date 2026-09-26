@@ -1324,40 +1324,16 @@
   },
   "home": {
     "pageLabel": "首页",
-    "greeting": {
-      "morning": "早上好",
-      "afternoon": "下午好",
-      "evening": "晚上好"
-    },
-    "subtitle": {
-      "ready": "你的 AI 编程环境运行正常",
-      "checking": "正在检查环境，确认好以后再告诉你下一步",
-      "stale": "正在显示上一次检查结果，等待首页刷新",
-      "attention": "有几处值得看一眼",
-      "action": "有问题需要你处理"
-    },
-    "card": {
-      "title": "AI 环境",
-      "description": "软件、API 端点和 MCP 的状态，一眼就能看清",
+    "status": {
       "checking": "正在检查你的 AI 环境",
-      "toolsInstalled_one": "已装好 {{count}} 个工具",
-      "toolsInstalled_other": "已装好 {{count}} 个工具",
-      "updatesAvailable_one": "{{count}} 个可以更新",
-      "updatesAvailable_other": "{{count}} 个可以更新",
+      "allGood": "都是最新的",
       "needAttention_one": "{{count}} 项需要注意",
       "needAttention_other": "{{count}} 项需要注意",
-      "allGood": "都是最新的",
       "nothingInstalled": "还没有装任何工具",
+      "updatesAvailable_one": "{{count}} 个可以更新",
+      "updatesAvailable_other": "{{count}} 个可以更新",
       "review": "去看看",
       "startTool": "用 {{name}} 开始工作",
-      "startHint": "选择一个项目文件夹开始。",
-      "inventory": {
-        "label": "已就绪的环境详情",
-        "servicesConfigured_one": "已配置 {{count}} 个 API 端点",
-        "servicesConfigured_other": "已配置 {{count}} 个 API 端点",
-        "mcpEnabled": "MCP 已启用：{{enabled}} / {{total}}",
-        "noMcp": "还没有 MCP 连接"
-      },
       "actions": {
         "tools": "打开软件管理",
         "services": "打开 API 端点",
@@ -1367,41 +1343,38 @@
     "health": {
       "title": "体检",
       "recheck": "重新体检",
-      "allGood": "一切正常",
-      "issues_one": "发现 {{count}} 个问题",
-      "issues_other": "发现 {{count}} 个问题",
       "lastChecked": "上次检查 {{time}}",
       "checkingConnections": "正在检查端点连接",
-      "connectionError": "连接检查没能开始，请再试一次。",
-      "noTools": {
-        "title": "先选择一个 AI 编程工具",
-        "description": "安装后，体检会把它纳入检查范围。",
-        "action": "打开软件管理"
-      }
+      "connectionError": "连接检查没能开始，请再试一次。"
     },
-    "quickActions": {
-      "title": "快捷操作",
-      "installTool": "安装 AI 工具",
-      "installDescription": "添加 Claude Code、Codex 或 OpenCode",
+    "tools": {
+      "title": "我的工具",
+      "install": "安装 AI 工具",
       "updateAll": "全部更新",
-      "updateDescription": "让已安装的工具保持最新",
-      "connectService": "连接 API 端点",
-      "connectDescription": "集中管理工具使用的端点和密钥",
-      "laterHint": "会在后续更新里补上"
+      "empty": "已安装的工具都不使用 API 端点。",
+      "official": "官方登录",
+      "notConnected": "未连接",
+      "added_one": "已添加 {{count}} 个端点",
+      "added_other": "已添加 {{count}} 个端点",
+      "modelInTool": "在 {{tool}} 里选模型",
+      "unavailable": "读取不到端点",
+      "switchTo": "切换到…",
+      "switchNamed": "切换 {{tool}} 使用的端点",
+      "connect": "连接",
+      "connectNamed": "为 {{tool}} 连接 API 端点",
+      "update": "更新",
+      "updateNamed": "更新 {{tool}}",
+      "openNamed": "打开 {{tool}} 的 API 端点",
+      "switchUnreachable": "{{name}} 没有响应，连接没有改动。"
     },
     "updateAll": {
-      "title_one": "更新 {{count}} 个工具？",
-      "title_other": "更新 {{count}} 个工具？",
       "reviewTitle_one": "检查 {{count}} 个工具的更新",
       "reviewTitle_other": "检查 {{count}} 个工具的更新",
-      "description": "{{names, list}} 会在后台更新。你可以继续使用 AI 管家，并在“活动”中查看进度。",
       "previewSummary": "{{ready}} 个现在可以更新，{{skipped}} 个会先跳过，等待处理安装问题。",
       "skippedSummary_one": "{{count}} 个工具因无法确认更新方式而被跳过。",
       "skippedSummary_other": "{{count}} 个工具因无法确认更新方式而被跳过。",
       "confirm_one": "更新 {{count}} 个工具",
       "confirm_other": "更新 {{count}} 个工具",
-      "retry_one": "重试这个工具",
-      "retry_other": "重试未启动项",
       "failure": {
         "partial": {
           "title": "部分更新已开始",
@@ -1415,7 +1388,6 @@
         }
       },
       "hints": {
-        "current": "已经全部是最新版本",
         "running": "更新已经在“活动”中进行",
         "checking": "正在确认哪些工具可以更新",
         "unavailable": "暂时无法确认更新状态",

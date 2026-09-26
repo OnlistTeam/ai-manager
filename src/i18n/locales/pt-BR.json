@@ -1325,40 +1325,16 @@
   },
   "home": {
     "pageLabel": "Início",
-    "greeting": {
-      "morning": "Bom dia",
-      "afternoon": "Boa tarde",
-      "evening": "Boa noite"
-    },
-    "subtitle": {
-      "ready": "Sua configuração de programação com IA está pronta.",
-      "checking": "Verificando sua configuração antes de sugerir o próximo passo.",
-      "stale": "Mostrando a última verificação enquanto o Início é atualizado.",
-      "attention": "Algumas coisas merecem uma olhada.",
-      "action": "Algo precisa da sua atenção."
-    },
-    "card": {
-      "title": "Ambiente de IA",
-      "description": "Programas, endpoints de API e MCP verificados em um só lugar",
+    "status": {
       "checking": "Verificando seu ambiente de IA",
-      "toolsInstalled_one": "{{count}} ferramenta instalada",
-      "toolsInstalled_other": "{{count}} ferramentas instaladas",
-      "updatesAvailable_one": "{{count}} atualização disponível",
-      "updatesAvailable_other": "{{count}} atualizações disponíveis",
+      "allGood": "Tudo está atualizado",
       "needAttention_one": "{{count}} item precisa de atenção",
       "needAttention_other": "{{count}} itens precisam de atenção",
-      "allGood": "Tudo está atualizado",
       "nothingInstalled": "Ainda não há ferramentas instaladas",
+      "updatesAvailable_one": "{{count}} atualização disponível",
+      "updatesAvailable_other": "{{count}} atualizações disponíveis",
       "review": "Revisar",
       "startTool": "Começar com {{name}}",
-      "startHint": "Escolha uma pasta de projeto para começar.",
-      "inventory": {
-        "label": "Detalhes da configuração pronta",
-        "servicesConfigured_one": "{{count}} endpoint de API configurado",
-        "servicesConfigured_other": "{{count}} endpoints de API configurados",
-        "mcpEnabled": "MCP ativado: {{enabled}} de {{total}}",
-        "noMcp": "Ainda não há conexões MCP"
-      },
       "actions": {
         "tools": "Abrir Programas",
         "services": "Abrir Endpoints de API",
@@ -1368,41 +1344,38 @@
     "health": {
       "title": "Verificação de integridade",
       "recheck": "Verificar novamente",
-      "allGood": "Tudo parece bem",
-      "issues_one": "{{count}} problema encontrado",
-      "issues_other": "{{count}} problemas encontrados",
       "lastChecked": "Última verificação {{time}}",
       "checkingConnections": "Verificando conexões dos endpoints",
-      "connectionError": "Não foi possível iniciar a verificação de conexão. Tente novamente.",
-      "noTools": {
-        "title": "Comece com uma ferramenta de programação com IA",
-        "description": "Assim que uma for instalada, a verificação de integridade passa a cobri-la.",
-        "action": "Abrir Programas"
-      }
+      "connectionError": "Não foi possível iniciar a verificação de conexão. Tente novamente."
     },
-    "quickActions": {
-      "title": "Ações rápidas",
-      "installTool": "Instalar ferramenta de IA",
-      "installDescription": "Adicione Claude Code, Codex ou OpenCode",
+    "tools": {
+      "title": "Minhas ferramentas",
+      "install": "Instalar ferramenta de IA",
       "updateAll": "Atualizar tudo",
-      "updateDescription": "Mantenha as ferramentas instaladas na versão mais recente",
-      "connectService": "Conectar endpoint de API",
-      "connectDescription": "Gerencie os endpoints e chaves usados pelas suas ferramentas",
-      "laterHint": "Chega em uma atualização futura"
+      "empty": "Nenhuma das ferramentas instaladas usa endpoints de API.",
+      "official": "Login oficial",
+      "notConnected": "Não conectado",
+      "added_one": "{{count}} endpoint adicionado",
+      "added_other": "{{count}} endpoints adicionados",
+      "modelInTool": "O modelo é escolhido no {{tool}}",
+      "unavailable": "Não foi possível ler os endpoints",
+      "switchTo": "Trocar para…",
+      "switchNamed": "Trocar o endpoint usado pelo {{tool}}",
+      "connect": "Conectar",
+      "connectNamed": "Conectar um endpoint de API ao {{tool}}",
+      "update": "Atualizar",
+      "updateNamed": "Atualizar {{tool}}",
+      "openNamed": "Abrir os endpoints de API do {{tool}}",
+      "switchUnreachable": "{{name}} não respondeu, então nada foi alterado."
     },
     "updateAll": {
-      "title_one": "Atualizar {{count}} ferramenta?",
-      "title_other": "Atualizar {{count}} ferramentas?",
       "reviewTitle_one": "Revisar {{count}} atualização de ferramenta",
       "reviewTitle_other": "Revisar {{count}} atualizações de ferramentas",
-      "description": "{{names, list}} serão atualizadas em segundo plano. Você pode continuar usando o AI Manager e acompanhar o progresso em Atividade.",
       "previewSummary": "{{ready}} podem ser atualizadas agora. {{skipped}} serão ignoradas até que sua instalação seja revisada.",
       "skippedSummary_one": "{{count}} ferramenta foi ignorada porque seu método de atualização não pôde ser confirmado.",
       "skippedSummary_other": "{{count}} ferramentas foram ignoradas porque seus métodos de atualização não puderam ser confirmados.",
       "confirm_one": "Atualizar {{count}} ferramenta",
       "confirm_other": "Atualizar {{count}} ferramentas",
-      "retry_one": "Tentar novamente",
-      "retry_other": "Tentar restantes novamente",
       "failure": {
         "partial": {
           "title": "Algumas atualizações agora estão em execução",
@@ -1416,7 +1389,6 @@
         }
       },
       "hints": {
-        "current": "Tudo já está atualizado",
         "running": "As atualizações já estão em execução em Atividade",
         "checking": "Verificando o que pode ser atualizado",
         "unavailable": "O status de atualização está indisponível no momento",

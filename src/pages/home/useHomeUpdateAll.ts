@@ -17,6 +17,8 @@ export interface UpdateAttemptFailure {
 export interface HomeUpdateAll {
   /** Tools in the confirmation dialog; empty when it is closed. */
   pending: readonly Tool[];
+  /** The dialog was opened for every ready tool rather than for one row. */
+  bulk: boolean;
   previews: ReturnType<typeof useToolUpdatePreviews>;
   /** The hand-offs are being queued one by one. */
   scheduling: boolean;
@@ -25,7 +27,8 @@ export interface HomeUpdateAll {
   skippedCount: number;
   /** Every tool in the dialog is still ready according to the fresh inventory. */
   stillAuthorized: boolean;
-  start: () => void;
+  /** Opens the review for `tools`, or for every ready tool when omitted. */
+  start: (tools?: readonly Tool[]) => void;
   setOpen: (open: boolean) => void;
   refresh: () => void;
   confirm: (ready: readonly ToolUpdateReadyPreview[]) => void;
@@ -39,8 +42,9 @@ interface HomeUpdateAllInputs {
 
 /**
  * The Update All batch: one confirmation for every ready tool, handed off one
- * by one. §41: a Tool that already has a task isn't re-enqueued; other Tools
- * can still update concurrently.
+ * by one. A tool row's Update opens the same review for that tool alone.
+ * §41: a Tool that already has a task isn't re-enqueued; other Tools can
+ * still update concurrently.
  */
 export function useHomeUpdateAll({
   readyToUpdate,
@@ -50,6 +54,7 @@ export function useHomeUpdateAll({
   const update = useUpdateTool({ notifyOnError: false });
   const notifyLifecycleError = useLifecycleErrorNotice();
   const [pendingUpdates, setPendingUpdates] = useState<readonly Tool[]>([]);
+  const [bulk, setBulk] = useState(true);
   const [previewRevision, setPreviewRevision] = useState(0);
   const updatePreviews = useToolUpdatePreviews(
     pendingUpdates.map((tool) => tool.id),
@@ -128,17 +133,19 @@ export function useHomeUpdateAll({
 
   return {
     pending: pendingUpdates,
+    bulk,
     previews: updatePreviews,
     scheduling: schedulingUpdates,
     failure: updateFailure,
     skippedCount,
     stillAuthorized: pendingStillAuthorized,
-    start: () => {
+    start: (tools) => {
       update.reset();
       setUpdateFailure(null);
       setSkippedCount(0);
       setPreviewRevision((current) => current + 1);
-      setPendingUpdates(readyToUpdate);
+      setBulk(tools === undefined);
+      setPendingUpdates(tools ?? readyToUpdate);
     },
     setOpen: (open) => {
       if (open) return;

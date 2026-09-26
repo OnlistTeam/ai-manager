@@ -127,24 +127,20 @@ describe("AppShell", () => {
     await i18n.changeLanguage("en");
   });
 
-  it("holds the home hero while the home chunk loads", () => {
+  it("loads Home behind its heading, without a spatial hero", () => {
     render(<RouteLoadingFallback route="home" />);
 
     const status = screen.getByRole("status", {
       name: en.nav.loadingPage,
     });
-    const stage = status.querySelector<HTMLElement>("[data-spatial-stage]");
 
-    expect(status).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { level: 1, name: en.nav.home }),
     ).toBeInTheDocument();
-    expect(stage).toHaveAttribute("data-model", "environment");
-    expect(stage).toHaveAttribute("aria-busy", "true");
-    expect(stage?.querySelector('[data-model="environment"]')).toHaveAttribute(
-      "data-loading",
-      "true",
-    );
+    // Home opens with a one-line status, not a model; a placeholder that
+    // drew one would lose it the instant the chunk finished decoding.
+    expect(status.querySelector("[data-spatial-stage]")).toBeNull();
+    expect(status.querySelector("[data-model]")).toBeNull();
   });
 
   it("loads management pages behind a heading, not a hero they do not have", () => {
@@ -496,23 +492,23 @@ describe("AppShell", () => {
     viewport!.scrollTop = 480;
     await user.click(
       await screen.findByRole("button", {
-        name: en.home.quickActions.connectService,
+        name: en.home.tools.install,
       }),
     );
     expect(viewport).toHaveProperty("scrollTop", 0);
   });
 
-  it("routes Home's Connect action to API Endpoints", async () => {
+  it("routes Home's Install action to Software when nothing is installed", async () => {
     renderShell();
     await userEvent.click(
       await screen.findByRole("button", {
-        name: en.home.quickActions.connectService,
+        name: en.home.tools.install,
       }),
     );
     expect(
       await screen.findByRole(
         "heading",
-        { name: en.services.title },
+        { level: 1, name: en.tools.title },
         { timeout: 3_000 },
       ),
     ).toBeInTheDocument();
@@ -600,17 +596,10 @@ describe("AppShell", () => {
     );
     renderShell();
 
-    // The health-check list names the tool, and its own row button carries
-    // that tool to the services page.
-    const guide = await screen.findByRole("region", {
-      name: en.home.health.title,
-    });
-    expect(
-      within(guide).getByText("Claude Code has no API endpoint configured"),
-    ).toBeInTheDocument();
+    // The tool's own row on Home carries that tool to the services page.
     await userEvent.click(
-      within(guide).getByRole("button", {
-        name: en.preferences.check.guide.action.connectService,
+      await screen.findByRole("button", {
+        name: "Open API endpoints for Claude Code",
       }),
     );
 
@@ -725,12 +714,9 @@ describe("AppShell", () => {
     renderShell();
 
     // Home hands the page a one-shot tool intent; the page consumes it once.
-    const guide = await screen.findByRole("region", {
-      name: en.home.health.title,
-    });
     await userEvent.click(
-      within(guide).getByRole("button", {
-        name: en.preferences.check.guide.action.connectService,
+      await screen.findByRole("button", {
+        name: "Open API endpoints for Claude Code",
       }),
     );
     const claudeTab = await screen.findByRole("tab", { name: "Claude Code" });
@@ -832,7 +818,7 @@ describe("AppShell", () => {
               checkTargets: [],
             },
           ],
-          configs: [{ tool: "claude-code", status: "readable" }],
+          configs: [{ tool: "claude-code", status: "unreadable" }],
           mcp: { total: 0, enabled: 0 },
         }),
       ),
@@ -856,7 +842,7 @@ describe("AppShell", () => {
     expect(screen.queryByRole("button", { name: "Check Setup" })).toBeNull();
     await userEvent.click(
       await within(health).findByRole("button", {
-        name: "Connect an endpoint",
+        name: "Review API Endpoints",
       }),
     );
 

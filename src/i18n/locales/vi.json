@@ -1325,40 +1325,16 @@
   },
   "home": {
     "pageLabel": "Trang chủ",
-    "greeting": {
-      "morning": "Chào buổi sáng",
-      "afternoon": "Chào buổi chiều",
-      "evening": "Chào buổi tối"
-    },
-    "subtitle": {
-      "ready": "Môi trường lập trình AI của bạn đã sẵn sàng.",
-      "checking": "Đang kiểm tra thiết lập của bạn trước khi gợi ý bước tiếp theo.",
-      "stale": "Đang hiển thị kết quả kiểm tra gần nhất trong lúc Trang chủ làm mới.",
-      "attention": "Có vài điều đáng xem qua.",
-      "action": "Có việc cần bạn chú ý."
-    },
-    "card": {
-      "title": "Môi trường AI",
-      "description": "Phần mềm, điểm cuối API và MCP được kiểm tra tại một nơi",
+    "status": {
       "checking": "Đang kiểm tra môi trường AI của bạn",
-      "toolsInstalled_one": "Đã cài {{count}} công cụ",
-      "toolsInstalled_other": "Đã cài {{count}} công cụ",
-      "updatesAvailable_one": "Có {{count}} bản cập nhật",
-      "updatesAvailable_other": "Có {{count}} bản cập nhật",
+      "allGood": "Mọi thứ đã cập nhật",
       "needAttention_one": "{{count}} mục cần chú ý",
       "needAttention_other": "{{count}} mục cần chú ý",
-      "allGood": "Mọi thứ đã cập nhật",
       "nothingInstalled": "Chưa cài công cụ nào",
+      "updatesAvailable_one": "Có {{count}} bản cập nhật",
+      "updatesAvailable_other": "Có {{count}} bản cập nhật",
       "review": "Xem lại",
       "startTool": "Bắt đầu với {{name}}",
-      "startHint": "Chọn một thư mục dự án để bắt đầu.",
-      "inventory": {
-        "label": "Chi tiết thiết lập sẵn sàng",
-        "servicesConfigured_one": "Đã cấu hình {{count}} điểm cuối API",
-        "servicesConfigured_other": "Đã cấu hình {{count}} điểm cuối API",
-        "mcpEnabled": "MCP đã bật: {{enabled}}/{{total}}",
-        "noMcp": "Chưa có kết nối MCP nào"
-      },
       "actions": {
         "tools": "Mở Phần mềm",
         "services": "Mở API Endpoints",
@@ -1368,41 +1344,38 @@
     "health": {
       "title": "Kiểm tra tình trạng",
       "recheck": "Kiểm tra lại",
-      "allGood": "Mọi thứ đều ổn",
-      "issues_one": "Phát hiện {{count}} vấn đề",
-      "issues_other": "Phát hiện {{count}} vấn đề",
       "lastChecked": "Lần kiểm tra gần nhất: {{time}}",
       "checkingConnections": "Đang kiểm tra kết nối điểm cuối",
-      "connectionError": "Không thể bắt đầu kiểm tra kết nối. Vui lòng thử lại.",
-      "noTools": {
-        "title": "Bắt đầu với một công cụ lập trình AI",
-        "description": "Khi đã cài một công cụ, việc kiểm tra tình trạng sẽ bao gồm nó.",
-        "action": "Mở Phần mềm"
-      }
+      "connectionError": "Không thể bắt đầu kiểm tra kết nối. Vui lòng thử lại."
     },
-    "quickActions": {
-      "title": "Thao tác nhanh",
-      "installTool": "Cài công cụ AI",
-      "installDescription": "Thêm Claude Code, Codex hoặc OpenCode",
+    "tools": {
+      "title": "Công cụ của tôi",
+      "install": "Cài công cụ AI",
       "updateAll": "Cập nhật tất cả",
-      "updateDescription": "Giữ các công cụ đã cài luôn ở phiên bản mới nhất",
-      "connectService": "Kết nối điểm cuối API",
-      "connectDescription": "Quản lý các điểm cuối và khóa mà công cụ của bạn sử dụng",
-      "laterHint": "Sẽ có trong bản cập nhật sau"
+      "empty": "Các công cụ đã cài không dùng API endpoint nào.",
+      "official": "Đăng nhập chính thức",
+      "notConnected": "Chưa kết nối",
+      "added_one": "Đã thêm {{count}} endpoint",
+      "added_other": "Đã thêm {{count}} endpoint",
+      "modelInTool": "Chọn mô hình trong {{tool}}",
+      "unavailable": "Không đọc được endpoint",
+      "switchTo": "Chuyển sang…",
+      "switchNamed": "Đổi endpoint mà {{tool}} dùng",
+      "connect": "Kết nối",
+      "connectNamed": "Kết nối API endpoint cho {{tool}}",
+      "update": "Cập nhật",
+      "updateNamed": "Cập nhật {{tool}}",
+      "openNamed": "Mở API Endpoints của {{tool}}",
+      "switchUnreachable": "{{name}} không phản hồi nên chưa có gì thay đổi."
     },
     "updateAll": {
-      "title_one": "Cập nhật {{count}} công cụ?",
-      "title_other": "Cập nhật {{count}} công cụ?",
       "reviewTitle_one": "Xem lại {{count}} bản cập nhật công cụ",
       "reviewTitle_other": "Xem lại {{count}} bản cập nhật công cụ",
-      "description": "{{names, list}} sẽ được cập nhật trong nền. Bạn có thể tiếp tục dùng AI Manager và theo dõi tiến trình trong mục Hoạt động.",
       "previewSummary": "{{ready}} có thể cập nhật ngay. {{skipped}} sẽ bị bỏ qua cho đến khi việc cài đặt được xem lại.",
       "skippedSummary_one": "{{count}} công cụ bị bỏ qua vì không thể xác nhận phương thức cập nhật.",
       "skippedSummary_other": "{{count}} công cụ bị bỏ qua vì không thể xác nhận phương thức cập nhật.",
       "confirm_one": "Cập nhật {{count}} công cụ",
       "confirm_other": "Cập nhật {{count}} công cụ",
-      "retry_one": "Thử lại công cụ",
-      "retry_other": "Thử lại các công cụ còn lại",
       "failure": {
         "partial": {
           "title": "Một số bản cập nhật đang chạy",
@@ -1416,7 +1389,6 @@
         }
       },
       "hints": {
-        "current": "Mọi thứ đã được cập nhật",
         "running": "Các bản cập nhật đang chạy trong mục Hoạt động",
         "checking": "Đang kiểm tra những gì có thể cập nhật",
         "unavailable": "Trạng thái cập nhật hiện không khả dụng",

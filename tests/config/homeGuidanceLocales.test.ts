@@ -4,29 +4,42 @@ import ja from "@/i18n/locales/ja.json";
 import zhTw from "@/i18n/locales/zh-TW.json";
 import zh from "@/i18n/locales/zh.json";
 
+const LOCALES = [
+  ["en", en],
+  ["zh", zh],
+  ["zh-TW", zhTw],
+  ["ja", ja],
+] as const;
+
 describe("home guidance locale contract", () => {
-  it.each([
-    ["en", en],
-    ["zh", zh],
-    ["zh-TW", zhTw],
-    ["ja", ja],
-  ])("keeps the complete next-step copy in %s", (_locale, messages) => {
-    expect(messages.home.card.startTool.trim()).not.toBe("");
-    expect(messages.home.card.startHint.trim()).not.toBe("");
-    expect(messages.home.card.inventory.label.trim()).not.toBe("");
-    expect(messages.home.card.inventory.servicesConfigured_one.trim()).not.toBe(
-      "",
-    );
-    expect(
-      messages.home.card.inventory.servicesConfigured_other.trim(),
-    ).not.toBe("");
-    expect(messages.home.card.inventory.mcpEnabled.trim()).not.toBe("");
-    expect(messages.home.card.inventory.noMcp.trim()).not.toBe("");
-    expect(messages.home.card.actions).toEqual({
-      tools: expect.any(String),
-      services: expect.any(String),
-      mcp: expect.any(String),
-    });
-    expect(Object.values(messages.home.card.actions)).not.toContain("");
-  });
+  it.each(LOCALES)(
+    "keeps the complete next-step copy in %s",
+    (_locale, messages) => {
+      expect(messages.home.status.startTool).toContain("{{name}}");
+      expect(messages.home.status.actions).toEqual({
+        tools: expect.any(String),
+        services: expect.any(String),
+        mcp: expect.any(String),
+      });
+      expect(Object.values(messages.home.status.actions)).not.toContain("");
+    },
+  );
+
+  it.each(LOCALES)(
+    "names every connection state a tool row can show in %s",
+    (_locale, messages) => {
+      const tools = messages.home.tools;
+      for (const value of [
+        tools.official,
+        tools.notConnected,
+        tools.unavailable,
+        tools.modelInTool,
+        tools.switchTo,
+      ]) {
+        expect(value.trim()).not.toBe("");
+      }
+      expect(tools.added_other).toContain("{{count}}");
+      expect(tools.switchUnreachable).toContain("{{name}}");
+    },
+  );
 });

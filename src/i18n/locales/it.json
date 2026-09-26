@@ -1325,40 +1325,16 @@
   },
   "home": {
     "pageLabel": "Home",
-    "greeting": {
-      "morning": "Buongiorno",
-      "afternoon": "Buon pomeriggio",
-      "evening": "Buonasera"
-    },
-    "subtitle": {
-      "ready": "La tua configurazione per la programmazione con AI è pronta.",
-      "checking": "Verifica della tua configurazione prima di suggerire il prossimo passo.",
-      "stale": "Viene mostrato l'ultimo controllo mentre Home si aggiorna.",
-      "attention": "Un paio di cose meritano un'occhiata.",
-      "action": "Qualcosa richiede la tua attenzione."
-    },
-    "card": {
-      "title": "Ambiente AI",
-      "description": "Software, endpoint API e MCP controllati in un unico posto",
+    "status": {
       "checking": "Verifica del tuo ambiente AI",
-      "toolsInstalled_one": "{{count}} strumento installato",
-      "toolsInstalled_other": "{{count}} strumenti installati",
-      "updatesAvailable_one": "{{count}} aggiornamento disponibile",
-      "updatesAvailable_other": "{{count}} aggiornamenti disponibili",
+      "allGood": "Tutto è aggiornato",
       "needAttention_one": "{{count}} elemento richiede attenzione",
       "needAttention_other": "{{count}} elementi richiedono attenzione",
-      "allGood": "Tutto è aggiornato",
       "nothingInstalled": "Ancora nessuno strumento installato",
+      "updatesAvailable_one": "{{count}} aggiornamento disponibile",
+      "updatesAvailable_other": "{{count}} aggiornamenti disponibili",
       "review": "Controlla",
       "startTool": "Inizia con {{name}}",
-      "startHint": "Scegli una cartella di progetto per iniziare.",
-      "inventory": {
-        "label": "Dettagli della configurazione pronta",
-        "servicesConfigured_one": "{{count}} endpoint API configurato",
-        "servicesConfigured_other": "{{count}} endpoint API configurati",
-        "mcpEnabled": "MCP abilitati: {{enabled}} su {{total}}",
-        "noMcp": "Ancora nessuna connessione MCP"
-      },
       "actions": {
         "tools": "Apri Software",
         "services": "Apri Endpoint API",
@@ -1368,41 +1344,38 @@
     "health": {
       "title": "Controllo dello stato",
       "recheck": "Controlla di nuovo",
-      "allGood": "Va tutto bene",
-      "issues_one": "{{count}} problema trovato",
-      "issues_other": "{{count}} problemi trovati",
       "lastChecked": "Ultimo controllo: {{time}}",
       "checkingConnections": "Verifica delle connessioni agli endpoint",
-      "connectionError": "Impossibile avviare il controllo della connessione. Riprova.",
-      "noTools": {
-        "title": "Inizia con uno strumento di programmazione AI",
-        "description": "Una volta installato, il controllo dello stato lo includerà.",
-        "action": "Apri Software"
-      }
+      "connectionError": "Impossibile avviare il controllo della connessione. Riprova."
     },
-    "quickActions": {
-      "title": "Azioni rapide",
-      "installTool": "Installa strumento AI",
-      "installDescription": "Aggiungi Claude Code, Codex o OpenCode",
+    "tools": {
+      "title": "I miei strumenti",
+      "install": "Installa strumento AI",
       "updateAll": "Aggiorna tutto",
-      "updateDescription": "Mantieni gli strumenti installati all'ultima versione",
-      "connectService": "Connetti endpoint API",
-      "connectDescription": "Gestisci gli endpoint e le chiavi usati dai tuoi strumenti",
-      "laterHint": "Disponibile in un aggiornamento futuro"
+      "empty": "Nessuno degli strumenti installati usa endpoint API.",
+      "official": "Accesso ufficiale",
+      "notConnected": "Non connesso",
+      "added_one": "{{count}} endpoint aggiunto",
+      "added_other": "{{count}} endpoint aggiunti",
+      "modelInTool": "Il modello si sceglie in {{tool}}",
+      "unavailable": "Impossibile leggere gli endpoint",
+      "switchTo": "Passa a…",
+      "switchNamed": "Cambia l'endpoint usato da {{tool}}",
+      "connect": "Connetti",
+      "connectNamed": "Connetti un endpoint API a {{tool}}",
+      "update": "Aggiorna",
+      "updateNamed": "Aggiorna {{tool}}",
+      "openNamed": "Apri gli endpoint API di {{tool}}",
+      "switchUnreachable": "{{name}} non ha risposto, quindi non è cambiato nulla."
     },
     "updateAll": {
-      "title_one": "Aggiornare {{count}} strumento?",
-      "title_other": "Aggiornare {{count}} strumenti?",
       "reviewTitle_one": "Controlla {{count}} aggiornamento dello strumento",
       "reviewTitle_other": "Controlla {{count}} aggiornamenti degli strumenti",
-      "description": "{{names, list}} verranno aggiornati in background. Puoi continuare a usare AI Manager e seguire l'avanzamento in Attività.",
       "previewSummary": "{{ready}} possono essere aggiornati ora. {{skipped}} verranno saltati finché non sarà verificata la loro installazione.",
       "skippedSummary_one": "{{count}} strumento è stato saltato perché non è stato possibile confermare il suo metodo di aggiornamento.",
       "skippedSummary_other": "{{count}} strumenti sono stati saltati perché non è stato possibile confermare i loro metodi di aggiornamento.",
       "confirm_one": "Aggiorna {{count}} strumento",
       "confirm_other": "Aggiorna {{count}} strumenti",
-      "retry_one": "Riprova strumento",
-      "retry_other": "Riprova i rimanenti",
       "failure": {
         "partial": {
           "title": "Alcuni aggiornamenti sono ora in corso",
@@ -1416,7 +1389,6 @@
         }
       },
       "hints": {
-        "current": "È già tutto aggiornato",
         "running": "Gli aggiornamenti sono già in corso in Attività",
         "checking": "Verifica di cosa può essere aggiornato",
         "unavailable": "Lo stato degli aggiornamenti non è disponibile in questo momento",

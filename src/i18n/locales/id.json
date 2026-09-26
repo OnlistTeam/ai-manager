@@ -1325,40 +1325,16 @@
   },
   "home": {
     "pageLabel": "Beranda",
-    "greeting": {
-      "morning": "Selamat pagi",
-      "afternoon": "Selamat siang",
-      "evening": "Selamat malam"
-    },
-    "subtitle": {
-      "ready": "Konfigurasi coding AI Anda sudah siap.",
-      "checking": "Memeriksa konfigurasi Anda sebelum menyarankan langkah berikutnya.",
-      "stale": "Menampilkan pemeriksaan terakhir selagi Beranda menyegarkan.",
-      "attention": "Ada beberapa hal yang perlu diperiksa.",
-      "action": "Ada yang perlu perhatian Anda."
-    },
-    "card": {
-      "title": "Lingkungan AI",
-      "description": "Perangkat lunak, endpoint API, dan MCP diperiksa di satu tempat",
+    "status": {
       "checking": "Memeriksa lingkungan AI Anda",
-      "toolsInstalled_one": "{{count}} alat terinstal",
-      "toolsInstalled_other": "{{count}} alat terinstal",
-      "updatesAvailable_one": "{{count}} pembaruan tersedia",
-      "updatesAvailable_other": "{{count}} pembaruan tersedia",
+      "allGood": "Semua sudah terbaru",
       "needAttention_one": "{{count}} item perlu perhatian",
       "needAttention_other": "{{count}} item perlu perhatian",
-      "allGood": "Semua sudah terbaru",
       "nothingInstalled": "Belum ada alat yang terinstal",
+      "updatesAvailable_one": "{{count}} pembaruan tersedia",
+      "updatesAvailable_other": "{{count}} pembaruan tersedia",
       "review": "Tinjau",
       "startTool": "Mulai dengan {{name}}",
-      "startHint": "Pilih folder proyek untuk memulai.",
-      "inventory": {
-        "label": "Detail konfigurasi yang siap",
-        "servicesConfigured_one": "{{count}} endpoint API dikonfigurasi",
-        "servicesConfigured_other": "{{count}} endpoint API dikonfigurasi",
-        "mcpEnabled": "MCP aktif: {{enabled}} dari {{total}}",
-        "noMcp": "Belum ada koneksi MCP"
-      },
       "actions": {
         "tools": "Buka Perangkat Lunak",
         "services": "Buka Endpoint API",
@@ -1368,41 +1344,38 @@
     "health": {
       "title": "Pemeriksaan kesehatan",
       "recheck": "Periksa ulang",
-      "allGood": "Semuanya terlihat baik",
-      "issues_one": "{{count}} masalah ditemukan",
-      "issues_other": "{{count}} masalah ditemukan",
       "lastChecked": "Terakhir diperiksa {{time}}",
       "checkingConnections": "Memeriksa koneksi endpoint",
-      "connectionError": "Pemeriksaan koneksi tidak dapat dimulai. Coba lagi.",
-      "noTools": {
-        "title": "Mulai dengan alat coding AI",
-        "description": "Setelah satu terinstal, pemeriksaan kesehatan akan mencakupnya.",
-        "action": "Buka Perangkat Lunak"
-      }
+      "connectionError": "Pemeriksaan koneksi tidak dapat dimulai. Coba lagi."
     },
-    "quickActions": {
-      "title": "Tindakan cepat",
-      "installTool": "Instal Alat AI",
-      "installDescription": "Tambahkan Claude Code, Codex, atau OpenCode",
+    "tools": {
+      "title": "Alat saya",
+      "install": "Instal Alat AI",
       "updateAll": "Perbarui Semua",
-      "updateDescription": "Jaga alat yang terinstal tetap pada versi terbaru",
-      "connectService": "Hubungkan Endpoint API",
-      "connectDescription": "Kelola endpoint dan kunci yang digunakan alat Anda",
-      "laterHint": "Akan hadir di pembaruan mendatang"
+      "empty": "Tidak ada alat terinstal yang memakai endpoint API.",
+      "official": "Masuk resmi",
+      "notConnected": "Belum terhubung",
+      "added_one": "{{count}} endpoint ditambahkan",
+      "added_other": "{{count}} endpoint ditambahkan",
+      "modelInTool": "Model dipilih di {{tool}}",
+      "unavailable": "Endpoint tidak dapat dibaca",
+      "switchTo": "Beralih ke…",
+      "switchNamed": "Ganti endpoint yang dipakai {{tool}}",
+      "connect": "Hubungkan",
+      "connectNamed": "Hubungkan endpoint API ke {{tool}}",
+      "update": "Perbarui",
+      "updateNamed": "Perbarui {{tool}}",
+      "openNamed": "Buka endpoint API untuk {{tool}}",
+      "switchUnreachable": "{{name}} tidak merespons, jadi tidak ada yang diubah."
     },
     "updateAll": {
-      "title_one": "Perbarui {{count}} alat?",
-      "title_other": "Perbarui {{count}} alat?",
       "reviewTitle_one": "Tinjau {{count}} pembaruan alat",
       "reviewTitle_other": "Tinjau {{count}} pembaruan alat",
-      "description": "{{names, list}} akan diperbarui di latar belakang. Anda tetap dapat menggunakan AI Manager dan memantau progresnya di Aktivitas.",
       "previewSummary": "{{ready}} dapat diperbarui sekarang. {{skipped}} akan dilewati sampai instalasinya ditinjau.",
       "skippedSummary_one": "{{count}} alat dilewati karena metode pembaruannya tidak dapat dipastikan.",
       "skippedSummary_other": "{{count}} alat dilewati karena metode pembaruannya tidak dapat dipastikan.",
       "confirm_one": "Perbarui {{count}} alat",
       "confirm_other": "Perbarui {{count}} alat",
-      "retry_one": "Coba lagi alat",
-      "retry_other": "Coba lagi sisanya",
       "failure": {
         "partial": {
           "title": "Beberapa pembaruan kini sedang berjalan",
@@ -1416,7 +1389,6 @@
         }
       },
       "hints": {
-        "current": "Semua sudah versi terbaru",
         "running": "Pembaruan sudah berjalan di Aktivitas",
         "checking": "Memeriksa apa yang dapat diperbarui",
         "unavailable": "Status pembaruan saat ini tidak tersedia",

@@ -14,17 +14,12 @@ describe("Home health check locale contract", () => {
       for (const [key, value] of [
         ["title", health.title],
         ["recheck", health.recheck],
-        ["allGood", health.allGood],
-        ["issues_one", health.issues_one],
-        ["issues_other", health.issues_other],
         ["lastChecked", health.lastChecked],
+        ["checkingConnections", health.checkingConnections],
         ["connectionError", health.connectionError],
-        ["noTools.title", health.noTools.title],
-        ["noTools.action", health.noTools.action],
       ] as const) {
         expect(value.trim(), `${locale}.home.health.${key}`).not.toBe("");
       }
-      expect(health.issues_other).toContain("{{count}}");
       expect(health.lastChecked).toContain("{{time}}");
       // The card must never collide with Home's stale-refresh retry label.
       expect(health.recheck).not.toBe(messages.home.refreshError.action);
