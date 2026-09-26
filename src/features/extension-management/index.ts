@@ -1,4 +1,6 @@
 export { ExtensionCard } from "./ExtensionCard";
+export { ExtensionRow } from "./ExtensionRow";
+export type { ExtensionRowProps } from "./ExtensionRow";
 export type {
   ExtensionCardProps,
   ExtensionToggleFailure,
@@ -22,6 +24,13 @@ export { SkillRepositoriesPanel } from "./SkillRepositoriesPanel";
 export { SkillZipInstallPanel } from "./SkillZipInstallPanel";
 export type { SkillRemovalModalProps } from "./SkillRemovalModal";
 export {
+  representativeEntry,
+  unifiedExtensionRows,
+} from "./unifiedExtensionRows";
+export type { UnifiedExtensionRow } from "./unifiedExtensionRows";
+export { useUnifiedExtensions } from "./useUnifiedExtensions";
+export type { UnifiedExtensions } from "./useUnifiedExtensions";
+export {
   DEFAULT_EXTENSION_TAB,
   EXTENSION_TABS,
   resolveExtensionScope,
@@ -34,6 +43,7 @@ export type {
   SupportedExtensionScope,
 } from "./extensionTabs";
 export {
+  useAdoptDetected,
   useCopyDetectedSkill,
   useOpenDetectedSkillResource,
   useSetExtensionEnabled,
@@ -62,6 +72,7 @@ export {
   useSaveSkillRepository,
 } from "./useSkillRepositories";
 export type {
+  AdoptDetectedVariables,
   CopyDetectedSkillVariables,
   ExtensionTarget,
   OpenDetectedSkillResourceVariables,

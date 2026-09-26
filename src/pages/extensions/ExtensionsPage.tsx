@@ -2,10 +2,7 @@ import { ExtensionLocationRow } from "./ExtensionLocationRow";
 import { ExtensionsScopedPanel } from "./ExtensionsScopedPanel";
 import { useTranslation } from "react-i18next";
 import { useDesktopApps } from "@/entities/desktop-app";
-import { useExtensions, type ExtensionKind } from "@/entities/extension";
-import { isTerminal } from "@/entities/operation";
-import { useSkillUpdates } from "@/entities/skill-update";
-import { useTaskAvailability } from "@/features/task-center";
+import type { ExtensionKind } from "@/entities/extension";
 import { scopeTabId } from "@/shared/ui/ScopeTabs";
 import { SectionHeader } from "@/shared/ui/SectionHeader";
 import { OpenClawWorkspacePage } from "@/pages/workspace";
@@ -17,11 +14,13 @@ import {
   KIND_TAB_PREFIX,
 } from "./ExtensionsKindTabs";
 import { ExtensionsSkeleton } from "./ExtensionsSkeleton";
+import { ExtensionsUnifiedPanel } from "./ExtensionsUnifiedPanel";
 import {
   ExtensionsToolRefreshNotice,
   ExtensionsToolsUnavailable,
 } from "./ExtensionsToolInventoryNotice";
 import { useExtensionScope } from "./useExtensionScope";
+import { useExtensionsInventory } from "./useExtensionsInventory";
 import { useExtensionsDialogsState } from "./useExtensionsDialogsState";
 import { useExtensionsToolRecovery } from "./useExtensionsToolRecovery";
 import {
@@ -68,7 +67,7 @@ export function ExtensionsPage({
     preferredKind,
     fixedKind,
   );
-  const { activeKind, activeTab, activeScope, activeTool } = scope;
+  const { activeKind, activeTab, activeScope } = scope;
   const workspaceAvailable =
     !fixedKind &&
     toolDataAvailable &&
@@ -77,32 +76,17 @@ export function ExtensionsPage({
     workspaceAvailable,
     preferredTab === WORKSPACE_TAB,
   );
-  const task = useTaskAvailability();
-  const activeOperation = activeScope
-    ? (task.operations.data ?? []).find(
-        (operation) =>
-          operation.extension !== null &&
-          !isTerminal(operation.status) &&
-          (activeScope.scope.kind === "tool"
-            ? operation.tool === activeScope.scope.id &&
-              operation.desktopApp === null
-            : operation.desktopApp === activeScope.scope.id &&
-              operation.tool === null),
-      )
-    : undefined;
-
-  const extensions = useExtensions(
-    activeScope?.scope ?? null,
-    activeTab.kind,
-    activeScope?.supported ?? false,
-  );
-  const skillUpdates = useSkillUpdates(activeTab.kind === "skill");
-  const extensionActionsBlocked = extensions.isFetching || extensions.isError;
-  const mutationsBlocked =
-    toolActionsBlocked ||
-    extensionActionsBlocked ||
-    task.actionsBlocked ||
-    activeOperation !== undefined;
+  const {
+    task,
+    unifiedLayout,
+    target,
+    unified,
+    extensions,
+    kindOperations,
+    activeOperation,
+    skillUpdates,
+    mutationsBlocked,
+  } = useExtensionsInventory(scope, preferredScope, toolActionsBlocked);
 
   return (
     <div
@@ -121,7 +105,8 @@ export function ExtensionsPage({
           scope.scopedTargets.length > 0 &&
           !workspace.active ? (
             <ExtensionsHeaderActions
-              scope={scope}
+              tab={activeTab}
+              target={target}
               dialogs={dialogs}
               blocked={mutationsBlocked}
             />
@@ -180,12 +165,25 @@ export function ExtensionsPage({
             />
           ) : null}
 
+          {toolDataAvailable && activeKind !== null && unifiedLayout ? (
+            <ExtensionsUnifiedPanel
+              tab={activeTab}
+              fixedKind={Boolean(fixedKind)}
+              targets={scope.scopedTargets}
+              unified={unified}
+              operations={kindOperations}
+              task={task}
+              skillUpdates={skillUpdates}
+              actionsBlocked={toolActionsBlocked}
+              dialogs={dialogs}
+            />
+          ) : null}
+
           {/* The file this list is written into, named once above the list
-              rather than repeated on every card (ADR-0045). Skills render
-              nothing here: each one is its own directory, so its actions
-              belong on its own card. */}
+              rather than repeated on every card (ADR-0045). */}
           {toolDataAvailable &&
           activeKind !== null &&
+          !unifiedLayout &&
           activeScope?.supported ? (
             <ExtensionLocationRow
               key={activeScope.key + activeTab.kind}
@@ -194,7 +192,7 @@ export function ExtensionsPage({
             />
           ) : null}
 
-          {toolDataAvailable && activeKind !== null ? (
+          {toolDataAvailable && activeKind !== null && !unifiedLayout ? (
             <ExtensionsScopedPanel
               scope={scope}
               dialogs={dialogs}
@@ -202,8 +200,6 @@ export function ExtensionsPage({
               activeOperation={activeOperation}
               extensions={extensions}
               task={task}
-              skillUpdates={skillUpdates}
-              tools={tools.data ?? []}
               inventoryActionsBlocked={toolActionsBlocked}
             />
           ) : null}
@@ -212,8 +208,8 @@ export function ExtensionsPage({
 
       <ExtensionsDialogs
         activeKind={activeTab.kind}
-        activeScope={activeScope}
-        activeTool={activeTool}
+        activeScope={target}
+        activeTool={target?.tool ?? null}
         catalogOpen={dialogs.catalogOpen}
         mcpInstallOpen={dialogs.mcpInstallOpen}
         promptEditorOpen={dialogs.promptEditorOpen}

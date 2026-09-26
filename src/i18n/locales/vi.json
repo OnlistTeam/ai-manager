@@ -1942,52 +1942,25 @@
       "unsupportedDescription": "AI Manager hiện chưa có adapter quản lý an toàn cho mục này. Điều đó không nhất thiết có nghĩa là {{tool}} thiếu tính năng này. Công cụ đã cài đặt vẫn được hiển thị ở đây để rõ ràng."
     },
     "adoption": {
-      "kind": {
-        "skill": "Skill",
-        "mcp": "Kết nối MCP",
-        "prompt": "prompt"
-      },
-      "kindPlural": {
-        "skill": "Skills",
-        "mcp": "Kết nối MCP",
-        "prompt": "prompt"
-      },
-      "noticeTitle": "Tìm thấy trên máy Mac này: {{count}}",
-      "noticeDescription": "Những mục này đã hoạt động trong {{tool}}. Hãy thêm chúng vào AI Manager trước khi thay đổi hoặc xóa chúng ở đây.",
-      "openOne": "Thêm 1 {{kind}} đã tìm thấy vào AI Manager",
-      "openMany": "Thêm {{count}} {{kind}} đã tìm thấy vào AI Manager",
-      "titleOne": "Quản lý {{kind}} tìm thấy trên máy Mac này?",
-      "titleMany": "Quản lý {{count}} {{kind}} tìm thấy trên máy Mac này?",
-      "description": "Xem lại những gì sẽ thay đổi trước khi AI Manager bắt đầu quản lý các mục này.",
-      "originalUnchanged": {
-        "skill": "Các tệp Skill hiện tại vẫn giữ nguyên vị trí và không bị ghi lại trong quá trình nhập.",
-        "mcp": "Cấu hình MCP hiện tại vẫn giữ nguyên vị trí và không bị ghi lại trong quá trình nhập.",
-        "prompt": "Các tệp hướng dẫn hiện tại vẫn giữ nguyên vị trí và không bị ghi lại trong quá trình nhập."
-      },
-      "managedCopy": "AI Manager giữ bản sao được quản lý của nó trên máy Mac này.",
-      "mcpPrivate": "Lệnh kết nối, tham số và thông tin xác thực vẫn ở trên máy Mac này và không bao giờ hiển thị trong cửa sổ này.",
-      "futureChanges": "Sau khi nhập, việc tắt hoặc xóa các mục có thể thay đổi bản sao được quản lý trong các công cụ được hỗ trợ.",
-      "confirm": "Thêm vào AI Manager",
-      "retry": "Thử lại",
-      "errorTitle": "Không thể thêm các mục đã tìm thấy",
-      "errorRetry": "AI Manager đã làm mới những gì nó có thể đọc. Xem lại thông báo và thử lại."
+      "import": "Nhập",
+      "importNamed": "Nhập {{name}} vào AI Manager",
+      "done": "Đã nhập {{name}}. Bật hoặc tắt cho từng ứng dụng tại đây.",
+      "errorTitle": "Không thể nhập {{name}}"
+    },
+    "list": {
+      "appsNamed": "Ứng dụng cho {{name}}",
+      "useIn": "{{tool}}: {{name}}",
+      "stateOn": "Đang bật trong {{tool}}",
+      "stateOff": "Đang tắt trong {{tool}}",
+      "stateFound": "Có trong {{tool}}, chưa nhập",
+      "stateAbsent": "Không có trong {{tool}}",
+      "notIntegrated": "Chưa tích hợp {{kind}}: {{tools, list}}"
     },
     "scopeSave": {
       "saving": "Đang ghi nhớ chế độ xem này",
       "errorTitle": "Chế độ xem này chưa được ghi nhớ",
       "errorDescription": "Bạn vẫn có thể tiếp tục làm việc ở đây. Hãy thử lại để AI Manager mở cùng chế độ xem extension này vào lần sau.",
       "retry": "Thử lại"
-    },
-    "inventory": {
-      "detected": {
-        "title": "Tìm thấy trong công cụ này",
-        "description": "Đọc trực tiếp từ {{tool}} trên máy Mac này; nội dung vẫn ở vị trí gốc của nó.",
-        "rescan": "Quét lại"
-      },
-      "managed": {
-        "title": "Được quản lý bởi AI Manager",
-        "description": "Được AI Manager lưu cục bộ và có thể quản lý ở đây."
-      }
     },
     "copy": {
       "title": "Sao chép “{{name}}” sang ứng dụng khác",

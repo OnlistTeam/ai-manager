@@ -28,7 +28,7 @@ export function ExtensionsHelp({ tab }: { tab: ExtensionTab }) {
       <div className="absolute right-0 top-full z-20 mt-2 flex w-64 flex-col gap-2 rounded-xl border border-hairline bg-surface p-4 text-caption text-content-muted shadow-md">
         <p>{t(tab.explainerKey)}</p>
         {tab.noteKey ? <p>{t(tab.noteKey)}</p> : null}
-        {tab.kind !== "skill" ? (
+        {tab.layout === "perApp" ? (
           <p>{t("extensions.location.description")}</p>
         ) : null}
         {tab.kind === "prompt" ? (

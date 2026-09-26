@@ -64,3 +64,22 @@ export function DesktopAppArtwork({
     </span>
   );
 }
+
+/** The bare mark at icon size; see `ToolGlyph`. */
+export function DesktopAppGlyph({ appId, className }: DesktopAppArtworkProps) {
+  const artwork = DESKTOP_APP_ARTWORK[appId];
+  return (
+    <img
+      src={artwork.src}
+      alt=""
+      aria-hidden="true"
+      draggable={false}
+      className={cn(
+        "object-contain",
+        artwork.imageClassName,
+        "h-4 w-4",
+        className,
+      )}
+    />
+  );
+}

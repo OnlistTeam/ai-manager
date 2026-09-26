@@ -282,28 +282,108 @@ const ROUTING: RoutingOverview = {
   ],
 };
 
-const MANAGED_SKILLS: Extension[] = [
-  {
-    kind: "skill",
-    id: "release-helper",
-    scope: { kind: "tool", id: "claude-code" },
-    name: "Release helper",
-    description: "Build, sign and verify desktop releases.",
-    management: "managed",
-    enabled: true,
-    canDisable: true,
-  },
-  {
-    kind: "skill",
-    id: "frontend-review",
-    scope: { kind: "tool", id: "claude-code" },
-    name: "Frontend review",
-    description: "Review interface quality and accessibility.",
-    management: "managed",
-    enabled: false,
-    canDisable: true,
-  },
-];
+type GalleryScope = Extension["scope"];
+
+/**
+ * Each app lists every managed item with its own switch, plus what it has
+ * on disk that is not imported yet, exactly as the native lists do.
+ */
+function galleryExtension(
+  scope: GalleryScope,
+  kind: Extension["kind"],
+  id: string,
+  name: string,
+  description: string | null,
+  enabledIn: readonly string[] | "detected",
+): Extension {
+  const detected = enabledIn === "detected";
+  return {
+    kind,
+    id,
+    scope,
+    name,
+    description,
+    management: detected ? "detected" : "managed",
+    enabled: detected || enabledIn.includes(scope.id),
+    canDisable: !detected,
+  };
+}
+
+function gallerySkills(scope: GalleryScope): Extension[] {
+  return [
+    galleryExtension(
+      scope,
+      "skill",
+      "release-helper",
+      "Release helper",
+      "Build, sign and verify desktop releases.",
+      ["claude-code", "codex"],
+    ),
+    galleryExtension(
+      scope,
+      "skill",
+      "frontend-review",
+      "Frontend review",
+      "Review interface quality and accessibility.",
+      ["claude-code"],
+    ),
+    ...(scope.id === "gemini-cli"
+      ? []
+      : [
+          galleryExtension(
+            scope,
+            "skill",
+            "local-design-audit",
+            "Local design audit",
+            "Found in a local skill directory.",
+            "detected",
+          ),
+        ]),
+  ];
+}
+
+function galleryMcp(scope: GalleryScope): Extension[] {
+  return [
+    galleryExtension(
+      scope,
+      "mcp",
+      "project-files",
+      "Project files",
+      "Read and search files in the current project.",
+      ["claude-code", "claude-desktop"],
+    ),
+    galleryExtension(scope, "mcp", "browser", "Browser", null, ["codex"]),
+    ...(scope.id === "claude-code"
+      ? [
+          galleryExtension(
+            scope,
+            "mcp",
+            "context7",
+            "context7",
+            null,
+            "detected",
+          ),
+        ]
+      : []),
+  ];
+}
+
+function seedExtensionLists(client: QueryClient): void {
+  const scopes: GalleryScope[] = [
+    ...GALLERY_TOOLS.map((tool) => ({ kind: "tool" as const, id: tool.id })),
+    { kind: "desktopApp", id: "claude-desktop" },
+  ];
+  for (const scope of scopes) {
+    const key = `${scope.kind}:${scope.id}`;
+    if (scope.kind === "tool") {
+      client.setQueryData(
+        extensionKeys.list(key, "skill"),
+        gallerySkills(scope),
+      );
+    }
+    client.setQueryData(extensionKeys.list(key, "mcp"), galleryMcp(scope));
+  }
+}
 
 const LOCAL_EXTENSIONS: LocalExtensionInventory = {
   items: [
@@ -466,10 +546,7 @@ export function seedAppShellGallery(client: QueryClient): void {
   );
   client.setQueryData(routingKeys.overview(), ROUTING);
   client.setQueryData(extensionKeys.localInventory(), LOCAL_EXTENSIONS);
-  client.setQueryData(
-    extensionKeys.list("claude-code", "skill"),
-    MANAGED_SKILLS,
-  );
+  seedExtensionLists(client);
   client.setQueryData(usageKeys.overview(), USAGE);
   client.setQueryData(sessionKeys.list("", null), SESSIONS);
   client.setQueryData(networkProxyKeys.current(), NETWORK_PROXY);

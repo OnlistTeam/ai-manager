@@ -30,6 +30,13 @@ export interface OpenDetectedSkillResourceVariables {
   action: "browse" | "edit";
 }
 
+export interface AdoptDetectedVariables {
+  kind: ExtensionKind;
+  extensionId: string;
+  /** Every app the item was found in; each is adopted in turn. */
+  scopes: readonly ExtensionScope[];
+}
+
 export interface CopyDetectedSkillVariables {
   scope: ExtensionScope;
   target: ToolId;
@@ -146,5 +153,35 @@ export function useCopyDetectedSkill(): UseMutationResult<
         }),
       ]);
     },
+  });
+}
+
+/**
+ * Import one found item from every app it was found in. The calls run one
+ * after another: the first brings the item under management and each later
+ * one only switches it on for its own app, so a failure part-way leaves a
+ * state the next attempt simply continues. Every list is re-read afterwards,
+ * because importing changes the row in all of them, not just the ones called.
+ */
+export function useAdoptDetected(): UseMutationResult<
+  void,
+  Error,
+  AdoptDetectedVariables
+> {
+  const queryClient = useQueryClient();
+
+  return useMutation<void, Error, AdoptDetectedVariables>({
+    mutationFn: async ({ kind, extensionId, scopes }) => {
+      for (const scope of scopes) {
+        await native.extensions.adoptDetected(scope, kind, extensionId);
+      }
+    },
+    onSettled: (_data, _error, { kind }) =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: extensionKeys.all }),
+        kind === "mcp"
+          ? queryClient.invalidateQueries({ queryKey: healthKeys.snapshots })
+          : undefined,
+      ]),
   });
 }

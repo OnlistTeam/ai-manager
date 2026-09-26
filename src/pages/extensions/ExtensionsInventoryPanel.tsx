@@ -1,15 +1,11 @@
 import { Puzzle } from "lucide-react";
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   useExtensions,
-  useLocalExtensionInventory,
   type Extension,
   type ExtensionScope,
 } from "@/entities/extension";
 import type { Operation } from "@/entities/operation";
-import { useSkillUpdates } from "@/entities/skill-update";
-import type { Tool } from "@/entities/tool";
 import { type ExtensionTab } from "@/features/extension-management";
 import {
   TaskAvailabilityNotice,
@@ -20,8 +16,6 @@ import { Button } from "@/shared/ui/Button";
 import { ExtensionsGrid } from "./ExtensionsGrid";
 import { ExtensionsRefreshNotice } from "./ExtensionsRefreshNotice";
 import { ExtensionsSkeleton } from "./ExtensionsSkeleton";
-import { skillOwnersById } from "./localExtensionGroups";
-import { SkillUpdatesNotice } from "./SkillUpdatesNotice";
 
 interface ExtensionsInventoryPanelProps {
   activeOperation?: Operation;
@@ -31,13 +25,8 @@ interface ExtensionsInventoryPanelProps {
   task: ReturnType<typeof useTaskAvailability>;
   scope: ExtensionScope;
   scopeName: string;
-  skillUpdates: ReturnType<typeof useSkillUpdates>;
-  tools: readonly Tool[];
-  /** Tools that can hold skills, taken from the page's already-computed `scopedTargets`. */
-  copyTargets: readonly Tool[];
   onEdit?: (extension: Extension) => void;
   onRemove?: (extension: Extension) => void;
-  onUpdate?: (extension: Extension) => void;
 }
 
 export function ExtensionsInventoryPanel({
@@ -48,25 +37,10 @@ export function ExtensionsInventoryPanel({
   task,
   scope,
   scopeName,
-  skillUpdates,
-  tools,
-  copyTargets,
   onEdit,
   onRemove,
-  onUpdate,
 }: ExtensionsInventoryPanelProps) {
   const { t } = useTranslation();
-  // Only the local inventory can answer "where else is this skill installed"
-  // — this list here only sees a single tool.
-  const inventory = useLocalExtensionInventory();
-  const toolNames = useMemo(
-    () => new Map(tools.map((tool) => [tool.id, tool.name])),
-    [tools],
-  );
-  const skillOwners = useMemo(
-    () => skillOwnersById(inventory.data?.items ?? [], toolNames),
-    [inventory.data?.items, toolNames],
-  );
   const dataAvailable = extensions.data !== undefined;
   const initiallyLoading = extensions.isPending && !extensions.isFetched;
   const unavailable = extensions.isFetched && !dataAvailable;
@@ -115,10 +89,6 @@ export function ExtensionsInventoryPanel({
         />
       ) : null}
 
-      {tab.kind === "skill" ? (
-        <SkillUpdatesNotice updates={skillUpdates} />
-      ) : null}
-
       {dataAvailable ? (
         extensions.data.length === 0 ? (
           <EmptyState
@@ -134,19 +104,8 @@ export function ExtensionsInventoryPanel({
             extensions={extensions.data}
             activeOperation={activeOperation}
             actionsBlocked={actionsBlocked || task.actionsBlocked}
-            skillOwners={skillOwners}
-            copyTargets={copyTargets}
-            skillUpdateIds={
-              new Set(skillUpdates.data?.map((update) => update.id) ?? [])
-            }
-            rescanning={extensions.isFetching || inventory.isFetching}
             onEdit={onEdit}
             onRemove={onRemove}
-            onRescan={() => {
-              void extensions.refetch();
-              void inventory.refetch();
-            }}
-            onUpdate={onUpdate}
           />
         )
       ) : null}

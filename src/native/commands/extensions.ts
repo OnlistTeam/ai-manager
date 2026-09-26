@@ -135,16 +135,19 @@ export const extensions = {
   },
 
   /**
-   * Adopt every detected item in one visible scope. The renderer submits no
-   * connection spec, path, command, environment value, or credential.
+   * Bring one detected item under management and switch it on for this scope.
+   * The renderer submits only the item's stable id: no connection spec, path,
+   * command, environment value, or credential.
    */
   adoptDetected(
     scope: ExtensionScope,
     kind: ExtensionKind,
+    extension: string,
   ): Promise<Extension[]> {
     return invokeNative("app_extensions_adopt_detected", extensionListSchema, {
       scope,
       kind,
+      extension,
     });
   },
 };

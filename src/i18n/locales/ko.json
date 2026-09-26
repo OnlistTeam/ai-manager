@@ -1942,52 +1942,25 @@
       "unsupportedDescription": "이는 AI Manager에 이 항목에 대한 안전한 관리 어댑터가 아직 없다는 뜻이며, {{tool}}에 이 기능이 없다는 뜻은 아닙니다. 설치된 도구는 명확한 표시를 위해 계속 표시됩니다."
     },
     "adoption": {
-      "kind": {
-        "skill": "스킬",
-        "mcp": "MCP 연결",
-        "prompt": "프롬프트"
-      },
-      "kindPlural": {
-        "skill": "스킬",
-        "mcp": "MCP 연결",
-        "prompt": "프롬프트"
-      },
-      "noticeTitle": "이 Mac에서 찾음: {{count}}개",
-      "noticeDescription": "이미 {{tool}}에서 작동하고 있습니다. 여기서 변경하거나 제거하기 전에 AI Manager에 추가하세요.",
-      "openOne": "찾은 {{kind}} 1개를 AI Manager에 추가",
-      "openMany": "찾은 {{kind}} {{count}}개를 AI Manager에 추가",
-      "titleOne": "이 Mac에서 찾은 {{kind}}을(를) 관리할까요?",
-      "titleMany": "이 Mac에서 찾은 {{kind}} {{count}}개를 관리할까요?",
-      "description": "AI Manager가 이 항목들을 관리하기 시작하기 전에 무엇이 바뀌는지 검토하세요.",
-      "originalUnchanged": {
-        "skill": "현재 스킬 파일은 그대로 유지되며 가져오는 동안 다시 작성되지 않습니다.",
-        "mcp": "현재 MCP 설정은 그대로 유지되며 가져오는 동안 다시 작성되지 않습니다.",
-        "prompt": "현재 지침 파일은 그대로 유지되며 가져오는 동안 다시 작성되지 않습니다."
-      },
-      "managedCopy": "AI Manager가 이 Mac에 관리용 사본을 보관합니다.",
-      "mcpPrivate": "연결 명령, 인수, 자격 증명은 이 Mac에만 남아 있으며 이 창에는 표시되지 않습니다.",
-      "futureChanges": "가져온 후에는 항목을 끄거나 제거하면 지원되는 도구의 관리용 사본이 변경될 수 있습니다.",
-      "confirm": "AI Manager에 추가",
-      "retry": "다시 시도",
-      "errorTitle": "찾은 항목을 추가할 수 없습니다",
-      "errorRetry": "AI Manager가 읽을 수 있는 내용을 새로고침했습니다. 메시지를 확인한 다음 다시 시도하세요."
+      "import": "가져오기",
+      "importNamed": "{{name}}을(를) AI Manager로 가져오기",
+      "done": "{{name}}을(를) 가져왔습니다. 여기서 앱별로 켜고 끌 수 있습니다.",
+      "errorTitle": "{{name}}을(를) 가져올 수 없습니다"
+    },
+    "list": {
+      "appsNamed": "{{name}}을(를) 사용할 앱",
+      "useIn": "{{tool}}: {{name}}",
+      "stateOn": "{{tool}}: 켜짐",
+      "stateOff": "{{tool}}: 꺼짐",
+      "stateFound": "{{tool}}에 있음, 아직 가져오지 않음",
+      "stateAbsent": "{{tool}}에 없음",
+      "notIntegrated": "아직 {{kind}}을(를) 지원하지 않음: {{tools, list}}"
     },
     "scopeSave": {
       "saving": "이 화면을 기억하는 중",
       "errorTitle": "이 화면이 기억되지 않았습니다",
       "errorDescription": "계속 작업할 수 있습니다. 다음에 AI Manager가 같은 확장 기능 화면을 열도록 다시 시도하세요.",
       "retry": "다시 시도"
-    },
-    "inventory": {
-      "detected": {
-        "title": "이 도구에서 찾음",
-        "description": "이 Mac의 {{tool}}에서 직접 읽었습니다. 내용은 원래 위치에 그대로 있습니다.",
-        "rescan": "다시 검색"
-      },
-      "managed": {
-        "title": "AI Manager가 관리",
-        "description": "AI Manager가 로컬에 저장했으며 여기서 관리할 수 있습니다."
-      }
     },
     "copy": {
       "title": "\"{{name}}\"을(를) 다른 앱으로 복사",

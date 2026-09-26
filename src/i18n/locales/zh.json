@@ -1941,52 +1941,25 @@
       "unsupportedDescription": "这是 AI 管家当前没有可安全管理的适配入口，不代表 {{tool}} 本身一定没有这项功能。软件仍会显示在这里，方便你确认安装状态。"
     },
     "adoption": {
-      "kind": {
-        "skill": "技能",
-        "mcp": "MCP 连接",
-        "prompt": "提示词"
-      },
-      "kindPlural": {
-        "skill": "技能",
-        "mcp": "MCP 连接",
-        "prompt": "提示词"
-      },
-      "noticeTitle": "在这台 Mac 上找到 {{count}} 项",
-      "noticeDescription": "它们已经能在 {{tool}} 中使用。先纳入 AI 管家，之后才能在这里更改或移除。",
-      "openOne": "将找到的 1 个{{kind}}纳入 AI 管家",
-      "openMany": "将找到的 {{count}} 个{{kind}}纳入 AI 管家",
-      "titleOne": "要纳管这台 Mac 上找到的{{kind}}吗？",
-      "titleMany": "要纳管这台 Mac 上找到的 {{count}} 个{{kind}}吗？",
-      "description": "请先确认变化，再让 AI 管家开始管理这些项目。",
-      "originalUnchanged": {
-        "skill": "导入时，现有技能文件会留在原处，不会被改写。",
-        "mcp": "导入时，现有 MCP 配置会留在原处，不会被改写。",
-        "prompt": "导入时，现有说明文件会留在原处，不会被改写。"
-      },
-      "managedCopy": "AI 管家会在这台 Mac 上保留自己的受管副本。",
-      "mcpPrivate": "连接命令、参数和凭据只留在这台 Mac 上，绝不会显示在这个窗口中。",
-      "futureChanges": "导入后，关闭或移除项目可能会改变受支持工具中的受管副本。",
-      "confirm": "纳入 AI 管家",
-      "retry": "再试一次",
-      "errorTitle": "没能纳管找到的项目",
-      "errorRetry": "AI 管家已经重新读取能确认的状态。请查看提示后再试。"
+      "import": "导入",
+      "importNamed": "把 {{name}} 导入 AI 管家",
+      "done": "已导入 {{name}}，现在可以在这里为各个应用开关它。",
+      "errorTitle": "没能导入 {{name}}"
+    },
+    "list": {
+      "appsNamed": "{{name}} 在各应用中的开关",
+      "useIn": "{{tool}}：{{name}}",
+      "stateOn": "{{tool}}：已开启",
+      "stateOff": "{{tool}}：已关闭",
+      "stateFound": "{{tool}} 中已有，尚未导入",
+      "stateAbsent": "{{tool}} 中没有",
+      "notIntegrated": "暂未接入{{kind}}：{{tools, list}}"
     },
     "scopeSave": {
       "saving": "正在记住这个页面",
       "errorTitle": "未能记住这个页面",
       "errorDescription": "你可以继续在这里操作。重试后，AI 管家下次会继续打开这个扩展页面。",
       "retry": "重试"
-    },
-    "inventory": {
-      "detected": {
-        "title": "在这个工具中发现",
-        "description": "直接从这台 Mac 上的 {{tool}} 读取；内容仍留在原位置。",
-        "rescan": "重新扫描"
-      },
-      "managed": {
-        "title": "由 AI 管家管理",
-        "description": "已由 AI 管家保存在本机，可以在这里管理。"
-      }
     },
     "copy": {
       "title": "把「{{name}}」复制到其他软件",

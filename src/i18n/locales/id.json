@@ -1942,52 +1942,25 @@
       "unsupportedDescription": "AI Manager saat ini tidak memiliki adaptor pengelolaan yang aman untuk entri ini. Ini tidak berarti {{tool}} tidak memiliki fitur tersebut. Alat yang terinstal tetap ditampilkan agar jelas."
     },
     "adoption": {
-      "kind": {
-        "skill": "Skill",
-        "mcp": "koneksi MCP",
-        "prompt": "prompt"
-      },
-      "kindPlural": {
-        "skill": "Skill",
-        "mcp": "koneksi MCP",
-        "prompt": "prompt"
-      },
-      "noticeTitle": "Ditemukan di Mac ini: {{count}}",
-      "noticeDescription": "Ini sudah berfungsi di {{tool}}. Tambahkan ke AI Manager sebelum mengubah atau menghapusnya di sini.",
-      "openOne": "Tambahkan 1 {{kind}} yang ditemukan ke AI Manager",
-      "openMany": "Tambahkan {{count}} {{kind}} yang ditemukan ke AI Manager",
-      "titleOne": "Kelola {{kind}} yang ditemukan di Mac ini?",
-      "titleMany": "Kelola {{count}} {{kind}} yang ditemukan di Mac ini?",
-      "description": "Tinjau apa yang berubah sebelum AI Manager mulai mengelola item ini.",
-      "originalUnchanged": {
-        "skill": "File Skill saat ini tetap di tempatnya dan tidak ditulis ulang saat impor.",
-        "mcp": "Konfigurasi MCP saat ini tetap di tempatnya dan tidak ditulis ulang saat impor.",
-        "prompt": "File instruksi saat ini tetap di tempatnya dan tidak ditulis ulang saat impor."
-      },
-      "managedCopy": "AI Manager menyimpan salinan terkelolanya di Mac ini.",
-      "mcpPrivate": "Perintah koneksi, argumen, dan kredensial tetap di Mac ini dan tidak pernah ditampilkan di jendela ini.",
-      "futureChanges": "Setelah impor, menonaktifkan atau menghapus item dapat mengubah salinan terkelola di alat yang didukung.",
-      "confirm": "Tambahkan ke AI Manager",
-      "retry": "Coba lagi",
-      "errorTitle": "Tidak dapat menambahkan item yang ditemukan",
-      "errorRetry": "AI Manager menyegarkan apa yang dapat dibacanya. Tinjau pesannya dan coba lagi."
+      "import": "Impor",
+      "importNamed": "Impor {{name}} ke AI Manager",
+      "done": "{{name}} diimpor. Aktifkan atau nonaktifkan di sini untuk tiap aplikasi.",
+      "errorTitle": "Tidak dapat mengimpor {{name}}"
+    },
+    "list": {
+      "appsNamed": "Aplikasi untuk {{name}}",
+      "useIn": "{{tool}}: {{name}}",
+      "stateOn": "Aktif di {{tool}}",
+      "stateOff": "Nonaktif di {{tool}}",
+      "stateFound": "Ada di {{tool}}, belum diimpor",
+      "stateAbsent": "Tidak ada di {{tool}}",
+      "notIntegrated": "Belum terintegrasi untuk {{kind}}: {{tools, list}}"
     },
     "scopeSave": {
       "saving": "Mengingat tampilan ini",
       "errorTitle": "Tampilan ini tidak diingat",
       "errorDescription": "Anda tetap dapat bekerja di sini. Coba lagi agar AI Manager membuka tampilan ekstensi yang sama lain kali.",
       "retry": "Coba lagi"
-    },
-    "inventory": {
-      "detected": {
-        "title": "Ditemukan di alat ini",
-        "description": "Dibaca langsung dari {{tool}} di Mac ini; isinya tetap di lokasi aslinya.",
-        "rescan": "Pindai lagi"
-      },
-      "managed": {
-        "title": "Dikelola oleh AI Manager",
-        "description": "Disimpan secara lokal oleh AI Manager dan tersedia untuk dikelola di sini."
-      }
     },
     "copy": {
       "title": "Salin \"{{name}}\" ke aplikasi lain",

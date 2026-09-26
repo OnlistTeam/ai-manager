@@ -136,7 +136,7 @@ describe("native.extensions", () => {
     expect(refreshed[0]?.enabled).toBe(false);
   });
 
-  it("adopts every detected item in one tool scope without sending a payload", async () => {
+  it("adopts one detected item by its id without sending a payload", async () => {
     server.use(
       http.post(
         `${TAURI_ENDPOINT}/app_extensions_adopt_detected`,
@@ -147,8 +147,14 @@ describe("native.extensions", () => {
       ),
     );
 
-    const refreshed = await native.extensions.adoptDetected(SCOPE, "mcp");
-    expect(seen).toEqual([{ scope: SCOPE, kind: "mcp" }]);
+    const refreshed = await native.extensions.adoptDetected(
+      SCOPE,
+      "mcp",
+      "filesystem",
+    );
+    expect(seen).toEqual([
+      { scope: SCOPE, kind: "mcp", extension: "filesystem" },
+    ]);
     expect(refreshed).toEqual([wire]);
   });
 

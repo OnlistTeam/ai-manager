@@ -1942,52 +1942,25 @@
       "unsupportedDescription": "Al momento AI Manager non dispone di un adattatore di gestione sicuro per questa voce. Questo non significa necessariamente che {{tool}} non abbia questa funzionalità. Lo strumento installato resta visibile per chiarezza."
     },
     "adoption": {
-      "kind": {
-        "skill": "Competenza",
-        "mcp": "Connessione MCP",
-        "prompt": "prompt"
-      },
-      "kindPlural": {
-        "skill": "Competenze",
-        "mcp": "Connessioni MCP",
-        "prompt": "prompt"
-      },
-      "noticeTitle": "Trovati su questo Mac: {{count}}",
-      "noticeDescription": "Funzionano già in {{tool}}. Aggiungili ad AI Manager prima di modificarli o rimuoverli da qui.",
-      "openOne": "Aggiungi 1 {{kind}} trovato ad AI Manager",
-      "openMany": "Aggiungi {{count}} {{kind}} trovati ad AI Manager",
-      "titleOne": "Gestire il {{kind}} trovato su questo Mac?",
-      "titleMany": "Gestire i {{count}} {{kind}} trovati su questo Mac?",
-      "description": "Controlla cosa cambia prima che AI Manager inizi a gestire questi elementi.",
-      "originalUnchanged": {
-        "skill": "I file della competenza attuali restano al loro posto e non vengono riscritti durante l'importazione.",
-        "mcp": "La configurazione MCP attuale resta al suo posto e non viene riscritta durante l'importazione.",
-        "prompt": "I file di istruzioni attuali restano al loro posto e non vengono riscritti durante l'importazione."
-      },
-      "managedCopy": "AI Manager conserva la propria copia gestita su questo Mac.",
-      "mcpPrivate": "Comandi di connessione, argomenti e credenziali restano su questo Mac e non vengono mai mostrati in questa finestra.",
-      "futureChanges": "Dopo l'importazione, disattivare o rimuovere gli elementi può modificare le copie gestite negli strumenti supportati.",
-      "confirm": "Aggiungi ad AI Manager",
-      "retry": "Riprova",
-      "errorTitle": "Impossibile aggiungere gli elementi trovati",
-      "errorRetry": "AI Manager ha aggiornato ciò che può leggere. Controlla il messaggio e riprova."
+      "import": "Importa",
+      "importNamed": "Importa {{name}} in AI Manager",
+      "done": "{{name}} importato. Attivalo o disattivalo qui per ogni app.",
+      "errorTitle": "Impossibile importare {{name}}"
+    },
+    "list": {
+      "appsNamed": "App per {{name}}",
+      "useIn": "{{tool}}: {{name}}",
+      "stateOn": "Attivo in {{tool}}",
+      "stateOff": "Disattivato in {{tool}}",
+      "stateFound": "Presente in {{tool}}, non ancora importato",
+      "stateAbsent": "Non presente in {{tool}}",
+      "notIntegrated": "Non ancora integrato per {{kind}}: {{tools, list}}"
     },
     "scopeSave": {
       "saving": "Memorizzazione di questa vista",
       "errorTitle": "Questa vista non è stata memorizzata",
       "errorDescription": "Puoi continuare a lavorare qui. Riprova in modo che AI Manager apra la stessa vista delle estensioni la prossima volta.",
       "retry": "Riprova"
-    },
-    "inventory": {
-      "detected": {
-        "title": "Trovate in questo strumento",
-        "description": "Lette direttamente da {{tool}} su questo Mac; il contenuto resta nella sua posizione originale.",
-        "rescan": "Analizza di nuovo"
-      },
-      "managed": {
-        "title": "Gestite da AI Manager",
-        "description": "Salvate localmente da AI Manager e disponibili per la gestione qui."
-      }
     },
     "copy": {
       "title": "Copia «{{name}}» in un'altra app",

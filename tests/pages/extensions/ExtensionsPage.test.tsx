@@ -63,6 +63,22 @@ const CODEX = tool("codex", "Codex", {
   canManagePrompts: true,
 });
 
+const CLAUDE_DESKTOP = {
+  id: "claude-desktop",
+  name: "Claude Desktop",
+  status: "installed",
+  version: "1.0.0",
+  relatedTool: "claude-code",
+  configurationRelationship: "separateConfiguration",
+  canLaunch: true,
+  environment: "macos",
+  installerHandoff: "directOfficialPackage",
+  uninstallHandoff: "revealApplication",
+  updatesManagedByVendor: true,
+  canRollback: false,
+  canManageMcp: true,
+};
+
 type OperationsResponder = () => Response | Promise<Response>;
 type ExtensionsResponder = (request: Request) => Response | Promise<Response>;
 type LocalInventoryResponder = () => Response | Promise<Response>;
@@ -81,6 +97,14 @@ function extension(overrides: Record<string, unknown> = {}) {
     management: "managed",
     ...overrides,
   };
+}
+
+/** The accessible name of one app's switch on an extension row. */
+function appSwitch(tool: string, name: string, position = 1, total = 1) {
+  return i18n.t("extensions.list.useIn", {
+    tool,
+    name: i18n.t("extensions.card.itemLabel", { name, position, total }),
+  });
 }
 
 function mount(
@@ -119,11 +143,15 @@ function mount(
     http.post(`${TAURI_ENDPOINT}/app_desktop_apps_list`, () =>
       HttpResponse.json(desktopApps),
     ),
-    http.post(`${TAURI_ENDPOINT}/app_extensions_list`, ({ request }) =>
-      typeof extensions === "function"
-        ? extensions(request)
-        : HttpResponse.json(extensions),
-    ),
+    // Like the native list, a fixed inventory answers for whichever app was
+    // asked: every entry carries the requested scope.
+    http.post(`${TAURI_ENDPOINT}/app_extensions_list`, async ({ request }) => {
+      if (typeof extensions === "function") return extensions(request);
+      const { scope } = (await request.clone().json()) as { scope: unknown };
+      return HttpResponse.json(
+        extensions.map((item) => ({ ...(item as object), scope })),
+      );
+    }),
     http.post(`${TAURI_ENDPOINT}/app_extensions_local_inventory`, () =>
       typeof localInventory === "function"
         ? localInventory()
@@ -202,12 +230,20 @@ describe("ExtensionsPage", () => {
         screen.queryByRole("tablist", { name: en.extensions.kindScope }),
       ).toBeNull();
       expect(screen.queryByRole("tab", { name: en.nav.workspace })).toBeNull();
-      if (kind !== "skill")
+      // Only the per-app prompt list names one shared file; Skills and MCP
+      // list every app at once (ADR-0048).
+      if (kind === "prompt")
         expect(
           await screen.findByRole("button", {
             name: en.extensions.location.action,
           }),
         ).toBeEnabled();
+      else
+        expect(
+          screen.queryByRole("button", {
+            name: en.extensions.location.action,
+          }),
+        ).toBeNull();
       expect(screen.getByText(en.extensions[kind].explainer)).not.toBeVisible();
       await userEvent.click(screen.getByText(en.extensions.help));
       expect(screen.getByText(en.extensions[kind].explainer)).toBeVisible();
@@ -228,7 +264,15 @@ describe("ExtensionsPage", () => {
       null,
       "mcp",
     );
-    await screen.findByRole("tab", { name: "Kimi, Not integrated" });
+    expect(
+      await screen.findByText(
+        i18n.t("extensions.list.notIntegrated", {
+          kind: en.extensions.mcp.title,
+          tools: ["Kimi"],
+        }),
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByText(en.extensions.noTools.title)).toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: en.extensions.location.action }),
     ).toBeNull();
@@ -284,32 +328,43 @@ describe("ExtensionsPage", () => {
 
   it("keeps installed tools visible across every supported extension kind", async () => {
     mount([extension()]);
-    const tools = await screen.findByRole("tablist", {
-      name: en.extensions.toolScope,
+    // Skills: one row, one switch per app that can hold Skills.
+    const skillApps = await screen.findByRole("group", {
+      name: i18n.t("extensions.list.appsNamed", {
+        name: i18n.t("extensions.card.itemLabel", {
+          name: "Code review",
+          position: 1,
+          total: 1,
+        }),
+      }),
     });
-    // Claude Code and Codex both have stable local Skills directories.
     expect(
-      within(tools)
-        .getAllByRole("tab")
-        .map((tab) => tab.textContent),
-    ).toEqual(["Claude Code", "Codex"]);
+      within(skillApps)
+        .getAllByRole("button")
+        .map((button) => button.getAttribute("aria-label")),
+    ).toEqual([
+      appSwitch("Claude Code", "Code review"),
+      appSwitch("Codex", "Code review"),
+    ]);
+    expect(
+      screen.queryByRole("tablist", { name: en.extensions.toolScope }),
+    ).toBeNull();
 
     await userEvent.click(
       screen.getByRole("tab", { name: en.extensions.mcp.title }),
     );
-    await waitFor(() =>
-      expect(
-        within(
-          screen.getByRole("tablist", { name: en.extensions.toolScope }),
-        ).getAllByRole("tab"),
-      ).toHaveLength(2),
-    );
+    expect(
+      await screen.findByRole("button", {
+        name: appSwitch("Codex", "Code review"),
+      }),
+    ).toBeInTheDocument();
     expect(screen.getByText(en.extensions.mcp.explainer)).toBeInTheDocument();
 
+    // Prompts keep one app at a time.
     await userEvent.click(
       screen.getByRole("tab", { name: en.extensions.prompt.title }),
     );
-    const promptTools = screen.getByRole("tablist", {
+    const promptTools = await screen.findByRole("tablist", {
       name: en.extensions.toolScope,
     });
     expect(within(promptTools).getAllByRole("tab")).toHaveLength(2);
@@ -322,13 +377,14 @@ describe("ExtensionsPage", () => {
     const seen: unknown[] = [];
     mount(
       async (request) => {
-        seen.push(await request.json());
+        const body = (await request.json()) as { scope: unknown };
+        seen.push(body);
         return HttpResponse.json([
           extension({
             kind: "mcp",
             id: "filesystem",
             name: "Project files",
-            scope: { kind: "desktopApp", id: "claude-desktop" },
+            scope: body.scope,
           }),
         ]);
       },
@@ -336,36 +392,23 @@ describe("ExtensionsPage", () => {
       [],
       { items: [], scopes: [], truncated: false },
       [],
-      [
-        {
-          id: "claude-desktop",
-          name: "Claude Desktop",
-          status: "installed",
-          version: "1.0.0",
-          relatedTool: "claude-code",
-          configurationRelationship: "separateConfiguration",
-          canLaunch: true,
-          environment: "macos",
-          installerHandoff: "directOfficialPackage",
-          uninstallHandoff: "revealApplication",
-          updatesManagedByVendor: true,
-          canRollback: false,
-          canManageMcp: true,
-        },
-      ],
+      [CLAUDE_DESKTOP],
     );
 
     await userEvent.click(
       screen.getByRole("tab", { name: en.extensions.mcp.title }),
     );
-    const targetTabs = await screen.findByRole("tablist", {
-      name: en.extensions.toolScope,
-    });
-    await userEvent.click(
-      within(targetTabs).getByRole("tab", { name: "Claude Desktop" }),
-    );
-
     expect(await screen.findByText("Project files")).toBeVisible();
+    expect(
+      screen.getByRole("button", {
+        name: appSwitch("Claude Desktop", "Project files"),
+      }),
+    ).toBeEnabled();
+    expect(
+      screen.getByRole("button", {
+        name: appSwitch("Claude Code", "Project files"),
+      }),
+    ).toBeEnabled();
     await waitFor(() =>
       expect(seen).toContainEqual({
         scope: { kind: "desktopApp", id: "claude-desktop" },
@@ -374,7 +417,7 @@ describe("ExtensionsPage", () => {
     );
   });
 
-  it("opens a routed desktop-app scope directly on MCP", async () => {
+  it("opens a routed desktop-app scope directly on MCP and adds there first", async () => {
     const seen: unknown[] = [];
     mount(
       async (request) => {
@@ -385,23 +428,7 @@ describe("ExtensionsPage", () => {
       [],
       { items: [], scopes: [], truncated: false },
       [],
-      [
-        {
-          id: "claude-desktop",
-          name: "Claude Desktop",
-          status: "installed",
-          version: "1.0.0",
-          relatedTool: "claude-code",
-          configurationRelationship: "separateConfiguration",
-          canLaunch: true,
-          environment: "macos",
-          installerHandoff: "directOfficialPackage",
-          uninstallHandoff: "revealApplication",
-          updatesManagedByVendor: true,
-          canRollback: false,
-          canManageMcp: true,
-        },
-      ],
+      [CLAUDE_DESKTOP],
       { kind: "desktopApp", id: "claude-desktop" },
     );
 
@@ -411,14 +438,22 @@ describe("ExtensionsPage", () => {
         selected: true,
       }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("tab", { name: "Claude Desktop", selected: true }),
-    ).toBeInTheDocument();
     await waitFor(() =>
       expect(seen).toContainEqual({
         scope: { kind: "desktopApp", id: "claude-desktop" },
         kind: "mcp",
       }),
+    );
+    await userEvent.click(
+      await screen.findByRole("button", {
+        name: en.extensions.mcp.install.add,
+      }),
+    );
+    const dialog = await screen.findByRole("dialog", {
+      name: en.extensions.mcp.install.title,
+    });
+    expect(dialog).toHaveTextContent(
+      i18n.t("extensions.mcp.install.description", { tool: "Claude Desktop" }),
     );
   });
 
@@ -634,12 +669,8 @@ describe("ExtensionsPage", () => {
       screen.getByRole("button", { name: en.extensions.skill.catalog.add }),
     ).toBeDisabled();
     expect(
-      screen.getByRole("switch", {
-        name: i18n.t("extensions.card.itemLabel", {
-          name: "Code review",
-          position: 1,
-          total: 1,
-        }),
+      screen.getByRole("button", {
+        name: appSwitch("Claude Code", "Code review"),
       }),
     ).toBeDisabled();
     expect(
@@ -670,12 +701,8 @@ describe("ExtensionsPage", () => {
       screen.getByRole("button", { name: en.extensions.skill.catalog.add }),
     ).toBeDisabled();
     expect(
-      screen.getByRole("switch", {
-        name: i18n.t("extensions.card.itemLabel", {
-          name: "Code review",
-          position: 1,
-          total: 1,
-        }),
+      screen.getByRole("button", {
+        name: appSwitch("Claude Code", "Code review"),
       }),
     ).toBeDisabled();
     expect(
@@ -729,12 +756,8 @@ describe("ExtensionsPage", () => {
       screen.getByRole("button", { name: en.extensions.skill.catalog.add }),
     ).toBeEnabled();
     expect(
-      screen.getByRole("switch", {
-        name: i18n.t("extensions.card.itemLabel", {
-          name: "Code review",
-          position: 1,
-          total: 1,
-        }),
+      screen.getByRole("button", {
+        name: appSwitch("Claude Code", "Code review"),
       }),
     ).toBeEnabled();
   });
@@ -751,19 +774,31 @@ describe("ExtensionsPage", () => {
     const kindPanel = await screen.findByRole("tabpanel", {
       name: en.extensions.skill.title,
     });
-    expect(kindPanel).toHaveAttribute("role", "tabpanel");
     expect(kindPanel).toHaveAttribute("aria-labelledby", kindTab.id);
 
-    const toolTab = screen.getByRole("tab", { name: "Claude Code" });
+    // Only prompts still pick one app at a time.
+    await userEvent.click(
+      screen.getByRole("tab", { name: en.extensions.prompt.title }),
+    );
+    const toolTab = await screen.findByRole("tab", { name: "Claude Code" });
     expect(toolTab).toHaveAttribute("aria-controls", "extensions-tool-panel");
     const toolPanel = await screen.findByRole("tabpanel", {
       name: "Claude Code",
     });
-    expect(toolPanel).toHaveAttribute("role", "tabpanel");
     expect(toolPanel).toHaveAttribute("aria-labelledby", toolTab.id);
   });
 
-  it("separates local discoveries from items managed by AI Manager", async () => {
+  it("lists found items with managed ones and imports one from every app it is in", async () => {
+    const adopted: unknown[] = [];
+    server.use(
+      http.post(
+        `${TAURI_ENDPOINT}/app_extensions_adopt_detected`,
+        async ({ request }) => {
+          adopted.push(await request.json());
+          return HttpResponse.json([]);
+        },
+      ),
+    );
     mount([
       extension({ id: "managed", name: "Managed Skill" }),
       extension({
@@ -775,56 +810,139 @@ describe("ExtensionsPage", () => {
       }),
     ]);
 
-    const detected = await screen.findByRole("region", {
-      name: en.extensions.inventory.detected.title,
-    });
-    const managed = screen.getByRole("region", {
-      name: en.extensions.inventory.managed.title,
-    });
-    expect(detected).toHaveTextContent("Local Skill");
-    expect(detected).not.toHaveTextContent("Managed Skill");
-    expect(managed).toHaveTextContent("Managed Skill");
-    expect(managed).not.toHaveTextContent("Local Skill");
+    const local = await screen.findByRole("article", { name: "Local Skill" });
+    const managed = screen.getByRole("article", { name: "Managed Skill" });
+    expect(local.parentElement).toBe(managed.parentElement);
     expect(
-      within(detected).getByRole("button", {
-        name: en.extensions.inventory.detected.rescan,
+      screen.queryByText(/Found in this tool|Managed by AI Manager/),
+    ).toBeNull();
+    // A found item cannot be switched until it is imported.
+    expect(within(local).queryByRole("button", { pressed: true })).toBeNull();
+    expect(
+      within(local).getByRole("img", {
+        name: i18n.t("extensions.list.stateFound", { tool: "Codex" }),
       }),
     ).toBeInTheDocument();
+    expect(
+      within(managed).getByRole("button", {
+        name: appSwitch("Codex", "Managed Skill", 1, 2),
+      }),
+    ).toBeEnabled();
     expect(
       within(managed).queryByRole("button", {
-        name: en.extensions.inventory.detected.rescan,
+        name: en.extensions.adoption.import,
       }),
     ).toBeNull();
+
+    await userEvent.click(
+      within(local).getByRole("button", {
+        name: i18n.t("extensions.adoption.importNamed", {
+          name: "Local Skill",
+        }),
+      }),
+    );
+    await waitFor(() =>
+      expect(adopted).toEqual([
+        {
+          scope: { kind: "tool", id: "claude-code" },
+          kind: "skill",
+          extension: "local",
+        },
+        {
+          scope: { kind: "tool", id: "codex" },
+          kind: "skill",
+          extension: "local",
+        },
+      ]),
+    );
+    expect(toastMocks.success).toHaveBeenCalledWith(
+      i18n.t("extensions.adoption.done", { name: "Local Skill" }),
+    );
   });
 
-  it("prints where a detected Skill actually lives instead of a stock reassurance", async () => {
-    const local = extension({
-      id: "unity-cli",
-      name: "Unity CLI",
-      management: "detected",
-      enabled: true,
-      canDisable: false,
-    });
-    mount([local], [CLAUDE, CODEX], [], {
-      items: [local, { ...local, scope: { kind: "tool", id: "codex" } }],
-      scopes: [
-        { tool: "claude-code", kind: "skill", status: "ready" },
-        { tool: "codex", kind: "skill", status: "ready" },
+  it("keeps a failed import on its row in plain words", async () => {
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_extensions_adopt_detected`, () =>
+        HttpResponse.json(
+          {
+            code: "CONFIG_WRITE_FAILED",
+            messageKey: "error.extension.adoptFailed",
+            technicalMessage: "private import path",
+            remediation: "error.remediation.retryOrViewDetails",
+            contextId: null,
+          },
+          { status: 500 },
+        ),
+      ),
+    );
+    mount(
+      [
+        extension({
+          kind: "mcp",
+          id: "context7",
+          name: "context7",
+          management: "detected",
+          enabled: true,
+          canDisable: false,
+        }),
       ],
-      truncated: false,
+      [CLAUDE],
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      null,
+      null,
+      "mcp",
+    );
+    const row = await screen.findByRole("article", { name: "context7" });
+    await userEvent.click(
+      within(row).getByRole("button", {
+        name: i18n.t("extensions.adoption.importNamed", { name: "context7" }),
+      }),
+    );
+    const alert = await within(row).findByRole("alert", {
+      name: i18n.t("extensions.adoption.errorTitle", { name: "context7" }),
+    });
+    expect(alert).toHaveTextContent(en.error.extension.adoptFailed);
+    expect(document.body).not.toHaveTextContent("private import path");
+  });
+
+  it("shows which apps already have a found Skill on its own row", async () => {
+    mount(async (request) => {
+      const { scope } = (await request.json()) as {
+        scope: { kind: string; id: string };
+      };
+      return HttpResponse.json(
+        scope.id === "claude-code"
+          ? [
+              extension({
+                id: "unity-cli",
+                name: "Unity CLI",
+                management: "detected",
+                enabled: true,
+                canDisable: false,
+                scope,
+              }),
+            ]
+          : [],
+      );
     });
 
+    const row = await screen.findByRole("article", { name: "Unity CLI" });
     expect(
-      await screen.findByText(
-        i18n.t("extensions.card.alsoIn", { tools: ["Claude Code", "Codex"] }),
-      ),
+      within(row).getByRole("img", {
+        name: i18n.t("extensions.list.stateFound", { tool: "Claude Code" }),
+      }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByText(en.extensions.card.detectedDescription),
-    ).toBeNull();
+      within(row).getByRole("img", {
+        name: i18n.t("extensions.list.stateAbsent", { tool: "Codex" }),
+      }),
+    ).toBeInTheDocument();
   });
 
-  it("keeps the neutral wording while the local inventory is unreadable", async () => {
+  it("does not need the local inventory to show found items", async () => {
     mount(
       [
         extension({
@@ -841,7 +959,7 @@ describe("ExtensionsPage", () => {
     );
 
     expect(
-      await screen.findByText(en.extensions.card.detectedDescription),
+      await screen.findByRole("article", { name: "Unity CLI" }),
     ).toBeInTheDocument();
     expect(document.body).not.toHaveTextContent("private local inventory path");
   });
@@ -855,11 +973,21 @@ describe("ExtensionsPage", () => {
       canDisable: false,
     });
     const sent: unknown[] = [];
-    mount([local], [CLAUDE, CODEX, tool("gemini-cli", "Gemini CLI")], [], {
-      items: [local],
-      scopes: [{ tool: "claude-code", kind: "skill", status: "ready" }],
-      truncated: false,
-    });
+    mount(
+      async (request) => {
+        const { scope } = (await request.json()) as {
+          scope: { kind: string; id: string };
+        };
+        return HttpResponse.json(scope.id === "claude-code" ? [local] : []);
+      },
+      [CLAUDE, CODEX, tool("gemini-cli", "Gemini CLI")],
+      [],
+      {
+        items: [local],
+        scopes: [{ tool: "claude-code", kind: "skill", status: "ready" }],
+        truncated: false,
+      },
+    );
     server.use(
       http.post(
         `${TAURI_ENDPOINT}/app_detected_skill_copy`,
@@ -920,9 +1048,7 @@ describe("ExtensionsPage", () => {
     });
 
     // Every eligible tool already has it, so there is nothing to offer.
-    await screen.findByText(
-      i18n.t("extensions.card.alsoIn", { tools: ["Claude Code", "Codex"] }),
-    );
+    await screen.findByRole("article", { name: "Unity CLI" });
     expect(
       screen.queryByRole("button", {
         name: i18n.t("extensions.card.copyToNamed", { name: "Unity CLI" }),
@@ -936,21 +1062,13 @@ describe("ExtensionsPage", () => {
       extension({ id: "second", name: "Repeated" }),
     ]);
     expect(
-      await screen.findByRole("switch", {
-        name: i18n.t("extensions.card.itemLabel", {
-          name: "Repeated",
-          position: 1,
-          total: 2,
-        }),
+      await screen.findByRole("button", {
+        name: appSwitch("Claude Code", "Repeated", 1, 2),
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("switch", {
-        name: i18n.t("extensions.card.itemLabel", {
-          name: "Repeated",
-          position: 2,
-          total: 2,
-        }),
+      screen.getByRole("button", {
+        name: appSwitch("Claude Code", "Repeated", 2, 2),
       }),
     ).toBeInTheDocument();
   });
@@ -1108,12 +1226,8 @@ describe("ExtensionsPage", () => {
       screen.getByRole("button", { name: en.extensions.mcp.install.add }),
     ).toBeDisabled();
     expect(
-      screen.getByRole("switch", {
-        name: i18n.t("extensions.card.itemLabel", {
-          name: "Project files",
-          position: 1,
-          total: 1,
-        }),
+      screen.getByRole("button", {
+        name: appSwitch("Claude Code", "Project files"),
       }),
     ).toBeDisabled();
     expect(
@@ -1172,16 +1286,15 @@ describe("ExtensionsPage", () => {
         HttpResponse.json([extension({ enabled: true })]),
       ),
     );
-    const switchName = i18n.t("extensions.card.itemLabel", {
-      name: "Code review",
-      position: 1,
-      total: 1,
-    });
+    const switchName = appSwitch("Claude Code", "Code review");
     await userEvent.click(
-      await screen.findByRole("switch", { name: switchName }),
+      await screen.findByRole("button", { name: switchName }),
     );
     await waitFor(() =>
-      expect(screen.getByRole("switch", { name: switchName })).toBeChecked(),
+      expect(screen.getByRole("button", { name: switchName })).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      ),
     );
   });
 
@@ -1197,7 +1310,7 @@ describe("ExtensionsPage", () => {
     const bodies: unknown[] = [];
     let attempts = 0;
     let releaseRefresh: (() => void) | undefined;
-    mount(inventory);
+    mount(inventory, [CLAUDE]);
     await screen.findByText("Code review");
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_extensions_list`, async () => {
@@ -1233,12 +1346,8 @@ describe("ExtensionsPage", () => {
         },
       ),
     );
-    const switchName = i18n.t("extensions.card.itemLabel", {
-      name: "Code review",
-      position: 1,
-      total: 2,
-    });
-    const control = await screen.findByRole("switch", { name: switchName });
+    const switchName = appSwitch("Claude Code", "Code review", 1, 2);
+    const control = await screen.findByRole("button", { name: switchName });
 
     await userEvent.click(control);
     await waitFor(() => expect(releaseRefresh).toBeTypeOf("function"));
@@ -1251,7 +1360,7 @@ describe("ExtensionsPage", () => {
     const alert = await within(card).findByRole("alert", {
       name: "Could not turn on Code review",
     });
-    expect(control).toBeChecked();
+    expect(control).toHaveAttribute("aria-pressed", "true");
     expect(control).toHaveFocus();
     expect(alert).toHaveTextContent(en.error.extension.toggleFailed);
     expect(alert).toHaveTextContent(en.error.remediation.checkPermissions);
@@ -1266,16 +1375,18 @@ describe("ExtensionsPage", () => {
     ).toBeNull();
     expect(toastMocks.error).not.toHaveBeenCalled();
 
-    const retryControl = screen.getByRole("switch", {
+    const retryControl = screen.getByRole("button", {
       name: "Try turning on Code review again, item 1 of 2",
     });
     expect(retryControl).toBe(control);
     expect(retryControl).toHaveFocus();
     await userEvent.click(retryControl);
-    const completedControl = await screen.findByRole("switch", {
+    const completedControl = await screen.findByRole("button", {
       name: switchName,
     });
-    await waitFor(() => expect(completedControl).toBeChecked());
+    await waitFor(() =>
+      expect(completedControl).toHaveAttribute("aria-pressed", "true"),
+    );
     expect(completedControl).toHaveFocus();
     expect(bodies).toEqual([
       {
@@ -1398,12 +1509,8 @@ describe("ExtensionsPage", () => {
       return HttpResponse.json([extension({ enabled: reads === 3 })]);
     }, [CLAUDE]);
     await screen.findByText("Code review");
-    const switchName = i18n.t("extensions.card.itemLabel", {
-      name: "Code review",
-      position: 1,
-      total: 1,
-    });
-    const control = await screen.findByRole("switch", { name: switchName });
+    const switchName = appSwitch("Claude Code", "Code review");
+    const control = await screen.findByRole("button", { name: switchName });
     await client.invalidateQueries({
       queryKey: extensionKeys.list("tool:claude-code", "skill"),
     });
@@ -1413,11 +1520,6 @@ describe("ExtensionsPage", () => {
     expect(reads).toBe(2);
     expect(alert).toHaveTextContent(en.extensions.refreshError.description);
     expect(screen.getByText("Code review")).toBeInTheDocument();
-    expect(
-      screen.getByRole("region", {
-        name: en.extensions.inventory.managed.title,
-      }),
-    ).toBeInTheDocument();
     expect(control).toBeDisabled();
     expect(
       screen.getByRole("button", {
@@ -1431,7 +1533,6 @@ describe("ExtensionsPage", () => {
     expect(
       screen.getByRole("tab", { name: en.extensions.skill.title }),
     ).toBeEnabled();
-    expect(screen.getByRole("tab", { name: "Claude Code" })).toBeEnabled();
     expect(
       screen.getByRole("button", { name: en.extensions.skill.catalog.add }),
     ).toBeDisabled();
@@ -1450,7 +1551,9 @@ describe("ExtensionsPage", () => {
     expect(screen.queryByRole("status")).toBeNull();
 
     releaseRetry();
-    await waitFor(() => expect(control).toBeChecked());
+    await waitFor(() =>
+      expect(control).toHaveAttribute("aria-pressed", "true"),
+    );
     await waitFor(() => expect(alert).not.toBeInTheDocument());
   });
 
@@ -1521,12 +1624,8 @@ describe("ExtensionsPage", () => {
     const add = screen.getByRole("button", {
       name: en.extensions.skill.catalog.add,
     });
-    const switchName = i18n.t("extensions.card.itemLabel", {
-      name: "Code review",
-      position: 1,
-      total: 1,
-    });
-    const control = await screen.findByRole("switch", { name: switchName });
+    const switchName = appSwitch("Claude Code", "Code review");
+    const control = await screen.findByRole("button", { name: switchName });
 
     void client.invalidateQueries({ queryKey: toolKeys.all });
     await waitFor(() => expect(reads).toBe(2));
@@ -1542,11 +1641,6 @@ describe("ExtensionsPage", () => {
       en.extensions.toolsRefreshError.description,
     );
     expect(screen.getByText("Code review")).toBeInTheDocument();
-    expect(
-      screen.getByRole("region", {
-        name: en.extensions.inventory.managed.title,
-      }),
-    ).toBeInTheDocument();
     expect(add).toBeDisabled();
     expect(control).toBeDisabled();
     expect(
@@ -1561,7 +1655,6 @@ describe("ExtensionsPage", () => {
     expect(
       screen.getByRole("tab", { name: en.extensions.skill.title }),
     ).toBeEnabled();
-    expect(screen.getByRole("tab", { name: "Claude Code" })).toBeEnabled();
     expect(document.body).not.toHaveTextContent(
       "private refreshed tool inventory",
     );
@@ -1663,16 +1756,13 @@ describe("ExtensionsPage", () => {
     );
     expect(
       await screen.findByText(
-        en.extensions.scope.unsupportedTitle
-          .replace("{{kind}}", en.extensions.skill.title)
-          .replace("{{tool}}", "OpenClaw"),
+        i18n.t("extensions.list.notIntegrated", {
+          kind: en.extensions.skill.title,
+          tools: ["OpenClaw"],
+        }),
       ),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("tab", {
-        name: `OpenClaw, ${en.extensions.scope.unsupportedShort}`,
-      }),
-    ).toBeInTheDocument();
+    expect(screen.getByText(en.extensions.noTools.title)).toBeInTheDocument();
     expect(reads).toBe(1);
   });
 
@@ -1769,7 +1859,7 @@ describe("ExtensionsPage", () => {
     );
 
     await userEvent.click(
-      screen.getByRole("tab", { name: en.extensions.mcp.title }),
+      screen.getByRole("tab", { name: en.extensions.prompt.title }),
     );
     await waitFor(() => expect(releases[0]).toBeTypeOf("function"));
     expect(
@@ -1784,7 +1874,7 @@ describe("ExtensionsPage", () => {
       name: en.extensions.scopeSave.errorTitle,
     });
     expect(
-      screen.getByRole("tab", { name: en.extensions.mcp.title }),
+      screen.getByRole("tab", { name: en.extensions.prompt.title }),
     ).toHaveAttribute("aria-selected", "true");
     expect(failure).not.toHaveTextContent("permission denied");
 
@@ -1812,7 +1902,10 @@ describe("ExtensionsPage", () => {
       }),
     );
     await waitFor(() => expect(attempts).toBe(3));
-    expect(saved).toMatchObject({ extensionKind: "mcp", toolScope: "codex" });
+    expect(saved).toMatchObject({
+      extensionKind: "prompt",
+      toolScope: "codex",
+    });
     await waitFor(() =>
       expect(
         screen.queryByRole("alert", {
@@ -1821,7 +1914,7 @@ describe("ExtensionsPage", () => {
       ).not.toBeInTheDocument(),
     );
     expect(
-      screen.getByRole("tab", { name: en.extensions.mcp.title }),
+      screen.getByRole("tab", { name: en.extensions.prompt.title }),
     ).toHaveAttribute("aria-selected", "true");
     expect(screen.getByRole("tab", { name: "Codex" })).toHaveAttribute(
       "aria-selected",

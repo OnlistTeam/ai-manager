@@ -19,6 +19,13 @@ export interface ExtensionTab {
   emptyDescriptionKey: string;
   /** Which field of `ToolCapabilities` to read. **No branching on tool name** (AI_RULES rule 8). */
   supports: (capabilities: ToolCapabilities) => boolean;
+  /**
+   * `unified`: one list, one row per item with a switch for every app. Fits
+   * a global record with a per-app flag (ADR-0048).
+   * `perApp`: one app at a time. Fits a kind where each app keeps its own
+   * single active file.
+   */
+  layout: "unified" | "perApp";
 }
 
 const SKILLS: ExtensionTab = {
@@ -29,6 +36,7 @@ const SKILLS: ExtensionTab = {
   emptyTitleKey: "extensions.skill.empty.title",
   emptyDescriptionKey: "extensions.skill.empty.description",
   supports: (capabilities) => capabilities.canManageSkills,
+  layout: "unified",
 };
 
 const MCP: ExtensionTab = {
@@ -39,6 +47,7 @@ const MCP: ExtensionTab = {
   emptyTitleKey: "extensions.mcp.empty.title",
   emptyDescriptionKey: "extensions.mcp.empty.description",
   supports: (capabilities) => capabilities.canManageMcp,
+  layout: "unified",
 };
 
 const PROMPTS: ExtensionTab = {
@@ -51,6 +60,7 @@ const PROMPTS: ExtensionTab = {
   emptyTitleKey: "extensions.prompt.empty.title",
   emptyDescriptionKey: "extensions.prompt.empty.description",
   supports: (capabilities) => capabilities.canManagePrompts,
+  layout: "perApp",
 };
 
 /** Order matches the on-page display order, taken verbatim from the in-page list in Spec §36. */

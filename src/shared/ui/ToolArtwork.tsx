@@ -90,3 +90,25 @@ export function ToolArtwork({ toolId, className }: ToolArtworkProps) {
     </span>
   );
 }
+
+/**
+ * The bare mark at icon size, for places where the surrounding control is
+ * already the frame, such as the per-app switches on an extension row.
+ */
+export function ToolGlyph({ toolId, className }: ToolArtworkProps) {
+  const artwork = TOOL_ARTWORK[toolId];
+  return (
+    <img
+      src={artwork.src}
+      alt=""
+      aria-hidden="true"
+      draggable={false}
+      className={cn(
+        "object-contain",
+        artwork.imageClassName,
+        "h-4 w-4",
+        className,
+      )}
+    />
+  );
+}

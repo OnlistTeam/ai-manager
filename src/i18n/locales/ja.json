@@ -1941,52 +1941,25 @@
       "unsupportedDescription": "AI Manager に安全な管理アダプターがまだないという意味で、{{tool}} 自体に機能がないとは限りません。インストール済みの確認のため、ツールは表示しています。"
     },
     "adoption": {
-      "kind": {
-        "skill": "スキル",
-        "mcp": "MCP 接続",
-        "prompt": "プロンプト"
-      },
-      "kindPlural": {
-        "skill": "スキル",
-        "mcp": "MCP 接続",
-        "prompt": "プロンプト"
-      },
-      "noticeTitle": "この Mac で {{count}} 件見つかりました",
-      "noticeDescription": "これらはすでに {{tool}} で使えます。ここで変更または削除する前に AI Manager へ追加してください。",
-      "openOne": "見つかった 1 件の{{kind}}を AI Manager に追加",
-      "openMany": "見つかった {{count}} 件の{{kind}}を AI Manager に追加",
-      "titleOne": "この Mac で見つかった{{kind}}を管理しますか？",
-      "titleMany": "この Mac で見つかった {{count}} 件の{{kind}}を管理しますか？",
-      "description": "AI Manager が管理を始める前に、変更内容を確認してください。",
-      "originalUnchanged": {
-        "skill": "インポート中も現在のスキルファイルは元の場所に残り、書き換えられません。",
-        "mcp": "インポート中も現在の MCP 設定は元の場所に残り、書き換えられません。",
-        "prompt": "インポート中も現在の指示ファイルは元の場所に残り、書き換えられません。"
-      },
-      "managedCopy": "AI Manager は管理対象のコピーをこの Mac に保存します。",
-      "mcpPrivate": "接続コマンド、引数、認証情報はこの Mac だけに保存され、この画面には表示されません。",
-      "futureChanges": "インポート後に項目をオフまたは削除すると、対応ツール内の管理対象コピーが変わることがあります。",
-      "confirm": "AI Manager に追加",
-      "retry": "もう一度試す",
-      "errorTitle": "見つかった項目を追加できませんでした",
-      "errorRetry": "AI Manager が確認できる状態を読み直しました。メッセージを確認して、もう一度お試しください。"
+      "import": "インポート",
+      "importNamed": "{{name}} を AI Manager にインポート",
+      "done": "{{name}} をインポートしました。ここでアプリごとにオン・オフできます。",
+      "errorTitle": "{{name}} をインポートできませんでした"
+    },
+    "list": {
+      "appsNamed": "{{name}} を使うアプリ",
+      "useIn": "{{tool}}：{{name}}",
+      "stateOn": "{{tool}}：オン",
+      "stateOff": "{{tool}}：オフ",
+      "stateFound": "{{tool}} にあり、まだインポートしていません",
+      "stateAbsent": "{{tool}} にはありません",
+      "notIntegrated": "{{kind}} にまだ対応していません：{{tools, list}}"
     },
     "scopeSave": {
       "saving": "この画面を記憶しています",
       "errorTitle": "この画面を記憶できませんでした",
       "errorDescription": "このまま操作を続けられます。再試行すると、次回も同じ拡張機能画面から開けます。",
       "retry": "もう一度試す"
-    },
-    "inventory": {
-      "detected": {
-        "title": "このツールで検出",
-        "description": "この Mac の {{tool}} から直接読み取りました。内容は元の場所に残ります。",
-        "rescan": "再スキャン"
-      },
-      "managed": {
-        "title": "AI Manager が管理",
-        "description": "AI Manager がこの Mac に保存し、ここで管理できる項目です。"
-      }
     },
     "copy": {
       "title": "「{{name}}」を他のアプリにコピー",

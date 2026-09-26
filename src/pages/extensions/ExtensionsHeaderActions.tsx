@@ -1,33 +1,37 @@
+import type {
+  ExtensionScopeOption,
+  ExtensionTab,
+} from "@/features/extension-management";
 import { ExtensionsHelp } from "./ExtensionsHelp";
 import { ExtensionsPageActions } from "./ExtensionsPageActions";
-import type { useExtensionScope } from "./useExtensionScope";
 import type { useExtensionsDialogsState } from "./useExtensionsDialogsState";
 
 export function ExtensionsHeaderActions({
-  scope,
+  tab,
+  target,
   dialogs,
   blocked,
 }: {
-  scope: ReturnType<typeof useExtensionScope>;
+  tab: ExtensionTab;
+  /** The supported app the add flows start in; null when there is none. */
+  target: ExtensionScopeOption | null;
   dialogs: ReturnType<typeof useExtensionsDialogsState>;
   blocked: boolean;
 }) {
-  const { activeTab, activeScope, activeTool } = scope;
+  const toolTarget = target?.tool ?? null;
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <ExtensionsHelp key={activeTab.kind} tab={activeTab} />
-      {activeScope?.supported ? (
-        <>
-          <ExtensionsPageActions
-            canAddMcp={activeTab.kind === "mcp"}
-            canAddPrompt={activeTab.kind === "prompt" && activeTool !== null}
-            canAddSkill={activeTab.kind === "skill" && activeTool !== null}
-            mutationsBlocked={blocked}
-            onAddMcp={dialogs.openMcpInstall}
-            onAddPrompt={dialogs.openPromptCreate}
-            onAddSkill={dialogs.openCatalog}
-          />
-        </>
+      <ExtensionsHelp key={tab.kind} tab={tab} />
+      {target ? (
+        <ExtensionsPageActions
+          canAddMcp={tab.kind === "mcp"}
+          canAddPrompt={tab.kind === "prompt" && toolTarget !== null}
+          canAddSkill={tab.kind === "skill" && toolTarget !== null}
+          mutationsBlocked={blocked}
+          onAddMcp={dialogs.openMcpInstall}
+          onAddPrompt={dialogs.openPromptCreate}
+          onAddSkill={dialogs.openCatalog}
+        />
       ) : null}
     </div>
   );

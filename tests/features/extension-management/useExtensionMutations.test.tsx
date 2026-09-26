@@ -5,6 +5,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { extensionKeys } from "@/entities/extension";
 import { healthKeys } from "@/entities/health";
 import {
+  useAdoptDetected,
   useCopyDetectedSkill,
   useSetExtensionEnabled,
 } from "@/features/extension-management";
@@ -180,5 +181,82 @@ describe("useCopyDetectedSkill", () => {
       expect(invalidateSpy).toHaveBeenCalledWith({ queryKey });
     }
     expect(toastMocks.error).not.toHaveBeenCalled();
+  });
+});
+
+describe("useAdoptDetected", () => {
+  function mountAdopt(client: QueryClient) {
+    return renderHook(() => useAdoptDetected(), {
+      wrapper: withQueryClient(client),
+    });
+  }
+
+  it("imports from each app in turn, then re-reads every list", async () => {
+    const calls: unknown[] = [];
+    server.use(
+      http.post(
+        `${TAURI_ENDPOINT}/app_extensions_adopt_detected`,
+        async ({ request }) => {
+          calls.push(await request.json());
+          return HttpResponse.json([]);
+        },
+      ),
+    );
+    const client = createTestQueryClient();
+    const invalidateSpy = vi.spyOn(client, "invalidateQueries");
+    const { result } = mountAdopt(client);
+    const desktop = { kind: "desktopApp", id: "claude-desktop" } as const;
+
+    result.current.mutate({
+      kind: "mcp",
+      extensionId: "context7",
+      scopes: [SCOPE, desktop],
+    });
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(calls).toEqual([
+      { scope: SCOPE, kind: "mcp", extension: "context7" },
+      { scope: desktop, kind: "mcp", extension: "context7" },
+    ]);
+    expect(invalidateSpy).toHaveBeenCalledWith({
+      queryKey: extensionKeys.all,
+    });
+    expect(invalidateSpy).toHaveBeenCalledWith({
+      queryKey: healthKeys.snapshots,
+    });
+  });
+
+  it("stops at the first failing app and still re-reads what changed", async () => {
+    let calls = 0;
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_extensions_adopt_detected`, () => {
+        calls += 1;
+        return HttpResponse.text(
+          JSON.stringify({
+            code: "CONFIG_WRITE_FAILED",
+            messageKey: "error.extension.adoptFailed",
+            technicalMessage: null,
+            remediation: null,
+            contextId: null,
+          }),
+          { status: 500 },
+        );
+      }),
+    );
+    const client = createTestQueryClient();
+    const invalidateSpy = vi.spyOn(client, "invalidateQueries");
+    const { result } = mountAdopt(client);
+
+    result.current.mutate({
+      kind: "skill",
+      extensionId: "local",
+      scopes: [SCOPE, { kind: "tool", id: "codex" }],
+    });
+
+    await waitFor(() => expect(result.current.isError).toBe(true));
+    expect(calls).toBe(1);
+    expect(invalidateSpy).toHaveBeenCalledWith({
+      queryKey: extensionKeys.all,
+    });
   });
 });

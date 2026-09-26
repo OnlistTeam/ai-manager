@@ -1942,52 +1942,25 @@
       "unsupportedDescription": "AI Manager hat derzeit keinen sicheren Verwaltungsadapter für diesen Eintrag. Das bedeutet nicht zwingend, dass {{tool}} diese Funktion nicht hat. Das installierte Tool bleibt zur Klarheit sichtbar."
     },
     "adoption": {
-      "kind": {
-        "skill": "Skill",
-        "mcp": "MCP-Verbindung",
-        "prompt": "Prompt"
-      },
-      "kindPlural": {
-        "skill": "Skills",
-        "mcp": "MCP-Verbindungen",
-        "prompt": "Prompts"
-      },
-      "noticeTitle": "Auf diesem Mac gefunden: {{count}}",
-      "noticeDescription": "Diese funktionieren bereits in {{tool}}. Fügen Sie sie zu AI Manager hinzu, bevor Sie sie hier ändern oder entfernen.",
-      "openOne": "1 gefundenen {{kind}} zu AI Manager hinzufügen",
-      "openMany": "{{count}} gefundene {{kind}} zu AI Manager hinzufügen",
-      "titleOne": "Den auf diesem Mac gefundenen {{kind}} verwalten?",
-      "titleMany": "Die {{count}} auf diesem Mac gefundenen {{kind}} verwalten?",
-      "description": "Prüfen Sie, was sich ändert, bevor AI Manager beginnt, diese Einträge zu verwalten.",
-      "originalUnchanged": {
-        "skill": "Die aktuellen Skill-Dateien bleiben an Ort und Stelle und werden beim Import nicht überschrieben.",
-        "mcp": "Die aktuelle MCP-Konfiguration bleibt an Ort und Stelle und wird beim Import nicht überschrieben.",
-        "prompt": "Die aktuellen Anweisungsdateien bleiben an Ort und Stelle und werden beim Import nicht überschrieben."
-      },
-      "managedCopy": "AI Manager behält seine verwaltete Kopie auf diesem Mac.",
-      "mcpPrivate": "Verbindungsbefehle, Argumente und Zugangsdaten bleiben auf diesem Mac und werden in diesem Fenster nie angezeigt.",
-      "futureChanges": "Nach dem Import kann das Aus- oder Abschalten oder Entfernen von Einträgen verwaltete Kopien in unterstützten Tools ändern.",
-      "confirm": "Zu AI Manager hinzufügen",
-      "retry": "Erneut versuchen",
-      "errorTitle": "Die gefundenen Einträge konnten nicht hinzugefügt werden",
-      "errorRetry": "AI Manager hat aktualisiert, was es lesen kann. Prüfen Sie die Meldung und versuchen Sie es erneut."
+      "import": "Importieren",
+      "importNamed": "{{name}} in AI Manager importieren",
+      "done": "{{name}} importiert. Hier lässt es sich pro App ein- und ausschalten.",
+      "errorTitle": "{{name}} konnte nicht importiert werden"
+    },
+    "list": {
+      "appsNamed": "Apps für {{name}}",
+      "useIn": "{{tool}}: {{name}}",
+      "stateOn": "In {{tool}} an",
+      "stateOff": "In {{tool}} aus",
+      "stateFound": "In {{tool}} vorhanden, noch nicht importiert",
+      "stateAbsent": "Nicht in {{tool}}",
+      "notIntegrated": "Für {{kind}} noch nicht eingebunden: {{tools, list}}"
     },
     "scopeSave": {
       "saving": "Diese Ansicht wird gemerkt",
       "errorTitle": "Diese Ansicht wurde nicht gemerkt",
       "errorDescription": "Sie können hier weiterarbeiten. Versuchen Sie es erneut, damit AI Manager beim nächsten Mal dieselbe Erweiterungsansicht öffnet.",
       "retry": "Erneut versuchen"
-    },
-    "inventory": {
-      "detected": {
-        "title": "In diesem Tool gefunden",
-        "description": "Direkt von {{tool}} auf diesem Mac gelesen; der Inhalt bleibt an seinem ursprünglichen Ort.",
-        "rescan": "Erneut scannen"
-      },
-      "managed": {
-        "title": "Von AI Manager verwaltet",
-        "description": "Lokal von AI Manager gespeichert und hier verwaltbar."
-      }
     },
     "copy": {
       "title": "„{{name}}“ in eine andere App kopieren",

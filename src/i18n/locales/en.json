@@ -1942,52 +1942,25 @@
       "unsupportedDescription": "AI Manager does not currently have a safe management adapter for this entry. It does not necessarily mean {{tool}} lacks the feature. The installed tool remains visible for clarity."
     },
     "adoption": {
-      "kind": {
-        "skill": "Skill",
-        "mcp": "MCP connection",
-        "prompt": "prompt"
-      },
-      "kindPlural": {
-        "skill": "Skills",
-        "mcp": "MCP connections",
-        "prompt": "prompts"
-      },
-      "noticeTitle": "Found on this Mac: {{count}}",
-      "noticeDescription": "These already work in {{tool}}. Add them to AI Manager before changing or removing them here.",
-      "openOne": "Add 1 found {{kind}} to AI Manager",
-      "openMany": "Add {{count}} found {{kind}} to AI Manager",
-      "titleOne": "Manage the {{kind}} found on this Mac?",
-      "titleMany": "Manage the {{count}} {{kind}} found on this Mac?",
-      "description": "Review what changes before AI Manager begins managing these items.",
-      "originalUnchanged": {
-        "skill": "The current Skill files stay in place and are not rewritten during import.",
-        "mcp": "The current MCP configuration stays in place and is not rewritten during import.",
-        "prompt": "The current instruction files stay in place and are not rewritten during import."
-      },
-      "managedCopy": "AI Manager keeps its managed copy on this Mac.",
-      "mcpPrivate": "Connection commands, arguments and credentials stay on this Mac and are never shown in this window.",
-      "futureChanges": "After import, turning items off or removing them can change managed copies in supported tools.",
-      "confirm": "Add to AI Manager",
-      "retry": "Try again",
-      "errorTitle": "Could not add the found items",
-      "errorRetry": "AI Manager refreshed what it can read. Review the message and try again."
+      "import": "Import",
+      "importNamed": "Import {{name}} to AI Manager",
+      "done": "Imported {{name}}. Turn it on or off for each app here.",
+      "errorTitle": "Could not import {{name}}"
+    },
+    "list": {
+      "appsNamed": "Apps for {{name}}",
+      "useIn": "{{tool}}: {{name}}",
+      "stateOn": "On in {{tool}}",
+      "stateOff": "Off in {{tool}}",
+      "stateFound": "In {{tool}}, not imported yet",
+      "stateAbsent": "Not in {{tool}}",
+      "notIntegrated": "Not integrated for {{kind}} yet: {{tools, list}}"
     },
     "scopeSave": {
       "saving": "Remembering this view",
       "errorTitle": "This view was not remembered",
       "errorDescription": "You can keep working here. Try again so AI Manager opens the same extension view next time.",
       "retry": "Try again"
-    },
-    "inventory": {
-      "detected": {
-        "title": "Found in this tool",
-        "description": "Read directly from {{tool}} on this Mac; the content stays in its original location.",
-        "rescan": "Scan again"
-      },
-      "managed": {
-        "title": "Managed by AI Manager",
-        "description": "Saved locally by AI Manager and available to manage here."
-      }
     },
     "copy": {
       "title": "Copy “{{name}}” to another app",

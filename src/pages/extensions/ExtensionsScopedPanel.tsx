@@ -19,8 +19,6 @@ interface Props {
   activeOperation: InventoryProps["activeOperation"];
   extensions: InventoryProps["extensions"];
   task: InventoryProps["task"];
-  skillUpdates: InventoryProps["skillUpdates"];
-  tools: InventoryProps["tools"];
   inventoryActionsBlocked: boolean;
 }
 export function ExtensionsScopedPanel({
@@ -30,8 +28,6 @@ export function ExtensionsScopedPanel({
   activeOperation,
   extensions,
   task,
-  skillUpdates,
-  tools,
   inventoryActionsBlocked,
 }: Props) {
   const { t } = useTranslation();
@@ -112,26 +108,12 @@ export function ExtensionsScopedPanel({
                     task={task}
                     scope={activeScope.scope}
                     scopeName={activeScope.name}
-                    skillUpdates={skillUpdates}
-                    tools={tools}
-                    copyTargets={scopedTargets.flatMap((target) =>
-                      target.tool === null || !target.supported
-                        ? []
-                        : [target.tool],
-                    )}
                     onEdit={
                       activeTab.kind === "prompt"
                         ? dialogs.openPromptEdit
                         : undefined
                     }
-                    onRemove={
-                      activeTab.kind === "skill" ||
-                      activeTab.kind === "mcp" ||
-                      activeTab.kind === "prompt"
-                        ? dialogs.openRemoval
-                        : undefined
-                    }
-                    onUpdate={dialogs.openSkillUpdate}
+                    onRemove={dialogs.openRemoval}
                   />
                 </>
               ) : (
