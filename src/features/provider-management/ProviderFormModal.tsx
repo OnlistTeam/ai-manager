@@ -106,6 +106,9 @@ export function ProviderFormModal({
   };
   const submitOnEnter = (event: KeyboardEvent<HTMLFormElement>) => {
     if (event.key !== "Enter" || event.nativeEvent.isComposing) return;
+    // A portalled list inside the form (the model picker) already used this
+    // Enter to choose an item; React still bubbles it here.
+    if (event.defaultPrevented) return;
     // Buttons (including Copy) keep their own keyboard behavior.
     if (!(event.target instanceof HTMLInputElement)) return;
     event.preventDefault();
@@ -225,7 +228,9 @@ export function ProviderFormModal({
         </Field>
 
         <ProviderSettingsFields
+          provider={provider}
           profile={currentProfile}
+          keyChanged={key !== (provider.apiKey ?? "")}
           loading={profileLoading}
           failed={profileError !== null}
           disabled={busy}

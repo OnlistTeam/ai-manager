@@ -1,6 +1,12 @@
-import { render, screen, within } from "@testing-library/react";
+import {
+  render as renderUi,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import i18n from "i18next";
+import type { ReactElement } from "react";
 import { http, HttpResponse } from "msw";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { server } from "../../msw/server";
@@ -8,6 +14,14 @@ import en from "@/i18n/locales/en.json";
 import { ProviderFormModal } from "@/features/provider-management";
 import type { Provider, ProviderEditProfile } from "@/entities/provider";
 import { NativeError } from "@/native";
+import {
+  createTestQueryClient,
+  withQueryClient,
+} from "../../entities/queryWrapper";
+
+// The model field reads the service's model list through TanStack Query.
+const render = (ui: ReactElement) =>
+  renderUi(ui, { wrapper: withQueryClient(createTestQueryClient()) });
 
 const TAURI_ENDPOINT = "http://tauri.local";
 
@@ -54,6 +68,11 @@ const singleModelProfile: ProviderEditProfile = {
 
 describe("ProviderFormModal", () => {
   beforeEach(async () => {
+    // cmdk scrolls the highlighted model into view; jsdom has no layout.
+    Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
+      configurable: true,
+      value: vi.fn(),
+    });
     i18n.addResourceBundle(
       "en",
       "translation",
@@ -133,7 +152,9 @@ describe("ProviderFormModal", () => {
       );
       expect(writeText).toHaveBeenLastCalledWith("https://changed.example/v1");
       if (canEditEndpoints) {
-        await user.click(screen.getByText(en.services.form.routes));
+        await user.click(
+          screen.getByRole("button", { name: en.services.form.routesManage }),
+        );
         await user.click(
           screen.getByRole("button", {
             name: en.ds.action.copyNamed.replace(
@@ -277,6 +298,130 @@ describe("ProviderFormModal", () => {
     });
   });
 
+  it("reads the model list only when opened and fills in the chosen model", async () => {
+    const requests: unknown[] = [];
+    server.use(
+      http.post(
+        `${TAURI_ENDPOINT}/app_provider_models_list`,
+        async ({ request }) => {
+          requests.push(await request.json());
+          return HttpResponse.json({
+            protocol: "anthropic",
+            models: [
+              { id: "claude-a", kind: "text" },
+              { id: "claude-b", kind: "text" },
+            ],
+            truncated: false,
+            rejection: null,
+          });
+        },
+      ),
+    );
+    const onSubmit = vi.fn();
+    render(
+      <ProviderFormModal
+        provider={provider}
+        profile={singleModelProfile}
+        onOpenChange={vi.fn()}
+        onSubmit={onSubmit}
+      />,
+    );
+    expect(requests).toEqual([]);
+
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.modelPick }),
+    );
+    await userEvent.click(
+      await screen.findByRole("option", { name: "claude-b" }),
+    );
+    expect(screen.getByLabelText("Model 1")).toHaveValue("claude-b");
+    expect(requests).toEqual([{ tool: "claude-code", provider: "relay" }]);
+
+    // Enter in the list's search box picks a model; it must not save the form.
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.modelPick }),
+    );
+    await userEvent.type(
+      screen.getByPlaceholderText(en.services.form.modelSearch),
+      "claude-a{Enter}",
+    );
+    expect(screen.getByLabelText("Model 1")).toHaveValue("claude-a");
+    expect(onSubmit).not.toHaveBeenCalled();
+
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.save }),
+    );
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ models: ["claude-a"] }),
+    );
+  });
+
+  it("does not read a model list for a key that is not saved yet", async () => {
+    const requests: unknown[] = [];
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_models_list`, () => {
+        requests.push("list");
+        return HttpResponse.json({
+          protocol: "anthropic",
+          models: [],
+          truncated: false,
+          rejection: null,
+        });
+      }),
+    );
+    render(
+      <ProviderFormModal
+        provider={provider}
+        profile={singleModelProfile}
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    const key = screen.getByLabelText(en.services.form.key);
+    await userEvent.clear(key);
+    await userEvent.type(key, "sk-new-123");
+
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.modelPick }),
+    );
+    expect(
+      await screen.findByText(en.services.form.modelListStale),
+    ).toBeInTheDocument();
+    expect(requests).toEqual([]);
+  });
+
+  it("leaves the model to be typed when the service refuses a list", async () => {
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_models_list`, () =>
+        HttpResponse.json({
+          protocol: "anthropic",
+          models: [],
+          truncated: false,
+          rejection: { status: 404, detail: "not found" },
+        }),
+      ),
+    );
+    render(
+      <ProviderFormModal
+        provider={provider}
+        profile={singleModelProfile}
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.modelPick }),
+    );
+    await waitFor(() =>
+      expect(
+        screen.getByText(
+          en.services.probe.modelRefused.replace("{{status}}", "404"),
+        ),
+      ).toBeInTheDocument(),
+    );
+    expect(screen.getByLabelText("Model 1")).toBeEnabled();
+  });
+
   it("keeps stored header values write-only when replacing one", async () => {
     const onSubmit = vi.fn();
     render(
@@ -324,6 +469,9 @@ describe("ProviderFormModal", () => {
       />,
     );
 
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.routesManage }),
+    );
     const backup = screen
       .getByText("https://relay-backup.example.com/v1")
       .closest("button");
@@ -337,6 +485,9 @@ describe("ProviderFormModal", () => {
         name: new RegExp(en.services.form.routesAuto, "u"),
       }),
     ).not.toBeChecked();
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.routesDone }),
+    );
 
     await userEvent.click(
       screen.getByRole("button", { name: en.services.form.save }),
@@ -394,6 +545,9 @@ describe("ProviderFormModal", () => {
     expect(requests).toEqual([]);
 
     await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.routesManage }),
+    );
+    await userEvent.click(
       screen.getByRole("button", { name: en.services.form.routesTest }),
     );
     expect(
@@ -412,6 +566,9 @@ describe("ProviderFormModal", () => {
       },
     ]);
     expect(JSON.stringify(requests)).not.toContain("apiKey");
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.routesDone }),
+    );
 
     await userEvent.click(
       screen.getByRole("button", { name: en.services.form.save }),
@@ -441,7 +598,9 @@ describe("ProviderFormModal", () => {
         onSubmit={onSubmit}
       />,
     );
-    await userEvent.click(screen.getByText(en.services.form.routes));
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.routesManage }),
+    );
     await userEvent.type(
       screen.getByLabelText(en.services.form.routeAddLabel),
       "https://third.example.com/v1",
@@ -450,6 +609,9 @@ describe("ProviderFormModal", () => {
       screen.getByRole("button", { name: en.services.form.routeAdd }),
     );
     expect(screen.getByText("https://third.example.com/v1")).toBeVisible();
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.form.routesDone }),
+    );
 
     await userEvent.click(
       screen.getByRole("button", { name: en.ds.action.cancel }),

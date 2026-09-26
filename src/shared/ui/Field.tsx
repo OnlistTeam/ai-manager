@@ -10,6 +10,8 @@ export interface FieldProps {
   /** Non-blocking caution about the current value; `error` still wins. */
   warning?: string;
   error?: string;
+  /** A small secondary action on the label's line, such as a link to a sub-dialog. */
+  labelAction?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
 }
@@ -25,6 +27,7 @@ export function Field({
   hint,
   warning,
   error,
+  labelAction,
   children,
   className,
 }: FieldProps) {
@@ -41,9 +44,18 @@ export function Field({
     .join(" ");
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
-      <label htmlFor={id} className="text-caption text-content">
-        {label}
-      </label>
+      {labelAction ? (
+        <div className="flex items-center justify-between gap-3">
+          <label htmlFor={id} className="text-caption text-content">
+            {label}
+          </label>
+          {labelAction}
+        </div>
+      ) : (
+        <label htmlFor={id} className="text-caption text-content">
+          {label}
+        </label>
+      )}
       {hint ? (
         <span id={hintId} className="sr-only">
           {hint}
