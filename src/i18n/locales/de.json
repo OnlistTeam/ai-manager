@@ -1325,40 +1325,16 @@
   },
   "home": {
     "pageLabel": "Start",
-    "greeting": {
-      "morning": "Guten Morgen",
-      "afternoon": "Guten Tag",
-      "evening": "Guten Abend"
-    },
-    "subtitle": {
-      "ready": "Ihre KI-Programmierumgebung ist bereit.",
-      "checking": "Ihre Einrichtung wird geprüft, bevor der nächste Schritt vorgeschlagen wird.",
-      "stale": "Zeigt die letzte Prüfung, während die Startseite aktualisiert.",
-      "attention": "Ein paar Dinge sind einen Blick wert.",
-      "action": "Etwas erfordert Ihre Aufmerksamkeit."
-    },
-    "card": {
-      "title": "KI-Umgebung",
-      "description": "Software, API-Endpunkte und MCP an einem Ort geprüft",
+    "status": {
       "checking": "Ihre KI-Umgebung wird geprüft",
-      "toolsInstalled_one": "{{count}} Tool installiert",
-      "toolsInstalled_other": "{{count}} Tools installiert",
-      "updatesAvailable_one": "{{count}} Update verfügbar",
-      "updatesAvailable_other": "{{count}} Updates verfügbar",
+      "allGood": "Alles ist auf dem neuesten Stand",
       "needAttention_one": "{{count}} Eintrag erfordert Aufmerksamkeit",
       "needAttention_other": "{{count}} Einträge erfordern Aufmerksamkeit",
-      "allGood": "Alles ist auf dem neuesten Stand",
       "nothingInstalled": "Noch keine Tools installiert",
+      "updatesAvailable_one": "{{count}} Update verfügbar",
+      "updatesAvailable_other": "{{count}} Updates verfügbar",
       "review": "Prüfen",
       "startTool": "Mit {{name}} starten",
-      "startHint": "Wählen Sie einen Projektordner, um zu starten.",
-      "inventory": {
-        "label": "Details zur Einrichtung",
-        "servicesConfigured_one": "{{count}} API-Endpunkt konfiguriert",
-        "servicesConfigured_other": "{{count}} API-Endpunkte konfiguriert",
-        "mcpEnabled": "MCP aktiviert: {{enabled}} von {{total}}",
-        "noMcp": "Noch keine MCP-Verbindungen"
-      },
       "actions": {
         "tools": "Software öffnen",
         "services": "API-Endpunkte öffnen",
@@ -1368,41 +1344,38 @@
     "health": {
       "title": "Statusprüfung",
       "recheck": "Erneut prüfen",
-      "allGood": "Alles sieht gut aus",
-      "issues_one": "{{count}} Problem gefunden",
-      "issues_other": "{{count}} Probleme gefunden",
       "lastChecked": "Zuletzt geprüft: {{time}}",
       "checkingConnections": "Endpunktverbindungen werden geprüft",
-      "connectionError": "Die Verbindungsprüfung konnte nicht gestartet werden. Versuchen Sie es erneut.",
-      "noTools": {
-        "title": "Mit einem KI-Programmiertool starten",
-        "description": "Sobald eines installiert ist, deckt die Statusprüfung es ab.",
-        "action": "Software öffnen"
-      }
+      "connectionError": "Die Verbindungsprüfung konnte nicht gestartet werden. Versuchen Sie es erneut."
     },
-    "quickActions": {
-      "title": "Schnellaktionen",
-      "installTool": "KI-Tool installieren",
-      "installDescription": "Claude Code, Codex oder OpenCode hinzufügen",
+    "tools": {
+      "title": "Meine Tools",
+      "install": "KI-Tool installieren",
       "updateAll": "Alle aktualisieren",
-      "updateDescription": "Installierte Tools auf dem neuesten Stand halten",
-      "connectService": "API-Endpunkt verbinden",
-      "connectDescription": "Die Endpunkte und Schlüssel verwalten, die Ihre Tools verwenden",
-      "laterHint": "Kommt in einem späteren Update"
+      "empty": "Keines Ihrer installierten Tools nutzt API-Endpunkte.",
+      "official": "Offizielle Anmeldung",
+      "notConnected": "Nicht verbunden",
+      "added_one": "{{count}} Endpunkt hinzugefügt",
+      "added_other": "{{count}} Endpunkte hinzugefügt",
+      "modelInTool": "Modell wird in {{tool}} gewählt",
+      "unavailable": "Endpunkte nicht lesbar",
+      "switchTo": "Wechseln zu …",
+      "switchNamed": "Endpunkt von {{tool}} wechseln",
+      "connect": "Verbinden",
+      "connectNamed": "API-Endpunkt mit {{tool}} verbinden",
+      "update": "Aktualisieren",
+      "updateNamed": "{{tool}} aktualisieren",
+      "openNamed": "API-Endpunkte für {{tool}} öffnen",
+      "switchUnreachable": "{{name}} hat nicht geantwortet, daher wurde nichts geändert."
     },
     "updateAll": {
-      "title_one": "{{count}} Tool aktualisieren?",
-      "title_other": "{{count}} Tools aktualisieren?",
       "reviewTitle_one": "{{count}} Tool-Update prüfen",
       "reviewTitle_other": "{{count}} Tool-Updates prüfen",
-      "description": "{{names, list}} wird im Hintergrund aktualisiert. Sie können AI Manager weiter verwenden und den Fortschritt unter Aktivität verfolgen.",
       "previewSummary": "{{ready}} können jetzt aktualisiert werden. {{skipped}} werden übersprungen, bis ihre Installation geprüft wurde.",
       "skippedSummary_one": "{{count}} Tool wurde übersprungen, weil seine Update-Methode nicht bestätigt werden konnte.",
       "skippedSummary_other": "{{count}} Tools wurden übersprungen, weil ihre Update-Methoden nicht bestätigt werden konnten.",
       "confirm_one": "{{count}} Tool aktualisieren",
       "confirm_other": "{{count}} Tools aktualisieren",
-      "retry_one": "Tool erneut versuchen",
-      "retry_other": "Verbleibende erneut versuchen",
       "failure": {
         "partial": {
           "title": "Einige Updates laufen jetzt",
@@ -1416,7 +1389,6 @@
         }
       },
       "hints": {
-        "current": "Alles ist bereits auf dem neuesten Stand",
         "running": "Updates laufen bereits unter Aktivität",
         "checking": "Wird geprüft, was aktualisiert werden kann",
         "unavailable": "Update-Status ist gerade nicht verfügbar",

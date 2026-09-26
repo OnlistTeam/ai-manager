@@ -24,6 +24,7 @@ import type {
   ProductSettings,
   Provider,
   ProviderConnectionProfile,
+  ProviderEditProfile,
   ProviderRuntimeContext,
   RoutingOverview,
   RoutingProvider,
@@ -75,9 +76,25 @@ export const GALLERY_TOOLS: Tool[] = [
     id: "gemini-cli",
     name: "Gemini CLI",
     descriptionKey: "tool.gemini-cli.description",
+    discovery: {
+      publisher: "Google",
+      access: "vendorOrProvider",
+      useCases: ["officialCoding"],
+    },
     status: "updateAvailable",
     version: "0.8.1",
     latestVersion: "0.9.0",
+    capabilities: CAPABILITIES,
+    sessionsInsideSettings: false,
+    environment: "npm",
+  },
+  {
+    id: "opencode",
+    name: "OpenCode",
+    descriptionKey: "tool.opencode.description",
+    status: "installed",
+    version: "0.14.2",
+    latestVersion: null,
     capabilities: CAPABILITIES,
     sessionsInsideSettings: false,
     environment: "npm",
@@ -169,6 +186,66 @@ const PROVIDERS: Provider[] = [
     canRemove: true,
   },
 ];
+
+const CODEX_PROVIDERS: Provider[] = [
+  {
+    id: "team-relay",
+    tool: "codex",
+    name: "Team Relay",
+    kind: "custom",
+    active: true,
+    baseUrl: "https://relay.example.test/v1",
+    apiKey: "sk-EXAMPLE-NOT-A-REAL-KEY-4T7Q",
+    websiteUrl: null,
+    testable: true,
+    canRemove: false,
+  },
+  {
+    id: "openai-official",
+    tool: "codex",
+    name: "OpenAI",
+    kind: "official",
+    active: false,
+    baseUrl: null,
+    apiKey: null,
+    websiteUrl: "https://openai.com/codex",
+    testable: true,
+    canRemove: true,
+  },
+];
+
+const OPENCODE_PROVIDERS: Provider[] = ["Team Relay", "Local Models"].map(
+  (name, index) => ({
+    additive: true,
+    id: `opencode-${index}`,
+    tool: "opencode",
+    name,
+    kind: "custom",
+    active: false,
+    baseUrl: `https://opencode-${index}.example.test/v1`,
+    apiKey: null,
+    websiteUrl: null,
+    testable: true,
+    canRemove: true,
+  }),
+);
+
+const CODEX_EDIT_PROFILE: ProviderEditProfile = {
+  providerId: "team-relay",
+  baseUrl: "https://relay.example.test/v1",
+  endpointCandidates: [],
+  endpointAutoSelect: false,
+  models: ["gpt-5-codex"],
+  headerNames: [],
+  capabilities: {
+    canEditBaseUrl: true,
+    canEditEndpoints: true,
+    canEditModels: true,
+    canEditHeaders: false,
+    supportsMultipleModels: false,
+  },
+  baseUrlTakesNoVersion: false,
+};
 
 const CONNECTION_PROFILE: ProviderConnectionProfile = {
   defaultPresetId: "official",
@@ -536,6 +613,13 @@ export function seedAppShellGallery(client: QueryClient): void {
     },
   });
   client.setQueryData(providerKeys.list("claude-code"), PROVIDERS);
+  client.setQueryData(providerKeys.list("codex"), CODEX_PROVIDERS);
+  client.setQueryData(providerKeys.list("gemini-cli"), []);
+  client.setQueryData(providerKeys.list("opencode"), OPENCODE_PROVIDERS);
+  client.setQueryData(
+    providerKeys.editProfile("codex", "team-relay"),
+    CODEX_EDIT_PROFILE,
+  );
   client.setQueryData(
     providerKeys.connectionProfile("claude-code"),
     CONNECTION_PROFILE,

@@ -74,7 +74,7 @@ describe("recommendHomeAction", () => {
     expect(result).toMatchObject({
       item: { id: "tool" },
       destination: "tools",
-      actionKey: "home.card.actions.tools",
+      actionKey: "home.status.actions.tools",
     });
   });
 
@@ -89,7 +89,7 @@ describe("recommendHomeAction", () => {
     expect(result).toMatchObject({
       item: { id: "provider" },
       destination: "services",
-      actionKey: "home.card.actions.services",
+      actionKey: "home.status.actions.services",
       toolId: "claude-code",
     });
   });
@@ -109,7 +109,7 @@ describe("recommendHomeAction", () => {
       ),
     ).toMatchObject({
       destination: "services",
-      actionKey: "home.card.actions.services",
+      actionKey: "home.status.actions.services",
       toolId: "gemini-cli",
     });
   });
@@ -119,7 +119,7 @@ describe("recommendHomeAction", () => {
       recommendHomeAction(summary([item("mcp", "mcp", "attention")])),
     ).toMatchObject({
       destination: "mcp",
-      actionKey: "home.card.actions.mcp",
+      actionKey: "home.status.actions.mcp",
     });
   });
 });

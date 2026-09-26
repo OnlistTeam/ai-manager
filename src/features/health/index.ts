@@ -1,7 +1,5 @@
 export { greetingSlot } from "./greeting";
 export type { GreetingSlot } from "./greeting";
-export { summarizeEnvironment } from "./summarizeEnvironment";
-export type { EnvironmentSummary } from "./summarizeEnvironment";
 export { aggregateQuickCheck } from "./quickCheck";
 export type {
   QuickCheckItem,

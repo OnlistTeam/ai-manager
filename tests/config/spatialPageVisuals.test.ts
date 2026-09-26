@@ -11,9 +11,12 @@ function ruleBody(css: string, selector: string): string {
   return css.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
 }
 
-const ACTIVE_PAGE_VISUALS = {
-  "pages/home/EnvironmentHero.tsx": 'model="environment"',
-} as const;
+/** Home opens with a one-line status and a tool list; no spatial model. */
+const COMPACT_HOME_FILES = [
+  "pages/home/HomePage.tsx",
+  "pages/home/HomeStatusLine.tsx",
+  "pages/home/HomeReadinessNotice.tsx",
+] as const;
 
 const COMPACT_MANAGEMENT_PAGES = [
   "pages/services/ServicesPage.tsx",
@@ -36,7 +39,7 @@ const SHIPPED_MODELS = [
 const ARTWORK_ROOT = path.join(ROOT, "assets", "spatial", "models", "v5");
 
 /**
- * The product has exactly one look: the home hero, sidebar mark, and app
+ * The product has exactly one look: the sidebar mark and the app
  * icon all come from the same 3D model. `mark.png` is only ever shown at
  * 36px in the sidebar, so bundling the 1024px source image would be pure
  * waste; re-run `v5/terminal.blend.py` (see v5/README.md) when a different
@@ -47,7 +50,7 @@ const SHIPPED_ARTWORK = {
   "mark.png": { maxSize: 256, minBytes: 10_000 },
 } as const;
 
-/** Grid of the turntable sprite sheet; must match src/pages/home/terminalModel.ts. */
+/** Grid of the turntable sprite sheet, as `v5/pack-turntable.py` writes it. */
 const TURNTABLE = { frames: 25, cols: 5, rows: 5 } as const;
 
 interface DecodedPng {
@@ -140,10 +143,12 @@ function meanChannelDelta(a: Float64Array, b: Float64Array): number {
 }
 
 describe("page spatial visual contract", () => {
-  it("keeps one route-specific spatial model on every declared visual page", () => {
-    for (const [file, model] of Object.entries(ACTIVE_PAGE_VISUALS)) {
+  it("keeps Home compact instead of restoring a spatial hero", () => {
+    for (const file of COMPACT_HOME_FILES) {
       const source = fs.readFileSync(path.join(ROOT, file), "utf8");
-      expect(source, file).toContain(model);
+      expect(source, file).not.toContain("SpatialScene");
+      expect(source, file).not.toContain("useSpatialPointer");
+      expect(source, file).not.toMatch(/model="[^"]+"/);
     }
   });
 
@@ -216,29 +221,13 @@ describe("page spatial visual contract", () => {
   });
 
   /**
-   * The home model is a turntable frame sequence, not a single spinning
-   * image. That distinction is easy to lose in a later "simplification"
-   * pass, and the page still looks fine afterward — except the side of the
-   * object never comes into view when it turns, because a flat texture has
-   * no side to show. This test pins that behaviour down.
+   * A turntable is a frame sequence, not a single spinning image. Rounding the
+   * frame index would hard-cut to the next cell every 2.2°, and that cut,
+   * layered on top of the simultaneous smooth shift, reads as jitter;
+   * cross-fading between adjacent frames is what turns the discrete sequence
+   * back into a continuous angle.
    */
-  it("turns the home model by swapping rendered frames, not by rotating one picture", () => {
-    const model = fs.readFileSync(
-      path.join(ROOT, "pages/home/terminalModel.ts"),
-      "utf8",
-    );
-    const hero = fs.readFileSync(
-      path.join(ROOT, "pages/home/EnvironmentHero.tsx"),
-      "utf8",
-    );
-
-    expect(hero).toContain("turntable={TERMINAL_TURNTABLE}");
-    expect(hero).not.toMatch(/artwork=/);
-
-    // The frame index must not be rounded. Rounding would hard-cut to the
-    // next cell every 2.2°, and that cut, layered on top of the simultaneous
-    // smooth shift, reads as jitter; cross-fading between adjacent frames is
-    // what turns the discrete sequence back into a continuous angle.
+  it("cross-fades turntable frames instead of rounding to one", () => {
     const pointer = fs.readFileSync(
       path.join(ROOT, "shared/ui/useSpatialPointer.ts"),
       "utf8",
@@ -246,19 +235,10 @@ describe("page spatial visual contract", () => {
     expect(pointer).not.toMatch(/Math\.round\(\(\(1 - vector\.x\)/);
     expect(pointer).toContain("--spatial-frame-next-x");
     expect(pointer).toContain("--spatial-frame-blend");
-    // The pointer hook must know the layout, otherwise it only writes a CSS
-    // rotation angle and the frame sequence goes to waste.
-    expect(hero).toContain(
-      "useSpatialPointer<HTMLDivElement>(TERMINAL_TURNTABLE)",
-    );
-    for (const [key, value] of Object.entries(TURNTABLE)) {
-      expect(model, key).toMatch(new RegExp(`${key}:\\s*${value}`));
-    }
   });
 
   /**
-   * The sheet's actual canvas and the grid declared in terminalModel.ts must
-   * agree. Changing either side alone makes the page pick the wrong cell —
+   * The sheet's actual canvas and the grid declared above must agree. Changing either side alone makes the page pick the wrong cell —
    * and silently: the image is still there, just at the wrong angle.
    */
   it("keeps the sprite sheet a whole number of cells in both directions", () => {
@@ -293,14 +273,9 @@ describe("page spatial visual contract", () => {
     expect(bytes.byteLength).toBeLessThan(600_000);
   });
 
-  it("derives the sidebar mark from the very model the hero shows", () => {
+  it("derives the sidebar mark from the shipped model set", () => {
     const shell = fs.readFileSync(path.join(ROOT, "app/AppShell.tsx"), "utf8");
-    const model = fs.readFileSync(
-      path.join(ROOT, "pages/home/terminalModel.ts"),
-      "utf8",
-    );
     expect(shell).toContain("models/v5/mark.png");
-    expect(model).toContain("models/v5/terminal-turntable.webp");
   });
 
   it("keeps pointer movement out of React state", () => {
@@ -343,24 +318,11 @@ describe("page spatial visual contract", () => {
     expect(css).toContain("@media (max-height: 650px) and (min-width: 760px)");
     expect(css).toContain("@container spatial-page (min-width: 580px)");
     expect(css).toContain("@container spatial-page (min-width: 820px)");
-    expect(css).toContain(".spatial-page-hero.environment-hero");
     expect(css).toContain("--spatial-scene-size: 178px");
     expect(css).toContain("@container metric-strip (min-width: 560px)");
     expect(css).toContain(
       "grid-template-columns: minmax(210px, 0.9fr) minmax(270px, 1.1fr)",
     );
-
-    const home = fs.readFileSync(
-      path.join(ROOT, "pages/home/EnvironmentHero.tsx"),
-      "utf8",
-    );
-    const homeSkeleton = fs.readFileSync(
-      path.join(ROOT, "pages/home/EnvironmentHeroSkeleton.tsx"),
-      "utf8",
-    );
-    expect(home).toContain("environment-hero__layout");
-    expect(home).not.toContain("environment-hero__recommendation-description");
-    expect(homeSkeleton).toContain("environment-hero__layout");
   });
 
   it("moves the stage, object and ground on separate depth planes", () => {

@@ -1325,40 +1325,16 @@
   },
   "home": {
     "pageLabel": "Home",
-    "greeting": {
-      "morning": "Good morning",
-      "afternoon": "Good afternoon",
-      "evening": "Good evening"
-    },
-    "subtitle": {
-      "ready": "Your AI coding setup is ready.",
-      "checking": "Checking your setup before suggesting the next step.",
-      "stale": "Showing the last check while Home refreshes.",
-      "attention": "A couple of things are worth a look.",
-      "action": "Something needs your attention."
-    },
-    "card": {
-      "title": "AI Environment",
-      "description": "Software, API endpoints and MCP checked in one place",
+    "status": {
       "checking": "Checking your AI environment",
-      "toolsInstalled_one": "{{count}} tool installed",
-      "toolsInstalled_other": "{{count}} tools installed",
-      "updatesAvailable_one": "{{count}} update available",
-      "updatesAvailable_other": "{{count}} updates available",
+      "allGood": "Everything is up to date",
       "needAttention_one": "{{count}} item needs attention",
       "needAttention_other": "{{count}} items need attention",
-      "allGood": "Everything is up to date",
       "nothingInstalled": "No tools installed yet",
+      "updatesAvailable_one": "{{count}} update available",
+      "updatesAvailable_other": "{{count}} updates available",
       "review": "Review",
       "startTool": "Start with {{name}}",
-      "startHint": "Choose a project folder to start.",
-      "inventory": {
-        "label": "Ready setup details",
-        "servicesConfigured_one": "{{count}} API endpoint configured",
-        "servicesConfigured_other": "{{count}} API endpoints configured",
-        "mcpEnabled": "MCP enabled: {{enabled}} of {{total}}",
-        "noMcp": "No MCP connections yet"
-      },
       "actions": {
         "tools": "Open Software",
         "services": "Open API Endpoints",
@@ -1368,41 +1344,38 @@
     "health": {
       "title": "Health check",
       "recheck": "Recheck",
-      "allGood": "Everything looks fine",
-      "issues_one": "{{count}} problem found",
-      "issues_other": "{{count}} problems found",
       "lastChecked": "Last checked {{time}}",
       "checkingConnections": "Checking endpoint connections",
-      "connectionError": "The connection check could not start. Try again.",
-      "noTools": {
-        "title": "Start with an AI coding tool",
-        "description": "Once one is installed, the health check covers it.",
-        "action": "Open Software"
-      }
+      "connectionError": "The connection check could not start. Try again."
     },
-    "quickActions": {
-      "title": "Quick actions",
-      "installTool": "Install AI Tool",
-      "installDescription": "Add Claude Code, Codex or OpenCode",
+    "tools": {
+      "title": "My tools",
+      "install": "Install AI Tool",
       "updateAll": "Update All",
-      "updateDescription": "Keep installed tools on their latest version",
-      "connectService": "Connect API Endpoint",
-      "connectDescription": "Manage the endpoints and keys your tools use",
-      "laterHint": "Arrives in a later update"
+      "empty": "None of your installed tools use API endpoints.",
+      "official": "Official sign-in",
+      "notConnected": "Not connected",
+      "added_one": "{{count}} endpoint added",
+      "added_other": "{{count}} endpoints added",
+      "modelInTool": "Model chosen in {{tool}}",
+      "unavailable": "Couldn't read endpoints",
+      "switchTo": "Switch to…",
+      "switchNamed": "Switch the endpoint {{tool}} uses",
+      "connect": "Connect",
+      "connectNamed": "Connect an API endpoint to {{tool}}",
+      "update": "Update",
+      "updateNamed": "Update {{tool}}",
+      "openNamed": "Open API endpoints for {{tool}}",
+      "switchUnreachable": "{{name}} did not respond, so nothing was changed."
     },
     "updateAll": {
-      "title_one": "Update {{count}} tool?",
-      "title_other": "Update {{count}} tools?",
       "reviewTitle_one": "Review {{count}} tool update",
       "reviewTitle_other": "Review {{count}} tool updates",
-      "description": "{{names, list}} will update in the background. You can keep using AI Manager and follow progress in Activity.",
       "previewSummary": "{{ready}} can update now. {{skipped}} will be skipped until its installation is reviewed.",
       "skippedSummary_one": "{{count}} tool was skipped because its update method could not be confirmed.",
       "skippedSummary_other": "{{count}} tools were skipped because their update methods could not be confirmed.",
       "confirm_one": "Update {{count}} tool",
       "confirm_other": "Update {{count}} tools",
-      "retry_one": "Retry tool",
-      "retry_other": "Retry remaining",
       "failure": {
         "partial": {
           "title": "Some updates are now running",
@@ -1416,7 +1389,6 @@
         }
       },
       "hints": {
-        "current": "Everything is already up to date",
         "running": "Updates are already running in Activity",
         "checking": "Checking what can be updated",
         "unavailable": "Update status is unavailable right now",

@@ -6,8 +6,11 @@ import type { HealthSnapshot } from "@/native";
 import type { Tool } from "@/entities/tool";
 import en from "@/i18n/locales/en.json";
 import { aggregateQuickCheck } from "@/features/health";
-import { EnvironmentHero } from "@/pages/home/EnvironmentHero";
-import type { EnvironmentHeroProps } from "@/pages/home/EnvironmentHero";
+import {
+  HomeStatusLine,
+  type HomeStatusLineProps,
+} from "@/pages/home/HomeStatusLine";
+import { recommendHomeAction } from "@/pages/home/homeRecommendation";
 
 const CAPABILITIES = {
   canInstall: true,
@@ -50,12 +53,14 @@ const HEALTHY: HealthSnapshot = {
   mcp: { total: 3, enabled: 2 },
 };
 
-function mount(overrides: Partial<EnvironmentHeroProps> = {}) {
-  const tools = [tool()];
-  const props: EnvironmentHeroProps = {
+function mount(
+  overrides: Partial<HomeStatusLineProps> = {},
+  tools: Tool[] = [tool()],
+) {
+  const props: HomeStatusLineProps = {
     summary: aggregateQuickCheck(tools, HEALTHY, {}),
     recommendation: null,
-    startTool: tools[0],
+    startTool: tools[0] ?? null,
     checkedAt: Date.UTC(2026, 8, 5, 9, 30),
     rechecking: false,
     checkingConnections: false,
@@ -65,16 +70,15 @@ function mount(overrides: Partial<EnvironmentHeroProps> = {}) {
     onStart: vi.fn(),
     ...overrides,
   };
-  render(<EnvironmentHero {...props} />);
+  render(<HomeStatusLine {...props} />);
   return props;
 }
 
 /**
- * The hero used to state the environment's status while a second card below it
- * repeated the same headline just to host the rerun button and the timestamp.
- * Those two now live here, next to the sentence they describe.
+ * The line states the verdict once, next to the timestamp and the rerun
+ * control that describe it, and offers exactly one next step.
  */
-describe("EnvironmentHero", () => {
+describe("HomeStatusLine", () => {
   beforeEach(async () => {
     i18n.addResourceBundle(
       "en",
@@ -89,11 +93,25 @@ describe("EnvironmentHero", () => {
   it("carries the check's own timestamp and rerun control", async () => {
     const props = mount();
 
+    expect(
+      screen.getByRole("heading", { level: 1, name: en.home.status.allGood }),
+    ).toBeVisible();
     expect(screen.getByText(/Last checked/)).toBeVisible();
     await userEvent.click(
       screen.getByRole("button", { name: en.home.health.recheck }),
     );
     expect(props.onRecheck).toHaveBeenCalledTimes(1);
+  });
+
+  it("offers Start as the one next step when everything is ready", async () => {
+    const props = mount();
+
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: en.home.status.startTool.replace("{{name}}", "Claude Code"),
+      }),
+    );
+    expect(props.onStart).toHaveBeenCalledWith(props.startTool);
   });
 
   it("announces a running connection check instead of a stale timestamp", () => {
@@ -113,5 +131,30 @@ describe("EnvironmentHero", () => {
       screen.getByRole("alert", { name: en.home.health.connectionError }),
     ).toBeVisible();
     expect(screen.getByText(/Last checked/)).toBeVisible();
+  });
+
+  it("counts updates beside the attention count and opens the recommendation", async () => {
+    const tools = [tool({ status: "updateAvailable", latestVersion: "1.1.0" })];
+    const summary = aggregateQuickCheck(tools, HEALTHY, {});
+    const props = mount(
+      {
+        summary,
+        recommendation: recommendHomeAction(summary),
+        startTool: null,
+      },
+      tools,
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        level: 1,
+        name: "1 item needs attention",
+      }),
+    ).toBeVisible();
+    expect(screen.getByText("1 update available")).toBeVisible();
+    await userEvent.click(
+      screen.getByRole("button", { name: en.home.status.actions.tools }),
+    );
+    expect(props.onReview).toHaveBeenCalledWith("tools");
   });
 });

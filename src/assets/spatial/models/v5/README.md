@@ -5,7 +5,7 @@ The home page's terminal is a **real 3D model** now, not a spinning image anymor
 | Asset                     | Purpose                                                                  |
 | ------------------------- | ------------------------------------------------------------------------ |
 | `terminal.blend.py`       | Full source of the modeling + lighting + render pipeline (Blender ≥ 5.0) |
-| `terminal-turntable.webp` | The 25-frame turntable sprite sheet for the home page hero               |
+| `terminal-turntable.webp` | The 25-frame turntable sprite sheet (not shown since ADR-0051)           |
 | `terminal.png`            | Single shadowless front frame, source for the app icon                   |
 | `mark.png`                | Sidebar top-left mark, a thumbnail of the front frame                    |
 | `app-icon.png`            | White-background squircle icon source, fed into `tauri icon`             |
