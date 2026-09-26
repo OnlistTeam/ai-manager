@@ -2363,6 +2363,11 @@
         "noneTitle": "Tidak ada alat yang dapat dirutekan; semuanya tetap terhubung langsung.",
         "item": "{{name}}: {{reason}}"
       }
+    },
+    "privacy": {
+      "label": "Perlindungan privasi",
+      "description": "Saat permintaan melewati AI Manager, kunci, kata sandi, email, nomor telepon, nomor identitas, dan nomor kartu bank diganti dengan placeholder sebelum sampai ke layanan, lalu dikembalikan di balasan.",
+      "unavailable": "Pengaturan ini belum bisa dibaca sekarang."
     }
   },
   "sessions": {

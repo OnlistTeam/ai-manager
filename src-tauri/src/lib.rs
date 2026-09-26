@@ -608,6 +608,10 @@ pub fn run() {
                     app.handle().clone(),
                 )),
             )));
+            // ADR-0049: the routing proxy masks secrets and personal data from its first request.
+            crate::application::privacy_protection::PrivacyProtectionService::initialize(
+                app.handle(),
+            );
 
             // ============================================================
             // Per-table import logic (each data kind is checked independently)
@@ -1256,6 +1260,8 @@ pub fn run() {
             // Live routing (ADR-0050).
             commands::app_routing_set_live_mode,
             commands::app_routing_trace,
+            commands::app_privacy_protection_get,
+            commands::app_privacy_protection_set,
             // AI Manager product API (one-click import; ADR-0029).
             commands::app_deeplink_pending_list,
             commands::app_deeplink_preview,

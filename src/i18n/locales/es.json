@@ -2363,6 +2363,11 @@
         "noneTitle": "No se pudo enrutar ninguna herramienta; todo sigue en conexión directa.",
         "item": "{{name}}: {{reason}}"
       }
+    },
+    "privacy": {
+      "label": "Protección de la privacidad",
+      "description": "Cuando las solicitudes pasan por AI Manager, las claves, contraseñas, correos, números de teléfono, de identidad y de tarjeta bancaria se sustituyen por marcadores antes de llegar al servicio y se restauran en la respuesta.",
+      "unavailable": "Ahora no se puede leer este ajuste."
     }
   },
   "sessions": {

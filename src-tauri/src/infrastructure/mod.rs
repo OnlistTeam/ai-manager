@@ -1,6 +1,7 @@
 pub mod logging;
 pub mod operations;
 pub mod paths;
+pub mod privacy_key;
 pub mod routing_trace;
 
 pub use operations::{

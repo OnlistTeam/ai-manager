@@ -2363,6 +2363,11 @@
         "noneTitle": "Aucun outil n’a pu être routé ; tout reste en connexion directe.",
         "item": "{{name}} : {{reason}}"
       }
+    },
+    "privacy": {
+      "label": "Protection de la vie privée",
+      "description": "Quand les requêtes passent par AI Manager, les clés, mots de passe, e-mails, numéros de téléphone, d'identité et de carte bancaire sont remplacés par des espaces réservés avant d'atteindre le service, puis rétablis dans la réponse.",
+      "unavailable": "Impossible de lire ce réglage pour le moment."
     }
   },
   "sessions": {

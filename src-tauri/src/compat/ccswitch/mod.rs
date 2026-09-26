@@ -16,6 +16,7 @@ pub mod paths;
 pub mod provider;
 pub mod provider_endpoints;
 pub mod provider_runtime;
+pub mod proxy_privacy;
 pub mod routing;
 pub mod session;
 pub mod settings;

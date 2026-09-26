@@ -1,9 +1,12 @@
-//! Thin Advanced Routing product commands (ADR-0007, ADR-0050).
+//! Thin Advanced Routing product commands (ADR-0007, ADR-0049, ADR-0050).
 
+use crate::application::privacy_protection::PrivacyProtectionService;
 use crate::application::routing_control::RoutingControl;
-use crate::domain::{AppError, RoutingLiveModeOutcome, RoutingOverview, RoutingTraceSnapshot};
+use crate::domain::{
+    AppError, PrivacyProtection, RoutingLiveModeOutcome, RoutingOverview, RoutingTraceSnapshot,
+};
 
-use super::app_api::parse_tool;
+use super::app_api::{blocking, parse_tool};
 
 #[tauri::command]
 pub async fn app_routing_overview(
@@ -78,4 +81,19 @@ pub async fn app_routing_set_live_mode(
 #[tauri::command]
 pub fn app_routing_trace(app_handle: tauri::AppHandle) -> Result<RoutingTraceSnapshot, AppError> {
     RoutingControl::trace(&app_handle)
+}
+
+#[tauri::command]
+pub async fn app_privacy_protection_get(
+    app_handle: tauri::AppHandle,
+) -> Result<PrivacyProtection, AppError> {
+    blocking(move || PrivacyProtectionService::load(&app_handle)).await
+}
+
+#[tauri::command]
+pub async fn app_privacy_protection_set(
+    app_handle: tauri::AppHandle,
+    enabled: bool,
+) -> Result<PrivacyProtection, AppError> {
+    blocking(move || PrivacyProtectionService::save(&app_handle, enabled)).await
 }

@@ -2363,6 +2363,11 @@
         "noneTitle": "Kein Tool konnte umgeleitet werden; alles bleibt direkt verbunden.",
         "item": "{{name}}: {{reason}}"
       }
+    },
+    "privacy": {
+      "label": "Datenschutz",
+      "description": "Laufen Anfragen über AI Manager, werden Schlüssel, Passwörter, E-Mail-Adressen, Telefonnummern, Ausweis- und Bankkartennummern vor dem Senden an den Dienst durch Platzhalter ersetzt und in der Antwort wiederhergestellt.",
+      "unavailable": "Diese Einstellung kann gerade nicht gelesen werden."
     }
   },
   "sessions": {

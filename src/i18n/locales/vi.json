@@ -2363,6 +2363,11 @@
         "noneTitle": "Không công cụ nào định tuyến được; mọi thứ vẫn kết nối trực tiếp.",
         "item": "{{name}}: {{reason}}"
       }
+    },
+    "privacy": {
+      "label": "Bảo vệ quyền riêng tư",
+      "description": "Khi yêu cầu đi qua AI Manager, khóa, mật khẩu, email, số điện thoại, số căn cước và số thẻ ngân hàng được thay bằng ký hiệu giữ chỗ trước khi đến dịch vụ, rồi được đặt lại trong phản hồi.",
+      "unavailable": "Hiện chưa đọc được cài đặt này."
     }
   },
   "sessions": {

@@ -2362,6 +2362,11 @@
         "noneTitle": "没有软件接入成功，一切保持直连。",
         "item": "{{name}}：{{reason}}"
       }
+    },
+    "privacy": {
+      "label": "隐私保护",
+      "description": "经 AI 管家转发时，密钥、密码、邮箱、手机号、身份证和银行卡号会先换成占位符再发给服务商，回复里再换回来。",
+      "unavailable": "暂时读不到这个设置。"
     }
   },
   "sessions": {

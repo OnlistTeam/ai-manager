@@ -2363,6 +2363,11 @@
         "noneTitle": "Nenhuma ferramenta pôde ser roteada; tudo continua em conexão direta.",
         "item": "{{name}}: {{reason}}"
       }
+    },
+    "privacy": {
+      "label": "Proteção de privacidade",
+      "description": "Quando as requisições passam pelo AI Manager, chaves, senhas, e-mails, números de telefone, de documento e de cartão bancário são trocados por marcadores antes de chegar ao serviço e restaurados na resposta.",
+      "unavailable": "Não foi possível ler esta configuração agora."
     }
   },
   "sessions": {
