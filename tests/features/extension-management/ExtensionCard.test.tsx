@@ -61,7 +61,8 @@ describe("ExtensionCard", () => {
     expect(control).not.toBeChecked();
     // State isn't conveyed by color alone (spec §98): there's a word next to the toggle.
     expect(screen.getByText(en.extensions.card.off)).toBeInTheDocument();
-    expect(screen.getByText(en.extensions.mcp.title)).toBeInTheDocument();
+    // The page already names the kind; the row does not repeat it.
+    expect(screen.queryByText(en.extensions.mcp.title)).toBeNull();
     expect(screen.getByRole("article", { name: "Filesystem" })).toHaveAttribute(
       "aria-busy",
       "false",
@@ -71,10 +72,7 @@ describe("ExtensionCard", () => {
   it("emphasizes nested keyboard actions without making the whole card look clickable", () => {
     render(<ExtensionCard extension={extension()} onToggle={vi.fn()} />);
     const card = screen.getByRole("article", { name: "Filesystem" });
-    expect(card).toHaveClass(
-      "focus-within:border-brand/25",
-      "focus-within:shadow-md",
-    );
+    expect(card).toHaveClass("ds-list-row", "focus-within:bg-layer-1");
     expect(card).not.toHaveClass("hover:-translate-y-0.5");
     expect(card).not.toHaveClass("hover:border-brand/25");
     expect(card).not.toHaveClass("hover:shadow-md");
@@ -449,7 +447,7 @@ describe("ExtensionCard", () => {
 
   it("expands a clipped description only when it is really clipped", async () => {
     // jsdom lays nothing out, so the clamp has to be simulated: a paragraph
-    // whose content is taller than its box is exactly what `line-clamp-2`
+    // whose content is taller than its box is exactly what `line-clamp-1`
     // produces in the real app.
     const clipped = { get: () => 96, configurable: true };
     const box = { get: () => 40, configurable: true };
@@ -466,7 +464,7 @@ describe("ExtensionCard", () => {
       );
 
       const copy = screen.getByText(description);
-      expect(copy).toHaveClass("line-clamp-2");
+      expect(copy).toHaveClass("line-clamp-1");
       const expand = screen.getByRole("button", {
         name: en.extensions.card.expandDescription,
       });
@@ -474,7 +472,7 @@ describe("ExtensionCard", () => {
       expect(expand).toHaveAttribute("aria-controls", copy.id);
 
       await userEvent.click(expand);
-      expect(copy).not.toHaveClass("line-clamp-2");
+      expect(copy).not.toHaveClass("line-clamp-1");
       expect(
         screen.getByRole("button", {
           name: en.extensions.card.collapseDescription,

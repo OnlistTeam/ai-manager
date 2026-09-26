@@ -5,17 +5,11 @@ import type { Extension } from "@/entities/extension";
 import { toErrorCopy } from "@/shared/lib/nativeError";
 import { Badge } from "@/shared/ui/Badge";
 import { Button } from "@/shared/ui/Button";
-import { Card } from "@/shared/ui/Card";
 import { cn } from "@/shared/ui/cn";
 import { ExtensionArtwork } from "@/shared/ui/ExtensionArtwork";
+import { ListGroupRow } from "@/shared/ui/ListGroup";
 import { ExtensionCardFooter } from "./ExtensionCardFooter";
 import { useExtensionCardLabels } from "./useExtensionCardLabels";
-
-const KIND_TITLE_KEY: Record<Extension["kind"], string> = {
-  skill: "extensions.skill.title",
-  mcp: "extensions.mcp.title",
-  prompt: "extensions.prompt.title",
-};
 
 export interface ExtensionCardProps {
   extension: Extension;
@@ -53,8 +47,8 @@ export interface ExtensionToggleFailure {
 }
 
 /**
- * Spec §36: a card shows only a name, one human-readable description, and one
- * control — no command, no arguments, no path. Everything displayable comes
+ * Spec §36: an item shows only a name, one human-readable description, and one
+ * control. It is a row of a `ListGroup` (ADR-0052) — no command, no arguments, no path. Everything displayable comes
  * from `Extension`, and that model has no field for a raw config payload, so
  * "don't show raw config on first entry" isn't a rule we're following — it's
  * structural.
@@ -114,106 +108,72 @@ export function ExtensionCard({
   }, [description, descriptionExpanded]);
 
   return (
-    <Card
-      padding="none"
+    <ListGroupRow
       role="article"
       aria-labelledby={headingId}
       aria-busy={pending || detectedResourceAction !== undefined}
       className={cn(
-        "group relative isolate flex min-h-56 flex-col overflow-hidden rounded-xl border-hairline bg-layer-1 transition-[border-color,box-shadow] duration-fast ease-standard focus-within:border-brand/25 focus-within:shadow-md",
-        extension.enabled && "border-brand/25 shadow-md",
-        shownError && "border-danger/30 shadow-sm",
+        "group isolate grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-3 gap-y-2 md:grid-cols-[auto_minmax(0,1fr)_auto]",
+        "transition-colors duration-fast ease-standard focus-within:bg-layer-1",
+        shownError && "bg-danger/5",
       )}
     >
-      <span
-        aria-hidden="true"
-        className={cn(
-          "pointer-events-none absolute -right-10 -top-12 h-36 w-36 rounded-full blur-2xl",
-          extension.enabled ? "bg-success/10" : "bg-brand/5",
-        )}
-      />
+      {/* The on/off word in the actions says it; the bar only lets the eye
+          find the enabled item first when scanning down the list. */}
+      {extension.enabled ? (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-2 left-0 w-0.5 rounded-full bg-success"
+        />
+      ) : null}
 
-      <div className="relative flex items-start gap-4 p-5 pb-4">
-        <ExtensionArtwork kind={extension.kind} active={extension.enabled} />
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge tone={extension.enabled ? "brand" : "neutral"}>
-              {t(KIND_TITLE_KEY[extension.kind])}
-            </Badge>
-            {detected ? (
-              <Badge tone="neutral">{t("extensions.card.detected")}</Badge>
-            ) : null}
-            {updateAvailable ? (
-              <Badge tone="warning">
-                {t("extensions.card.updateAvailable")}
-              </Badge>
-            ) : null}
-          </div>
+      <ExtensionArtwork
+        kind={extension.kind}
+        active={extension.enabled}
+        className="h-9 w-9 rounded-lg md:row-span-2"
+      />
+      <div className="min-w-0">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           <h3
             id={headingId}
-            className="mt-2 break-words text-heading text-content"
+            className="break-words text-body font-medium text-content"
           >
             {extension.name}
           </h3>
-          <p
-            id={descriptionId}
-            ref={descriptionRef}
-            className={cn(
-              "mt-2 break-words [overflow-wrap:anywhere] text-body text-content-muted",
-              !descriptionExpanded && "line-clamp-2",
-            )}
-          >
-            {description}
-          </p>
-          {descriptionOverflows ? (
-            <Button
-              className="-ml-2.5 mt-1"
-              size="xs"
-              variant="ghost"
-              aria-controls={descriptionId}
-              aria-expanded={descriptionExpanded}
-              onClick={() => setDescriptionExpanded((value) => !value)}
-            >
-              {t(
-                descriptionExpanded
-                  ? "extensions.card.collapseDescription"
-                  : "extensions.card.expandDescription",
-              )}
-            </Button>
+          {detected ? (
+            <Badge tone="neutral">{t("extensions.card.detected")}</Badge>
+          ) : null}
+          {updateAvailable ? (
+            <Badge tone="warning">{t("extensions.card.updateAvailable")}</Badge>
           ) : null}
         </div>
-      </div>
-
-      {failureCopy && labels.failureTitle ? (
-        <div
-          role="alert"
-          aria-label={labels.failureTitle}
-          className="relative mx-5 mb-4 flex items-start gap-2 rounded-md border border-danger/30 bg-danger/5 p-3"
+        <p
+          id={descriptionId}
+          ref={descriptionRef}
+          className={cn(
+            "mt-0.5 break-words [overflow-wrap:anywhere] text-caption text-content-muted",
+            !descriptionExpanded && "line-clamp-1",
+          )}
         >
-          <AlertCircle
-            className="mt-0.5 h-4 w-4 shrink-0 text-danger"
-            aria-hidden="true"
-          />
-          <div className="min-w-0">
-            <p className="text-caption font-medium text-content">
-              {labels.failureTitle}
-            </p>
-            <p className="mt-0.5 text-caption leading-5 text-content-muted">
-              {t(failureCopy.messageKey)}
-            </p>
-            {failureCopy.remediationKey ? (
-              <p className="mt-0.5 text-caption leading-5 text-content-muted">
-                {t(failureCopy.remediationKey)}
-              </p>
-            ) : null}
-            {failure ? (
-              <p className="mt-0.5 text-caption leading-5 text-content-muted">
-                {t("extensions.card.retryHint")}
-              </p>
-            ) : null}
-          </div>
-        </div>
-      ) : null}
+          {description}
+        </p>
+        {descriptionOverflows ? (
+          <Button
+            className="-ml-2.5"
+            size="xs"
+            variant="ghost"
+            aria-controls={descriptionId}
+            aria-expanded={descriptionExpanded}
+            onClick={() => setDescriptionExpanded((value) => !value)}
+          >
+            {t(
+              descriptionExpanded
+                ? "extensions.card.collapseDescription"
+                : "extensions.card.expandDescription",
+            )}
+          </Button>
+        ) : null}
+      </div>
 
       <ExtensionCardFooter
         extension={extension}
@@ -232,6 +192,36 @@ export function ExtensionCard({
         onUpdate={onUpdate}
         onToggle={onToggle}
       />
-    </Card>
+      {failureCopy && labels.failureTitle ? (
+        <div
+          role="alert"
+          aria-label={labels.failureTitle}
+          className="col-start-2 flex items-start gap-2 rounded-md border border-danger/30 bg-danger/5 p-3 md:col-span-2"
+        >
+          <AlertCircle
+            className="mt-0.5 h-4 w-4 shrink-0 text-danger"
+            aria-hidden="true"
+          />
+          <div className="min-w-0">
+            <p className="text-caption font-medium text-content">
+              {labels.failureTitle}
+            </p>
+            <p className="mt-0.5 text-caption text-content-muted">
+              {t(failureCopy.messageKey)}
+            </p>
+            {failureCopy.remediationKey ? (
+              <p className="mt-0.5 text-caption text-content-muted">
+                {t(failureCopy.remediationKey)}
+              </p>
+            ) : null}
+            {failure ? (
+              <p className="mt-0.5 text-caption text-content-muted">
+                {t("extensions.card.retryHint")}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+    </ListGroupRow>
   );
 }

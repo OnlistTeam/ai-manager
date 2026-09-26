@@ -368,6 +368,35 @@ function galleryMcp(scope: GalleryScope): Extension[] {
   ];
 }
 
+function galleryPrompts(scope: GalleryScope): Extension[] {
+  return [
+    galleryExtension(
+      scope,
+      "prompt",
+      "house-style",
+      "House style",
+      "Answer in plain language and keep changes small.",
+      ["claude-code", "codex"],
+    ),
+    galleryExtension(
+      scope,
+      "prompt",
+      "review-mode",
+      "Review mode",
+      "Read first, list findings, then propose the smallest fix.",
+      [],
+    ),
+    galleryExtension(
+      scope,
+      "prompt",
+      "release-checklist",
+      "Release checklist",
+      null,
+      [],
+    ),
+  ];
+}
+
 function seedExtensionLists(client: QueryClient): void {
   const scopes: GalleryScope[] = [
     ...GALLERY_TOOLS.map((tool) => ({ kind: "tool" as const, id: tool.id })),
@@ -379,6 +408,10 @@ function seedExtensionLists(client: QueryClient): void {
       client.setQueryData(
         extensionKeys.list(key, "skill"),
         gallerySkills(scope),
+      );
+      client.setQueryData(
+        extensionKeys.list(key, "prompt"),
+        galleryPrompts(scope),
       );
     }
     client.setQueryData(extensionKeys.list(key, "mcp"), galleryMcp(scope));
