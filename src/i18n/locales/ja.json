@@ -1362,7 +1362,7 @@
       "actions": {
         "tools": "ソフトウェア管理を開く",
         "services": "API エンドポイントを開く",
-        "extensions": "スキルを開く"
+        "mcp": "MCP を開く"
       }
     },
     "health": {
@@ -2537,7 +2537,7 @@
           "reviewTool": "ソフトウェア管理を開く",
           "connectService": "エンドポイントを接続",
           "reviewService": "API エンドポイントを確認",
-          "reviewExtensions": "MCP を開く"
+          "reviewMcp": "MCP を開く"
         }
       },
       "item": {

@@ -28,7 +28,7 @@ export interface QuickCheckResolutionGuideProps {
   tools: readonly Tool[];
   onOpenTools?: () => void;
   onOpenServices?: (toolId?: ToolId) => void;
-  onOpenExtensions?: () => void;
+  onOpenMcp?: () => void;
 }
 
 function isDirect(
@@ -57,7 +57,7 @@ const RESOLUTION_PRIORITY: Record<QuickCheckResolution, number> = {
   connectService: 2,
   reviewService: 3,
   updateTool: 4,
-  reviewExtensions: 5,
+  reviewMcp: 5,
 };
 
 const SEVERITY: Record<QuickCheckItem["status"], number> = {
@@ -87,7 +87,7 @@ export function QuickCheckResolutionGuide({
   tools,
   onOpenTools,
   onOpenServices,
-  onOpenExtensions,
+  onOpenMcp,
 }: QuickCheckResolutionGuideProps) {
   const { t } = useTranslation();
   const guideRef = useRef<HTMLDivElement>(null);
@@ -160,8 +160,8 @@ export function QuickCheckResolutionGuide({
           case "reviewService":
             onOpenServices?.(item.toolId ?? undefined);
             return;
-          case "reviewExtensions":
-            onOpenExtensions?.();
+          case "reviewMcp":
+            onOpenMcp?.();
             return;
           case "reviewTool":
           case "updateTool":

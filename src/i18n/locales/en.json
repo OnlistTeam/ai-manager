@@ -1363,7 +1363,7 @@
       "actions": {
         "tools": "Open Software",
         "services": "Open API Endpoints",
-        "extensions": "Open Skills"
+        "mcp": "Open MCP"
       }
     },
     "health": {
@@ -2538,7 +2538,7 @@
           "reviewTool": "Open Software",
           "connectService": "Connect an endpoint",
           "reviewService": "Review API Endpoints",
-          "reviewExtensions": "Open MCP"
+          "reviewMcp": "Open MCP"
         }
       },
       "item": {

@@ -5,7 +5,7 @@ import type {
   QuickCheckSummary,
 } from "@/features/health";
 
-export type HomeDestination = "tools" | "services" | "extensions";
+export type HomeDestination = "tools" | "services" | "mcp";
 
 export interface HomeRecommendation {
   item: QuickCheckItem;
@@ -14,7 +14,7 @@ export interface HomeRecommendation {
   actionKey:
     | "home.card.actions.tools"
     | "home.card.actions.services"
-    | "home.card.actions.extensions";
+    | "home.card.actions.mcp";
 }
 
 const DESTINATION: Record<QuickCheckItemKind, HomeDestination> = {
@@ -22,13 +22,13 @@ const DESTINATION: Record<QuickCheckItemKind, HomeDestination> = {
   provider: "services",
   connectivity: "services",
   config: "services",
-  mcp: "extensions",
+  mcp: "mcp",
 };
 
 const ACTION_KEY: Record<HomeDestination, HomeRecommendation["actionKey"]> = {
   tools: "home.card.actions.tools",
   services: "home.card.actions.services",
-  extensions: "home.card.actions.extensions",
+  mcp: "home.card.actions.mcp",
 };
 
 /**

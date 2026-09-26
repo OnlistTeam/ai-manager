@@ -1363,7 +1363,7 @@
       "actions": {
         "tools": "Buka Perangkat Lunak",
         "services": "Buka Endpoint API",
-        "extensions": "Buka Skill"
+        "mcp": "Buka MCP"
       }
     },
     "health": {
@@ -2538,7 +2538,7 @@
           "reviewTool": "Buka Perangkat Lunak",
           "connectService": "Hubungkan endpoint",
           "reviewService": "Tinjau Endpoint API",
-          "reviewExtensions": "Buka MCP"
+          "reviewMcp": "Buka MCP"
         }
       },
       "item": {

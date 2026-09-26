@@ -26,6 +26,12 @@ describe("task-specific route handoffs", () => {
     );
     expect(navigate).toHaveBeenLastCalledWith("mcp");
   });
+  it("opens MCP without a scope, as the Home MCP check does", () => {
+    const navigate = vi.fn();
+    const { result } = renderHook(() => useRouteIntents(navigate));
+    act(() => result.current.openExtensions(undefined, "mcp"));
+    expect(navigate).toHaveBeenLastCalledWith("mcp");
+  });
   it("keeps skill handoffs in the stable extensions route", () => {
     const navigate = vi.fn();
     const { result } = renderHook(() => useRouteIntents(navigate));

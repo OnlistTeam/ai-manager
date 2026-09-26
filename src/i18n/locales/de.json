@@ -1363,7 +1363,7 @@
       "actions": {
         "tools": "Software öffnen",
         "services": "API-Endpunkte öffnen",
-        "extensions": "Skills öffnen"
+        "mcp": "MCP öffnen"
       }
     },
     "health": {
@@ -2538,7 +2538,7 @@
           "reviewTool": "Software öffnen",
           "connectService": "Einen Endpunkt verbinden",
           "reviewService": "API-Endpunkte prüfen",
-          "reviewExtensions": "MCP öffnen"
+          "reviewMcp": "MCP öffnen"
         }
       },
       "item": {

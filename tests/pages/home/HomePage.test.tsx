@@ -121,7 +121,7 @@ function healthySnapshot(tools: unknown[]) {
 function mount(
   tools: unknown[],
   onOpenTools = vi.fn(),
-  onOpenExtensions = vi.fn(),
+  onOpenMcp = vi.fn(),
   snapshot = healthySnapshot(tools),
   onOpenServices = vi.fn(),
   operations: unknown[] = [],
@@ -141,7 +141,7 @@ function mount(
     <HomePage
       onOpenTools={onOpenTools}
       onOpenServices={onOpenServices}
-      onOpenExtensions={onOpenExtensions}
+      onOpenMcp={onOpenMcp}
     />,
     {
       wrapper: withQueryClient(createTestQueryClient()),
@@ -309,7 +309,7 @@ describe("HomePage", () => {
       <HomePage
         onOpenTools={vi.fn()}
         onOpenServices={vi.fn()}
-        onOpenExtensions={vi.fn()}
+        onOpenMcp={vi.fn()}
       />,
       { wrapper: withQueryClient(client) },
     );
@@ -393,7 +393,7 @@ describe("HomePage", () => {
       <HomePage
         onOpenTools={vi.fn()}
         onOpenServices={vi.fn()}
-        onOpenExtensions={vi.fn()}
+        onOpenMcp={vi.fn()}
       />,
       { wrapper: withQueryClient(client) },
     );
@@ -473,7 +473,7 @@ describe("HomePage", () => {
       <HomePage
         onOpenTools={vi.fn()}
         onOpenServices={vi.fn()}
-        onOpenExtensions={vi.fn()}
+        onOpenMcp={vi.fn()}
       />,
       { wrapper: withQueryClient(client) },
     );
@@ -584,11 +584,11 @@ describe("HomePage", () => {
    */
   it("offers to connect a service without calling it a problem", async () => {
     const onOpenServices = vi.fn();
-    const onOpenExtensions = vi.fn();
+    const onOpenMcp = vi.fn();
     mount(
       [tool()],
       vi.fn(),
-      onOpenExtensions,
+      onOpenMcp,
       {
         providers: [
           {
@@ -618,7 +618,7 @@ describe("HomePage", () => {
       }),
     );
     expect(onOpenServices).toHaveBeenCalledWith("claude-code");
-    expect(onOpenExtensions).not.toHaveBeenCalled();
+    expect(onOpenMcp).not.toHaveBeenCalled();
   });
 
   it("says nothing is installed rather than claiming zero items need attention", async () => {
@@ -667,7 +667,7 @@ describe("HomePage", () => {
       <HomePage
         onOpenTools={vi.fn()}
         onOpenServices={vi.fn()}
-        onOpenExtensions={vi.fn()}
+        onOpenMcp={vi.fn()}
       />,
       { wrapper: withQueryClient(client) },
     );
@@ -1113,7 +1113,7 @@ describe("HomePage", () => {
       <HomePage
         onOpenTools={vi.fn()}
         onOpenServices={vi.fn()}
-        onOpenExtensions={vi.fn()}
+        onOpenMcp={vi.fn()}
       />,
       { wrapper: withQueryClient(createTestQueryClient()) },
     );
@@ -1178,7 +1178,7 @@ describe("HomePage", () => {
       <HomePage
         onOpenTools={vi.fn()}
         onOpenServices={vi.fn()}
-        onOpenExtensions={vi.fn()}
+        onOpenMcp={vi.fn()}
       />,
       { wrapper: withQueryClient(createTestQueryClient()) },
     );
@@ -1359,7 +1359,7 @@ describe("HomePage", () => {
       <HomePage
         onOpenTools={vi.fn()}
         onOpenServices={vi.fn()}
-        onOpenExtensions={vi.fn()}
+        onOpenMcp={vi.fn()}
       />,
       { wrapper: withQueryClient(createTestQueryClient()) },
     );
@@ -1471,7 +1471,7 @@ describe("HomePage", () => {
       <HomePage
         onOpenTools={vi.fn()}
         onOpenServices={vi.fn()}
-        onOpenExtensions={vi.fn()}
+        onOpenMcp={vi.fn()}
       />,
       { wrapper: withQueryClient(createTestQueryClient()) },
     );

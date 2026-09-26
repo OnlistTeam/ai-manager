@@ -1362,7 +1362,7 @@
       "actions": {
         "tools": "打開軟體管理",
         "services": "打開 API 端點",
-        "extensions": "打開技能"
+        "mcp": "打開 MCP"
       }
     },
     "health": {
@@ -2537,7 +2537,7 @@
           "reviewTool": "打開軟體管理",
           "connectService": "連接端點",
           "reviewService": "查看 API 端點",
-          "reviewExtensions": "打開 MCP"
+          "reviewMcp": "打開 MCP"
         }
       },
       "item": {

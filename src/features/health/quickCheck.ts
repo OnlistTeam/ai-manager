@@ -23,7 +23,7 @@ export type QuickCheckResolution =
   | "reviewTool"
   | "connectService"
   | "reviewService"
-  | "reviewExtensions";
+  | "reviewMcp";
 
 export interface QuickCheckItem {
   id: string;
@@ -256,7 +256,7 @@ export function aggregateQuickCheck(
       descriptionKey:
         "preferences.check.item.mcpInventoryUnavailable.description",
       values: {},
-      resolution: "reviewExtensions",
+      resolution: "reviewMcp",
     });
   } else if (localExtensions !== undefined) {
     const unavailableMcpScopes = localExtensions.scopes.filter(
@@ -275,7 +275,7 @@ export function aggregateQuickCheck(
         descriptionKey:
           "preferences.check.item.mcpInventoryPartial.description",
         values: { count: unavailableMcpScopes },
-        resolution: "reviewExtensions",
+        resolution: "reviewMcp",
       });
     }
   }

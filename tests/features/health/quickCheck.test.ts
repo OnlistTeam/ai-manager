@@ -274,7 +274,7 @@ describe("aggregateQuickCheck", () => {
     );
 
     expect(
-      result.items.find((item) => item.resolution === "reviewExtensions"),
+      result.items.find((item) => item.resolution === "reviewMcp"),
     ).toMatchObject({ kind: "mcp", status: "attention", toolId: null });
     expect(result.status).toBe("attention");
   });

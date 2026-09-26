@@ -1375,7 +1375,7 @@
       "actions": {
         "tools": "Открыть «Программы»",
         "services": "Открыть «Конечные точки API»",
-        "extensions": "Открыть «Навыки»"
+        "mcp": "Открыть «MCP»"
       }
     },
     "health": {
@@ -2580,7 +2580,7 @@
           "reviewTool": "Открыть «Программы»",
           "connectService": "Подключить конечную точку",
           "reviewService": "Просмотреть конечные точки API",
-          "reviewExtensions": "Открыть «MCP»"
+          "reviewMcp": "Открыть «MCP»"
         }
       },
       "item": {

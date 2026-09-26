@@ -1363,7 +1363,7 @@
       "actions": {
         "tools": "소프트웨어 열기",
         "services": "API 엔드포인트 열기",
-        "extensions": "스킬 열기"
+        "mcp": "MCP 열기"
       }
     },
     "health": {
@@ -2538,7 +2538,7 @@
           "reviewTool": "소프트웨어 열기",
           "connectService": "엔드포인트 연결",
           "reviewService": "API 엔드포인트 검토",
-          "reviewExtensions": "MCP 열기"
+          "reviewMcp": "MCP 열기"
         }
       },
       "item": {

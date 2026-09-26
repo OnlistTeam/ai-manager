@@ -1363,7 +1363,7 @@
       "actions": {
         "tools": "Ouvrir Logiciels",
         "services": "Ouvrir les points d'accès API",
-        "extensions": "Ouvrir Compétences"
+        "mcp": "Ouvrir MCP"
       }
     },
     "health": {
@@ -2538,7 +2538,7 @@
           "reviewTool": "Ouvrir Logiciels",
           "connectService": "Connecter un point d'accès",
           "reviewService": "Vérifier Points d'accès API",
-          "reviewExtensions": "Ouvrir MCP"
+          "reviewMcp": "Ouvrir MCP"
         }
       },
       "item": {

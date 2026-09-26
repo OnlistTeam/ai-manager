@@ -35,13 +35,13 @@ import { useHomeUpdateAll } from "./useHomeUpdateAll";
 export interface HomePageProps {
   onOpenTools: () => void;
   onOpenServices: (toolId?: ToolId) => void;
-  onOpenExtensions: () => void;
+  onOpenMcp: () => void;
 }
 
 export function HomePage({
   onOpenTools,
   onOpenServices,
-  onOpenExtensions,
+  onOpenMcp,
 }: HomePageProps) {
   const { t } = useTranslation();
   const {
@@ -119,7 +119,7 @@ export function HomePage({
   const destinations: Record<HomeDestination, () => void> = {
     tools: () => onOpenTools(),
     services: () => onOpenServices(),
-    extensions: () => onOpenExtensions(),
+    mcp: () => onOpenMcp(),
   };
 
   return (
@@ -185,7 +185,7 @@ export function HomePage({
             tools={list}
             onOpenTools={onOpenTools}
             onOpenServices={onOpenServices}
-            onOpenExtensions={onOpenExtensions}
+            onOpenMcp={onOpenMcp}
           />
         </Card>
       ) : null}

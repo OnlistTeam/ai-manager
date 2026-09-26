@@ -118,8 +118,8 @@ describe("recommendHomeAction", () => {
     expect(
       recommendHomeAction(summary([item("mcp", "mcp", "attention")])),
     ).toMatchObject({
-      destination: "extensions",
-      actionKey: "home.card.actions.extensions",
+      destination: "mcp",
+      actionKey: "home.card.actions.mcp",
     });
   });
 });

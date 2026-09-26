@@ -1363,7 +1363,7 @@
       "actions": {
         "tools": "Mở Phần mềm",
         "services": "Mở API Endpoints",
-        "extensions": "Mở Skills"
+        "mcp": "Mở MCP"
       }
     },
     "health": {
@@ -2538,7 +2538,7 @@
           "reviewTool": "Mở Phần mềm",
           "connectService": "Kết nối một điểm cuối",
           "reviewService": "Xem lại API Endpoints",
-          "reviewExtensions": "Mở MCP"
+          "reviewMcp": "Mở MCP"
         }
       },
       "item": {

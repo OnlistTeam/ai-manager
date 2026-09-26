@@ -67,7 +67,7 @@ function mount(tools: readonly Tool[], health: HealthSnapshot) {
     tools,
     onOpenTools: vi.fn(),
     onOpenServices: vi.fn(),
-    onOpenExtensions: vi.fn(),
+    onOpenMcp: vi.fn(),
   };
   render(<QuickCheckResolutionGuide {...props} />, {
     wrapper: withQueryClient(createTestQueryClient()),

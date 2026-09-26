@@ -25,7 +25,7 @@ describe("home guidance locale contract", () => {
     expect(messages.home.card.actions).toEqual({
       tools: expect.any(String),
       services: expect.any(String),
-      extensions: expect.any(String),
+      mcp: expect.any(String),
     });
     expect(Object.values(messages.home.card.actions)).not.toContain("");
   });

@@ -1363,7 +1363,7 @@
       "actions": {
         "tools": "Apri Software",
         "services": "Apri Endpoint API",
-        "extensions": "Apri Competenze"
+        "mcp": "Apri MCP"
       }
     },
     "health": {
@@ -2538,7 +2538,7 @@
           "reviewTool": "Apri Software",
           "connectService": "Connetti un endpoint",
           "reviewService": "Controlla Endpoint API",
-          "reviewExtensions": "Apri MCP"
+          "reviewMcp": "Apri MCP"
         }
       },
       "item": {

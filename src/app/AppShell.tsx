@@ -126,7 +126,7 @@ export function AppShell() {
         <HomePage
           onOpenTools={() => openRoute("tools")}
           onOpenServices={openServices}
-          onOpenExtensions={() => openExtensions()}
+          onOpenMcp={() => openExtensions(undefined, "mcp")}
         />
       ),
       tools: () => (
