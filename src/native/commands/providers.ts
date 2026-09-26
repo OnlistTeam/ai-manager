@@ -192,6 +192,17 @@ export const providers = {
     });
   },
 
+  /**
+   * Saves the user's order of one tool's services. The list must name exactly
+   * the services on screen; the backend refuses a stale one.
+   */
+  reorder(tool: ToolId, providerIds: readonly string[]): Promise<Provider[]> {
+    return invokeNative("app_providers_reorder", providerListSchema, {
+      tool,
+      providers: z.array(z.string().min(1)).max(500).parse(providerIds),
+    });
+  },
+
   /** Probing takes up to 16 seconds worst case (the backend pins this bound with a test); callers can just render a normal pending state. */
   test(tool: ToolId, provider: string): Promise<ProviderTestResult> {
     return invokeNative("app_provider_test", providerTestResultSchema, {

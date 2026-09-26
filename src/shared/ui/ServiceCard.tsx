@@ -34,6 +34,8 @@ export interface ServiceCardProps {
   detail?: React.ReactNode;
   /** Extra controls after the primary button, e.g. Check and Edit. */
   actions?: React.ReactNode;
+  /** Optional control at the header's trailing edge, e.g. a reorder handle. */
+  dragHandle?: React.ReactNode;
   /** Removes repeated relationship copy for dense endpoint inventories. */
   compact?: boolean;
   onUse?: () => void;
@@ -112,6 +114,7 @@ export function ServiceCard({
   meta,
   detail,
   actions,
+  dragHandle,
   compact = false,
   onUse,
   onConnect,
@@ -223,6 +226,7 @@ export function ServiceCard({
             <div className={compact ? "mt-3" : "mt-4"}>{detail}</div>
           ) : null}
         </div>
+        {dragHandle}
       </div>
       {showFooter ? (
         <div

@@ -657,7 +657,8 @@
       "storeUnavailable": "The app is still starting up.",
       "switchFailed": "Could not switch to this service.",
       "testFailed": "The check could not run.",
-      "unsupportedTool": "AI Manager has not integrated AI services for this tool."
+      "unsupportedTool": "AI Manager has not integrated AI services for this tool.",
+      "reorderFailed": "Could not save the new order. The list is back as it was; try moving the service again."
     },
     "remediation": {
       "chooseAnotherService": "Choose another service for this tool, then try again.",
@@ -1904,6 +1905,15 @@
       "saved": "Saved.",
       "title": "Edit {{variable}}",
       "value": "Value"
+    },
+    "reorder": {
+      "handle": "Reorder {{name}}",
+      "roleDescription": "movable service",
+      "instructions": "To move this service, press Space or Enter, move it with the Up and Down arrow keys, then press Space or Enter again to put it down. Press Escape to cancel.",
+      "picked": "Picked up {{name}}, position {{position}} of {{count}}.",
+      "moved": "{{name}} is now at position {{position}} of {{count}}.",
+      "dropped": "{{name}} put down at position {{position}} of {{count}}.",
+      "cancelled": "Move cancelled. {{name}} stays at position {{position}} of {{count}}."
     }
   },
   "extensions": {

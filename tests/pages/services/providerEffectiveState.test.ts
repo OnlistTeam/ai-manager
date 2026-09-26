@@ -3,7 +3,6 @@ import type { EffectiveConnection, Provider } from "@/entities/provider";
 import {
   overrideSourceFor,
   providerEffectiveState,
-  sortByEffectiveState,
 } from "@/pages/services/providerEffectiveState";
 
 function provider(id: string, active: boolean): Provider {
@@ -66,12 +65,9 @@ describe("providerEffectiveState", () => {
       expect(providerEffectiveState(provider("relay", false), connection)).toBe(
         selection,
       );
-      expect(
-        sortByEffectiveState(
-          [provider("other", false), provider("relay", false)],
-          connection,
-        )[0]?.id,
-      ).toBe("relay");
+      expect(providerEffectiveState(provider("other", false), connection)).toBe(
+        "saved",
+      );
     },
   );
 
@@ -101,21 +97,5 @@ describe("providerEffectiveState", () => {
         credentialSource: { kind: "toolDefault" },
       }),
     ).toBeNull();
-  });
-
-  it("orders in-use first, then overridden, then the rest", () => {
-    const matched: EffectiveConnection = {
-      ...shellOverride,
-      providerId: "relay",
-    };
-    const sorted = sortByEffectiveState(
-      [
-        provider("a", false),
-        provider("official", true),
-        provider("relay", false),
-      ],
-      matched,
-    );
-    expect(sorted.map((item) => item.id)).toEqual(["relay", "official", "a"]);
   });
 });

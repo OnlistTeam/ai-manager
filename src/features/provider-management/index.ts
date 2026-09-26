@@ -47,6 +47,8 @@ export type {
   ProviderLaunchPreflightVariables,
 } from "./useProviderPreflight";
 export { useRemoveProvider } from "./useProviderRemoval";
+export { orderProviders, useReorderProviders } from "./useProviderReorder";
+export type { ReorderProvidersVariables } from "./useProviderReorder";
 export type { RemoveProviderVariables } from "./useProviderRemoval";
 export type {
   CreateProviderVariables,

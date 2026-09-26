@@ -296,7 +296,7 @@ describe("ServicesPage", () => {
     expect(screen.getByText(en.services.card.recentModel)).toBeInTheDocument();
   });
 
-  it("puts the card actually in effect first and marks the DB selection overridden", async () => {
+  it("keeps the saved order and marks the card in effect and the overridden DB selection by badge", async () => {
     const relayA = service({
       id: "relay-a",
       name: "Relay A",
@@ -351,9 +351,10 @@ describe("ServicesPage", () => {
       ),
     ).toBeInTheDocument();
 
+    // Position is the user's saved order, not the state: the badges say which is which.
     const cards = screen.getAllByRole("article");
-    expect(cards[0]).toBe(inUseCard);
-    expect(cards[1]).toBe(overriddenCard);
+    expect(cards[0]).toBe(overriddenCard);
+    expect(cards[1]).toBe(inUseCard);
     // liveConfig is the same config these cards already manage: the source note adds no new information, so don't repeat it.
     expect(
       within(inUseCard).queryByText("From ~/.claude/settings.json"),
@@ -1118,6 +1119,88 @@ describe("ServicesPage", () => {
     expect(
       await screen.findByText(en.services.card.unknown),
     ).toBeInTheDocument();
+  });
+
+  it("keeps every card in place when another service is put to use", async () => {
+    const relayA = service({
+      id: "relay-a",
+      name: "Relay A",
+      active: true,
+      canRemove: false,
+    });
+    const relayB = service({ id: "relay-b", name: "Relay B" });
+    let inEffect = "relay-a";
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_runtime_context`, () =>
+        HttpResponse.json({
+          tool: "claude-code",
+          liveConfigPaths: ["~/.claude/settings.json"],
+          resources: [],
+          storage: {
+            totalBytes: 0,
+            sessionBytes: 0,
+            sessionCount: 0,
+            measurementLimited: false,
+          },
+          effectiveConnection: {
+            endpoint: `https://${inEffect}.example.com`,
+            endpointSource: {
+              kind: "liveConfig",
+              path: "~/.claude/settings.json",
+            },
+            credential: "configured",
+            credentialSource: {
+              kind: "liveConfig",
+              path: "~/.claude/settings.json",
+            },
+            providerId: inEffect,
+            shellInspected: true,
+          },
+        }),
+      ),
+      http.post(`${TAURI_ENDPOINT}/app_provider_activation_prepare`, () => {
+        inEffect = "relay-b";
+        return HttpResponse.json({
+          status: "notChecked",
+          originProviderId: "relay-b",
+          activeProviderId: "relay-b",
+          providers: [
+            { ...relayA, active: false, canRemove: true },
+            { ...relayB, active: true, canRemove: false },
+          ],
+          checks: [],
+        });
+      }),
+    );
+    mount([relayA, relayB]);
+    const names = () =>
+      screen
+        .getAllByRole("article")
+        .map((card) => card.getAttribute("aria-labelledby"))
+        .map((id) => document.getElementById(id ?? "")?.textContent);
+    await waitFor(() =>
+      expect(
+        within(screen.getByRole("article", { name: "Relay A" })).getByText(
+          en.services.card.inUse,
+        ),
+      ).toBeInTheDocument(),
+    );
+    expect(names()).toEqual(["Relay A", "Relay B"]);
+
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: en.services.action.useNamed.replace("{{name}}", "Relay B"),
+      }),
+    );
+
+    await waitFor(() =>
+      expect(
+        within(screen.getByRole("article", { name: "Relay B" })).getByText(
+          en.services.card.inUse,
+        ),
+      ).toBeInTheDocument(),
+    );
+    expect(names()).toEqual(["Relay A", "Relay B"]);
   });
 
   it("tells the user to reopen the tool after a successful switch and offers to open it", async () => {

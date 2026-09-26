@@ -183,6 +183,15 @@ impl ProviderDirectory {
         gate(app_handle, tool)?.remove(tool, id)
     }
 
+    /// Saves the user's order of one tool's services; switching never changes it.
+    pub fn reorder(
+        app_handle: &tauri::AppHandle,
+        tool: ToolId,
+        ordered: &[String],
+    ) -> Result<Vec<Provider>, AppError> {
+        gate(app_handle, tool)?.reorder(tool, ordered)
+    }
+
     pub async fn test(
         app_handle: &tauri::AppHandle,
         tool: ToolId,

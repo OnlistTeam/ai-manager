@@ -331,8 +331,8 @@ command plus three shell commands (`get_init_error`, `open_app_config_folder`, `
 
 Each service is a use case with an explicit capability gate: `ToolLifecycleService` (preview
 validation, per-tool lock, operation registration, post-action detect and verify, version-event
-append), `ProviderDirectory` (list, create from a reviewed preset, custom create, save, switch,
-remove, test), `ExtensionDirectory`, `ProductSettingsService`, `BackupDirectory`,
+append), `ProviderDirectory` (list in the user's saved order, reorder, create from a reviewed preset,
+custom create, save, switch, remove, test), `ExtensionDirectory`, `ProductSettingsService`, `BackupDirectory`,
 `HealthCheckService`, `AppUpdateManager`, `SessionDirectory`, `RoutingControl`, and so on. Services
 depend on ports (traits) and facade types, never on inherited types.
 

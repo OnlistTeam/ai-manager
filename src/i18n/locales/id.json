@@ -657,7 +657,8 @@
       "storeUnavailable": "Aplikasi masih dalam proses memulai.",
       "switchFailed": "Tidak dapat beralih ke layanan ini.",
       "testFailed": "Pemeriksaan tidak dapat dijalankan.",
-      "unsupportedTool": "AI Manager belum mengintegrasikan layanan AI untuk alat ini."
+      "unsupportedTool": "AI Manager belum mengintegrasikan layanan AI untuk alat ini.",
+      "reorderFailed": "Urutan baru tidak dapat disimpan. Daftar sudah kembali seperti semula; coba pindahkan layanan itu lagi."
     },
     "remediation": {
       "chooseAnotherService": "Pilih layanan lain untuk alat ini, lalu coba lagi.",
@@ -1904,6 +1905,15 @@
       "saved": "Tersimpan.",
       "title": "Edit {{variable}}",
       "value": "Nilai"
+    },
+    "reorder": {
+      "handle": "Ubah posisi {{name}}",
+      "roleDescription": "layanan yang dapat dipindahkan",
+      "instructions": "Untuk memindahkan layanan ini, tekan Spasi atau Enter, pindahkan dengan tombol panah atas dan bawah, lalu tekan Spasi atau Enter lagi untuk meletakkannya. Tekan Esc untuk membatalkan.",
+      "picked": "{{name}} diambil, posisi {{position}} dari {{count}}.",
+      "moved": "{{name}} sekarang di posisi {{position}} dari {{count}}.",
+      "dropped": "{{name}} diletakkan di posisi {{position}} dari {{count}}.",
+      "cancelled": "Pemindahan dibatalkan. {{name}} tetap di posisi {{position}} dari {{count}}."
     }
   },
   "extensions": {

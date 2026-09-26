@@ -657,7 +657,8 @@
       "storeUnavailable": "應用程式還在啟動中。",
       "switchFailed": "沒能切換到這個服務。",
       "testFailed": "這次檢查沒能跑起來。",
-      "unsupportedTool": "AI 管家尚未接入這個工具的 AI 服務。"
+      "unsupportedTool": "AI 管家尚未接入這個工具的 AI 服務。",
+      "reorderFailed": "沒能儲存新的順序，列表已恢復原樣，請再拖一次試試。"
     },
     "remediation": {
       "chooseAnotherService": "先為這個工具選擇另一個服務，然後再試一次。",
@@ -1903,6 +1904,15 @@
       "saved": "已儲存。",
       "title": "編輯 {{variable}}",
       "value": "值"
+    },
+    "reorder": {
+      "handle": "調整 {{name}} 的位置",
+      "roleDescription": "可移動的服務",
+      "instructions": "要移動這個服務，請按空白鍵或 Enter 拿起，用上下方向鍵移動，再按空白鍵或 Enter 放下。按 Esc 取消。",
+      "picked": "已拿起 {{name}}，目前在第 {{position}} 位，共 {{count}} 個。",
+      "moved": "{{name}} 現在在第 {{position}} 位，共 {{count}} 個。",
+      "dropped": "{{name}} 已放在第 {{position}} 位，共 {{count}} 個。",
+      "cancelled": "已取消移動，{{name}} 仍在第 {{position}} 位，共 {{count}} 個。"
     }
   },
   "extensions": {

@@ -1149,6 +1149,7 @@ pub fn run() {
             commands::app_provider_switch,
             commands::app_provider_save,
             commands::app_provider_remove,
+            commands::app_providers_reorder,
             commands::app_provider_test,
             commands::app_provider_test_all,
             commands::app_provider_endpoints_test,

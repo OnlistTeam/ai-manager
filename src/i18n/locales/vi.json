@@ -657,7 +657,8 @@
       "storeUnavailable": "Ứng dụng vẫn đang khởi động.",
       "switchFailed": "Không thể chuyển sang dịch vụ này.",
       "testFailed": "Không thể chạy kiểm tra.",
-      "unsupportedTool": "AI Manager chưa tích hợp dịch vụ AI cho công cụ này."
+      "unsupportedTool": "AI Manager chưa tích hợp dịch vụ AI cho công cụ này.",
+      "reorderFailed": "Không lưu được thứ tự mới. Danh sách đã trở lại như cũ; hãy thử di chuyển dịch vụ lần nữa."
     },
     "remediation": {
       "chooseAnotherService": "Chọn một dịch vụ khác cho công cụ này, rồi thử lại.",
@@ -1904,6 +1905,15 @@
       "saved": "Đã lưu.",
       "title": "Sửa {{variable}}",
       "value": "Giá trị"
+    },
+    "reorder": {
+      "handle": "Đổi vị trí của {{name}}",
+      "roleDescription": "dịch vụ có thể di chuyển",
+      "instructions": "Để di chuyển dịch vụ này, nhấn Space hoặc Enter, dùng phím mũi tên lên và xuống để di chuyển, rồi nhấn Space hoặc Enter lần nữa để thả. Nhấn Esc để hủy.",
+      "picked": "Đã chọn {{name}}, vị trí {{position}} trên {{count}}.",
+      "moved": "{{name}} hiện ở vị trí {{position}} trên {{count}}.",
+      "dropped": "Đã thả {{name}} ở vị trí {{position}} trên {{count}}.",
+      "cancelled": "Đã hủy di chuyển. {{name}} vẫn ở vị trí {{position}} trên {{count}}."
     }
   },
   "extensions": {

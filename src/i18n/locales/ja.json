@@ -657,7 +657,8 @@
       "storeUnavailable": "アプリはまだ起動中です。",
       "switchFailed": "このサービスに切り替えられませんでした。",
       "testFailed": "確認を実行できませんでした。",
-      "unsupportedTool": "AI Manager はこのツールの AI サービスと未連携です。"
+      "unsupportedTool": "AI Manager はこのツールの AI サービスと未連携です。",
+      "reorderFailed": "新しい並び順を保存できませんでした。一覧は元に戻っています。もう一度動かしてください。"
     },
     "remediation": {
       "chooseAnotherService": "このツールで別のサービスを選び、もう一度お試しください。",
@@ -1903,6 +1904,15 @@
       "saved": "保存しました。",
       "title": "{{variable}} を編集",
       "value": "値"
+    },
+    "reorder": {
+      "handle": "{{name}}の位置を変更",
+      "roleDescription": "移動できるサービス",
+      "instructions": "このサービスを動かすには、Space キーか Enter キーで持ち上げ、上下の矢印キーで移動し、もう一度 Space キーか Enter キーで置きます。Esc キーで取り消します。",
+      "picked": "{{name}}を持ち上げました。{{count}} 件中 {{position}} 番目です。",
+      "moved": "{{name}}は {{count}} 件中 {{position}} 番目になりました。",
+      "dropped": "{{name}}を {{count}} 件中 {{position}} 番目に置きました。",
+      "cancelled": "移動を取り消しました。{{name}}は {{count}} 件中 {{position}} 番目のままです。"
     }
   },
   "extensions": {

@@ -657,7 +657,8 @@
       "storeUnavailable": "O aplicativo ainda está iniciando.",
       "switchFailed": "Não foi possível trocar para este serviço.",
       "testFailed": "Não foi possível executar a verificação.",
-      "unsupportedTool": "O AI Manager ainda não integrou serviços de IA para esta ferramenta."
+      "unsupportedTool": "O AI Manager ainda não integrou serviços de IA para esta ferramenta.",
+      "reorderFailed": "Não foi possível salvar a nova ordem. A lista voltou ao que era; tente mover o serviço de novo."
     },
     "remediation": {
       "chooseAnotherService": "Escolha outro serviço para esta ferramenta e tente novamente.",
@@ -1904,6 +1905,15 @@
       "saved": "Salvo.",
       "title": "Editar {{variable}}",
       "value": "Valor"
+    },
+    "reorder": {
+      "handle": "Mudar a posição de {{name}}",
+      "roleDescription": "serviço móvel",
+      "instructions": "Para mover este serviço, pressione Espaço ou Enter, mova-o com as setas para cima e para baixo e pressione Espaço ou Enter de novo para soltá-lo. Pressione Esc para cancelar.",
+      "picked": "{{name}} selecionado, posição {{position}} de {{count}}.",
+      "moved": "{{name}} agora está na posição {{position}} de {{count}}.",
+      "dropped": "{{name}} solto na posição {{position}} de {{count}}.",
+      "cancelled": "Movimento cancelado. {{name}} continua na posição {{position}} de {{count}}."
     }
   },
   "extensions": {

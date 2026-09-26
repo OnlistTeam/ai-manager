@@ -657,7 +657,8 @@
       "storeUnavailable": "L'app si sta ancora avviando.",
       "switchFailed": "Impossibile passare a questo servizio.",
       "testFailed": "Non è stato possibile eseguire il controllo.",
-      "unsupportedTool": "AI Manager non ha integrato i servizi AI per questo strumento."
+      "unsupportedTool": "AI Manager non ha integrato i servizi AI per questo strumento.",
+      "reorderFailed": "Impossibile salvare il nuovo ordine. L'elenco è tornato com'era; prova a spostare di nuovo il servizio."
     },
     "remediation": {
       "chooseAnotherService": "Scegli un altro servizio per questo strumento, poi riprova.",
@@ -1904,6 +1905,15 @@
       "saved": "Salvato.",
       "title": "Modifica {{variable}}",
       "value": "Valore"
+    },
+    "reorder": {
+      "handle": "Sposta {{name}}",
+      "roleDescription": "servizio spostabile",
+      "instructions": "Per spostare questo servizio, premi Spazio o Invio, spostalo con le frecce su e giù, poi premi di nuovo Spazio o Invio per rilasciarlo. Premi Esc per annullare.",
+      "picked": "{{name}} selezionato, posizione {{position}} di {{count}}.",
+      "moved": "{{name}} ora è in posizione {{position}} di {{count}}.",
+      "dropped": "{{name}} rilasciato in posizione {{position}} di {{count}}.",
+      "cancelled": "Spostamento annullato. {{name}} resta in posizione {{position}} di {{count}}."
     }
   },
   "extensions": {

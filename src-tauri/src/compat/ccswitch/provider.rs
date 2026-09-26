@@ -29,6 +29,7 @@ mod create;
 pub mod deep_link;
 mod live_preservation;
 mod long_tail;
+mod ordering;
 mod presets;
 mod removal;
 mod saving;
@@ -552,6 +553,14 @@ impl ProviderStore {
         switching::switch(self, tool, id)
     }
 
+    /// Save the user's order of this tool's services and return the reordered
+    /// list. Only `sort_index` changes; the current selection and every live
+    /// file stay as they are.
+    pub fn reorder(&self, tool: ToolId, ordered: &[String]) -> Result<Vec<Provider>, AppError> {
+        let _mutation = self.lock_mutation();
+        ordering::reorder(self, tool, ordered)
+    }
+
     /// The lock guards `()` and only orders writers, so a poisoned lock is still
     /// a valid lock: recover it (as upstream `settings.rs` does) instead of
     /// failing every later provider write until the app restarts.
@@ -736,6 +745,10 @@ mod tests_save;
 #[cfg(test)]
 #[path = "provider/tests_switch.rs"]
 mod tests_switch;
+
+#[cfg(test)]
+#[path = "provider/tests_reorder.rs"]
+mod tests_reorder;
 
 #[cfg(test)]
 #[path = "provider/tests_live_preservation.rs"]

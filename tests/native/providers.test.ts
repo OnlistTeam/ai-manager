@@ -641,6 +641,24 @@ describe("native.providers", () => {
     expect(JSON.stringify(seen)).not.toContain("apiKey");
   });
 
+  it("saves a new order using only the tool and the ordered ids", async () => {
+    server.use(
+      http.post(
+        `${TAURI_ENDPOINT}/app_providers_reorder`,
+        async ({ request }) => {
+          seen.push(await request.json());
+          return HttpResponse.json([]);
+        },
+      ),
+    );
+
+    await native.providers.reorder("claude-code", ["beta", "alpha"]);
+
+    expect(seen).toEqual([
+      { tool: "claude-code", providers: ["beta", "alpha"] },
+    ]);
+  });
+
   it("reads a check result", async () => {
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_provider_test`, () =>

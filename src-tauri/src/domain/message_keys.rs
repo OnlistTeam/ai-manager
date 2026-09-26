@@ -184,6 +184,7 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.provider.removeRestoreFailed",
     "error.provider.removeUnsupported",
     "error.provider.removeVerifyFailed",
+    "error.provider.reorderFailed",
     "error.provider.runtimeContextFailed",
     "error.provider.runtimeResourceNotFound",
     "error.provider.runtimeResourceOpenFailed",
@@ -479,6 +480,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 329);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 330);
     }
 }

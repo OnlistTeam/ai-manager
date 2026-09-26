@@ -657,7 +657,8 @@
       "storeUnavailable": "Die App startet noch.",
       "switchFailed": "Es konnte nicht zu diesem Dienst gewechselt werden.",
       "testFailed": "Die Prüfung konnte nicht durchgeführt werden.",
-      "unsupportedTool": "AI Manager hat KI-Dienste für dieses Tool nicht integriert."
+      "unsupportedTool": "AI Manager hat KI-Dienste für dieses Tool nicht integriert.",
+      "reorderFailed": "Die neue Reihenfolge konnte nicht gespeichert werden. Die Liste ist wieder wie vorher; verschieben Sie den Dienst bitte erneut."
     },
     "remediation": {
       "chooseAnotherService": "Wählen Sie einen anderen Dienst für dieses Tool und versuchen Sie es erneut.",
@@ -1904,6 +1905,15 @@
       "saved": "Gespeichert.",
       "title": "{{variable}} bearbeiten",
       "value": "Wert"
+    },
+    "reorder": {
+      "handle": "{{name}} verschieben",
+      "roleDescription": "verschiebbarer Dienst",
+      "instructions": "Um diesen Dienst zu verschieben, drücken Sie die Leertaste oder die Eingabetaste, bewegen Sie ihn mit den Pfeiltasten nach oben oder unten und drücken Sie dann erneut die Leertaste oder die Eingabetaste, um ihn abzulegen. Mit Escape brechen Sie ab.",
+      "picked": "{{name}} aufgenommen, Position {{position}} von {{count}}.",
+      "moved": "{{name}} ist jetzt auf Position {{position}} von {{count}}.",
+      "dropped": "{{name}} auf Position {{position}} von {{count}} abgelegt.",
+      "cancelled": "Verschieben abgebrochen. {{name}} bleibt auf Position {{position}} von {{count}}."
     }
   },
   "extensions": {

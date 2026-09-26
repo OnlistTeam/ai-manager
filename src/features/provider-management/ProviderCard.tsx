@@ -54,6 +54,8 @@ export interface ProviderCardProps {
   credentialNote?: string | null;
   /** Opens the config file this tool actually reads; only the card that's currently in effect gets this. */
   configAction?: ReactNode;
+  /** The reorder handle, when the list can be reordered. */
+  dragHandle?: ReactNode;
   busy?: boolean;
   testing?: boolean;
   switching?: boolean;
@@ -136,6 +138,7 @@ export function ProviderCard({
   sourceNote = null,
   credentialNote = null,
   configAction = null,
+  dragHandle,
   busy = false,
   testing = false,
   switching = false,
@@ -212,6 +215,7 @@ export function ProviderCard({
       useActionState={useActionState}
       useAriaLabel={useAriaLabel}
       onUse={onUse}
+      dragHandle={dragHandle}
       compact
       className={
         switchError || testError ? "border-danger/30 shadow-sm" : undefined

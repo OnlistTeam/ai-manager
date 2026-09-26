@@ -400,6 +400,21 @@ pub async fn app_provider_remove(
 }
 
 #[tauri::command]
+pub async fn app_providers_reorder(
+    app_handle: tauri::AppHandle,
+    tool: String,
+    providers: Vec<String>,
+) -> Result<Vec<Provider>, AppError> {
+    let tool = parse_tool(&tool)?;
+    let worker_handle = app_handle.clone();
+    let result =
+        blocking(move || ProviderDirectory::reorder(&worker_handle, tool, &providers)).await?;
+    // The tray lists services in this order too.
+    crate::tray::provider_changed(&app_handle, tool);
+    Ok(result)
+}
+
+#[tauri::command]
 pub async fn app_provider_test(
     app_handle: tauri::AppHandle,
     tool: String,

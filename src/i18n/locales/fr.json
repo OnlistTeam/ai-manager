@@ -657,7 +657,8 @@
       "storeUnavailable": "L'application démarre encore.",
       "switchFailed": "Impossible de basculer vers ce service.",
       "testFailed": "La vérification n'a pas pu s'exécuter.",
-      "unsupportedTool": "AI Manager n'a pas encore intégré les services IA pour cet outil."
+      "unsupportedTool": "AI Manager n'a pas encore intégré les services IA pour cet outil.",
+      "reorderFailed": "Impossible d'enregistrer le nouvel ordre. La liste est revenue à son état précédent ; déplacez à nouveau le service."
     },
     "remediation": {
       "chooseAnotherService": "Choisissez un autre service pour cet outil, puis réessayez.",
@@ -1904,6 +1905,15 @@
       "saved": "Enregistré.",
       "title": "Modifier {{variable}}",
       "value": "Valeur"
+    },
+    "reorder": {
+      "handle": "Déplacer {{name}}",
+      "roleDescription": "service déplaçable",
+      "instructions": "Pour déplacer ce service, appuyez sur Espace ou Entrée, déplacez-le avec les flèches haut et bas, puis appuyez de nouveau sur Espace ou Entrée pour le déposer. Appuyez sur Échap pour annuler.",
+      "picked": "{{name}} saisi, position {{position}} sur {{count}}.",
+      "moved": "{{name}} est maintenant en position {{position}} sur {{count}}.",
+      "dropped": "{{name}} déposé en position {{position}} sur {{count}}.",
+      "cancelled": "Déplacement annulé. {{name}} reste en position {{position}} sur {{count}}."
     }
   },
   "extensions": {
