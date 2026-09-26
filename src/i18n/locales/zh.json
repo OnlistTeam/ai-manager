@@ -608,6 +608,10 @@
       "toolBusy": "这个工具已经有任务在跑了，等它结束再试。",
       "desktopAppBusy": "这个桌面应用已经有任务在跑了，等它结束再试。"
     },
+    "privacy": {
+      "tooManyWords": "最多只能填 100 个词。",
+      "wordTooLong": "每个词最多 128 个字。"
+    },
     "prompt": {
       "contentInvalid": "提示词里有无法安全保存的字符。",
       "contentRequired": "请写下希望工具遵守的说明。",
@@ -2364,9 +2368,15 @@
       }
     },
     "privacy": {
-      "label": "隐私保护",
-      "description": "经 AI 管家转发时，密钥、密码、邮箱、手机号、身份证和银行卡号会先换成占位符再发给服务商，回复里再换回来。",
-      "unavailable": "暂时读不到这个设置。"
+      "summary": "隐私：{{parts}}",
+      "secretsHidden": "已隐藏密钥和密码",
+      "secretsShown": "密钥和密码未隐藏",
+      "personalHidden": "已隐藏个人信息",
+      "personalShown": "个人信息未隐藏",
+      "words_other": "{{count}} 个自定义词",
+      "unavailable": "暂时读不到设置",
+      "openSettings": "设置",
+      "openSettingsLabel": "打开隐私设置"
     }
   },
   "sessions": {
@@ -2471,6 +2481,7 @@
     "groups": {
       "general": "通用",
       "network": "网络",
+      "privacy": "隐私",
       "backup": "备份与恢复",
       "about": "关于"
     },
@@ -2528,6 +2539,28 @@
         "loading": "正在读取下载代理",
         "readError": "没能读取当前下载代理。",
         "save": "使用这个代理"
+      }
+    },
+    "privacy": {
+      "title": "隐私保护",
+      "description": "只对经过 AI 管家的请求生效（实时路由或本地路由），工具直连服务商时不经过这里。",
+      "loading": "正在读取隐私设置…",
+      "error": {
+        "title": "暂时读不到隐私设置",
+        "description": "稍后再试一次。"
+      },
+      "secrets": {
+        "label": "隐藏密钥和密码",
+        "description": "API Key、私钥、Token 和密码以占位符发给服务商，回复里再换回来"
+      },
+      "personal": {
+        "label": "隐藏个人信息",
+        "description": "邮箱、手机号、身份证号和银行卡号也一并替换"
+      },
+      "words": {
+        "label": "隐藏这些词",
+        "description": "不想让服务商看到的词，用逗号分隔",
+        "placeholder": "人名、代号、主机名"
       }
     },
     "check": {

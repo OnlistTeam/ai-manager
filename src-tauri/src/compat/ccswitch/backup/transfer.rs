@@ -238,8 +238,8 @@ mod tests {
     fn importing_real_archive_data_preserves_this_computers_product_preferences() {
         use crate::compat::ccswitch::settings::SettingsStore;
         use crate::domain::{
-            DesktopAppId, DownloadStrategy, ExtensionKind, ExtensionScope, ProductSettings,
-            TerminalAppId, ToolId,
+            DesktopAppId, DownloadStrategy, ExtensionKind, ExtensionScope, PrivacyProtection,
+            ProductSettings, TerminalAppId, ToolId,
         };
 
         let dir = tempdir().expect("temp dir");
@@ -270,9 +270,14 @@ mod tests {
         SettingsStore::with_db(target.clone())
             .save(preferences)
             .expect("save local preferences");
+        let privacy = PrivacyProtection {
+            mask_secrets: false,
+            mask_personal: true,
+            words: vec!["Project Kite".to_owned()],
+        };
         SettingsStore::with_db(target.clone())
-            .save_privacy_protection(false)
-            .expect("turn privacy protection off locally");
+            .save_privacy_protection(&privacy)
+            .expect("choose privacy protection locally");
         let store = BackupStore {
             state: AppState::new(target.clone()),
         };
@@ -294,9 +299,12 @@ mod tests {
                 .expect("preserved preferences"),
             preferences
         );
-        assert!(!SettingsStore::with_db(target)
-            .load_privacy_protection()
-            .expect("preserved privacy protection"));
+        assert_eq!(
+            SettingsStore::with_db(target)
+                .load_privacy_protection()
+                .expect("preserved privacy protection"),
+            privacy
+        );
     }
 
     #[test]

@@ -220,7 +220,7 @@ describe("SettingsPage", () => {
     expect(document.body).not.toHaveTextContent("private settings attempt");
   });
 
-  it("lays out one column of four groups in a fixed order", async () => {
+  it("lays out one column of five groups in a fixed order", async () => {
     mount();
     expect(
       await screen.findByRole("heading", { name: en.preferences.title }),
@@ -237,6 +237,7 @@ describe("SettingsPage", () => {
     ).toEqual([
       en.preferences.groups.general,
       en.preferences.groups.network,
+      en.preferences.groups.privacy,
       en.preferences.groups.backup,
       en.preferences.groups.about,
     ]);
@@ -348,6 +349,30 @@ describe("SettingsPage", () => {
     expect(
       screen.getByRole("heading", { name: zh.preferences.title, level: 1 }),
     ).toBeInTheDocument();
+  });
+
+  it("brings the privacy section into view when another page links to it", async () => {
+    const scrollIntoView = vi.fn();
+    Element.prototype.scrollIntoView = scrollIntoView;
+    render(<SettingsPage preferredSection="privacy" />, {
+      wrapper: withQueryClient(createTestQueryClient()),
+    });
+
+    const heading = await screen.findByRole("heading", {
+      level: 2,
+      name: en.preferences.groups.privacy,
+    });
+    await waitFor(() => expect(heading).toHaveFocus());
+    await waitFor(() => expect(scrollIntoView).toHaveBeenCalled());
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      block: "start",
+      behavior: "smooth",
+    });
+    expect(heading.closest("section")).toContainElement(
+      await screen.findByRole("switch", {
+        name: en.preferences.privacy.secrets.label,
+      }),
+    );
   });
 
   it("has no mode switch", async () => {

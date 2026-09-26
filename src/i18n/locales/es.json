@@ -608,6 +608,10 @@
       "toolBusy": "Ya hay otra tarea en ejecución para esta herramienta. Espera a que termine.",
       "desktopAppBusy": "Ya hay otra tarea en ejecución para esta aplicación de escritorio. Espera a que termine."
     },
+    "privacy": {
+      "tooManyWords": "Como máximo 100 palabras.",
+      "wordTooLong": "Cada palabra puede tener como máximo 128 caracteres."
+    },
     "prompt": {
       "contentInvalid": "Esas instrucciones contienen un carácter que no se puede guardar de forma segura.",
       "contentRequired": "Escribe las instrucciones que debe seguir esta herramienta.",
@@ -2365,9 +2369,16 @@
       }
     },
     "privacy": {
-      "label": "Protección de la privacidad",
-      "description": "Cuando las solicitudes pasan por AI Manager, las claves, contraseñas, correos, números de teléfono, de identidad y de tarjeta bancaria se sustituyen por marcadores antes de llegar al servicio y se restauran en la respuesta.",
-      "unavailable": "Ahora no se puede leer este ajuste."
+      "summary": "Privacidad: {{parts}}",
+      "secretsHidden": "claves y contraseñas ocultas",
+      "secretsShown": "claves y contraseñas sin ocultar",
+      "personalHidden": "datos personales ocultos",
+      "personalShown": "datos personales sin ocultar",
+      "words_one": "{{count}} palabra propia",
+      "words_other": "{{count}} palabras propias",
+      "unavailable": "ahora no se pueden leer los ajustes",
+      "openSettings": "Ajustes",
+      "openSettingsLabel": "Abrir los ajustes de privacidad"
     }
   },
   "sessions": {
@@ -2472,6 +2483,7 @@
     "groups": {
       "general": "General",
       "network": "Red",
+      "privacy": "Privacidad",
       "backup": "Copia de seguridad y restauración",
       "about": "Acerca de"
     },
@@ -2529,6 +2541,28 @@
         "loading": "Leyendo el proxy de descarga",
         "readError": "No se pudo leer el proxy de descarga actual.",
         "save": "Usar este proxy"
+      }
+    },
+    "privacy": {
+      "title": "Protección de la privacidad",
+      "description": "Se aplica a las solicitudes que pasan por AI Manager (enrutamiento en vivo o local), no a las herramientas que se conectan directamente a un servicio.",
+      "loading": "Leyendo los ajustes de privacidad…",
+      "error": {
+        "title": "No se pueden leer los ajustes de privacidad",
+        "description": "Inténtalo de nuevo en un momento."
+      },
+      "secrets": {
+        "label": "Ocultar claves y contraseñas",
+        "description": "Las claves de API, claves privadas, tokens y contraseñas llegan al servicio como marcadores y se restauran en la respuesta."
+      },
+      "personal": {
+        "label": "Ocultar datos personales",
+        "description": "Sustituir también correos, números de teléfono, de identidad y de tarjeta bancaria."
+      },
+      "words": {
+        "label": "Ocultar estas palabras",
+        "description": "Palabras que no quieres que vea el servicio, separadas por comas.",
+        "placeholder": "Nombres, nombres en clave, nombres de host"
       }
     },
     "check": {

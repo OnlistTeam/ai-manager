@@ -608,6 +608,10 @@
       "toolBusy": "Một tác vụ khác đang chạy cho công cụ này. Hãy đợi nó hoàn tất.",
       "desktopAppBusy": "Một tác vụ khác đang chạy cho ứng dụng desktop này. Hãy đợi nó hoàn tất."
     },
+    "privacy": {
+      "tooManyWords": "Tối đa 100 từ.",
+      "wordTooLong": "Mỗi từ tối đa 128 ký tự."
+    },
     "prompt": {
       "contentInvalid": "Nội dung chỉ dẫn đó chứa một ký tự không thể lưu an toàn.",
       "contentRequired": "Viết chỉ dẫn mà công cụ này sẽ tuân theo.",
@@ -2365,9 +2369,15 @@
       }
     },
     "privacy": {
-      "label": "Bảo vệ quyền riêng tư",
-      "description": "Khi yêu cầu đi qua AI Manager, khóa, mật khẩu, email, số điện thoại, số căn cước và số thẻ ngân hàng được thay bằng ký hiệu giữ chỗ trước khi đến dịch vụ, rồi được đặt lại trong phản hồi.",
-      "unavailable": "Hiện chưa đọc được cài đặt này."
+      "summary": "Quyền riêng tư: {{parts}}",
+      "secretsHidden": "đã ẩn khóa và mật khẩu",
+      "secretsShown": "không ẩn khóa và mật khẩu",
+      "personalHidden": "đã ẩn thông tin cá nhân",
+      "personalShown": "không ẩn thông tin cá nhân",
+      "words_other": "{{count}} từ tự chọn",
+      "unavailable": "hiện chưa đọc được cài đặt",
+      "openSettings": "Cài đặt",
+      "openSettingsLabel": "Mở cài đặt quyền riêng tư"
     }
   },
   "sessions": {
@@ -2472,6 +2482,7 @@
     "groups": {
       "general": "Chung",
       "network": "Mạng",
+      "privacy": "Quyền riêng tư",
       "backup": "Sao lưu và khôi phục",
       "about": "Giới thiệu"
     },
@@ -2529,6 +2540,28 @@
         "loading": "Đang đọc proxy tải xuống",
         "readError": "Không thể đọc proxy tải xuống hiện tại.",
         "save": "Dùng proxy này"
+      }
+    },
+    "privacy": {
+      "title": "Bảo vệ quyền riêng tư",
+      "description": "Áp dụng cho các yêu cầu đi qua AI Manager (định tuyến trực tiếp hoặc định tuyến cục bộ), không áp dụng khi công cụ kết nối thẳng tới dịch vụ.",
+      "loading": "Đang đọc cài đặt quyền riêng tư…",
+      "error": {
+        "title": "Chưa đọc được cài đặt quyền riêng tư",
+        "description": "Hãy thử lại sau giây lát."
+      },
+      "secrets": {
+        "label": "Ẩn khóa và mật khẩu",
+        "description": "Khóa API, khóa riêng, token và mật khẩu được gửi tới dịch vụ dưới dạng ký hiệu giữ chỗ và được đặt lại trong phản hồi."
+      },
+      "personal": {
+        "label": "Ẩn thông tin cá nhân",
+        "description": "Thay cả email, số điện thoại, số căn cước và số thẻ ngân hàng."
+      },
+      "words": {
+        "label": "Ẩn những từ này",
+        "description": "Những từ bạn không muốn dịch vụ nhìn thấy, cách nhau bằng dấu phẩy.",
+        "placeholder": "Tên người, mật danh, tên máy chủ"
       }
     },
     "check": {

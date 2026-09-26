@@ -14,7 +14,7 @@ import {
   useSwitchRoutingProvider,
 } from "@/entities/routing";
 import { LiveRoutingPanel, LiveRoutingSwitch } from "@/features/live-routing";
-import { PrivacyProtectionSwitch } from "@/features/routing-privacy";
+import { PrivacyStatusLine } from "@/features/routing-privacy";
 import { ConfirmActionModal } from "@/features/tool-management";
 import { toErrorCopy } from "@/shared/lib/nativeError";
 import { Button } from "@/shared/ui/Button";
@@ -26,7 +26,12 @@ import { RoutingSummary } from "./RoutingSummary";
 import { RoutingTargetCard } from "./RoutingTargetCard";
 import { RoutingTargetTabs } from "./RoutingTargetTabs";
 
-export function RoutingPage() {
+export interface RoutingPageProps {
+  /** Opens the privacy section of the settings page. */
+  onOpenPrivacySettings?: () => void;
+}
+
+export function RoutingPage({ onOpenPrivacySettings }: RoutingPageProps) {
   const { t } = useTranslation();
   const overview = useRoutingOverview();
   const takeover = useSetRoutingTakeover();
@@ -150,7 +155,10 @@ export function RoutingPage() {
         <>
           <Card className="flex flex-col gap-2">
             <LiveRoutingSwitch disabled={ownBusy || confirmingStop} />
-            <PrivacyProtectionSwitch className="border-t border-hairline pb-0" />
+            <PrivacyStatusLine
+              onOpenSettings={onOpenPrivacySettings}
+              className="border-t border-hairline pt-2"
+            />
             <RoutingSummary
               overview={overview.data}
               busy={busy}

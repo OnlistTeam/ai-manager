@@ -1,30 +1,29 @@
-//! Privacy protection for proxied traffic (ADR-0049): one product switch,
-//! default on, applied by the local routing proxy.
+//! Privacy protection for proxied traffic (ADR-0049): what to hide (keys and
+//! passwords, personal information, the user's own words), applied by the
+//! local routing proxy.
 
 use crate::compat::ccswitch::proxy_privacy;
 use crate::compat::ccswitch::settings::SettingsStore;
-use crate::domain::{AppError, PrivacyProtection};
+use crate::domain::{AppError, PrivacyProtection, PrivacyProtectionPatch};
 use crate::infrastructure::privacy_key;
 
 pub struct PrivacyProtectionService;
 
 impl PrivacyProtectionService {
-    /// Hands the proxy its key and the stored switch. Failures never block
-    /// startup and never turn protection off: an unreadable setting counts as
-    /// on, and an unwritable key file falls back to a key for this run only.
+    /// Hands the proxy its key and the stored choices. Failures never block
+    /// startup and never turn protection off: unreadable settings count as
+    /// the defaults, and an unwritable key file falls back to a key for this
+    /// run only.
     pub fn initialize(app_handle: &tauri::AppHandle) {
-        let enabled = match SettingsStore::open(app_handle)
+        let settings = SettingsStore::open(app_handle)
             .and_then(|store| store.load_privacy_protection())
-        {
-            Ok(enabled) => enabled,
-            Err(error) => {
+            .unwrap_or_else(|error| {
                 log::warn!(
-                    "[Privacy] could not read the privacy protection setting; keeping it on ({})",
+                    "[Privacy] could not read the privacy protection settings; using the defaults ({})",
                     error.message_key
                 );
-                true
-            }
-        };
+                PrivacyProtection::default()
+            });
         let key = privacy_key::load_or_create(&privacy_key::key_path()).unwrap_or_else(|error| {
             log::warn!(
                 "[Privacy] could not store the placeholder key; using one for this run only ({})",
@@ -32,21 +31,23 @@ impl PrivacyProtectionService {
             );
             privacy_key::random_key()
         });
-        proxy_privacy::configure(key, enabled);
+        proxy_privacy::configure(key, &settings);
     }
 
     pub fn load(app_handle: &tauri::AppHandle) -> Result<PrivacyProtection, AppError> {
-        let enabled = SettingsStore::open(app_handle)?.load_privacy_protection()?;
-        Ok(PrivacyProtection { enabled })
+        SettingsStore::open(app_handle)?.load_privacy_protection()
     }
 
-    /// Stores the switch, then applies the value read back to the proxy.
+    /// Applies `patch` to the stored settings, then hands the proxy what was
+    /// read back.
     pub fn save(
         app_handle: &tauri::AppHandle,
-        enabled: bool,
+        patch: PrivacyProtectionPatch,
     ) -> Result<PrivacyProtection, AppError> {
-        let enabled = SettingsStore::open(app_handle)?.save_privacy_protection(enabled)?;
-        proxy_privacy::set_enabled(enabled);
-        Ok(PrivacyProtection { enabled })
+        let store = SettingsStore::open(app_handle)?;
+        let next = store.load_privacy_protection()?.apply(patch)?;
+        let saved = store.save_privacy_protection(&next)?;
+        proxy_privacy::apply(&saved);
+        Ok(saved)
     }
 }

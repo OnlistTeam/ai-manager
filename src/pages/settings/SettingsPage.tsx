@@ -14,20 +14,37 @@ import { SectionHeader } from "@/shared/ui/SectionHeader";
 import { DownloadProxyCard } from "./DownloadProxyCard";
 import { DesktopPreferencesCard } from "./DesktopPreferencesCard";
 import { LanguageCard } from "./LanguageCard";
+import { PrivacyCard } from "./PrivacyCard";
+import {
+  focusSettingsSection,
+  settingsSectionProps,
+  type SettingsSection,
+} from "./settingsSections";
 import { SettingsSkeleton } from "./SettingsSkeleton";
 
 function SettingsGroup({
   title,
+  section,
   children,
 }: {
   title: string;
+  /** Makes the group a target other pages can link to. */
+  section?: SettingsSection;
   children: ReactNode;
 }) {
   const headingId = useId();
 
   return (
-    <section aria-labelledby={headingId} className="flex flex-col gap-2">
-      <h2 id={headingId} className="text-overline text-content-muted">
+    <section
+      aria-labelledby={headingId}
+      className="flex flex-col gap-2"
+      {...(section ? settingsSectionProps(section) : {})}
+    >
+      <h2
+        id={headingId}
+        tabIndex={section ? -1 : undefined}
+        className="text-overline text-content-muted outline-none"
+      >
         {title}
       </h2>
       {children}
@@ -35,12 +52,17 @@ function SettingsGroup({
   );
 }
 
-/** Spec §24's fifth page: one column, four groups — General, Network, Backup & Restore, About. */
+/** Spec §24's fifth page: one column, five groups — General, Network, Privacy, Backup & Restore, About. */
 export interface SettingsPageProps {
   onOpenServices?: (toolId?: ToolId) => void;
+  /** A section to bring into view once the page has loaded. */
+  preferredSection?: SettingsSection | null;
 }
 
-export function SettingsPage({ onOpenServices }: SettingsPageProps) {
+export function SettingsPage({
+  onOpenServices,
+  preferredSection = null,
+}: SettingsPageProps) {
   const { t } = useTranslation();
   const settings = useProductSettings();
   const pageRef = useRef<HTMLDivElement>(null);
@@ -61,6 +83,12 @@ export function SettingsPage({ onOpenServices }: SettingsPageProps) {
       retryButtonRef.current?.focus({ preventScroll: true });
     }
   }, [settings.isError, settings.isFetching, settings.isSuccess]);
+
+  useEffect(() => {
+    if (preferredSection && settings.isSuccess) {
+      void focusSettingsSection(preferredSection);
+    }
+  }, [preferredSection, settings.isSuccess]);
 
   function retrySettings(): void {
     focusAfterRetry.current = true;
@@ -113,6 +141,13 @@ export function SettingsPage({ onOpenServices }: SettingsPageProps) {
 
           <SettingsGroup title={t("preferences.groups.network")}>
             <DownloadProxyCard />
+          </SettingsGroup>
+
+          <SettingsGroup
+            title={t("preferences.groups.privacy")}
+            section="privacy"
+          >
+            <PrivacyCard />
           </SettingsGroup>
 
           <SettingsGroup title={t("preferences.groups.backup")}>

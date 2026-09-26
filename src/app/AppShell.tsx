@@ -94,7 +94,7 @@ export function AppShell() {
     },
     [navigateWithMotion],
   );
-  const { intents, openRoute, openServices, openExtensions } =
+  const { intents, openRoute, openServices, openExtensions, openSettings } =
     useRouteIntents(navigateFromTop);
 
   const toSidebarItem = (item: (typeof NAV_ITEMS)[number]): SidebarItem => ({
@@ -127,6 +127,7 @@ export function AppShell() {
           onOpenTools={() => openRoute("tools")}
           onOpenServices={openServices}
           onOpenMcp={() => openExtensions(undefined, "mcp")}
+          onOpenPrivacySettings={() => openSettings("privacy")}
         />
       ),
       tools: () => (
@@ -140,6 +141,7 @@ export function AppShell() {
         <ServicesPage
           preferredToolId={intents.serviceTool}
           preferredTab={intents.servicesTab}
+          onOpenPrivacySettings={() => openSettings("privacy")}
         />
       ),
       extensions: () => (
@@ -165,9 +167,14 @@ export function AppShell() {
         />
       ),
       data: () => <DataPage />,
-      settings: () => <SettingsPage onOpenServices={openServices} />,
+      settings: () => (
+        <SettingsPage
+          onOpenServices={openServices}
+          preferredSection={intents.settingsSection}
+        />
+      ),
     }),
-    [intents, openRoute, openExtensions, openServices],
+    [intents, openRoute, openExtensions, openServices, openSettings],
   );
 
   const renderRoute = useCallback(

@@ -608,6 +608,10 @@
       "toolBusy": "Une autre tâche est déjà en cours pour cet outil. Attendez qu'elle se termine.",
       "desktopAppBusy": "Une autre tâche est déjà en cours pour cette application de bureau. Attendez qu'elle se termine."
     },
+    "privacy": {
+      "tooManyWords": "100 mots au maximum.",
+      "wordTooLong": "Chaque mot doit faire 128 caractères au maximum."
+    },
     "prompt": {
       "contentInvalid": "Ces instructions contiennent un caractère qui ne peut pas être enregistré en toute sécurité.",
       "contentRequired": "Rédigez les instructions que cet outil doit suivre.",
@@ -2365,9 +2369,16 @@
       }
     },
     "privacy": {
-      "label": "Protection de la vie privée",
-      "description": "Quand les requêtes passent par AI Manager, les clés, mots de passe, e-mails, numéros de téléphone, d'identité et de carte bancaire sont remplacés par des espaces réservés avant d'atteindre le service, puis rétablis dans la réponse.",
-      "unavailable": "Impossible de lire ce réglage pour le moment."
+      "summary": "Confidentialité : {{parts}}",
+      "secretsHidden": "clés et mots de passe masqués",
+      "secretsShown": "clés et mots de passe non masqués",
+      "personalHidden": "données personnelles masquées",
+      "personalShown": "données personnelles non masquées",
+      "words_one": "{{count}} mot personnalisé",
+      "words_other": "{{count}} mots personnalisés",
+      "unavailable": "réglages illisibles pour le moment",
+      "openSettings": "Réglages",
+      "openSettingsLabel": "Ouvrir les réglages de confidentialité"
     }
   },
   "sessions": {
@@ -2472,6 +2483,7 @@
     "groups": {
       "general": "Général",
       "network": "Réseau",
+      "privacy": "Confidentialité",
       "backup": "Sauvegarde et restauration",
       "about": "À propos"
     },
@@ -2529,6 +2541,28 @@
         "loading": "Lecture du proxy de téléchargement",
         "readError": "Impossible de lire le proxy de téléchargement actuel.",
         "save": "Utiliser ce proxy"
+      }
+    },
+    "privacy": {
+      "title": "Protection de la vie privée",
+      "description": "S'applique aux requêtes qui passent par AI Manager (routage en direct ou routage local), pas aux outils connectés directement à un service.",
+      "loading": "Lecture des réglages de confidentialité…",
+      "error": {
+        "title": "Impossible de lire les réglages de confidentialité",
+        "description": "Réessayez dans un instant."
+      },
+      "secrets": {
+        "label": "Masquer les clés et mots de passe",
+        "description": "Les clés d'API, clés privées, jetons et mots de passe partent vers le service sous forme d'espaces réservés et sont rétablis dans la réponse."
+      },
+      "personal": {
+        "label": "Masquer les données personnelles",
+        "description": "Remplacer aussi les adresses e-mail, numéros de téléphone, d'identité et de carte bancaire."
+      },
+      "words": {
+        "label": "Masquer ces mots",
+        "description": "Les mots que le service ne doit pas voir, séparés par des virgules.",
+        "placeholder": "Noms, noms de code, noms d'hôte"
       }
     },
     "check": {

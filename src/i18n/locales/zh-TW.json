@@ -608,6 +608,10 @@
       "toolBusy": "這個工具已經有工作在跑了，等它結束再試。",
       "desktopAppBusy": "這個桌面應用程式已經有工作在跑了，等它結束再試。"
     },
+    "privacy": {
+      "tooManyWords": "最多只能填 100 個詞。",
+      "wordTooLong": "每個詞最多 128 個字。"
+    },
     "prompt": {
       "contentInvalid": "提示詞裡有無法安全儲存的字元。",
       "contentRequired": "請寫下希望工具遵守的說明。",
@@ -2364,9 +2368,15 @@
       }
     },
     "privacy": {
-      "label": "隱私保護",
-      "description": "經 AI 管家轉發時，金鑰、密碼、電子郵件、手機號碼、身分證和銀行卡號會先換成佔位符再傳給服務商，回覆裡再換回來。",
-      "unavailable": "暫時讀不到這個設定。"
+      "summary": "隱私：{{parts}}",
+      "secretsHidden": "已隱藏金鑰和密碼",
+      "secretsShown": "金鑰和密碼未隱藏",
+      "personalHidden": "已隱藏個人資料",
+      "personalShown": "個人資料未隱藏",
+      "words_other": "{{count}} 個自訂詞",
+      "unavailable": "暫時讀不到設定",
+      "openSettings": "設定",
+      "openSettingsLabel": "開啟隱私設定"
     }
   },
   "sessions": {
@@ -2471,6 +2481,7 @@
     "groups": {
       "general": "通用",
       "network": "網路",
+      "privacy": "隱私",
       "backup": "備份與還原",
       "about": "關於"
     },
@@ -2528,6 +2539,28 @@
         "loading": "正在讀取下載代理",
         "readError": "無法讀取目前的下載代理。",
         "save": "使用這個代理"
+      }
+    },
+    "privacy": {
+      "title": "隱私保護",
+      "description": "只對經過 AI 管家的請求生效（即時路由或本機路由），工具直連服務商時不經過這裡。",
+      "loading": "正在讀取隱私設定…",
+      "error": {
+        "title": "暫時讀不到隱私設定",
+        "description": "稍後再試一次。"
+      },
+      "secrets": {
+        "label": "隱藏金鑰和密碼",
+        "description": "API Key、私鑰、Token 和密碼以佔位符傳給服務商，回覆裡再換回來"
+      },
+      "personal": {
+        "label": "隱藏個人資料",
+        "description": "電子郵件、手機號碼、身分證號和銀行卡號也一併替換"
+      },
+      "words": {
+        "label": "隱藏這些詞",
+        "description": "不想讓服務商看到的詞，用逗號分隔",
+        "placeholder": "人名、代號、主機名稱"
       }
     },
     "check": {

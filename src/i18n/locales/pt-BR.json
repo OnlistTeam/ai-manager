@@ -608,6 +608,10 @@
       "toolBusy": "Outra tarefa já está em execução para esta ferramenta. Aguarde ela terminar.",
       "desktopAppBusy": "Outra tarefa já está em execução para este aplicativo desktop. Aguarde ela terminar."
     },
+    "privacy": {
+      "tooManyWords": "No máximo 100 palavras.",
+      "wordTooLong": "Cada palavra pode ter no máximo 128 caracteres."
+    },
     "prompt": {
       "contentInvalid": "Essas instruções contêm um caractere que não pode ser salvo com segurança.",
       "contentRequired": "Escreva as instruções que esta ferramenta deve seguir.",
@@ -2365,9 +2369,16 @@
       }
     },
     "privacy": {
-      "label": "Proteção de privacidade",
-      "description": "Quando as requisições passam pelo AI Manager, chaves, senhas, e-mails, números de telefone, de documento e de cartão bancário são trocados por marcadores antes de chegar ao serviço e restaurados na resposta.",
-      "unavailable": "Não foi possível ler esta configuração agora."
+      "summary": "Privacidade: {{parts}}",
+      "secretsHidden": "chaves e senhas ocultas",
+      "secretsShown": "chaves e senhas não ocultas",
+      "personalHidden": "dados pessoais ocultos",
+      "personalShown": "dados pessoais não ocultos",
+      "words_one": "{{count}} palavra própria",
+      "words_other": "{{count}} palavras próprias",
+      "unavailable": "não foi possível ler as configurações agora",
+      "openSettings": "Configurações",
+      "openSettingsLabel": "Abrir as configurações de privacidade"
     }
   },
   "sessions": {
@@ -2472,6 +2483,7 @@
     "groups": {
       "general": "Geral",
       "network": "Rede",
+      "privacy": "Privacidade",
       "backup": "Backup e restauração",
       "about": "Sobre"
     },
@@ -2529,6 +2541,28 @@
         "loading": "Lendo o proxy de download",
         "readError": "Não foi possível ler o proxy de download atual.",
         "save": "Usar este proxy"
+      }
+    },
+    "privacy": {
+      "title": "Proteção de privacidade",
+      "description": "Vale para as requisições que passam pelo AI Manager (roteamento ao vivo ou local), não para ferramentas conectadas diretamente a um serviço.",
+      "loading": "Lendo as configurações de privacidade…",
+      "error": {
+        "title": "Não foi possível ler as configurações de privacidade",
+        "description": "Tente novamente em instantes."
+      },
+      "secrets": {
+        "label": "Ocultar chaves e senhas",
+        "description": "Chaves de API, chaves privadas, tokens e senhas vão ao serviço como marcadores e são restaurados na resposta."
+      },
+      "personal": {
+        "label": "Ocultar dados pessoais",
+        "description": "Trocar também e-mails, números de telefone, de documento e de cartão bancário."
+      },
+      "words": {
+        "label": "Ocultar estas palavras",
+        "description": "Palavras que o serviço não deve ver, separadas por vírgulas.",
+        "placeholder": "Nomes, codinomes, nomes de host"
       }
     },
     "check": {

@@ -3,7 +3,8 @@
 use crate::application::privacy_protection::PrivacyProtectionService;
 use crate::application::routing_control::RoutingControl;
 use crate::domain::{
-    AppError, PrivacyProtection, RoutingLiveModeOutcome, RoutingOverview, RoutingTraceSnapshot,
+    AppError, PrivacyProtection, PrivacyProtectionPatch, RoutingLiveModeOutcome, RoutingOverview,
+    RoutingTraceSnapshot,
 };
 
 use super::app_api::{blocking, parse_tool};
@@ -93,7 +94,7 @@ pub async fn app_privacy_protection_get(
 #[tauri::command]
 pub async fn app_privacy_protection_set(
     app_handle: tauri::AppHandle,
-    enabled: bool,
+    patch: PrivacyProtectionPatch,
 ) -> Result<PrivacyProtection, AppError> {
-    blocking(move || PrivacyProtectionService::save(&app_handle, enabled)).await
+    blocking(move || PrivacyProtectionService::save(&app_handle, patch)).await
 }

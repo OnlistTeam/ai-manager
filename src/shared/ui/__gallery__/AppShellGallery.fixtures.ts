@@ -22,6 +22,7 @@ import type {
   ImportPreview,
   LocalExtensionInventory,
   NetworkProxySettings,
+  PrivacyProtection,
   ProductSettings,
   Provider,
   ProviderConnectionProfile,
@@ -699,6 +700,12 @@ const NETWORK_PROXY: NetworkProxySettings = {
   protected: false,
 };
 
+const PRIVACY: PrivacyProtection = {
+  maskSecrets: true,
+  maskPersonal: false,
+  words: ["Project Kite", "张三"],
+};
+
 const BACKUPS: BackupList = {
   files: [
     {
@@ -762,7 +769,7 @@ export function seedAppShellGallery(client: QueryClient): void {
   );
   client.setQueryData(routingKeys.overview(), ROUTING);
   client.setQueryData(routingKeys.trace(), ROUTING_TRACE);
-  client.setQueryData(privacyProtectionKeys.current(), { enabled: true });
+  client.setQueryData(privacyProtectionKeys.current(), PRIVACY);
   client.setQueryData(extensionKeys.localInventory(), LOCAL_EXTENSIONS);
   seedExtensionLists(client);
   client.setQueryData(usageKeys.overview(), USAGE);

@@ -608,6 +608,10 @@
       "toolBusy": "Un'altra attività è già in esecuzione per questo strumento. Attendi che finisca.",
       "desktopAppBusy": "Un'altra attività è già in esecuzione per questa app desktop. Attendi che finisca."
     },
+    "privacy": {
+      "tooManyWords": "Al massimo 100 parole.",
+      "wordTooLong": "Ogni parola può avere al massimo 128 caratteri."
+    },
     "prompt": {
       "contentInvalid": "Queste istruzioni contengono un carattere che non può essere salvato in sicurezza.",
       "contentRequired": "Scrivi le istruzioni che questo strumento deve seguire.",
@@ -2365,9 +2369,16 @@
       }
     },
     "privacy": {
-      "label": "Protezione della privacy",
-      "description": "Quando le richieste passano da AI Manager, chiavi, password, email, numeri di telefono, di documento e di carta bancaria vengono sostituiti con segnaposto prima di arrivare al servizio e ripristinati nella risposta.",
-      "unavailable": "Al momento non è possibile leggere questa impostazione."
+      "summary": "Privacy: {{parts}}",
+      "secretsHidden": "chiavi e password nascoste",
+      "secretsShown": "chiavi e password non nascoste",
+      "personalHidden": "dati personali nascosti",
+      "personalShown": "dati personali non nascosti",
+      "words_one": "{{count}} parola personale",
+      "words_other": "{{count}} parole personali",
+      "unavailable": "impostazioni non leggibili al momento",
+      "openSettings": "Impostazioni",
+      "openSettingsLabel": "Apri le impostazioni della privacy"
     }
   },
   "sessions": {
@@ -2472,6 +2483,7 @@
     "groups": {
       "general": "Generale",
       "network": "Rete",
+      "privacy": "Privacy",
       "backup": "Backup e ripristino",
       "about": "Informazioni"
     },
@@ -2529,6 +2541,28 @@
         "loading": "Lettura del proxy di download",
         "readError": "Impossibile leggere il proxy di download attuale.",
         "save": "Usa questo proxy"
+      }
+    },
+    "privacy": {
+      "title": "Protezione della privacy",
+      "description": "Vale per le richieste che passano da AI Manager (routing dal vivo o instradamento locale), non per gli strumenti collegati direttamente a un servizio.",
+      "loading": "Lettura delle impostazioni della privacy…",
+      "error": {
+        "title": "Impossibile leggere le impostazioni della privacy",
+        "description": "Riprova tra un momento."
+      },
+      "secrets": {
+        "label": "Nascondi chiavi e password",
+        "description": "Chiavi API, chiavi private, token e password arrivano al servizio come segnaposto e vengono ripristinati nella risposta."
+      },
+      "personal": {
+        "label": "Nascondi i dati personali",
+        "description": "Sostituisci anche email, numeri di telefono, di documento e di carta bancaria."
+      },
+      "words": {
+        "label": "Nascondi queste parole",
+        "description": "Parole che il servizio non deve vedere, separate da virgole.",
+        "placeholder": "Nomi, nomi in codice, nomi host"
       }
     },
     "check": {

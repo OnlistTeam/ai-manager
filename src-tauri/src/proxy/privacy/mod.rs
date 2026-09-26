@@ -1,9 +1,15 @@
 //! Privacy protection for traffic that passes through the local routing proxy.
 //!
 //! Product-owned module (ADR-0049). Before a request body leaves for the
-//! provider, secrets and personal data inside its JSON string values are
-//! replaced with stable placeholders (`{{API_KEY_k3v9x2mq}}`); on the way back
-//! the reply (whole JSON or an SSE stream) gets the real values again.
+//! provider, whatever the user chose to hide (keys and passwords, personal
+//! information, their own words) inside its JSON string values is replaced
+//! with stable placeholders (`{{API_KEY_k3v9x2mq}}`); on the way back the
+//! reply (whole JSON or an SSE stream) gets the real values again.
+//!
+//! Masking is a pure function of the body, the rules, the install key and the
+//! context-recognised values remembered from earlier requests, so the same
+//! conversation history masks to the same bytes on every turn and the
+//! provider's prompt cache keeps hitting (see `Engine::mask_value`).
 //!
 //! The inherited proxy calls exactly two entry points: [`mask_request_body`]
 //! from the forwarder and [`restore_response`] as a router layer. The product
@@ -14,19 +20,23 @@ mod engine;
 mod layer;
 mod personal;
 mod placeholder;
+mod rules;
 mod secrets;
 mod stream;
 mod vault;
+mod words;
 
+#[cfg(test)]
+mod cache_tests;
 #[cfg(test)]
 mod tests;
 
-use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, PoisonError, RwLock};
 
 use serde_json::Value;
 
 pub(crate) use layer::restore_response;
+pub(crate) use rules::Rules;
 
 use engine::Engine;
 use placeholder::{placeholder_spans, HashKey, Kind};
@@ -47,6 +57,13 @@ pub(crate) struct Detection {
 }
 
 impl Detection {
+    fn new(text: &str) -> Self {
+        Self {
+            protected: placeholder_spans(text),
+            spans: Vec::new(),
+        }
+    }
+
     fn push(&mut self, start: usize, end: usize, kind: Kind) {
         let overlaps =
             |(other_start, other_end): (usize, usize)| start < other_end && other_start < end;
@@ -63,55 +80,86 @@ impl Detection {
     }
 }
 
-/// A value already masked because of its context, looked for verbatim.
+/// A value recognised by its context (`password=…`), looked for verbatim
+/// wherever it appears without that context.
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct KnownValue {
     pub value: String,
     pub kind: Kind,
 }
 
-/// Every sensitive span in `text`, sorted by position, never overlapping.
+/// Every span the key and password and personal information detectors find
+/// in `text`, sorted by position, never overlapping.
 #[cfg(test)]
 pub(crate) fn detect(text: &str) -> Vec<Span> {
-    detect_with_known(text, &[])
+    detect_with(text, &Rules::detectors(), &[])
 }
 
-pub(crate) fn detect_with_known(text: &str, known: &[KnownValue]) -> Vec<Span> {
-    let mut detection = Detection {
-        protected: placeholder_spans(text),
-        spans: Vec::new(),
-    };
-    secrets::detect_secrets(text, &mut detection);
-    for KnownValue { value, kind } in known {
-        for (start, _) in text.match_indices(value.as_str()) {
-            let end = start + value.len();
-            if secrets::bounded(text, start, end, |c| c.is_ascii_alphanumeric()) {
-                detection.push(start, end, *kind);
+/// Every span `rules` asks for, sorted by position, never overlapping.
+/// Priority on overlap: keys and passwords, then values already known from
+/// their context, then personal information, then the user's words. `known`
+/// must be in a fixed order (see `Engine::known_values`) so the outcome never
+/// depends on the order values were learned in.
+pub(crate) fn detect_with(text: &str, rules: &Rules, known: &[KnownValue]) -> Vec<Span> {
+    let mut detection = Detection::new(text);
+    if rules.secrets {
+        secrets::detect_secrets(text, &mut detection);
+        for KnownValue { value, kind } in known {
+            for (start, _) in text.match_indices(value.as_str()) {
+                let end = start + value.len();
+                if secrets::bounded(text, start, end, |c| c.is_ascii_alphanumeric()) {
+                    detection.push(start, end, *kind);
+                }
             }
         }
     }
-    personal::detect_personal(text, &mut detection);
+    if rules.personal {
+        personal::detect_personal(text, &mut detection);
+    }
+    words::detect_words(text, rules.words(), &mut detection);
     let mut spans = detection.spans;
     spans.sort_by_key(|span| span.start);
     spans
 }
 
-static ENABLED: AtomicBool = AtomicBool::new(false);
-static ENGINE: RwLock<Option<Arc<Engine>>> = RwLock::new(None);
+/// Values in `text` recognised only by their context, as a request-wide
+/// learning pass sees them before anything is masked.
+pub(crate) fn contextual_values(text: &str) -> Vec<KnownValue> {
+    let mut detection = Detection::new(text);
+    secrets::detect_secrets(text, &mut detection);
+    detection
+        .spans
+        .into_iter()
+        .filter(|span| span.kind.is_contextual())
+        .map(|span| KnownValue {
+            value: text[span.start..span.end].to_owned(),
+            kind: span.kind,
+        })
+        .collect()
+}
 
-/// Installs the per-install hash key and the user's choice. Called once at
+static ENGINE: RwLock<Option<Arc<Engine>>> = RwLock::new(None);
+static RULES: RwLock<Option<Arc<Rules>>> = RwLock::new(None);
+
+/// Installs the per-install hash key and the user's choices. Called once at
 /// startup; until then nothing is masked.
-pub(crate) fn configure(key: [u8; 32], enabled: bool) {
+pub(crate) fn configure(key: [u8; 32], rules: Rules) {
     let engine = Arc::new(Engine::new(HashKey::new(key), vault::DEFAULT_CAPACITY));
     *ENGINE.write().unwrap_or_else(PoisonError::into_inner) = Some(engine);
-    ENABLED.store(enabled, Ordering::SeqCst);
+    set_rules(rules);
 }
 
-pub(crate) fn set_enabled(enabled: bool) {
-    ENABLED.store(enabled, Ordering::SeqCst);
+/// Applies changed choices to requests forwarded from now on.
+pub(crate) fn set_rules(rules: Rules) {
+    *RULES.write().unwrap_or_else(PoisonError::into_inner) = Some(Arc::new(rules));
 }
 
-pub(crate) fn is_enabled() -> bool {
-    ENABLED.load(Ordering::SeqCst)
+fn rules() -> Option<Arc<Rules>> {
+    RULES
+        .read()
+        .unwrap_or_else(PoisonError::into_inner)
+        .clone()
+        .filter(|rules| rules.is_active())
 }
 
 fn engine() -> Option<Arc<Engine>> {
@@ -122,23 +170,19 @@ fn engine() -> Option<Arc<Engine>> {
 }
 
 /// The engine, but only when a reply could contain one of our placeholders.
-/// Replies are restored even after the switch is turned off, so a request
-/// that was masked just before still comes back whole.
+/// Replies are restored even after masking is turned off, so a request that
+/// was masked just before still comes back whole.
 fn engine_for_restore() -> Option<Arc<Engine>> {
     engine().filter(|engine| engine.has_values())
 }
 
 /// Masks the outbound request body in place and returns how many values were
-/// replaced. With protection off (or not configured) the body is untouched.
+/// replaced. With nothing chosen (or not configured) the body is untouched.
 pub(crate) fn mask_request_body(body: &mut Value) -> usize {
-    if !is_enabled() {
-        return 0;
-    }
-    let Some(engine) = engine() else {
+    let (Some(rules), Some(engine)) = (rules(), engine()) else {
         return 0;
     };
-    let mut count = 0;
-    engine.mask_value(body, &mut count);
+    let count = engine.mask_value(body, &rules);
     if count > 0 {
         log::debug!("[Privacy] replaced {count} value(s) with placeholders before forwarding");
     }

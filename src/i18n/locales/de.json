@@ -608,6 +608,10 @@
       "toolBusy": "Für dieses Tool läuft bereits eine andere Aufgabe. Warten Sie, bis sie abgeschlossen ist.",
       "desktopAppBusy": "Für diese Desktop-App läuft bereits eine andere Aufgabe. Warten Sie, bis sie abgeschlossen ist."
     },
+    "privacy": {
+      "tooManyWords": "Höchstens 100 Wörter.",
+      "wordTooLong": "Jedes Wort darf höchstens 128 Zeichen lang sein."
+    },
     "prompt": {
       "contentInvalid": "Diese Anweisungen enthalten ein Zeichen, das nicht sicher gespeichert werden kann.",
       "contentRequired": "Schreiben Sie die Anweisungen, denen dieses Tool folgen soll.",
@@ -2365,9 +2369,16 @@
       }
     },
     "privacy": {
-      "label": "Datenschutz",
-      "description": "Laufen Anfragen über AI Manager, werden Schlüssel, Passwörter, E-Mail-Adressen, Telefonnummern, Ausweis- und Bankkartennummern vor dem Senden an den Dienst durch Platzhalter ersetzt und in der Antwort wiederhergestellt.",
-      "unavailable": "Diese Einstellung kann gerade nicht gelesen werden."
+      "summary": "Datenschutz: {{parts}}",
+      "secretsHidden": "Schlüssel und Passwörter verborgen",
+      "secretsShown": "Schlüssel und Passwörter nicht verborgen",
+      "personalHidden": "persönliche Daten verborgen",
+      "personalShown": "persönliche Daten nicht verborgen",
+      "words_one": "{{count}} eigenes Wort",
+      "words_other": "{{count}} eigene Wörter",
+      "unavailable": "Einstellungen gerade nicht lesbar",
+      "openSettings": "Einstellungen",
+      "openSettingsLabel": "Datenschutz-Einstellungen öffnen"
     }
   },
   "sessions": {
@@ -2472,6 +2483,7 @@
     "groups": {
       "general": "Allgemein",
       "network": "Netzwerk",
+      "privacy": "Datenschutz",
       "backup": "Sicherung und Wiederherstellung",
       "about": "Über"
     },
@@ -2529,6 +2541,28 @@
         "loading": "Der Download-Proxy wird gelesen",
         "readError": "Der aktuelle Download-Proxy konnte nicht gelesen werden.",
         "save": "Diesen Proxy verwenden"
+      }
+    },
+    "privacy": {
+      "title": "Datenschutz",
+      "description": "Gilt für Anfragen, die über AI Manager laufen (Live-Routing oder lokales Routing), nicht für Werkzeuge, die sich direkt mit einem Dienst verbinden.",
+      "loading": "Datenschutz-Einstellungen werden gelesen…",
+      "error": {
+        "title": "Datenschutz-Einstellungen nicht lesbar",
+        "description": "Versuche es gleich noch einmal."
+      },
+      "secrets": {
+        "label": "Schlüssel und Passwörter verbergen",
+        "description": "API-Schlüssel, private Schlüssel, Tokens und Passwörter gehen als Platzhalter an den Dienst und werden in der Antwort wiederhergestellt."
+      },
+      "personal": {
+        "label": "Persönliche Daten verbergen",
+        "description": "Auch E-Mail-Adressen, Telefonnummern, Ausweis- und Bankkartennummern ersetzen."
+      },
+      "words": {
+        "label": "Diese Wörter verbergen",
+        "description": "Wörter, die der Dienst nicht sehen soll, durch Kommas getrennt.",
+        "placeholder": "Namen, Codenamen, Hostnamen"
       }
     },
     "check": {

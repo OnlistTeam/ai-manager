@@ -33,7 +33,7 @@ export const handlers = [
     success({ configured: false, url: null, protected: false }),
   ),
   http.post(`${TAURI_ENDPOINT}/app_privacy_protection_get`, () =>
-    success({ enabled: true }),
+    success({ maskSecrets: true, maskPersonal: false, words: [] }),
   ),
   http.post(
     `${TAURI_ENDPOINT}/app_desktop_preferences_save`,

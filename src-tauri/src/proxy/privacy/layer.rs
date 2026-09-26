@@ -129,8 +129,7 @@ mod tests {
 
     fn engine_with_email() -> (Arc<Engine>, String) {
         let engine = Arc::new(Engine::new(HashKey::new([3; 32]), 16));
-        let mut count = 0;
-        let placeholder = engine.mask_text(EMAIL, &mut count).expect("an email");
+        let placeholder = engine.mask_text(EMAIL).expect("an email");
         (engine, placeholder)
     }
 

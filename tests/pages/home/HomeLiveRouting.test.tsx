@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import i18n from "i18next";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import en from "@/i18n/locales/en.json";
 import { HomeLiveRouting } from "@/pages/home/HomeLiveRouting";
 import {
@@ -50,7 +51,7 @@ function overview(routed: boolean) {
   };
 }
 
-function mount(routed: boolean) {
+function mount(routed: boolean, onOpenPrivacySettings = vi.fn()) {
   server.use(
     http.post(`${TAURI_ENDPOINT}/app_routing_overview`, () =>
       HttpResponse.json(overview(routed)),
@@ -63,7 +64,7 @@ function mount(routed: boolean) {
       }),
     ),
   );
-  render(<HomeLiveRouting />, {
+  render(<HomeLiveRouting onOpenPrivacySettings={onOpenPrivacySettings} />, {
     wrapper: withQueryClient(createTestQueryClient()),
   });
 }
@@ -90,14 +91,29 @@ describe("HomeLiveRouting", () => {
     );
     expect(screen.queryByText(en.routing.live.empty)).not.toBeInTheDocument();
     expect(
-      screen.queryByText(en.routing.privacy.label),
+      screen.queryByRole("button", {
+        name: en.routing.privacy.openSettingsLabel,
+      }),
     ).not.toBeInTheDocument();
   });
 
-  it("shows privacy protection and the live requests while it is on", async () => {
-    mount(true);
+  it("says what privacy protection hides and links to its settings while it is on", async () => {
+    const onOpenPrivacySettings = vi.fn();
+    mount(true, onOpenPrivacySettings);
 
     expect(await screen.findByText(en.routing.live.empty)).toBeInTheDocument();
-    expect(screen.getByText(en.routing.privacy.label)).toBeInTheDocument();
+    expect(
+      await screen.findByText(
+        "Privacy: keys and passwords hidden · personal information not hidden",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("switch", { name: /privacy/i })).toBeNull();
+
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: en.routing.privacy.openSettingsLabel,
+      }),
+    );
+    expect(onOpenPrivacySettings).toHaveBeenCalledTimes(1);
   });
 });

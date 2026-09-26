@@ -30,12 +30,15 @@ export interface HomePageProps {
   onOpenTools: () => void;
   onOpenServices: (toolId?: ToolId) => void;
   onOpenMcp: () => void;
+  /** Opens the privacy section of the settings page. */
+  onOpenPrivacySettings?: () => void;
 }
 
 export function HomePage({
   onOpenTools,
   onOpenServices,
   onOpenMcp,
+  onOpenPrivacySettings,
 }: HomePageProps) {
   const { t } = useTranslation();
   const {
@@ -138,7 +141,7 @@ export function HomePage({
         />
       )}
 
-      <HomeLiveRouting />
+      <HomeLiveRouting onOpenPrivacySettings={onOpenPrivacySettings} />
 
       {/* The status line counts; this list names each finding with its next
           step. Findings a tool row already shows are left to that row. */}

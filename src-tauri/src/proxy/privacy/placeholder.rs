@@ -15,7 +15,9 @@ use sha2::{Digest, Sha256};
 pub(crate) const HASH_CHARS: usize = 8;
 const BASE32_ALPHABET: &[u8; 32] = b"abcdefghijklmnopqrstuvwxyz234567";
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Ordered so that a value recognised as two different contextual kinds in
+/// one request always takes the same one (the first in declaration order).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Kind {
     PrivateKey,
     ApiKey,
@@ -26,10 +28,11 @@ pub(crate) enum Kind {
     IdNumber,
     Phone,
     BankCard,
+    Word,
 }
 
 impl Kind {
-    pub(crate) const ALL: [Kind; 9] = [
+    pub(crate) const ALL: [Kind; 10] = [
         Kind::PrivateKey,
         Kind::ApiKey,
         Kind::Token,
@@ -39,6 +42,7 @@ impl Kind {
         Kind::IdNumber,
         Kind::Phone,
         Kind::BankCard,
+        Kind::Word,
     ];
 
     /// Kinds recognized only by their surroundings (`password=…`,
@@ -59,6 +63,7 @@ impl Kind {
             Kind::IdNumber => "ID_NUMBER",
             Kind::Phone => "PHONE",
             Kind::BankCard => "BANK_CARD",
+            Kind::Word => "WORD",
         }
     }
 }
