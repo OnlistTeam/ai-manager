@@ -13,6 +13,7 @@ import {
   HomeStatusChecking,
   HomeUnavailableState,
 } from "./HomeReadinessNotice";
+import { HomeLiveRouting } from "./HomeLiveRouting";
 import { HomeStatusLine } from "./HomeStatusLine";
 import { HomeToolList } from "./HomeToolList";
 import {
@@ -137,8 +138,7 @@ export function HomePage({
         />
       )}
 
-      {/* Slot: the live routing switch and its panel mount here, between the
-          status line and the findings, in a later change. */}
+      <HomeLiveRouting />
 
       {/* The status line counts; this list names each finding with its next
           step. Findings a tool row already shows are left to that row. */}
