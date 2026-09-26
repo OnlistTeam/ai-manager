@@ -10,7 +10,6 @@ export interface ExtensionCardLabels {
   update: string;
   openLocation: string;
   editDetected: string;
-  copyTo: string;
   /** Names the retry for a failed toggle; null when nothing failed. */
   retry: string | null;
   /** Heading of the inline error; null when there is nothing to report. */
@@ -47,7 +46,6 @@ export function useExtensionCardLabels(
     editDetected: t("extensions.card.editDocumentNamed", {
       name: extension.name,
     }),
-    copyTo: t("extensions.card.copyToNamed", { name: extension.name }),
     retry: failure
       ? t(
           failure.intendedEnabled

@@ -5,7 +5,6 @@ use std::sync::Arc;
 use tauri::State;
 use tauri_plugin_dialog::DialogExt;
 
-use crate::application::extension_directory::ExtensionDirectory;
 use crate::application::skill_backup::{
     SkillBackupDirectory, SkillBackupRestoreRequest, SkillBackupRestoreService,
 };
@@ -15,8 +14,8 @@ use crate::application::skill_zip_installation::{
     SkillZipInstallRequest, SkillZipInstallationService,
 };
 use crate::domain::{
-    AppError, ErrorCode, Extension, ExtensionScope, OperationId, SkillBackup, SkillRepository,
-    SkillRepositoryDraft, SkillUpdate, SkillZipInstallOutcome,
+    AppError, ErrorCode, OperationId, SkillBackup, SkillRepository, SkillRepositoryDraft,
+    SkillUpdate, SkillZipInstallOutcome,
 };
 use crate::infrastructure::OperationManager;
 
@@ -142,21 +141,6 @@ pub async fn app_skill_repository_remove(
     repository: String,
 ) -> Result<Vec<SkillRepository>, AppError> {
     blocking(move || SkillRepositoryDirectory::remove(&app_handle, &repository)).await
-}
-
-/// Copy one detected Skill into another tool. The renderer sends a stable Skill
-/// id and a tool id only — never a path — and gets the target tool's refreshed
-/// inventory back, same shape as every other extension write.
-#[tauri::command]
-pub async fn app_detected_skill_copy(
-    app_handle: tauri::AppHandle,
-    scope: ExtensionScope,
-    target: String,
-    skill: String,
-) -> Result<Vec<Extension>, AppError> {
-    let target = parse_tool(&target)?;
-    blocking(move || ExtensionDirectory::copy_detected_skill(&app_handle, scope, target, &skill))
-        .await
 }
 
 fn start_skill_update(

@@ -522,7 +522,6 @@
       "adoptFailed": "AI Manager không thể thêm các tiện ích đã tìm thấy một cách an toàn.",
       "adoptUnsupported": "Loại tiện ích này không thể được thêm từ một bản sao cục bộ có sẵn.",
       "cannotDisable": "Luôn có một bộ chỉ dẫn đang được sử dụng, nên bộ này không thể tắt được. Hãy chọn một bộ khác thay vào đó.",
-      "copyFailed": "Không thể sao chép Skill này.",
       "detectedReadOnly": "AI Manager tìm thấy tiện ích này trên máy Mac của bạn nhưng chưa quản lý nó, nên đã giữ nguyên bản sao cục bộ.",
       "listFailed": "Không thể đọc các tiện ích của công cụ này.",
       "notFound": "Tiện ích đó không còn ở đây nữa.",
@@ -1938,19 +1937,11 @@
       "unsupportedTitle": "AI Manager chưa tích hợp {{kind}} cho {{tool}}",
       "unsupportedDescription": "Chưa thể quản lý mục này cho {{tool}} ở đây."
     },
-    "adoption": {
-      "import": "Nhập",
-      "importNamed": "Nhập {{name}} vào AI Manager",
-      "done": "Đã nhập {{name}}. Bật hoặc tắt cho từng ứng dụng tại đây.",
-      "errorTitle": "Không thể nhập {{name}}"
-    },
     "list": {
       "appsNamed": "Ứng dụng cho {{name}}",
       "useIn": "{{tool}}: {{name}}",
       "stateOn": "Đang bật trong {{tool}}",
       "stateOff": "Đang tắt trong {{tool}}",
-      "stateFound": "Có trong {{tool}}, chưa nhập",
-      "stateAbsent": "Không có trong {{tool}}",
       "notIntegrated": "Chưa tích hợp {{kind}}: {{tools, list}}"
     },
     "scopeSave": {
@@ -1958,17 +1949,6 @@
       "errorTitle": "Chế độ xem này chưa được ghi nhớ",
       "errorDescription": "Bạn vẫn có thể tiếp tục làm việc ở đây. Hãy thử lại để AI Manager mở lại trang này vào lần sau.",
       "retry": "Thử lại"
-    },
-    "copy": {
-      "title": "Sao chép “{{name}}” sang ứng dụng khác",
-      "description": "Sau khi sao chép, hai bản độc lập với nhau.",
-      "targetsLabel": "Sao chép sang các ứng dụng này",
-      "confirm": "Sao chép",
-      "alreadyHas": "Đã có sẵn",
-      "copied": "Đã sao chép",
-      "failed": "Chưa sao chép",
-      "independent": "Đã sao chép. Hai bản độc lập với nhau.",
-      "noTargets": "Mọi ứng dụng khác có thể dùng Skills đều đã có Skill này."
     },
     "card": {
       "itemLabel": "{{name}}, mục {{position}} trên {{total}}",
@@ -1980,8 +1960,6 @@
       "openLocationNamed": "Mở vị trí của {{name}}",
       "editDocument": "Sửa SKILL.md",
       "editDocumentNamed": "Sửa SKILL.md cho {{name}}",
-      "copyTo": "Sao chép sang…",
-      "copyToNamed": "Sao chép {{name}} sang ứng dụng khác",
       "locationOpened": "Vị trí của {{name}} đã được mở.",
       "documentOpened": "SKILL.md cho {{name}} đã được mở trong trình chỉnh sửa mặc định của bạn.",
       "resourceOpenErrorNamed": "Không thể mở {{name}}",

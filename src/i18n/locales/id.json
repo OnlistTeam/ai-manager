@@ -522,7 +522,6 @@
       "adoptFailed": "AI Manager tidak dapat menambahkan ekstensi yang ditemukan dengan aman.",
       "adoptUnsupported": "Jenis ekstensi ini tidak dapat ditambahkan dari salinan lokal yang sudah ada.",
       "cannotDisable": "Satu set instruksi selalu tetap digunakan, sehingga yang ini tidak dapat dinonaktifkan. Pilih yang lain sebagai gantinya.",
-      "copyFailed": "Skill tidak dapat disalin.",
       "detectedReadOnly": "AI Manager menemukan ekstensi ini di Mac Anda tetapi belum mengelolanya, sehingga membiarkan salinan lokalnya tidak berubah.",
       "listFailed": "Tidak dapat membaca ekstensi untuk alat ini.",
       "notFound": "Ekstensi tersebut tidak lagi ada di sini.",
@@ -1938,19 +1937,11 @@
       "unsupportedTitle": "AI Manager belum mengintegrasikan {{kind}} untuk {{tool}}",
       "unsupportedDescription": "Ini belum dapat dikelola untuk {{tool}} di sini."
     },
-    "adoption": {
-      "import": "Impor",
-      "importNamed": "Impor {{name}} ke AI Manager",
-      "done": "{{name}} diimpor. Aktifkan atau nonaktifkan di sini untuk tiap aplikasi.",
-      "errorTitle": "Tidak dapat mengimpor {{name}}"
-    },
     "list": {
       "appsNamed": "Aplikasi untuk {{name}}",
       "useIn": "{{tool}}: {{name}}",
       "stateOn": "Aktif di {{tool}}",
       "stateOff": "Nonaktif di {{tool}}",
-      "stateFound": "Ada di {{tool}}, belum diimpor",
-      "stateAbsent": "Tidak ada di {{tool}}",
       "notIntegrated": "Belum terintegrasi untuk {{kind}}: {{tools, list}}"
     },
     "scopeSave": {
@@ -1958,17 +1949,6 @@
       "errorTitle": "Tampilan ini tidak diingat",
       "errorDescription": "Anda tetap dapat bekerja di sini. Coba lagi agar AI Manager membuka tampilan yang sama lain kali.",
       "retry": "Coba lagi"
-    },
-    "copy": {
-      "title": "Salin \"{{name}}\" ke aplikasi lain",
-      "description": "Kedua salinan menjadi independen setelah disalin.",
-      "targetsLabel": "Salin ke aplikasi ini",
-      "confirm": "Salin",
-      "alreadyHas": "Sudah memilikinya",
-      "copied": "Tersalin",
-      "failed": "Tidak tersalin",
-      "independent": "Tersalin. Kedua salinan kini independen.",
-      "noTargets": "Setiap aplikasi lain yang dapat menggunakan Skill sudah memiliki yang ini."
     },
     "card": {
       "itemLabel": "{{name}}, item {{position}} dari {{total}}",
@@ -1980,8 +1960,6 @@
       "openLocationNamed": "Buka lokasi {{name}}",
       "editDocument": "Edit SKILL.md",
       "editDocumentNamed": "Edit SKILL.md untuk {{name}}",
-      "copyTo": "Salin ke…",
-      "copyToNamed": "Salin {{name}} ke aplikasi lain",
       "locationOpened": "Lokasi {{name}} sudah terbuka.",
       "documentOpened": "SKILL.md untuk {{name}} terbuka di editor default Anda.",
       "resourceOpenErrorNamed": "Tidak dapat membuka {{name}}",

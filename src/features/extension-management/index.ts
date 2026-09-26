@@ -15,8 +15,6 @@ export { SkillCatalogModal } from "./SkillCatalogModal";
 export { SkillBackupsPanel } from "./SkillBackupsPanel";
 export { SkillBackupRow } from "./SkillBackupRow";
 export type { SkillCatalogModalProps } from "./SkillCatalogModal";
-export { SkillCopyModal } from "./SkillCopyModal";
-export type { SkillCopyModalProps, SkillCopyTarget } from "./SkillCopyModal";
 export { SkillRemovalModal } from "./SkillRemovalModal";
 export { SkillRepositoriesPanel } from "./SkillRepositoriesPanel";
 export { SkillZipInstallPanel } from "./SkillZipInstallPanel";
@@ -42,7 +40,6 @@ export type {
 } from "./extensionTabs";
 export {
   useAdoptDetected,
-  useCopyDetectedSkill,
   useOpenDetectedSkillResource,
   useSetExtensionEnabled,
 } from "./useExtensionMutations";
@@ -71,7 +68,6 @@ export {
 } from "./useSkillRepositories";
 export type {
   AdoptDetectedVariables,
-  CopyDetectedSkillVariables,
   ExtensionTarget,
   OpenDetectedSkillResourceVariables,
   SetExtensionEnabledVariables,

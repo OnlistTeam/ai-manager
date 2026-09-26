@@ -3,7 +3,6 @@ import {
   Check,
   CheckCircle2,
   Circle,
-  Copy,
   FilePenLine,
   FolderOpen,
   HardDrive,
@@ -33,7 +32,6 @@ export interface ExtensionCardFooterProps {
   labels: ExtensionCardLabels;
   onOpenLocation?: () => void;
   onEditDetectedDocument?: () => void;
-  onCopyToTool?: () => void;
   onEdit?: () => void;
   onRemove?: () => void;
   onUpdate?: () => void;
@@ -53,7 +51,6 @@ export function ExtensionCardFooter({
   labels,
   onOpenLocation,
   onEditDetectedDocument,
-  onCopyToTool,
   onEdit,
   onRemove,
   onUpdate,
@@ -107,20 +104,6 @@ export function ExtensionCardFooter({
           >
             <FolderOpen className="h-4 w-4" aria-hidden="true" />
             {t("extensions.card.openLocation")}
-          </Button>
-        ) : null}
-
-        {detected && extension.kind === "skill" && onCopyToTool ? (
-          <Button
-            size="sm"
-            variant="ghost"
-            aria-label={labels.copyTo}
-            disabled={busy || pending}
-            loading={pending}
-            onClick={onCopyToTool}
-          >
-            <Copy className="h-4 w-4" aria-hidden="true" />
-            {t("extensions.card.copyTo")}
           </Button>
         ) : null}
 

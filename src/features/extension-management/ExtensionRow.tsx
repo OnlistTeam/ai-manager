@@ -7,11 +7,7 @@ import { Badge } from "@/shared/ui/Badge";
 import { ListGroupRow } from "@/shared/ui/ListGroup";
 import type { ExtensionToggleFailure } from "./ExtensionCard";
 import { ExtensionRowActions } from "./ExtensionRowActions";
-import {
-  ScopeToggleGroup,
-  type ScopeToggleState,
-  type ScopeToggleTarget,
-} from "./ScopeToggleGroup";
+import { ScopeToggleGroup, type ScopeToggleTarget } from "./ScopeToggleGroup";
 import {
   representativeEntry,
   type UnifiedExtensionRow,
@@ -29,31 +25,22 @@ export interface ExtensionRowProps {
   pendingKey?: string | null;
   /** A background task for this item, e.g. removal. */
   pendingLabel?: string;
-  importing?: boolean;
   resourceAction?: "browse" | "edit";
   failure?: ExtensionToggleFailure;
   /** The app whose switch `failure` belongs to. */
   failedKey?: string | null;
-  importError?: Error;
   resourceError?: Error;
   updateAvailable?: boolean;
   onToggle: (target: ScopeToggleTarget, enabled: boolean) => void;
-  onImport?: () => void;
   onUpdate?: () => void;
   onRemove?: () => void;
   onOpenLocation?: () => void;
   onEditDocument?: () => void;
-  onCopy?: () => void;
 }
 
-function stateIn(
-  row: UnifiedExtensionRow,
-  target: ScopeToggleTarget,
-): ScopeToggleState {
-  const entry = row.entries.get(extensionScopeKey(target.scope));
-  if (row.management === "detected") return entry ? "found" : "absent";
-  if (!entry) return "absent";
-  return entry.enabled ? "on" : "off";
+/** A found item is on wherever it was found; the switch takes it over. */
+function isOnIn(row: UnifiedExtensionRow, target: ScopeToggleTarget): boolean {
+  return row.entries.get(extensionScopeKey(target.scope))?.enabled ?? false;
 }
 
 /**
@@ -69,20 +56,16 @@ export function ExtensionRow({
   busy,
   pendingKey = null,
   pendingLabel,
-  importing = false,
   resourceAction,
   failure,
   failedKey = null,
-  importError,
   resourceError,
   updateAvailable = false,
   onToggle,
-  onImport,
   onUpdate,
   onRemove,
   onOpenLocation,
   onEditDocument,
-  onCopy,
 }: ExtensionRowProps) {
   const { t } = useTranslation();
   const headingId = useId();
@@ -95,21 +78,16 @@ export function ExtensionRow({
     undefined,
   );
   const detected = row.management === "detected";
-  const shownError = failure?.error ?? importError ?? resourceError;
+  const shownError = failure?.error ?? resourceError;
   const errorCopy = shownError ? toErrorCopy(shownError) : null;
-  const errorTitle =
-    importError && !failure
-      ? t("extensions.adoption.errorTitle", { name: row.name })
-      : labels.failureTitle;
+  const errorTitle = labels.failureTitle;
 
   return (
     <ListGroupRow
       role="article"
       aria-labelledby={headingId}
       aria-busy={
-        pendingKey !== null || importing || pendingLabel !== undefined
-          ? true
-          : undefined
+        pendingKey !== null || pendingLabel !== undefined ? true : undefined
       }
       className="flex flex-col gap-2 px-4 py-3"
     >
@@ -152,26 +130,18 @@ export function ExtensionRow({
         <ExtensionRowActions
           detected={detected}
           busy={busy}
-          importing={importing}
           resourceAction={resourceAction}
-          labels={{
-            ...labels,
-            importItem: t("extensions.adoption.importNamed", {
-              name: row.name,
-            }),
-          }}
-          onImport={onImport}
+          labels={labels}
           onUpdate={updateAvailable ? onUpdate : undefined}
           onRemove={onRemove}
           onOpenLocation={onOpenLocation}
           onEditDocument={onEditDocument}
-          onCopy={onCopy}
         />
 
         <ScopeToggleGroup
           itemName={labels.item}
           targets={targets}
-          stateOf={(target) => stateIn(row, target)}
+          isOn={(target) => isOnIn(row, target)}
           pendingKey={pendingKey}
           failedKey={failedKey}
           retryLabel={labels.retry}

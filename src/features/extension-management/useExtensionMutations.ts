@@ -8,10 +8,8 @@ import { healthKeys } from "@/entities/health";
 import {
   extensionScopeKey,
   native,
-  toolExtensionScope,
   type ExtensionKind,
   type ExtensionScope,
-  type ToolId,
 } from "@/native";
 
 export interface ExtensionTarget {
@@ -34,13 +32,10 @@ export interface AdoptDetectedVariables {
   kind: ExtensionKind;
   extensionId: string;
   /** Every app the item was found in; each is adopted in turn. */
-  scopes: readonly ExtensionScope[];
-}
-
-export interface CopyDetectedSkillVariables {
+  found: readonly ExtensionScope[];
+  /** The app whose switch was clicked, and the state asked for there. */
   scope: ExtensionScope;
-  target: ToolId;
-  skillId: string;
+  enabled: boolean;
 }
 
 /**
@@ -103,65 +98,12 @@ export function useOpenDetectedSkillResource(): UseMutationResult<
 }
 
 /**
- * Copy a local skill to another tool. The copy is an independent replica, so
- * three caches are affected: the target tool's skill list (the backend
- * returns the authoritative result, written directly), the source tool's list
- * (it now has a sibling that "also has this skill"), and the local inventory
- * (the card's ownership row reads from it).
- */
-export function useCopyDetectedSkill(): UseMutationResult<
-  Extension[],
-  Error,
-  CopyDetectedSkillVariables
-> {
-  const queryClient = useQueryClient();
-
-  return useMutation<Extension[], Error, CopyDetectedSkillVariables>({
-    mutationFn: ({ scope, target, skillId }) =>
-      native.extensions.copyDetectedSkill(scope, target, skillId),
-    onSuccess: (data, { scope, target }) => {
-      queryClient.setQueryData(
-        extensionKeys.list(
-          extensionScopeKey(toolExtensionScope(target)),
-          "skill",
-        ),
-        data,
-      );
-      void queryClient.invalidateQueries({
-        queryKey: extensionKeys.list(extensionScopeKey(scope), "skill"),
-      });
-      void queryClient.invalidateQueries({
-        queryKey: extensionKeys.localInventory(),
-      });
-    },
-    onError: async (_error, { scope, target }) => {
-      // If the write fails partway through, part of it may already be on
-      // disk. Re-read all three caches so the UI shows real state instead of
-      // guessing.
-      await Promise.all([
-        queryClient.invalidateQueries({
-          queryKey: extensionKeys.list(
-            extensionScopeKey(toolExtensionScope(target)),
-            "skill",
-          ),
-        }),
-        queryClient.invalidateQueries({
-          queryKey: extensionKeys.list(extensionScopeKey(scope), "skill"),
-        }),
-        queryClient.invalidateQueries({
-          queryKey: extensionKeys.localInventory(),
-        }),
-      ]);
-    },
-  });
-}
-
-/**
- * Import one found item from every app it was found in. The calls run one
- * after another: the first brings the item under management and each later
- * one only switches it on for its own app, so a failure part-way leaves a
- * state the next attempt simply continues. Every list is re-read afterwards,
- * because importing changes the row in all of them, not just the ones called.
+ * A switch on a found item: the item is taken over from every app it was
+ * found in, then the clicked app is set as asked. The calls run one after
+ * another: the first brings the item under management and each later one only
+ * sets its own app, so a failure part-way leaves a state the next attempt
+ * simply continues. Every list is re-read afterwards, because taking an item
+ * over changes its row in all of them, not just the ones called.
  */
 export function useAdoptDetected(): UseMutationResult<
   void,
@@ -171,10 +113,11 @@ export function useAdoptDetected(): UseMutationResult<
   const queryClient = useQueryClient();
 
   return useMutation<void, Error, AdoptDetectedVariables>({
-    mutationFn: async ({ kind, extensionId, scopes }) => {
-      for (const scope of scopes) {
-        await native.extensions.adoptDetected(scope, kind, extensionId);
+    mutationFn: async ({ kind, extensionId, found, scope, enabled }) => {
+      for (const source of found) {
+        await native.extensions.adoptDetected(source, kind, extensionId, true);
       }
+      await native.extensions.adoptDetected(scope, kind, extensionId, enabled);
     },
     onSettled: (_data, _error, { kind }) =>
       Promise.all([

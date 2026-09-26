@@ -2381,7 +2381,7 @@ impl SkillService {
                         "The skill in Pi changed during the operation, refusing to overwrite it: {directory}"
                     ));
                 }
-                Self::replace_dest_with_copy(source, destination, directory, true)?;
+                Self::replace_dest_with_copy(source, destination, directory)?;
             }
         }
 
@@ -2426,7 +2426,7 @@ impl SkillService {
         match sync_method {
             SyncMethod::Auto => {
                 if dest.exists() && !Self::is_symlink(&dest) {
-                    Self::replace_dest_with_copy(&source, &dest, &directory, true)?;
+                    Self::replace_dest_with_copy(&source, &dest, &directory)?;
                     log::debug!("Skill {directory} was synced to {app:?} by copying");
                     return Ok(());
                 }
@@ -2450,7 +2450,7 @@ impl SkillService {
                     }
                 }
                 // Fall back to copy
-                Self::replace_dest_with_copy(&source, &dest, &directory, true)?;
+                Self::replace_dest_with_copy(&source, &dest, &directory)?;
                 log::debug!("Skill {directory} was synced to {app:?} by copying");
             }
             SyncMethod::Symlink => {
@@ -2461,49 +2461,12 @@ impl SkillService {
                 log::debug!("Skill {directory} was synced to {app:?} via symlink");
             }
             SyncMethod::Copy => {
-                Self::replace_dest_with_copy(&source, &dest, &directory, true)?;
+                Self::replace_dest_with_copy(&source, &dest, &directory)?;
                 log::debug!("Skill {directory} was synced to {app:?} by copying");
             }
         }
 
         Ok(())
-    }
-
-    /// Copy a skill directory that AI Manager does not own from where it was discovered into a tool's
-    /// skills directory.
-    ///
-    /// There is only one difference from `sync_to_app_dir`, but it matters: that function hardcodes the
-    /// source as `get_ssot_dir()?.join(directory)`, while a detected skill usually only exists in
-    /// `~/.claude/skills/<dir>` or `~/.agents/skills/<dir>`. The source path is re-resolved by the caller
-    /// from the local manifest and never comes from the renderer.
-    ///
-    /// Always a real copy, regardless of `SyncMethod`: a symlink would make the target tool follow a
-    /// directory this product does not own, and renaming or deleting the source would silently empty it.
-    ///
-    /// An existing entry with the same name at the target is always an error. It could be the user's own
-    /// skill of the same name or a managed AI Manager copy; overwriting would silently destroy data. The
-    /// UI already greys out tools that "already have it", and this layer is the backstop.
-    pub fn copy_detected_to_app_dir(source: &Path, directory: &str, app: &AppType) -> Result<()> {
-        let directory = Self::require_valid_directory(directory)?;
-        Self::validate_sync_source_dir(source, &directory)?;
-
-        let ssot_dir = Self::get_ssot_dir()?;
-        let app_dir = Self::get_distinct_app_skills_dir(&ssot_dir, app)?;
-        let dest = app_dir.join(&directory);
-
-        // Source and target are the same place: this tool is where it was discovered, nothing to do.
-        if Self::paths_alias(source, &dest) {
-            return Ok(());
-        }
-
-        if dest.exists() || Self::is_symlink(&dest) {
-            return Err(anyhow!(
-                "The {app:?} skills directory already contains {directory}, refusing to overwrite it"
-            ));
-        }
-
-        fs::create_dir_all(&app_dir)?;
-        Self::replace_dest_with_copy(source, &dest, &directory, false)
     }
 
     /// Copy a skill into an app directory (kept for backward compatibility)
@@ -2546,15 +2509,7 @@ impl SkillService {
         Ok(())
     }
 
-    /// `follow_links` refers to how entries **inside the source directory** are handled. The SSOT this
-    /// product writes itself never contains third-party symlinks, so following them is safe; third-party
-    /// directories are not, see `copy_dir_recursive_without_links`.
-    fn replace_dest_with_copy(
-        source: &Path,
-        dest: &Path,
-        directory: &str,
-        follow_links: bool,
-    ) -> Result<()> {
+    fn replace_dest_with_copy(source: &Path, dest: &Path, directory: &str) -> Result<()> {
         Self::validate_sync_source_dir(source, directory)?;
 
         let parent = dest
@@ -2573,11 +2528,7 @@ impl SkillService {
             Self::remove_path(&tmp)?;
         }
 
-        let copy_result = if follow_links {
-            Self::copy_dir_recursive(source, &tmp)
-        } else {
-            Self::copy_dir_recursive_without_links(source, &tmp)
-        };
+        let copy_result = Self::copy_dir_recursive(source, &tmp);
         if let Err(err) = copy_result {
             let _ = Self::remove_path(&tmp);
             return Err(err);
@@ -4057,38 +4008,6 @@ impl SkillService {
         let mut reader = fs::File::open(src)?;
         let mut writer = fs::File::create(dest)?;
         Self::copy_entry_within_budget(&mut reader, &mut writer, total_bytes)
-    }
-
-    /// Same shape as `copy_dir_recursive`, but the entry type comes from `entry.file_type()` -
-    /// `Path::is_dir()` and `fs::copy` both follow symbolic links.
-    ///
-    /// Following is harmless when the source is the SSOT this product writes itself; when copying a
-    /// third-party directory to another tool, following would wire that tool to a location this product
-    /// neither owns nor controls. A symlink entry is therefore an error here instead of being silently materialized into a real file.
-    fn copy_dir_recursive_without_links(src: &Path, dest: &Path) -> Result<()> {
-        fs::create_dir_all(dest)?;
-
-        for entry in fs::read_dir(src)? {
-            let entry = entry?;
-            let file_type = entry.file_type()?;
-            let path = entry.path();
-            let dest_path = dest.join(entry.file_name());
-
-            if file_type.is_symlink() {
-                return Err(anyhow!(
-                    "The skill source directory contains a symbolic link, refusing to copy: {}",
-                    path.display()
-                ));
-            }
-
-            if file_type.is_dir() {
-                Self::copy_dir_recursive_without_links(&path, &dest_path)?;
-            } else {
-                fs::copy(&path, &dest_path)?;
-            }
-        }
-
-        Ok(())
     }
 
     /// Recursively copy a directory
@@ -6712,7 +6631,7 @@ mod tests {
         fs::create_dir_all(&source).expect("create empty source");
         write_skill(&dest, "Existing Skill");
 
-        let err = SkillService::replace_dest_with_copy(&source, &dest, "source-skill", true)
+        let err = SkillService::replace_dest_with_copy(&source, &dest, "source-skill")
             .expect_err("empty source should not replace existing app skill");
 
         assert!(
@@ -6860,119 +6779,6 @@ mod tests {
         assert_eq!(
             SkillService::doc_path_for_source(temp.path(), std::path::Path::new("/elsewhere")),
             None
-        );
-    }
-
-    /// serial: it changes the process-wide AI_MANAGER_TEST_HOME.
-    #[test]
-    #[serial_test::serial]
-    fn copy_detected_to_app_dir_makes_a_real_independent_folder() {
-        let temp = tempdir().expect("tempdir");
-        let _home = TestHomeGuard::set(temp.path());
-        let source = temp.path().join(".claude").join("skills").join("unity-cli");
-        write_skill(&source, "Unity CLI");
-
-        SkillService::copy_detected_to_app_dir(&source, "unity-cli", &AppType::Codex)
-            .expect("copy the detected Skill into Codex");
-
-        let dest = temp.path().join(".codex").join("skills").join("unity-cli");
-        assert!(
-            !fs::symlink_metadata(&dest)
-                .expect("read the copy metadata")
-                .file_type()
-                .is_symlink(),
-            "the copy must not be a link back to a directory we do not own"
-        );
-        assert_eq!(
-            fs::read(dest.join("SKILL.md")).expect("the copy has the document"),
-            fs::read(source.join("SKILL.md")).expect("the source is untouched")
-        );
-    }
-
-    #[test]
-    #[serial_test::serial]
-    fn copy_detected_to_app_dir_refuses_to_overwrite_whatever_is_already_there() {
-        let temp = tempdir().expect("tempdir");
-        let _home = TestHomeGuard::set(temp.path());
-        let source = temp.path().join(".claude").join("skills").join("unity-cli");
-        write_skill(&source, "Unity CLI");
-        let occupied = temp.path().join(".codex").join("skills").join("unity-cli");
-        write_skill(&occupied, "Their own Unity CLI");
-        let theirs = fs::read(occupied.join("SKILL.md")).expect("read their document");
-
-        let err = SkillService::copy_detected_to_app_dir(&source, "unity-cli", &AppType::Codex)
-            .expect_err("an occupied destination is never overwritten");
-
-        assert!(err.to_string().contains("unity-cli"), "unexpected: {err:#}");
-        assert_eq!(
-            fs::read(occupied.join("SKILL.md")).expect("their document survived"),
-            theirs
-        );
-    }
-
-    #[test]
-    #[serial_test::serial]
-    fn copy_detected_to_app_dir_is_a_no_op_when_the_source_is_the_destination() {
-        let temp = tempdir().expect("tempdir");
-        let _home = TestHomeGuard::set(temp.path());
-        let source = temp.path().join(".codex").join("skills").join("unity-cli");
-        write_skill(&source, "Unity CLI");
-
-        SkillService::copy_detected_to_app_dir(&source, "unity-cli", &AppType::Codex)
-            .expect("copying a Skill onto itself has nothing to do");
-
-        assert!(source.join("SKILL.md").is_file());
-    }
-
-    #[test]
-    #[serial_test::serial]
-    #[cfg(unix)]
-    fn copy_detected_to_app_dir_refuses_a_source_that_contains_a_symlink() {
-        let temp = tempdir().expect("tempdir");
-        let _home = TestHomeGuard::set(temp.path());
-        let outside = temp.path().join("outside.txt");
-        fs::write(&outside, b"private").expect("write the outside file");
-        let source = temp.path().join(".claude").join("skills").join("unity-cli");
-        write_skill(&source, "Unity CLI");
-        std::os::unix::fs::symlink(&outside, source.join("notes.txt")).expect("plant the link");
-
-        let err = SkillService::copy_detected_to_app_dir(&source, "unity-cli", &AppType::Codex)
-            .expect_err("a third-party source with a link is not copied");
-
-        assert!(
-            err.to_string().contains("symbolic link"),
-            "unexpected error: {err:#}"
-        );
-        // The temporary staging directory is cleaned up, and nothing lands.
-        assert!(!temp
-            .path()
-            .join(".codex")
-            .join("skills")
-            .join("unity-cli")
-            .exists());
-        let leftovers = fs::read_dir(temp.path().join(".codex").join("skills"))
-            .map(|entries| entries.count())
-            .unwrap_or(0);
-        assert_eq!(
-            leftovers, 0,
-            "a half-written temporary directory was left behind"
-        );
-    }
-
-    #[test]
-    #[serial_test::serial]
-    fn copy_detected_to_app_dir_rejects_a_directory_name_that_could_traverse() {
-        let temp = tempdir().expect("tempdir");
-        let _home = TestHomeGuard::set(temp.path());
-        let source = temp.path().join(".claude").join("skills").join("unity-cli");
-        write_skill(&source, "Unity CLI");
-
-        let err = SkillService::copy_detected_to_app_dir(&source, "../escape", &AppType::Codex)
-            .expect_err("a traversing directory name is refused");
-
-        assert!(
-            err.to_string().contains("path traversal"),
-            "unexpected error: {err:#}"
         );
     }
 }

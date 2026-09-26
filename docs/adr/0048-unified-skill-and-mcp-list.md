@@ -2,6 +2,8 @@
 
 - Status: accepted
 - Date: 2026-09-26
+- Amended 2026-09-26: found items are taken over by their first switch; the
+  Import button and Copy to… are gone (decision 3, 5).
 - Supersedes, for Skills and MCP only: the "software selector" in ADR-0038
   (one tab per installed tool or desktop app) and ADR-0045's shared-file row
   above the MCP list. Global Prompts keep both.
@@ -33,24 +35,36 @@ the honest layout there.
    mark, so state is not colour alone. Desktop apps carry a small screen badge
    because Claude Desktop and Claude Code share a mark. Installed apps that
    are not integrated for the kind are named once below the list.
-3. **Found items join the same list.** Their app icons show where they are
-   (dashed tile) and cannot be switched; the row offers **Import**. Import
-   runs `app_extensions_adopt_detected` once per app the item was found in.
-   The command now takes the item id and adopts only that item: a first call
-   brings it under management, a later call for another app only switches it
-   on there. The MCP path is upstream's `import_from_*` merge narrowed to one
-   id, done in the compatibility layer; the live file is still read, never
-   written. Adopting an id that is neither found nor managed is
-   `ExtensionNotFound`. No confirmation dialog: importing rewrites nothing
-   the user owns.
+3. **Found items join the same list and switch like any other.** An app it
+   was found in shows as on, the rest as off, and the list is one order by
+   name, so nothing marks a row as different. The first switch the user
+   clicks takes the item over: `app_extensions_adopt_detected` runs once per
+   app the item was found in (switching each on, which it already is), then
+   once for the clicked app with the state asked for. The command takes the
+   item id and an `enabled` flag and adopts only that item: a first call
+   brings it under management, a later call only sets its own app, including
+   an app it was never found in. The MCP path is upstream's `import_from_*`
+   merge narrowed to one id, done in the compatibility layer. Adopting an id
+   that is neither found nor managed is `ExtensionNotFound`. No confirmation
+   dialog: the click already says what should change.
+
+   A first version showed found items as read-only dashed tiles with an
+   **Import** button. Users read the item as already theirs and could not
+   say where "import" would put it, and the row then jumped from the found
+   group to the managed one. "Managed by AI Manager" is our bookkeeping, not
+   something the user needs to act on.
+
 4. **No aggregate native command.** The list is `useQueries` over the existing
    per-app `app_extensions_list` queries, combined by id (managed rows) or by
-   id among found rows. Toggles keep writing one app's cache entry; import
+   id among found rows. Toggles keep writing one app's cache entry; a takeover
    and the background tasks invalidate `extensionKeys.all`. If any app's list
    has never been read the page shows the read error rather than a partial
    list; a failed refresh keeps the last rows and pauses changes, as before.
 5. **Row actions.** Managed: Update (when one is known) and Remove. Found
-   Skills: Open location, Edit SKILL.md, Copy to…, Import. Add stays in the
+   Skills: Open location and Edit SKILL.md. Copy to… is removed with its
+   command (`app_detected_skill_copy`): switching the Skill on in another app
+   puts it there, managed, so a second, unmanaged way to do the same thing
+   only raised the question of which to use. Add stays in the
    page header and starts in the app the shell routed to, else the first
    supported app; the modal names that app and the new row's switches reach
    the rest.
@@ -64,14 +78,14 @@ the honest layout there.
 - `localExtensionGroups.ts` is deleted: the row merge answers "which apps have
   this Skill" directly, so the page no longer reads the local inventory. Its
   tests moved to `unifiedExtensionRows.test.ts`.
-- The unused adoption dialog copy and the `extensions.inventory.*` group
-  headings are removed; `extensions.list.*` and four `extensions.adoption.*`
-  keys replace them in all 13 locales.
+- The unused adoption dialog copy, the `extensions.inventory.*` group
+  headings, `extensions.adoption.*` and `extensions.copy.*` are removed;
+  `extensions.list.*` replaces them in all 13 locales.
 - `ExtensionCard`'s found-item branches are no longer reached from the page
   (only prompts render cards). They are left in place with their tests and
   recorded here as debt to remove in a follow-up.
 - Two found MCP servers with the same id in different apps become one row,
-  and importing keeps the first app's spec; the other app only gains a flag.
+  and a takeover keeps the first app's spec; the other app only gains a flag.
   This is upstream's import rule, and it is why the MCP remove confirmation
   already says removal applies everywhere.
 
@@ -79,7 +93,12 @@ the honest layout there.
 
 - **A native "list everything" command.** It would duplicate the per-app
   reads and their gating and give toggles a second cache to keep in sync.
-- **A page-level "Import all" button** (upstream's shape). It imports things
-  the user did not look at; a per-row button says exactly what will change.
+- **A page-level "Import existing" button** (upstream's shape). Found items
+  stay out of the list until imported, so a Skill the user can see working in
+  Claude Code is missing here, and the dialog asks them to learn the same
+  managed/unmanaged split.
+- **An Import button per row** (this ADR's first version). See decision 3.
+- **Taking every found item over when the page loads.** It would copy and
+  record things the user never touched; a click on a switch is the consent.
 - **Per-app file buttons next to the switches.** Hidden in a tooltip they are
   undiscoverable; visible they double the width of every row.

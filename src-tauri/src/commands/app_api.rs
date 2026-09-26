@@ -662,9 +662,13 @@ pub async fn app_extensions_adopt_detected(
     scope: ExtensionScope,
     kind: String,
     extension: String,
+    enabled: bool,
 ) -> Result<Vec<Extension>, AppError> {
     let kind = parse_kind(&kind)?;
-    blocking(move || ExtensionDirectory::adopt_detected(&app_handle, scope, kind, &extension)).await
+    blocking(move || {
+        ExtensionDirectory::adopt_detected(&app_handle, scope, kind, &extension, enabled)
+    })
+    .await
 }
 
 #[tauri::command]

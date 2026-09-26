@@ -522,7 +522,6 @@
       "adoptFailed": "AI Manager n'a pas pu ajouter les extensions trouvées en toute sécurité.",
       "adoptUnsupported": "Ce type d'extension ne peut pas être ajouté à partir d'une copie locale existante.",
       "cannotDisable": "Un jeu d'instructions reste toujours en cours d'utilisation, celui-ci ne peut donc pas être désactivé. Choisissez-en un autre à la place.",
-      "copyFailed": "La compétence n'a pas pu être copiée.",
       "detectedReadOnly": "AI Manager a trouvé cette extension sur votre Mac mais ne la gère pas encore, il a donc laissé la copie locale inchangée.",
       "listFailed": "Impossible de lire les extensions de cet outil.",
       "notFound": "Cette extension n'est plus disponible.",
@@ -1938,19 +1937,11 @@
       "unsupportedTitle": "AI Manager n'a pas encore intégré {{kind}} pour {{tool}}",
       "unsupportedDescription": "Cet élément ne peut pas encore être géré ici pour {{tool}}."
     },
-    "adoption": {
-      "import": "Importer",
-      "importNamed": "Importer {{name}} dans AI Manager",
-      "done": "{{name}} importé. Activez-le ou désactivez-le ici pour chaque application.",
-      "errorTitle": "Impossible d'importer {{name}}"
-    },
     "list": {
       "appsNamed": "Applications pour {{name}}",
       "useIn": "{{tool}} : {{name}}",
       "stateOn": "Activé dans {{tool}}",
       "stateOff": "Désactivé dans {{tool}}",
-      "stateFound": "Présent dans {{tool}}, pas encore importé",
-      "stateAbsent": "Absent de {{tool}}",
       "notIntegrated": "Pas encore intégré pour {{kind}} : {{tools, list}}"
     },
     "scopeSave": {
@@ -1958,17 +1949,6 @@
       "errorTitle": "Cette vue n'a pas été mémorisée",
       "errorDescription": "Vous pouvez continuer à travailler ici. Réessayez pour qu'AI Manager ouvre la même vue la prochaine fois.",
       "retry": "Réessayer"
-    },
-    "copy": {
-      "title": "Copier « {{name}} » vers une autre application",
-      "description": "Après la copie, les deux copies sont indépendantes.",
-      "targetsLabel": "Copier vers ces applications",
-      "confirm": "Copier",
-      "alreadyHas": "L'a déjà",
-      "copied": "Copié",
-      "failed": "Non copié",
-      "independent": "Copié. Les deux copies sont indépendantes.",
-      "noTargets": "Toutes les autres applications compatibles avec les compétences possèdent déjà celle-ci."
     },
     "card": {
       "itemLabel": "{{name}}, élément {{position}} sur {{total}}",
@@ -1980,8 +1960,6 @@
       "openLocationNamed": "Ouvrir l'emplacement de {{name}}",
       "editDocument": "Modifier SKILL.md",
       "editDocumentNamed": "Modifier le SKILL.md de {{name}}",
-      "copyTo": "Copier vers…",
-      "copyToNamed": "Copier {{name}} vers une autre application",
       "locationOpened": "L'emplacement de {{name}} est ouvert.",
       "documentOpened": "Le SKILL.md de {{name}} est ouvert dans votre éditeur par défaut.",
       "resourceOpenErrorNamed": "Impossible d'ouvrir {{name}}",

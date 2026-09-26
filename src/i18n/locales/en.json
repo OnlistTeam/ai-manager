@@ -519,10 +519,9 @@
       "saveFailed": "AI Manager could not apply the desktop preferences safely."
     },
     "extension": {
-      "adoptFailed": "AI Manager could not add the found extensions safely.",
+      "adoptFailed": "AI Manager could not take this extension over.",
       "adoptUnsupported": "This kind of extension cannot be added from an existing local copy.",
       "cannotDisable": "One set of instructions always stays in use, so this one cannot be switched off. Pick another one instead.",
-      "copyFailed": "The Skill could not be copied over.",
       "detectedReadOnly": "AI Manager found this extension on your Mac but does not manage it yet, so it left the local copy unchanged.",
       "listFailed": "Could not read the extensions for this tool.",
       "notFound": "That extension is no longer here.",
@@ -1938,19 +1937,11 @@
       "unsupportedTitle": "AI Manager has not integrated {{kind}} for {{tool}}",
       "unsupportedDescription": "This cannot be managed for {{tool}} here yet."
     },
-    "adoption": {
-      "import": "Import",
-      "importNamed": "Import {{name}} to AI Manager",
-      "done": "Imported {{name}}. Turn it on or off for each app here.",
-      "errorTitle": "Could not import {{name}}"
-    },
     "list": {
       "appsNamed": "Apps for {{name}}",
       "useIn": "{{tool}}: {{name}}",
       "stateOn": "On in {{tool}}",
       "stateOff": "Off in {{tool}}",
-      "stateFound": "In {{tool}}, not imported yet",
-      "stateAbsent": "Not in {{tool}}",
       "notIntegrated": "Not integrated for {{kind}} yet: {{tools, list}}"
     },
     "scopeSave": {
@@ -1958,17 +1949,6 @@
       "errorTitle": "This view was not remembered",
       "errorDescription": "You can keep working here. Try again so AI Manager opens the same extension view next time.",
       "retry": "Try again"
-    },
-    "copy": {
-      "title": "Copy “{{name}}” to another app",
-      "description": "The two copies are independent after copying.",
-      "targetsLabel": "Copy to these apps",
-      "confirm": "Copy",
-      "alreadyHas": "Already has it",
-      "copied": "Copied",
-      "failed": "Not copied",
-      "independent": "Copied. The two copies are independent.",
-      "noTargets": "Every other app that can use Skills already has this one."
     },
     "card": {
       "itemLabel": "{{name}}, item {{position}} of {{total}}",
@@ -1980,8 +1960,6 @@
       "openLocationNamed": "Open the location of {{name}}",
       "editDocument": "Edit SKILL.md",
       "editDocumentNamed": "Edit the SKILL.md for {{name}}",
-      "copyTo": "Copy to…",
-      "copyToNamed": "Copy {{name}} to another app",
       "locationOpened": "The location of {{name}} is open.",
       "documentOpened": "The SKILL.md for {{name}} is open in your default editor.",
       "resourceOpenErrorNamed": "Could not open {{name}}",

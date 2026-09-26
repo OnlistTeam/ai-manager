@@ -134,10 +134,21 @@ pub(super) fn set_enabled(
     id: &str,
     enabled: bool,
 ) -> Result<(), AppError> {
+    let _guard = mcp_write_guard();
+    toggle_locked(state, app_type, id, enabled)
+}
+
+/// The toggle body without the lock, for callers that already hold
+/// `mcp_write_guard` (a std `RwLock` is not reentrant).
+fn toggle_locked(
+    state: &AppState,
+    app_type: &AppType,
+    id: &str,
+    enabled: bool,
+) -> Result<(), AppError> {
     // This upstream step does more than flip a DB flag: enabling writes the entry into that tool's
     // live config and disabling removes it again (services/mcp.rs:80-88). The eight-step write flow
     // is guaranteed by upstream itself.
-    let _guard = mcp_write_guard();
     let original = McpService::get_all_servers(state)
         .map_err(toggle_failed)?
         .shift_remove(id)
@@ -221,16 +232,19 @@ fn same_server(left: &McpServer, right: &McpServer) -> bool {
         && left.tags == right.tags
 }
 
-/// Bring one MCP connection found in this scope's own file under product
-/// management. This is upstream's `import_from_*` merge narrowed to a single
-/// id: a new row keeps the live spec and is on only for this scope; an
-/// existing row keeps its fields and gains this scope's flag. Like upstream,
-/// the live file is read, never written.
+/// Bring one MCP connection under product management and set this scope to
+/// `enabled`. A connection found in this scope's own file is imported the way
+/// upstream's `import_from_*` merge does, narrowed to a single id: a new row
+/// keeps the live spec, an existing row keeps its fields and gains this
+/// scope's flag, and the live file is read, never written. A connection that
+/// is already managed but absent from this scope goes through the ordinary
+/// toggle, which writes the live file, so adopting from every scope converges.
 pub(super) fn adopt_detected(
     state: &AppState,
     scope: ExtensionScope,
     app_type: &AppType,
     id: &str,
+    enabled: bool,
 ) -> Result<(), AppError> {
     if matches!(app_type, AppType::OpenClaw | AppType::Pi) {
         return Err(reject_adopt_unsupported(ExtensionKind::Mcp));
@@ -242,16 +256,17 @@ pub(super) fn adopt_detected(
     let found = scan_live(app_type)
         .map_err(adopt_failed)?
         .into_iter()
-        .find(|server| server.id == id)
-        .ok_or_else(|| not_found(scope, ExtensionKind::Mcp, id))?;
+        .find(|server| server.id == id);
 
-    let row = match managed.shift_remove(id) {
-        Some(existing) if existing.apps.is_enabled_for(app_type) => return Ok(()),
-        Some(mut existing) => {
+    let row = match (managed.shift_remove(id), found) {
+        (Some(existing), _) if existing.apps.is_enabled_for(app_type) == enabled => return Ok(()),
+        (Some(mut existing), Some(_)) if enabled => {
             existing.apps.set_enabled_for(app_type, true);
             existing
         }
-        None => found,
+        (Some(_), _) => return toggle_locked(state, app_type, id, enabled),
+        (None, Some(found)) => found,
+        (None, None) => return Err(not_found(scope, ExtensionKind::Mcp, id)),
     };
     state.db.save_mcp_server(&row).map_err(adopt_failed)?;
 
@@ -265,7 +280,13 @@ pub(super) fn adopt_detected(
             app_type.as_str()
         )));
     }
-    Ok(())
+    if enabled {
+        Ok(())
+    } else {
+        // The import mirrors what is on disk, so "off" is applied afterwards
+        // and removes the entry from this scope's live file.
+        toggle_locked(state, app_type, id, false)
+    }
 }
 
 pub(super) fn install(

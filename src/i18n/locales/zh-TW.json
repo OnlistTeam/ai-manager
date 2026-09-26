@@ -519,10 +519,9 @@
       "saveFailed": "AI 管家無法安全套用桌面偏好。"
     },
     "extension": {
-      "adoptFailed": "AI 管家沒能安全納管找到的擴充功能。",
+      "adoptFailed": "AI 管家沒能接管這個擴充功能。",
       "adoptUnsupported": "這種擴充功能不能從現有的本機副本中納管。",
       "cannotDisable": "總要有一份說明在使用中，所以這一份關不掉。換用另一份就行。",
-      "copyFailed": "沒能把這個技能複製過去。",
       "detectedReadOnly": "AI 管家在這台 Mac 上找到了這個擴充功能，但尚未接管，因此沒有變更本機副本。",
       "listFailed": "讀不到這個工具的擴充功能。",
       "notFound": "這個擴充功能已經不在了。",
@@ -1937,19 +1936,11 @@
       "unsupportedTitle": "AI 管家尚未接入 {{tool}} 的{{kind}}",
       "unsupportedDescription": "暫時不能在這裡管理 {{tool}} 的這類內容。"
     },
-    "adoption": {
-      "import": "匯入",
-      "importNamed": "把 {{name}} 匯入 AI 管家",
-      "done": "已匯入 {{name}}，現在可以在這裡為各個應用開關它。",
-      "errorTitle": "沒能匯入 {{name}}"
-    },
     "list": {
       "appsNamed": "{{name}} 在各應用中的開關",
       "useIn": "{{tool}}：{{name}}",
       "stateOn": "{{tool}}：已開啟",
       "stateOff": "{{tool}}：已關閉",
-      "stateFound": "{{tool}} 中已有，尚未匯入",
-      "stateAbsent": "{{tool}} 中沒有",
       "notIntegrated": "尚未接入{{kind}}：{{tools, list}}"
     },
     "scopeSave": {
@@ -1957,17 +1948,6 @@
       "errorTitle": "未能記住這個頁面",
       "errorDescription": "你可以繼續在這裡操作。重試後，AI 管家下次會繼續開啟這個頁面。",
       "retry": "重試"
-    },
-    "copy": {
-      "title": "把「{{name}}」複製到其他軟體",
-      "description": "複製後兩份各自獨立，互不影響。",
-      "targetsLabel": "複製到哪些軟體",
-      "confirm": "複製",
-      "alreadyHas": "已經有了",
-      "copied": "已複製",
-      "failed": "沒能複製",
-      "independent": "複製好了，兩份互不影響。",
-      "noTargets": "其他能用技能的軟體都已經有這個技能了。"
     },
     "card": {
       "itemLabel": "{{name}}，第 {{position}} 項，共 {{total}} 項",
@@ -1979,8 +1959,6 @@
       "openLocationNamed": "開啟 {{name}} 的所在位置",
       "editDocument": "編輯 SKILL.md",
       "editDocumentNamed": "編輯 {{name}} 的 SKILL.md",
-      "copyTo": "複製到…",
-      "copyToNamed": "把 {{name}} 複製到其他軟體",
       "locationOpened": "已開啟 {{name}} 的所在位置。",
       "documentOpened": "已使用系統預設編輯器開啟 {{name}} 的 SKILL.md。",
       "resourceOpenErrorNamed": "無法開啟「{{name}}」",

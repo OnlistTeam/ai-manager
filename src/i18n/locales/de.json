@@ -522,7 +522,6 @@
       "adoptFailed": "AI Manager konnte die gefundenen Erweiterungen nicht sicher hinzufügen.",
       "adoptUnsupported": "Diese Art von Erweiterung kann nicht aus einer vorhandenen lokalen Kopie hinzugefügt werden.",
       "cannotDisable": "Ein Satz Anweisungen bleibt immer in Verwendung, dieser kann daher nicht abgeschaltet werden. Wählen Sie stattdessen einen anderen.",
-      "copyFailed": "Der Skill konnte nicht kopiert werden.",
       "detectedReadOnly": "AI Manager hat diese Erweiterung auf Ihrem Mac gefunden, verwaltet sie aber noch nicht, und hat die lokale Kopie daher unverändert gelassen.",
       "listFailed": "Die Erweiterungen für dieses Tool konnten nicht gelesen werden.",
       "notFound": "Diese Erweiterung ist nicht mehr vorhanden.",
@@ -1938,19 +1937,11 @@
       "unsupportedTitle": "AI Manager hat {{kind}} für {{tool}} nicht integriert",
       "unsupportedDescription": "Dies kann für {{tool}} hier noch nicht verwaltet werden."
     },
-    "adoption": {
-      "import": "Importieren",
-      "importNamed": "{{name}} in AI Manager importieren",
-      "done": "{{name}} importiert. Hier lässt es sich pro App ein- und ausschalten.",
-      "errorTitle": "{{name}} konnte nicht importiert werden"
-    },
     "list": {
       "appsNamed": "Apps für {{name}}",
       "useIn": "{{tool}}: {{name}}",
       "stateOn": "In {{tool}} an",
       "stateOff": "In {{tool}} aus",
-      "stateFound": "In {{tool}} vorhanden, noch nicht importiert",
-      "stateAbsent": "Nicht in {{tool}}",
       "notIntegrated": "Für {{kind}} noch nicht eingebunden: {{tools, list}}"
     },
     "scopeSave": {
@@ -1958,17 +1949,6 @@
       "errorTitle": "Diese Ansicht wurde nicht gemerkt",
       "errorDescription": "Sie können hier weiterarbeiten. Versuchen Sie es erneut, damit AI Manager beim nächsten Mal dieselbe Ansicht öffnet.",
       "retry": "Erneut versuchen"
-    },
-    "copy": {
-      "title": "„{{name}}“ in eine andere App kopieren",
-      "description": "Nach dem Kopieren sind beide Kopien unabhängig voneinander.",
-      "targetsLabel": "In diese Apps kopieren",
-      "confirm": "Kopieren",
-      "alreadyHas": "Bereits vorhanden",
-      "copied": "Kopiert",
-      "failed": "Nicht kopiert",
-      "independent": "Kopiert. Beide Kopien sind unabhängig voneinander.",
-      "noTargets": "Jede andere App, die Skills nutzen kann, hat diesen bereits."
     },
     "card": {
       "itemLabel": "{{name}}, Eintrag {{position}} von {{total}}",
@@ -1980,8 +1960,6 @@
       "openLocationNamed": "Den Ort von {{name}} öffnen",
       "editDocument": "SKILL.md bearbeiten",
       "editDocumentNamed": "Die SKILL.md für {{name}} bearbeiten",
-      "copyTo": "Kopieren nach …",
-      "copyToNamed": "{{name}} in eine andere App kopieren",
       "locationOpened": "Der Ort von {{name}} ist geöffnet.",
       "documentOpened": "Die SKILL.md für {{name}} ist in Ihrem Standardeditor geöffnet.",
       "resourceOpenErrorNamed": "{{name}} konnte nicht geöffnet werden",

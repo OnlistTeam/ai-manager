@@ -151,9 +151,10 @@ describe("native.extensions", () => {
       SCOPE,
       "mcp",
       "filesystem",
+      false,
     );
     expect(seen).toEqual([
-      { scope: SCOPE, kind: "mcp", extension: "filesystem" },
+      { scope: SCOPE, kind: "mcp", extension: "filesystem", enabled: false },
     ]);
     expect(refreshed).toEqual([wire]);
   });
@@ -186,36 +187,6 @@ describe("native.extensions", () => {
     expect(() =>
       native.extensions.openDetectedSkillResource(SCOPE, "../private", "edit"),
     ).toThrow();
-  });
-
-  it("copies one detected Skill using only stable ids", async () => {
-    server.use(
-      http.post(
-        `${TAURI_ENDPOINT}/app_detected_skill_copy`,
-        async ({ request }) => {
-          seen.push(await request.json());
-          return HttpResponse.json([
-            { ...wire, kind: "skill", id: "unity-cli" },
-          ]);
-        },
-      ),
-    );
-
-    const refreshed = await native.extensions.copyDetectedSkill(
-      SCOPE,
-      "codex",
-      "unity-cli",
-    );
-    expect(seen).toEqual([
-      { scope: SCOPE, target: "codex", skill: "unity-cli" },
-    ]);
-    expect(refreshed[0]?.id).toBe("unity-cli");
-
-    for (const bad of ["../private", "a\\b", "a\u0000b", ""]) {
-      expect(() =>
-        native.extensions.copyDetectedSkill(SCOPE, "codex", bad),
-      ).toThrow();
-    }
   });
 
   it("accepts an extension with no description", async () => {

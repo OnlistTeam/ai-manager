@@ -6,7 +6,6 @@ import { extensionKeys } from "@/entities/extension";
 import { healthKeys } from "@/entities/health";
 import {
   useAdoptDetected,
-  useCopyDetectedSkill,
   useSetExtensionEnabled,
 } from "@/features/extension-management";
 import { server } from "../../msw/server";
@@ -110,80 +109,6 @@ describe("useSetExtensionEnabled", () => {
   });
 });
 
-describe("useCopyDetectedSkill", () => {
-  const skillWire = { ...wire, kind: "skill", id: "unity-cli" };
-
-  function mountCopy(client: QueryClient) {
-    return renderHook(() => useCopyDetectedSkill(), {
-      wrapper: withQueryClient(client),
-    });
-  }
-
-  it("writes the target tool's authoritative list and refreshes what the copy changed", async () => {
-    server.use(
-      http.post(`${TAURI_ENDPOINT}/app_detected_skill_copy`, () =>
-        HttpResponse.json([skillWire]),
-      ),
-    );
-    const client = createTestQueryClient();
-    const invalidateSpy = vi.spyOn(client, "invalidateQueries");
-    const { result } = mountCopy(client);
-
-    result.current.mutate({
-      scope: SCOPE,
-      target: "codex",
-      skillId: "unity-cli",
-    });
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
-    expect(
-      client.getQueryData(extensionKeys.list("tool:codex", "skill")),
-    ).toEqual([skillWire]);
-    expect(invalidateSpy).toHaveBeenCalledWith({
-      queryKey: extensionKeys.list("tool:claude-code", "skill"),
-    });
-    expect(invalidateSpy).toHaveBeenCalledWith({
-      queryKey: extensionKeys.localInventory(),
-    });
-  });
-
-  it("re-reads both tools and the local inventory when the copy fails", async () => {
-    server.use(
-      http.post(`${TAURI_ENDPOINT}/app_detected_skill_copy`, () =>
-        HttpResponse.text(
-          JSON.stringify({
-            code: "CONFIG_WRITE_FAILED",
-            messageKey: "error.extension.copyFailed",
-            technicalMessage: "/Users/somebody/.codex/skills",
-            remediation: "error.remediation.retryOrViewDetails",
-            contextId: null,
-          }),
-          { status: 500 },
-        ),
-      ),
-    );
-    const client = createTestQueryClient();
-    const invalidateSpy = vi.spyOn(client, "invalidateQueries");
-    const { result } = mountCopy(client);
-
-    result.current.mutate({
-      scope: SCOPE,
-      target: "codex",
-      skillId: "unity-cli",
-    });
-
-    await waitFor(() => expect(result.current.isError).toBe(true));
-    for (const queryKey of [
-      extensionKeys.list("tool:codex", "skill"),
-      extensionKeys.list("tool:claude-code", "skill"),
-      extensionKeys.localInventory(),
-    ]) {
-      expect(invalidateSpy).toHaveBeenCalledWith({ queryKey });
-    }
-    expect(toastMocks.error).not.toHaveBeenCalled();
-  });
-});
-
 describe("useAdoptDetected", () => {
   function mountAdopt(client: QueryClient) {
     return renderHook(() => useAdoptDetected(), {
@@ -191,7 +116,7 @@ describe("useAdoptDetected", () => {
     });
   }
 
-  it("imports from each app in turn, then re-reads every list", async () => {
+  it("takes the item over from each app, then sets the clicked one", async () => {
     const calls: unknown[] = [];
     server.use(
       http.post(
@@ -206,17 +131,21 @@ describe("useAdoptDetected", () => {
     const invalidateSpy = vi.spyOn(client, "invalidateQueries");
     const { result } = mountAdopt(client);
     const desktop = { kind: "desktopApp", id: "claude-desktop" } as const;
+    const codex = { kind: "tool", id: "codex" } as const;
 
     result.current.mutate({
       kind: "mcp",
       extensionId: "context7",
-      scopes: [SCOPE, desktop],
+      found: [SCOPE, desktop],
+      scope: codex,
+      enabled: true,
     });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(calls).toEqual([
-      { scope: SCOPE, kind: "mcp", extension: "context7" },
-      { scope: desktop, kind: "mcp", extension: "context7" },
+      { scope: SCOPE, kind: "mcp", extension: "context7", enabled: true },
+      { scope: desktop, kind: "mcp", extension: "context7", enabled: true },
+      { scope: codex, kind: "mcp", extension: "context7", enabled: true },
     ]);
     expect(invalidateSpy).toHaveBeenCalledWith({
       queryKey: extensionKeys.all,
@@ -250,7 +179,9 @@ describe("useAdoptDetected", () => {
     result.current.mutate({
       kind: "skill",
       extensionId: "local",
-      scopes: [SCOPE, { kind: "tool", id: "codex" }],
+      found: [SCOPE, { kind: "tool", id: "codex" }],
+      scope: SCOPE,
+      enabled: false,
     });
 
     await waitFor(() => expect(result.current.isError).toBe(true));

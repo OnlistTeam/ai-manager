@@ -68,20 +68,20 @@ describe("unifiedExtensionRows", () => {
     ]);
   });
 
-  it("lists managed items in native order, then found ones by name", () => {
+  it("orders managed and found items together by name", () => {
     const rows = unifiedExtensionRows([
       [
         entry({ id: "zeta", name: "Zeta", management: "managed" }),
-        entry({ id: "alpha", name: "Alpha", management: "managed" }),
         entry({ id: "found-b", name: "Beta" }),
+        entry({ id: "alpha", name: "Alpha", management: "managed" }),
         entry({ id: "found-a", name: "Able" }),
       ],
     ]);
     expect(rows.map((row) => row.id)).toEqual([
-      "zeta",
-      "alpha",
       "found-a",
+      "alpha",
       "found-b",
+      "zeta",
     ]);
   });
 

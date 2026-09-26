@@ -1,8 +1,6 @@
 import {
-  Copy,
   FilePenLine,
   FolderOpen,
-  Import,
   RefreshCw,
   Trash2,
   type LucideIcon,
@@ -16,15 +14,12 @@ import type { ExtensionCardLabels } from "./useExtensionCardLabels";
 export interface ExtensionRowActionsProps {
   detected: boolean;
   busy: boolean;
-  importing: boolean;
   resourceAction?: "browse" | "edit";
-  labels: ExtensionCardLabels & { importItem: string };
-  onImport?: () => void;
+  labels: ExtensionCardLabels;
   onUpdate?: () => void;
   onRemove?: () => void;
   onOpenLocation?: () => void;
   onEditDocument?: () => void;
-  onCopy?: () => void;
 }
 
 function IconAction({
@@ -68,22 +63,19 @@ function IconAction({
 }
 
 /**
- * A found item offers Import plus the read-only file actions it always had;
- * a managed one offers Update when one is known and Remove. Rarely used
- * actions are icons with a tooltip so the switches stay the row's focus.
+ * A found item offers the read-only file actions it always had; a managed one
+ * offers Update when one is known and Remove. Rarely used actions are icons
+ * with a tooltip so the switches stay the row's focus.
  */
 export function ExtensionRowActions({
   detected,
   busy,
-  importing,
   resourceAction,
   labels,
-  onImport,
   onUpdate,
   onRemove,
   onOpenLocation,
   onEditDocument,
-  onCopy,
 }: ExtensionRowActionsProps) {
   const { t } = useTranslation();
 
@@ -108,28 +100,6 @@ export function ExtensionRowActions({
           loading={resourceAction === "edit"}
           onClick={onEditDocument}
         />
-      ) : null}
-      {detected && onCopy ? (
-        <IconAction
-          icon={Copy}
-          label={labels.copyTo}
-          tooltip={t("extensions.card.copyTo")}
-          disabled={busy}
-          onClick={onCopy}
-        />
-      ) : null}
-      {detected && onImport ? (
-        <Button
-          size="xs"
-          variant="secondary"
-          aria-label={labels.importItem}
-          disabled={busy}
-          loading={importing}
-          onClick={onImport}
-        >
-          <Import className="h-4 w-4" aria-hidden="true" />
-          {t("extensions.adoption.import")}
-        </Button>
       ) : null}
       {!detected && onUpdate ? (
         <Button

@@ -249,27 +249,9 @@ impl ExtensionDirectory {
         scope: ExtensionScope,
         kind: ExtensionKind,
         id: &str,
+        enabled: bool,
     ) -> Result<Vec<Extension>, AppError> {
-        gate(app_handle, scope, kind)?.adopt_detected_scope(scope, kind, id)
-    }
-
-    /// Copy one detected Skill into another tool and return that tool's
-    /// refreshed inventory.
-    ///
-    /// The target is checked before anything else: `app_type_for` panics on the
-    /// tools that have no upstream `AppType`, so an unsupported target must be
-    /// turned away here rather than reaching the compatibility layer.
-    pub fn copy_detected_skill(
-        app_handle: &tauri::AppHandle,
-        source: ExtensionScope,
-        target: ToolId,
-        id: &str,
-    ) -> Result<Vec<Extension>, AppError> {
-        let target_scope = ExtensionScope::tool(target);
-        if !supports_scope(target_scope, ExtensionKind::Skill) {
-            return Err(unsupported(target_scope, ExtensionKind::Skill));
-        }
-        gate(app_handle, source, ExtensionKind::Skill)?.copy_detected_skill(source, target, id)
+        gate(app_handle, scope, kind)?.adopt_detected_scope(scope, kind, id, enabled)
     }
 }
 

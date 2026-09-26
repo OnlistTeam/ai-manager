@@ -522,7 +522,6 @@
       "adoptFailed": "AI Manager가 찾은 확장 기능을 안전하게 추가할 수 없습니다.",
       "adoptUnsupported": "이 종류의 확장 기능은 기존 로컬 사본에서 추가할 수 없습니다.",
       "cannotDisable": "지침 세트 하나는 항상 사용 중이어야 하므로 이 항목은 끌 수 없습니다. 대신 다른 세트를 선택하세요.",
-      "copyFailed": "스킬을 복사할 수 없습니다.",
       "detectedReadOnly": "AI Manager가 이 Mac에서 이 확장 기능을 찾았지만 아직 관리하지 않으므로 로컬 사본을 그대로 두었습니다.",
       "listFailed": "이 도구의 확장 기능을 읽을 수 없습니다.",
       "notFound": "그 확장 기능이 더 이상 여기에 없습니다.",
@@ -1938,19 +1937,11 @@
       "unsupportedTitle": "AI Manager가 아직 {{tool}}의 {{kind}}을(를) 연동하지 않았습니다",
       "unsupportedDescription": "{{tool}}의 이 항목은 아직 여기서 관리할 수 없습니다."
     },
-    "adoption": {
-      "import": "가져오기",
-      "importNamed": "{{name}}을(를) AI Manager로 가져오기",
-      "done": "{{name}}을(를) 가져왔습니다. 여기서 앱별로 켜고 끌 수 있습니다.",
-      "errorTitle": "{{name}}을(를) 가져올 수 없습니다"
-    },
     "list": {
       "appsNamed": "{{name}}을(를) 사용할 앱",
       "useIn": "{{tool}}: {{name}}",
       "stateOn": "{{tool}}: 켜짐",
       "stateOff": "{{tool}}: 꺼짐",
-      "stateFound": "{{tool}}에 있음, 아직 가져오지 않음",
-      "stateAbsent": "{{tool}}에 없음",
       "notIntegrated": "아직 {{kind}}을(를) 지원하지 않음: {{tools, list}}"
     },
     "scopeSave": {
@@ -1958,17 +1949,6 @@
       "errorTitle": "이 화면이 기억되지 않았습니다",
       "errorDescription": "계속 작업할 수 있습니다. 다음에 AI Manager가 같은 화면을 열도록 다시 시도하세요.",
       "retry": "다시 시도"
-    },
-    "copy": {
-      "title": "\"{{name}}\"을(를) 다른 앱으로 복사",
-      "description": "복사 후 두 사본은 서로 독립적입니다.",
-      "targetsLabel": "복사할 앱",
-      "confirm": "복사",
-      "alreadyHas": "이미 있음",
-      "copied": "복사됨",
-      "failed": "복사되지 않음",
-      "independent": "복사했습니다. 두 사본은 서로 독립적입니다.",
-      "noTargets": "스킬을 사용할 수 있는 다른 모든 앱에 이미 이 스킬이 있습니다."
     },
     "card": {
       "itemLabel": "{{name}}, {{total}}개 중 {{position}}번째",
@@ -1980,8 +1960,6 @@
       "openLocationNamed": "{{name}}의 위치 열기",
       "editDocument": "SKILL.md 편집",
       "editDocumentNamed": "{{name}}의 SKILL.md 편집",
-      "copyTo": "다른 앱으로 복사…",
-      "copyToNamed": "{{name}}을(를) 다른 앱으로 복사",
       "locationOpened": "{{name}}의 위치를 열었습니다.",
       "documentOpened": "{{name}}의 SKILL.md를 기본 편집기에서 열었습니다.",
       "resourceOpenErrorNamed": "{{name}}을(를) 열 수 없습니다",

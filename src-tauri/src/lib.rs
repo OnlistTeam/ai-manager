@@ -1171,7 +1171,6 @@ pub fn run() {
             commands::app_extension_location_describe,
             commands::app_extension_location_open,
             commands::app_detected_skill_resource_open,
-            commands::app_detected_skill_copy,
             commands::app_extensions_adopt_detected,
             commands::app_mcp_install,
             commands::app_mcp_remove,

@@ -72,12 +72,6 @@ pub(super) fn resource_open_failed<E: std::fmt::Display>(error: E) -> AppError {
     .with_remediation("error.remediation.checkLocalFileAccess")
 }
 
-pub(super) fn copy_failed<E: std::fmt::Display>(error: E) -> AppError {
-    AppError::new(ErrorCode::ConfigWriteFailed, "error.extension.copyFailed")
-        .with_technical(detail(error))
-        .with_remediation("error.remediation.retryOrViewDetails")
-}
-
 pub(super) fn adopt_failed<E: std::fmt::Display>(error: E) -> AppError {
     AppError::new(ErrorCode::ConfigWriteFailed, "error.extension.adoptFailed")
         .with_technical(detail(error))
@@ -234,17 +228,19 @@ impl ExtensionStore {
         self.list_scope(scope, kind)
     }
 
-    /// Bring one detected item under product management and switch it on for
-    /// this scope, then return the scope's authoritative refreshed inventory.
-    /// The upstream import paths copy/read existing state but do not rewrite
-    /// the source tool config during adoption.
+    /// Bring one detected item under product management (if it is not
+    /// already) and set this scope's switch to `enabled`, then return the
+    /// scope's authoritative refreshed inventory. The scope need not be one
+    /// the item was found in: once managed, switching it on for another tool
+    /// is an ordinary managed write.
     pub fn adopt_detected(
         &self,
         tool: ToolId,
         kind: ExtensionKind,
         id: &str,
+        enabled: bool,
     ) -> Result<Vec<Extension>, AppError> {
-        self.adopt_detected_scope(ExtensionScope::tool(tool), kind, id)
+        self.adopt_detected_scope(ExtensionScope::tool(tool), kind, id, enabled)
     }
 
     pub fn adopt_detected_scope(
@@ -252,35 +248,19 @@ impl ExtensionStore {
         scope: ExtensionScope,
         kind: ExtensionKind,
         id: &str,
+        enabled: bool,
     ) -> Result<Vec<Extension>, AppError> {
         let app_type = app_type_for_scope(scope)?;
         match kind {
             ExtensionKind::Skill => {
                 require_tool_scope(scope, kind)?;
-                skill::adopt_detected(&self.state, scope, &app_type, id)?;
+                skill::adopt_detected(&self.state, scope, &app_type, id, enabled)?;
             }
-            ExtensionKind::Mcp => mcp::adopt_detected(&self.state, scope, &app_type, id)?,
+            ExtensionKind::Mcp => mcp::adopt_detected(&self.state, scope, &app_type, id, enabled)?,
             ExtensionKind::Prompt => return Err(reject_adopt_unsupported(kind)),
         }
 
         self.list_scope(scope, kind)
-    }
-
-    /// Copy one detected Skill into another tool's Skills directory and return
-    /// that tool's authoritative inventory. The copy is a real, independent
-    /// folder: the original stays where the user put it, and neither side
-    /// tracks the other afterwards.
-    pub fn copy_detected_skill(
-        &self,
-        source: ExtensionScope,
-        target: ToolId,
-        id: &str,
-    ) -> Result<Vec<Extension>, AppError> {
-        let source_app = app_type_for_scope(source)?;
-        require_tool_scope(source, ExtensionKind::Skill)?;
-        let target_app = app_type_for(target);
-        skill::copy_detected_to(&self.state, source, &source_app, &target_app, id)?;
-        self.list_scope(ExtensionScope::tool(target), ExtensionKind::Skill)
     }
 
     /// Install one product-shaped MCP draft for a single tool. The caller owns

@@ -784,7 +784,7 @@ describe("ExtensionsPage", () => {
     expect(toolPanel).toHaveAttribute("aria-labelledby", toolTab.id);
   });
 
-  it("lists found items with managed ones and imports one from every app it is in", async () => {
+  it("takes a found item over when one of its switches is clicked", async () => {
     const adopted: unknown[] = [];
     server.use(
       http.post(
@@ -809,32 +809,71 @@ describe("ExtensionsPage", () => {
     const local = await screen.findByRole("article", { name: "Local Skill" });
     const managed = screen.getByRole("article", { name: "Managed Skill" });
     expect(local.parentElement).toBe(managed.parentElement);
+    // Nothing tells the two apart: there is no import step to learn.
     expect(
       screen.queryByText(/Found in this tool|Managed by AI Manager/),
     ).toBeNull();
-    // A found item cannot be switched until it is imported.
-    expect(within(local).queryByRole("button", { pressed: true })).toBeNull();
-    expect(
-      within(local).getByRole("img", {
-        name: i18n.t("extensions.list.stateFound", { tool: "Codex" }),
-      }),
-    ).toBeInTheDocument();
-    expect(
-      within(managed).getByRole("button", {
-        name: appSwitch("Codex", "Managed Skill", 1, 2),
-      }),
-    ).toBeEnabled();
-    expect(
-      within(managed).queryByRole("button", {
-        name: en.extensions.adoption.import,
-      }),
-    ).toBeNull();
+    expect(within(local).queryByRole("button", { name: /import/i })).toBeNull();
 
     await userEvent.click(
       within(local).getByRole("button", {
-        name: i18n.t("extensions.adoption.importNamed", {
-          name: "Local Skill",
-        }),
+        name: appSwitch("Codex", "Local Skill", 1, 2),
+        pressed: true,
+      }),
+    );
+    const claude = { kind: "tool", id: "claude-code" };
+    const codex = { kind: "tool", id: "codex" };
+    await waitFor(() =>
+      expect(adopted).toEqual([
+        { scope: claude, kind: "skill", extension: "local", enabled: true },
+        { scope: codex, kind: "skill", extension: "local", enabled: true },
+        { scope: codex, kind: "skill", extension: "local", enabled: false },
+      ]),
+    );
+  });
+
+  it("switches a found item on in an app it is not in yet", async () => {
+    const adopted: unknown[] = [];
+    server.use(
+      http.post(
+        `${TAURI_ENDPOINT}/app_extensions_adopt_detected`,
+        async ({ request }) => {
+          adopted.push(await request.json());
+          return HttpResponse.json([]);
+        },
+      ),
+    );
+    mount(async (request) => {
+      const { scope } = (await request.json()) as {
+        scope: { kind: string; id: string };
+      };
+      return HttpResponse.json(
+        scope.id === "claude-code"
+          ? [
+              extension({
+                id: "unity-cli",
+                name: "Unity CLI",
+                management: "detected",
+                enabled: true,
+                canDisable: false,
+                scope,
+              }),
+            ]
+          : [],
+      );
+    });
+
+    const row = await screen.findByRole("article", { name: "Unity CLI" });
+    expect(
+      within(row).getByRole("button", {
+        name: appSwitch("Claude Code", "Unity CLI"),
+        pressed: true,
+      }),
+    ).toBeInTheDocument();
+    await userEvent.click(
+      within(row).getByRole("button", {
+        name: appSwitch("Codex", "Unity CLI"),
+        pressed: false,
       }),
     );
     await waitFor(() =>
@@ -842,21 +881,20 @@ describe("ExtensionsPage", () => {
         {
           scope: { kind: "tool", id: "claude-code" },
           kind: "skill",
-          extension: "local",
+          extension: "unity-cli",
+          enabled: true,
         },
         {
           scope: { kind: "tool", id: "codex" },
           kind: "skill",
-          extension: "local",
+          extension: "unity-cli",
+          enabled: true,
         },
       ]),
     );
-    expect(toastMocks.success).toHaveBeenCalledWith(
-      i18n.t("extensions.adoption.done", { name: "Local Skill" }),
-    );
   });
 
-  it("keeps a failed import on its row in plain words", async () => {
+  it("keeps a failed takeover on its row in plain words", async () => {
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_extensions_adopt_detected`, () =>
         HttpResponse.json(
@@ -894,46 +932,22 @@ describe("ExtensionsPage", () => {
     const row = await screen.findByRole("article", { name: "context7" });
     await userEvent.click(
       within(row).getByRole("button", {
-        name: i18n.t("extensions.adoption.importNamed", { name: "context7" }),
+        name: appSwitch("Claude Code", "context7"),
       }),
     );
     const alert = await within(row).findByRole("alert", {
-      name: i18n.t("extensions.adoption.errorTitle", { name: "context7" }),
+      name: i18n.t("extensions.card.disableErrorNamed", { name: "context7" }),
     });
     expect(alert).toHaveTextContent(en.error.extension.adoptFailed);
     expect(document.body).not.toHaveTextContent("private import path");
-  });
-
-  it("shows which apps already have a found Skill on its own row", async () => {
-    mount(async (request) => {
-      const { scope } = (await request.json()) as {
-        scope: { kind: string; id: string };
-      };
-      return HttpResponse.json(
-        scope.id === "claude-code"
-          ? [
-              extension({
-                id: "unity-cli",
-                name: "Unity CLI",
-                management: "detected",
-                enabled: true,
-                canDisable: false,
-                scope,
-              }),
-            ]
-          : [],
-      );
-    });
-
-    const row = await screen.findByRole("article", { name: "Unity CLI" });
+    // The switch now offers to repeat what was asked.
     expect(
-      within(row).getByRole("img", {
-        name: i18n.t("extensions.list.stateFound", { tool: "Claude Code" }),
-      }),
-    ).toBeInTheDocument();
-    expect(
-      within(row).getByRole("img", {
-        name: i18n.t("extensions.list.stateAbsent", { tool: "Codex" }),
+      within(row).getByRole("button", {
+        name: i18n.t("extensions.card.retryDisableNamed", {
+          name: "context7",
+          position: 1,
+          total: 1,
+        }),
       }),
     ).toBeInTheDocument();
   });
@@ -958,98 +972,6 @@ describe("ExtensionsPage", () => {
       await screen.findByRole("article", { name: "Unity CLI" }),
     ).toBeInTheDocument();
     expect(document.body).not.toHaveTextContent("private local inventory path");
-  });
-
-  it("copies a detected Skill into the tool the user picks and leaves the rest alone", async () => {
-    const local = extension({
-      id: "unity-cli",
-      name: "Unity CLI",
-      management: "detected",
-      enabled: true,
-      canDisable: false,
-    });
-    const sent: unknown[] = [];
-    mount(
-      async (request) => {
-        const { scope } = (await request.json()) as {
-          scope: { kind: string; id: string };
-        };
-        return HttpResponse.json(scope.id === "claude-code" ? [local] : []);
-      },
-      [CLAUDE, CODEX, tool("gemini-cli", "Gemini CLI")],
-      [],
-      {
-        items: [local],
-        scopes: [{ tool: "claude-code", kind: "skill", status: "ready" }],
-        truncated: false,
-      },
-    );
-    server.use(
-      http.post(
-        `${TAURI_ENDPOINT}/app_detected_skill_copy`,
-        async ({ request }) => {
-          sent.push(await request.json());
-          return HttpResponse.json([local]);
-        },
-      ),
-    );
-
-    await userEvent.click(
-      await screen.findByRole("button", {
-        name: i18n.t("extensions.card.copyToNamed", { name: "Unity CLI" }),
-      }),
-    );
-    const dialog = await screen.findByRole("dialog");
-    // Gemini CLI cannot hold Skills, so it is not a destination at all.
-    expect(dialog).not.toHaveTextContent("Gemini CLI");
-    // The tool it was found in is not offered either.
-    expect(within(dialog).queryByLabelText("Claude Code")).toBeNull();
-
-    await userEvent.click(within(dialog).getByLabelText("Codex"));
-    await userEvent.click(
-      within(dialog).getByRole("button", {
-        name: en.extensions.copy.confirm,
-      }),
-    );
-
-    await waitFor(() =>
-      expect(sent).toEqual([
-        {
-          scope: { kind: "tool", id: "claude-code" },
-          target: "codex",
-          skill: "unity-cli",
-        },
-      ]),
-    );
-    expect(
-      await within(dialog).findByText(en.extensions.copy.copied),
-    ).toBeInTheDocument();
-  });
-
-  it("greys out a tool that already carries the Skill instead of offering to overwrite it", async () => {
-    const local = extension({
-      id: "unity-cli",
-      name: "Unity CLI",
-      management: "detected",
-      enabled: true,
-      canDisable: false,
-    });
-    mount([local], [CLAUDE, CODEX], [], {
-      items: [local, { ...local, scope: { kind: "tool", id: "codex" } }],
-      scopes: [
-        { tool: "claude-code", kind: "skill", status: "ready" },
-        { tool: "codex", kind: "skill", status: "ready" },
-      ],
-      truncated: false,
-    });
-
-    // Every eligible tool already has it, so there is nothing to offer.
-    await screen.findByRole("article", { name: "Unity CLI" });
-    expect(
-      screen.queryByRole("button", {
-        name: i18n.t("extensions.card.copyToNamed", { name: "Unity CLI" }),
-      }),
-    ).toBeNull();
   });
 
   it("gives two same-named switches distinct accessible names", async () => {

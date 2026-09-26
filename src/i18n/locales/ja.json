@@ -522,7 +522,6 @@
       "adoptFailed": "検出した拡張機能を安全に AI Manager へ追加できませんでした。",
       "adoptUnsupported": "この種類の拡張機能は、既存のローカルコピーから追加できません。",
       "cannotDisable": "説明は常に 1 つが使われている状態です。これはオフにできないので、別のものに切り替えてください。",
-      "copyFailed": "このスキルをコピーできませんでした。",
       "detectedReadOnly": "AI Manager はこの Mac で拡張機能を検出しましたが、まだ管理していないため、ローカルコピーは変更しませんでした。",
       "listFailed": "このツールの拡張機能を読み取れませんでした。",
       "notFound": "この拡張機能はもうありません。",
@@ -1937,19 +1936,11 @@
       "unsupportedTitle": "AI Manager は {{tool}} の{{kind}}と未連携です",
       "unsupportedDescription": "{{tool}} のこの項目はまだここでは管理できません。"
     },
-    "adoption": {
-      "import": "インポート",
-      "importNamed": "{{name}} を AI Manager にインポート",
-      "done": "{{name}} をインポートしました。ここでアプリごとにオン・オフできます。",
-      "errorTitle": "{{name}} をインポートできませんでした"
-    },
     "list": {
       "appsNamed": "{{name}} を使うアプリ",
       "useIn": "{{tool}}：{{name}}",
       "stateOn": "{{tool}}：オン",
       "stateOff": "{{tool}}：オフ",
-      "stateFound": "{{tool}} にあり、まだインポートしていません",
-      "stateAbsent": "{{tool}} にはありません",
       "notIntegrated": "{{kind}} にまだ対応していません：{{tools, list}}"
     },
     "scopeSave": {
@@ -1957,17 +1948,6 @@
       "errorTitle": "この画面を記憶できませんでした",
       "errorDescription": "このまま操作を続けられます。再試行すると、次回も同じ画面から開けます。",
       "retry": "もう一度試す"
-    },
-    "copy": {
-      "title": "「{{name}}」を他のアプリにコピー",
-      "description": "コピー後、2 つは互いに独立します。",
-      "targetsLabel": "コピー先のアプリ",
-      "confirm": "コピー",
-      "alreadyHas": "すでにあります",
-      "copied": "コピーしました",
-      "failed": "コピーできませんでした",
-      "independent": "コピーしました。2 つは互いに独立しています。",
-      "noTargets": "スキルを使える他のアプリには、すでにこのスキルがあります。"
     },
     "card": {
       "itemLabel": "{{name}}、全 {{total}} 件中 {{position}} 件目",
@@ -1979,8 +1959,6 @@
       "openLocationNamed": "{{name}} の保存場所を開く",
       "editDocument": "SKILL.md を編集",
       "editDocumentNamed": "{{name}} の SKILL.md を編集",
-      "copyTo": "他のアプリへコピー",
-      "copyToNamed": "{{name}} を他のアプリにコピー",
       "locationOpened": "{{name}} の保存場所を開きました。",
       "documentOpened": "{{name}} の SKILL.md を既定のエディターで開きました。",
       "resourceOpenErrorNamed": "{{name}} を開けませんでした",

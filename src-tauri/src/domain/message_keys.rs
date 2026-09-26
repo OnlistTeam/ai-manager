@@ -78,7 +78,6 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.extension.adoptFailed",
     "error.extension.adoptUnsupported",
     "error.extension.cannotDisable",
-    "error.extension.copyFailed",
     "error.extension.detectedReadOnly",
     "error.extension.listFailed",
     "error.extension.notFound",
@@ -482,6 +481,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 332);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 331);
     }
 }

@@ -47,18 +47,12 @@ export function unifiedExtensionRows(
       rows.set(key, row);
     }
   }
-  const all = [...rows.values()];
-  // Managed rows keep the native order; found-only rows follow, by name.
-  return [
-    ...all.filter((row) => row.management === "managed"),
-    ...all
-      .filter((row) => row.management === "detected")
-      .sort(
-        (left, right) =>
-          left.name.localeCompare(right.name) ||
-          left.id.localeCompare(right.id),
-      ),
-  ];
+  // One order by name, the order the native lists already use, so a found
+  // item keeps its place when its first switch takes it over.
+  return [...rows.values()].sort(
+    (left, right) =>
+      left.name.localeCompare(right.name) || left.id.localeCompare(right.id),
+  );
 }
 
 /** Any one of the row's entries, for flows that act on the item as a whole. */

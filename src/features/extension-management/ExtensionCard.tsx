@@ -41,7 +41,6 @@ export interface ExtensionCardProps {
   updateAvailable?: boolean;
   onOpenLocation?: () => void;
   onEditDetectedDocument?: () => void;
-  onCopyToTool?: () => void;
   onEdit?: () => void;
   onRemove?: () => void;
   onUpdate?: () => void;
@@ -74,7 +73,6 @@ export function ExtensionCard({
   updateAvailable = false,
   onOpenLocation,
   onEditDetectedDocument,
-  onCopyToTool,
   onEdit,
   onRemove,
   onUpdate,
@@ -229,7 +227,6 @@ export function ExtensionCard({
         labels={labels}
         onOpenLocation={onOpenLocation}
         onEditDetectedDocument={onEditDetectedDocument}
-        onCopyToTool={onCopyToTool}
         onEdit={onEdit}
         onRemove={onRemove}
         onUpdate={onUpdate}

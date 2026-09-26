@@ -15,7 +15,6 @@ import {
   type ExtensionLocationAction,
   type ExtensionScope,
   type LocalExtensionInventory,
-  type ToolId,
 } from "../schemas/extension";
 
 /**
@@ -118,36 +117,21 @@ export const extensions = {
   },
 
   /**
-   * Copy a local skill to another tool. The outbound payload is only scope, target
-   * tool id, and skill id -- the backend re-resolves the path from the local
-   * inventory, so the renderer never has a path to hand over in the first place.
-   */
-  copyDetectedSkill(
-    scope: ExtensionScope,
-    target: ToolId,
-    skill: string,
-  ): Promise<Extension[]> {
-    return invokeNative("app_detected_skill_copy", extensionListSchema, {
-      scope,
-      target,
-      skill: skillIdSchema.parse(skill),
-    });
-  },
-
-  /**
-   * Bring one detected item under management and switch it on for this scope.
-   * The renderer submits only the item's stable id: no connection spec, path,
-   * command, environment value, or credential.
+   * Bring one detected item under management and set it on or off for this
+   * scope. The renderer submits only the item's stable id: no connection
+   * spec, path, command, environment value, or credential.
    */
   adoptDetected(
     scope: ExtensionScope,
     kind: ExtensionKind,
     extension: string,
+    enabled: boolean,
   ): Promise<Extension[]> {
     return invokeNative("app_extensions_adopt_detected", extensionListSchema, {
       scope,
       kind,
       extension,
+      enabled,
     });
   },
 };

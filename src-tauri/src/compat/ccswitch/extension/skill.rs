@@ -14,10 +14,7 @@ use crate::services::skill::{skill_state_write_guard, ImportSkillSelection};
 use crate::services::SkillService;
 use crate::store::AppState;
 
-use super::{
-    adopt_failed, copy_failed, list_failed, non_empty, not_found, resource_open_failed,
-    toggle_failed,
-};
+use super::{adopt_failed, list_failed, non_empty, not_found, resource_open_failed, toggle_failed};
 
 const SHARED_SKILL_SOURCES: [&str; 2] = ["agents", "cc-switch"];
 
@@ -148,22 +145,6 @@ pub(super) fn detected_path(
     .ok_or_else(|| resource_open_failed("detected Skill no longer has a readable SKILL.md"))
 }
 
-/// Copy one detected Skill from the scope it was found in into another tool's
-/// Skills directory. The source path is re-resolved from the live inventory by
-/// `detected_path`, which deliberately ignores `UnmanagedSkill::path`, so no
-/// renderer-supplied location can reach the filesystem.
-pub(super) fn copy_detected_to(
-    state: &AppState,
-    scope: ExtensionScope,
-    source_app: &AppType,
-    target_app: &AppType,
-    id: &str,
-) -> Result<(), AppError> {
-    let source = detected_path(state, scope, source_app, id)?;
-    let _state_guard = skill_state_write_guard();
-    SkillService::copy_detected_to_app_dir(&source, id, target_app).map_err(copy_failed)
-}
-
 pub(super) fn set_enabled(
     state: &AppState,
     app_type: &AppType,
@@ -203,15 +184,16 @@ pub(super) fn adoption_scopes(
     (apps, enabled_scopes)
 }
 
-/// Bring one detected Skill under product management and make sure it is on
-/// for this scope. A Skill that is already managed (adopted from another
-/// scope a moment earlier) is only switched on here, so adopting the same row
+/// Bring one detected Skill under product management and set this scope to
+/// `enabled`. A Skill that is already managed (adopted from another scope a
+/// moment earlier) only has this scope's switch set, so adopting the same row
 /// from every scope it was found in converges instead of failing.
 pub(super) fn adopt_detected(
     state: &AppState,
     scope: ExtensionScope,
     app_type: &AppType,
     id: &str,
+    enabled: bool,
 ) -> Result<(), AppError> {
     let source = app_type.as_str();
     let detected = SkillService::scan_unmanaged(&state.db).map_err(adopt_failed)?;
@@ -219,7 +201,7 @@ pub(super) fn adopt_detected(
         .into_iter()
         .find(|entry| entry.directory == id && visible_in_scope(entry, source))
     else {
-        return enable_adopted(state, scope, app_type, id);
+        return set_adopted(state, scope, app_type, id, enabled);
     };
 
     let (apps, enabled_scopes) = adoption_scopes(&entry, app_type);
@@ -249,24 +231,33 @@ pub(super) fn adopt_detected(
         }
     }
 
-    Ok(())
+    if enabled {
+        Ok(())
+    } else {
+        // Import always keeps the scopes the Skill was found in, so an "off"
+        // request is applied to the managed row afterwards.
+        set_adopted(state, scope, app_type, id, false)
+    }
 }
 
-fn enable_adopted(
+/// The managed id may differ from the detected directory (it can come from
+/// the lock file), so the managed row is looked up by directory.
+fn set_adopted(
     state: &AppState,
     scope: ExtensionScope,
     app_type: &AppType,
     id: &str,
+    enabled: bool,
 ) -> Result<(), AppError> {
     let managed = SkillService::get_all_installed(&state.db).map_err(adopt_failed)?;
     let skill = managed
         .iter()
         .find(|skill| skill.directory == id)
         .ok_or_else(|| not_found(scope, ExtensionKind::Skill, id))?;
-    if skill.apps.is_enabled_for(app_type) {
+    if skill.apps.is_enabled_for(app_type) == enabled {
         return Ok(());
     }
-    SkillService::toggle_app(&state.db, &skill.id, app_type, true).map_err(adopt_failed)
+    set_enabled(state, app_type, &skill.id, enabled)
 }
 
 /// Upstream `import_from_apps` copies a detected Skill into the SSOT and
