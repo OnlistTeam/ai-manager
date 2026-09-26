@@ -66,7 +66,7 @@ describe("DesignGallery", () => {
       await screen.findByRole("heading", { level: 1, name: "Settings" }),
     ).toBeInTheDocument();
     expect(
-      await screen.findByText("Make AI Manager yours"),
+      await screen.findByRole("combobox", { name: "Language" }),
     ).toBeInTheDocument();
     expect(
       await screen.findByDisplayValue("http://127.0.0.1:7890"),

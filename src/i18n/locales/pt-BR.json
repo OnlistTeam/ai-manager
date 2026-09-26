@@ -1156,11 +1156,6 @@
         "retry": "Tentar novamente o download oficial"
       },
       "uninstall": {
-        "title": "Desinstalar {{name}} pelo sistema?",
-        "description": "O AI Manager abrirá o Finder ou a página de aplicativos instalados do sistema operacional. Você conclui a remoção lá.",
-        "confirm": "Abrir desinstalação do sistema",
-        "handoff": "O AI Manager não remove o aplicativo desktop diretamente e nunca executa um comando oculto de desinstalação.",
-        "data": "O fornecedor controla se as configurações do aplicativo, dados da conta e conversas permanecem. O AI Manager não os exclui.",
         "refresh": "Depois de concluir no sistema, volte aqui e selecione Atualizar aplicativos."
       },
       "error": {
@@ -1789,11 +1784,6 @@
       "errorTitle": "Não foi possível concluir a remoção deste serviço",
       "errorRetry": "Revise o serviço e tente novamente.",
       "managedHint": "Este serviço usa uma configuração específica da ferramenta e não pode ser removido aqui.",
-      "point": {
-        "account": "Sua conta não é excluída, e a chave não é revogada pelo serviço.",
-        "local": "O serviço e a chave salvos serão removidos de {{tool}}.",
-        "otherTools": "Outras ferramentas de IA e seus serviços permanecem inalterados."
-      },
       "removed": "{{name}} removido",
       "retryNamed": "Tentar remover {{name}} novamente",
       "title": "Remover {{name}}?"
@@ -2166,11 +2156,6 @@
       "remove": {
         "title": "Remover {{name}}?",
         "description": "Isso remove a Habilidade gerenciada do AI Manager e de todas as ferramentas de IA onde está ativada.",
-        "point": {
-          "everywhere": "A Habilidade será removida de todos os lugares onde está ativada atualmente.",
-          "recovery": "O AI Manager tentará manter uma cópia de recuperação antes de remover os arquivos gerenciados.",
-          "external": "Cópias externas não reconhecidas e as configurações das suas outras ferramentas não são afetadas."
-        },
         "confirm": "Remover Habilidade",
         "queued": "Removendo {{name}}",
         "queuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas.",
@@ -2244,11 +2229,6 @@
       "remove": {
         "title": "Remover {{name}}?",
         "description": "Isso remove a conexão salva do AI Manager e de todas as ferramentas de IA onde está ativada.",
-        "point": {
-          "everywhere": "A conexão será removida de todas as ferramentas de IA onde está ativada atualmente.",
-          "keepsTargets": "O programa, os arquivos, o navegador ou o serviço remoto ao qual ela se conecta não são afetados.",
-          "noUndo": "Isso não pode ser desfeito aqui. Você pode adicionar a conexão novamente mais tarde."
-        },
         "confirm": "Remover conexão",
         "queued": "Removendo {{name}}",
         "queuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas.",
@@ -2310,11 +2290,6 @@
         "title": "Remover {{name}}?",
         "description": "Isso remove a cópia salva e inativa do AI Manager.",
         "confirm": "Remover instruções",
-        "point": {
-          "current": "As instruções em uso atualmente permanecem selecionadas e inalteradas.",
-          "file": "O arquivo de instruções ativo da ferramenta e suas outras configurações não são afetados.",
-          "undo": "Isso não pode ser desfeito aqui, mas você pode criá-las ou importá-las novamente mais tarde."
-        },
         "active": "Instruções em uso não podem ser removidas. Escolha outro conjunto primeiro.",
         "errorTitle": "Não foi possível remover estas instruções"
       },
@@ -2337,7 +2312,7 @@
     "loading": "Carregando roteamento local",
     "hero": {
       "title": "Uma rota local, menos interrupções",
-      "description": "O AI Manager faz backup da configuração ativa de cada ferramenta antes de assumir, mantém o tráfego neste computador e restaura a configuração original quando o roteamento para.",
+      "description": "As ferramentas enviam as solicitações por uma rota local neste computador; parar a rota restaura as configurações originais.",
       "running": "O roteamento está em execução",
       "stopped": "Pronto para quando você precisar",
       "localOnly": "Somente loopback local",
@@ -2364,11 +2339,8 @@
     },
     "takeover": {
       "title": "Assumir roteamento",
-      "description": "Faça backup e aponte a configuração ativa desta ferramenta para a rota local.",
-      "label": "Assumir roteamento para {{name}}",
-      "confirmTitle": "Rotear {{name}} localmente?",
-      "confirmDescription": "O AI Manager fará backup da configuração ativa atual, substituirá apenas os campos de roteamento e restaurará o backup quando você desativar a assunção do roteamento.",
-      "confirm": "Ativar roteamento"
+      "description": "Quando ativado, as solicitações desta ferramenta passam pela rota local. Desativar restaura as configurações originais.",
+      "label": "Assumir roteamento para {{name}}"
     },
     "failover": {
       "title": "Failover automático",
@@ -2398,7 +2370,7 @@
     "stop": {
       "action": "Parar e restaurar tudo",
       "title": "Parar todo o roteamento local?",
-      "description": "O AI Manager vai parar o servidor local e restaurar a configuração ativa salva em backup de cada ferramenta. A ordem de failover é mantida para a próxima vez.",
+      "description": "Parar a rota local e restaurar as configurações originais de cada ferramenta. A ordem de failover é mantida.",
       "confirm": "Parar e restaurar"
     },
     "error": {
@@ -2516,15 +2488,9 @@
       "backup": "Backup e restauração",
       "about": "Sobre"
     },
-    "experience": {
-      "eyebrow": "Experiência do aplicativo",
-      "title": "Deixe o AI Manager do seu jeito",
-      "description": "As preferências de idioma e aparência permanecem neste computador.",
-      "instant": "Aplica-se instantaneamente",
-      "language": {
-        "label": "Idioma",
-        "description": "Escolha o idioma usado em todo o AI Manager."
-      }
+    "language": {
+      "label": "Idioma",
+      "description": "Escolha o idioma usado em todo o AI Manager."
     },
     "advanced": {
       "label": "Modo avançado",
@@ -2533,10 +2499,6 @@
       "saved": "Salvo",
       "error": "Não salvo",
       "errorHint": "A configuração anterior foi restaurada. Use o botão novamente para tentar de novo."
-    },
-    "providerFailover": {
-      "label": "Tentar endpoints disponíveis antes de abrir ou trocar",
-      "description": "Somente quando você clica em Abrir ou Usar no AI Manager: em caso de falha, tenta outros endpoints compatíveis salvos. Desativado por padrão; nenhum roteamento de tráfego. Configure o failover durante as requisições em Endpoints de API → Roteamento local."
     },
     "desktop": {
       "title": "Comportamento do desktop",
@@ -2774,8 +2736,6 @@
       "retry": "Tentar novamente",
       "size": "Cerca de {{size}} MB",
       "exactSize": "{{bytes}} bytes",
-      "folder": "Os backups ficam na pasta de dados do aplicativo deste computador.",
-      "details": "Local de armazenamento",
       "restore": "Restaurar",
       "restoreNamed": "Restaurar backup de {{name}}",
       "delete": "Excluir",

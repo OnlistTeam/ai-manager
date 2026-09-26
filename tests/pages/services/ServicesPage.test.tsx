@@ -1866,10 +1866,9 @@ describe("ServicesPage", () => {
       name: en.services.remove.title.replace("{{name}}", "My Relay"),
     });
     expect(dialog).toHaveTextContent(
-      en.services.remove.point.local.replace("{{tool}}", "Claude Code"),
+      en.services.remove.description.replace("{{tool}}", "Claude Code"),
     );
-    expect(dialog).toHaveTextContent(en.services.remove.point.account);
-    expect(dialog).toHaveTextContent(en.services.remove.point.otherTools);
+    expect(within(dialog).queryByRole("list")).toBeNull();
 
     await userEvent.click(
       within(dialog).getByRole("button", {

@@ -1156,11 +1156,6 @@
         "retry": "Reintentar la descarga oficial"
       },
       "uninstall": {
-        "title": "¿Desinstalar {{name}} a través del sistema?",
-        "description": "AI Manager abrirá Finder o la página de aplicaciones instaladas del sistema operativo. Tú completas la eliminación allí.",
-        "confirm": "Abrir desinstalación del sistema",
-        "handoff": "AI Manager no quita la app de escritorio por sí misma y nunca ejecuta un comando de desinstalación oculto.",
-        "data": "El proveedor controla si la configuración de la app, los datos de cuenta y las conversaciones permanecen. AI Manager no los elimina.",
         "refresh": "Cuando termines en el sistema, vuelve aquí y selecciona Actualizar apps."
       },
       "error": {
@@ -1789,11 +1784,6 @@
       "errorTitle": "No se pudo terminar de quitar este servicio",
       "errorRetry": "Revisa el servicio y vuelve a intentarlo.",
       "managedHint": "Este servicio usa una configuración específica de la herramienta y no se puede quitar aquí.",
-      "point": {
-        "account": "Tu cuenta no se elimina, y la clave no se revoca en el servicio.",
-        "local": "El servicio y la clave guardados se quitarán de {{tool}}.",
-        "otherTools": "Las demás herramientas de IA y sus servicios permanecen sin cambios."
-      },
       "removed": "Se quitó {{name}}",
       "retryNamed": "Reintentar quitar {{name}}",
       "title": "¿Quitar {{name}}?"
@@ -2166,11 +2156,6 @@
       "remove": {
         "title": "¿Quitar {{name}}?",
         "description": "Esto quita la Skill administrada de AI Manager y de todas las herramientas de IA donde está activada.",
-        "point": {
-          "everywhere": "La Skill se quitará de todos los lugares donde está activada actualmente.",
-          "recovery": "AI Manager intentará conservar una copia de recuperación antes de quitar los archivos administrados.",
-          "external": "Las copias externas no reconocidas y tus otros ajustes de herramienta se dejan intactos."
-        },
         "confirm": "Quitar Skill",
         "queued": "Quitando {{name}}",
         "queuedDescription": "Puedes seguir trabajando y ver el progreso en Tareas.",
@@ -2244,11 +2229,6 @@
       "remove": {
         "title": "¿Quitar {{name}}?",
         "description": "Esto quita la conexión guardada de AI Manager y de todas las herramientas de IA donde está activada.",
-        "point": {
-          "everywhere": "La conexión se quitará de todas las herramientas de IA donde está activada actualmente.",
-          "keepsTargets": "El programa, los archivos, el navegador o el servicio remoto al que se conecta se dejan intactos.",
-          "noUndo": "Esto no se puede deshacer aquí. Puedes volver a añadir la conexión más tarde."
-        },
         "confirm": "Quitar conexión",
         "queued": "Quitando {{name}}",
         "queuedDescription": "Puedes seguir trabajando y ver el progreso en Tareas.",
@@ -2310,11 +2290,6 @@
         "title": "¿Quitar {{name}}?",
         "description": "Esto quita la copia guardada inactiva de AI Manager.",
         "confirm": "Quitar instrucciones",
-        "point": {
-          "current": "Las instrucciones en uso permanecen seleccionadas y sin cambios.",
-          "file": "El archivo de instrucciones activo de la herramienta y tus otros ajustes se dejan intactos.",
-          "undo": "Esto no se puede deshacer aquí, pero puedes crearlo o importarlo de nuevo más tarde."
-        },
         "active": "Las instrucciones en uso no se pueden quitar. Elige primero otro conjunto.",
         "errorTitle": "No se pudieron quitar estas instrucciones"
       },
@@ -2337,7 +2312,7 @@
     "loading": "Cargando enrutamiento local",
     "hero": {
       "title": "Una ruta local, menos interrupciones",
-      "description": "AI Manager hace una copia de seguridad de la configuración activa de cada herramienta antes de tomar el control, mantiene el tráfico en este equipo y restaura la configuración original cuando el enrutamiento se detiene.",
+      "description": "Las herramientas envían sus solicitudes por una ruta local en este equipo; al detenerla se restaura su configuración original.",
       "running": "El enrutamiento está en ejecución",
       "stopped": "Listo cuando lo necesites",
       "localOnly": "Solo loopback local",
@@ -2364,11 +2339,8 @@
     },
     "takeover": {
       "title": "Toma de control del enrutamiento",
-      "description": "Haz una copia de seguridad y apunta la configuración activa de esta herramienta a la ruta local.",
-      "label": "Toma de control del enrutamiento para {{name}}",
-      "confirmTitle": "¿Enrutar {{name}} localmente?",
-      "confirmDescription": "AI Manager hará una copia de seguridad de la configuración activa actual, reemplazará solo los campos de enrutamiento y restaurará la copia de seguridad cuando se desactive la toma de control.",
-      "confirm": "Activar enrutamiento"
+      "description": "Si está activada, las solicitudes de esta herramienta pasan por la ruta local. Al desactivarla se restaura la configuración original.",
+      "label": "Toma de control del enrutamiento para {{name}}"
     },
     "failover": {
       "title": "Conmutación automática",
@@ -2398,7 +2370,7 @@
     "stop": {
       "action": "Detener y restaurar todo",
       "title": "¿Detener todo el enrutamiento local?",
-      "description": "AI Manager detendrá el servidor local y restaurará la configuración activa guardada de cada herramienta. El orden de conmutación se conserva para la próxima vez.",
+      "description": "Detener la ruta local y restaurar la configuración original de cada herramienta. El orden de conmutación se conserva.",
       "confirm": "Detener y restaurar"
     },
     "error": {
@@ -2516,15 +2488,9 @@
       "backup": "Copia de seguridad y restauración",
       "about": "Acerca de"
     },
-    "experience": {
-      "eyebrow": "Experiencia de la app",
-      "title": "Haz tuyo AI Manager",
-      "description": "Las preferencias de idioma y apariencia se quedan en este equipo.",
-      "instant": "Se aplica al instante",
-      "language": {
-        "label": "Idioma",
-        "description": "Elige el idioma que se usa en toda la aplicación AI Manager."
-      }
+    "language": {
+      "label": "Idioma",
+      "description": "Elige el idioma que se usa en toda la aplicación AI Manager."
     },
     "advanced": {
       "label": "Modo avanzado",
@@ -2533,10 +2499,6 @@
       "saved": "Guardado",
       "error": "No guardado",
       "errorHint": "Se restauró el ajuste anterior. Usa el interruptor de nuevo para reintentarlo."
-    },
-    "providerFailover": {
-      "label": "Probar los endpoints disponibles antes de abrir o cambiar",
-      "description": "Solo cuando haces clic en Abrir o Usar en AI Manager: si falla, prueba otros endpoints compatibles guardados. Desactivado de forma predeterminada; no hay enrutamiento de tráfico. Configura la conmutación durante las solicitudes en Endpoints de API → Enrutamiento local."
     },
     "desktop": {
       "title": "Comportamiento de escritorio",
@@ -2774,8 +2736,6 @@
       "retry": "Intentar de nuevo",
       "size": "Unos {{size}} MB",
       "exactSize": "{{bytes}} bytes",
-      "folder": "Las copias de seguridad se guardan en la carpeta de datos de la app de este equipo.",
-      "details": "Ubicación de almacenamiento",
       "restore": "Restaurar",
       "restoreNamed": "Restaurar la copia de seguridad de {{name}}",
       "delete": "Eliminar",

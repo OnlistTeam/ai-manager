@@ -4,7 +4,6 @@
 //! addresses and, only after an explicit Use/Open/Try Next action, delegates one configuration
 //! switch to the inherited provider transaction.
 
-use crate::application::product_settings::ProductSettingsService;
 use crate::application::provider_directory::ProviderDirectory;
 use crate::compat::ccswitch::routing::supports_local_routing;
 use crate::domain::{
@@ -20,7 +19,7 @@ impl ProviderPreflightService {
         tool: ToolId,
         provider_id: String,
     ) -> Result<ProviderPreflightOutcome, AppError> {
-        let (automatic, providers) = snapshot(&app_handle, tool).await?;
+        let providers = snapshot(&app_handle, tool).await?;
         let target = provider(&providers, tool, &provider_id)?;
         if !target.testable {
             let switched = switch_provider(&app_handle, tool, provider_id.clone()).await?;
@@ -43,9 +42,6 @@ impl ProviderPreflightService {
                 vec![checked],
             ));
         }
-        if automatic {
-            return try_next_from(&app_handle, tool, provider_id, providers, vec![checked]).await;
-        }
         Ok(outcome(
             ProviderPreflightStatus::Unreachable,
             Some(provider_id),
@@ -58,7 +54,7 @@ impl ProviderPreflightService {
         app_handle: tauri::AppHandle,
         tool: ToolId,
     ) -> Result<ProviderPreflightOutcome, AppError> {
-        let (automatic, providers) = snapshot(&app_handle, tool).await?;
+        let providers = snapshot(&app_handle, tool).await?;
         let Some(active) = providers.iter().find(|candidate| candidate.active) else {
             return Ok(outcome(
                 ProviderPreflightStatus::NotChecked,
@@ -86,9 +82,6 @@ impl ProviderPreflightService {
                 vec![checked],
             ));
         }
-        if automatic {
-            return try_next_from(&app_handle, tool, origin, providers, vec![checked]).await;
-        }
         Ok(outcome(
             ProviderPreflightStatus::Unreachable,
             Some(origin),
@@ -102,23 +95,15 @@ impl ProviderPreflightService {
         tool: ToolId,
         failed_provider_id: String,
     ) -> Result<ProviderPreflightOutcome, AppError> {
-        let (_, providers) = snapshot(&app_handle, tool).await?;
+        let providers = snapshot(&app_handle, tool).await?;
         provider(&providers, tool, &failed_provider_id)?;
         try_next_from(&app_handle, tool, failed_provider_id, providers, vec![]).await
     }
 }
 
-async fn snapshot(
-    app_handle: &tauri::AppHandle,
-    tool: ToolId,
-) -> Result<(bool, Vec<Provider>), AppError> {
+async fn snapshot(app_handle: &tauri::AppHandle, tool: ToolId) -> Result<Vec<Provider>, AppError> {
     let worker = app_handle.clone();
-    worker_task(move || {
-        let automatic = ProductSettingsService::load(&worker)?.automatic_provider_failover;
-        let providers = ProviderDirectory::list(&worker, tool)?;
-        Ok((automatic, providers))
-    })
-    .await
+    worker_task(move || ProviderDirectory::list(&worker, tool)).await
 }
 
 async fn switch_provider(

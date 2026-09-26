@@ -19,7 +19,6 @@ const STORED: ProductSettings = {
   extensionScope: { kind: "tool", id: "claude-code" },
   extensionKind: null,
   downloadStrategy: "automatic",
-  automaticProviderFailover: false,
   terminalApp: null,
 };
 

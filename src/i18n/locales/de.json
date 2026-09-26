@@ -1156,11 +1156,6 @@
         "retry": "Offiziellen Download erneut versuchen"
       },
       "uninstall": {
-        "title": "{{name}} über das System deinstallieren?",
-        "description": "AI Manager öffnet den Finder oder die Seite Installierte Apps des Betriebssystems. Sie schließen die Entfernung dort ab.",
-        "confirm": "System-Deinstallation öffnen",
-        "handoff": "AI Manager entfernt die Desktop-App nicht selbst und führt nie einen versteckten Deinstallationsbefehl aus.",
-        "data": "Der Anbieter bestimmt, ob App-Einstellungen, Kontodaten und Unterhaltungen erhalten bleiben. AI Manager löscht sie nicht.",
         "refresh": "Kehren Sie nach Abschluss im System hierher zurück und wählen Sie Apps aktualisieren."
       },
       "error": {
@@ -1789,11 +1784,6 @@
       "errorTitle": "Das Entfernen dieses Dienstes konnte nicht abgeschlossen werden",
       "errorRetry": "Prüfen Sie den Dienst und versuchen Sie es erneut.",
       "managedHint": "Dieser Dienst verwendet eine toolspezifische Einrichtung und kann hier nicht entfernt werden.",
-      "point": {
-        "account": "Ihr Konto wird nicht gelöscht, und der Schlüssel wird vom Dienst nicht widerrufen.",
-        "local": "Der gespeicherte Dienst und Schlüssel werden aus {{tool}} entfernt.",
-        "otherTools": "Andere KI-Tools und ihre Dienste bleiben unverändert."
-      },
       "removed": "{{name}} entfernt",
       "retryNamed": "{{name}} erneut entfernen versuchen",
       "title": "{{name}} entfernen?"
@@ -2166,11 +2156,6 @@
       "remove": {
         "title": "{{name}} entfernen?",
         "description": "Dies entfernt den verwalteten Skill aus AI Manager und aus jedem KI-Tool, in dem er aktiviert ist.",
-        "point": {
-          "everywhere": "Der Skill wird überall entfernt, wo er derzeit aktiviert ist.",
-          "recovery": "AI Manager versucht, vor dem Entfernen verwalteter Dateien eine Wiederherstellungskopie zu behalten.",
-          "external": "Nicht erkannte externe Kopien und Ihre übrigen Tool-Einstellungen bleiben unangetastet."
-        },
         "confirm": "Skill entfernen",
         "queued": "{{name}} wird entfernt",
         "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen.",
@@ -2244,11 +2229,6 @@
       "remove": {
         "title": "{{name}} entfernen?",
         "description": "Dies entfernt die gespeicherte Verbindung aus AI Manager und aus jedem KI-Tool, in dem sie eingeschaltet ist.",
-        "point": {
-          "everywhere": "Die Verbindung wird aus jedem KI-Tool entfernt, in dem sie derzeit eingeschaltet ist.",
-          "keepsTargets": "Das Programm, die Dateien, der Browser oder der entfernte Dienst, mit dem sie verbunden ist, bleiben unangetastet.",
-          "noUndo": "Dies kann hier nicht rückgängig gemacht werden. Sie können die Verbindung später erneut hinzufügen."
-        },
         "confirm": "Verbindung entfernen",
         "queued": "{{name}} wird entfernt",
         "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen.",
@@ -2310,11 +2290,6 @@
         "title": "{{name}} entfernen?",
         "description": "Dies entfernt die inaktive gespeicherte Kopie aus AI Manager.",
         "confirm": "Anweisungen entfernen",
-        "point": {
-          "current": "Die derzeit verwendeten Anweisungen bleiben ausgewählt und unverändert.",
-          "file": "Die aktive Anweisungsdatei des Tools und Ihre übrigen Einstellungen bleiben unangetastet.",
-          "undo": "Dies kann hier nicht rückgängig gemacht werden, Sie können es aber später erneut erstellen oder importieren."
-        },
         "active": "Anweisungen in Verwendung können nicht entfernt werden. Wählen Sie zuerst einen anderen Satz.",
         "errorTitle": "Diese Anweisungen konnten nicht entfernt werden"
       },
@@ -2337,7 +2312,7 @@
     "loading": "Lokales Routing wird geladen",
     "hero": {
       "title": "Eine lokale Route, weniger Unterbrechungen",
-      "description": "AI Manager sichert vor der Übernahme die aktuelle Konfiguration jedes Tools, hält den Datenverkehr auf diesem Computer und stellt die ursprüngliche Konfiguration wieder her, wenn das Routing stoppt.",
+      "description": "Tools senden Anfragen über eine lokale Route auf diesem Computer; beim Stoppen werden ihre ursprünglichen Einstellungen wiederhergestellt.",
       "running": "Routing läuft",
       "stopped": "Bereit, wenn Sie es brauchen",
       "localOnly": "Nur lokaler Loopback",
@@ -2364,11 +2339,8 @@
     },
     "takeover": {
       "title": "Routing-Übernahme",
-      "description": "Sichert die aktuelle Konfiguration dieses Tools und leitet sie auf die lokale Route um.",
-      "label": "Routing-Übernahme für {{name}}",
-      "confirmTitle": "{{name}} lokal routen?",
-      "confirmDescription": "AI Manager sichert die aktuelle Konfiguration, ersetzt nur die Routing-Felder und stellt die Sicherung wieder her, sobald die Übernahme ausgeschaltet wird.",
-      "confirm": "Routing einschalten"
+      "description": "Wenn aktiv, laufen die Anfragen dieses Tools über die lokale Route. Beim Ausschalten werden die ursprünglichen Einstellungen wiederhergestellt.",
+      "label": "Routing-Übernahme für {{name}}"
     },
     "failover": {
       "title": "Automatischer Failover",
@@ -2398,7 +2370,7 @@
     "stop": {
       "action": "Alle stoppen und wiederherstellen",
       "title": "Alle lokalen Routings stoppen?",
-      "description": "AI Manager stoppt den lokalen Server und stellt die gesicherte Konfiguration jedes Tools wieder her. Die Failover-Reihenfolge bleibt für das nächste Mal erhalten.",
+      "description": "Lokale Route stoppen und die ursprünglichen Einstellungen aller Tools wiederherstellen. Die Failover-Reihenfolge bleibt erhalten.",
       "confirm": "Stoppen und wiederherstellen"
     },
     "error": {
@@ -2516,15 +2488,9 @@
       "backup": "Sicherung und Wiederherstellung",
       "about": "Über"
     },
-    "experience": {
-      "eyebrow": "App-Erlebnis",
-      "title": "Machen Sie AI Manager zu Ihrem",
-      "description": "Sprach- und Erscheinungsbildeinstellungen bleiben auf diesem Computer.",
-      "instant": "Wirkt sofort",
-      "language": {
-        "label": "Sprache",
-        "description": "Wählen Sie die in AI Manager durchgängig verwendete Sprache."
-      }
+    "language": {
+      "label": "Sprache",
+      "description": "Wählen Sie die in AI Manager durchgängig verwendete Sprache."
     },
     "advanced": {
       "label": "Erweiterter Modus",
@@ -2533,10 +2499,6 @@
       "saved": "Gespeichert",
       "error": "Nicht gespeichert",
       "errorHint": "Die vorherige Einstellung wurde wiederhergestellt. Betätigen Sie den Schalter erneut, um es noch einmal zu versuchen."
-    },
-    "providerFailover": {
-      "label": "Vor dem Öffnen oder Wechseln verfügbare Endpunkte versuchen",
-      "description": "Nur wenn Sie in AI Manager auf Öffnen oder Verwenden klicken: Bei einem Fehler werden andere gespeicherte kompatible Endpunkte versucht. Standardmäßig aus, kein Datenverkehr-Routing. Failover für Anfragen konfigurieren Sie unter API-Endpunkte → Lokales Routing."
     },
     "desktop": {
       "title": "Desktop-Verhalten",
@@ -2774,8 +2736,6 @@
       "retry": "Erneut versuchen",
       "size": "Etwa {{size}} MB",
       "exactSize": "{{bytes}} Bytes",
-      "folder": "Sicherungen werden im App-Datenordner dieses Computers aufbewahrt.",
-      "details": "Speicherort",
       "restore": "Wiederherstellen",
       "restoreNamed": "Sicherung von {{name}} wiederherstellen",
       "delete": "Löschen",

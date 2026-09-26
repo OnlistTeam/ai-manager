@@ -1155,11 +1155,6 @@
         "retry": "重试官方下载"
       },
       "uninstall": {
-        "title": "通过系统卸载 {{name}}？",
-        "description": "AI 管家会打开 Finder 或系统的“已安装的应用”页面，由你在那里完成移除。",
-        "confirm": "打开系统卸载位置",
-        "handoff": "AI 管家不会自行移除桌面 App，也不会在后台执行隐藏的卸载命令。",
-        "data": "App 设置、账号数据和聊天记录是否保留由厂商决定；AI 管家不会删除这些数据。",
         "refresh": "在系统中完成后，请回到这里点击“刷新 App”。"
       },
       "error": {
@@ -1788,11 +1783,6 @@
       "errorTitle": "没能完成移除这个服务",
       "errorRetry": "请检查这个服务后再试一次。",
       "managedHint": "这个服务使用工具自己的专用配置，不能在这里移除。",
-      "point": {
-        "account": "不会删除你的服务商账号，这把密钥也不会在服务端撤销。",
-        "local": "已保存的服务和密钥会从 {{tool}} 中移除。",
-        "otherTools": "其他 AI 工具及其服务不会受到影响。"
-      },
       "removed": "已移除 {{name}}",
       "retryNamed": "重新移除 {{name}}",
       "title": "移除 {{name}}？"
@@ -2165,11 +2155,6 @@
       "remove": {
         "title": "移除“{{name}}”吗？",
         "description": "这会从 AI 管家以及所有已启用它的 AI 工具中移除这项受管理的技能。",
-        "point": {
-          "everywhere": "这个技能会从目前启用它的所有位置移除。",
-          "recovery": "移除受管理的文件前，AI 管家会尽量保留一份恢复副本。",
-          "external": "无法识别的外部副本和工具的其他设置不会被改动。"
-        },
         "confirm": "移除技能",
         "queued": "正在移除 {{name}}",
         "queuedDescription": "你可以继续使用 AI 管家，并在“任务”中查看进度。",
@@ -2243,11 +2228,6 @@
       "remove": {
         "title": "移除 {{name}}？",
         "description": "这会从 AI 管家和所有已开启它的 AI 工具中移除这条连接。",
-        "point": {
-          "everywhere": "这条连接会从当前已开启它的所有 AI 工具中移除。",
-          "keepsTargets": "它连接的程序、文件、浏览器或远程服务都不会被删除。",
-          "noUndo": "这里不能撤销；之后仍可以重新添加这条连接。"
-        },
         "confirm": "移除连接",
         "queued": "正在移除 {{name}}",
         "queuedDescription": "你可以继续使用应用，并在“任务”中查看进度。",
@@ -2309,11 +2289,6 @@
         "title": "移除 {{name}}？",
         "description": "这会从 AI 管家里移除这份未启用的保存副本。",
         "confirm": "移除提示词",
-        "point": {
-          "current": "当前正在使用的提示词会保持选中，内容不变。",
-          "file": "工具的实时说明文件和其他设置都不会被改动。",
-          "undo": "这里不能撤销，但以后可以重新新建或导入。"
-        },
         "active": "正在使用的提示词不能移除，请先换用另一份。",
         "errorTitle": "没能移除这份提示词"
       },
@@ -2336,7 +2311,7 @@
     "loading": "正在读取本地路由",
     "hero": {
       "title": "一条本地通道，少一些中断",
-      "description": "接管前会备份每个工具的 Live 配置；流量留在本机，停止路由时会恢复原配置。",
+      "description": "工具的请求先经过这台电脑上的本地路由；停止路由时恢复原来的设置。",
       "running": "路由正在运行",
       "stopped": "需要时再开启",
       "localOnly": "仅本机回环地址",
@@ -2363,11 +2338,8 @@
     },
     "takeover": {
       "title": "路由接管",
-      "description": "备份 Live 配置，并让这个工具指向本地路由。",
-      "label": "{{name}} 的路由接管",
-      "confirmTitle": "让 {{name}} 走本地路由？",
-      "confirmDescription": "AI 管家会先备份当前 Live 配置，只替换路由相关字段；关闭接管时会恢复备份。",
-      "confirm": "打开路由"
+      "description": "打开后这个工具的请求会经过本地路由，关闭时恢复原来的设置。",
+      "label": "{{name}} 的路由接管"
     },
     "failover": {
       "title": "自动故障转移",
@@ -2397,7 +2369,7 @@
     "stop": {
       "action": "全部停止并恢复",
       "title": "停止全部本地路由？",
-      "description": "AI 管家会停止本地服务，并恢复每个工具备份的 Live 配置；故障转移顺序会保留到下次。",
+      "description": "停止本地路由，并把每个工具恢复成原来的设置；故障转移顺序会保留。",
       "confirm": "停止并恢复"
     },
     "error": {
@@ -2515,15 +2487,9 @@
       "backup": "备份与恢复",
       "about": "关于"
     },
-    "experience": {
-      "eyebrow": "应用体验",
-      "title": "让 AI 管家更合你的习惯",
-      "description": "语言和外观偏好只保存在这台电脑上。",
-      "instant": "立即生效",
-      "language": {
-        "label": "语言",
-        "description": "选择 AI 管家各处使用的语言。"
-      }
+    "language": {
+      "label": "语言",
+      "description": "选择 AI 管家各处使用的语言。"
     },
     "advanced": {
       "label": "高级模式",
@@ -2532,10 +2498,6 @@
       "saved": "已保存",
       "error": "未保存",
       "errorHint": "已恢复为之前的设置。再次使用开关即可重试。"
-    },
-    "providerFailover": {
-      "label": "打开或切换前自动尝试可用端点",
-      "description": "仅在 AI 管家中点击「打开」或「使用」时生效，失败后尝试其他已保存的兼容端点。默认关闭，不接管流量；运行中的故障切换在「API 端点 → 本地路由」设置。"
     },
     "desktop": {
       "title": "桌面行为",
@@ -2773,8 +2735,6 @@
       "retry": "再试一次",
       "size": "约 {{size}} MB",
       "exactSize": "{{bytes}} 字节",
-      "folder": "备份保存在这台电脑的应用数据目录中。",
-      "details": "存放位置",
       "restore": "恢复",
       "restoreNamed": "恢复 {{name}} 的备份",
       "delete": "删除",

@@ -115,7 +115,7 @@ describe("RoutingPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("does not rewrite live configuration until takeover is confirmed", async () => {
+  it("turns takeover on straight from the switch, like any other toggle", async () => {
     let calls = 0;
     let body: unknown;
     server.use(
@@ -135,14 +135,8 @@ describe("RoutingPage", () => {
         name: "Routing takeover for Claude Code",
       }),
     );
-    expect(calls).toBe(0);
-    expect(
-      screen.getByRole("dialog", { name: "Route Claude Code locally?" }),
-    ).toBeInTheDocument();
-    await userEvent.click(
-      screen.getByRole("button", { name: "Turn on routing" }),
-    );
 
+    expect(screen.queryByRole("dialog")).toBeNull();
     await waitFor(() => expect(calls).toBe(1));
     expect(body).toEqual({ tool: "claude-code", enabled: true });
     expect(

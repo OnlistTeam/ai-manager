@@ -540,7 +540,7 @@ mod tests {
         // `providers` is exactly the list the UI renders, and the key travelling with it is
         // deliberate; what is guarded here are the upstream fields that must not cross the
         // product boundary.
-        for forbidden in ["settingsConfig", "targetUrl", "automaticProviderFailover"] {
+        for forbidden in ["settingsConfig", "targetUrl"] {
             assert!(
                 !json.contains(forbidden),
                 "unsafe preflight field in {json}"

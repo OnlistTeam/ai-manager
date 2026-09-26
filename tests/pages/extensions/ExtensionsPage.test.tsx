@@ -588,7 +588,7 @@ describe("ExtensionsPage", () => {
     const dialog = await screen.findByRole("dialog", {
       name: "Remove Code review?",
     });
-    expect(dialog).toHaveTextContent(en.extensions.skill.remove.point.recovery);
+    expect(dialog).toHaveTextContent(en.extensions.skill.remove.description);
     await userEvent.click(
       within(dialog).getByRole("button", {
         name: en.extensions.skill.remove.confirm,
@@ -1054,10 +1054,7 @@ describe("ExtensionsPage", () => {
     const dialog = await screen.findByRole("dialog", {
       name: "Remove Project files?",
     });
-    expect(dialog).toHaveTextContent(en.extensions.mcp.remove.point.everywhere);
-    expect(dialog).toHaveTextContent(
-      en.extensions.mcp.remove.point.keepsTargets,
-    );
+    expect(dialog).toHaveTextContent(en.extensions.mcp.remove.description);
     await userEvent.click(
       within(dialog).getByRole("button", {
         name: en.extensions.mcp.remove.confirm,

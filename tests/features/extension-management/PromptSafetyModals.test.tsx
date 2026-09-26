@@ -56,9 +56,8 @@ describe("Prompt safety confirmations", () => {
     expect(
       within(dialog).getByRole("button", { name: en.ds.action.cancel }),
     ).toHaveFocus();
-    expect(dialog).toHaveTextContent(en.extensions.prompt.remove.point.current);
-    expect(dialog).toHaveTextContent(en.extensions.prompt.remove.point.file);
-    expect(dialog).toHaveTextContent(en.extensions.prompt.remove.point.undo);
+    expect(dialog).toHaveTextContent(en.extensions.prompt.remove.description);
+    expect(within(dialog).queryByRole("list")).toBeNull();
   });
 
   it("removes only by stable id and closes after authoritative refresh", async () => {

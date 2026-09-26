@@ -156,17 +156,6 @@ export function BackupSection({ onReviewServices }: BackupSectionProps) {
         </div>
       ) : null}
 
-      {inventoryAvailable ? (
-        <details className="rounded-lg border border-hairline bg-layer-1 px-3 py-2">
-          <summary className="cursor-pointer list-none text-caption text-content-muted">
-            {t("preferences.backup.details")}
-          </summary>
-          <p className="mt-2 break-words border-t border-hairline pt-2 text-mono-sm text-content-muted">
-            {t("preferences.backup.folder")}
-          </p>
-        </details>
-      ) : null}
-
       <ConfirmBackupActionModal
         action={actions.pending?.action ?? null}
         label={

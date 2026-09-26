@@ -1156,11 +1156,6 @@
         "retry": "Riprova il download ufficiale"
       },
       "uninstall": {
-        "title": "Disinstallare {{name}} tramite il sistema?",
-        "description": "AI Manager aprirà Finder o la pagina delle app installate del sistema operativo. Completerai la rimozione lì.",
-        "confirm": "Apri la disinstallazione di sistema",
-        "handoff": "AI Manager non rimuove direttamente l'app desktop e non esegue mai un comando di disinstallazione nascosto.",
-        "data": "Il fornitore controlla se le impostazioni dell'app, i dati dell'account e le conversazioni restano. AI Manager non li elimina.",
         "refresh": "Dopo aver completato l'operazione nel sistema, torna qui e seleziona Aggiorna app."
       },
       "error": {
@@ -1789,11 +1784,6 @@
       "errorTitle": "Impossibile completare la rimozione di questo servizio",
       "errorRetry": "Controlla il servizio e riprova.",
       "managedHint": "Questo servizio usa una configurazione specifica dello strumento e non può essere rimosso da qui.",
-      "point": {
-        "account": "Il tuo account non viene eliminato e la chiave non viene revocata dal servizio.",
-        "local": "Il servizio e la chiave salvati verranno rimossi da {{tool}}.",
-        "otherTools": "Gli altri strumenti AI e i loro servizi restano invariati."
-      },
       "removed": "{{name}} rimosso",
       "retryNamed": "Prova di nuovo a rimuovere {{name}}",
       "title": "Rimuovere {{name}}?"
@@ -2166,11 +2156,6 @@
       "remove": {
         "title": "Rimuovere {{name}}?",
         "description": "Questo rimuove la competenza gestita da AI Manager e da ogni strumento AI in cui è abilitata.",
-        "point": {
-          "everywhere": "La competenza verrà rimossa da ovunque sia attualmente abilitata.",
-          "recovery": "AI Manager cercherà di conservare una copia di ripristino prima di rimuovere i file gestiti.",
-          "external": "Le copie esterne non riconosciute e le altre impostazioni dei tuoi strumenti restano invariate."
-        },
         "confirm": "Rimuovi competenza",
         "queued": "Rimozione di {{name}} in corso",
         "queuedDescription": "Puoi continuare a lavorare e seguire l'avanzamento in Attività.",
@@ -2244,11 +2229,6 @@
       "remove": {
         "title": "Rimuovere {{name}}?",
         "description": "Questo rimuove la connessione salvata da AI Manager e da ogni strumento AI in cui è attiva.",
-        "point": {
-          "everywhere": "La connessione verrà rimossa da ogni strumento AI in cui è attualmente attiva.",
-          "keepsTargets": "Il programma, i file, il browser o il servizio remoto a cui si connette restano invariati.",
-          "noUndo": "Questa azione non può essere annullata da qui. Puoi aggiungere di nuovo la connessione in seguito."
-        },
         "confirm": "Rimuovi connessione",
         "queued": "Rimozione di {{name}} in corso",
         "queuedDescription": "Puoi continuare a lavorare e seguire l'avanzamento in Attività.",
@@ -2310,11 +2290,6 @@
         "title": "Rimuovere {{name}}?",
         "description": "Questo rimuove la copia salvata inattiva da AI Manager.",
         "confirm": "Rimuovi istruzioni",
-        "point": {
-          "current": "Le istruzioni attualmente in uso restano selezionate e invariate.",
-          "file": "Il file di istruzioni attivo dello strumento e le tue altre impostazioni restano invariati.",
-          "undo": "Questa azione non può essere annullata da qui, ma puoi crearle o importarle di nuovo in seguito."
-        },
         "active": "Le istruzioni in uso non possono essere rimosse. Scegli prima un altro set.",
         "errorTitle": "Impossibile rimuovere queste istruzioni"
       },
@@ -2337,7 +2312,7 @@
     "loading": "Caricamento dell'instradamento locale",
     "hero": {
       "title": "Un instradamento locale, meno interruzioni",
-      "description": "AI Manager esegue il backup della configurazione attiva di ogni strumento prima del passaggio, mantiene il traffico su questo computer e ripristina la configurazione originale quando l'instradamento si interrompe.",
+      "description": "Gli strumenti inviano le richieste tramite un percorso locale su questo computer; fermarlo ripristina le impostazioni originali.",
       "running": "L'instradamento è in esecuzione",
       "stopped": "Pronto quando ti serve",
       "localOnly": "Solo loopback locale",
@@ -2364,11 +2339,8 @@
     },
     "takeover": {
       "title": "Passaggio all'instradamento",
-      "description": "Esegui il backup e punta la configurazione attiva di questo strumento verso l'instradamento locale.",
-      "label": "Passaggio all'instradamento per {{name}}",
-      "confirmTitle": "Instradare {{name}} localmente?",
-      "confirmDescription": "AI Manager eseguirà il backup della configurazione attiva corrente, sostituirà solo i campi di instradamento e ripristinerà il backup quando il passaggio viene disattivato.",
-      "confirm": "Attiva instradamento"
+      "description": "Se attivo, le richieste di questo strumento passano dal percorso locale. Disattivarlo ripristina le impostazioni originali.",
+      "label": "Passaggio all'instradamento per {{name}}"
     },
     "failover": {
       "title": "Failover automatico",
@@ -2398,7 +2370,7 @@
     "stop": {
       "action": "Interrompi e ripristina tutto",
       "title": "Interrompere tutto l'instradamento locale?",
-      "description": "AI Manager interromperà il server locale e ripristinerà la configurazione attiva di backup di ogni strumento. L'ordine di failover viene mantenuto per la prossima volta.",
+      "description": "Ferma il percorso locale e ripristina le impostazioni originali di ogni strumento. L’ordine di failover viene mantenuto.",
       "confirm": "Interrompi e ripristina"
     },
     "error": {
@@ -2516,15 +2488,9 @@
       "backup": "Backup e ripristino",
       "about": "Informazioni"
     },
-    "experience": {
-      "eyebrow": "Esperienza dell'app",
-      "title": "Rendi AI Manager tuo",
-      "description": "Le preferenze di lingua e aspetto restano su questo computer.",
-      "instant": "Si applica immediatamente",
-      "language": {
-        "label": "Lingua",
-        "description": "Scegli la lingua usata in tutto AI Manager."
-      }
+    "language": {
+      "label": "Lingua",
+      "description": "Scegli la lingua usata in tutto AI Manager."
     },
     "advanced": {
       "label": "Modalità avanzata",
@@ -2533,10 +2499,6 @@
       "saved": "Salvato",
       "error": "Non salvato",
       "errorHint": "È stata ripristinata l'impostazione precedente. Usa di nuovo l'interruttore per riprovare."
-    },
-    "providerFailover": {
-      "label": "Prova gli endpoint disponibili prima di aprire o cambiare",
-      "description": "Solo quando fai clic su Apri o Usa in AI Manager: in caso di errore, prova altri endpoint compatibili salvati. Disattivato per impostazione predefinita; nessun instradamento del traffico. Configura il failover durante le richieste in Endpoint API → Instradamento locale."
     },
     "desktop": {
       "title": "Comportamento desktop",
@@ -2774,8 +2736,6 @@
       "retry": "Riprova",
       "size": "Circa {{size}} MB",
       "exactSize": "{{bytes}} byte",
-      "folder": "I backup sono conservati nella cartella dei dati applicazione di questo computer.",
-      "details": "Posizione di archiviazione",
       "restore": "Ripristina",
       "restoreNamed": "Ripristina il backup da {{name}}",
       "delete": "Elimina",

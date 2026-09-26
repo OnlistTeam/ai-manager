@@ -1156,11 +1156,6 @@
         "retry": "Réessayer le téléchargement officiel"
       },
       "uninstall": {
-        "title": "Désinstaller {{name}} via le système ?",
-        "description": "AI Manager ouvrira le Finder ou la page des applications installées du système d'exploitation. Vous y terminerez la suppression.",
-        "confirm": "Ouvrir la désinstallation système",
-        "handoff": "AI Manager ne supprime pas lui-même l'application de bureau et n'exécute jamais de commande de désinstallation cachée.",
-        "data": "L'éditeur contrôle si les paramètres de l'application, les données de compte et les conversations sont conservés. AI Manager ne les supprime pas.",
         "refresh": "Une fois terminé dans le système, revenez ici et sélectionnez Actualiser les applications."
       },
       "error": {
@@ -1789,11 +1784,6 @@
       "errorTitle": "Impossible de terminer la suppression de ce service",
       "errorRetry": "Vérifiez le service et réessayez.",
       "managedHint": "Ce service utilise une configuration spécifique à l'outil et ne peut pas être supprimé ici.",
-      "point": {
-        "account": "Votre compte n'est pas supprimé, et la clé n'est pas révoquée par le service.",
-        "local": "Le service et la clé enregistrés seront supprimés de {{tool}}.",
-        "otherTools": "Les autres outils IA et leurs services restent inchangés."
-      },
       "removed": "{{name}} supprimé",
       "retryNamed": "Réessayer de supprimer {{name}}",
       "title": "Supprimer {{name}} ?"
@@ -2166,11 +2156,6 @@
       "remove": {
         "title": "Supprimer {{name}} ?",
         "description": "Cela supprime la compétence gérée d'AI Manager et de tous les outils IA où elle est activée.",
-        "point": {
-          "everywhere": "La compétence sera supprimée partout où elle est actuellement activée.",
-          "recovery": "AI Manager essaiera de conserver une copie de récupération avant de supprimer les fichiers gérés.",
-          "external": "Les copies externes non reconnues et vos autres paramètres d'outil restent inchangés."
-        },
         "confirm": "Supprimer la compétence",
         "queued": "Suppression de {{name}}",
         "queuedDescription": "Vous pouvez continuer à travailler et suivre la progression dans Activité.",
@@ -2244,11 +2229,6 @@
       "remove": {
         "title": "Supprimer {{name}} ?",
         "description": "Cela supprime la connexion enregistrée d'AI Manager et de tous les outils IA où elle est activée.",
-        "point": {
-          "everywhere": "La connexion sera supprimée de tous les outils IA où elle est actuellement activée.",
-          "keepsTargets": "Le programme, les fichiers, le navigateur ou le service distant auquel elle se connecte restent inchangés.",
-          "noUndo": "Cette action est irréversible ici. Vous pourrez ajouter la connexion à nouveau plus tard."
-        },
         "confirm": "Supprimer la connexion",
         "queued": "Suppression de {{name}}",
         "queuedDescription": "Vous pouvez continuer à travailler et suivre la progression dans Activité.",
@@ -2310,11 +2290,6 @@
         "title": "Supprimer {{name}} ?",
         "description": "Cela supprime la copie enregistrée inactive d'AI Manager.",
         "confirm": "Supprimer les instructions",
-        "point": {
-          "current": "Les instructions actuellement utilisées restent sélectionnées et inchangées.",
-          "file": "Le fichier d'instructions actif de l'outil et vos autres paramètres restent inchangés.",
-          "undo": "Cette action est irréversible ici, mais vous pourrez le recréer ou l'importer à nouveau plus tard."
-        },
         "active": "Les instructions en cours d'utilisation ne peuvent pas être supprimées. Choisissez d'abord un autre jeu.",
         "errorTitle": "Impossible de supprimer ces instructions"
       },
@@ -2337,7 +2312,7 @@
     "loading": "Chargement du routage local",
     "hero": {
       "title": "Une route locale unique, moins d'interruptions",
-      "description": "AI Manager sauvegarde la configuration active de chaque outil avant la prise en charge, conserve le trafic sur cet ordinateur, et restaure la configuration d'origine à l'arrêt du routage.",
+      "description": "Les outils envoient leurs requêtes via une route locale sur cet ordinateur ; l’arrêter restaure leurs réglages d’origine.",
       "running": "Le routage est en cours",
       "stopped": "Prêt quand vous en avez besoin",
       "localOnly": "Boucle locale uniquement",
@@ -2364,11 +2339,8 @@
     },
     "takeover": {
       "title": "Prise en charge du routage",
-      "description": "Sauvegardez et faites pointer la configuration active de cet outil vers la route locale.",
-      "label": "Prise en charge du routage pour {{name}}",
-      "confirmTitle": "Router {{name}} localement ?",
-      "confirmDescription": "AI Manager sauvegardera la configuration active actuelle, ne remplacera que les champs de routage, et restaurera la sauvegarde lorsque la prise en charge sera désactivée.",
-      "confirm": "Activer le routage"
+      "description": "Activé, les requêtes de cet outil passent par la route locale. Le désactiver restaure les réglages d’origine.",
+      "label": "Prise en charge du routage pour {{name}}"
     },
     "failover": {
       "title": "Basculement automatique",
@@ -2398,7 +2370,7 @@
     "stop": {
       "action": "Arrêter et tout restaurer",
       "title": "Arrêter tout le routage local ?",
-      "description": "AI Manager arrêtera le serveur local et restaurera la configuration active sauvegardée de chaque outil. L'ordre de basculement est conservé pour la prochaine fois.",
+      "description": "Arrêter la route locale et restaurer les réglages d’origine de chaque outil. L’ordre de basculement est conservé.",
       "confirm": "Arrêter et restaurer"
     },
     "error": {
@@ -2516,15 +2488,9 @@
       "backup": "Sauvegarde et restauration",
       "about": "À propos"
     },
-    "experience": {
-      "eyebrow": "Expérience de l'application",
-      "title": "Personnalisez AI Manager",
-      "description": "Les préférences de langue et d'apparence restent sur cet ordinateur.",
-      "instant": "S'applique immédiatement",
-      "language": {
-        "label": "Langue",
-        "description": "Choisissez la langue utilisée dans tout AI Manager."
-      }
+    "language": {
+      "label": "Langue",
+      "description": "Choisissez la langue utilisée dans tout AI Manager."
     },
     "advanced": {
       "label": "Mode avancé",
@@ -2533,10 +2499,6 @@
       "saved": "Enregistré",
       "error": "Non enregistré",
       "errorHint": "Le paramètre précédent a été restauré. Utilisez à nouveau l'interrupteur pour réessayer."
-    },
-    "providerFailover": {
-      "label": "Essayer les points d'accès disponibles avant d'ouvrir ou de changer",
-      "description": "Uniquement lorsque vous cliquez sur Ouvrir ou Utiliser dans AI Manager : en cas d'échec, essaie d'autres points d'accès compatibles enregistrés. Désactivé par défaut ; aucun routage de trafic. Configurez le basculement pendant les requêtes dans Points d'accès API → Routage local."
     },
     "desktop": {
       "title": "Comportement du bureau",
@@ -2774,8 +2736,6 @@
       "retry": "Réessayer",
       "size": "Environ {{size}} Mo",
       "exactSize": "{{bytes}} octets",
-      "folder": "Les sauvegardes sont conservées dans le dossier de données de l'application sur cet ordinateur.",
-      "details": "Emplacement de stockage",
       "restore": "Restaurer",
       "restoreNamed": "Restaurer la sauvegarde de {{name}}",
       "delete": "Supprimer",

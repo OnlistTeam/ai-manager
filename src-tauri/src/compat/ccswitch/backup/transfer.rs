@@ -265,7 +265,6 @@ mod tests {
             extension_scope: Some(ExtensionScope::desktop_app(DesktopAppId::ClaudeDesktop)),
             extension_kind: Some(ExtensionKind::Prompt),
             download_strategy: DownloadStrategy::Automatic,
-            automatic_provider_failover: true,
             terminal_app: Some(TerminalAppId::Ghostty),
         };
         SettingsStore::with_db(target.clone())

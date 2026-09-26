@@ -66,11 +66,8 @@ describe("McpRemovalModal", () => {
     expect(
       within(dialog).getByRole("button", { name: en.ds.action.cancel }),
     ).toHaveFocus();
-    expect(dialog).toHaveTextContent(en.extensions.mcp.remove.point.everywhere);
-    expect(dialog).toHaveTextContent(
-      en.extensions.mcp.remove.point.keepsTargets,
-    );
-    expect(dialog).toHaveTextContent(en.extensions.mcp.remove.point.noUndo);
+    expect(dialog).toHaveTextContent(en.extensions.mcp.remove.description);
+    expect(within(dialog).queryByRole("list")).toBeNull();
   });
 
   it("keeps Cancel available but blocks removal when tool authority is stale", () => {

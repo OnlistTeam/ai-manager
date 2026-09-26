@@ -413,7 +413,6 @@ describe("native.providers", () => {
 
     expect(seen).toEqual([{ tool: "claude-code", provider: "relay" }]);
     expect(JSON.stringify(seen)).not.toContain("url");
-    expect(JSON.stringify(seen)).not.toContain("automaticProviderFailover");
     expect(outcome.status).toBe("ready");
   });
 

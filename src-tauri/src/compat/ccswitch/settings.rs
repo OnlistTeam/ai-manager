@@ -27,18 +27,16 @@ const TOOL_SCOPE_KEY: &str = "aimgr.toolScope";
 const EXTENSION_SCOPE_KEY: &str = "aimgr.extensionScope";
 const EXTENSION_KIND_KEY: &str = "aimgr.extensionKind";
 const DOWNLOAD_STRATEGY_KEY: &str = "aimgr.downloadStrategy";
-const AUTOMATIC_PROVIDER_FAILOVER_KEY: &str = "aimgr.automaticProviderFailover";
 const TERMINAL_APP_KEY: &str = "aimgr.terminalApp";
 
 /// All product keys. For the guard test and manual inspection; the production path never iterates it.
-pub const PRODUCT_SETTING_KEYS: [&str; 8] = [
+pub const PRODUCT_SETTING_KEYS: [&str; 7] = [
     ADVANCED_MODE_KEY,
     IMPORT_PROMPT_SEEN_KEY,
     TOOL_SCOPE_KEY,
     EXTENSION_SCOPE_KEY,
     EXTENSION_KIND_KEY,
     DOWNLOAD_STRATEGY_KEY,
-    AUTOMATIC_PROVIDER_FAILOVER_KEY,
     TERMINAL_APP_KEY,
 ];
 
@@ -191,10 +189,6 @@ impl SettingsStore {
                     .get_setting(DOWNLOAD_STRATEGY_KEY)
                     .map_err(load_failed)?,
             ),
-            automatic_provider_failover: self
-                .db
-                .get_bool_flag(AUTOMATIC_PROVIDER_FAILOVER_KEY)
-                .map_err(load_failed)?,
             terminal_app: decode_terminal(
                 self.db.get_setting(TERMINAL_APP_KEY).map_err(load_failed)?,
             ),
@@ -226,12 +220,6 @@ impl SettingsStore {
             .set_setting(
                 DOWNLOAD_STRATEGY_KEY,
                 encode_download_strategy(settings.download_strategy),
-            )
-            .map_err(save_failed)?;
-        self.db
-            .set_setting(
-                AUTOMATIC_PROVIDER_FAILOVER_KEY,
-                bool_value(settings.automatic_provider_failover),
             )
             .map_err(save_failed)?;
         self.db
@@ -269,7 +257,7 @@ mod tests {
                 "{key} must live under the product prefix"
             );
         }
-        assert_eq!(PRODUCT_SETTING_KEYS.len(), 8);
+        assert_eq!(PRODUCT_SETTING_KEYS.len(), 7);
     }
 
     #[test]
@@ -302,7 +290,6 @@ mod tests {
             extension_scope: Some(ExtensionScope::desktop_app(DesktopAppId::ClaudeDesktop)),
             extension_kind: Some(ExtensionKind::Prompt),
             download_strategy: DownloadStrategy::Automatic,
-            automatic_provider_failover: true,
             terminal_app: Some(TerminalAppId::Ghostty),
         };
         assert_eq!(store.save(wanted).expect("save"), wanted);

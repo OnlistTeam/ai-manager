@@ -29,7 +29,6 @@ const SETTINGS = {
   extensionScope: null,
   extensionKind: null,
   downloadStrategy: "automatic",
-  automaticProviderFailover: false,
   terminalApp: null,
 };
 

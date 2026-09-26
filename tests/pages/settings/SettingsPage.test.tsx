@@ -35,7 +35,6 @@ const SETTINGS = {
   extensionScope: null,
   extensionKind: null,
   downloadStrategy: "automatic",
-  automaticProviderFailover: false,
   terminalApp: null,
 };
 const LIST = { files: [] };
@@ -180,7 +179,7 @@ describe("SettingsPage", () => {
     expect(alert).not.toBeInTheDocument();
     expect(
       screen.getByRole("combobox", {
-        name: en.preferences.experience.language.label,
+        name: en.preferences.language.label,
       }),
     ).toBeEnabled();
   });
@@ -312,7 +311,7 @@ describe("SettingsPage", () => {
     mount();
 
     const language = await screen.findByRole("combobox", {
-      name: en.preferences.experience.language.label,
+      name: en.preferences.language.label,
     });
     expect(language).toHaveValue("en");
     // Endonyms, so the list reads the same whatever the interface language is:
@@ -328,7 +327,7 @@ describe("SettingsPage", () => {
         .map((option) => option.value),
     ).toEqual([...APP_LANGUAGES]);
     expect(language).toHaveAccessibleDescription(
-      en.preferences.experience.language.description,
+      en.preferences.language.description,
     );
     expect(document.querySelector(".lucide-globe")).toBeInTheDocument();
     expect(document.querySelector(".lucide-languages")).not.toBeInTheDocument();
@@ -337,7 +336,7 @@ describe("SettingsPage", () => {
   it("applies and persists language changes immediately", async () => {
     mount();
     const language = await screen.findByRole("combobox", {
-      name: en.preferences.experience.language.label,
+      name: en.preferences.language.label,
     });
 
     await userEvent.selectOptions(language, "zh");
@@ -351,16 +350,15 @@ describe("SettingsPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("removes the mode switch and keeps storage details collapsed", async () => {
+  it("has no mode switch", async () => {
     mount();
+    await screen.findByRole("heading", {
+      name: en.preferences.title,
+      level: 1,
+    });
     expect(
       screen.queryByRole("switch", { name: en.preferences.advanced.label }),
     ).toBeNull();
-    const disclosure = await screen.findByText(en.preferences.backup.details);
-    expect(disclosure.parentElement).not.toHaveAttribute("open");
-    await userEvent.click(disclosure);
-    expect(disclosure.parentElement).toHaveAttribute("open");
-    expect(screen.getByText(en.preferences.backup.folder)).toBeInTheDocument();
   });
 
   it("keeps automatic fallback region-neutral while exposing recovery to every user", async () => {
@@ -379,37 +377,6 @@ describe("SettingsPage", () => {
         name: en.preferences.network.proxy.title,
       }),
     ).toBeVisible();
-  });
-
-  it("keeps automatic provider failover off by default and saves an explicit opt-in", async () => {
-    let received: unknown;
-    server.use(
-      http.post(`${TAURI_ENDPOINT}/app_settings_save`, async ({ request }) => {
-        received = await request.json();
-        return HttpResponse.json({
-          ...SETTINGS,
-          automaticProviderFailover: true,
-        });
-      }),
-    );
-    mount();
-
-    const toggle = await screen.findByRole("switch", {
-      name: en.preferences.providerFailover.label,
-    });
-    expect(toggle).not.toBeChecked();
-
-    await userEvent.click(toggle);
-
-    await waitFor(() =>
-      expect(received).toEqual({
-        settings: { ...SETTINGS, automaticProviderFailover: true },
-      }),
-    );
-    expect(toggle).toBeChecked();
-    expect(toggle).toHaveAccessibleDescription(
-      `${en.preferences.providerFailover.description} ${en.preferences.advanced.saved}`,
-    );
   });
 
   it("exposes safe startup and tray preferences", async () => {

@@ -406,7 +406,7 @@ describe("DesktopAppsSection", () => {
     expect(page.querySelector("svg")).toHaveClass("lucide-external-link");
   });
 
-  it("confirms a system-owned uninstall handoff without automatically rescanning", async () => {
+  it("opens the system-owned uninstall place directly without rescanning", async () => {
     let body: unknown;
     let inventoryReads = 0;
     server.use(
@@ -432,23 +432,16 @@ describe("DesktopAppsSection", () => {
       }),
     );
     await userEvent.click(screen.getByRole("menuitem", { name: "Uninstall" }));
-    const dialog = screen.getByRole("dialog", {
-      name: "Uninstall ChatGPT / Codex through the system?",
-    });
-    expect(dialog).toHaveTextContent(
-      "AI Manager does not remove the desktop app itself",
-    );
-    expect(dialog).toHaveTextContent(
-      "After finishing in the system, return here and select Refresh apps.",
-    );
-    await userEvent.click(
-      within(dialog).getByRole("button", { name: "Open system uninstall" }),
-    );
+    // Opening the system's own uninstall place removes nothing, so it runs at once.
     await waitFor(() => expect(body).toEqual({ app: "codex-app" }));
-    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+    expect(screen.queryByRole("dialog")).toBeNull();
     expect(inventoryReads).toBe(1);
     expect(toastMocks.success).toHaveBeenCalledWith(
       "The system location for uninstalling ChatGPT / Codex is open.",
+      {
+        description:
+          "After finishing in the system, return here and select Refresh apps.",
+      },
     );
   });
 

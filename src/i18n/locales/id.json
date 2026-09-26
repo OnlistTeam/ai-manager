@@ -1156,11 +1156,6 @@
         "retry": "Coba lagi unduhan resmi"
       },
       "uninstall": {
-        "title": "Hapus instalan {{name}} melalui sistem?",
-        "description": "AI Manager akan membuka Finder atau halaman aplikasi terinstal sistem operasi. Anda menyelesaikan penghapusan di sana.",
-        "confirm": "Buka penghapusan instalan sistem",
-        "handoff": "AI Manager tidak menghapus aplikasi desktop itu sendiri dan tidak pernah menjalankan perintah uninstall tersembunyi.",
-        "data": "Vendor mengontrol apakah pengaturan aplikasi, data akun, dan percakapan tetap ada. AI Manager tidak menghapusnya.",
         "refresh": "Setelah selesai di sistem, kembali ke sini dan pilih Segarkan aplikasi."
       },
       "error": {
@@ -1789,11 +1784,6 @@
       "errorTitle": "Tidak dapat menyelesaikan penghapusan layanan ini",
       "errorRetry": "Tinjau layanan ini dan coba lagi.",
       "managedHint": "Layanan ini menggunakan pengaturan khusus alat dan tidak dapat dihapus di sini.",
-      "point": {
-        "account": "Akun Anda tidak dihapus, dan kuncinya tidak dicabut oleh layanan tersebut.",
-        "local": "Layanan dan kunci tersimpan akan dihapus dari {{tool}}.",
-        "otherTools": "Alat AI lain dan layanannya tidak terpengaruh."
-      },
       "removed": "{{name}} dihapus",
       "retryNamed": "Coba hapus {{name}} lagi",
       "title": "Hapus {{name}}?"
@@ -2166,11 +2156,6 @@
       "remove": {
         "title": "Hapus {{name}}?",
         "description": "Ini menghapus Skill terkelola dari AI Manager dan setiap alat AI tempat Skill ini diaktifkan.",
-        "point": {
-          "everywhere": "Skill akan dihapus di mana pun saat ini diaktifkan.",
-          "recovery": "AI Manager akan mencoba menyimpan salinan pemulihan sebelum menghapus file terkelola.",
-          "external": "Salinan eksternal yang tidak dikenali dan pengaturan alat lain Anda tidak diganggu."
-        },
         "confirm": "Hapus Skill",
         "queued": "Menghapus {{name}}",
         "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas.",
@@ -2244,11 +2229,6 @@
       "remove": {
         "title": "Hapus {{name}}?",
         "description": "Ini menghapus koneksi tersimpan dari AI Manager dan setiap alat AI tempat koneksi ini diaktifkan.",
-        "point": {
-          "everywhere": "Koneksi akan dihapus dari setiap alat AI tempat koneksi ini saat ini aktif.",
-          "keepsTargets": "Program, file, browser, atau layanan jarak jauh yang dihubungkannya tidak diganggu.",
-          "noUndo": "Ini tidak dapat dibatalkan di sini. Anda dapat menambahkan koneksinya lagi nanti."
-        },
         "confirm": "Hapus Koneksi",
         "queued": "Menghapus {{name}}",
         "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas.",
@@ -2310,11 +2290,6 @@
         "title": "Hapus {{name}}?",
         "description": "Ini menghapus salinan tersimpan yang tidak aktif dari AI Manager.",
         "confirm": "Hapus Instruksi",
-        "point": {
-          "current": "Instruksi yang sedang digunakan tetap terpilih dan tidak berubah.",
-          "file": "File instruksi aktif milik alat dan pengaturan lain Anda tidak diganggu.",
-          "undo": "Ini tidak dapat dibatalkan di sini, tetapi Anda dapat membuat atau mengimpornya lagi nanti."
-        },
         "active": "Instruksi yang sedang digunakan tidak dapat dihapus. Pilih set lain terlebih dahulu.",
         "errorTitle": "Tidak dapat menghapus instruksi ini"
       },
@@ -2337,7 +2312,7 @@
     "loading": "Memuat perutean lokal",
     "hero": {
       "title": "Satu rute lokal, lebih sedikit gangguan",
-      "description": "AI Manager mencadangkan konfigurasi aktif tiap alat sebelum pengambilalihan, menjaga lalu lintas tetap di komputer ini, dan memulihkan konfigurasi asli saat perutean berhenti.",
+      "description": "Alat mengirim permintaan lewat rute lokal di komputer ini; menghentikannya memulihkan pengaturan aslinya.",
       "running": "Perutean sedang berjalan",
       "stopped": "Siap saat Anda membutuhkannya",
       "localOnly": "Hanya loopback lokal",
@@ -2364,11 +2339,8 @@
     },
     "takeover": {
       "title": "Pengambilalihan perutean",
-      "description": "Cadangkan dan arahkan konfigurasi aktif alat ini ke rute lokal.",
-      "label": "Pengambilalihan perutean untuk {{name}}",
-      "confirmTitle": "Arahkan {{name}} secara lokal?",
-      "confirmDescription": "AI Manager akan mencadangkan konfigurasi aktif saat ini, mengganti hanya bidang perutean, dan memulihkan cadangan saat pengambilalihan dimatikan.",
-      "confirm": "Aktifkan perutean"
+      "description": "Saat aktif, permintaan alat ini melewati rute lokal. Mematikannya memulihkan pengaturan asli.",
+      "label": "Pengambilalihan perutean untuk {{name}}"
     },
     "failover": {
       "title": "Failover otomatis",
@@ -2398,7 +2370,7 @@
     "stop": {
       "action": "Hentikan dan pulihkan semua",
       "title": "Hentikan semua perutean lokal?",
-      "description": "AI Manager akan menghentikan server lokal dan memulihkan konfigurasi aktif tiap alat yang telah dicadangkan. Urutan failover disimpan untuk lain waktu.",
+      "description": "Hentikan rute lokal dan pulihkan pengaturan asli setiap alat. Urutan failover tetap disimpan.",
       "confirm": "Hentikan dan pulihkan"
     },
     "error": {
@@ -2516,15 +2488,9 @@
       "backup": "Cadangan dan pemulihan",
       "about": "Tentang"
     },
-    "experience": {
-      "eyebrow": "Pengalaman aplikasi",
-      "title": "Jadikan AI Manager milik Anda",
-      "description": "Preferensi bahasa dan tampilan tetap tersimpan di komputer ini.",
-      "instant": "Berlaku seketika",
-      "language": {
-        "label": "Bahasa",
-        "description": "Pilih bahasa yang digunakan di seluruh AI Manager."
-      }
+    "language": {
+      "label": "Bahasa",
+      "description": "Pilih bahasa yang digunakan di seluruh AI Manager."
     },
     "advanced": {
       "label": "Mode Lanjutan",
@@ -2533,10 +2499,6 @@
       "saved": "Tersimpan",
       "error": "Tidak tersimpan",
       "errorHint": "Pengaturan sebelumnya telah dipulihkan. Gunakan sakelar ini lagi untuk mencoba ulang."
-    },
-    "providerFailover": {
-      "label": "Coba endpoint yang tersedia sebelum membuka atau beralih",
-      "description": "Hanya saat Anda mengklik Buka atau Gunakan di AI Manager: jika gagal, coba endpoint kompatibel tersimpan lainnya. Nonaktif secara default; tidak ada perutean lalu lintas. Konfigurasikan failover saat permintaan di Endpoint API → Perutean Lokal."
     },
     "desktop": {
       "title": "Perilaku desktop",
@@ -2774,8 +2736,6 @@
       "retry": "Coba lagi",
       "size": "Sekitar {{size}} MB",
       "exactSize": "{{bytes}} byte",
-      "folder": "Cadangan disimpan di folder data aplikasi komputer ini.",
-      "details": "Lokasi penyimpanan",
       "restore": "Pulihkan",
       "restoreNamed": "Pulihkan cadangan dari {{name}}",
       "delete": "Hapus",

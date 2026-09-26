@@ -76,10 +76,9 @@ describe("ProviderRemovalModal", () => {
       within(dialog).getByRole("button", { name: en.ds.action.cancel }),
     ).toHaveFocus();
     expect(dialog).toHaveTextContent(
-      en.services.remove.point.local.replace("{{tool}}", "Claude Code"),
+      en.services.remove.description.replace("{{tool}}", "Claude Code"),
     );
-    expect(dialog).toHaveTextContent(en.services.remove.point.account);
-    expect(dialog).toHaveTextContent(en.services.remove.point.otherTools);
+    expect(within(dialog).queryByRole("list")).toBeNull();
   });
 
   it("shows the complete custom service name before destructive confirmation", () => {

@@ -111,18 +111,11 @@ describe("BackupSection", () => {
     expect(latestSummary).toHaveClass("break-words");
     expect(latestSummary).not.toHaveClass("truncate");
     expect(screen.queryByText(/db_backup_/)).toBeNull();
-    expect(screen.getByText(en.preferences.backup.folder)).not.toBeVisible();
   });
 
-  it("keeps the storage note behind a small disclosure without any folder path", async () => {
+  it("never shows a folder path", async () => {
     mount();
-    const summary = await screen.findByText(en.preferences.backup.details);
-    const folder = screen.getByText(en.preferences.backup.folder);
-    expect(folder).not.toBeVisible();
-    await userEvent.click(summary);
-    expect(folder).toBeVisible();
-    expect(folder).toHaveClass("break-words");
-    expect(en.preferences.backup.folder).not.toContain("{{");
+    await screen.findByText(en.preferences.backup.summary.title);
     expect(document.body).not.toHaveTextContent(/\/Users\//u);
   });
 

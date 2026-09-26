@@ -1156,11 +1156,6 @@
         "retry": "Thử lại tải chính thức"
       },
       "uninstall": {
-        "title": "Gỡ cài đặt {{name}} qua hệ thống?",
-        "description": "AI Manager sẽ mở Finder hoặc trang Ứng dụng đã cài đặt của hệ điều hành. Bạn hoàn tất việc gỡ bỏ tại đó.",
-        "confirm": "Mở gỡ cài đặt hệ thống",
-        "handoff": "AI Manager không tự gỡ ứng dụng desktop và không bao giờ chạy lệnh gỡ cài đặt ẩn.",
-        "data": "Nhà cung cấp quyết định liệu cài đặt ứng dụng, dữ liệu tài khoản và hội thoại có được giữ lại hay không. AI Manager không xóa chúng.",
         "refresh": "Sau khi hoàn tất trong hệ thống, quay lại đây và chọn Làm mới ứng dụng."
       },
       "error": {
@@ -1789,11 +1784,6 @@
       "errorTitle": "Không thể hoàn tất xóa dịch vụ này",
       "errorRetry": "Xem lại dịch vụ và thử lại.",
       "managedHint": "Dịch vụ này dùng cấu hình riêng của công cụ và không thể xóa ở đây.",
-      "point": {
-        "account": "Tài khoản của bạn không bị xóa, và khóa không bị dịch vụ thu hồi.",
-        "local": "Dịch vụ và khóa đã lưu sẽ bị xóa khỏi {{tool}}.",
-        "otherTools": "Các công cụ AI khác và dịch vụ của chúng không bị ảnh hưởng."
-      },
       "removed": "Đã xóa {{name}}",
       "retryNamed": "Thử xóa lại {{name}}",
       "title": "Xóa {{name}}?"
@@ -2166,11 +2156,6 @@
       "remove": {
         "title": "Xóa {{name}}?",
         "description": "Thao tác này xóa Skill được quản lý khỏi AI Manager và mọi công cụ AI đang bật Skill này.",
-        "point": {
-          "everywhere": "Skill sẽ bị xóa ở mọi nơi hiện đang bật nó.",
-          "recovery": "AI Manager sẽ cố gắng giữ một bản sao khôi phục trước khi xóa các tệp được quản lý.",
-          "external": "Các bản sao ngoài không được nhận diện và các cài đặt công cụ khác của bạn không bị ảnh hưởng."
-        },
         "confirm": "Xóa Skill",
         "queued": "Đang xóa {{name}}",
         "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
@@ -2244,11 +2229,6 @@
       "remove": {
         "title": "Xóa {{name}}?",
         "description": "Thao tác này xóa kết nối đã lưu khỏi AI Manager và mọi công cụ AI đang bật kết nối này.",
-        "point": {
-          "everywhere": "Kết nối sẽ bị xóa khỏi mọi công cụ AI hiện đang bật.",
-          "keepsTargets": "Chương trình, tệp, trình duyệt hoặc dịch vụ từ xa mà nó kết nối tới không bị ảnh hưởng.",
-          "noUndo": "Thao tác này không thể hoàn tác ở đây. Bạn có thể thêm lại kết nối sau."
-        },
         "confirm": "Xóa kết nối",
         "queued": "Đang xóa {{name}}",
         "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
@@ -2310,11 +2290,6 @@
         "title": "Xóa {{name}}?",
         "description": "Thao tác này xóa bản sao đã lưu không hoạt động khỏi AI Manager.",
         "confirm": "Xóa hướng dẫn",
-        "point": {
-          "current": "Hướng dẫn đang được dùng vẫn được chọn và không bị ảnh hưởng.",
-          "file": "Tệp hướng dẫn đang hoạt động của công cụ và các cài đặt khác của bạn không bị ảnh hưởng.",
-          "undo": "Thao tác này không thể hoàn tác ở đây, nhưng bạn có thể tạo hoặc nhập lại sau."
-        },
         "active": "Không thể xóa hướng dẫn đang được dùng. Hãy chọn bộ khác trước.",
         "errorTitle": "Không thể xóa hướng dẫn này"
       },
@@ -2337,7 +2312,7 @@
     "loading": "Đang tải định tuyến cục bộ",
     "hero": {
       "title": "Một tuyến cục bộ, ít gián đoạn hơn",
-      "description": "AI Manager sao lưu cấu hình hiện tại của từng công cụ trước khi tiếp quản, giữ lưu lượng trên máy này, và khôi phục cấu hình gốc khi định tuyến dừng lại.",
+      "description": "Công cụ gửi yêu cầu qua tuyến cục bộ trên máy này; dừng tuyến sẽ khôi phục cài đặt ban đầu.",
       "running": "Định tuyến đang chạy",
       "stopped": "Sẵn sàng khi bạn cần",
       "localOnly": "Chỉ loopback cục bộ",
@@ -2364,11 +2339,8 @@
     },
     "takeover": {
       "title": "Tiếp quản định tuyến",
-      "description": "Sao lưu và trỏ cấu hình hiện tại của công cụ này sang tuyến cục bộ.",
-      "label": "Tiếp quản định tuyến cho {{name}}",
-      "confirmTitle": "Định tuyến {{name}} cục bộ?",
-      "confirmDescription": "AI Manager sẽ sao lưu cấu hình hiện tại, chỉ thay thế các trường định tuyến, và khôi phục bản sao lưu khi tắt tiếp quản.",
-      "confirm": "Bật định tuyến"
+      "description": "Khi bật, yêu cầu của công cụ này đi qua tuyến cục bộ. Tắt sẽ khôi phục cài đặt ban đầu.",
+      "label": "Tiếp quản định tuyến cho {{name}}"
     },
     "failover": {
       "title": "Tự động chuyển dự phòng",
@@ -2398,7 +2370,7 @@
     "stop": {
       "action": "Dừng và khôi phục tất cả",
       "title": "Dừng toàn bộ định tuyến cục bộ?",
-      "description": "AI Manager sẽ dừng máy chủ cục bộ và khôi phục cấu hình đã sao lưu của mọi công cụ. Thứ tự chuyển dự phòng được giữ lại cho lần sau.",
+      "description": "Dừng tuyến cục bộ và khôi phục cài đặt ban đầu của mọi công cụ. Thứ tự chuyển đổi dự phòng được giữ lại.",
       "confirm": "Dừng và khôi phục"
     },
     "error": {
@@ -2516,15 +2488,9 @@
       "backup": "Sao lưu và khôi phục",
       "about": "Giới thiệu"
     },
-    "experience": {
-      "eyebrow": "Trải nghiệm ứng dụng",
-      "title": "Tùy chỉnh AI Manager theo ý bạn",
-      "description": "Tùy chọn ngôn ngữ và giao diện chỉ lưu trên máy này.",
-      "instant": "Áp dụng ngay lập tức",
-      "language": {
-        "label": "Ngôn ngữ",
-        "description": "Chọn ngôn ngữ sử dụng xuyên suốt AI Manager."
-      }
+    "language": {
+      "label": "Ngôn ngữ",
+      "description": "Chọn ngôn ngữ sử dụng xuyên suốt AI Manager."
     },
     "advanced": {
       "label": "Chế độ nâng cao",
@@ -2533,10 +2499,6 @@
       "saved": "Đã lưu",
       "error": "Chưa lưu",
       "errorHint": "Cài đặt trước đó đã được khôi phục. Hãy bật lại công tắc để thử lại."
-    },
-    "providerFailover": {
-      "label": "Thử các điểm cuối khả dụng trước khi mở hoặc chuyển",
-      "description": "Chỉ khi bạn nhấp Mở hoặc Dùng trong AI Manager: nếu thất bại, thử các điểm cuối tương thích đã lưu khác. Mặc định tắt; không định tuyến lưu lượng. Cấu hình chuyển dự phòng cho các yêu cầu trong API Endpoints → Định tuyến cục bộ."
     },
     "desktop": {
       "title": "Hành vi trên máy tính",
@@ -2774,8 +2736,6 @@
       "retry": "Thử lại",
       "size": "Khoảng {{size}} MB",
       "exactSize": "{{bytes}} byte",
-      "folder": "Các bản sao lưu được giữ trong thư mục dữ liệu ứng dụng của máy này.",
-      "details": "Vị trí lưu trữ",
       "restore": "Khôi phục",
       "restoreNamed": "Khôi phục bản sao lưu từ {{name}}",
       "delete": "Xóa",

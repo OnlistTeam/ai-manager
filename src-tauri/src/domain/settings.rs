@@ -91,10 +91,6 @@ pub struct ProductSettings {
     pub extension_kind: Option<ExtensionKind>,
     /// Install/update compatibility field. The product defaults to official-first with limited automatic fallback and does not route by user region.
     pub download_strategy: DownloadStrategy,
-    /// Whether a Use / Open action may switch to the next saved, reachable compatible service
-    /// when the address is unreachable. Off by default; it starts no background probe and does
-    /// not take over the request path.
-    pub automatic_provider_failover: bool,
     /// Which terminal was last selected to take over. None = never chosen, so the platform
     /// default is used. Once chosen it is reused, so the user does not have to pick again every
     /// time they resume a session.
@@ -122,7 +118,6 @@ mod tests {
         assert_eq!(defaults.extension_scope, None);
         assert_eq!(defaults.extension_kind, None);
         assert_eq!(defaults.download_strategy, DownloadStrategy::Automatic);
-        assert!(!defaults.automatic_provider_failover);
     }
 
     #[test]
@@ -130,7 +125,7 @@ mod tests {
         let json = serde_json::to_string(&ProductSettings::default()).expect("serialize");
         assert_eq!(
             json,
-            r#"{"advancedMode":false,"importPromptSeen":false,"toolScope":null,"extensionScope":null,"extensionKind":null,"downloadStrategy":"automatic","automaticProviderFailover":false,"terminalApp":null}"#
+            r#"{"advancedMode":false,"importPromptSeen":false,"toolScope":null,"extensionScope":null,"extensionKind":null,"downloadStrategy":"automatic","terminalApp":null}"#
         );
 
         let filled = ProductSettings {
@@ -140,13 +135,12 @@ mod tests {
             extension_scope: Some(ExtensionScope::desktop_app(DesktopAppId::ClaudeDesktop)),
             extension_kind: Some(ExtensionKind::Mcp),
             download_strategy: DownloadStrategy::Automatic,
-            automatic_provider_failover: true,
             terminal_app: Some(TerminalAppId::Ghostty),
         };
         let json = serde_json::to_string(&filled).expect("serialize");
         assert_eq!(
             json,
-            r#"{"advancedMode":true,"importPromptSeen":true,"toolScope":"codex","extensionScope":{"kind":"desktopApp","id":"claude-desktop"},"extensionKind":"mcp","downloadStrategy":"automatic","automaticProviderFailover":true,"terminalApp":"ghostty"}"#
+            r#"{"advancedMode":true,"importPromptSeen":true,"toolScope":"codex","extensionScope":{"kind":"desktopApp","id":"claude-desktop"},"extensionKind":"mcp","downloadStrategy":"automatic","terminalApp":"ghostty"}"#
         );
         assert_eq!(
             serde_json::from_str::<ProductSettings>(&json).expect("deserialize"),
@@ -156,7 +150,7 @@ mod tests {
 
     #[test]
     fn the_legacy_region_named_wire_value_migrates_to_automatic() {
-        let legacy = r#"{"advancedMode":false,"importPromptSeen":false,"toolScope":null,"extensionScope":null,"extensionKind":null,"downloadStrategy":"chinaResilient","automaticProviderFailover":false,"terminalApp":null}"#;
+        let legacy = r#"{"advancedMode":false,"importPromptSeen":false,"toolScope":null,"extensionScope":null,"extensionKind":null,"downloadStrategy":"chinaResilient","terminalApp":null}"#;
         assert_eq!(
             serde_json::from_str::<ProductSettings>(legacy).expect("deserialize legacy settings"),
             ProductSettings::default()

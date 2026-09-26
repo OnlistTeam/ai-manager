@@ -10,7 +10,6 @@ import {
   useOpenDesktopAppUninstall,
 } from "@/entities/desktop-app";
 import type { ToolId } from "@/entities/tool";
-import { ConfirmActionModal } from "@/features/tool-management";
 import { Button } from "@/shared/ui/Button";
 import { Card } from "@/shared/ui/Card";
 import { cn } from "@/shared/ui/cn";
@@ -39,9 +38,6 @@ export function DesktopAppsSection({
   const launch = useLaunchDesktopApp();
   const officialDownload = useOpenDesktopAppOfficialDownload();
   const uninstall = useOpenDesktopAppUninstall();
-  const [pendingUninstall, setPendingUninstall] = useState<DesktopApp | null>(
-    null,
-  );
   const [downloadHelpApp, setDownloadHelpApp] = useState<DesktopApp | null>(
     null,
   );
@@ -88,20 +84,16 @@ export function DesktopAppsSection({
     setDownloadHelpApp(app);
   }
 
-  function requestUninstall(app: DesktopApp): void {
+  // This only opens the system's own uninstall place; nothing is removed
+  // here, so it needs no confirmation.
+  function openUninstall(app: DesktopApp): void {
     resetActions();
-    setPendingUninstall(app);
-  }
-
-  function confirmUninstall(): void {
-    if (!pendingUninstall) return;
-    const app = pendingUninstall;
     uninstall.mutate(app.id, {
       onSuccess: () => {
         toast.success(
           t("tools.desktopApps.uninstallHandoffOpened", { name: app.name }),
+          { description: t("tools.desktopApps.uninstall.refresh") },
         );
-        setPendingUninstall(null);
       },
     });
   }
@@ -204,11 +196,13 @@ export function DesktopAppsSection({
                     : officialDownload.isError &&
                         officialDownload.variables === app.id
                       ? officialDownload.error
-                      : null
+                      : uninstall.isError && uninstall.variables === app.id
+                        ? uninstall.error
+                        : null
                 }
                 onLaunch={() => launchApp(app)}
                 onOpenOfficialDownload={() => openOfficialDownload(app)}
-                onOpenUninstall={() => requestUninstall(app)}
+                onOpenUninstall={() => openUninstall(app)}
                 onShowDownloadHelp={() => showDownloadHelp(app)}
                 onOpenRelatedTool={
                   onOpenRelatedTool && relatedTool
@@ -230,32 +224,6 @@ export function DesktopAppsSection({
           })}
         </ListGroup>
       ) : null}
-
-      <ConfirmActionModal
-        open={pendingUninstall !== null}
-        onOpenChange={(open) => {
-          if (!open && !uninstall.isPending) {
-            uninstall.reset();
-            setPendingUninstall(null);
-          }
-        }}
-        title={t("tools.desktopApps.uninstall.title", {
-          name: pendingUninstall?.name ?? "",
-        })}
-        description={t("tools.desktopApps.uninstall.description")}
-        confirmLabel={t("tools.desktopApps.uninstall.confirm")}
-        busy={uninstall.isPending}
-        error={uninstall.isError ? uninstall.error : null}
-        onConfirm={confirmUninstall}
-      >
-        <div className="grid gap-2 rounded-lg border border-hairline bg-layer-1 p-3 text-caption leading-5 text-content-muted">
-          <p>{t("tools.desktopApps.uninstall.handoff")}</p>
-          <p>{t("tools.desktopApps.uninstall.data")}</p>
-          <p className="font-medium text-content">
-            {t("tools.desktopApps.uninstall.refresh")}
-          </p>
-        </div>
-      </ConfirmActionModal>
 
       <DesktopAppDownloadHelpModal
         app={downloadHelpApp}

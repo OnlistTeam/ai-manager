@@ -40,8 +40,6 @@ export const productSettingsSchema = z.object({
   extensionKind: extensionKindSchema.nullable(),
   // Older dev backends did not emit this field; production Rust always does.
   downloadStrategy: downloadStrategySchema.default("automatic"),
-  // Older dev backends did not emit this field. The conservative migration is off.
-  automaticProviderFailover: z.boolean().default(false),
   // Null until a terminal has ever been chosen; the platform layer falls back to the system default.
   terminalApp: terminalAppIdSchema.nullable().default(null),
 });
@@ -63,6 +61,5 @@ export const DEFAULT_PRODUCT_SETTINGS: ProductSettings = {
   extensionScope: null,
   extensionKind: null,
   downloadStrategy: "automatic",
-  automaticProviderFailover: false,
   terminalApp: null,
 };

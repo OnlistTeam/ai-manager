@@ -25,7 +25,6 @@ const SETTINGS: ProductSettings = {
   extensionScope: null,
   extensionKind: null,
   downloadStrategy: "automatic",
-  automaticProviderFailover: false,
   terminalApp: null,
 };
 

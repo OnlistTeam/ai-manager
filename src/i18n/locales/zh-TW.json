@@ -1155,11 +1155,6 @@
         "retry": "重試官方下載"
       },
       "uninstall": {
-        "title": "透過系統解除安裝 {{name}}？",
-        "description": "AI 管家會開啟 Finder 或系統的「已安裝的應用程式」頁面，由你在那裡完成移除。",
-        "confirm": "開啟系統解除安裝位置",
-        "handoff": "AI 管家不會自行移除桌面 App，也不會在背景執行隱藏的解除安裝命令。",
-        "data": "App 設定、帳號資料和聊天記錄是否保留由廠商決定；AI 管家不會刪除這些資料。",
         "refresh": "在系統中完成後，請回到這裡按一下「重新整理 App」。"
       },
       "error": {
@@ -1788,11 +1783,6 @@
       "errorTitle": "未能完成移除這個服務",
       "errorRetry": "請檢查這個服務後再試一次。",
       "managedHint": "這個服務使用工具自己的專用設定，不能在這裡移除。",
-      "point": {
-        "account": "不會刪除你的服務商帳號，這把金鑰也不會在服務端撤銷。",
-        "local": "已儲存的服務和金鑰會從 {{tool}} 中移除。",
-        "otherTools": "其他 AI 工具及其服務不會受到影響。"
-      },
       "removed": "已移除 {{name}}",
       "retryNamed": "重新移除 {{name}}",
       "title": "移除 {{name}}？"
@@ -2165,11 +2155,6 @@
       "remove": {
         "title": "移除「{{name}}」嗎？",
         "description": "這會從 AI 管家以及所有已啟用它的 AI 工具中移除這項受管理的技能。",
-        "point": {
-          "everywhere": "這個技能會從目前啟用它的所有位置移除。",
-          "recovery": "移除受管理的檔案前，AI 管家會盡量保留一份復原副本。",
-          "external": "無法識別的外部副本和工具的其他設定不會被改動。"
-        },
         "confirm": "移除技能",
         "queued": "正在移除 {{name}}",
         "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。",
@@ -2243,11 +2228,6 @@
       "remove": {
         "title": "移除 {{name}}？",
         "description": "這會從 AI 管家和所有已開啟它的 AI 工具中移除這個連線。",
-        "point": {
-          "everywhere": "這個連線會從目前已開啟它的所有 AI 工具中移除。",
-          "keepsTargets": "它連接的程式、檔案、瀏覽器或遠端服務都不會被刪除。",
-          "noUndo": "這裡無法復原；之後仍可重新加入這個連線。"
-        },
         "confirm": "移除連線",
         "queued": "正在移除 {{name}}",
         "queuedDescription": "你可以繼續使用應用程式，並在「任務」中查看進度。",
@@ -2309,11 +2289,6 @@
         "title": "移除 {{name}}？",
         "description": "這會從 AI 管家移除這份未啟用的儲存副本。",
         "confirm": "移除提示詞",
-        "point": {
-          "current": "目前正在使用的提示詞會保持選取，內容不變。",
-          "file": "工具的即時說明檔案和其他設定都不會變更。",
-          "undo": "這裡無法復原，但日後可以重新新增或匯入。"
-        },
         "active": "正在使用的提示詞不能移除，請先改用另一份。",
         "errorTitle": "沒能移除這份提示詞"
       },
@@ -2336,7 +2311,7 @@
     "loading": "正在讀取本機路由",
     "hero": {
       "title": "一條本機通道，少一些中斷",
-      "description": "接管前會備份每個工具的 Live 設定；流量留在本機，停止路由時會還原原設定。",
+      "description": "工具的請求先經過這台電腦上的本機路由；停止路由時恢復原來的設定。",
       "running": "路由正在執行",
       "stopped": "需要時再開啟",
       "localOnly": "僅本機回環位址",
@@ -2363,11 +2338,8 @@
     },
     "takeover": {
       "title": "路由接管",
-      "description": "備份 Live 設定，並讓這個工具指向本機路由。",
-      "label": "{{name}} 的路由接管",
-      "confirmTitle": "讓 {{name}} 走本機路由？",
-      "confirmDescription": "AI 管家會先備份目前 Live 設定，只替換路由相關欄位；關閉接管時會還原備份。",
-      "confirm": "開啟路由"
+      "description": "開啟後這個工具的請求會經過本機路由，關閉時恢復原來的設定。",
+      "label": "{{name}} 的路由接管"
     },
     "failover": {
       "title": "自動容錯移轉",
@@ -2397,7 +2369,7 @@
     "stop": {
       "action": "全部停止並還原",
       "title": "停止全部本機路由？",
-      "description": "AI 管家會停止本機服務，並還原每個工具備份的 Live 設定；容錯移轉順序會保留到下次。",
+      "description": "停止本機路由，並把每個工具恢復成原來的設定；故障轉移順序會保留。",
       "confirm": "停止並還原"
     },
     "error": {
@@ -2515,15 +2487,9 @@
       "backup": "備份與還原",
       "about": "關於"
     },
-    "experience": {
-      "eyebrow": "應用程式體驗",
-      "title": "讓 AI 管家更符合你的習慣",
-      "description": "語言和外觀偏好只儲存在這台電腦上。",
-      "instant": "立即生效",
-      "language": {
-        "label": "語言",
-        "description": "選擇 AI 管家各處使用的語言。"
-      }
+    "language": {
+      "label": "語言",
+      "description": "選擇 AI 管家各處使用的語言。"
     },
     "advanced": {
       "label": "進階模式",
@@ -2532,10 +2498,6 @@
       "saved": "已儲存",
       "error": "未儲存",
       "errorHint": "已恢復為之前的設定。再次使用開關即可重試。"
-    },
-    "providerFailover": {
-      "label": "開啟或切換前自動嘗試可用端點",
-      "description": "僅在 AI 管家中按下「開啟」或「使用」時生效，失敗後嘗試其他已儲存的相容端點。預設關閉，不接管流量；執行中的故障切換在「API 端點 → 本機路由」設定。"
     },
     "desktop": {
       "title": "桌面行為",
@@ -2773,8 +2735,6 @@
       "retry": "再試一次",
       "size": "約 {{size}} MB",
       "exactSize": "{{bytes}} 位元組",
-      "folder": "備份保存在這台電腦的應用程式資料目錄中。",
-      "details": "存放位置",
       "restore": "還原",
       "restoreNamed": "還原 {{name}} 的備份",
       "delete": "刪除",

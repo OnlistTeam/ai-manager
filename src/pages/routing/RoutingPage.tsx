@@ -9,7 +9,6 @@ import {
   useSetRoutingTakeover,
   useStopAllRouting,
   useSwitchRoutingProvider,
-  type RoutingTarget,
 } from "@/entities/routing";
 import { ConfirmActionModal } from "@/features/tool-management";
 import { toErrorCopy } from "@/shared/lib/nativeError";
@@ -22,10 +21,6 @@ import { RoutingSummary } from "./RoutingSummary";
 import { RoutingTargetCard } from "./RoutingTargetCard";
 import { RoutingTargetTabs } from "./RoutingTargetTabs";
 
-type Confirmation =
-  | { kind: "takeover"; target: RoutingTarget }
-  | { kind: "stop" };
-
 export function RoutingPage() {
   const { t } = useTranslation();
   const overview = useRoutingOverview();
@@ -35,7 +30,7 @@ export function RoutingPage() {
   const remove = useRemoveRoutingProvider();
   const switchProvider = useSwitchRoutingProvider();
   const stop = useStopAllRouting();
-  const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
+  const [confirmingStop, setConfirmingStop] = useState(false);
   const mutations = [takeover, failover, add, remove, switchProvider, stop];
   const busy = mutations.some((mutation) => mutation.isPending);
   const mutationError = mutations.find((mutation) => mutation.error)?.error;
@@ -43,23 +38,14 @@ export function RoutingPage() {
   const initiallyLoading = overview.isPending && !overview.isFetched;
   const unavailable = overview.isFetched && overview.data === undefined;
   const stale = overview.isError && overview.data !== undefined;
-  const pendingTarget =
-    confirmation?.kind === "takeover" ? confirmation.target : null;
 
   function resetMutationErrors(): void {
     for (const mutation of mutations) mutation.reset();
   }
 
-  function confirm(): void {
+  function confirmStop(): void {
     resetMutationErrors();
-    if (confirmation?.kind === "takeover") {
-      takeover.mutate(
-        { tool: confirmation.target.tool, enabled: true },
-        { onSuccess: () => setConfirmation(null) },
-      );
-    } else if (confirmation?.kind === "stop") {
-      stop.mutate(undefined, { onSuccess: () => setConfirmation(null) });
-    }
+    stop.mutate(undefined, { onSuccess: () => setConfirmingStop(false) });
   }
 
   return (
@@ -159,12 +145,12 @@ export function RoutingPage() {
             busy={busy}
             onStop={() => {
               resetMutationErrors();
-              setConfirmation({ kind: "stop" });
+              setConfirmingStop(true);
             }}
           />
           <RoutingTargetTabs
             targets={overview.data.targets}
-            disabled={busy || confirmation !== null}
+            disabled={busy || confirmingStop}
           >
             {(target) => (
               <RoutingTargetCard
@@ -173,8 +159,7 @@ export function RoutingPage() {
                 busy={busy}
                 onTakeoverChange={(enabled) => {
                   resetMutationErrors();
-                  if (enabled) setConfirmation({ kind: "takeover", target });
-                  else takeover.mutate({ tool: target.tool, enabled: false });
+                  takeover.mutate({ tool: target.tool, enabled });
                 }}
                 onFailoverChange={(enabled) => {
                   resetMutationErrors();
@@ -199,36 +184,20 @@ export function RoutingPage() {
       ) : null}
 
       <ConfirmActionModal
-        open={confirmation !== null}
+        open={confirmingStop}
         onOpenChange={(open) => {
           if (!open && !busy) {
             resetMutationErrors();
-            setConfirmation(null);
+            setConfirmingStop(false);
           }
         }}
-        title={
-          confirmation?.kind === "stop"
-            ? t("routing.stop.title")
-            : t("routing.takeover.confirmTitle", {
-                name: pendingTarget
-                  ? t(`routing.tool.${pendingTarget.tool}`)
-                  : "",
-              })
-        }
-        description={
-          confirmation?.kind === "stop"
-            ? t("routing.stop.description")
-            : t("routing.takeover.confirmDescription")
-        }
-        confirmLabel={
-          confirmation?.kind === "stop"
-            ? t("routing.stop.confirm")
-            : t("routing.takeover.confirm")
-        }
-        confirmTone={confirmation?.kind === "stop" ? "danger" : "primary"}
+        title={t("routing.stop.title")}
+        description={t("routing.stop.description")}
+        confirmLabel={t("routing.stop.confirm")}
+        confirmTone="danger"
         busy={busy}
         error={mutationError ?? null}
-        onConfirm={confirm}
+        onConfirm={confirmStop}
       />
     </div>
   );

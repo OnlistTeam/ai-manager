@@ -1,4 +1,4 @@
-import { AlertCircle, AlertTriangle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import type { Provider } from "@/entities/provider";
@@ -7,12 +7,6 @@ import { Button } from "@/shared/ui/Button";
 import { ErrorDetailsDisclosure } from "@/shared/ui/ErrorDetailsDisclosure";
 import { Modal } from "@/shared/ui/Modal";
 import { ServiceActionsPausedNotice } from "./ServiceActionsPausedNotice";
-
-const IMPACT_KEYS = [
-  "services.remove.point.local",
-  "services.remove.point.account",
-  "services.remove.point.otherTools",
-] as const;
 
 export interface ProviderRemovalModalProps {
   provider: Provider | null;
@@ -77,21 +71,6 @@ export function ProviderRemovalModal({
       }
     >
       {mutationsBlocked ? <ServiceActionsPausedNotice /> : null}
-
-      <ul className="flex flex-col gap-2 rounded-md bg-danger/10 p-3">
-        {IMPACT_KEYS.map((key) => (
-          <li
-            key={key}
-            className="flex items-start gap-2 text-caption text-content"
-          >
-            <AlertTriangle
-              className="mt-0.5 h-4 w-4 shrink-0 text-danger"
-              aria-hidden="true"
-            />
-            {t(key, { tool: toolName })}
-          </li>
-        ))}
-      </ul>
 
       {copy ? (
         <div

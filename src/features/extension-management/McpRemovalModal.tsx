@@ -1,4 +1,4 @@
-import { AlertCircle, AlertTriangle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import type { Extension } from "@/entities/extension";
@@ -7,12 +7,6 @@ import { Button } from "@/shared/ui/Button";
 import { Modal } from "@/shared/ui/Modal";
 import { ExtensionMutationPausedNotice } from "./ExtensionMutationPausedNotice";
 import { useRemoveMcp } from "./useMcpRemoval";
-
-const IMPACT_KEYS = [
-  "extensions.mcp.remove.point.everywhere",
-  "extensions.mcp.remove.point.keepsTargets",
-  "extensions.mcp.remove.point.noUndo",
-] as const;
 
 export interface McpRemovalModalProps {
   connection: Extension | null;
@@ -78,21 +72,6 @@ export function McpRemovalModal({
       }
     >
       {mutationsBlocked ? <ExtensionMutationPausedNotice /> : null}
-
-      <ul className="flex flex-col gap-2 rounded-md bg-danger/10 p-3">
-        {IMPACT_KEYS.map((key) => (
-          <li
-            key={key}
-            className="flex items-start gap-2 text-caption text-content"
-          >
-            <AlertTriangle
-              className="mt-0.5 h-4 w-4 shrink-0 text-danger"
-              aria-hidden="true"
-            />
-            {t(key)}
-          </li>
-        ))}
-      </ul>
 
       {error ? (
         <div

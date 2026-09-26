@@ -61,11 +61,8 @@ describe("SkillRemovalModal", () => {
     expect(
       within(dialog).getByRole("button", { name: en.ds.action.cancel }),
     ).toHaveFocus();
-    expect(dialog).toHaveTextContent(
-      en.extensions.skill.remove.point.everywhere,
-    );
-    expect(dialog).toHaveTextContent(en.extensions.skill.remove.point.recovery);
-    expect(dialog).toHaveTextContent(en.extensions.skill.remove.point.external);
+    expect(dialog).toHaveTextContent(en.extensions.skill.remove.description);
+    expect(within(dialog).queryByRole("list")).toBeNull();
   });
 
   it("keeps Cancel available but blocks removal when tool authority is stale", () => {

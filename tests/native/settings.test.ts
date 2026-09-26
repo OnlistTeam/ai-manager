@@ -16,7 +16,6 @@ const STORED: ProductSettings = {
   extensionScope: { kind: "tool", id: "codex" },
   extensionKind: "mcp",
   downloadStrategy: "automatic",
-  automaticProviderFailover: true,
   terminalApp: null,
 };
 
@@ -44,21 +43,6 @@ describe("native.settings", () => {
       await expect(native.settings.get()).resolves.toEqual(STORED);
     },
   );
-
-  it("migrates a pre-failover settings record to the conservative off value", async () => {
-    const { automaticProviderFailover: _oldMissingField, ...olderRecord } =
-      STORED;
-    server.use(
-      http.post(`${TAURI_ENDPOINT}/app_settings_get`, () =>
-        HttpResponse.json(olderRecord),
-      ),
-    );
-
-    await expect(native.settings.get()).resolves.toEqual({
-      ...olderRecord,
-      automaticProviderFailover: false,
-    });
-  });
 
   it("sends the whole record and hands back what the backend read again", async () => {
     let received: unknown;
@@ -103,7 +87,6 @@ describe("native.settings", () => {
       extensionScope: null,
       extensionKind: null,
       downloadStrategy: "automatic",
-      automaticProviderFailover: false,
       terminalApp: null,
     });
   });

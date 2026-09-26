@@ -1156,11 +1156,6 @@
         "retry": "Retry official download"
       },
       "uninstall": {
-        "title": "Uninstall {{name}} through the system?",
-        "description": "AI Manager will open Finder or the operating system's Installed apps page. You complete the removal there.",
-        "confirm": "Open system uninstall",
-        "handoff": "AI Manager does not remove the desktop app itself and never runs a hidden uninstall command.",
-        "data": "The vendor controls whether app settings, account data, and conversations remain. AI Manager does not delete them.",
         "refresh": "After finishing in the system, return here and select Refresh apps."
       },
       "error": {
@@ -1789,11 +1784,6 @@
       "errorTitle": "Could not finish removing this service",
       "errorRetry": "Review the service and try again.",
       "managedHint": "This service uses a tool-specific setup and can't be removed here.",
-      "point": {
-        "account": "Your account is not deleted, and the key is not revoked by the service.",
-        "local": "The saved service and key will be removed from {{tool}}.",
-        "otherTools": "Other AI tools and their services are left unchanged."
-      },
       "removed": "Removed {{name}}",
       "retryNamed": "Try removing {{name}} again",
       "title": "Remove {{name}}?"
@@ -2166,11 +2156,6 @@
       "remove": {
         "title": "Remove {{name}}?",
         "description": "This removes the managed Skill from AI Manager and every AI tool where it is enabled.",
-        "point": {
-          "everywhere": "The Skill will be removed everywhere it is currently enabled.",
-          "recovery": "AI Manager will try to keep a recovery copy before removing managed files.",
-          "external": "Unrecognized external copies and your other tool settings are left alone."
-        },
         "confirm": "Remove Skill",
         "queued": "Removing {{name}}",
         "queuedDescription": "You can keep working and follow progress in Tasks.",
@@ -2244,11 +2229,6 @@
       "remove": {
         "title": "Remove {{name}}?",
         "description": "This removes the saved connection from AI Manager and every AI tool where it is turned on.",
-        "point": {
-          "everywhere": "The connection will be removed from every AI tool where it is currently on.",
-          "keepsTargets": "The program, files, browser or remote service it connects to are left alone.",
-          "noUndo": "This cannot be undone here. You can add the connection again later."
-        },
         "confirm": "Remove Connection",
         "queued": "Removing {{name}}",
         "queuedDescription": "You can keep working and follow progress in Tasks.",
@@ -2310,11 +2290,6 @@
         "title": "Remove {{name}}?",
         "description": "This removes the inactive saved copy from AI Manager.",
         "confirm": "Remove Instructions",
-        "point": {
-          "current": "The instructions currently in use stay selected and unchanged.",
-          "file": "The tool's live instruction file and your other settings are left alone.",
-          "undo": "This cannot be undone here, but you can create or import it again later."
-        },
         "active": "Instructions in use cannot be removed. Pick another set first.",
         "errorTitle": "Could not remove these instructions"
       },
@@ -2337,7 +2312,7 @@
     "loading": "Loading local routing",
     "hero": {
       "title": "One local route, fewer interruptions",
-      "description": "AI Manager backs up each tool's live configuration before takeover, keeps traffic on this computer, and restores the original configuration when routing stops.",
+      "description": "Tools send requests through a local route on this computer; stopping it restores their original settings.",
       "running": "Routing is running",
       "stopped": "Ready when you need it",
       "localOnly": "Local loopback only",
@@ -2364,11 +2339,8 @@
     },
     "takeover": {
       "title": "Routing takeover",
-      "description": "Back up and point this tool's live configuration to the local route.",
-      "label": "Routing takeover for {{name}}",
-      "confirmTitle": "Route {{name}} locally?",
-      "confirmDescription": "AI Manager will back up the current live configuration, replace only the routing fields, and restore the backup when takeover is turned off.",
-      "confirm": "Turn on routing"
+      "description": "When on, this tool's requests go through the local route. Turning it off restores the original settings.",
+      "label": "Routing takeover for {{name}}"
     },
     "failover": {
       "title": "Automatic failover",
@@ -2398,7 +2370,7 @@
     "stop": {
       "action": "Stop and restore all",
       "title": "Stop all local routing?",
-      "description": "AI Manager will stop the local server and restore every tool's backed-up live configuration. Failover order is kept for next time.",
+      "description": "Stop the local route and restore every tool's original settings. The failover order is kept.",
       "confirm": "Stop and restore"
     },
     "error": {
@@ -2516,15 +2488,9 @@
       "backup": "Backup and restore",
       "about": "About"
     },
-    "experience": {
-      "eyebrow": "App experience",
-      "title": "Make AI Manager yours",
-      "description": "Language and appearance preferences stay on this computer.",
-      "instant": "Applies instantly",
-      "language": {
-        "label": "Language",
-        "description": "Choose the language used throughout AI Manager."
-      }
+    "language": {
+      "label": "Language",
+      "description": "Choose the language used throughout AI Manager."
     },
     "advanced": {
       "label": "Advanced Mode",
@@ -2533,10 +2499,6 @@
       "saved": "Saved",
       "error": "Not saved",
       "errorHint": "The previous setting was restored. Use the switch again to retry."
-    },
-    "providerFailover": {
-      "label": "Try available endpoints before opening or switching",
-      "description": "Only when you click Open or Use in AI Manager: on failure, try other saved compatible endpoints. Off by default; no traffic routing. Configure failover during requests under API Endpoints → Local routing."
     },
     "desktop": {
       "title": "Desktop behavior",
@@ -2774,8 +2736,6 @@
       "retry": "Try again",
       "size": "About {{size}} MB",
       "exactSize": "{{bytes}} bytes",
-      "folder": "Backups are kept in this computer's app data folder.",
-      "details": "Storage location",
       "restore": "Restore",
       "restoreNamed": "Restore backup from {{name}}",
       "delete": "Delete",
