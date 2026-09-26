@@ -1,7 +1,10 @@
+import { useIsMutating } from "@tanstack/react-query";
 import { AlertCircle, RefreshCw, Route } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  isLiveRoutingOn,
+  routingKeys,
   useAddRoutingProvider,
   useRemoveRoutingProvider,
   useRoutingOverview,
@@ -10,6 +13,7 @@ import {
   useStopAllRouting,
   useSwitchRoutingProvider,
 } from "@/entities/routing";
+import { LiveRoutingPanel, LiveRoutingSwitch } from "@/features/live-routing";
 import { ConfirmActionModal } from "@/features/tool-management";
 import { toErrorCopy } from "@/shared/lib/nativeError";
 import { Button } from "@/shared/ui/Button";
@@ -31,8 +35,11 @@ export function RoutingPage() {
   const switchProvider = useSwitchRoutingProvider();
   const stop = useStopAllRouting();
   const [confirmingStop, setConfirmingStop] = useState(false);
+  const liveModeChanging =
+    useIsMutating({ mutationKey: routingKeys.liveMode() }) > 0;
   const mutations = [takeover, failover, add, remove, switchProvider, stop];
-  const busy = mutations.some((mutation) => mutation.isPending);
+  const ownBusy = mutations.some((mutation) => mutation.isPending);
+  const busy = ownBusy || liveModeChanging;
   const mutationError = mutations.find((mutation) => mutation.error)?.error;
   const errorCopy = mutationError ? toErrorCopy(mutationError) : null;
   const initiallyLoading = overview.isPending && !overview.isFetched;
@@ -140,14 +147,18 @@ export function RoutingPage() {
 
       {overview.data ? (
         <>
-          <RoutingSummary
-            overview={overview.data}
-            busy={busy}
-            onStop={() => {
-              resetMutationErrors();
-              setConfirmingStop(true);
-            }}
-          />
+          <Card className="flex flex-col gap-2">
+            <LiveRoutingSwitch disabled={ownBusy || confirmingStop} />
+            <RoutingSummary
+              overview={overview.data}
+              busy={busy}
+              onStop={() => {
+                resetMutationErrors();
+                setConfirmingStop(true);
+              }}
+            />
+          </Card>
+          {isLiveRoutingOn(overview.data) ? <LiveRoutingPanel /> : null}
           <RoutingTargetTabs
             targets={overview.data.targets}
             disabled={busy || confirmingStop}

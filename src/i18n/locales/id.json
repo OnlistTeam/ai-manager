@@ -2271,8 +2271,7 @@
     "description": "Teruskan permintaan secara lokal, dengan failover otomatis opsional ke endpoint cadangan.",
     "summary": {
       "inactive": "Perutean lokal nonaktif. Alat tetap menggunakan koneksi yang ada.",
-      "needsRestore": "Perutean berhenti, tetapi alat masih mengarah ke sana. Pulihkan pengaturannya.",
-      "stats": "Statistik"
+      "needsRestore": "Perutean berhenti, tetapi alat masih mengarah ke sana. Pulihkan pengaturannya."
     },
     "refresh": "Segarkan status",
     "loading": "Memuat perutean lokal",
@@ -2283,13 +2282,7 @@
       "stopped": "Siap saat Anda membutuhkannya",
       "localOnly": "Hanya loopback lokal",
       "takeovers_one": "{{count}} alat dialihkan",
-      "takeovers_other": "{{count}} alat dialihkan",
-      "metric": {
-        "requests": "Permintaan",
-        "success": "Berhasil",
-        "failures": "Gagal",
-        "failovers": "Failover"
-      }
+      "takeovers_other": "{{count}} alat dialihkan"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2347,6 +2340,57 @@
     "stale": "Snapshot perutean terakhir masih ditampilkan karena penyegaran terbaru belum selesai.",
     "actionError": {
       "title": "Perubahan perutean tidak selesai"
+    },
+    "live": {
+      "title": "Perutean langsung",
+      "description": "Saat aktif, alat Anda mengirim permintaan melalui AI Manager dan halaman ini menampilkan secara langsung layanan mana yang menjawab; matikan untuk kembali ke koneksi langsung.",
+      "noTargets": "Pilih dulu layanan untuk sebuah alat di \"{{page}}\".",
+      "listSeparator": ", ",
+      "panelLabel": "Permintaan langsung",
+      "listLabel": "Permintaan terbaru",
+      "loading": "Memuat permintaan terbaru…",
+      "traceError": "Permintaan terbaru tidak dapat dibaca.",
+      "empty": "Buka alat apa saja dan kirim pesan; permintaannya akan muncul di sini secara langsung.",
+      "pending": "Berlangsung",
+      "unknownModel": "Model tidak disebutkan",
+      "noAttempt": "Tidak ada layanan tersedia",
+      "flow": {
+        "routed": "{{name}}: melalui AI Manager",
+        "direct": "{{name}}: langsung",
+        "manager": "AI Manager",
+        "noServices": "Belum ada layanan"
+      },
+      "counts": {
+        "requests": "Permintaan",
+        "rerouted": "Dialihkan",
+        "failed": "Galat yang diterima alat"
+      },
+      "attempt": {
+        "ok": "{{name}}: menjawab",
+        "failed": "{{name}}: gagal ({{reason}})",
+        "skipped": "{{name}}: dilewati karena dijeda"
+      },
+      "errorCategory": {
+        "rateLimited": "Batas laju",
+        "authFailed": "Autentikasi ditolak",
+        "serverError": "Galat layanan",
+        "timeout": "Waktu habis",
+        "network": "Galat jaringan",
+        "rejected": "Permintaan ditolak",
+        "unavailable": "Tidak ada layanan tersedia",
+        "cancelled": "Dibatalkan",
+        "other": "Galat"
+      },
+      "confirm": {
+        "title": "Aktifkan perutean langsung?",
+        "description": "{{tools}} akan mengirim permintaan melalui AI Manager. Pengaturannya dicadangkan dulu dan dipulihkan saat perutean langsung dimatikan.",
+        "action": "Aktifkan"
+      },
+      "partial": {
+        "title": "Beberapa alat tidak dapat dirutekan; sisanya kini melalui AI Manager.",
+        "noneTitle": "Tidak ada alat yang dapat dirutekan; semuanya tetap terhubung langsung.",
+        "item": "{{name}}: {{reason}}"
+      }
     }
   },
   "sessions": {

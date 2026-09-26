@@ -2271,8 +2271,7 @@
     "description": "Inoltra le richieste localmente, con fallback automatico facoltativo verso endpoint di backup.",
     "summary": {
       "inactive": "L'instradamento locale è disattivato. Gli strumenti mantengono le connessioni esistenti.",
-      "needsRestore": "L'instradamento è stato interrotto, ma gli strumenti puntano ancora a esso. Ripristina le loro impostazioni.",
-      "stats": "Statistiche"
+      "needsRestore": "L'instradamento è stato interrotto, ma gli strumenti puntano ancora a esso. Ripristina le loro impostazioni."
     },
     "refresh": "Aggiorna stato",
     "loading": "Caricamento dell'instradamento locale",
@@ -2283,13 +2282,7 @@
       "stopped": "Pronto quando ti serve",
       "localOnly": "Solo loopback locale",
       "takeovers_one": "{{count}} strumento instradato",
-      "takeovers_other": "{{count}} strumenti instradati",
-      "metric": {
-        "requests": "Richieste",
-        "success": "Riuscite",
-        "failures": "Non riuscite",
-        "failovers": "Failover"
-      }
+      "takeovers_other": "{{count}} strumenti instradati"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2347,6 +2340,57 @@
     "stale": "Viene ancora mostrato l'ultimo snapshot dell'instradamento perché l'ultimo aggiornamento non è terminato.",
     "actionError": {
       "title": "La modifica dell'instradamento non è terminata"
+    },
+    "live": {
+      "title": "Routing dal vivo",
+      "description": "Quando è attivo, i tuoi strumenti inviano le richieste tramite AI Manager e qui vedi in tempo reale quale servizio ha risposto; disattivalo per tornare alle connessioni dirette.",
+      "noTargets": "Prima scegli un servizio per uno strumento in «{{page}}».",
+      "listSeparator": ", ",
+      "panelLabel": "Richieste dal vivo",
+      "listLabel": "Richieste recenti",
+      "loading": "Caricamento delle richieste recenti…",
+      "traceError": "Impossibile leggere le richieste recenti.",
+      "empty": "Apri uno strumento qualsiasi e invia un messaggio: le sue richieste compaiono qui in tempo reale.",
+      "pending": "In corso",
+      "unknownModel": "Modello non indicato",
+      "noAttempt": "Nessun servizio disponibile",
+      "flow": {
+        "routed": "{{name}}: tramite AI Manager",
+        "direct": "{{name}}: diretto",
+        "manager": "AI Manager",
+        "noServices": "Ancora nessun servizio"
+      },
+      "counts": {
+        "requests": "Richieste",
+        "rerouted": "Deviate",
+        "failed": "Errori visti dagli strumenti"
+      },
+      "attempt": {
+        "ok": "{{name}}: ha risposto",
+        "failed": "{{name}}: non riuscito ({{reason}})",
+        "skipped": "{{name}}: saltato perché in pausa"
+      },
+      "errorCategory": {
+        "rateLimited": "Limite di frequenza",
+        "authFailed": "Accesso rifiutato",
+        "serverError": "Errore del servizio",
+        "timeout": "Tempo scaduto",
+        "network": "Errore di rete",
+        "rejected": "Richiesta rifiutata",
+        "unavailable": "Nessun servizio disponibile",
+        "cancelled": "Annullata",
+        "other": "Errore"
+      },
+      "confirm": {
+        "title": "Attivare il routing dal vivo?",
+        "description": "{{tools}} invieranno le richieste tramite AI Manager. Le loro impostazioni vengono prima salvate e ripristinate quando disattivi il routing dal vivo.",
+        "action": "Attiva"
+      },
+      "partial": {
+        "title": "Alcuni strumenti non sono stati instradati; gli altri ora passano da AI Manager.",
+        "noneTitle": "Nessuno strumento è stato instradato; tutto resta in connessione diretta.",
+        "item": "{{name}}: {{reason}}"
+      }
     }
   },
   "sessions": {

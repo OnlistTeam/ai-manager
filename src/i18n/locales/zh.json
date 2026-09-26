@@ -2270,8 +2270,7 @@
     "description": "将请求经本机转发，可配置故障时自动切换备用端点。",
     "summary": {
       "inactive": "未开启本地路由，软件沿用原有连接。",
-      "needsRestore": "路由已停止，仍有软件被接管，请恢复原配置。",
-      "stats": "统计"
+      "needsRestore": "路由已停止，仍有软件被接管，请恢复原配置。"
     },
     "refresh": "刷新状态",
     "loading": "正在读取本地路由",
@@ -2282,13 +2281,7 @@
       "stopped": "需要时再开启",
       "localOnly": "仅本机回环地址",
       "takeovers_one": "已接管 {{count}} 个工具",
-      "takeovers_other": "已接管 {{count}} 个工具",
-      "metric": {
-        "requests": "请求",
-        "success": "成功",
-        "failures": "失败",
-        "failovers": "故障转移"
-      }
+      "takeovers_other": "已接管 {{count}} 个工具"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2346,6 +2339,57 @@
     "stale": "最新刷新没有完成，仍显示上一次路由快照。",
     "actionError": {
       "title": "路由变更没有完成"
+    },
+    "live": {
+      "title": "实时路由",
+      "description": "开启后，各软件的请求经 AI 管家转发，这里实时显示走了哪家服务；关闭即恢复直连。",
+      "noTargets": "先在「{{page}}」里给软件选好服务，才能开启。",
+      "listSeparator": "、",
+      "panelLabel": "实时请求",
+      "listLabel": "最近的请求",
+      "loading": "正在读取最近的请求…",
+      "traceError": "暂时读不到最近的请求。",
+      "empty": "打开任一软件发一句话，请求会实时出现在这里。",
+      "pending": "进行中",
+      "unknownModel": "未注明模型",
+      "noAttempt": "没有可用的服务",
+      "flow": {
+        "routed": "{{name}}：经 AI 管家",
+        "direct": "{{name}}：直连",
+        "manager": "AI 管家",
+        "noServices": "暂无服务"
+      },
+      "counts": {
+        "requests": "请求",
+        "rerouted": "改道",
+        "failed": "软件收到的错误"
+      },
+      "attempt": {
+        "ok": "{{name}}：已应答",
+        "failed": "{{name}}：失败（{{reason}}）",
+        "skipped": "{{name}}：暂停中，已跳过"
+      },
+      "errorCategory": {
+        "rateLimited": "限流",
+        "authFailed": "鉴权失败",
+        "serverError": "服务出错",
+        "timeout": "超时",
+        "network": "网络中断",
+        "rejected": "请求被拒",
+        "unavailable": "无可用服务",
+        "cancelled": "已取消",
+        "other": "出错"
+      },
+      "confirm": {
+        "title": "开启实时路由？",
+        "description": "{{tools}} 的请求将经 AI 管家转发。它们的设置会先备份，关闭实时路由时恢复。",
+        "action": "开启"
+      },
+      "partial": {
+        "title": "部分软件未能接入，其余已经过 AI 管家。",
+        "noneTitle": "没有软件接入成功，一切保持直连。",
+        "item": "{{name}}：{{reason}}"
+      }
     }
   },
   "sessions": {

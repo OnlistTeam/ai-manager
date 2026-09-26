@@ -689,7 +689,7 @@
     },
     "routing": {
       "changeFailed": "AI Manager가 그 라우팅 변경을 안전하게 완료할 수 없습니다.",
-      "liveTakeoverFailed": "AI 매니저가 이 도구를 경유시키지 못해 직접 연결을 그대로 유지합니다.",
+      "liveTakeoverFailed": "AI Manager가 이 도구를 경유시키지 못해 직접 연결을 그대로 유지합니다.",
       "noLiveTargets": "아직 서비스를 고른 도구가 없어 실시간 라우팅을 시작할 수 없습니다.",
       "providerNotEligible": "그 엔드포인트는 자동 장애 조치에 참여할 수 없습니다.",
       "providerUnavailable": "그 엔드포인트는 더 이상 라우팅에 사용할 수 없습니다.",
@@ -2271,8 +2271,7 @@
     "description": "요청을 로컬에서 전달하고, 필요하면 백업 엔드포인트로 자동 장애 조치합니다.",
     "summary": {
       "inactive": "로컬 라우팅이 꺼져 있습니다. 도구는 기존 연결을 그대로 사용합니다.",
-      "needsRestore": "라우팅이 중지되었지만 도구는 여전히 라우팅을 가리키고 있습니다. 도구 설정을 복원하세요.",
-      "stats": "통계"
+      "needsRestore": "라우팅이 중지되었지만 도구는 여전히 라우팅을 가리키고 있습니다. 도구 설정을 복원하세요."
     },
     "refresh": "상태 새로고침",
     "loading": "로컬 라우팅을 불러오는 중",
@@ -2283,13 +2282,7 @@
       "stopped": "필요할 때 바로 사용 가능",
       "localOnly": "로컬 루프백 전용",
       "takeovers_one": "도구 {{count}}개가 라우팅 중",
-      "takeovers_other": "도구 {{count}}개가 라우팅 중",
-      "metric": {
-        "requests": "요청",
-        "success": "성공",
-        "failures": "실패",
-        "failovers": "장애 조치"
-      }
+      "takeovers_other": "도구 {{count}}개가 라우팅 중"
     },
     "tool": {
       "claude-code": "Claude Code",
@@ -2347,6 +2340,57 @@
     "stale": "최근 새로고침이 끝나지 않아 마지막 라우팅 스냅샷이 계속 표시됩니다.",
     "actionError": {
       "title": "라우팅 변경이 완료되지 않았습니다"
+    },
+    "live": {
+      "title": "실시간 라우팅",
+      "description": "켜면 각 도구의 요청이 AI Manager를 거쳐 전달되고, 어떤 서비스가 응답했는지 여기에 실시간으로 표시됩니다. 끄면 직접 연결로 돌아갑니다.",
+      "noTargets": "먼저 '{{page}}'에서 도구의 서비스를 선택하세요.",
+      "listSeparator": ", ",
+      "panelLabel": "실시간 요청",
+      "listLabel": "최근 요청",
+      "loading": "최근 요청을 불러오는 중…",
+      "traceError": "최근 요청을 읽을 수 없습니다.",
+      "empty": "아무 도구나 열어 메시지를 보내면 요청이 여기에 실시간으로 나타납니다.",
+      "pending": "진행 중",
+      "unknownModel": "모델 미지정",
+      "noAttempt": "사용 가능한 서비스 없음",
+      "flow": {
+        "routed": "{{name}}: AI Manager 경유",
+        "direct": "{{name}}: 직접 연결",
+        "manager": "AI Manager",
+        "noServices": "서비스 없음"
+      },
+      "counts": {
+        "requests": "요청",
+        "rerouted": "우회",
+        "failed": "도구가 받은 오류"
+      },
+      "attempt": {
+        "ok": "{{name}}: 응답함",
+        "failed": "{{name}}: 실패({{reason}})",
+        "skipped": "{{name}}: 일시 중지되어 건너뜀"
+      },
+      "errorCategory": {
+        "rateLimited": "요청 한도 초과",
+        "authFailed": "인증 실패",
+        "serverError": "서비스 오류",
+        "timeout": "시간 초과",
+        "network": "네트워크 오류",
+        "rejected": "요청 거부",
+        "unavailable": "사용 가능한 서비스 없음",
+        "cancelled": "취소됨",
+        "other": "오류"
+      },
+      "confirm": {
+        "title": "실시간 라우팅을 켤까요?",
+        "description": "{{tools}}의 요청이 AI Manager를 거쳐 전달됩니다. 설정은 먼저 백업되며 실시간 라우팅을 끄면 복원됩니다.",
+        "action": "켜기"
+      },
+      "partial": {
+        "title": "일부 도구는 연결하지 못했습니다. 나머지는 이제 AI Manager를 거칩니다.",
+        "noneTitle": "연결된 도구가 없습니다. 모두 직접 연결을 유지합니다.",
+        "item": "{{name}}: {{reason}}"
+      }
     }
   },
   "sessions": {
