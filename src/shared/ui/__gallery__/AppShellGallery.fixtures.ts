@@ -349,10 +349,19 @@ const ROUTING: RoutingOverview = {
       queue: [
         routingProvider("anthropic-official", "Anthropic", 1, true),
         routingProvider("team-gateway", "Shared Team Gateway", 2),
+        routingProvider("jordan-lee", "jordan.lee@example.com", 3),
       ],
       available: [routingProvider("backup-api", "Backup API", null)],
     },
-    ...(["codex", "gemini-cli", "grok-build"] as const).map((tool) => ({
+    {
+      tool: "codex",
+      takeoverEnabled: true,
+      autoFailoverEnabled: false,
+      currentProvider: routingProvider("team-relay", "Team Relay", null, true),
+      queue: [],
+      available: [],
+    },
+    ...(["gemini-cli", "grok-build"] as const).map((tool) => ({
       tool,
       takeoverEnabled: false,
       autoFailoverEnabled: false,
@@ -363,15 +372,23 @@ const ROUTING: RoutingOverview = {
   ],
 };
 
-function traceAttempt(
+/** Trace attempts name the same services as the routing overview above. */
+const ROUTING_PROVIDER_IDS: Record<string, string> = {
+  Anthropic: "anthropic-official",
+  "Shared Team Gateway": "team-gateway",
+  "jordan.lee@example.com": "jordan-lee",
+  "Team Relay": "team-relay",
+};
+
+export function traceAttempt(
   name: string,
   outcome: RoutingTraceAttempt["outcome"],
-  ms: number,
+  ms = 0,
   error: RoutingTraceAttempt["error"] = null,
   httpStatus: number | null = null,
 ): RoutingTraceAttempt {
   return {
-    providerId: name,
+    providerId: ROUTING_PROVIDER_IDS[name] ?? name,
     providerName: name,
     outcome,
     httpStatus,
@@ -411,7 +428,15 @@ const ROUTING_TRACE: RoutingTraceSnapshot = {
   revision: 6,
   counts: { requests: 214, rerouted: 5, failed: 1 },
   entries: [
-    traceEntry(6, 0, "claude-code", "claude-sonnet-5", [], "pending", null),
+    traceEntry(
+      6,
+      0,
+      "claude-code",
+      "claude-sonnet-5",
+      [traceAttempt("Anthropic", "pending")],
+      "pending",
+      null,
+    ),
     traceEntry(
       5,
       4,
