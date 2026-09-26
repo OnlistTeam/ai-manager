@@ -89,13 +89,13 @@ function SidebarNavButton({
           // Geometry and the two selection states live in index.css
           // (.sidebar-nav-item); the rail is one of the few places where the
           // treatment depends on the active route's palette.
-          "sidebar-nav-item relative flex h-[52px] items-center gap-3 px-3 text-body",
+          "sidebar-nav-item relative flex h-10 items-center gap-3 px-3 text-body",
           collapsed && "justify-center",
           active ? "text-content" : "text-content/85 hover:text-content",
           FOCUS_RING,
         )}
       >
-        <span className="sidebar-nav-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+        <span className="sidebar-nav-icon flex h-7 w-7 shrink-0 items-center justify-center rounded-lg">
           <Icon className="h-[18px] w-[18px] shrink-0" aria-hidden="true" />
         </span>
         <span className={cn("truncate", collapsed && "sr-only")}>
@@ -147,7 +147,7 @@ export function Sidebar({
         className={cn(
           // Spec §52 fixes the two widths.
           collapsed ? "w-[72px]" : "w-[220px]",
-          "flex h-full shrink-0 select-none flex-col gap-6 bg-transparent p-3.5",
+          "flex h-full shrink-0 select-none flex-col gap-4 bg-transparent p-3.5",
           "transition-[width] duration-base ease-standard",
           className,
         )}

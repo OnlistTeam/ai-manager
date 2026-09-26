@@ -18,7 +18,7 @@ export function LanguageCard() {
 
   return (
     <Card padding="none" className="overflow-hidden rounded-xl">
-      <div className="grid gap-3 px-5 py-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+      <div className="grid gap-3 px-4 py-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
         <div className="flex min-w-0 items-start gap-3">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-layer-1 text-brand">
             <Globe className="h-4 w-4" aria-hidden="true" />
@@ -49,7 +49,7 @@ export function LanguageCard() {
               );
               if (next) void setAppLanguage(next);
             }}
-            className="h-10 w-full appearance-none rounded-lg border border-hairline bg-layer-1 pl-3 pr-9 text-body text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            className="h-9 w-full appearance-none rounded-lg border border-hairline bg-layer-1 pl-3 pr-9 text-body text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
           >
             {APP_LANGUAGES.map((value) => (
               <option key={value} value={value}>
@@ -58,7 +58,7 @@ export function LanguageCard() {
             ))}
           </select>
           <ChevronDown
-            className="pointer-events-none absolute right-3 top-3 h-4 w-4 text-content-muted"
+            className="pointer-events-none absolute right-3 top-2.5 h-4 w-4 text-content-muted"
             aria-hidden="true"
           />
         </div>

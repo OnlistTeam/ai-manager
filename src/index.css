@@ -318,7 +318,7 @@ select option {
 .app-scroll-viewport {
   /* Focused sections and scrollIntoView targets stop below the translucent
    * title material instead of being hard-clipped at the WebView edge. */
-  scroll-padding-top: 96px;
+  scroll-padding-top: 80px;
 }
 
 .app-route-stage {
@@ -464,10 +464,10 @@ select option {
 }
 
 .app-sidebar .sidebar-nav-item {
-  height: 52px;
-  border-radius: 18px;
-  padding-inline: 14px;
-  font-size: 15px;
+  height: 40px;
+  border-radius: 14px;
+  padding-inline: 12px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.015em;
 }
@@ -652,7 +652,7 @@ select option {
 }
 
 .app-modal-header {
-  padding-bottom: 14px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--hairline);
 }
 
@@ -675,7 +675,7 @@ select option {
 }
 
 .app-modal-footer {
-  padding-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid var(--hairline);
 }
 

@@ -1757,6 +1757,32 @@ margin: 13px
 padding: 27px
 ```
 
+Density: show a lot on one screen, but keep it simple (ADR-0052). The values
+live in the shared primitives and the shell, so pages do not override them:
+
+```text
+Page stack gap                 16
+Gap between page groups        24
+Heading to its content         8
+Card padding sm / md / lg      8 / 12 / 16
+List row padding               12 vertical, 16 horizontal
+Modal padding                  16
+Shell top inset                72 (macOS) / 60 (other)
+Sidebar item height            40
+Control height xs / sm / md    28 / 32 / 36 (hero lg 48)
+Input and select height        36
+Badge / scope tab height       20 / 28
+```
+
+Small targets are never below 28px and primary controls never below 32px.
+Body text stays 14px and captions 12px.
+
+A collection of like items is one bordered list with divider rows
+(`ListGroup` + `ListGroupRow`), never one card per item. A row keeps identity,
+badges and actions on its first line and secondary facts on a second; the item
+in effect is marked by its badge and a thin leading accent bar. Only the page
+title uses the title size; section headings use the heading size.
+
 ---
 
 # 48. Border Radius
@@ -1772,6 +1798,9 @@ xl
 ```
 
 Primary large cards should have a clearly visible radius.
+
+Buttons, scope tabs and badges are pills (`rounded-full`) at every height, so
+their shape does not depend on a radius token.
 
 Do not make every component glassy.
 

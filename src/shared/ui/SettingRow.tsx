@@ -20,7 +20,7 @@ export function SettingRow({
   return (
     <div
       className={cn(
-        "flex items-center justify-between gap-4 border-b border-hairline py-3 last:border-b-0",
+        "flex items-center justify-between gap-4 border-b border-hairline py-2 last:border-b-0",
         className,
       )}
     >
@@ -33,7 +33,9 @@ export function SettingRow({
           <span className="text-body text-content">{label}</span>
         )}
         {description ? (
-          <p className="mt-1 text-caption text-content-muted">{description}</p>
+          <p className="mt-0.5 text-caption text-content-muted">
+            {description}
+          </p>
         ) : null}
       </div>
       <div className="shrink-0">{children}</div>

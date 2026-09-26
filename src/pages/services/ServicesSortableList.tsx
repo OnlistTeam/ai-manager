@@ -63,7 +63,7 @@ function SortableRow({ provider, disabled, children }: SortableRowProps) {
       title={label}
       disabled={disabled}
       className={cn(
-        "-mr-2 -mt-1 flex h-8 w-6 shrink-0 cursor-grab touch-none items-center justify-center rounded-md",
+        "-mr-2 flex h-8 w-6 shrink-0 cursor-grab touch-none items-center justify-center rounded-md",
         "text-content-muted/60 transition-colors duration-fast ease-standard hover:bg-layer-2 hover:text-content",
         "disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent",
         isDragging && "cursor-grabbing text-content",
@@ -80,9 +80,11 @@ function SortableRow({ provider, disabled, children }: SortableRowProps) {
     <div
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
+      // A row lifted out of the list needs its own opaque surface, or the
+      // rows it passes over would show through it.
       className={cn(
-        "min-w-0 rounded-xl",
-        isDragging && "relative z-10 shadow-lg",
+        "min-w-0",
+        isDragging && "app-floating-surface relative z-10 rounded-lg",
       )}
     >
       {children(handle)}

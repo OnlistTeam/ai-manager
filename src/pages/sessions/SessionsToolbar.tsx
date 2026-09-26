@@ -22,7 +22,7 @@ export function SessionsToolbar(props: SessionsToolbarProps) {
     <form
       role="search"
       onSubmit={submit}
-      className="grid gap-2 rounded-xl border border-hairline bg-layer-1 p-3 shadow-sm sm:grid-cols-[1fr_auto]"
+      className="grid gap-2 sm:grid-cols-[1fr_auto]"
     >
       <div className="relative min-w-0">
         <Search

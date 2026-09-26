@@ -16,6 +16,7 @@ import {
   type ProviderCheckFailure,
   type ProviderSwitchFailure,
 } from "@/features/provider-management";
+import { ListGroup } from "@/shared/ui/ListGroup";
 import { describeSource } from "./effectiveConnectionCopy";
 import { ExternalConnectionCard } from "./ExternalConnectionCard";
 import { ServicesOpenConfigAction } from "./ServicesOpenConfigAction";
@@ -87,7 +88,7 @@ export function ServicesProviderGrid({
       ? effective
       : null;
   return (
-    <div className="grid min-w-0 gap-4">
+    <div className="grid min-w-0 gap-2">
       {effective?.selection && effective.selection !== "configuration" ? (
         <p className="text-caption text-content-muted" role="status">
           {t(`services.effective.selection.${effective.selection}`, {
@@ -95,106 +96,110 @@ export function ServicesProviderGrid({
           })}
         </p>
       ) : null}
-      {external ? (
-        <ExternalConnectionCard
-          connection={external}
-          toolName={toolName}
-          tool={tool}
-          configResource={configResource}
-          onTest={onTestExternal}
-          onEditVariable={onEditExternalVariable}
-          editableVariables={externalEditableVariables}
-          actionsBlocked={busy}
-        />
-      ) : null}
-      {/* The user's own order: using a service changes its badge, never its place. */}
-      <ServicesSortableList
-        providers={providers}
-        disabled={busy || reorder.isPending}
-        onReorder={(providerIds) => reorder.mutate({ tool, providerIds })}
-      >
-        {(provider, dragHandle) => {
-          const hasSavedCandidate =
-            providers.some(
-              (candidate) =>
-                candidate.id !== provider.id &&
-                !candidate.active &&
-                candidate.kind === "custom" &&
-                candidate.testable,
-            ) && supportsLightweightProviderFailover(tool);
-          const state = providerEffectiveState(provider, effective);
-          const matched = effective?.providerId === provider.id;
-          const sourceNote =
-            state === "inUse" &&
-            effective &&
-            (effective.endpointSource.kind === "shellFile" ||
-              effective.endpointSource.kind === "environment")
-              ? describeSource(effective.endpointSource, t)
-              : null;
-          return (
-            <ProviderCard
-              provider={provider}
-              dragHandle={dragHandle}
-              toolName={toolName}
-              effectiveState={state}
-              effectiveCredential={
-                matched
-                  ? effective?.credential
-                  : state === "unknown" && !provider.apiKey
-                    ? "unknown"
+      <ListGroup>
+        {external ? (
+          <ExternalConnectionCard
+            connection={external}
+            toolName={toolName}
+            tool={tool}
+            configResource={configResource}
+            onTest={onTestExternal}
+            onEditVariable={onEditExternalVariable}
+            editableVariables={externalEditableVariables}
+            actionsBlocked={busy}
+          />
+        ) : null}
+        {/* The user's own order: using a service changes its badge, never its place. */}
+        <ServicesSortableList
+          providers={providers}
+          disabled={busy || reorder.isPending}
+          onReorder={(providerIds) => reorder.mutate({ tool, providerIds })}
+        >
+          {(provider, dragHandle) => {
+            const hasSavedCandidate =
+              providers.some(
+                (candidate) =>
+                  candidate.id !== provider.id &&
+                  !candidate.active &&
+                  candidate.kind === "custom" &&
+                  candidate.testable,
+              ) && supportsLightweightProviderFailover(tool);
+            const state = providerEffectiveState(provider, effective);
+            const matched = effective?.providerId === provider.id;
+            const sourceNote =
+              state === "inUse" &&
+              effective &&
+              (effective.endpointSource.kind === "shellFile" ||
+                effective.endpointSource.kind === "environment")
+                ? describeSource(effective.endpointSource, t)
+                : null;
+            return (
+              <ProviderCard
+                provider={provider}
+                dragHandle={dragHandle}
+                toolName={toolName}
+                effectiveState={state}
+                effectiveCredential={
+                  matched
+                    ? effective?.credential
+                    : state === "unknown" && !provider.apiKey
+                      ? "unknown"
+                      : undefined
+                }
+                configAction={
+                  matched ? (
+                    <ServicesOpenConfigAction
+                      tool={tool}
+                      resource={configResource}
+                      actionsBlocked={busy}
+                    />
+                  ) : null
+                }
+                overrideSource={overrideSource}
+                sourceNote={sourceNote}
+                credentialNote={
+                  // Only when this app has no key of its own to show: the tool
+                  // keeps its credential somewhere else, and saying where beats a
+                  // bare "Key configured" the reader cannot act on.
+                  matched &&
+                  !provider.apiKey &&
+                  effective?.credential === "configured" &&
+                  effective.credentialSource.kind !== "toolDefault"
+                    ? describeSource(effective.credentialSource, t)
+                    : null
+                }
+                busy={busy}
+                testing={testingProviderId === provider.id}
+                switching={switchingProviderId === provider.id}
+                tryingNext={recoveringProviderId === provider.id}
+                tryNextUnavailable={
+                  recoveryUnavailableProviderId === provider.id
+                }
+                switchError={
+                  switchFailure?.providerId === provider.id
+                    ? switchFailure.error
                     : undefined
-              }
-              configAction={
-                matched ? (
-                  <ServicesOpenConfigAction
-                    tool={tool}
-                    resource={configResource}
-                    actionsBlocked={busy}
-                  />
-                ) : null
-              }
-              overrideSource={overrideSource}
-              sourceNote={sourceNote}
-              credentialNote={
-                // Only when this app has no key of its own to show: the tool
-                // keeps its credential somewhere else, and saying where beats a
-                // bare "Key configured" the reader cannot act on.
-                matched &&
-                !provider.apiKey &&
-                effective?.credential === "configured" &&
-                effective.credentialSource.kind !== "toolDefault"
-                  ? describeSource(effective.credentialSource, t)
-                  : null
-              }
-              busy={busy}
-              testing={testingProviderId === provider.id}
-              switching={switchingProviderId === provider.id}
-              tryingNext={recoveringProviderId === provider.id}
-              tryNextUnavailable={recoveryUnavailableProviderId === provider.id}
-              switchError={
-                switchFailure?.providerId === provider.id
-                  ? switchFailure.error
-                  : undefined
-              }
-              testError={
-                checkFailure?.tool === tool &&
-                checkFailure.providerId === provider.id
-                  ? checkFailure.error
-                  : undefined
-              }
-              testResult={connectivityFor(connectivity, tool, provider.id)}
-              onUse={() => onUse(provider.id)}
-              onTest={() => onTest(provider.id)}
-              onTryNext={
-                hasSavedCandidate ? () => onTryNext(provider.id) : undefined
-              }
-              onBrowseCompatible={onBrowseCompatible}
-              onEdit={() => onEdit(provider)}
-              onRemove={() => onRemove(provider)}
-            />
-          );
-        }}
-      </ServicesSortableList>
+                }
+                testError={
+                  checkFailure?.tool === tool &&
+                  checkFailure.providerId === provider.id
+                    ? checkFailure.error
+                    : undefined
+                }
+                testResult={connectivityFor(connectivity, tool, provider.id)}
+                onUse={() => onUse(provider.id)}
+                onTest={() => onTest(provider.id)}
+                onTryNext={
+                  hasSavedCandidate ? () => onTryNext(provider.id) : undefined
+                }
+                onBrowseCompatible={onBrowseCompatible}
+                onEdit={() => onEdit(provider)}
+                onRemove={() => onRemove(provider)}
+              />
+            );
+          }}
+        </ServicesSortableList>
+      </ListGroup>
     </div>
   );
 }

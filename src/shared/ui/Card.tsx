@@ -3,9 +3,9 @@ import { cn } from "./cn";
 
 const PADDING: Record<NonNullable<CardProps["padding"]>, string> = {
   none: "",
-  sm: "p-3",
-  md: "p-4",
-  lg: "p-6",
+  sm: "p-2",
+  md: "p-3",
+  lg: "p-4",
 };
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {

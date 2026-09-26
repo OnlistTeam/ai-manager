@@ -38,7 +38,7 @@ export const ListGroupRow = React.forwardRef<HTMLDivElement, ListGroupRowProps>(
     <div
       ref={ref}
       className={cn(
-        "ds-list-row relative min-w-0 p-4",
+        "ds-list-row relative min-w-0 px-4 py-3",
         interactive &&
           "transition-colors duration-fast ease-standard hover:bg-layer-1",
         className,

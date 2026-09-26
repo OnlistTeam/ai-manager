@@ -11,6 +11,7 @@ import {
   useSetExtensionEnabled,
 } from "@/features/extension-management";
 import { ToolOperationProgress } from "@/features/tool-management";
+import { ListGroup } from "@/shared/ui/ListGroup";
 
 export interface ExtensionsGridProps {
   scope: ExtensionScope;
@@ -48,7 +49,7 @@ export function ExtensionsGrid({
     variables.extensionId === extension.id;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       {activeOperation ? (
         <ToolOperationProgress
           operation={activeOperation}
@@ -56,7 +57,7 @@ export function ExtensionsGrid({
         />
       ) : null}
 
-      <div className="grid gap-4">
+      <ListGroup>
         {extensions.map((extension, index) => {
           const operationPending =
             activeOperation?.extension?.id === extension.id;
@@ -112,7 +113,7 @@ export function ExtensionsGrid({
             />
           );
         })}
-      </div>
+      </ListGroup>
     </div>
   );
 }

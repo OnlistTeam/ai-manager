@@ -334,7 +334,7 @@ describe("design tokens", () => {
   it("keeps the integrated title material soft while protecting focused content", () => {
     const indexCss = fs.readFileSync(INDEX_CSS, "utf8");
     expect(indexCss).toMatch(
-      /\.app-scroll-viewport\s*\{[^}]*scroll-padding-top:\s*96px/s,
+      /\.app-scroll-viewport\s*\{[^}]*scroll-padding-top:\s*80px/s,
     );
     expect(indexCss).toMatch(
       /\.app-statusbar::before\s*\{[^}]*backdrop-filter:\s*blur\(22px\) saturate\(122%\)[^}]*mask-image:\s*linear-gradient/s,

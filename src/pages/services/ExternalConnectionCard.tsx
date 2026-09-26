@@ -128,10 +128,10 @@ export function ExternalConnectionCard({
       name={hostOf(endpoint)}
       icon={
         <span
-          className="flex h-10 w-10 items-center justify-center rounded-lg bg-warning/15 text-warning"
+          className="flex h-9 w-9 items-center justify-center rounded-lg bg-warning/15 text-warning"
           aria-hidden="true"
         >
-          <PlugZap className="h-5 w-5" />
+          <PlugZap className="h-4 w-4" />
         </span>
       }
       usedBy={
@@ -143,18 +143,17 @@ export function ExternalConnectionCard({
       active={!connection.selection || connection.selection === "configuration"}
       useAvailable={false}
       activeLabelKey="services.card.inUse"
-      notUsedLabelKey={`services.card.${connection.selection ?? "unknown"}`}
       unavailableLabelKey={
         connection.selection && connection.selection !== "configuration"
           ? "ds.action.readOnly"
           : undefined
       }
-      compact
       actions={
         <>
           {testable ? (
             <Button
               variant="ghost"
+              size="sm"
               disabled={actionsBlocked}
               aria-label={t("services.action.testNamed", {
                 name: hostOf(endpoint),
@@ -181,10 +180,10 @@ export function ExternalConnectionCard({
         </>
       }
       detail={
-        <div className="flex flex-col gap-2.5">
-          <p className="flex min-w-0 items-start gap-2 text-content-muted">
+        <div className="flex flex-col gap-1">
+          <p className="flex min-w-0 items-center gap-1.5 text-content-muted">
             <Globe2
-              className="mt-0.5 h-4 w-4 shrink-0 text-brand"
+              className="h-3.5 w-3.5 shrink-0 text-brand"
               aria-hidden="true"
             />
             <span className="min-w-0 flex-1">
@@ -202,9 +201,9 @@ export function ExternalConnectionCard({
           <p className="text-caption text-content-muted">
             {describeSource(connection.endpointSource, t)}
           </p>
-          <p className="flex min-w-0 items-center gap-2 text-content-muted">
+          <p className="flex min-w-0 items-center gap-1.5 text-caption text-content-muted">
             <KeyRound
-              className={`h-4 w-4 shrink-0 ${
+              className={`h-3.5 w-3.5 shrink-0 ${
                 credentialMissing ? "text-warning" : "text-content-muted"
               }`}
               aria-hidden="true"

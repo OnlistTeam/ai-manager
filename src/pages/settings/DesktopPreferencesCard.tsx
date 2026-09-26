@@ -43,7 +43,7 @@ function DesktopPreferenceRow({
     saveState === "idle" ? descriptionId : `${descriptionId} ${statusId}`;
 
   return (
-    <div className="grid gap-3 border-b border-hairline py-4 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+    <div className="grid gap-3 border-b border-hairline py-3 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
       <div className="flex min-w-0 items-start gap-3">
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-layer-1 text-brand">
           <Icon className="h-4 w-4" aria-hidden="true" />
@@ -104,11 +104,11 @@ export function DesktopPreferencesCard() {
   return (
     <section aria-labelledby={headingId}>
       <Card padding="none" className="overflow-hidden rounded-xl">
-        <header className="border-b border-hairline p-5">
-          <h3 id={headingId} className="text-heading text-content">
+        <header className="border-b border-hairline px-4 py-3">
+          <h3 id={headingId} className="text-body font-medium text-content">
             {t("preferences.desktop.title")}
           </h3>
-          <p className="mt-1 text-body text-content-muted">
+          <p className="mt-0.5 text-caption text-content-muted">
             {t("preferences.desktop.description")}
           </p>
         </header>
@@ -116,10 +116,10 @@ export function DesktopPreferencesCard() {
         {preferences.isPending ? (
           <DetectionStatus
             label={t("preferences.desktop.loading")}
-            className="m-5"
+            className="m-4"
           />
         ) : preferences.data ? (
-          <div className="px-5">
+          <div className="px-4">
             <DesktopPreferenceRow
               icon={Rocket}
               label={t("preferences.desktop.launch.label")}

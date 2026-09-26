@@ -17,23 +17,21 @@ export function DetectionStatus({ label, className }: DetectionStatusProps) {
       aria-live="polite"
       aria-label={label}
       className={cn(
-        "flex min-h-24 items-center gap-4 rounded-2xl border border-hairline bg-layer-1 px-5 py-4 shadow-sm",
+        "flex min-h-16 items-center gap-3 rounded-xl border border-hairline bg-layer-1 px-4 py-3 shadow-sm",
         className,
       )}
     >
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-brand/20 bg-brand/10 text-brand shadow-sm">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-brand/20 bg-brand/10 text-brand shadow-sm">
         <LoaderCircle
           className="h-5 w-5 motion-safe:animate-spin"
           aria-hidden="true"
         />
       </span>
       <span className="min-w-0">
-        <span className="block text-heading text-content">
+        <span className="block text-body font-medium text-content">
           {t("common.detecting")}
         </span>
-        <span className="mt-0.5 block text-caption leading-5 text-content-muted">
-          {label}
-        </span>
+        <span className="block text-caption text-content-muted">{label}</span>
       </span>
     </div>
   );

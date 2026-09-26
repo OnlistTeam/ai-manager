@@ -74,7 +74,7 @@ export function ScopeTabs({
       aria-label={label}
       aria-orientation="horizontal"
       aria-busy={disabled || undefined}
-      className={cn("flex flex-wrap gap-2", className)}
+      className={cn("flex flex-wrap gap-1.5", className)}
     >
       {items.map((item, index) => {
         const selected = item.id === active;
@@ -100,7 +100,7 @@ export function ScopeTabs({
             onClick={() => onSelect(item.id)}
             onKeyDown={(event) => moveFocus(event, index)}
             className={cn(
-              "rounded-full border px-3 py-1.5 text-caption",
+              "inline-flex h-7 items-center rounded-full border px-3 text-caption",
               "transition-colors duration-fast ease-standard",
               "disabled:cursor-wait disabled:opacity-60",
               selected

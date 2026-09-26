@@ -49,7 +49,7 @@ export function BackupSection({ onReviewServices }: BackupSectionProps) {
       ref={sectionRef}
       aria-label={t("preferences.backup.title")}
       tabIndex={-1}
-      className="flex flex-col gap-4 outline-none"
+      className="flex flex-col gap-3 outline-none"
     >
       <SectionHeader
         as="h3"

@@ -13,6 +13,7 @@ import {
 import type { DesktopApp } from "@/native/schemas/desktopApp";
 import type { Tool, ToolCapabilities } from "@/native/schemas/tool";
 import { DesktopAppCard } from "../../DesktopAppCard";
+import { ListGroup } from "../../ListGroup";
 import { ProgressTask } from "../../ProgressTask";
 import { ServiceCard } from "../../ServiceCard";
 import { Sidebar, type SidebarItem } from "../../Sidebar";
@@ -218,7 +219,7 @@ export function ProductSection() {
         ))}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <ListGroup>
         <ServiceCard
           name="Claude"
           connected
@@ -240,7 +241,7 @@ export function ProductSection() {
           busy
           onUse={() => undefined}
         />
-      </div>
+      </ListGroup>
 
       <div className="rounded-lg border border-hairline bg-layer-1 px-4">
         <ProgressTask

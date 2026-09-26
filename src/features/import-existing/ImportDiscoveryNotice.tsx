@@ -35,7 +35,7 @@ export function ImportDiscoveryUnavailable({
             {t("preferences.import.retry")}
           </Button>
         }
-        className="rounded-lg border border-hairline bg-layer-1 py-6 shadow-sm"
+        className="rounded-lg border border-hairline bg-layer-1 py-4 shadow-sm"
       />
     </div>
   );

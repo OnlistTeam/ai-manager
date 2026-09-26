@@ -34,7 +34,7 @@ export function DeepLinkPasteSection() {
       className="flex flex-col gap-3"
     >
       <Card padding="none" className="rounded-xl">
-        <div className="flex flex-col gap-3 p-4">
+        <div className="flex flex-col gap-3 px-4 py-3">
           <div className="flex min-w-0 items-start gap-3">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-layer-1 text-brand">
               <ClipboardPaste className="h-4 w-4" aria-hidden="true" />

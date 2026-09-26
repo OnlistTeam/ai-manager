@@ -36,9 +36,9 @@ export function BackupListCard({
 
   return (
     <Card padding="none" className="overflow-hidden rounded-xl">
-      <div className="flex flex-wrap items-center gap-3 border-b border-hairline bg-layer-1 p-4">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-success/10 text-success">
-          <ShieldCheck className="h-5 w-5" aria-hidden="true" />
+      <div className="flex flex-wrap items-center gap-3 border-b border-hairline bg-layer-1 px-4 py-3">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-success/10 text-success">
+          <ShieldCheck className="h-4 w-4" aria-hidden="true" />
         </span>
         <div className="min-w-0 flex-1">
           <p className="text-body font-medium text-content">

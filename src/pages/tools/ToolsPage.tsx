@@ -202,7 +202,7 @@ export function ToolsPage({
       ) : null}
 
       <DesktopAppsSection
-        className="mt-4"
+        className="mt-2"
         onOpenRelatedTool={focusToolById}
         onManageRelatedTool={onOpenServices}
         onManageAppConfiguration={manageDesktopAppConfiguration}

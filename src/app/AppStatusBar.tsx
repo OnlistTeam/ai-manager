@@ -22,8 +22,8 @@ export function AppStatusBar({ mac, windows = false }: AppStatusBarProps) {
       data-integrated="true"
       className={
         mac
-          ? "app-statusbar pointer-events-none absolute inset-x-0 top-0 z-30 flex h-[92px] items-start justify-end bg-transparent px-6 pt-7 lg:px-8"
-          : `app-statusbar pointer-events-none absolute inset-x-0 top-0 z-30 flex h-[76px] items-start justify-end bg-transparent px-6 pt-4 lg:px-8 ${
+          ? "app-statusbar pointer-events-none absolute inset-x-0 top-0 z-30 flex h-[76px] items-start justify-end bg-transparent px-6 pt-7 lg:px-8"
+          : `app-statusbar pointer-events-none absolute inset-x-0 top-0 z-30 flex h-[64px] items-start justify-end bg-transparent px-6 pt-4 lg:px-8 ${
               windows ? "pr-[150px] lg:pr-[152px]" : ""
             }`
       }

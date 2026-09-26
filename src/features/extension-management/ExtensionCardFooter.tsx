@@ -59,9 +59,10 @@ export function ExtensionCardFooter({
   const { t } = useTranslation();
 
   return (
-    <div className="relative mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-hairline bg-layer-1 px-5 py-3.5">
+    // Sits in the row's trailing column (under the text on narrow windows).
+    <div className="col-start-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 md:col-start-3 md:row-start-1 md:justify-end">
       {detected ? (
-        <p className="flex min-w-0 items-start gap-2 text-caption leading-5 text-content-muted">
+        <p className="flex min-w-0 items-start gap-2 text-caption text-content-muted">
           <HardDrive
             className="mt-0.5 h-4 w-4 shrink-0 text-brand"
             aria-hidden="true"
@@ -175,6 +176,7 @@ export function ExtensionCardFooter({
         ) : (
           <Button
             variant="secondary"
+            size="sm"
             aria-label={labels.retry ?? labels.use}
             disabled={busy}
             loading={pending}

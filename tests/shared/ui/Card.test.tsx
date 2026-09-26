@@ -8,7 +8,7 @@ describe("Card", () => {
     const card = screen.getByTestId("card");
     expect(card.className).toContain("ds-card");
     expect(card.className).toContain("rounded-lg");
-    expect(card.className).toContain("p-4");
+    expect(card).toHaveClass("p-3");
     // Depth is a lighter film, not a drop shadow.
     expect(card.className).not.toContain("shadow-");
   });
@@ -19,13 +19,13 @@ describe("Card", () => {
         Body
       </Card>,
     );
-    expect(screen.getByTestId("card").className).toContain("p-6");
+    expect(screen.getByTestId("card")).toHaveClass("p-4");
     rerender(
       <Card data-testid="card" padding="none">
         Body
       </Card>,
     );
-    expect(screen.getByTestId("card").className).not.toContain("p-4");
+    expect(screen.getByTestId("card").className).not.toMatch(/\bp-\d/);
   });
 
   it("adds a token-timed hover treatment when interactive", () => {

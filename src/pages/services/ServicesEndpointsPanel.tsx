@@ -149,7 +149,7 @@ export function ServicesEndpointsPanel({
       role="region"
       aria-label={t("services.title")}
       tabIndex={-1}
-      className="flex min-w-0 flex-col gap-5 outline-none"
+      className="flex min-w-0 flex-col gap-4 outline-none"
     >
       {toolsUnavailable ? (
         <ServicesToolsUnavailable
@@ -239,8 +239,8 @@ export function ServicesEndpointsPanel({
       providerData !== undefined &&
       providerData.length > 0 &&
       managedActive !== null ? (
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-hairline pb-3">
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <h2 className="text-heading text-content">
                 {t("services.endpoints.title", { tool: activeName })}
