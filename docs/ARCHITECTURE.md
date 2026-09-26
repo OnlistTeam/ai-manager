@@ -519,11 +519,15 @@ status, error category and duration. `app_routing_trace` reads it and `routing:/
 each change; no content, header, key, URL or error body is recorded.
 
 Privacy protection (ADR-0049) runs inside the proxy: the product-owned `proxy/privacy/` module
-replaces secrets and personal data in the final outbound body with stable keyed placeholders and a
-router layer restores them in every reply, streamed or not. The product configures it through
-`compat/ccswitch/proxy_privacy.rs` from `application/privacy_protection.rs` (switch in the
-`aimgr.privacyProtection` KV key, install key in `privacy-protection.key` under the product data
-directory); only `{ enabled }` crosses IPC.
+replaces what the user chose to hide (keys and passwords, personal information, their own words)
+in the final outbound body with stable keyed placeholders, as a deterministic function of the body
+so resent history keeps its bytes, and a router layer restores them in every reply, streamed or
+not. The product configures it through `compat/ccswitch/proxy_privacy.rs` from
+`application/privacy_protection.rs` (the `aimgr.privacy.maskSecrets`, `aimgr.privacy.maskPersonal`
+and `aimgr.privacy.words` KV keys, install key in `privacy-protection.key` under the product data
+directory); only `{ maskSecrets, maskPersonal, words }` and a partial patch of it cross IPC. The
+choices live in the Privacy section of the settings page; the live routing card shows one status
+line linking there.
 
 ### 6.4 Native supply and restricted networks (ADR-0033)
 
