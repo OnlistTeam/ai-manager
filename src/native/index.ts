@@ -160,10 +160,12 @@ export {
   DEEP_LINK_PENDING_EVENT,
   OPERATION_CHANGED_EVENT,
   PROVIDER_CHANGED_EVENT,
+  ROUTING_TRACE_EVENT,
   onConfigLoadError,
   onDeepLinkPending,
   onOperationChanged,
   onProviderChanged,
+  onRoutingTrace,
 } from "./events";
 export type { ProviderChangedPayload } from "./events";
 export { initErrorPayloadSchema } from "./schemas/system";
@@ -369,6 +371,25 @@ export type {
   RoutingProvider,
   RoutingTarget,
 } from "./schemas/routing";
+export {
+  MAX_ROUTING_TRACE_ENTRIES,
+  routingErrorCategorySchema,
+  routingLiveModeOutcomeSchema,
+  routingTraceAttemptSchema,
+  routingTraceCountsSchema,
+  routingTraceEntrySchema,
+  routingTraceSnapshotSchema,
+  routingTraceUpdateSchema,
+} from "./schemas/routingTrace";
+export type {
+  RoutingErrorCategory,
+  RoutingLiveModeOutcome,
+  RoutingTraceAttempt,
+  RoutingTraceCounts,
+  RoutingTraceEntry,
+  RoutingTraceSnapshot,
+  RoutingTraceUpdate,
+} from "./schemas/routingTrace";
 export type {
   Provider,
   ProviderConnectionPreset,
