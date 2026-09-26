@@ -2152,17 +2152,8 @@
         "checkErrorTitle": "未能完成技能更新檢查",
         "checkErrorDescription": "部分技能來源可能暫時無法連線。現有技能仍可使用，但目前不能據此判斷所有技能都是最新版。",
         "retry": "重新檢查",
-        "title": "更新「{{name}}」嗎？",
-        "description": "AI 管家會使用這個技能原來的儲存庫，並透過經過驗證的本機更新流程完成更新。",
-        "point": {
-          "download": "從技能記錄的原始儲存庫下載最新副本。",
-          "backup": "替換受管理檔案前保留一份復原副本。",
-          "tools": "把更新後的技能同步到目前啟用它的所有工具。"
-        },
-        "confirm": "更新技能",
         "queued": "正在更新 {{name}}",
-        "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。",
-        "errorRetry": "請查看提示後再試一次。"
+        "queuedDescription": "你可以繼續使用 AI 管家，並在「工作」中查看進度。"
       },
       "empty": {
         "title": "還沒有技能",
@@ -2282,18 +2273,6 @@
             "tooLarge": "提示詞請控制在 1 MB 以內。"
           }
         }
-      },
-      "import": {
-        "open": "匯入目前提示詞",
-        "title": "匯入目前提示詞？",
-        "description": "AI 管家會讀取 {{tool}} 已經在使用的說明檔案。",
-        "confirm": "匯入提示詞",
-        "point": {
-          "reads": "目前內容會作為一份未啟用的提示詞加入，方便你先檢查。",
-          "unchanged": "匯入過程不會改寫工具目前的檔案。",
-          "duplicate": "若已儲存完全相同的內容，就不會重複加入。"
-        },
-        "errorTitle": "沒能匯入目前提示詞"
       },
       "remove": {
         "title": "移除 {{name}}？",

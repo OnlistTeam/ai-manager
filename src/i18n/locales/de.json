@@ -2153,17 +2153,8 @@
         "checkErrorTitle": "Die Prüfung auf Skill-Updates konnte nicht abgeschlossen werden",
         "checkErrorDescription": "Einige Skill-Quellen sind möglicherweise nicht erreichbar. Vorhandene Skills funktionieren weiterhin, das ist aber kein Nachweis, dass alles aktuell ist.",
         "retry": "Erneut prüfen",
-        "title": "{{name}} aktualisieren?",
-        "description": "AI Manager verwendet das ursprüngliche Repository des Skills und einen validierten lokalen Update-Ablauf.",
-        "point": {
-          "download": "Die neueste Kopie aus dem hinterlegten Repository des Skills herunterladen.",
-          "backup": "Vor dem Ersetzen verwalteter Dateien eine Wiederherstellungskopie behalten.",
-          "tools": "Den aktualisierten Skill mit jedem Tool synchronisieren, in dem er aktiviert ist."
-        },
-        "confirm": "Skill aktualisieren",
         "queued": "{{name}} wird aktualisiert",
-        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen.",
-        "errorRetry": "Prüfen Sie die Meldung und versuchen Sie es erneut."
+        "queuedDescription": "Sie können weiterarbeiten und den Fortschritt unter Aufgaben verfolgen."
       },
       "empty": {
         "title": "Noch keine Skills",
@@ -2283,18 +2274,6 @@
             "tooLarge": "Beschränken Sie die Anweisungen auf unter 1 MB."
           }
         }
-      },
-      "import": {
-        "open": "Aktuelle importieren",
-        "title": "Die aktuellen Anweisungen importieren?",
-        "description": "AI Manager liest die Anweisungsdatei, die {{tool}} bereits verwendet.",
-        "confirm": "Anweisungen importieren",
-        "point": {
-          "reads": "Der aktuelle Text wird als inaktiver Eintrag hinzugefügt, den Sie hier prüfen können.",
-          "unchanged": "Die aktuelle Datei des Tools wird beim Import nicht überschrieben.",
-          "duplicate": "Ist derselbe Text bereits gespeichert, wird kein Duplikat erstellt."
-        },
-        "errorTitle": "Die aktuellen Anweisungen konnten nicht importiert werden"
       },
       "remove": {
         "title": "{{name}} entfernen?",

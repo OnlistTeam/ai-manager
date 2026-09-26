@@ -4,10 +4,7 @@ import i18n from "i18next";
 import { http, HttpResponse } from "msw";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Extension } from "@/entities/extension";
-import {
-  PromptImportModal,
-  PromptRemovalModal,
-} from "@/features/extension-management";
+import { PromptRemovalModal } from "@/features/extension-management";
 import en from "@/i18n/locales/en.json";
 import {
   createTestQueryClient,
@@ -85,85 +82,5 @@ describe("Prompt safety confirmations", () => {
     await waitFor(() => expect(onOpenChange).toHaveBeenCalledWith(false));
     expect(body).toEqual({ tool: "claude-code", prompt: "draft-rules" });
     expect(JSON.stringify(body)).not.toContain("content");
-  });
-
-  it("imports only after confirmation and sends no file path or content", async () => {
-    let body: unknown;
-    server.use(
-      http.post(
-        `${TAURI_ENDPOINT}/app_prompt_import_current`,
-        async ({ request }) => {
-          body = await request.json();
-          return HttpResponse.json([prompt]);
-        },
-      ),
-    );
-    const onOpenChange = vi.fn();
-    render(
-      <PromptImportModal
-        open
-        tool="claude-code"
-        toolName="Claude Code"
-        mutationsBlocked={false}
-        onOpenChange={onOpenChange}
-      />,
-      { wrapper: wrapper() },
-    );
-    const dialog = screen.getByRole("dialog", {
-      name: en.extensions.prompt.import.title,
-    });
-    expect(
-      within(dialog).getByRole("button", { name: en.ds.action.cancel }),
-    ).toHaveFocus();
-    expect(body).toBeUndefined();
-    expect(dialog).toHaveTextContent(
-      en.extensions.prompt.import.point.unchanged,
-    );
-    await userEvent.click(
-      within(dialog).getByRole("button", {
-        name: en.extensions.prompt.import.confirm,
-      }),
-    );
-    await waitFor(() => expect(onOpenChange).toHaveBeenCalledWith(false));
-    expect(body).toEqual({ tool: "claude-code" });
-    expect(JSON.stringify(body)).not.toMatch(/path|content|file/i);
-  });
-
-  it("keeps import failures inline and redacts native technical details", async () => {
-    server.use(
-      http.post(`${TAURI_ENDPOINT}/app_prompt_import_current`, () =>
-        HttpResponse.text(
-          JSON.stringify({
-            code: "CONFIG_PARSE_FAILED",
-            messageKey: "error.prompt.importMissing",
-            technicalMessage: "/Users/alice/.claude/CLAUDE.md",
-            remediation: "error.remediation.openToolManually",
-            contextId: null,
-          }),
-          { status: 500 },
-        ),
-      ),
-    );
-    render(
-      <PromptImportModal
-        open
-        tool="claude-code"
-        toolName="Claude Code"
-        mutationsBlocked={false}
-        onOpenChange={vi.fn()}
-      />,
-      { wrapper: wrapper() },
-    );
-    await userEvent.click(
-      screen.getByRole("button", {
-        name: en.extensions.prompt.import.confirm,
-      }),
-    );
-    const dialog = screen.getByRole("dialog");
-    expect(
-      await screen.findByText(en.error.prompt.importMissing),
-    ).toBeInTheDocument();
-    expect(dialog).not.toHaveTextContent("/Users/alice");
-    expect(dialog).not.toHaveTextContent("CLAUDE.md");
   });
 });

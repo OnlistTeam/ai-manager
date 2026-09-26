@@ -2153,17 +2153,8 @@
         "checkErrorTitle": "Não foi possível terminar de verificar as atualizações de Habilidades",
         "checkErrorDescription": "Algumas fontes de Habilidades podem estar inacessíveis. As Habilidades existentes ainda funcionam, mas isso não é prova de que tudo está atualizado.",
         "retry": "Verificar novamente",
-        "title": "Atualizar {{name}}?",
-        "description": "O AI Manager usa o repositório original da Habilidade e um fluxo de atualização local validado.",
-        "point": {
-          "download": "Baixa a cópia mais recente do repositório registrado da Habilidade.",
-          "backup": "Mantém uma cópia de recuperação antes de substituir os arquivos gerenciados.",
-          "tools": "Sincroniza a Habilidade atualizada com todas as ferramentas onde está ativada."
-        },
-        "confirm": "Atualizar Habilidade",
         "queued": "Atualizando {{name}}",
-        "queuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas.",
-        "errorRetry": "Revise a mensagem e tente novamente."
+        "queuedDescription": "Você pode continuar trabalhando e acompanhar o progresso em Tarefas."
       },
       "empty": {
         "title": "Ainda não há habilidades",
@@ -2283,18 +2274,6 @@
             "tooLarge": "Mantenha as instruções abaixo de 1 MB."
           }
         }
-      },
-      "import": {
-        "open": "Importar atual",
-        "title": "Importar as instruções atuais?",
-        "description": "O AI Manager lerá o arquivo de instruções que {{tool}} já usa.",
-        "confirm": "Importar instruções",
-        "point": {
-          "reads": "O texto atual é adicionado como um item inativo que você pode revisar aqui.",
-          "unchanged": "O arquivo atual da ferramenta não é reescrito durante a importação.",
-          "duplicate": "Se o mesmo texto exato já estiver salvo, nenhuma duplicata é criada."
-        },
-        "errorTitle": "Não foi possível importar as instruções atuais"
       },
       "remove": {
         "title": "Remover {{name}}?",

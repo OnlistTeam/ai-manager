@@ -2,10 +2,11 @@ import { Puzzle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { Operation } from "@/entities/operation";
 import type { useSkillUpdates } from "@/entities/skill-update";
-import type {
-  ExtensionScopeOption,
-  ExtensionTab,
-  UnifiedExtensions,
+import {
+  useUpdateSkill,
+  type ExtensionScopeOption,
+  type ExtensionTab,
+  type UnifiedExtensions,
 } from "@/features/extension-management";
 import {
   TaskAvailabilityNotice,
@@ -51,6 +52,9 @@ export function ExtensionsUnifiedPanel({
   dialogs,
 }: ExtensionsUnifiedPanelProps) {
   const { t } = useTranslation();
+  // An update is one click, like CC Switch: it is queued as a task, keeps a
+  // restore copy, and can be followed in Activity.
+  const updateSkill = useUpdateSkill();
   const supported = targets.filter((target) => target.supported);
   const notIntegrated = targets
     .filter((target) => !target.supported)
@@ -158,7 +162,14 @@ export function ExtensionsUnifiedPanel({
                   new Set(skillUpdates.data?.map((update) => update.id) ?? [])
                 }
                 onRemove={dialogs.openRemoval}
-                onUpdate={dialogs.openSkillUpdate}
+                onUpdate={(skill) => {
+                  if (skill.scope.kind !== "tool") return;
+                  updateSkill.mutate({
+                    tool: skill.scope.id,
+                    skillId: skill.id,
+                    name: skill.name,
+                  });
+                }}
               />
             )
           ) : null}

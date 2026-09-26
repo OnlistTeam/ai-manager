@@ -2153,17 +2153,8 @@
         "checkErrorTitle": "Impossible de terminer la vérification des mises à jour de compétences",
         "checkErrorDescription": "Certaines sources de compétences peuvent être injoignables. Les compétences existantes fonctionnent toujours, mais cela ne prouve pas que tout est à jour.",
         "retry": "Revérifier",
-        "title": "Mettre à jour {{name}} ?",
-        "description": "AI Manager utilise le dépôt d'origine de la compétence et un processus de mise à jour local validé.",
-        "point": {
-          "download": "Télécharge la dernière copie depuis le dépôt enregistré de la compétence.",
-          "backup": "Conserve une copie de récupération avant de remplacer les fichiers gérés.",
-          "tools": "Synchronise la compétence mise à jour avec tous les outils où elle est activée."
-        },
-        "confirm": "Mettre à jour la compétence",
         "queued": "Mise à jour de {{name}}",
-        "queuedDescription": "Vous pouvez continuer à travailler et suivre la progression dans Activité.",
-        "errorRetry": "Vérifiez le message et réessayez."
+        "queuedDescription": "Vous pouvez continuer à travailler et suivre la progression dans Activité."
       },
       "empty": {
         "title": "Aucune compétence pour l'instant",
@@ -2283,18 +2274,6 @@
             "tooLarge": "Limitez les instructions à moins de 1 Mo."
           }
         }
-      },
-      "import": {
-        "open": "Importer l'actuel",
-        "title": "Importer les instructions actuelles ?",
-        "description": "AI Manager lira le fichier d'instructions déjà utilisé par {{tool}}.",
-        "confirm": "Importer les instructions",
-        "point": {
-          "reads": "Le texte actuel est ajouté comme élément inactif que vous pouvez consulter ici.",
-          "unchanged": "Le fichier actuel de l'outil n'est pas réécrit pendant l'import.",
-          "duplicate": "Si exactement le même texte est déjà enregistré, aucun doublon n'est créé."
-        },
-        "errorTitle": "Impossible d'importer les instructions actuelles"
       },
       "remove": {
         "title": "Supprimer {{name}} ?",

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { operationKeys } from "@/entities/operation";
 import { native, type ToolId } from "@/native";
+import { toErrorCopy } from "@/shared/lib/nativeError";
 
 export interface UpdateSkillVariables {
   tool: ToolId;
@@ -29,6 +30,13 @@ export function useUpdateSkill(): UseMutationResult<
         description: t("extensions.skill.update.queuedDescription"),
       });
       return queryClient.invalidateQueries({ queryKey: operationKeys.all });
+    },
+    // There is no dialog to hold the error, so it is said where the user is.
+    onError: (error) => {
+      const copy = toErrorCopy(error);
+      toast.error(t(copy.messageKey), {
+        description: copy.remediationKey ? t(copy.remediationKey) : undefined,
+      });
     },
   });
 }

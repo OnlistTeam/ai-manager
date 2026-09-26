@@ -5,11 +5,9 @@ import {
   McpInstallModal,
   McpRemovalModal,
   PromptEditorModal,
-  PromptImportModal,
   PromptRemovalModal,
   SkillCatalogModal,
   SkillRemovalModal,
-  SkillUpdateModal,
 } from "@/features/extension-management";
 
 interface ExtensionsDialogsProps {
@@ -19,17 +17,13 @@ interface ExtensionsDialogsProps {
   catalogOpen: boolean;
   mcpInstallOpen: boolean;
   promptEditorOpen: boolean;
-  promptImportOpen: boolean;
   editingPrompt: Extension | null;
   mutationsBlocked: boolean;
   removingExtension: Extension | null;
-  updatingSkill: Extension | null;
   onCatalogOpenChange: (open: boolean) => void;
   onMcpInstallOpenChange: (open: boolean) => void;
   onPromptEditorOpenChange: (open: boolean) => void;
-  onPromptImportOpenChange: (open: boolean) => void;
   onRemovalOpenChange: (open: boolean) => void;
-  onSkillUpdateOpenChange: (open: boolean) => void;
 }
 
 export function ExtensionsDialogs({
@@ -39,17 +33,13 @@ export function ExtensionsDialogs({
   catalogOpen,
   mcpInstallOpen,
   promptEditorOpen,
-  promptImportOpen,
   editingPrompt,
   mutationsBlocked,
   removingExtension,
-  updatingSkill,
   onCatalogOpenChange,
   onMcpInstallOpenChange,
   onPromptEditorOpenChange,
-  onPromptImportOpenChange,
   onRemovalOpenChange,
-  onSkillUpdateOpenChange,
 }: ExtensionsDialogsProps) {
   return (
     <>
@@ -83,13 +73,6 @@ export function ExtensionsDialogs({
             mutationsBlocked={mutationsBlocked}
             onOpenChange={onPromptEditorOpenChange}
           />
-          <PromptImportModal
-            open={promptImportOpen}
-            tool={activeTool.id}
-            toolName={activeTool.name}
-            mutationsBlocked={mutationsBlocked}
-            onOpenChange={onPromptImportOpenChange}
-          />
         </>
       ) : null}
 
@@ -97,12 +80,6 @@ export function ExtensionsDialogs({
         skill={removingExtension?.kind === "skill" ? removingExtension : null}
         mutationsBlocked={mutationsBlocked}
         onOpenChange={onRemovalOpenChange}
-      />
-
-      <SkillUpdateModal
-        skill={updatingSkill}
-        mutationsBlocked={mutationsBlocked}
-        onOpenChange={onSkillUpdateOpenChange}
       />
 
       <McpRemovalModal

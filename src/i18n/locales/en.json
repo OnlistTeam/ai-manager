@@ -2153,17 +2153,8 @@
         "checkErrorTitle": "Could not finish checking Skill updates",
         "checkErrorDescription": "Some Skill sources may be unreachable. Existing Skills still work, but this is not proof that everything is current.",
         "retry": "Check again",
-        "title": "Update {{name}}?",
-        "description": "AI Manager uses the Skill's original repository and a validated local update workflow.",
-        "point": {
-          "download": "Download the latest copy from the Skill's recorded repository.",
-          "backup": "Keep a recovery copy before replacing managed files.",
-          "tools": "Synchronize the updated Skill to every tool where it is enabled."
-        },
-        "confirm": "Update Skill",
         "queued": "Updating {{name}}",
-        "queuedDescription": "You can keep working and follow progress in Tasks.",
-        "errorRetry": "Review the message and try again."
+        "queuedDescription": "You can keep working and follow progress in Tasks."
       },
       "empty": {
         "title": "No skills yet",
@@ -2283,18 +2274,6 @@
             "tooLarge": "Keep the instructions under 1 MB."
           }
         }
-      },
-      "import": {
-        "open": "Import Current",
-        "title": "Import the current instructions?",
-        "description": "AI Manager will read the instruction file {{tool}} already uses.",
-        "confirm": "Import Instructions",
-        "point": {
-          "reads": "The current text is added as an inactive item you can review here.",
-          "unchanged": "The tool's current file is not rewritten during import.",
-          "duplicate": "If the exact same text is already saved, no duplicate is created."
-        },
-        "errorTitle": "Could not import the current instructions"
       },
       "remove": {
         "title": "Remove {{name}}?",

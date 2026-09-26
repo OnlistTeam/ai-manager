@@ -2153,17 +2153,8 @@
         "checkErrorTitle": "Không thể hoàn tất kiểm tra cập nhật Skill",
         "checkErrorDescription": "Một số nguồn Skill có thể không kết nối được. Các Skill hiện có vẫn hoạt động, nhưng điều này không đảm bảo mọi thứ đều mới nhất.",
         "retry": "Kiểm tra lại",
-        "title": "Cập nhật {{name}}?",
-        "description": "AI Manager dùng repository gốc của Skill và một quy trình cập nhật cục bộ đã được xác thực.",
-        "point": {
-          "download": "Tải bản sao mới nhất từ repository đã ghi nhận của Skill.",
-          "backup": "Giữ một bản sao khôi phục trước khi thay thế các tệp được quản lý.",
-          "tools": "Đồng bộ Skill đã cập nhật đến mọi công cụ đang bật Skill này."
-        },
-        "confirm": "Cập nhật Skill",
         "queued": "Đang cập nhật {{name}}",
-        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks.",
-        "errorRetry": "Xem lại thông báo và thử lại."
+        "queuedDescription": "Bạn có thể tiếp tục làm việc và theo dõi tiến trình trong Tasks."
       },
       "empty": {
         "title": "Chưa có skill nào",
@@ -2283,18 +2274,6 @@
             "tooLarge": "Giữ hướng dẫn dưới 1 MB."
           }
         }
-      },
-      "import": {
-        "open": "Nhập hiện tại",
-        "title": "Nhập hướng dẫn hiện tại?",
-        "description": "AI Manager sẽ đọc tệp hướng dẫn mà {{tool}} đang dùng.",
-        "confirm": "Nhập hướng dẫn",
-        "point": {
-          "reads": "Văn bản hiện tại được thêm dưới dạng một mục không hoạt động mà bạn có thể xem lại ở đây.",
-          "unchanged": "Tệp hiện tại của công cụ không bị ghi lại trong quá trình nhập.",
-          "duplicate": "Nếu văn bản giống hệt đã được lưu, sẽ không tạo bản trùng lặp."
-        },
-        "errorTitle": "Không thể nhập hướng dẫn hiện tại"
       },
       "remove": {
         "title": "Xóa {{name}}?",

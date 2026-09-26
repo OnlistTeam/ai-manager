@@ -2153,17 +2153,8 @@
         "checkErrorTitle": "No se pudo terminar de comprobar las actualizaciones de Skills",
         "checkErrorDescription": "Es posible que algunas fuentes de Skills no estén disponibles. Las Skills existentes siguen funcionando, pero esto no garantiza que todo esté actualizado.",
         "retry": "Comprobar de nuevo",
-        "title": "¿Actualizar {{name}}?",
-        "description": "AI Manager usa el repositorio original de la Skill y un flujo de actualización local validado.",
-        "point": {
-          "download": "Descarga la copia más reciente del repositorio registrado de la Skill.",
-          "backup": "Conserva una copia de recuperación antes de reemplazar los archivos administrados.",
-          "tools": "Sincroniza la Skill actualizada con todas las herramientas donde está activada."
-        },
-        "confirm": "Actualizar Skill",
         "queued": "Actualizando {{name}}",
-        "queuedDescription": "Puedes seguir trabajando y ver el progreso en Tareas.",
-        "errorRetry": "Revisa el mensaje y vuelve a intentarlo."
+        "queuedDescription": "Puedes seguir trabajando y ver el progreso en Tareas."
       },
       "empty": {
         "title": "Aún no hay skills",
@@ -2283,18 +2274,6 @@
             "tooLarge": "Limita las instrucciones a menos de 1 MB."
           }
         }
-      },
-      "import": {
-        "open": "Importar actual",
-        "title": "¿Importar las instrucciones actuales?",
-        "description": "AI Manager leerá el archivo de instrucciones que ya usa {{tool}}.",
-        "confirm": "Importar instrucciones",
-        "point": {
-          "reads": "El texto actual se añade como un elemento inactivo que puedes revisar aquí.",
-          "unchanged": "El archivo actual de la herramienta no se reescribe durante la importación.",
-          "duplicate": "Si ya está guardado exactamente el mismo texto, no se crea un duplicado."
-        },
-        "errorTitle": "No se pudieron importar las instrucciones actuales"
       },
       "remove": {
         "title": "¿Quitar {{name}}?",

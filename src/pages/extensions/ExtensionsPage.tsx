@@ -213,17 +213,13 @@ export function ExtensionsPage({
         catalogOpen={dialogs.catalogOpen}
         mcpInstallOpen={dialogs.mcpInstallOpen}
         promptEditorOpen={dialogs.promptEditorOpen}
-        promptImportOpen={dialogs.promptImportOpen}
         editingPrompt={dialogs.editingPrompt}
         mutationsBlocked={mutationsBlocked}
         removingExtension={dialogs.removingExtension}
-        updatingSkill={dialogs.updatingSkill}
         onCatalogOpenChange={dialogs.setCatalogOpen}
         onMcpInstallOpenChange={dialogs.setMcpInstallOpen}
         onPromptEditorOpenChange={dialogs.setPromptEditorOpen}
-        onPromptImportOpenChange={dialogs.setPromptImportOpen}
         onRemovalOpenChange={dialogs.setRemovalOpen}
-        onSkillUpdateOpenChange={dialogs.setSkillUpdateOpen}
       />
     </div>
   );

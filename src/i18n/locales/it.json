@@ -2153,17 +2153,8 @@
         "checkErrorTitle": "Impossibile completare il controllo degli aggiornamenti delle competenze",
         "checkErrorDescription": "Alcune fonti delle competenze potrebbero essere irraggiungibili. Le competenze esistenti continuano a funzionare, ma questo non garantisce che tutto sia aggiornato.",
         "retry": "Controlla di nuovo",
-        "title": "Aggiornare {{name}}?",
-        "description": "AI Manager usa il repository originale della competenza e un flusso di aggiornamento locale convalidato.",
-        "point": {
-          "download": "Scarica l'ultima copia dal repository registrato della competenza.",
-          "backup": "Conserva una copia di ripristino prima di sostituire i file gestiti.",
-          "tools": "Sincronizza la competenza aggiornata con ogni strumento in cui è abilitata."
-        },
-        "confirm": "Aggiorna competenza",
         "queued": "Aggiornamento di {{name}} in corso",
-        "queuedDescription": "Puoi continuare a lavorare e seguire l'avanzamento in Attività.",
-        "errorRetry": "Controlla il messaggio e riprova."
+        "queuedDescription": "Puoi continuare a lavorare e seguire l'avanzamento in Attività."
       },
       "empty": {
         "title": "Ancora nessuna competenza",
@@ -2283,18 +2274,6 @@
             "tooLarge": "Mantieni le istruzioni sotto 1 MB."
           }
         }
-      },
-      "import": {
-        "open": "Importa attuale",
-        "title": "Importare le istruzioni attuali?",
-        "description": "AI Manager leggerà il file di istruzioni che {{tool}} usa già.",
-        "confirm": "Importa istruzioni",
-        "point": {
-          "reads": "Il testo attuale viene aggiunto come elemento inattivo che puoi controllare qui.",
-          "unchanged": "Il file attuale dello strumento non viene riscritto durante l'importazione.",
-          "duplicate": "Se lo stesso identico testo è già salvato, non viene creato alcun duplicato."
-        },
-        "errorTitle": "Impossibile importare le istruzioni attuali"
       },
       "remove": {
         "title": "Rimuovere {{name}}?",

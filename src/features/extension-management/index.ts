@@ -8,7 +8,6 @@ export type {
 export { McpInstallModal } from "./McpInstallModal";
 export { McpRemovalModal } from "./McpRemovalModal";
 export { PromptEditorModal } from "./PromptEditorModal";
-export { PromptImportModal } from "./PromptImportModal";
 export { PromptRemovalModal } from "./PromptRemovalModal";
 export type { McpInstallModalProps } from "./McpInstallModal";
 export type { McpRemovalModalProps } from "./McpRemovalModal";
@@ -19,7 +18,6 @@ export type { SkillCatalogModalProps } from "./SkillCatalogModal";
 export { SkillCopyModal } from "./SkillCopyModal";
 export type { SkillCopyModalProps, SkillCopyTarget } from "./SkillCopyModal";
 export { SkillRemovalModal } from "./SkillRemovalModal";
-export { SkillUpdateModal } from "./SkillUpdateModal";
 export { SkillRepositoriesPanel } from "./SkillRepositoriesPanel";
 export { SkillZipInstallPanel } from "./SkillZipInstallPanel";
 export type { SkillRemovalModalProps } from "./SkillRemovalModal";

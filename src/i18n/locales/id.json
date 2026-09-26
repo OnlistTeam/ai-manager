@@ -2153,17 +2153,8 @@
         "checkErrorTitle": "Tidak dapat menyelesaikan pemeriksaan pembaruan Skill",
         "checkErrorDescription": "Beberapa sumber Skill mungkin tidak dapat dijangkau. Skill yang ada tetap berfungsi, tetapi ini bukan bukti bahwa semuanya sudah terbaru.",
         "retry": "Periksa lagi",
-        "title": "Perbarui {{name}}?",
-        "description": "AI Manager menggunakan repositori asli Skill dan alur pembaruan lokal yang tervalidasi.",
-        "point": {
-          "download": "Unduh salinan terbaru dari repositori Skill yang tercatat.",
-          "backup": "Simpan salinan pemulihan sebelum mengganti file terkelola.",
-          "tools": "Sinkronkan Skill yang diperbarui ke setiap alat tempat Skill ini diaktifkan."
-        },
-        "confirm": "Perbarui Skill",
         "queued": "Memperbarui {{name}}",
-        "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas.",
-        "errorRetry": "Tinjau pesannya dan coba lagi."
+        "queuedDescription": "Anda tetap dapat bekerja dan memantau progresnya di Tugas."
       },
       "empty": {
         "title": "Belum ada skill",
@@ -2283,18 +2274,6 @@
             "tooLarge": "Jaga instruksi di bawah 1 MB."
           }
         }
-      },
-      "import": {
-        "open": "Impor Saat Ini",
-        "title": "Impor instruksi saat ini?",
-        "description": "AI Manager akan membaca file instruksi yang sudah digunakan {{tool}}.",
-        "confirm": "Impor Instruksi",
-        "point": {
-          "reads": "Teks saat ini ditambahkan sebagai item tidak aktif yang dapat Anda tinjau di sini.",
-          "unchanged": "File saat ini milik alat tidak ditulis ulang selama impor.",
-          "duplicate": "Jika teks yang persis sama sudah tersimpan, tidak ada duplikat yang dibuat."
-        },
-        "errorTitle": "Tidak dapat mengimpor instruksi saat ini"
       },
       "remove": {
         "title": "Hapus {{name}}?",

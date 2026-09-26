@@ -482,7 +482,7 @@ describe("ExtensionsPage", () => {
     ).toBeNull();
   });
 
-  it("offers a safe update only for a Skill known to have one", async () => {
+  it("updates a Skill known to have an update in one click", async () => {
     let body: unknown;
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_skill_update`, async ({ request }) => {
@@ -503,12 +503,8 @@ describe("ExtensionsPage", () => {
     });
     expect(screen.getByText(en.extensions.card.updateAvailable)).toBeVisible();
     await userEvent.click(update);
-    const dialog = screen.getByRole("dialog", { name: "Update Code review?" });
-    await userEvent.click(
-      within(dialog).getByRole("button", {
-        name: en.extensions.skill.update.confirm,
-      }),
-    );
+    // One click queues the update; there is no confirmation step.
+    expect(screen.queryByRole("dialog")).toBeNull();
     await waitFor(() =>
       expect(body).toEqual({
         tool: "claude-code",
@@ -1109,11 +1105,6 @@ describe("ExtensionsPage", () => {
         name: en.extensions.prompt.editor.add,
       }),
     ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("button", {
-        name: en.extensions.prompt.import.open,
-      }),
-    ).not.toBeInTheDocument();
     expect(screen.queryByText(en.extensions.addLaterTitle)).toBeNull();
     expect(
       screen.queryByRole("button", { name: en.extensions.mcp.install.add }),

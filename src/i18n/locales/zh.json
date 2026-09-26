@@ -2152,17 +2152,8 @@
         "checkErrorTitle": "没能完成技能更新检查",
         "checkErrorDescription": "部分技能来源可能暂时无法访问。现有技能仍可使用，但目前不能据此判断所有技能都是最新版。",
         "retry": "重新检查",
-        "title": "更新“{{name}}”吗？",
-        "description": "AI 管家会使用这个技能原来的仓库，并通过经过校验的本机更新流程完成更新。",
-        "point": {
-          "download": "从技能记录的原始仓库下载最新副本。",
-          "backup": "替换受管理文件前保留一份恢复副本。",
-          "tools": "把更新后的技能同步到目前启用它的所有工具。"
-        },
-        "confirm": "更新技能",
         "queued": "正在更新 {{name}}",
-        "queuedDescription": "你可以继续使用 AI 管家，并在“任务”中查看进度。",
-        "errorRetry": "请查看提示后再试一次。"
+        "queuedDescription": "你可以继续使用 AI 管家，并在“任务”中查看进度。"
       },
       "empty": {
         "title": "还没有技能",
@@ -2282,18 +2273,6 @@
             "tooLarge": "提示词请控制在 1 MB 以内。"
           }
         }
-      },
-      "import": {
-        "open": "导入当前提示词",
-        "title": "导入当前提示词？",
-        "description": "AI 管家会读取 {{tool}} 已经在使用的说明文件。",
-        "confirm": "导入提示词",
-        "point": {
-          "reads": "当前内容会作为一份未启用的提示词加入，方便你先检查。",
-          "unchanged": "导入过程中不会改写工具当前的文件。",
-          "duplicate": "如果已经保存了完全相同的内容，就不会重复添加。"
-        },
-        "errorTitle": "没能导入当前提示词"
       },
       "remove": {
         "title": "移除 {{name}}？",
