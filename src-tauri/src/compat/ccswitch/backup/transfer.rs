@@ -114,7 +114,7 @@ impl BackupStore {
         // portable service/extension configuration. Preserve them exactly as
         // the ordinary restore path does.
         let settings = SettingsStore::with_db(self.state.db.clone());
-        let preserved = settings.load()?;
+        let preserved = settings.preserve()?;
 
         {
             let _skill_state_guard = skill_state_write_guard();
@@ -132,7 +132,7 @@ impl BackupStore {
             }
         };
 
-        if let Err(error) = settings.save(preserved) {
+        if let Err(error) = settings.reinstate(preserved) {
             log::warn!(
                 "[Backup transfer] archive imported but product preferences could not be restored: {}",
                 detail(error)
@@ -270,6 +270,9 @@ mod tests {
         SettingsStore::with_db(target.clone())
             .save(preferences)
             .expect("save local preferences");
+        SettingsStore::with_db(target.clone())
+            .save_privacy_protection(false)
+            .expect("turn privacy protection off locally");
         let store = BackupStore {
             state: AppState::new(target.clone()),
         };
@@ -286,11 +289,14 @@ mod tests {
             Some("from-archive")
         );
         assert_eq!(
-            SettingsStore::with_db(target)
+            SettingsStore::with_db(target.clone())
                 .load()
                 .expect("preserved preferences"),
             preferences
         );
+        assert!(!SettingsStore::with_db(target)
+            .load_privacy_protection()
+            .expect("preserved privacy protection"));
     }
 
     #[test]

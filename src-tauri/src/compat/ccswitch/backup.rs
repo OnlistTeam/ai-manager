@@ -231,7 +231,7 @@ impl BackupStore {
         // restoring them afterwards, restoring an older backup would also reset markers such
         // as "the startup import question was already answered".
         let settings = SettingsStore::with_db(self.state.db.clone());
-        let preserved = settings.load()?;
+        let preserved = settings.preserve()?;
 
         {
             // The upstream restore command takes this lock too: while restoring, the state
@@ -275,7 +275,7 @@ impl BackupStore {
         // The cost is recorded honestly in the technical debt section of ARCHITECTURE: when
         // this step fails, the confirmation dialog's promise that "your preferences will be
         // kept" does not hold and the preferences become whatever the restored backup held.
-        if let Err(error) = settings.save(preserved) {
+        if let Err(error) = settings.reinstate(preserved) {
             log::warn!(
                 "[Restore] the database was restored but the product preferences could not be written back: {}",
                 detail(error)

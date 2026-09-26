@@ -601,6 +601,10 @@ pub fn run() {
             // The first tray build reads product settings and the ProviderDirectory; inject
             // the same Arc-backed state here and keep using local clones afterwards.
             app.manage(app_state.clone());
+            // ADR-0049: the routing proxy masks secrets and personal data from its first request.
+            crate::application::privacy_protection::PrivacyProtectionService::initialize(
+                app.handle(),
+            );
 
             // ============================================================
             // Per-table import logic (each data kind is checked independently)
@@ -1246,6 +1250,8 @@ pub fn run() {
             commands::app_routing_queue_remove,
             commands::app_routing_switch_provider,
             commands::app_routing_stop_all,
+            commands::app_privacy_protection_get,
+            commands::app_privacy_protection_set,
             // AI Manager product API (one-click import; ADR-0029).
             commands::app_deeplink_pending_list,
             commands::app_deeplink_preview,

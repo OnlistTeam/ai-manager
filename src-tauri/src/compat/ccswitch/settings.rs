@@ -28,9 +28,11 @@ const EXTENSION_SCOPE_KEY: &str = "aimgr.extensionScope";
 const EXTENSION_KIND_KEY: &str = "aimgr.extensionKind";
 const DOWNLOAD_STRATEGY_KEY: &str = "aimgr.downloadStrategy";
 const TERMINAL_APP_KEY: &str = "aimgr.terminalApp";
+/// ADR-0049. Kept out of `ProductSettings` so it has exactly one write path.
+const PRIVACY_PROTECTION_KEY: &str = "aimgr.privacyProtection";
 
 /// All product keys. For the guard test and manual inspection; the production path never iterates it.
-pub const PRODUCT_SETTING_KEYS: [&str; 7] = [
+pub const PRODUCT_SETTING_KEYS: [&str; 8] = [
     ADVANCED_MODE_KEY,
     IMPORT_PROMPT_SEEN_KEY,
     TOOL_SCOPE_KEY,
@@ -38,6 +40,7 @@ pub const PRODUCT_SETTING_KEYS: [&str; 7] = [
     EXTENSION_KIND_KEY,
     DOWNLOAD_STRATEGY_KEY,
     TERMINAL_APP_KEY,
+    PRIVACY_PROTECTION_KEY,
 ];
 
 /// An empty string = never chosen. The upstream DAO exposes no "delete a key" interface, and
@@ -130,6 +133,18 @@ fn decode_download_strategy(raw: Option<String>) -> DownloadStrategy {
     DownloadStrategy::Automatic
 }
 
+/// Privacy protection is on unless the user turned it off: a missing,
+/// empty or unrecognized value reads as on.
+fn decode_privacy_protection(raw: Option<String>) -> bool {
+    raw.as_deref() != Some("false")
+}
+
+/// Everything a backup restore or archive import must keep from this machine.
+pub struct PreservedPreferences {
+    settings: ProductSettings,
+    privacy_protection: bool,
+}
+
 /// Handle to the upstream KV store. The fields are private, so the layers above can never reach `Database`.
 pub struct SettingsStore {
     db: Arc<Database>,
@@ -195,6 +210,37 @@ impl SettingsStore {
         })
     }
 
+    pub fn load_privacy_protection(&self) -> Result<bool, AppError> {
+        Ok(decode_privacy_protection(
+            self.db
+                .get_setting(PRIVACY_PROTECTION_KEY)
+                .map_err(load_failed)?,
+        ))
+    }
+
+    /// Writes the switch and returns the value read back.
+    pub fn save_privacy_protection(&self, enabled: bool) -> Result<bool, AppError> {
+        self.db
+            .set_setting(PRIVACY_PROTECTION_KEY, bool_value(enabled))
+            .map_err(save_failed)?;
+        self.load_privacy_protection()
+    }
+
+    /// Captures the per-machine preferences before the database is replaced.
+    pub fn preserve(&self) -> Result<PreservedPreferences, AppError> {
+        Ok(PreservedPreferences {
+            settings: self.load()?,
+            privacy_protection: self.load_privacy_protection()?,
+        })
+    }
+
+    /// Writes captured preferences back after the database was replaced.
+    pub fn reinstate(&self, preserved: PreservedPreferences) -> Result<(), AppError> {
+        self.save(preserved.settings)?;
+        self.save_privacy_protection(preserved.privacy_protection)?;
+        Ok(())
+    }
+
     /// Full replacement (decision 3), returning the result **read back**: the caller always
     /// gets what is really stored in the database, not an echo of what it just sent.
     pub fn save(&self, settings: ProductSettings) -> Result<ProductSettings, AppError> {
@@ -233,7 +279,8 @@ impl SettingsStore {
 mod tests {
     use super::{
         decode_kind, decode_scope, decode_tool, encode_kind, encode_scope, encode_tool,
-        SettingsStore, ADVANCED_MODE_KEY, DOWNLOAD_STRATEGY_KEY, PRODUCT_SETTING_KEYS,
+        SettingsStore, ADVANCED_MODE_KEY, DOWNLOAD_STRATEGY_KEY, PRIVACY_PROTECTION_KEY,
+        PRODUCT_SETTING_KEYS,
     };
     use crate::database::Database;
     use crate::domain::{
@@ -257,7 +304,7 @@ mod tests {
                 "{key} must live under the product prefix"
             );
         }
-        assert_eq!(PRODUCT_SETTING_KEYS.len(), 7);
+        assert_eq!(PRODUCT_SETTING_KEYS.len(), 8);
     }
 
     #[test]
@@ -371,5 +418,38 @@ mod tests {
             .expect("save");
         assert!(store.db.get_bool_flag(ADVANCED_MODE_KEY).expect("flag"));
         assert!(store.load().expect("load").advanced_mode);
+    }
+
+    #[test]
+    fn privacy_protection_is_on_until_the_user_turns_it_off() {
+        let store = store();
+        assert!(store.load_privacy_protection().expect("default"));
+        assert!(!store.save_privacy_protection(false).expect("turn off"));
+        assert_eq!(
+            store
+                .db
+                .get_setting(PRIVACY_PROTECTION_KEY)
+                .expect("stored")
+                .as_deref(),
+            Some("false")
+        );
+        assert!(store.save_privacy_protection(true).expect("turn on"));
+        store
+            .db
+            .set_setting(PRIVACY_PROTECTION_KEY, "")
+            .expect("blank value");
+        assert!(store.load_privacy_protection().expect("blank reads as on"));
+    }
+
+    #[test]
+    fn preserved_preferences_include_privacy_protection() {
+        let store = store();
+        store.save_privacy_protection(false).expect("turn off");
+        let preserved = store.preserve().expect("preserve");
+        store
+            .save_privacy_protection(true)
+            .expect("simulate a restore");
+        store.reinstate(preserved).expect("reinstate");
+        assert!(!store.load_privacy_protection().expect("load"));
     }
 }

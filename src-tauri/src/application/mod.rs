@@ -12,6 +12,7 @@ pub mod mcp_removal;
 pub mod model_probe;
 pub mod network_proxy;
 pub mod openclaw_workspace;
+pub mod privacy_protection;
 pub mod product_settings;
 pub mod prompt_directory;
 pub mod provider_batch_test;

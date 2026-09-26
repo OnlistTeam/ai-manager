@@ -13,6 +13,7 @@ pub mod model_probe;
 pub mod network_proxy;
 pub mod openclaw_workspace;
 pub mod operation;
+pub mod privacy_protection;
 pub mod prompt;
 pub mod provider;
 pub mod provider_endpoint;
@@ -70,6 +71,7 @@ pub use operation::{
     Operation, OperationExtension, OperationId, OperationKind, OperationLogEntry, OperationLogKind,
     OperationOutput, OperationStatus, ToolUpdateRecovery,
 };
+pub use privacy_protection::PrivacyProtection;
 pub use prompt::{PromptDetail, PromptDraft};
 pub use provider::{
     Provider, ProviderAdvancedDraft, ProviderConnectionPreset, ProviderConnectionProfile,
