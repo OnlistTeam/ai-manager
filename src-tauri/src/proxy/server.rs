@@ -400,6 +400,8 @@ impl ProxyServer {
             .route("/gemini/v1/*path", any(handlers::handle_gemini))
             // Raise the default body size limit (to avoid 413 Payload Too Large)
             .layer(DefaultBodyLimit::max(200 * 1024 * 1024))
+            // Privacy protection (ADR-0049): put real values back into every reply.
+            .layer(axum::middleware::from_fn(super::privacy::restore_response))
             .with_state(self.state.clone())
     }
 

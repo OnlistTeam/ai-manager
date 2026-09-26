@@ -1641,6 +1641,8 @@ impl RequestForwarder {
                 }
             }
         }
+        // Privacy protection (ADR-0049): swap secrets and personal data for placeholders last.
+        super::privacy::mask_request_body(&mut filtered_body);
         // Refresh the truth once the outbound body is final (covering Codex chat upstream overrides and transform-layer rewrites)
         if let Some(m) = filtered_body
             .get("model")
