@@ -33,6 +33,15 @@ the file comes back from `upstream/main` as a new product-owned module.
 
 ## This round: upstream sync audit (db41d701..06082e18)
 
+### Product follow-up: privacy protection hooks in the proxy (2026-09-26)
+
+ADR-0049 adds the product-owned `src-tauri/src/proxy/privacy/` module and one call site in each of
+three inherited files: `proxy/mod.rs` (`pub(crate) mod privacy;`), `proxy/forwarder.rs`
+(`super::privacy::mask_request_body(&mut filtered_body);` on the final outbound body) and
+`proxy/server.rs` (the `super::privacy::restore_response` router layer). A per-file
+`git checkout upstream/main -- src-tauri/src/proxy/` leaves `proxy/privacy/` in place but drops
+the three call sites; re-apply them and run the `proxy::privacy` tests.
+
 ### Product follow-up: Claude usage import batching (2026-09-20)
 
 `services/session_usage.rs` delegates persistence to `session_usage/claude_batch.rs`:

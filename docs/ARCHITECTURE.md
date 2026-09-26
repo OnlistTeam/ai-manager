@@ -125,7 +125,8 @@ src-tauri/src/
                            provider_batch_test, model_probe, extension_directory, mcp_*, skill_*,
                            prompt_directory, product_settings, backup_*, import_existing,
                            health_check, app_update, network_proxy, desktop_*, session_directory,
-                           usage_overview, routing_control, openclaw_workspace, reveal
+                           usage_overview, routing_control, privacy_protection,
+                           openclaw_workspace, reveal
   domain/                  tool, provider, provider_endpoint, provider_runtime, model_probe,
                            extension, mcp, prompt, skill, operation, health, import, backup,
                            settings, session, usage, routing, desktop_app, app_update, deep_link,
@@ -139,7 +140,7 @@ src-tauri/src/
                            shell_environment.rs, terminal.rs (+ macos.rs, linux.rs),
                            detached.rs, desktop_app.rs
   infrastructure/          paths.rs (product data dir, app.db), operations.rs (OperationManager),
-                           logging.rs (log limits)
+                           logging.rs (log limits), privacy_key.rs (placeholder key, ADR-0049)
   repositories/            ccswitch_import.rs (read-only intake of a CC Switch database),
                            tool_version_events.rs (product-owned version history table)
   compat/ccswitch/         The facade, one module per inherited engine: tools, install_probe,
@@ -150,7 +151,7 @@ src-tauri/src/
                            provider_endpoints, provider_runtime/ (effective), extension/ (mcp,
                            skill, prompt), skill_catalog, health, import, settings, backup/
                            (transfer, post_restore), backup_schedule, session, usage, routing,
-                           workspace, network_proxy, desktop_preferences, app_update,
+                           workspace, network_proxy, proxy_privacy, desktop_preferences, app_update,
                            tool_version_storage, paths
   (inherited)              app_config.rs, config.rs, *_config.rs, provider.rs, prompt*.rs,
                            settings.rs, store.rs, tray.rs, database/, services/, mcp/, proxy/,
@@ -416,7 +417,9 @@ crate::services::...` outside `compat/ccswitch/`.
   registration, `tauri.conf.json` and `capabilities/`, `Cargo.toml` identity, the provider preset
   catalog (`provider/provider_presets.generated.json`, generated from the inherited
   `src/config/*ProviderPresets.ts` inputs by `pnpm generate:provider-presets` and reviewed under
-  ADR-0016), all of `src/` except the inherited helper directories, and `scripts/`.
+  ADR-0016), all of `src/` except the inherited helper directories, `scripts/`, and the privacy
+  filter in `src-tauri/src/proxy/privacy/` (ADR-0049; its three call sites in `proxy/mod.rs`,
+  `proxy/forwarder.rs` and `proxy/server.rs` must be re-applied after a per-file proxy checkout).
 - Files that track upstream: the inherited backend modules, the preset inputs, and the inherited
   locale namespaces; they are refreshed by cherry-pick or per-file checkout during a sync.
 
@@ -505,6 +508,13 @@ priorities, health summaries, and counts; credentials, request bodies, live back
 paths never cross IPC. The product startup does not activate the inherited cloud sync or usage
 polling services; deep links are handled by the product's own parser (section 6.9), never by the
 inherited one.
+
+Privacy protection (ADR-0049) runs inside the proxy: the product-owned `proxy/privacy/` module
+replaces secrets and personal data in the final outbound body with stable keyed placeholders and a
+router layer restores them in every reply, streamed or not. The product configures it through
+`compat/ccswitch/proxy_privacy.rs` from `application/privacy_protection.rs` (switch in the
+`aimgr.privacyProtection` KV key, install key in `privacy-protection.key` under the product data
+directory); only `{ enabled }` crosses IPC.
 
 ### 6.4 Native supply and restricted networks (ADR-0033)
 
