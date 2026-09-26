@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import {
   useNextHealthyProvider,
   useProviderActivationPreflight,
-} from "@/features/provider-management";
+} from "./useProviderPreflight";
 
 export interface ProviderSwitchFailure {
   providerId: string;
@@ -49,6 +49,14 @@ export function useRecoverableProviderSwitch(
   const recoveringProviderId =
     recovery.isPending && scopedRecoveryVariables
       ? scopedRecoveryVariables.failedProviderId
+      : undefined;
+  // A preflight that found the target silent leaves the tool's connection
+  // exactly as it was; the check result itself lands in the connectivity cache.
+  const unreachableProviderId =
+    activation.isSuccess &&
+    scopedVariables &&
+    activation.data.status === "unreachable"
+      ? scopedVariables.providerId
       : undefined;
   const recoveryUnavailableProviderId =
     recovery.isSuccess &&
@@ -170,6 +178,7 @@ export function useRecoverableProviderSwitch(
     switchingProviderId,
     recoveringProviderId,
     recoveryUnavailableProviderId,
+    unreachableProviderId,
     switchProvider,
     tryNextHealthy,
   };

@@ -46,6 +46,11 @@ export type {
   ProviderActivationPreflightVariables,
   ProviderLaunchPreflightVariables,
 } from "./useProviderPreflight";
+export { useRecoverableProviderSwitch } from "./useRecoverableProviderSwitch";
+export type {
+  ProviderSwitchFailure,
+  RecoverableProviderSwitchOptions,
+} from "./useRecoverableProviderSwitch";
 export { useRemoveProvider } from "./useProviderRemoval";
 export { orderProviders, useReorderProviders } from "./useProviderReorder";
 export type { ReorderProvidersVariables } from "./useProviderReorder";

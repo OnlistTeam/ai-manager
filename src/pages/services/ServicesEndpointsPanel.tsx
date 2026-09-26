@@ -12,6 +12,7 @@ import {
   ProviderTestModal,
   ShellVariableEditModal,
   useProviderConnectionFlow,
+  useRecoverableProviderSwitch,
   useRemoveProvider,
   useShellVariables,
   type ProbeSubject,
@@ -37,7 +38,6 @@ import { ServicesScopePicker } from "./ServicesScopePicker";
 import { ServicesStartAction } from "./ServicesStartAction";
 import { useProviderEditFlow } from "./useProviderEditFlow";
 import { useProviderInventoryRecovery } from "./useProviderInventoryRecovery";
-import { useRecoverableProviderSwitch } from "./useRecoverableProviderSwitch";
 import { useServiceScope } from "./useServiceScope";
 import { useServicesToolRecovery } from "./useServicesToolRecovery";
 

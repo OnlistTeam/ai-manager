@@ -14,6 +14,7 @@ import {
   supportsLightweightProviderFailover,
   useReorderProviders,
   type ProviderCheckFailure,
+  type ProviderSwitchFailure,
 } from "@/features/provider-management";
 import { describeSource } from "./effectiveConnectionCopy";
 import { ExternalConnectionCard } from "./ExternalConnectionCard";
@@ -23,7 +24,6 @@ import {
   providerEffectiveState,
 } from "./providerEffectiveState";
 import { ServicesSortableList } from "./ServicesSortableList";
-import type { ProviderSwitchFailure } from "./useRecoverableProviderSwitch";
 
 interface ServicesProviderGridProps {
   providers: readonly Provider[];
