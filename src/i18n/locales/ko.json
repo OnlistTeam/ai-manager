@@ -2326,12 +2326,6 @@
       "pending": "진행 중",
       "unknownModel": "모델 미지정",
       "noAttempt": "사용 가능한 서비스 없음",
-      "flow": {
-        "routed": "{{name}}: AI Manager 경유",
-        "direct": "{{name}}: 직접 연결",
-        "manager": "AI Manager",
-        "noServices": "서비스 없음"
-      },
       "counts": {
         "requests": "요청",
         "rerouted": "우회",
@@ -2363,6 +2357,30 @@
         "title": "일부 도구는 연결하지 못했습니다. 나머지는 이제 AI Manager를 거칩니다.",
         "noneTitle": "연결된 도구가 없습니다. 모두 직접 연결을 유지합니다.",
         "item": "{{name}}: {{reason}}"
+      },
+      "header": {
+        "title": "라우팅",
+        "live": "실시간",
+        "hideEmails": "이메일 가리기"
+      },
+      "stage": {
+        "label": "요청이 가는 길",
+        "yourTools": "내 도구",
+        "noRequests": "아직 요청이 없습니다",
+        "servicesLabel": "시도 순서대로 나열한 서비스",
+        "waiting": "응답 대기",
+        "resting": "일시 중지",
+        "hub": "AI Manager"
+      },
+      "caption": {
+        "sent": "{{tool}}의 요청을 {{name}}(으)로 보냈습니다…",
+        "choosing": "{{tool}}에서 요청이 왔습니다. 서비스를 고르는 중…",
+        "rerouted": "{{previous}}: {{reason}}. {{name}}(으)로 바꿉니다",
+        "skipped": "{{previous}}이(가) 일시 중지 중이라 {{name}}(으)로 바꿉니다",
+        "passedOver": "{{name}}은(는) 일시 중지 중이라 건너뛰었습니다",
+        "failedTry": "{{name}}: {{reason}}",
+        "answered": "{{name}}이(가) {{duration}} 만에 응답했습니다",
+        "gaveUp": "{{tool}}이(가) 오류를 받았습니다: {{reason}}"
       }
     },
     "privacy": {

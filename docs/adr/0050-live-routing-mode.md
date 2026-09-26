@@ -73,11 +73,21 @@ an error. Recording at those points costs a few lines in the inherited file.
    `domain/routing_trace.rs`. The live-mode orchestration is
    `compat/ccswitch/routing/live_mode.rs`.
 6. **What the renderer shows.** A switch with one line of explanation, and
-   while live routing is on a compact panel: tools → AI Manager → services,
-   the three totals, and the recent requests one line each. Email addresses
-   in any displayed service name are always masked (`a***@example.com`). The
-   Routing page drops the collapsed statistics disclosure, and while tools are
-   routed its stop button, because the panel and the switch cover them.
+   while live routing is on a panel with a live stage: the routed tools on
+   the left, AI Manager in the middle, and on the right the services of the
+   tool that sent the latest request, in its routing order (the failover
+   queue, else the current service), each marked after a try. Every trace
+   change plays as a dot along the wires: tool → AI Manager → the service
+   tried; a failed try returns to AI Manager and goes on to the next service;
+   the answer (or the error the tool gets) travels back to the tool. One
+   plain sentence under the stage narrates the latest step, next to the three
+   totals, and the recent requests stay listed one line each below. Motion
+   is skipped under `prefers-reduced-motion` and while the window is hidden;
+   the stage then only changes state. Email addresses in displayed service
+   names are masked (`a***@example.com`) by default; a header toggle, kept as
+   a view preference in `localStorage`, shows them in full. The Routing page
+   drops the collapsed statistics disclosure, and while tools are routed its
+   stop button, because the panel and the switch cover them.
 
 ## Consequences
 

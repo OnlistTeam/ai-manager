@@ -2326,12 +2326,6 @@
       "pending": "Läuft",
       "unknownModel": "Kein Modell angegeben",
       "noAttempt": "Kein Dienst verfügbar",
-      "flow": {
-        "routed": "{{name}}: über AI Manager",
-        "direct": "{{name}}: direkt",
-        "manager": "AI Manager",
-        "noServices": "Noch kein Dienst"
-      },
       "counts": {
         "requests": "Anfragen",
         "rerouted": "Umgeleitet",
@@ -2363,6 +2357,30 @@
         "title": "Einige Tools konnten nicht umgeleitet werden; die übrigen laufen jetzt über AI Manager.",
         "noneTitle": "Kein Tool konnte umgeleitet werden; alles bleibt direkt verbunden.",
         "item": "{{name}}: {{reason}}"
+      },
+      "header": {
+        "title": "Routing",
+        "live": "Live",
+        "hideEmails": "E-Mails verbergen"
+      },
+      "stage": {
+        "label": "Wohin Anfragen gehen",
+        "yourTools": "Deine Tools",
+        "noRequests": "Noch keine Anfragen",
+        "servicesLabel": "Dienste in der Reihenfolge, in der sie versucht werden",
+        "waiting": "Wartet",
+        "resting": "Pausiert",
+        "hub": "AI Manager"
+      },
+      "caption": {
+        "sent": "{{tool}} hat eine Anfrage an {{name}} gesendet…",
+        "choosing": "{{tool}} hat eine Anfrage gesendet; ein Dienst wird gewählt…",
+        "rerouted": "{{previous}}: {{reason}}. Weiter mit {{name}}",
+        "skipped": "{{previous}} ist pausiert. Weiter mit {{name}}",
+        "passedOver": "{{name}} ist pausiert und wurde übersprungen",
+        "failedTry": "{{name}}: {{reason}}",
+        "answered": "{{name}} hat in {{duration}} geantwortet",
+        "gaveUp": "{{tool}} hat einen Fehler erhalten: {{reason}}"
       }
     },
     "privacy": {

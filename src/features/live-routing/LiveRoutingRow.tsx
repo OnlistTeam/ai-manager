@@ -6,9 +6,15 @@ import { ToolGlyph } from "@/shared/ui/ToolArtwork";
 import { LiveRoutingAttempts } from "./LiveRoutingAttempts";
 import { formatClock, formatDuration } from "./liveRoutingFormat";
 
-/** Shared column template so the header-less list lines up. */
-export const LIVE_ROUTING_ROW_GRID =
-  "grid grid-cols-[4.5rem_minmax(0,8rem)_minmax(0,1fr)_minmax(0,1.6fr)_5.5rem] items-center gap-x-3";
+/**
+ * Shared column templates so the header-less list lines up. Narrow panels
+ * keep the tool's icon and drop the model column, so the services tried
+ * keep their room.
+ */
+const ROW_GRID = {
+  wide: "grid-cols-[4.5rem_minmax(0,8rem)_minmax(0,1fr)_minmax(0,1.6fr)_5.5rem]",
+  compact: "grid-cols-[4rem_1rem_minmax(0,1fr)_4.5rem]",
+};
 
 function Outcome({ entry }: { entry: RoutingTraceEntry }) {
   const { t, i18n } = useTranslation();
@@ -54,18 +60,25 @@ function Outcome({ entry }: { entry: RoutingTraceEntry }) {
 export function LiveRoutingRow({
   entry,
   fresh,
+  hideEmails,
+  compact,
 }: {
   entry: RoutingTraceEntry;
   fresh: boolean;
+  hideEmails: boolean;
+  compact: boolean;
 }) {
   const { t, i18n } = useTranslation();
+  const tool = t(`routing.tool.${entry.tool}`);
+  const model = entry.model ?? t("routing.live.unknownModel");
 
   return (
     <li
       data-trace-seq={entry.seq}
       data-trace-status={entry.status}
       className={cn(
-        LIVE_ROUTING_ROW_GRID,
+        "grid items-center gap-x-3",
+        compact ? ROW_GRID.compact : ROW_GRID.wide,
         "min-h-8 border-b border-hairline px-3 py-1.5 text-caption last:border-b-0",
         fresh && "motion-safe:animate-ds-overlay-in",
       )}
@@ -76,23 +89,31 @@ export function LiveRoutingRow({
       >
         {formatClock(entry.startedAt, i18n.language)}
       </time>
-      <span className="flex min-w-0 items-center gap-1.5 text-content">
-        <ToolGlyph toolId={entry.tool} className="h-3.5 w-3.5 shrink-0" />
-        <span className="truncate">{t(`routing.tool.${entry.tool}`)}</span>
-      </span>
       <span
-        className={cn(
-          "truncate text-content-muted",
-          entry.model !== null && "font-mono",
-        )}
-        title={entry.model ?? undefined}
+        title={compact ? `${tool} · ${model}` : undefined}
+        className="flex min-w-0 items-center gap-1.5 text-content"
       >
-        {entry.model ?? t("routing.live.unknownModel")}
+        <ToolGlyph toolId={entry.tool} className="h-3.5 w-3.5 shrink-0" />
+        <span className={compact ? "sr-only" : "truncate"}>{tool}</span>
       </span>
+      {compact ? null : (
+        <span
+          className={cn(
+            "truncate text-content-muted",
+            entry.model !== null && "font-mono",
+          )}
+          title={entry.model ?? undefined}
+        >
+          {model}
+        </span>
+      )}
       {entry.status === "pending" && entry.attempts.length === 0 ? (
         <span aria-hidden="true" />
       ) : (
-        <LiveRoutingAttempts attempts={entry.attempts} />
+        <LiveRoutingAttempts
+          attempts={entry.attempts}
+          hideEmails={hideEmails}
+        />
       )}
       <Outcome entry={entry} />
     </li>

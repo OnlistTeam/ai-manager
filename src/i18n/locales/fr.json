@@ -2326,12 +2326,6 @@
       "pending": "En cours",
       "unknownModel": "Modèle non précisé",
       "noAttempt": "Aucun service disponible",
-      "flow": {
-        "routed": "{{name}} : via AI Manager",
-        "direct": "{{name}} : direct",
-        "manager": "AI Manager",
-        "noServices": "Aucun service pour l’instant"
-      },
       "counts": {
         "requests": "Requêtes",
         "rerouted": "Redirigées",
@@ -2363,6 +2357,30 @@
         "title": "Certains outils n’ont pas pu être routés ; les autres passent désormais par AI Manager.",
         "noneTitle": "Aucun outil n’a pu être routé ; tout reste en connexion directe.",
         "item": "{{name}} : {{reason}}"
+      },
+      "header": {
+        "title": "Routage",
+        "live": "En direct",
+        "hideEmails": "Masquer les e-mails"
+      },
+      "stage": {
+        "label": "Où vont les requêtes",
+        "yourTools": "Vos outils",
+        "noRequests": "Aucune requête pour l’instant",
+        "servicesLabel": "Services, dans l’ordre où ils sont essayés",
+        "waiting": "En attente",
+        "resting": "En pause",
+        "hub": "AI Manager"
+      },
+      "caption": {
+        "sent": "{{tool}} a envoyé une requête à {{name}}…",
+        "choosing": "{{tool}} a envoyé une requête ; choix d’un service…",
+        "rerouted": "{{previous}} : {{reason}}. Passage à {{name}}",
+        "skipped": "{{previous}} est en pause. Passage à {{name}}",
+        "passedOver": "{{name}} est en pause et a été ignoré",
+        "failedTry": "{{name}} : {{reason}}",
+        "answered": "{{name}} a répondu en {{duration}}",
+        "gaveUp": "{{tool}} a reçu une erreur : {{reason}}"
       }
     },
     "privacy": {

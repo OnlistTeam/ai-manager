@@ -2358,12 +2358,6 @@
       "pending": "Выполняется",
       "unknownModel": "Модель не указана",
       "noAttempt": "Нет доступного сервиса",
-      "flow": {
-        "routed": "{{name}}: через AI Manager",
-        "direct": "{{name}}: напрямую",
-        "manager": "AI Manager",
-        "noServices": "Сервиса пока нет"
-      },
       "counts": {
         "requests": "Запросы",
         "rerouted": "Перенаправлено",
@@ -2395,6 +2389,30 @@
         "title": "Некоторые инструменты не удалось подключить; остальные уже работают через AI Manager.",
         "noneTitle": "Ни один инструмент не удалось подключить; всё остаётся на прямом подключении.",
         "item": "{{name}}: {{reason}}"
+      },
+      "header": {
+        "title": "Маршрутизация",
+        "live": "В реальном времени",
+        "hideEmails": "Скрыть почту"
+      },
+      "stage": {
+        "label": "Куда идут запросы",
+        "yourTools": "Ваши инструменты",
+        "noRequests": "Запросов пока нет",
+        "servicesLabel": "Сервисы в порядке попыток",
+        "waiting": "Ждём ответа",
+        "resting": "На паузе",
+        "hub": "AI Manager"
+      },
+      "caption": {
+        "sent": "Запрос {{tool}} отправлен в {{name}}…",
+        "choosing": "{{tool}} прислал запрос; выбираем сервис…",
+        "rerouted": "{{previous}}: {{reason}}. Пробуем {{name}}",
+        "skipped": "{{previous}} на паузе. Пробуем {{name}}",
+        "passedOver": "{{name}} на паузе и пропущен",
+        "failedTry": "{{name}}: {{reason}}",
+        "answered": "{{name}} ответил за {{duration}}",
+        "gaveUp": "{{tool}} получил ошибку: {{reason}}"
       }
     },
     "privacy": {

@@ -5,10 +5,15 @@ const EMAIL =
 
 /**
  * Services are often named after the account they sign in with. The live
- * panel always shows such names as `a***@example.com`.
+ * panel shows such names as `a***@example.com` unless the user turns the
+ * masking off.
  */
 export function maskEmails(text: string): string {
   return text.replace(EMAIL, "$1***@$2");
+}
+
+export function serviceLabel(name: string, hideEmails: boolean): string {
+  return hideEmails ? maskEmails(name) : name;
 }
 
 export function formatDuration(ms: number, language: string): string {
@@ -34,14 +39,6 @@ export function formatClock(epochMs: number, language: string): string {
     second: "2-digit",
     hour12: false,
   }).format(epochMs);
-}
-
-/** Current services of the tools that go through AI Manager, masked and unique. */
-export function routedServiceNames(overview: RoutingOverview): string[] {
-  const names = overview.targets
-    .filter((target) => target.takeoverEnabled && target.currentProvider)
-    .map((target) => maskEmails(target.currentProvider?.name ?? ""));
-  return [...new Set(names)].filter((name) => name.length > 0);
 }
 
 /** Tools live routing would take over: the ones with a current service. */

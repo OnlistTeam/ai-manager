@@ -2326,12 +2326,6 @@
       "pending": "Đang xử lý",
       "unknownModel": "Không ghi mô hình",
       "noAttempt": "Không có dịch vụ khả dụng",
-      "flow": {
-        "routed": "{{name}}: qua AI Manager",
-        "direct": "{{name}}: trực tiếp",
-        "manager": "AI Manager",
-        "noServices": "Chưa có dịch vụ"
-      },
       "counts": {
         "requests": "Yêu cầu",
         "rerouted": "Chuyển hướng",
@@ -2363,6 +2357,30 @@
         "title": "Một số công cụ không định tuyến được; các công cụ còn lại giờ đi qua AI Manager.",
         "noneTitle": "Không công cụ nào định tuyến được; mọi thứ vẫn kết nối trực tiếp.",
         "item": "{{name}}: {{reason}}"
+      },
+      "header": {
+        "title": "Định tuyến",
+        "live": "Trực tiếp",
+        "hideEmails": "Ẩn email"
+      },
+      "stage": {
+        "label": "Yêu cầu đi đâu",
+        "yourTools": "Công cụ của bạn",
+        "noRequests": "Chưa có yêu cầu nào",
+        "servicesLabel": "Dịch vụ, theo thứ tự thử",
+        "waiting": "Đang chờ",
+        "resting": "Tạm dừng",
+        "hub": "AI Manager"
+      },
+      "caption": {
+        "sent": "Yêu cầu của {{tool}} đã gửi tới {{name}}…",
+        "choosing": "{{tool}} gửi một yêu cầu; đang chọn dịch vụ…",
+        "rerouted": "{{previous}}: {{reason}}. Chuyển sang {{name}}",
+        "skipped": "{{previous}} đang tạm dừng. Chuyển sang {{name}}",
+        "passedOver": "{{name}} đang tạm dừng nên bị bỏ qua",
+        "failedTry": "{{name}}: {{reason}}",
+        "answered": "{{name}} đã trả lời trong {{duration}}",
+        "gaveUp": "{{tool}} nhận lỗi: {{reason}}"
       }
     },
     "privacy": {
