@@ -1048,13 +1048,16 @@ Technical terms appear together only when the user expands the corresponding det
 
 # 26. Home Page Design
 
-The home page is the most important page of the product.
+The home page is the most important page of the product. It answers the
+user's first question — "what is each of my AI tools connected to right
+now?" — and shows what needs attention, on one screen (ADR-0051).
 
-Overall visual goal:
+Overall goal:
 
-**Refined, light, modern, trustworthy, safe.**
+**Show a lot on one screen, but keep it simple.**
 
-It should not look like:
+Compact rows instead of big cards and large whitespace. Refined, light,
+trustworthy; it should look like a mature commercial macOS App, not like:
 
 ```text
 A GitHub tool
@@ -1063,35 +1066,22 @@ An IDE
 A traditional back-office admin system
 ```
 
-It should look like a mature commercial macOS App.
+There is no spatial model, orb, or hero on Home.
 
 ---
 
 # 27. Home Page Layout
 
-Top welcome area:
+Top to bottom:
 
 ```text
-Good afternoon
-
-Your AI coding setup is ready.
+Status line          one row: verdict, last checked, Recheck, next step
+(Live routing slot)  reserved; the live routing switch and panel mount here
+Findings             only when something has a next step
+My tools             one row per installed tool that can use an endpoint
 ```
 
-Chinese version (glossed):
-
-```text
-Good afternoon
-
-Your AI coding environment is running normally
-```
-
-A large visual status card sits in the center.
-
-Not a mechanical dashboard.
-
-Use a soft animated Orb or circular status visual.
-
-There are only three status levels:
+The status line uses only three levels:
 
 ```text
 Ready
@@ -1107,57 +1097,67 @@ Needs Attention
 Needs Handling
 ```
 
-Do not manufacture pseudo-precise health scores such as 83 or 92 points during the MVP phase.
+Do not manufacture pseudo-precise health scores such as 83 or 92 points.
 
 ---
 
-# 28. Home Page Core Card
+# 28. Status Line and Findings
 
-For example:
-
-```text
-AI Environment
-
-Ready
-
-3 tools installed
-2 services connected
-8 extensions active
-```
-
-When there are problems:
+The status line is one row: the status icon and one sentence, the last-checked
+time, a Recheck button, and the primary action.
 
 ```text
-2 items need attention
+⚠ 2 items need attention · 1 update available · Last checked 10:42   [Recheck] [Open Software →]
+✓ Everything is up to date · Last checked 10:42                        [Recheck] [Start with Claude Code]
 ```
 
-Button:
+- Sentence: all good / N items need attention / no tools installed yet.
+- Primary action: the recommended next step, "Start <tool>" when ready, or
+  "Install AI Tool" when nothing is installed.
+- The same line carries the checking state, "checking endpoint connections",
+  a connection check that could not start, and the initial "could not check"
+  error with its retry. A failed refresh keeps the last result under a notice.
 
-```text
-Review
-```
+Findings list each problem as one row with its own action, most urgent first,
+and appear only when there is at least one. A finding that a tool row already
+shows (an available update, a tool with no endpoint) is left to that row.
 
 ---
 
-# 29. Quick Actions
+# 29. My Tools and Small Actions
 
-The home page provides:
-
-```text
-Install AI Tool
-Update All
-Connect AI Service
-Check Setup
-```
-
-Chinese version (glossed):
+One compact row per installed tool whose capabilities allow endpoint
+management; tools that are not installed are not listed.
 
 ```text
-Install AI Tool
-Update All
-Connect AI Service
-Check Environment
+[icon] Claude Code   Official sign-in                 [Switch to… ▾]      ›
+[icon] Codex         Team Relay  gpt-5-codex          [Switch to… ▾]      ›
+[icon] Gemini CLI    Official sign-in                           [Update]  ›
+[icon] OpenCode      2 endpoints added  Model chosen in OpenCode          ›
 ```
+
+- Connection: the saved endpoint selected for the tool; "Official sign-in"
+  when the official entry or the tool's own login is in effect; "Not
+  connected" (with a Connect button) when a tool that needs an endpoint has
+  none; for tools that pick the model themselves, the number of endpoints
+  added. The model is shown when the selected endpoint pins exactly one.
+- Home reads only the saved inventory, never the terminal environment
+  (ADR-0035, ADR-0039). The API Endpoints page carries the precise answer.
+- The dropdown switches through the same flow as the API Endpoints page,
+  including the reopen hint and its recovery state. A target that does not
+  respond changes nothing and says so.
+- The row (and its chevron) opens API Endpoints for that tool.
+- An available update is a small Update button on the row, using the same
+  update review as Update All.
+
+Small actions in the list header:
+
+```text
+Update All        only while some installed tool has an update
+Install AI Tool   always
+```
+
+There are no quick-action cards.
 
 ---
 
