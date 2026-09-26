@@ -115,7 +115,7 @@ export function Modal({
             // Border colour, background and shadow come from
             // `.app-floating-surface`; the padding here sets the corner that
             // matches it.
-            "flex max-h-[calc(100vh-2rem)] flex-col overflow-hidden rounded-2xl border p-5",
+            "flex max-h-[calc(100vh-2rem)] flex-col overflow-hidden rounded-xl border p-4",
             "animate-ds-dialog-in",
             SIZE[size],
           )}
@@ -130,11 +130,11 @@ export function Modal({
             )}
           >
             <div className="min-w-0">
-              <DialogPrimitive.Title className="break-words text-title text-content">
+              <DialogPrimitive.Title className="break-words text-heading text-content">
                 {title}
               </DialogPrimitive.Title>
               {description ? (
-                <DialogPrimitive.Description className="mt-1 text-body text-content-muted">
+                <DialogPrimitive.Description className="mt-0.5 text-body text-content-muted">
                   {description}
                 </DialogPrimitive.Description>
               ) : null}
@@ -159,7 +159,7 @@ export function Modal({
             </div>
           ) : null}
           {footer ? (
-            <div className="app-modal-footer mt-4 flex shrink-0 items-center justify-end gap-2">
+            <div className="app-modal-footer mt-3 flex shrink-0 items-center justify-end gap-2">
               {footer}
             </div>
           ) : null}

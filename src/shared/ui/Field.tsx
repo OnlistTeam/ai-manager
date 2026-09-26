@@ -43,7 +43,7 @@ export function Field({
     .filter(Boolean)
     .join(" ");
   return (
-    <div className={cn("flex flex-col gap-1.5", className)}>
+    <div className={cn("flex flex-col gap-1", className)}>
       {labelAction ? (
         <div className="flex items-center justify-between gap-3">
           <label htmlFor={id} className="text-caption text-content">

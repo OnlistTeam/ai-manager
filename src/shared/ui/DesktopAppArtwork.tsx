@@ -50,7 +50,7 @@ export function DesktopAppArtwork({
       aria-hidden="true"
       data-desktop-app-artwork={appId}
       className={cn(
-        "relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-hairline bg-layer-1 shadow-sm",
+        "relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-hairline bg-layer-1 shadow-sm",
         className,
       )}
     >

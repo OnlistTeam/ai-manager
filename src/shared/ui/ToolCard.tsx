@@ -214,14 +214,14 @@ export function ToolCard({
         className,
       )}
     >
-      <div className="relative flex min-w-0 flex-col gap-4 lg:flex-row lg:items-center">
+      <div className="relative flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center">
         <div className="flex min-w-0 flex-1 items-start gap-3">
           {icon ? (
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-hairline bg-layer-1">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-hairline bg-layer-1">
               {icon}
             </span>
           ) : (
-            <ToolArtwork toolId={tool.id} className="h-11 w-11 rounded-lg" />
+            <ToolArtwork toolId={tool.id} className="h-9 w-9 rounded-lg" />
           )}
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
@@ -249,7 +249,7 @@ export function ToolCard({
                 />
               ) : null}
             </div>
-            <p className="mt-1 text-caption leading-5 text-content-muted">
+            <p className="mt-0.5 text-caption text-content-muted">
               {t(tool.descriptionKey)}
             </p>
           </div>
@@ -331,7 +331,7 @@ export function ToolCard({
            * user has not installed yet is the one whose button sticks out 44px
            * further right than every other row.
            */}
-          <div className="flex w-9 shrink-0 items-center justify-end">
+          <div className="flex w-8 shrink-0 items-center justify-end">
             {!hasActiveTask && (showVersion || showRemove) ? (
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
@@ -339,7 +339,7 @@ export function ToolCard({
                     variant="ghost"
                     size="sm"
                     disabled={busy}
-                    className="w-9 px-0"
+                    className="w-8 px-0"
                     aria-label={t("tools.actions.moreNamed", {
                       name: tool.name,
                     })}

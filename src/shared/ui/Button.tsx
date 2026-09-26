@@ -6,7 +6,7 @@ import { FOCUS_RING } from "./focusRing";
 
 const buttonVariants = cva(
   cn(
-    "ds-button inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-medium",
+    "ds-button inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium",
     "transition-[transform,box-shadow,border-color,background-color,color] duration-fast ease-standard",
     "disabled:pointer-events-none disabled:opacity-50",
     FOCUS_RING,
@@ -25,8 +25,8 @@ const buttonVariants = cva(
       },
       size: {
         xs: "h-7 px-2.5 text-caption gap-1.5",
-        sm: "h-9 px-3.5 text-caption",
-        md: "h-10 px-4 text-body",
+        sm: "h-8 px-3 text-caption gap-1.5",
+        md: "h-9 px-3.5 text-body",
         lg: "h-12 px-6 text-body",
       },
     },

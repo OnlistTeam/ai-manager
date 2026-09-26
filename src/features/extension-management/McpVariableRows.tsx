@@ -95,7 +95,7 @@ export function McpVariableRows({
           <Button
             variant="ghost"
             size="sm"
-            className="h-10 px-2.5"
+            className="h-9 px-2.5"
             disabled={disabled}
             aria-label={t("extensions.mcp.install.variable.remove")}
             onClick={() => remove(row.id)}

@@ -69,8 +69,8 @@ export function DesktopAppCard({
       aria-labelledby={titleId}
       className="overflow-hidden p-0 transition-colors duration-fast ease-standard focus-within:bg-layer-1"
     >
-      <div className="p-4">
-        <div className="flex min-w-0 flex-col gap-4 lg:flex-row lg:items-center">
+      <div className="px-4 py-3">
+        <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center">
           <div className="flex min-w-0 flex-1 items-start gap-3">
             <DesktopAppArtwork appId={app.id} className="bg-layer-1" />
             <div className="min-w-0 flex-1">
@@ -94,10 +94,10 @@ export function DesktopAppCard({
                   </span>
                 ) : null}
               </div>
-              <p className="mt-1 text-caption leading-5 text-content-muted">
+              <p className="mt-0.5 text-caption text-content-muted">
                 {t(`tools.desktopApps.items.${app.id}.description`)}
               </p>
-              <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-caption text-content-muted">
+              <div className="mt-0.5 flex flex-wrap gap-x-4 gap-y-1 text-caption text-content-muted">
                 <span>
                   {app.status === "updateAvailable" && app.latestVersion
                     ? t("tools.desktopApps.details.officialUpdateAvailable", {

@@ -49,7 +49,7 @@ export function LanguageCard() {
               );
               if (next) void setAppLanguage(next);
             }}
-            className="h-10 w-full appearance-none rounded-lg border border-hairline bg-layer-1 pl-3 pr-9 text-body text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            className="h-9 w-full appearance-none rounded-lg border border-hairline bg-layer-1 pl-3 pr-9 text-body text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
           >
             {APP_LANGUAGES.map((value) => (
               <option key={value} value={value}>
@@ -58,7 +58,7 @@ export function LanguageCard() {
             ))}
           </select>
           <ChevronDown
-            className="pointer-events-none absolute right-3 top-3 h-4 w-4 text-content-muted"
+            className="pointer-events-none absolute right-3 top-2.5 h-4 w-4 text-content-muted"
             aria-hidden="true"
           />
         </div>

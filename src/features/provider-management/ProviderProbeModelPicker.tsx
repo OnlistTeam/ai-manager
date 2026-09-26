@@ -8,7 +8,7 @@ import { Field } from "@/shared/ui/Field";
 import { Input } from "@/shared/ui/Input";
 
 const SELECT_CLASS =
-  "h-10 w-full appearance-none rounded-lg border border-hairline bg-layer-1 pl-3 pr-9 font-mono text-body text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-60";
+  "h-9 w-full appearance-none rounded-lg border border-hairline bg-layer-1 pl-3 pr-9 font-mono text-body text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-60";
 
 interface ProviderProbeModelPickerProps {
   catalog: ModelCatalog | undefined;
@@ -56,7 +56,7 @@ export function ProviderProbeModelPicker({
           role="status"
           aria-live="polite"
           aria-busy="true"
-          className="flex h-10 items-center gap-2 rounded-lg border border-hairline bg-layer-1 px-3 text-body text-content-muted"
+          className="flex h-9 items-center gap-2 rounded-lg border border-hairline bg-layer-1 px-3 text-body text-content-muted"
         >
           <Loader2
             className="h-3.5 w-3.5 shrink-0 motion-safe:animate-spin"
@@ -108,7 +108,7 @@ export function ProviderProbeModelPicker({
                 ))}
               </select>
               <ChevronDown
-                className="pointer-events-none absolute right-3 top-3 h-4 w-4 text-content-muted"
+                className="pointer-events-none absolute right-3 top-2.5 h-4 w-4 text-content-muted"
                 aria-hidden="true"
               />
             </div>

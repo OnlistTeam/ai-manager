@@ -244,10 +244,13 @@ export function AppShell() {
            * gives every route's leading/trailing control room for its
            * keyboard focus ring via its own 4px padding (src/index.css),
            * so 4px of this padding moved there; the total inset from the
-           * window edge is unchanged. */}
+           * window edge is unchanged.
+           * The top inset only clears the status bar's single control row
+           * (32px controls, under the traffic-light strip on macOS) plus a
+           * 12px gap; anything more is an empty band above every page. */}
           <div
-            className={`app-scroll-content mx-auto min-w-0 w-full max-w-[1400px] overflow-x-hidden px-5 pb-10 lg:px-7 lg:pb-12 ${
-              mac ? "pt-[88px] lg:pt-[92px]" : "pt-[72px] lg:pt-[76px]"
+            className={`app-scroll-content mx-auto min-w-0 w-full max-w-[1400px] overflow-x-hidden px-5 pb-8 lg:px-7 ${
+              mac ? "pt-[72px]" : "pt-[60px]"
             }`}
           >
             <RouteContentTransition

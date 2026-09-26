@@ -129,7 +129,7 @@ export function DesktopAppActions({
                 name: app.name,
               })}
               disabled={busy}
-              className="-ml-px w-10 rounded-l-none px-0"
+              className="-ml-px w-9 rounded-l-none px-0"
             >
               <ChevronDown className="h-4 w-4" aria-hidden="true" />
             </Button>

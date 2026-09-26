@@ -3,15 +3,18 @@ import { describe, expect, it } from "vitest";
 import { SectionHeader } from "@/shared/ui/SectionHeader";
 
 describe("SectionHeader", () => {
-  it("renders a level 2 heading by default", () => {
+  it("renders a level 2 heading at the section size by default", () => {
     render(<SectionHeader title="AI Tools" />);
     const heading = screen.getByRole("heading", { level: 2, name: "AI Tools" });
-    expect(heading.className).toContain("text-title");
+    expect(heading).toHaveClass("text-heading");
+    expect(heading).not.toHaveClass("text-title");
   });
 
-  it("accepts another heading level so pages keep a valid outline", () => {
+  it("gives only the page title the title size", () => {
     render(<SectionHeader as="h1" title="Home" />);
-    expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
+    const heading = screen.getByRole("heading", { level: 1 });
+    expect(heading).toHaveClass("text-title");
+    expect(heading).not.toHaveClass("text-heading");
   });
 
   it("renders an optional description and action slot", () => {

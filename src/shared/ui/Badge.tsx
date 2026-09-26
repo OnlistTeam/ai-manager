@@ -10,7 +10,7 @@ export type BadgeTone = "neutral" | "brand" | "success" | "warning" | "danger";
  * text, so the hue is carried by the tint and the icon only (spec §98).
  */
 const badgeVariants = cva(
-  "inline-flex h-6 shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2 text-caption font-medium text-content",
+  "inline-flex h-5 shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2 text-caption font-medium text-content",
   {
     variants: {
       tone: {

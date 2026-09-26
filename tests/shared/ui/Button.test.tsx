@@ -11,7 +11,7 @@ describe("Button", () => {
     expect(button).toHaveAttribute("type", "button");
     expect(button).toHaveAttribute("data-variant", "primary");
     expect(button).toHaveAttribute("data-size", "md");
-    expect(button).toHaveClass("ds-button", "h-10", "rounded-lg");
+    expect(button).toHaveClass("ds-button", "h-9", "rounded-full");
     expect(button.className).toContain("bg-brand");
     expect(button.className).toContain("text-brand-foreground");
   });

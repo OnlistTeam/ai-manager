@@ -956,8 +956,7 @@ describe("AppShell macOS integrated Overlay titlebar", () => {
     );
     expect(viewport).not.toHaveClass("scrollbar-subtle");
     expect(container.querySelector(".app-scroll-content")).toHaveClass(
-      "pt-[88px]",
-      "lg:pt-[92px]",
+      "pt-[72px]",
     );
     expect(screen.getByRole("button", { name: "Home" })).toBeInTheDocument();
   });

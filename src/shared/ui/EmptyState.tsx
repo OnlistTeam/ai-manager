@@ -19,13 +19,13 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center gap-3 px-6 py-12 text-center",
+        "flex flex-col items-center justify-center gap-2 px-4 py-8 text-center",
         className,
       )}
     >
       {Icon ? (
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-layer-1">
-          <Icon className="h-6 w-6 text-content-muted" aria-hidden="true" />
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-layer-1">
+          <Icon className="h-5 w-5 text-content-muted" aria-hidden="true" />
         </span>
       ) : null}
       <h3 className="text-heading text-content">{title}</h3>

@@ -204,7 +204,7 @@ export function ProviderPresetPicker({
             aria-expanded={open}
             disabled={disabled}
             className={cn(
-              "flex min-h-10 w-full items-center justify-between gap-3 rounded-lg border border-hairline bg-layer-1 px-3 text-left text-body text-content shadow-sm transition-colors hover:border-brand/35 disabled:cursor-not-allowed disabled:opacity-50",
+              "flex min-h-9 w-full items-center justify-between gap-3 rounded-lg border border-hairline bg-layer-1 px-3 text-left text-body text-content shadow-sm transition-colors hover:border-brand/35 disabled:cursor-not-allowed disabled:opacity-50",
               FOCUS_RING,
             )}
           >
