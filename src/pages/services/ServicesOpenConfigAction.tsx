@@ -41,6 +41,7 @@ export function ServicesOpenConfigAction({
   return (
     <Button
       variant="ghost"
+      size="sm"
       disabled={actionsBlocked}
       loading={openResource.isPending}
       onClick={() => {

@@ -101,6 +101,7 @@ function RemoveAction({
   const button = (
     <Button
       variant="ghost"
+      size="sm"
       disabled={blocked || hint !== null}
       aria-describedby={hint ? hintId : undefined}
       aria-label={t("services.action.removeNamed", { name })}
@@ -201,14 +202,13 @@ export function ProviderCard({
     <ServiceCard
       name={provider.name}
       icon={
-        <ServiceArtwork provider={provider} className="h-10 w-10 rounded-lg" />
+        <ServiceArtwork provider={provider} className="h-9 w-9 rounded-lg" />
       }
       usedBy={effectiveState === "inUse" ? [toolName] : []}
       connected
       active={effectiveState === "inUse"}
       useAvailable={!(provider.active && effectiveState === "inUse")}
       activeLabelKey="services.card.inUse"
-      notUsedLabelKey={`services.card.${effectiveState === "overridden" ? "saved" : effectiveState}`}
       useLabelKey={provider.additive ? "ds.action.configure" : undefined}
       busy={cardBusy}
       actionDisabled={busy}
@@ -216,7 +216,6 @@ export function ProviderCard({
       useAriaLabel={useAriaLabel}
       onUse={onUse}
       dragHandle={dragHandle}
-      compact
       className={
         switchError || testError ? "border-danger/30 shadow-sm" : undefined
       }
@@ -241,49 +240,50 @@ export function ProviderCard({
         </>
       }
       detail={
-        <div className="flex flex-col gap-2.5">
-          {provider.baseUrl ? (
-            <p className="flex min-w-0 items-start gap-2 text-content-muted">
-              <Globe2
-                className="mt-0.5 h-4 w-4 shrink-0 text-brand"
+        <div className="flex flex-col gap-1">
+          {/* Address and key share one line while there is room for both. */}
+          <div className="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-0.5">
+            {provider.baseUrl ? (
+              <p className="flex min-w-0 max-w-full items-center gap-1.5 text-content-muted">
+                <Globe2
+                  className="h-3.5 w-3.5 shrink-0 text-brand"
+                  aria-hidden="true"
+                />
+                <span className="min-w-0">
+                  <span className="sr-only">
+                    {t("services.card.savedEndpoint")}
+                  </span>
+                  <span className="block break-all font-mono text-mono-sm text-content">
+                    {provider.baseUrl}
+                  </span>
+                </span>
+                <CopyButton
+                  value={provider.baseUrl}
+                  label={t("services.card.savedEndpoint")}
+                />
+              </p>
+            ) : null}
+            <p className="flex min-w-0 max-w-full items-center gap-1.5 text-caption text-content-muted">
+              <KeyIcon
+                className={`h-3.5 w-3.5 shrink-0 ${keyPresentation.iconClassName}`}
                 aria-hidden="true"
               />
-              <span className="min-w-0 flex-1">
-                <span className="sr-only">
-                  {t("services.card.savedEndpoint")}
-                </span>
-                <span className="block break-all font-mono text-mono-sm text-content">
-                  {provider.baseUrl}
-                </span>
+              <span
+                className={`min-w-0 break-all ${keyPresentation.textClassName}`}
+              >
+                {keyPresentation.text}
               </span>
-              <CopyButton
-                value={provider.baseUrl}
-                label={t("services.card.savedEndpoint")}
-                className="-my-1"
-              />
+              {keyPresentation.copyValue ? (
+                <CopyButton
+                  value={keyPresentation.copyValue}
+                  label={t("services.form.key")}
+                />
+              ) : null}
             </p>
-          ) : null}
+          </div>
           {sourceNote ? (
             <p className="text-caption text-content-muted">{sourceNote}</p>
           ) : null}
-          <p className="flex min-w-0 items-start gap-2 text-content-muted">
-            <KeyIcon
-              className={`mt-0.5 h-4 w-4 shrink-0 ${keyPresentation.iconClassName}`}
-              aria-hidden="true"
-            />
-            <span
-              className={`min-w-0 flex-1 break-all ${keyPresentation.textClassName}`}
-            >
-              {keyPresentation.text}
-            </span>
-            {keyPresentation.copyValue ? (
-              <CopyButton
-                value={keyPresentation.copyValue}
-                label={t("services.form.key")}
-                className="-my-1"
-              />
-            ) : null}
-          </p>
           {credentialNote ? (
             <p className="text-caption text-content-muted">{credentialNote}</p>
           ) : null}
@@ -319,6 +319,7 @@ export function ProviderCard({
           {provider.testable ? (
             <Button
               variant={testError ? "secondary" : "ghost"}
+              size="sm"
               disabled={actionsBlocked}
               loading={testing}
               aria-label={testAriaLabel}
@@ -336,6 +337,7 @@ export function ProviderCard({
           ) : null}
           <Button
             variant="ghost"
+            size="sm"
             disabled={actionsBlocked}
             aria-label={t("services.action.editNamed", {
               name: provider.name,

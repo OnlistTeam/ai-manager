@@ -14,29 +14,33 @@ describe("ServiceCard", () => {
       />,
     );
     expect(screen.getByText("Claude")).toBeInTheDocument();
-    expect(screen.getByText("ds.service.currentlyUsedBy")).toBeInTheDocument();
-    expect(screen.getByText("Claude Code, OpenCode")).toBeInTheDocument();
+    // The in-use badge and accent bar carry it on screen; the tool names are
+    // for screen readers only, so a list row stays one line tall.
+    expect(screen.getByText("Claude Code, OpenCode")).toHaveClass("sr-only");
     expect(screen.getByRole("article", { name: "Claude" })).toBeInTheDocument();
   });
 
-  it("emphasizes nested keyboard actions without making the whole card look clickable", () => {
+  it("is a list row that marks keyboard focus without looking clickable", () => {
     render(<ServiceCard name="Claude" connected usedBy={[]} onUse={vi.fn()} />);
     const card = screen.getByRole("article", { name: "Claude" });
-    expect(card).toHaveClass("min-w-0");
     expect(card).toHaveClass(
-      "focus-within:border-brand/25",
-      "focus-within:shadow-md",
+      "ds-list-row",
+      "min-w-0",
+      "focus-within:bg-layer-1",
     );
+    expect(card).not.toHaveClass("ds-card");
     expect(card).not.toHaveClass("hover:-translate-y-0.5");
     expect(card).not.toHaveClass("hover:border-brand/25");
     expect(card).not.toHaveClass("hover:shadow-md");
   });
 
-  it("falls back to a not-in-use line when nothing uses it", () => {
+  it("adds no relationship copy when nothing uses it", () => {
     render(
       <ServiceCard name="OpenRouter" connected usedBy={[]} onUse={vi.fn()} />,
     );
-    expect(screen.getByText("ds.service.notUsed")).toBeInTheDocument();
+    const row = screen.getByRole("article", { name: "OpenRouter" });
+    expect(row.querySelector(".sr-only")).toBeNull();
+    expect(screen.queryByText("ds.service.notUsed")).toBeNull();
   });
 
   it("offers Use when connected but not active", async () => {

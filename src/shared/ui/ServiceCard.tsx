@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "./cn";
 import { Badge } from "./Badge";
 import { Button } from "./Button";
-import { Card } from "./Card";
+import { ListGroupRow } from "./ListGroup";
 
 export type ServiceCardUseActionState = "idle" | "pending" | "retry";
 
@@ -19,8 +19,6 @@ export interface ServiceCardProps {
   /** Whether the Use action should show even though the card is not the active badge holder. Defaults to `!active`; a card can be in effect without holding the DB selection, so callers may need to offer Use regardless of `active`. */
   useAvailable?: boolean;
   activeLabelKey?: string;
-  usedByLabelKey?: string;
-  notUsedLabelKey?: string;
   useLabelKey?: "ds.action.use" | "ds.action.configure";
   unavailableLabelKey?: "ds.action.inUse" | "ds.action.readOnly";
   busy?: boolean;
@@ -34,10 +32,8 @@ export interface ServiceCardProps {
   detail?: React.ReactNode;
   /** Extra controls after the primary button, e.g. Check and Edit. */
   actions?: React.ReactNode;
-  /** Optional control at the header's trailing edge, e.g. a reorder handle. */
+  /** Optional control at the row's trailing edge, e.g. a reorder handle. */
   dragHandle?: React.ReactNode;
-  /** Removes repeated relationship copy for dense endpoint inventories. */
-  compact?: boolean;
   onUse?: () => void;
   onConnect?: () => void;
   useAriaLabel?: string;
@@ -96,6 +92,12 @@ function UseActionLabel({
   );
 }
 
+/**
+ * One saved service as a row of a `ListGroup` (ADR-0052): identity, badges and
+ * actions on the first line, the endpoint detail underneath. The tools that
+ * point at it are announced to screen readers only; the "in use" badge and the
+ * accent bar already say it on screen.
+ */
 export function ServiceCard({
   name,
   icon,
@@ -104,8 +106,6 @@ export function ServiceCard({
   active = false,
   useAvailable,
   activeLabelKey = "ds.service.nowActive",
-  usedByLabelKey = "ds.service.currentlyUsedBy",
-  notUsedLabelKey = "ds.service.notUsed",
   useLabelKey = "ds.action.use",
   unavailableLabelKey = "ds.action.inUse",
   busy = false,
@@ -115,7 +115,6 @@ export function ServiceCard({
   detail,
   actions,
   dragHandle,
-  compact = false,
   onUse,
   onConnect,
   useAriaLabel,
@@ -131,152 +130,102 @@ export function ServiceCard({
       : useIsAvailable
         ? useLabelKey
         : unavailableLabelKey;
-  // The button's position never shifts with state: when unusable it grays out
-  // and says "In Use" instead of disappearing entirely and dragging the row of
-  // buttons after it to the left.
-  const showUseAction = connected;
-  const showFooter =
-    !connected ||
-    showUseAction ||
-    Boolean(actions) ||
-    useActionState !== "idle";
 
   return (
-    <Card
-      padding="none"
+    <ListGroupRow
       role="article"
       aria-labelledby={headingId}
       aria-busy={busy || undefined}
       data-state={active ? "in-use" : undefined}
       className={cn(
-        "group relative isolate flex min-w-0 flex-col overflow-hidden rounded-xl border-hairline",
-        "transition-[border-color,box-shadow] duration-fast ease-standard focus-within:border-brand/25 focus-within:shadow-md",
+        "group isolate grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1.5",
+        "transition-colors duration-fast ease-standard focus-within:bg-layer-1",
         className,
       )}
     >
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-10 -top-12 h-36 w-36 rounded-full bg-brand/5 blur-2xl"
-      />
-
-      {/* Which one is in use is already stated by the badge in the card header;
-          this corner mark just makes it pop first when scanning down a whole
-          column of cards, so it's decorative — excluded from the a11y tree
-          and not rendered as a solid fill. */}
+      {/* Which one is in use is already stated by the badge; the bar only
+          makes it the first thing the eye finds scanning down the list, so it
+          is decorative and stays out of the a11y tree. */}
       {active ? (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-0 z-10 flex h-6 w-6 items-center justify-center rounded-br-xl rounded-tl-xl bg-success/25 text-success"
-        >
-          <Check className="h-3.5 w-3.5" strokeWidth={3} />
-        </span>
+          className="pointer-events-none absolute inset-y-2 left-0 w-0.5 rounded-full bg-success"
+        />
       ) : null}
 
-      <div
-        className={cn(
-          "relative flex items-start gap-4 p-5 pb-4",
-          compact && "gap-3 p-4",
-        )}
-      >
+      <div className="row-span-2">
         {icon ?? (
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-hairline bg-layer-1 text-content-muted shadow-sm">
-            <Waypoints className="h-5 w-5" aria-hidden="true" />
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-hairline bg-layer-1 text-content-muted">
+            <Waypoints className="h-4 w-4" aria-hidden="true" />
           </span>
         )}
-        <div className="min-w-0 flex-1">
-          {meta || active ? (
-            <div className="flex flex-wrap items-center gap-2">
-              {meta}
-              {active ? (
-                <Badge tone="success" className="shrink-0">
-                  {t(activeLabelKey)}
-                </Badge>
-              ) : null}
-            </div>
-          ) : null}
-          <h3
-            id={headingId}
-            className={cn(
-              "break-words text-heading text-content",
-              (meta || active) && (compact ? "mt-1.5" : "mt-2"),
-            )}
+      </div>
+      <div className="flex min-h-9 min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+        <h3
+          id={headingId}
+          className="break-words text-body font-medium text-content"
+        >
+          {name}
+        </h3>
+        {meta}
+        {active ? (
+          <Badge tone="success" className="shrink-0">
+            {t(activeLabelKey)}
+          </Badge>
+        ) : null}
+        {usedBy.length > 0 ? (
+          <span className="sr-only">{usedBy.join(", ")}</span>
+        ) : null}
+      </div>
+      <div className="flex shrink-0 flex-wrap items-center justify-end gap-1">
+        {/* The primary button never disappears: when unusable it greys out
+            and says "In use", so the actions after it keep their place and
+            every row in the list lines up. */}
+        {!connected ? (
+          <Button
+            size="sm"
+            aria-label={connectAriaLabel}
+            disabled={busy || actionDisabled}
+            onClick={onConnect}
           >
-            {name}
-          </h3>
-          {compact && usedBy.length > 0 ? (
-            <span className="sr-only">{usedBy.join(", ")}</span>
-          ) : null}
-          {!compact ? (
-            usedBy.length > 0 ? (
-              <div className="mt-3 rounded-lg border border-hairline bg-layer-1 px-3 py-2">
-                <p className="text-caption text-content-muted">
-                  {t(usedByLabelKey)}
-                </p>
-                <p className="mt-0.5 text-body font-medium text-content">
-                  {usedBy.join(", ")}
-                </p>
-              </div>
+            <PlugZap className="h-4 w-4" aria-hidden="true" />
+            {t("ds.action.connect")}
+          </Button>
+        ) : (
+          <Button
+            variant="secondary"
+            size="sm"
+            aria-label={
+              useIsAvailable || useActionState !== "idle"
+                ? useAriaLabel
+                : undefined
+            }
+            disabled={
+              busy ||
+              actionDisabled ||
+              (!useIsAvailable && useActionState === "idle")
+            }
+            loading={useActionState === "pending"}
+            onClick={onUse}
+          >
+            {useActionState === "retry" ? (
+              <RefreshCw className="h-4 w-4" aria-hidden="true" />
+            ) : useActionState === "pending" ? null : useIsAvailable ? (
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             ) : (
-              <p className="mt-3 text-body text-content-muted">
-                {t(notUsedLabelKey)}
-              </p>
-            )
-          ) : null}
-          {detail ? (
-            <div className={compact ? "mt-3" : "mt-4"}>{detail}</div>
-          ) : null}
-        </div>
+              <Check className="h-4 w-4" aria-hidden="true" />
+            )}
+            <UseActionLabel
+              activeKey={useActionLabelKey}
+              useKey={useLabelKey}
+              unavailableKey={unavailableLabelKey}
+            />
+          </Button>
+        )}
+        {actions}
         {dragHandle}
       </div>
-      {showFooter ? (
-        <div
-          className={cn(
-            "relative mt-auto flex flex-wrap items-center gap-2 border-t border-hairline bg-layer-1 px-5 py-3.5",
-            compact && "px-4 py-2.5",
-          )}
-        >
-          {!connected ? (
-            <Button
-              aria-label={connectAriaLabel}
-              disabled={busy || actionDisabled}
-              onClick={onConnect}
-            >
-              <PlugZap className="h-4 w-4" aria-hidden="true" />
-              {t("ds.action.connect")}
-            </Button>
-          ) : showUseAction ? (
-            <Button
-              variant="secondary"
-              aria-label={
-                useIsAvailable || useActionState !== "idle"
-                  ? useAriaLabel
-                  : undefined
-              }
-              disabled={
-                busy ||
-                actionDisabled ||
-                (!useIsAvailable && useActionState === "idle")
-              }
-              loading={useActionState === "pending"}
-              onClick={onUse}
-            >
-              {useActionState === "retry" ? (
-                <RefreshCw className="h-4 w-4" aria-hidden="true" />
-              ) : useActionState === "pending" ? null : useIsAvailable ? (
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              ) : (
-                <Check className="h-4 w-4" aria-hidden="true" />
-              )}
-              <UseActionLabel
-                activeKey={useActionLabelKey}
-                useKey={useLabelKey}
-                unavailableKey={unavailableLabelKey}
-              />
-            </Button>
-          ) : null}
-          {actions}
-        </div>
-      ) : null}
-    </Card>
+      {detail ? <div className="col-span-2 min-w-0">{detail}</div> : null}
+    </ListGroupRow>
   );
 }
