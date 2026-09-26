@@ -105,7 +105,7 @@ export function DesktopPreferencesCard() {
     <section aria-labelledby={headingId}>
       <Card padding="none" className="overflow-hidden rounded-xl">
         <header className="border-b border-hairline px-4 py-3">
-          <h3 id={headingId} className="text-heading text-content">
+          <h3 id={headingId} className="text-body font-medium text-content">
             {t("preferences.desktop.title")}
           </h3>
           <p className="mt-0.5 text-caption text-content-muted">

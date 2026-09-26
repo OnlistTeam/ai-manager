@@ -48,8 +48,8 @@ export interface ExtensionToggleFailure {
 
 /**
  * Spec §36: an item shows only a name, one human-readable description, and one
- * control. It is a row of a `ListGroup` (ADR-0052) — no command, no arguments, no path. Everything displayable comes
- * from `Extension`, and that model has no field for a raw config payload, so
+ * control; no command, no arguments, no path. It renders as a row of a
+ * `ListGroup` (ADR-0052). Everything displayable comes from `Extension`, and that model has no field for a raw config payload, so
  * "don't show raw config on first entry" isn't a rule we're following — it's
  * structural.
  */
@@ -130,7 +130,7 @@ export function ExtensionCard({
       <ExtensionArtwork
         kind={extension.kind}
         active={extension.enabled}
-        className="h-9 w-9 rounded-lg md:row-span-2"
+        className="h-9 w-9 rounded-lg"
       />
       <div className="min-w-0">
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">

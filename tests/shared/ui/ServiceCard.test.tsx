@@ -70,10 +70,10 @@ describe("ServiceCard", () => {
     // `.ds-card` lives outside any `@layer`, so the green fill for the
     // in-use state has to key off this attribute, not a `bg-*` class the
     // unlayered rule would silently beat (see src/index.css `.ds-card`).
-    expect(screen.getByRole("article", { name: "Claude" })).toHaveAttribute(
-      "data-state",
-      "in-use",
-    );
+    const row = screen.getByRole("article", { name: "Claude" });
+    expect(row).toHaveAttribute("data-state", "in-use");
+    // A decorative accent bar lets the eye find the row in effect first.
+    expect(row.querySelector('[aria-hidden="true"].bg-success')).not.toBeNull();
   });
 
   it("keeps a user-supplied long name readable beside its identity badges", async () => {
