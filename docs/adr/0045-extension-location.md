@@ -1,6 +1,6 @@
 # ADR-0045: Naming the file an extension list writes to
 
-- Status: accepted
+- Status: accepted; the MCP row is superseded by ADR-0048 (Global Prompts keep it)
 - Date: 2026-09-22
 - Relaxes one clause of the rule in `domain/extension.rs`. Follows the
   precedent set by ADR-0042.

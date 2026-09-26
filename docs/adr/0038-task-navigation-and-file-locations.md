@@ -1,6 +1,7 @@
 # ADR-0038 — Task navigation and native file locations
 
-Status: Accepted (user-directed, 2026-09-19)
+Status: Accepted (user-directed, 2026-09-19); the per-app selector for Skills
+and MCP and their scope-level file button are superseded by ADR-0048
 
 Supersedes the navigation grouping in ADR-0034/0036; preserves ADR-0037's
 single management entry for global prompts.

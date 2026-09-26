@@ -1391,8 +1391,10 @@ Apply Provider Configuration
 # 36. Extensions Page
 
 Current task-oriented pages (ADR-0038): Skills, MCP and Global Prompts each use
-a compact header with title, Help, and supported actions, followed by the software
-selector and inventory. Explanations and file-location caveats are accessible in
+a compact header with title, Help, and supported actions, followed by the
+inventory. Skills and MCP are one list with a switch per app on every row, and
+found items are imported from their row (ADR-0048); Global Prompts keep the
+software selector. Explanations and file-location caveats are accessible in
 the collapsed Help disclosure, not repeated as permanent paragraphs above the
 list. Add actions belong in the header, not below a long inventory. Save failures,
 unsupported scopes and operation errors remain visible.
