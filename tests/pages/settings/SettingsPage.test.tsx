@@ -363,6 +363,7 @@ describe("SettingsPage", () => {
       name: en.preferences.groups.privacy,
     });
     await waitFor(() => expect(heading).toHaveFocus());
+    await waitFor(() => expect(scrollIntoView).toHaveBeenCalled());
     expect(scrollIntoView).toHaveBeenCalledWith({
       block: "start",
       behavior: "smooth",

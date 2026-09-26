@@ -86,7 +86,7 @@ export function SettingsPage({
 
   useEffect(() => {
     if (preferredSection && settings.isSuccess) {
-      focusSettingsSection(preferredSection);
+      void focusSettingsSection(preferredSection);
     }
   }, [preferredSection, settings.isSuccess]);
 

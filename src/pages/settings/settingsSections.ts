@@ -10,11 +10,21 @@ export function settingsSectionProps(section: SettingsSection) {
   return { [SECTION_ATTRIBUTE]: section };
 }
 
-/** Scrolls a section into view and moves keyboard focus to its heading. */
-export function focusSettingsSection(section: SettingsSection): void {
+/**
+ * Moves keyboard focus to a section's heading and scrolls it into view. The
+ * scroll waits for the page's entrance animation: measured while the page is
+ * still sliding in, the section would land under the title bar.
+ */
+export async function focusSettingsSection(
+  section: SettingsSection,
+): Promise<void> {
   const target = document.querySelector<HTMLElement>(
     `[${SECTION_ATTRIBUTE}="${section}"]`,
   );
-  target?.scrollIntoView?.({ block: "start", behavior: "smooth" });
-  target?.querySelector<HTMLElement>("h2")?.focus({ preventScroll: true });
+  if (!target) return;
+  target.querySelector<HTMLElement>("h2")?.focus({ preventScroll: true });
+  const layer = target.closest<HTMLElement>("[data-app-route-content]");
+  const entering = layer?.getAnimations?.() ?? [];
+  await Promise.allSettled(entering.map((animation) => animation.finished));
+  target.scrollIntoView?.({ block: "start", behavior: "smooth" });
 }
