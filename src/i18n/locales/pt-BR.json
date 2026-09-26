@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "O AI Manager não conseguiu concluir essa alteração de roteamento com segurança.",
+      "liveTakeoverFailed": "O AI Manager não conseguiu rotear esta ferramenta, então ela mantém a conexão direta.",
+      "noLiveTargets": "Nenhuma ferramenta tem um serviço escolhido ainda, então o roteamento ao vivo não pode começar.",
       "providerNotEligible": "Esse endpoint não pode participar do failover automático.",
       "providerUnavailable": "Esse endpoint não está mais disponível para roteamento.",
       "queueLocked": "Desative o failover automático antes de remover este endpoint ativo ou final.",

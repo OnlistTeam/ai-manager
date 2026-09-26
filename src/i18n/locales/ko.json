@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI Manager가 그 라우팅 변경을 안전하게 완료할 수 없습니다.",
+      "liveTakeoverFailed": "AI 매니저가 이 도구를 경유시키지 못해 직접 연결을 그대로 유지합니다.",
+      "noLiveTargets": "아직 서비스를 고른 도구가 없어 실시간 라우팅을 시작할 수 없습니다.",
       "providerNotEligible": "그 엔드포인트는 자동 장애 조치에 참여할 수 없습니다.",
       "providerUnavailable": "그 엔드포인트는 더 이상 라우팅에 사용할 수 없습니다.",
       "queueLocked": "이 활성 엔드포인트나 마지막 엔드포인트를 제거하기 전에 자동 장애 조치를 끄세요.",

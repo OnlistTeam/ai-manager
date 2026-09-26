@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI Manager không thể hoàn tất thay đổi định tuyến đó một cách an toàn.",
+      "liveTakeoverFailed": "AI Manager không thể định tuyến công cụ này, nên nó vẫn giữ kết nối trực tiếp.",
+      "noLiveTargets": "Chưa có công cụ nào chọn dịch vụ, nên chưa thể bật định tuyến trực tiếp.",
       "providerNotEligible": "Điểm cuối đó không thể tham gia chuyển đổi dự phòng tự động.",
       "providerUnavailable": "Điểm cuối đó không còn khả dụng cho định tuyến nữa.",
       "queueLocked": "Tắt chuyển đổi dự phòng tự động trước khi xóa điểm cuối đang hoạt động hoặc cuối cùng này.",

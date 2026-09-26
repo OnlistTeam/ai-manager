@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI 管家無法安全完成這次路由變更。",
+      "liveTakeoverFailed": "AI 管家沒能接管這個軟體，它繼續保持直連。",
+      "noLiveTargets": "還沒有軟體選好服務，暫時無法開啟即時路由。",
       "providerNotEligible": "這個端點不能加入自動容錯移轉。",
       "providerUnavailable": "這個端點已無法用於路由。",
       "queueLocked": "請先關閉自動容錯移轉，再移除目前端點或最後一個端點。",

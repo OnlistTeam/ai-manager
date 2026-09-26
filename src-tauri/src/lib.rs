@@ -601,6 +601,13 @@ pub fn run() {
             // The first tray build reads product settings and the ProviderDirectory; inject
             // the same Arc-backed state here and keep using local clones afterwards.
             app.manage(app_state.clone());
+            // Live routing trace (ADR-0050): memory only, read by the proxy
+            // forwarder through the app handle, so it exists before any request.
+            app.manage(Arc::new(crate::infrastructure::RoutingTraceLog::new(
+                Box::new(crate::infrastructure::TauriRoutingTraceEvents::new(
+                    app.handle().clone(),
+                )),
+            )));
 
             // ============================================================
             // Per-table import logic (each data kind is checked independently)
@@ -1246,6 +1253,9 @@ pub fn run() {
             commands::app_routing_queue_remove,
             commands::app_routing_switch_provider,
             commands::app_routing_stop_all,
+            // Live routing (ADR-0050).
+            commands::app_routing_set_live_mode,
+            commands::app_routing_trace,
             // AI Manager product API (one-click import; ADR-0029).
             commands::app_deeplink_pending_list,
             commands::app_deeplink_preview,

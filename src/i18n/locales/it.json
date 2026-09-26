@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI Manager non è riuscito a completare in sicurezza quella modifica di instradamento.",
+      "liveTakeoverFailed": "AI Manager non è riuscito a instradare questo strumento, che resta collegato direttamente.",
+      "noLiveTargets": "Nessuno strumento ha ancora un servizio scelto, quindi il routing dal vivo non può partire.",
       "providerNotEligible": "Quell'endpoint non può partecipare al failover automatico.",
       "providerUnavailable": "Quell'endpoint non è più disponibile per l'instradamento.",
       "queueLocked": "Disattiva il failover automatico prima di rimuovere questo endpoint attivo o finale.",

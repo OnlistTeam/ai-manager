@@ -689,6 +689,8 @@
     },
     "routing": {
       "changeFailed": "AI Manager no pudo completar ese cambio de enrutamiento de forma segura.",
+      "liveTakeoverFailed": "AI Manager no pudo enrutar esta herramienta, así que mantiene su conexión directa.",
+      "noLiveTargets": "Ninguna herramienta tiene un servicio elegido todavía, así que el enrutamiento en vivo no puede empezar.",
       "providerNotEligible": "Ese endpoint no puede participar en la conmutación automática.",
       "providerUnavailable": "Ese endpoint ya no está disponible para el enrutamiento.",
       "queueLocked": "Desactiva la conmutación automática antes de quitar este endpoint activo o final.",

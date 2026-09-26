@@ -18,6 +18,7 @@ pub mod provider;
 pub mod provider_endpoint;
 pub mod provider_runtime;
 pub mod routing;
+pub mod routing_trace;
 pub mod session;
 pub mod settings;
 pub mod shell_variable;
@@ -88,7 +89,14 @@ pub use provider_runtime::{
     ProviderRuntimeResourceKind, ProviderRuntimeResourceOpenOutcome, ProviderRuntimeResourceScope,
     ProviderRuntimeStorage,
 };
-pub use routing::{RoutingOverview, RoutingProvider, RoutingTarget};
+pub use routing::{
+    RoutingLiveFailure, RoutingLiveModeOutcome, RoutingOverview, RoutingProvider, RoutingTarget,
+};
+pub use routing_trace::{
+    RoutingAttemptOutcome, RoutingErrorCategory, RoutingTraceAttempt, RoutingTraceCounts,
+    RoutingTraceEntry, RoutingTraceSnapshot, RoutingTraceStatus, RoutingTraceUpdate,
+    MAX_ROUTING_TRACE_ATTEMPTS, MAX_ROUTING_TRACE_ENTRIES,
+};
 pub use session::{SessionList, SessionMessage, SessionMessageRole, SessionSummary, SessionThread};
 pub use settings::{DownloadStrategy, ProductSettings, TerminalAppId};
 pub use shell_variable::{ShellVariableLocation, ShellVariableUpdate, ShellVariableWritten};

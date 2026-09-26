@@ -6,7 +6,7 @@
 
 use serde::{Deserialize, Serialize};
 
-use super::ToolId;
+use super::{AppError, ToolId};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -45,6 +45,25 @@ pub struct RoutingOverview {
     pub failed_requests: u64,
     pub failover_count: u64,
     pub targets: Vec<RoutingTarget>,
+}
+
+/// One tool live routing could not take over (ADR-0050). The other tools
+/// stay taken over; the error is the product error for that tool alone.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RoutingLiveFailure {
+    pub tool: ToolId,
+    pub error: AppError,
+}
+
+/// Result of switching live routing on or off. Live routing counts as on when
+/// the local route is running and at least one tool is taken over; there is
+/// no separate stored flag.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RoutingLiveModeOutcome {
+    pub overview: RoutingOverview,
+    pub failures: Vec<RoutingLiveFailure>,
 }
 
 #[cfg(test)]

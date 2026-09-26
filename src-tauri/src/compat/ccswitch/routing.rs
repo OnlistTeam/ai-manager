@@ -226,6 +226,12 @@ impl RoutingStore {
     ) -> Result<RoutingOverview, AppError> {
         let app = app_for_tool(tool)?;
         let _guard = self.mutation_lock.lock().await;
+        self.set_takeover_unlocked(app, enabled).await?;
+        self.overview().await
+    }
+
+    /// Callers hold `mutation_lock`.
+    async fn set_takeover_unlocked(&self, app: &str, enabled: bool) -> Result<(), AppError> {
         if !enabled {
             // Upstream keeps the failover switch across takeover-off. Clear it
             // first: "takeover on, failover off" is still a legal state if the
@@ -237,8 +243,7 @@ impl RoutingStore {
         self.proxy
             .set_takeover_for_app(app, enabled)
             .await
-            .map_err(change_failed)?;
-        self.overview().await
+            .map_err(change_failed)
     }
 
     pub async fn set_failover(
@@ -450,16 +455,18 @@ impl RoutingStore {
 
     pub async fn stop_all(&self) -> Result<RoutingOverview, AppError> {
         let _guard = self.mutation_lock.lock().await;
+        self.stop_all_unlocked().await?;
+        self.overview().await
+    }
+
+    /// Callers hold `mutation_lock`.
+    async fn stop_all_unlocked(&self) -> Result<(), AppError> {
         // Upstream deliberately keeps every failover switch across a stop; the
         // product clears them for the same reason as `set_takeover(false)`.
         for (_, app) in ROUTING_APPS {
             self.clear_auto_failover(app).await?;
         }
-        self.proxy
-            .stop_with_restore()
-            .await
-            .map_err(change_failed)?;
-        self.overview().await
+        self.proxy.stop_with_restore().await.map_err(change_failed)
     }
 
     async fn clear_auto_failover(&self, app: &str) -> Result<(), AppError> {
@@ -478,6 +485,9 @@ impl RoutingStore {
             .map_err(change_failed)
     }
 }
+
+mod live_mode;
+pub mod trace;
 
 #[cfg(test)]
 #[path = "routing/tests.rs"]
