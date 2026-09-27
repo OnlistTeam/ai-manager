@@ -222,9 +222,8 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.remediation.uninstallDesktopAppManually",
     "error.remediation.uninstallManually",
     "error.remediation.useOriginalUpdateChannel",
+    "error.routing.cannotForward",
     "error.routing.changeFailed",
-    "error.routing.liveTakeoverFailed",
-    "error.routing.noLiveTargets",
     "error.routing.providerNotEligible",
     "error.routing.providerUnavailable",
     "error.routing.queueLocked",
@@ -485,6 +484,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 335);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 334);
     }
 }

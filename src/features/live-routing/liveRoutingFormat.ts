@@ -1,5 +1,3 @@
-import type { RoutingOverview } from "@/entities/routing";
-
 const EMAIL =
   /([\p{L}\p{N}._%+-])[\p{L}\p{N}._%+-]*@([\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)+)/gu;
 
@@ -39,11 +37,4 @@ export function formatClock(epochMs: number, language: string): string {
     second: "2-digit",
     hour12: false,
   }).format(epochMs);
-}
-
-/** Tools live routing would take over: the ones with a current service. */
-export function liveRoutingCandidates(overview: RoutingOverview) {
-  return overview.targets
-    .filter((target) => target.currentProvider !== null)
-    .map((target) => target.tool);
 }

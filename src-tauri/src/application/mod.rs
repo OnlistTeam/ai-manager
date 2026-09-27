@@ -18,6 +18,7 @@ pub mod prompt_directory;
 pub mod provider_batch_test;
 pub mod provider_directory;
 pub mod provider_preflight;
+pub mod quit_guard;
 pub mod reveal;
 pub mod routing_control;
 pub mod session_directory;

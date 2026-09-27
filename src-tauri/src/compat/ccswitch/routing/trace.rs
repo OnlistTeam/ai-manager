@@ -225,7 +225,7 @@ fn elapsed_ms(started: Instant) -> u64 {
 fn tool_for_app(app: &str) -> Option<ToolId> {
     ROUTING_APPS
         .iter()
-        .find_map(|(tool, candidate)| (*candidate == app).then_some(*tool))
+        .find_map(|entry| (entry.app == app).then_some(entry.tool))
 }
 
 /// The model the tool asked for: the body's `model`, or for path-addressed

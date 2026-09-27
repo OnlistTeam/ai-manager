@@ -33,6 +33,17 @@ the file comes back from `upstream/main` as a new product-owned module.
 
 ## This round: upstream sync audit (db41d701..06082e18)
 
+### Product follow-up: per-tool routing (2026-09-27)
+
+ADR-0054 changes no inherited proxy file. `lib.rs` startup recovery and exit
+cleanup now call `RoutingControl::recover_at_launch` / `release_before_exit`
+instead of `recover_from_crash` / `stop_with_restore_keep_state` directly, and
+the exit path first asks `QuitGuard::hold_to_ask`; keep those calls when
+`lib.rs` conflicts. `compat/ccswitch/routing/release.rs` repeats the
+bookkeeping of `ProxyService::set_takeover_for_app(false)` (restore with
+fallback, delete the backup, clear the switch and health) without its gateway
+stop: when upstream changes that path, mirror the change there.
+
 ### Product follow-up: live routing trace hooks (2026-09-26)
 
 `proxy/forwarder.rs` carries product hooks for the live routing trace

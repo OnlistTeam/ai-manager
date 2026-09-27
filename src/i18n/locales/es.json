@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "Abre «Ajustes del Sistema → Privacidad y seguridad → Automatización» y activa «Terminal» para AI Manager."
     },
     "routing": {
+      "cannotForward": "La conexión actual de esta herramienta no se puede enrutar a través de AI Manager.",
       "changeFailed": "AI Manager no pudo completar ese cambio de enrutamiento de forma segura.",
-      "liveTakeoverFailed": "AI Manager no pudo enrutar esta herramienta, así que mantiene su conexión directa.",
-      "noLiveTargets": "Ninguna herramienta tiene un servicio elegido todavía, así que el enrutamiento en vivo no puede empezar.",
       "providerNotEligible": "Ese endpoint no puede participar en la conmutación automática.",
       "providerUnavailable": "Ese endpoint ya no está disponible para el enrutamiento.",
       "queueLocked": "Desactiva la conmutación automática antes de quitar este endpoint activo o final.",
@@ -2223,21 +2222,16 @@
     }
   },
   "routing": {
-    "toolScope": "Software de IA",
     "title": "Enrutamiento local",
-    "description": "Reenvía solicitudes localmente, con conmutación automática opcional a endpoints de respaldo.",
+    "description": "Elige qué herramientas envían sus solicitudes a través de AI Manager. Cada solicitud aparece abajo en cuanto ocurre.",
     "summary": {
-      "inactive": "El enrutamiento local está desactivado. Las herramientas mantienen sus conexiones existentes.",
+      "inactive": "Ninguna herramienta pasa por AI Manager. Cada una mantiene su propia conexión.",
       "needsRestore": "El enrutamiento se detuvo, pero las herramientas aún apuntan a él. Restaura su configuración."
     },
     "refresh": "Actualizar estado",
     "loading": "Cargando enrutamiento local",
     "hero": {
-      "title": "Una ruta local, menos interrupciones",
-      "description": "Las herramientas envían sus solicitudes por una ruta local en este equipo; al detenerla se restaura su configuración original.",
       "running": "El enrutamiento está en ejecución",
-      "stopped": "Listo cuando lo necesites",
-      "localOnly": "Solo loopback local",
       "takeovers_one": "{{count}} herramienta enrutada",
       "takeovers_other": "{{count}} herramientas enrutadas"
     },
@@ -2247,16 +2241,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "Enrutado",
-      "direct": "Directo",
-      "current": "Endpoint actual: {{name}}",
-      "noProvider": "Elige primero un endpoint actual en Endpoints de API."
+    "row": {
+      "through": "A través de AI Manager",
+      "noEndpoint": "Ningún endpoint elegido",
+      "switchLabel": "Enrutar {{name}} a través de AI Manager",
+      "routedButUnavailable": "El endpoint en uso no se puede enrutar. Desactiva el enrutamiento de esta herramienta."
     },
-    "takeover": {
-      "title": "Toma de control del enrutamiento",
-      "description": "Si está activada, las solicitudes de esta herramienta pasan por la ruta local. Al desactivarla se restaura la configuración original.",
-      "label": "Toma de control del enrutamiento para {{name}}"
+    "unavailable": {
+      "noService": "Elige primero un endpoint",
+      "ownLogin": "Inició sesión con su propia cuenta, que no se puede enrutar",
+      "incomplete": "Al endpoint le falta la dirección o la clave para enrutar"
+    },
+    "note": {
+      "onLive": "Las sesiones abiertas de {{name}} empiezan a pasar por AI Manager de inmediato.",
+      "onAtStart": "Las sesiones abiertas de {{name}} mantienen su conexión directa hasta que las reinicies.",
+      "offLive": "Las sesiones abiertas de {{name}} vuelven de inmediato, pero conservan los ajustes que añadió el enrutamiento hasta que las reinicies.",
+      "offAtStart": "Las sesiones abiertas de {{name}} siguen pasando por AI Manager hasta que las reinicies. AI Manager sigue reenviando para ellas mientras esté abierto."
+    },
+    "quit": {
+      "title": "¿Salir de AI Manager?",
+      "description": "Enrutadas por AI Manager: {{tools}}. Al salir, cada una vuelve a sus propios ajustes.",
+      "live": "Las sesiones abiertas de {{tools}} vuelven por sí solas; reinícialas para quitar los ajustes que añadió el enrutamiento.",
+      "atStart": "Reinicia las sesiones abiertas de {{tools}} después de salir: hasta entonces conservan la dirección de AI Manager y sus solicitudes fallan.",
+      "confirm": "Salir"
     },
     "failover": {
       "title": "Conmutación automática",
@@ -2264,10 +2271,7 @@
       "label": "Conmutación automática para {{name}}"
     },
     "queue": {
-      "title": "Orden de conmutación",
-      "description": "P1 se selecciona cuando empieza la conmutación.",
-      "count_one": "{{count}} endpoint",
-      "count_other": "{{count}} endpoints",
+      "title": "Orden de conmutación de {{name}}",
       "empty": "Añade un endpoint, o activa la conmutación para usar el endpoint actual como P1.",
       "selectLabel": "Endpoint para añadir a la conmutación",
       "selectLabelNamed": "Endpoint para añadir a la conmutación de {{name}}",
@@ -2299,9 +2303,6 @@
       "title": "El cambio de enrutamiento no terminó"
     },
     "live": {
-      "title": "Enrutamiento en vivo",
-      "description": "Al activarlo, tus herramientas envían sus solicitudes a través de AI Manager y aquí ves en vivo qué servicio respondió; al desactivarlo vuelven a la conexión directa.",
-      "noTargets": "Primero elige un servicio para una herramienta en «{{page}}».",
       "listSeparator": ", ",
       "panelLabel": "Solicitudes en vivo",
       "listLabel": "Solicitudes recientes",
@@ -2332,16 +2333,6 @@
         "unavailable": "Ningún servicio disponible",
         "cancelled": "Cancelada",
         "other": "Error"
-      },
-      "confirm": {
-        "title": "¿Activar el enrutamiento en vivo?",
-        "description": "{{tools}} enviarán sus solicitudes a través de AI Manager. Su configuración se respalda antes y se restaura al desactivar el enrutamiento en vivo.",
-        "action": "Activar"
-      },
-      "partial": {
-        "title": "Algunas herramientas no se pudieron enrutar; las demás ya pasan por AI Manager.",
-        "noneTitle": "No se pudo enrutar ninguna herramienta; todo sigue en conexión directa.",
-        "item": "{{name}}: {{reason}}"
       },
       "header": {
         "title": "Enrutamiento",

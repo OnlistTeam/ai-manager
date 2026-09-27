@@ -92,7 +92,7 @@ pub use provider_runtime::{
     ProviderRuntimeStorage,
 };
 pub use routing::{
-    RoutingLiveFailure, RoutingLiveModeOutcome, RoutingOverview, RoutingProvider, RoutingTarget,
+    RoutedTool, RoutingOverview, RoutingPickup, RoutingProvider, RoutingTarget, RoutingUnavailable,
 };
 pub use routing_trace::{
     RoutingAttemptOutcome, RoutingErrorCategory, RoutingTraceAttempt, RoutingTraceCounts,

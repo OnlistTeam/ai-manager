@@ -162,14 +162,20 @@ export {
   DEEP_LINK_PENDING_EVENT,
   OPERATION_CHANGED_EVENT,
   PROVIDER_CHANGED_EVENT,
+  QUIT_REQUESTED_EVENT,
   ROUTING_TRACE_EVENT,
   onConfigLoadError,
   onDeepLinkPending,
   onOperationChanged,
   onProviderChanged,
+  onQuitRequested,
   onRoutingTrace,
 } from "./events";
-export type { ProviderChangedPayload } from "./events";
+export type {
+  ProviderChangedPayload,
+  QuitRequestedPayload,
+  RoutedTool,
+} from "./events";
 export { initErrorPayloadSchema } from "./schemas/system";
 export type { InitErrorPayload } from "./schemas/system";
 export {
@@ -375,13 +381,14 @@ export type {
 } from "./schemas/session";
 export type {
   RoutingOverview,
+  RoutingPickup,
   RoutingProvider,
   RoutingTarget,
+  RoutingUnavailable,
 } from "./schemas/routing";
 export {
   MAX_ROUTING_TRACE_ENTRIES,
   routingErrorCategorySchema,
-  routingLiveModeOutcomeSchema,
   routingTraceAttemptSchema,
   routingTraceCountsSchema,
   routingTraceEntrySchema,
@@ -390,7 +397,6 @@ export {
 } from "./schemas/routingTrace";
 export type {
   RoutingErrorCategory,
-  RoutingLiveModeOutcome,
   RoutingTraceAttempt,
   RoutingTraceCounts,
   RoutingTraceEntry,

@@ -18,6 +18,9 @@ const ImportPromptModal = lazy(async () => ({
 const DeepLinkImportBoundary = lazy(async () => ({
   default: (await import("@/features/deep-link-import")).DeepLinkImportBoundary,
 }));
+const QuitConfirmBoundary = lazy(async () => ({
+  default: (await import("@/features/live-routing")).QuitConfirmBoundary,
+}));
 
 interface ImportPromptBoundaryProps {
   enabled: boolean;
@@ -96,6 +99,10 @@ export function AppRoot() {
       */}
       <Suspense fallback={null}>
         <DeepLinkImportBoundary />
+      </Suspense>
+      {/* Quitting with routed tools asks first, from whatever page is open (ADR-0054). */}
+      <Suspense fallback={null}>
+        <QuitConfirmBoundary />
       </Suspense>
       <Toaster />
     </>

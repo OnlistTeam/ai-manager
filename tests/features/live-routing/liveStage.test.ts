@@ -75,6 +75,8 @@ const target: RoutingTarget = {
     provider("jordan", "jordan.lee@example.com", false),
   ],
   available: [],
+  unavailable: null,
+  pickup: "live",
 };
 
 describe("stage model", () => {

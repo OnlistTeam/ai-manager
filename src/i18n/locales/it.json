@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "Apri «Impostazioni di Sistema → Privacy e sicurezza → Automazione» e attiva «Terminale» per AI Manager."
     },
     "routing": {
+      "cannotForward": "La connessione attuale di questo strumento non può passare da AI Manager.",
       "changeFailed": "AI Manager non è riuscito a completare in sicurezza quella modifica di instradamento.",
-      "liveTakeoverFailed": "AI Manager non è riuscito a instradare questo strumento, che resta collegato direttamente.",
-      "noLiveTargets": "Nessuno strumento ha ancora un servizio scelto, quindi il routing dal vivo non può partire.",
       "providerNotEligible": "Quell'endpoint non può partecipare al failover automatico.",
       "providerUnavailable": "Quell'endpoint non è più disponibile per l'instradamento.",
       "queueLocked": "Disattiva il failover automatico prima di rimuovere questo endpoint attivo o finale.",
@@ -2223,21 +2222,16 @@
     }
   },
   "routing": {
-    "toolScope": "Software AI",
     "title": "Instradamento locale",
-    "description": "Inoltra le richieste localmente, con fallback automatico facoltativo verso endpoint di backup.",
+    "description": "Scegli quali strumenti inviano le richieste tramite AI Manager. Ogni richiesta compare qui sotto mentre avviene.",
     "summary": {
-      "inactive": "L'instradamento locale è disattivato. Gli strumenti mantengono le connessioni esistenti.",
+      "inactive": "Nessuno strumento passa da AI Manager. Ognuno mantiene la propria connessione.",
       "needsRestore": "L'instradamento è stato interrotto, ma gli strumenti puntano ancora a esso. Ripristina le loro impostazioni."
     },
     "refresh": "Aggiorna stato",
     "loading": "Caricamento dell'instradamento locale",
     "hero": {
-      "title": "Un instradamento locale, meno interruzioni",
-      "description": "Gli strumenti inviano le richieste tramite un percorso locale su questo computer; fermarlo ripristina le impostazioni originali.",
       "running": "L'instradamento è in esecuzione",
-      "stopped": "Pronto quando ti serve",
-      "localOnly": "Solo loopback locale",
       "takeovers_one": "{{count}} strumento instradato",
       "takeovers_other": "{{count}} strumenti instradati"
     },
@@ -2247,16 +2241,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "Instradato",
-      "direct": "Diretto",
-      "current": "Endpoint attuale: {{name}}",
-      "noProvider": "Scegli prima un endpoint attuale in Endpoint API."
+    "row": {
+      "through": "Tramite AI Manager",
+      "noEndpoint": "Nessun endpoint scelto",
+      "switchLabel": "Instrada {{name}} tramite AI Manager",
+      "routedButUnavailable": "L'endpoint in uso non può essere inoltrato. Disattiva l'instradamento per questo strumento."
     },
-    "takeover": {
-      "title": "Passaggio all'instradamento",
-      "description": "Se attivo, le richieste di questo strumento passano dal percorso locale. Disattivarlo ripristina le impostazioni originali.",
-      "label": "Passaggio all'instradamento per {{name}}"
+    "unavailable": {
+      "noService": "Scegli prima un endpoint",
+      "ownLogin": "Accesso con il proprio account, che non può essere inoltrato",
+      "incomplete": "All'endpoint manca l'indirizzo o la chiave da inoltrare"
+    },
+    "note": {
+      "onLive": "Le sessioni aperte di {{name}} passano subito da AI Manager.",
+      "onAtStart": "Le sessioni aperte di {{name}} restano collegate direttamente finché non le riavvii.",
+      "offLive": "Le sessioni aperte di {{name}} tornano subito indietro, ma mantengono le impostazioni aggiunte dall'instradamento finché non le riavvii.",
+      "offAtStart": "Le sessioni aperte di {{name}} continuano a passare da AI Manager finché non le riavvii. AI Manager continua a inoltrare per loro finché è attivo."
+    },
+    "quit": {
+      "title": "Uscire da AI Manager?",
+      "description": "Instradati tramite AI Manager: {{tools}}. Uscendo, ognuno torna alle proprie impostazioni.",
+      "live": "Le sessioni aperte di {{tools}} tornano indietro da sole; riavviale per togliere le impostazioni aggiunte dall'instradamento.",
+      "atStart": "Dopo l'uscita riavvia le sessioni aperte di {{tools}}: fino ad allora usano l'indirizzo di AI Manager e le loro richieste falliscono.",
+      "confirm": "Esci"
     },
     "failover": {
       "title": "Failover automatico",
@@ -2264,10 +2271,7 @@
       "label": "Failover automatico per {{name}}"
     },
     "queue": {
-      "title": "Ordine di failover",
-      "description": "P1 viene selezionato quando il failover si avvia.",
-      "count_one": "{{count}} endpoint",
-      "count_other": "{{count}} endpoint",
+      "title": "Ordine di failover di {{name}}",
       "empty": "Aggiungi un endpoint, oppure attiva il failover per usare l'endpoint attuale come P1.",
       "selectLabel": "Endpoint da aggiungere al failover",
       "selectLabelNamed": "Endpoint da aggiungere al failover di {{name}}",
@@ -2299,9 +2303,6 @@
       "title": "La modifica dell'instradamento non è terminata"
     },
     "live": {
-      "title": "Routing dal vivo",
-      "description": "Quando è attivo, i tuoi strumenti inviano le richieste tramite AI Manager e qui vedi in tempo reale quale servizio ha risposto; disattivalo per tornare alle connessioni dirette.",
-      "noTargets": "Prima scegli un servizio per uno strumento in «{{page}}».",
       "listSeparator": ", ",
       "panelLabel": "Richieste dal vivo",
       "listLabel": "Richieste recenti",
@@ -2332,16 +2333,6 @@
         "unavailable": "Nessun servizio disponibile",
         "cancelled": "Annullata",
         "other": "Errore"
-      },
-      "confirm": {
-        "title": "Attivare il routing dal vivo?",
-        "description": "{{tools}} invieranno le richieste tramite AI Manager. Le loro impostazioni vengono prima salvate e ripristinate quando disattivi il routing dal vivo.",
-        "action": "Attiva"
-      },
-      "partial": {
-        "title": "Alcuni strumenti non sono stati instradati; gli altri ora passano da AI Manager.",
-        "noneTitle": "Nessuno strumento è stato instradato; tutto resta in connessione diretta.",
-        "item": "{{name}}: {{reason}}"
       },
       "header": {
         "title": "Instradamento",

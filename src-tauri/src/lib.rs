@@ -1014,25 +1014,12 @@ pub fn run() {
             tauri::async_runtime::spawn(async move {
                 let state = app_handle.state::<AppState>();
 
-                // Check for live backups (a sign the last crash happened during a takeover)
-                let has_backups = match state.db.has_any_live_backup().await {
-                    Ok(v) => v,
-                    Err(e) => {
-                        log::error!("Failed to check live backups: {e}");
-                        false
-                    }
-                };
-                // Check whether live configs are still taken over (placeholders present)
-                let live_taken_over = state.proxy_service.detect_takeover_in_live_configs();
-
-                if has_backups || live_taken_over {
-                    log::warn!("Detected an unclean shutdown (takeover leftovers); restoring live configs...");
-                    if let Err(e) = state.proxy_service.recover_from_crash().await {
-                        log::error!("Failed to restore live configs: {e}");
-                    } else {
-                        log::info!("Live configs restored");
-                    }
-                }
+                // Every launch starts with every tool direct (ADR-0054): a route an
+                // earlier run left behind is put back, keeping later edits to the files.
+                crate::application::routing_control::RoutingControl::recover_at_launch(
+                    &app_handle,
+                )
+                .await;
 
                 // Must run before auto-extract: scrub credentials that historically leaked
                 // into the shared Gemini snippet first, otherwise the extraction right after
@@ -1257,9 +1244,9 @@ pub fn run() {
             commands::app_routing_queue_remove,
             commands::app_routing_switch_provider,
             commands::app_routing_stop_all,
-            // Live routing (ADR-0050).
-            commands::app_routing_set_live_mode,
+            // Live routing trace (ADR-0050) and the quit confirmation (ADR-0054).
             commands::app_routing_trace,
+            commands::app_quit_confirmed,
             commands::app_privacy_protection_get,
             commands::app_privacy_protection_set,
             // AI Manager product API (one-click import; ADR-0029).
@@ -1323,6 +1310,15 @@ pub fn run() {
 
             let app_handle = app_handle.clone();
             tauri::async_runtime::spawn(async move {
+                // Tools routed through AI Manager: ask first (ADR-0054). The answer
+                // comes back as a confirmed quit through the same path.
+                use crate::application::quit_guard::QuitGuard;
+                if let Some(tools) = QuitGuard::tools_to_ask(&app_handle).await {
+                    if reveal_main_window(&app_handle) && QuitGuard::ask(&app_handle, tools) {
+                        log::info!("Quit held to confirm the routed tools");
+                        return;
+                    }
+                }
                 save_window_state_before_exit(&app_handle);
                 cleanup_before_exit(&app_handle).await;
                 // Remove the tray icon explicitly before std::process::exit. When the
@@ -1367,50 +1363,34 @@ pub fn run() {
 // Application exit cleanup
 // ============================================================
 
+/// Brings the main window forward so it can ask something before quitting.
+/// Returns `false` when there is no window to ask in.
+fn reveal_main_window(app_handle: &tauri::AppHandle) -> bool {
+    let Some(window) = app_handle.get_webview_window("main") else {
+        return false;
+    };
+    #[cfg(target_os = "windows")]
+    {
+        let _ = window.set_skip_taskbar(false);
+    }
+    let _ = window.unminimize();
+    let _ = window.show();
+    let _ = window.set_focus();
+    #[cfg(target_os = "macos")]
+    {
+        tray::apply_tray_policy(app_handle, true);
+    }
+    true
+}
+
 /// Cleanup performed before the application exits.
 ///
-/// Checks the proxy server state before exiting and, when it is running, stops the
-/// proxy and restores the live configs, so Claude Code/Codex/Gemini configs are never
-/// left in a broken state. Uses stop_with_restore_keep_state to keep the proxy state
-/// in the settings table, so it is restored automatically on the next launch.
+/// Stops the local gateway and puts every routed tool back, keeping any edit
+/// made to the tools' files while they were routed (ADR-0054), so no tool is
+/// left pointing at an address nothing answers. The next launch starts with
+/// every tool direct.
 pub async fn cleanup_before_exit(app_handle: &tauri::AppHandle) {
-    if let Some(state) = app_handle.try_state::<store::AppState>() {
-        let proxy_service = &state.proxy_service;
-
-        // A safety net is needed on exit too: the proxy may have crashed or never run
-        // while live takeover leftovers (placeholders/backups) are still around.
-        let has_backups = match state.db.has_any_live_backup().await {
-            Ok(v) => v,
-            Err(e) => {
-                log::error!("Failed to check live backups during exit: {e}");
-                false
-            }
-        };
-        let live_taken_over = proxy_service.detect_takeover_in_live_configs();
-        let needs_restore = has_backups || live_taken_over;
-
-        if needs_restore {
-            log::info!(
-                "Takeover leftovers detected; restoring live configs (keeping proxy state)..."
-            );
-            // Use the keep_state variant so the proxy state in the settings table survives
-            if let Err(e) = proxy_service.stop_with_restore_keep_state().await {
-                log::error!("Failed to restore live configs during exit: {e}");
-            } else {
-                log::info!("Live configs restored (proxy state kept; it will be restored on the next launch)");
-            }
-            return;
-        }
-
-        // Not in takeover mode: if the proxy is running, just stop it
-        if proxy_service.is_running().await {
-            log::info!("Proxy server detected as running; stopping it...");
-            if let Err(e) = proxy_service.stop().await {
-                log::error!("Failed to stop the proxy during exit: {e}");
-            }
-            log::info!("Proxy server cleanup finished");
-        }
-    }
+    crate::application::routing_control::RoutingControl::release_before_exit(app_handle).await;
 }
 
 /// Explicitly remove the tray icon from the system tray.

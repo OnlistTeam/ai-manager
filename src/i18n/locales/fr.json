@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "Ouvrez « Réglages Système → Confidentialité et sécurité → Automatisation » et activez « Terminal » pour AI Manager."
     },
     "routing": {
+      "cannotForward": "La connexion actuelle de cet outil ne peut pas passer par AI Manager.",
       "changeFailed": "AI Manager n'a pas pu terminer cette modification de routage en toute sécurité.",
-      "liveTakeoverFailed": "AI Manager n’a pas pu router cet outil ; il garde sa connexion directe.",
-      "noLiveTargets": "Aucun outil n’a encore de service choisi : le routage en direct ne peut pas démarrer.",
       "providerNotEligible": "Ce point d'accès ne peut pas participer au basculement automatique.",
       "providerUnavailable": "Ce point d'accès n'est plus disponible pour le routage.",
       "queueLocked": "Désactivez le basculement automatique avant de supprimer ce point d'accès actif ou final.",
@@ -2223,21 +2222,16 @@
     }
   },
   "routing": {
-    "toolScope": "Logiciels IA",
     "title": "Routage local",
-    "description": "Transmettez les requêtes localement, avec basculement automatique facultatif vers des points d'accès de secours.",
+    "description": "Choisissez quels outils envoient leurs requêtes via AI Manager. Chaque requête s'affiche ci-dessous au moment où elle passe.",
     "summary": {
-      "inactive": "Le routage local est désactivé. Les outils conservent leurs connexions existantes.",
+      "inactive": "Aucun outil ne passe par AI Manager. Chacun garde sa propre connexion.",
       "needsRestore": "Le routage est arrêté, mais les outils pointent encore vers lui. Restaurez leurs paramètres."
     },
     "refresh": "Actualiser l'état",
     "loading": "Chargement du routage local",
     "hero": {
-      "title": "Une route locale unique, moins d'interruptions",
-      "description": "Les outils envoient leurs requêtes via une route locale sur cet ordinateur ; l’arrêter restaure leurs réglages d’origine.",
       "running": "Le routage est en cours",
-      "stopped": "Prêt quand vous en avez besoin",
-      "localOnly": "Boucle locale uniquement",
       "takeovers_one": "{{count}} outil routé",
       "takeovers_other": "{{count}} outils routés"
     },
@@ -2247,16 +2241,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "Routé",
-      "direct": "Direct",
-      "current": "Point d'accès actuel : {{name}}",
-      "noProvider": "Choisissez d'abord un point d'accès actuel dans Points d'accès API."
+    "row": {
+      "through": "Via AI Manager",
+      "noEndpoint": "Aucun point d'accès choisi",
+      "switchLabel": "Faire passer {{name}} par AI Manager",
+      "routedButUnavailable": "Le point d'accès utilisé ne peut pas être relayé. Désactivez le routage de cet outil."
     },
-    "takeover": {
-      "title": "Prise en charge du routage",
-      "description": "Activé, les requêtes de cet outil passent par la route locale. Le désactiver restaure les réglages d’origine.",
-      "label": "Prise en charge du routage pour {{name}}"
+    "unavailable": {
+      "noService": "Choisissez d'abord un point d'accès",
+      "ownLogin": "Connecté avec son propre compte, qui ne peut pas être relayé",
+      "incomplete": "Il manque au point d'accès une adresse ou une clé à relayer"
+    },
+    "note": {
+      "onLive": "Les sessions ouvertes de {{name}} passent aussitôt par AI Manager.",
+      "onAtStart": "Les sessions ouvertes de {{name}} gardent leur connexion directe jusqu'à leur redémarrage.",
+      "offLive": "Les sessions ouvertes de {{name}} reviennent aussitôt, mais gardent les réglages ajoutés par le routage jusqu'à leur redémarrage.",
+      "offAtStart": "Les sessions ouvertes de {{name}} passent encore par AI Manager jusqu'à leur redémarrage. AI Manager continue de relayer pour elles tant qu'il tourne."
+    },
+    "quit": {
+      "title": "Quitter AI Manager ?",
+      "description": "Routés via AI Manager : {{tools}}. En quittant, chacun retrouve ses propres réglages.",
+      "live": "Les sessions ouvertes de {{tools}} reviennent d'elles-mêmes ; redémarrez-les pour retirer les réglages ajoutés par le routage.",
+      "atStart": "Redémarrez les sessions ouvertes de {{tools}} après avoir quitté : d'ici là, elles gardent l'adresse d'AI Manager et leurs requêtes échouent.",
+      "confirm": "Quitter"
     },
     "failover": {
       "title": "Basculement automatique",
@@ -2264,10 +2271,7 @@
       "label": "Basculement automatique pour {{name}}"
     },
     "queue": {
-      "title": "Ordre de basculement",
-      "description": "P1 est sélectionné au démarrage du basculement.",
-      "count_one": "{{count}} point d'accès",
-      "count_other": "{{count}} points d'accès",
+      "title": "Ordre de basculement de {{name}}",
       "empty": "Ajoutez un point d'accès, ou activez le basculement pour utiliser le point d'accès actuel comme P1.",
       "selectLabel": "Point d'accès à ajouter au basculement",
       "selectLabelNamed": "Point d'accès à ajouter au basculement de {{name}}",
@@ -2299,9 +2303,6 @@
       "title": "La modification du routage ne s'est pas terminée"
     },
     "live": {
-      "title": "Routage en direct",
-      "description": "Une fois activé, vos outils envoient leurs requêtes via AI Manager et cette page montre en direct quel service a répondu ; désactivez-le pour revenir aux connexions directes.",
-      "noTargets": "Choisissez d’abord un service pour un outil dans « {{page}} ».",
       "listSeparator": ", ",
       "panelLabel": "Requêtes en direct",
       "listLabel": "Requêtes récentes",
@@ -2332,16 +2333,6 @@
         "unavailable": "Aucun service disponible",
         "cancelled": "Annulée",
         "other": "Erreur"
-      },
-      "confirm": {
-        "title": "Activer le routage en direct ?",
-        "description": "{{tools}} enverront leurs requêtes via AI Manager. Leurs réglages sont d’abord sauvegardés, puis restaurés quand vous désactivez le routage en direct.",
-        "action": "Activer"
-      },
-      "partial": {
-        "title": "Certains outils n’ont pas pu être routés ; les autres passent désormais par AI Manager.",
-        "noneTitle": "Aucun outil n’a pu être routé ; tout reste en connexion directe.",
-        "item": "{{name}} : {{reason}}"
       },
       "header": {
         "title": "Routage",

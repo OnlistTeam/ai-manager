@@ -23,9 +23,9 @@ export function RoutingSummary({
     : overview.running
       ? CheckCircle2
       : ShieldCheck;
-  // While live routing is on, its switch is the way to stop; the button only
-  // covers a route running with no tool, or tools left pointing at a stopped one.
-  const showStop = overview.running !== takeoverCount > 0;
+  // Each tool's switch turns its routing off and the gateway keeps running
+  // while AI Manager runs (ADR-0054); the button only covers tools left
+  // pointing at a gateway that is no longer running.
   const address = overview.address?.includes(":")
     ? `[${overview.address}]`
     : overview.address;
@@ -57,7 +57,7 @@ export function RoutingSummary({
           {address}:{overview.port}
         </span>
       ) : null}
-      {showStop ? (
+      {needsRestore ? (
         <Button
           size="sm"
           variant="secondary"

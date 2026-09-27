@@ -6,18 +6,78 @@
 
 use std::sync::Arc;
 
+use serde_json::Value;
+
 use crate::database::Database;
-use crate::domain::{AppError, ErrorCode, RoutingOverview, RoutingProvider, RoutingTarget, ToolId};
+use crate::domain::{
+    AppError, ErrorCode, RoutingOverview, RoutingPickup, RoutingProvider, RoutingTarget, ToolId,
+};
 use crate::platform::redact::{redact_secrets, truncate_tail};
 use crate::provider::Provider;
 use crate::services::ProxyService;
 use crate::store::AppState;
 
-const ROUTING_APPS: [(ToolId, &str); 4] = [
-    (ToolId::ClaudeCode, "claude"),
-    (ToolId::Codex, "codex"),
-    (ToolId::GeminiCli, "gemini"),
-    (ToolId::GrokBuild, "grokbuild"),
+/// One tool the inherited gateway can route, and how its live config is
+/// read and compared (ADR-0054).
+struct RoutingApp {
+    tool: ToolId,
+    app: &'static str,
+    /// When an open session of the tool sees a change to its settings file.
+    pickup: RoutingPickup,
+    /// How the live config (as the inherited proxy reads it) is compared.
+    layout: &'static [LivePart],
+    read_live: fn() -> Result<Value, String>,
+}
+
+fn read_claude_live() -> Result<Value, String> {
+    let path = crate::config::get_claude_settings_path();
+    crate::config::read_json_file::<Value>(&path).map_err(|error| error.to_string())
+}
+
+fn read_codex_live() -> Result<Value, String> {
+    crate::codex_config::read_codex_live_settings().map_err(|error| error.to_string())
+}
+
+fn read_gemini_live() -> Result<Value, String> {
+    crate::gemini_config::read_gemini_env()
+        .map(|env| crate::gemini_config::env_to_json(&env))
+        .map_err(|error| error.to_string())
+}
+
+fn read_grok_live() -> Result<Value, String> {
+    crate::grok_config::read_grok_live_settings().map_err(|error| error.to_string())
+}
+
+const ROUTING_APPS: [RoutingApp; 4] = [
+    RoutingApp {
+        tool: ToolId::ClaudeCode,
+        app: "claude",
+        pickup: RoutingPickup::Live,
+        layout: &[LivePart::Document],
+        read_live: read_claude_live,
+    },
+    RoutingApp {
+        tool: ToolId::Codex,
+        app: "codex",
+        pickup: RoutingPickup::AtStart,
+        // auth.json holds the ChatGPT login; the inherited restore owns it.
+        layout: &[LivePart::Toml("config"), LivePart::AsBackedUp("auth")],
+        read_live: read_codex_live,
+    },
+    RoutingApp {
+        tool: ToolId::GeminiCli,
+        app: "gemini",
+        pickup: RoutingPickup::AtStart,
+        layout: &[LivePart::Document],
+        read_live: read_gemini_live,
+    },
+    RoutingApp {
+        tool: ToolId::GrokBuild,
+        app: "grokbuild",
+        pickup: RoutingPickup::AtStart,
+        layout: &[LivePart::Toml("config")],
+        read_live: read_grok_live,
+    },
 ];
 
 fn detail<E: std::fmt::Display>(error: E) -> String {
@@ -45,13 +105,13 @@ fn conflict(message_key: &'static str, technical: impl Into<String>) -> AppError
 /// provider failover is only offered for these, so both answers come from
 /// this one table.
 pub fn supports_local_routing(tool: ToolId) -> bool {
-    ROUTING_APPS.iter().any(|(candidate, _)| *candidate == tool)
+    ROUTING_APPS.iter().any(|entry| entry.tool == tool)
 }
 
-fn app_for_tool(tool: ToolId) -> Result<&'static str, AppError> {
+fn routing_app(tool: ToolId) -> Result<&'static RoutingApp, AppError> {
     ROUTING_APPS
         .iter()
-        .find_map(|(candidate, app)| (*candidate == tool).then_some(*app))
+        .find(|entry| entry.tool == tool)
         .ok_or_else(|| {
             conflict(
                 "error.routing.unsupportedTool",
@@ -113,8 +173,8 @@ impl RoutingStore {
     pub async fn overview(&self) -> Result<RoutingOverview, AppError> {
         let status = self.proxy.get_status().await.map_err(read_failed)?;
         let mut targets = Vec::with_capacity(ROUTING_APPS.len());
-        for (tool, app) in ROUTING_APPS {
-            targets.push(self.target(tool, app).await?);
+        for entry in &ROUTING_APPS {
+            targets.push(self.target(entry).await?);
         }
 
         Ok(RoutingOverview {
@@ -130,7 +190,8 @@ impl RoutingStore {
         })
     }
 
-    async fn target(&self, tool: ToolId, app: &str) -> Result<RoutingTarget, AppError> {
+    async fn target(&self, entry: &RoutingApp) -> Result<RoutingTarget, AppError> {
+        let app = entry.app;
         let config = self
             .db
             .get_proxy_config_for_app(app)
@@ -140,6 +201,10 @@ impl RoutingStore {
         let app_type = app.parse().map_err(read_failed)?;
         let current_id = crate::settings::get_effective_current_provider(&self.db, &app_type)
             .map_err(read_failed)?;
+        let unavailable = forwarding::unavailable_reason(
+            &app_type,
+            current_id.as_deref().and_then(|id| providers.get(id)),
+        );
         let upstream_queue = self.db.get_failover_queue(app).map_err(read_failed)?;
 
         let mut queue = Vec::new();
@@ -210,12 +275,14 @@ impl RoutingStore {
         });
 
         Ok(RoutingTarget {
-            tool,
+            tool: entry.tool,
             takeover_enabled: config.enabled,
             auto_failover_enabled: config.auto_failover_enabled,
             current_provider,
             queue,
             available,
+            unavailable,
+            pickup: entry.pickup,
         })
     }
 
@@ -224,26 +291,26 @@ impl RoutingStore {
         tool: ToolId,
         enabled: bool,
     ) -> Result<RoutingOverview, AppError> {
-        let app = app_for_tool(tool)?;
+        let entry = routing_app(tool)?;
         let _guard = self.mutation_lock.lock().await;
-        self.set_takeover_unlocked(app, enabled).await?;
-        self.overview().await
-    }
-
-    /// Callers hold `mutation_lock`.
-    async fn set_takeover_unlocked(&self, app: &str, enabled: bool) -> Result<(), AppError> {
         if !enabled {
-            // Upstream keeps the failover switch across takeover-off. Clear it
-            // first: "takeover on, failover off" is still a legal state if the
-            // upstream call then fails, whereas "takeover off, failover on"
-            // would let the next takeover-on revive failover without the P1
-            // switch that `set_failover(true)` requires (ADR-0007).
-            self.clear_auto_failover(app).await?;
+            self.release_unlocked(entry).await?;
+            return self.overview().await;
+        }
+        // A tool whose endpoint the gateway cannot carry is never taken over:
+        // every request it sent would fail (ADR-0054).
+        if let Some(reason) = self.target(entry).await?.unavailable {
+            return Err(conflict(
+                "error.routing.cannotForward",
+                format!("{} cannot be forwarded: {reason:?}", entry.app),
+            ));
         }
         self.proxy
-            .set_takeover_for_app(app, enabled)
+            .set_takeover_for_app(entry.app, true)
             .await
-            .map_err(change_failed)
+            .map_err(change_failed)?;
+        self.note_owned_settings(entry).await;
+        self.overview().await
     }
 
     pub async fn set_failover(
@@ -251,7 +318,8 @@ impl RoutingStore {
         tool: ToolId,
         enabled: bool,
     ) -> Result<RoutingOverview, AppError> {
-        let app = app_for_tool(tool)?;
+        let entry = routing_app(tool)?;
+        let app = entry.app;
         let _guard = self.mutation_lock.lock().await;
         if !enabled {
             self.clear_auto_failover(app).await?;
@@ -343,6 +411,7 @@ impl RoutingStore {
             .update_proxy_config_for_app(config)
             .await
             .map_err(change_failed)?;
+        self.note_owned_settings(entry).await;
         self.overview().await
     }
 
@@ -351,7 +420,8 @@ impl RoutingStore {
         tool: ToolId,
         raw_provider_id: &str,
     ) -> Result<RoutingOverview, AppError> {
-        let app = app_for_tool(tool)?;
+        let entry = routing_app(tool)?;
+        let app = entry.app;
         let id = provider_id(raw_provider_id)?;
         let _guard = self.mutation_lock.lock().await;
         let provider = self
@@ -381,7 +451,8 @@ impl RoutingStore {
         tool: ToolId,
         raw_provider_id: &str,
     ) -> Result<RoutingOverview, AppError> {
-        let app = app_for_tool(tool)?;
+        let entry = routing_app(tool)?;
+        let app = entry.app;
         let id = provider_id(raw_provider_id)?;
         let _guard = self.mutation_lock.lock().await;
         let config = self
@@ -432,7 +503,8 @@ impl RoutingStore {
         tool: ToolId,
         raw_provider_id: &str,
     ) -> Result<RoutingOverview, AppError> {
-        let app = app_for_tool(tool)?;
+        let entry = routing_app(tool)?;
+        let app = entry.app;
         let id = provider_id(raw_provider_id)?;
         let _guard = self.mutation_lock.lock().await;
         let config = self
@@ -450,6 +522,7 @@ impl RoutingStore {
             .switch_proxy_target(app, id)
             .await
             .map_err(change_failed)?;
+        self.note_owned_settings(entry).await;
         self.overview().await
     }
 
@@ -457,16 +530,6 @@ impl RoutingStore {
         let _guard = self.mutation_lock.lock().await;
         self.stop_all_unlocked().await?;
         self.overview().await
-    }
-
-    /// Callers hold `mutation_lock`.
-    async fn stop_all_unlocked(&self) -> Result<(), AppError> {
-        // Upstream deliberately keeps every failover switch across a stop; the
-        // product clears them for the same reason as `set_takeover(false)`.
-        for (_, app) in ROUTING_APPS {
-            self.clear_auto_failover(app).await?;
-        }
-        self.proxy.stop_with_restore().await.map_err(change_failed)
     }
 
     async fn clear_auto_failover(&self, app: &str) -> Result<(), AppError> {
@@ -486,8 +549,12 @@ impl RoutingStore {
     }
 }
 
-mod live_mode;
+mod forwarding;
+pub(crate) mod owned_settings;
+mod release;
 pub mod trace;
+
+use owned_settings::LivePart;
 
 #[cfg(test)]
 #[path = "routing/tests.rs"]

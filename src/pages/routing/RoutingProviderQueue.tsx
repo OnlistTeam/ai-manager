@@ -26,34 +26,23 @@ export function RoutingProviderQueue({
   const targetName = t(`routing.tool.${target.tool}`);
 
   return (
-    <div className="mt-5 border-t border-hairline pt-4">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <h3 className="text-body font-medium text-content">
-            {t("routing.queue.title")}
-          </h3>
-          <p className="mt-0.5 text-caption text-content-muted">
-            {t("routing.queue.description")}
-          </p>
-        </div>
-        <Badge tone={target.queue.length > 0 ? "brand" : "neutral"}>
-          {t("routing.queue.count", { count: target.queue.length })}
-        </Badge>
-      </div>
-
+    <div className="flex flex-col gap-2">
       {target.queue.length > 0 ? (
-        <ol className="mt-3 space-y-2" aria-label={t("routing.queue.title")}>
+        <ol
+          className="space-y-1.5"
+          aria-label={t("routing.queue.title", { name: targetName })}
+        >
           {target.queue.map((provider) => (
             <li
               key={provider.id}
-              className="flex min-w-0 items-center gap-3 rounded-lg border border-hairline bg-layer-1 px-3 py-2.5"
+              className="flex min-w-0 items-center gap-2 rounded-md border border-hairline bg-layer-1 px-2 py-1"
             >
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand/10 text-caption font-semibold text-content">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand/10 text-caption font-semibold text-content">
                 P{provider.priority}
               </span>
               <span className="min-w-0 flex-1">
                 <span className="flex items-center gap-2">
-                  <span className="truncate text-body font-medium text-content">
+                  <span className="truncate text-caption font-medium text-content">
                     {provider.name}
                   </span>
                   {provider.current ? (
@@ -62,7 +51,7 @@ export function RoutingProviderQueue({
                     </Badge>
                   ) : null}
                 </span>
-                <span className="mt-0.5 flex items-center gap-1.5 text-caption text-content-muted">
+                <span className="flex items-center gap-1.5 text-caption text-content-muted">
                   {provider.healthy ? (
                     <CheckCircle2
                       className="h-3.5 w-3.5 text-success"
@@ -111,13 +100,13 @@ export function RoutingProviderQueue({
           ))}
         </ol>
       ) : (
-        <p className="mt-3 rounded-lg border border-dashed border-hairline px-3 py-3 text-caption text-content-muted">
+        <p className="rounded-md border border-dashed border-hairline px-3 py-2 text-caption text-content-muted">
           {t("routing.queue.empty")}
         </p>
       )}
 
       {target.available.length > 0 ? (
-        <div className="mt-3 flex gap-2">
+        <div className="flex gap-2">
           <select
             value={selected}
             disabled={busy}

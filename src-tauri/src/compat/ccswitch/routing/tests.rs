@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use serde_json::json;
 
-use super::{app_for_tool, supports_local_routing, RoutingStore, ROUTING_APPS};
+use super::{routing_app, supports_local_routing, RoutingStore, ROUTING_APPS};
 use crate::database::Database;
 use crate::domain::ToolId;
 use crate::provider::{AuthBinding, AuthBindingSource, Provider, ProviderMeta};
@@ -35,23 +35,32 @@ fn provider(id: &str, name: &str, sort_index: usize) -> Provider {
 #[test]
 fn mapping_is_exactly_the_four_inherited_proxy_data_planes() {
     assert_eq!(ROUTING_APPS.len(), 4);
-    assert_eq!(app_for_tool(ToolId::ClaudeCode).expect("claude"), "claude");
-    assert_eq!(app_for_tool(ToolId::Codex).expect("codex"), "codex");
-    assert_eq!(app_for_tool(ToolId::GeminiCli).expect("gemini"), "gemini");
-    assert_eq!(app_for_tool(ToolId::GrokBuild).expect("grok"), "grokbuild");
+    assert_eq!(
+        routing_app(ToolId::ClaudeCode).expect("claude").app,
+        "claude"
+    );
+    assert_eq!(routing_app(ToolId::Codex).expect("codex").app, "codex");
+    assert_eq!(
+        routing_app(ToolId::GeminiCli).expect("gemini").app,
+        "gemini"
+    );
+    assert_eq!(
+        routing_app(ToolId::GrokBuild).expect("grok").app,
+        "grokbuild"
+    );
     for unsupported in [
         ToolId::OpenCode,
         ToolId::OpenClaw,
         ToolId::Hermes,
         ToolId::Pi,
     ] {
-        assert!(app_for_tool(unsupported).is_err());
+        assert!(routing_app(unsupported).is_err());
     }
     // Lightweight failover answers from the same table, never a second list.
     for tool in ToolId::ALL {
         assert_eq!(
             supports_local_routing(tool),
-            app_for_tool(tool).is_ok(),
+            routing_app(tool).is_ok(),
             "{tool:?}"
         );
     }

@@ -18,6 +18,16 @@ export const routingProviderSchema = z
   })
   .strict();
 
+/** Why a tool cannot be routed through AI Manager right now (ADR-0054). */
+export const routingUnavailableSchema = z.enum([
+  "noService",
+  "ownLogin",
+  "incomplete",
+]);
+
+/** When an open session of the tool sees a change to its settings. */
+export const routingPickupSchema = z.enum(["live", "atStart"]);
+
 export const routingTargetSchema = z
   .object({
     tool: toolIdSchema,
@@ -26,6 +36,8 @@ export const routingTargetSchema = z
     currentProvider: routingProviderSchema.nullable(),
     queue: z.array(routingProviderSchema).max(512),
     available: z.array(routingProviderSchema).max(512),
+    unavailable: routingUnavailableSchema.nullable(),
+    pickup: routingPickupSchema,
   })
   .strict();
 
@@ -59,6 +71,8 @@ export const routingOverviewSchema = z
     }
   });
 
+export type RoutingUnavailable = z.infer<typeof routingUnavailableSchema>;
+export type RoutingPickup = z.infer<typeof routingPickupSchema>;
 export type RoutingProvider = z.infer<typeof routingProviderSchema>;
 export type RoutingTarget = z.infer<typeof routingTargetSchema>;
 export type RoutingOverview = z.infer<typeof routingOverviewSchema>;

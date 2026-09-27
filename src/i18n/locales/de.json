@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "Öffnen Sie „Systemeinstellungen → Datenschutz & Sicherheit → Automation“ und aktivieren Sie dort „Terminal“ für AI Manager."
     },
     "routing": {
+      "cannotForward": "Die aktuelle Verbindung dieses Tools kann nicht über AI Manager geleitet werden.",
       "changeFailed": "AI Manager konnte diese Routing-Änderung nicht sicher abschließen.",
-      "liveTakeoverFailed": "AI Manager konnte dieses Tool nicht umleiten; es bleibt direkt verbunden.",
-      "noLiveTargets": "Noch kein Tool hat einen Dienst ausgewählt, daher kann Live-Routing nicht starten.",
       "providerNotEligible": "Dieser Endpunkt kann nicht am automatischen Failover teilnehmen.",
       "providerUnavailable": "Dieser Endpunkt steht für das Routing nicht mehr zur Verfügung.",
       "queueLocked": "Schalten Sie den automatischen Failover aus, bevor Sie diesen aktiven oder letzten Endpunkt entfernen.",
@@ -2223,21 +2222,16 @@
     }
   },
   "routing": {
-    "toolScope": "KI-Software",
     "title": "Lokales Routing",
-    "description": "Leiten Sie Anfragen lokal weiter, mit optionalem automatischem Fallback auf Backup-Endpunkte.",
+    "description": "Wähle, welche Tools ihre Anfragen über AI Manager senden. Jede Anfrage erscheint unten, sobald sie passiert.",
     "summary": {
-      "inactive": "Lokales Routing ist aus. Tools behalten ihre bestehenden Verbindungen.",
+      "inactive": "Kein Tool läuft über AI Manager. Jedes behält seine eigene Verbindung.",
       "needsRestore": "Routing wurde gestoppt, Tools zeigen aber noch darauf. Stellen Sie ihre Einstellungen wieder her."
     },
     "refresh": "Status aktualisieren",
     "loading": "Lokales Routing wird geladen",
     "hero": {
-      "title": "Eine lokale Route, weniger Unterbrechungen",
-      "description": "Tools senden Anfragen über eine lokale Route auf diesem Computer; beim Stoppen werden ihre ursprünglichen Einstellungen wiederhergestellt.",
       "running": "Routing läuft",
-      "stopped": "Bereit, wenn Sie es brauchen",
-      "localOnly": "Nur lokaler Loopback",
       "takeovers_one": "{{count}} Tool geroutet",
       "takeovers_other": "{{count}} Tools geroutet"
     },
@@ -2247,16 +2241,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "Geroutet",
-      "direct": "Direkt",
-      "current": "Aktueller Endpunkt: {{name}}",
-      "noProvider": "Wählen Sie zuerst einen aktuellen Endpunkt unter API-Endpunkte."
+    "row": {
+      "through": "Über AI Manager",
+      "noEndpoint": "Kein Endpunkt gewählt",
+      "switchLabel": "{{name}} über AI Manager leiten",
+      "routedButUnavailable": "Der verwendete Endpunkt kann nicht weitergeleitet werden. Schalte das Routing für dieses Tool aus."
     },
-    "takeover": {
-      "title": "Routing-Übernahme",
-      "description": "Wenn aktiv, laufen die Anfragen dieses Tools über die lokale Route. Beim Ausschalten werden die ursprünglichen Einstellungen wiederhergestellt.",
-      "label": "Routing-Übernahme für {{name}}"
+    "unavailable": {
+      "noService": "Wähle zuerst einen Endpunkt",
+      "ownLogin": "Mit eigenem Konto angemeldet, kann nicht weitergeleitet werden",
+      "incomplete": "Dem Endpunkt fehlt Adresse oder Schlüssel zum Weiterleiten"
+    },
+    "note": {
+      "onLive": "Offene {{name}}-Sitzungen laufen ab sofort über AI Manager.",
+      "onAtStart": "Offene {{name}}-Sitzungen bleiben direkt verbunden, bis du sie neu startest.",
+      "offLive": "Offene {{name}}-Sitzungen wechseln sofort zurück, behalten aber vom Routing hinzugefügte Einstellungen bis zum Neustart.",
+      "offAtStart": "Offene {{name}}-Sitzungen laufen weiter über AI Manager, bis du sie neu startest. AI Manager leitet für sie weiter, solange es läuft."
+    },
+    "quit": {
+      "title": "AI Manager beenden?",
+      "description": "Über AI Manager geleitet: {{tools}}. Beim Beenden erhält jedes Tool seine eigenen Einstellungen zurück.",
+      "live": "Offene Sitzungen von {{tools}} wechseln von selbst zurück; starte sie neu, um vom Routing hinzugefügte Einstellungen zu entfernen.",
+      "atStart": "Starte offene Sitzungen von {{tools}} nach dem Beenden neu: Bis dahin nutzen sie die Adresse von AI Manager und ihre Anfragen schlagen fehl.",
+      "confirm": "Beenden"
     },
     "failover": {
       "title": "Automatischer Failover",
@@ -2264,10 +2271,7 @@
       "label": "Automatischer Failover für {{name}}"
     },
     "queue": {
-      "title": "Failover-Reihenfolge",
-      "description": "P1 wird ausgewählt, wenn der Failover startet.",
-      "count_one": "{{count}} Endpunkt",
-      "count_other": "{{count}} Endpunkte",
+      "title": "Failover-Reihenfolge für {{name}}",
       "empty": "Fügen Sie einen Endpunkt hinzu, oder schalten Sie Failover ein, um den aktuellen Endpunkt als P1 zu verwenden.",
       "selectLabel": "Endpunkt zum Failover hinzufügen",
       "selectLabelNamed": "Endpunkt zum Failover von {{name}} hinzufügen",
@@ -2299,9 +2303,6 @@
       "title": "Routing-Änderung wurde nicht abgeschlossen"
     },
     "live": {
-      "title": "Live-Routing",
-      "description": "Wenn aktiv, senden deine Tools ihre Anfragen über AI Manager, und hier siehst du live, welcher Dienst geantwortet hat; ausschalten stellt die direkten Verbindungen wieder her.",
-      "noTargets": "Wähle zuerst unter „{{page}}“ einen Dienst für ein Tool.",
       "listSeparator": ", ",
       "panelLabel": "Live-Anfragen",
       "listLabel": "Letzte Anfragen",
@@ -2332,16 +2333,6 @@
         "unavailable": "Kein Dienst verfügbar",
         "cancelled": "Abgebrochen",
         "other": "Fehler"
-      },
-      "confirm": {
-        "title": "Live-Routing einschalten?",
-        "description": "{{tools}} senden ihre Anfragen dann über AI Manager. Ihre Einstellungen werden vorher gesichert und beim Ausschalten wiederhergestellt.",
-        "action": "Einschalten"
-      },
-      "partial": {
-        "title": "Einige Tools konnten nicht umgeleitet werden; die übrigen laufen jetzt über AI Manager.",
-        "noneTitle": "Kein Tool konnte umgeleitet werden; alles bleibt direkt verbunden.",
-        "item": "{{name}}: {{reason}}"
       },
       "header": {
         "title": "Routing",

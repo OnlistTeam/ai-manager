@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "In System Settings, open Privacy & Security, then Automation, and switch Terminal on for AI Manager."
     },
     "routing": {
+      "cannotForward": "This tool's current connection can't be routed through AI Manager.",
       "changeFailed": "AI Manager could not complete that routing change safely.",
-      "liveTakeoverFailed": "AI Manager could not route this tool, so it keeps its direct connection.",
-      "noLiveTargets": "No tool has a service chosen yet, so live routing cannot start.",
       "providerNotEligible": "That endpoint cannot participate in automatic failover.",
       "providerUnavailable": "That endpoint is no longer available for routing.",
       "queueLocked": "Turn off automatic failover before removing this active or final endpoint.",
@@ -2223,21 +2222,16 @@
     }
   },
   "routing": {
-    "toolScope": "AI software",
     "title": "Local Routing",
-    "description": "Forward requests locally, with optional automatic fallback to backup endpoints.",
+    "description": "Choose which tools send their requests through AI Manager. Each request shows up below as it happens.",
     "summary": {
-      "inactive": "Local routing is off. Tools keep their existing connections.",
+      "inactive": "No tool goes through AI Manager. Each keeps its own connection.",
       "needsRestore": "Routing stopped, but tools still point to it. Restore their settings."
     },
     "refresh": "Refresh status",
     "loading": "Loading local routing",
     "hero": {
-      "title": "One local route, fewer interruptions",
-      "description": "Tools send requests through a local route on this computer; stopping it restores their original settings.",
       "running": "Routing is running",
-      "stopped": "Ready when you need it",
-      "localOnly": "Local loopback only",
       "takeovers_one": "{{count}} tool routed",
       "takeovers_other": "{{count}} tools routed"
     },
@@ -2247,16 +2241,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "Routed",
-      "direct": "Direct",
-      "current": "Current endpoint: {{name}}",
-      "noProvider": "Choose a current endpoint in API Endpoints first."
+    "row": {
+      "through": "Through AI Manager",
+      "noEndpoint": "No endpoint chosen",
+      "switchLabel": "Route {{name}} through AI Manager",
+      "routedButUnavailable": "The endpoint in use can't be routed. Turn routing off for this tool."
     },
-    "takeover": {
-      "title": "Routing takeover",
-      "description": "When on, this tool's requests go through the local route. Turning it off restores the original settings.",
-      "label": "Routing takeover for {{name}}"
+    "unavailable": {
+      "noService": "Choose an endpoint first",
+      "ownLogin": "Signed in with its own account, which can't be routed",
+      "incomplete": "Endpoint has no address or key to route"
+    },
+    "note": {
+      "onLive": "Open {{name}} sessions start going through AI Manager right away.",
+      "onAtStart": "Open {{name}} sessions keep their direct connection until you restart them.",
+      "offLive": "Open {{name}} sessions switch back right away, but keep any setting routing added until you restart them.",
+      "offAtStart": "Open {{name}} sessions keep going through AI Manager until you restart them. It keeps forwarding for them while it runs."
+    },
+    "quit": {
+      "title": "Quit AI Manager?",
+      "description": "Routed through AI Manager: {{tools}}. Quitting puts each one back on its own settings.",
+      "live": "Open sessions of {{tools}} switch back on their own; restart them to drop any setting routing added.",
+      "atStart": "Restart open sessions of {{tools}} after quitting: until then they keep AI Manager's address and their requests fail.",
+      "confirm": "Quit"
     },
     "failover": {
       "title": "Automatic failover",
@@ -2264,10 +2271,7 @@
       "label": "Automatic failover for {{name}}"
     },
     "queue": {
-      "title": "Failover order",
-      "description": "P1 is selected when failover starts.",
-      "count_one": "{{count}} endpoint",
-      "count_other": "{{count}} endpoints",
+      "title": "Failover order for {{name}}",
       "empty": "Add an endpoint, or turn on failover to use the current endpoint as P1.",
       "selectLabel": "Endpoint to add to failover",
       "selectLabelNamed": "Endpoint to add to {{name}} failover",
@@ -2299,9 +2303,6 @@
       "title": "Routing change did not finish"
     },
     "live": {
-      "title": "Live routing",
-      "description": "When on, your tools send requests through AI Manager and this page shows live which service answered; turn it off to go back to direct connections.",
-      "noTargets": "Choose a service for a tool in {{page}} first.",
       "listSeparator": ", ",
       "panelLabel": "Live requests",
       "listLabel": "Recent requests",
@@ -2332,16 +2333,6 @@
         "unavailable": "No service available",
         "cancelled": "Cancelled",
         "other": "Error"
-      },
-      "confirm": {
-        "title": "Turn on live routing?",
-        "description": "{{tools}} will send requests through AI Manager. Their settings are backed up first and restored when you turn live routing off.",
-        "action": "Turn on"
-      },
-      "partial": {
-        "title": "Some tools could not be routed; the others now go through AI Manager.",
-        "noneTitle": "No tool could be routed; everything stays direct.",
-        "item": "{{name}}: {{reason}}"
       },
       "header": {
         "title": "Routing",

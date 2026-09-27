@@ -32,11 +32,17 @@ interface Scenario {
   frames: Frame[];
 }
 
-const RATE_LIMITED = attempt("Anthropic", "failed", 420, "rateLimited", 429);
-const ANTHROPIC_OK = attempt("Anthropic", "ok", 640);
+const RATE_LIMITED = attempt(
+  "Anthropic API",
+  "failed",
+  420,
+  "rateLimited",
+  429,
+);
+const ANTHROPIC_OK = attempt("Anthropic API", "ok", 640);
 const GATEWAY_OK = attempt("Shared Team Gateway", "ok", 1_840);
 const RELAY_OK = attempt("Team Relay", "ok", 1_180);
-const RESTING = attempt("Anthropic", "skipped");
+const RESTING = attempt("Anthropic API", "skipped");
 const TIMED_OUT = attempt("jordan.lee@example.com", "failed", 1_600, "timeout");
 const SERVER_ERROR = attempt(
   "Shared Team Gateway",
@@ -52,7 +58,7 @@ const SCENARIOS: Scenario[] = [
     model: "claude-sonnet-5",
     frames: [
       [0, [], "pending"],
-      [250, [attempt("Anthropic", "pending")], "pending"],
+      [250, [attempt("Anthropic API", "pending")], "pending"],
       [
         2_000,
         [RATE_LIMITED, attempt("Shared Team Gateway", "pending")],
@@ -77,7 +83,7 @@ const SCENARIOS: Scenario[] = [
     model: "claude-haiku-5",
     frames: [
       [0, [], "pending"],
-      [200, [attempt("Anthropic", "pending")], "pending"],
+      [200, [attempt("Anthropic API", "pending")], "pending"],
       [1_700, [ANTHROPIC_OK], "ok", 690],
     ],
   },

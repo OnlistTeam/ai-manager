@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "Abra «Ajustes do Sistema → Privacidade e Segurança → Automação» e ative o «Terminal» para o AI Manager."
     },
     "routing": {
+      "cannotForward": "A conexão atual desta ferramenta não pode ser roteada pelo AI Manager.",
       "changeFailed": "O AI Manager não conseguiu concluir essa alteração de roteamento com segurança.",
-      "liveTakeoverFailed": "O AI Manager não conseguiu rotear esta ferramenta, então ela mantém a conexão direta.",
-      "noLiveTargets": "Nenhuma ferramenta tem um serviço escolhido ainda, então o roteamento ao vivo não pode começar.",
       "providerNotEligible": "Esse endpoint não pode participar do failover automático.",
       "providerUnavailable": "Esse endpoint não está mais disponível para roteamento.",
       "queueLocked": "Desative o failover automático antes de remover este endpoint ativo ou final.",
@@ -2223,21 +2222,16 @@
     }
   },
   "routing": {
-    "toolScope": "Programas de IA",
     "title": "Roteamento local",
-    "description": "Encaminhe requisições localmente, com failover automático opcional para endpoints de backup.",
+    "description": "Escolha quais ferramentas enviam as solicitações pelo AI Manager. Cada solicitação aparece abaixo assim que acontece.",
     "summary": {
-      "inactive": "O roteamento local está desligado. As ferramentas mantêm suas conexões atuais.",
+      "inactive": "Nenhuma ferramenta passa pelo AI Manager. Cada uma mantém a própria conexão.",
       "needsRestore": "O roteamento parou, mas as ferramentas ainda apontam para ele. Restaure suas configurações."
     },
     "refresh": "Atualizar status",
     "loading": "Carregando roteamento local",
     "hero": {
-      "title": "Uma rota local, menos interrupções",
-      "description": "As ferramentas enviam as solicitações por uma rota local neste computador; parar a rota restaura as configurações originais.",
       "running": "O roteamento está em execução",
-      "stopped": "Pronto para quando você precisar",
-      "localOnly": "Somente loopback local",
       "takeovers_one": "{{count}} ferramenta roteada",
       "takeovers_other": "{{count}} ferramentas roteadas"
     },
@@ -2247,16 +2241,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "Roteado",
-      "direct": "Direto",
-      "current": "Endpoint atual: {{name}}",
-      "noProvider": "Escolha um endpoint atual em Endpoints de API primeiro."
+    "row": {
+      "through": "Pelo AI Manager",
+      "noEndpoint": "Nenhum endpoint escolhido",
+      "switchLabel": "Rotear {{name}} pelo AI Manager",
+      "routedButUnavailable": "O endpoint em uso não pode ser roteado. Desligue o roteamento desta ferramenta."
     },
-    "takeover": {
-      "title": "Assumir roteamento",
-      "description": "Quando ativado, as solicitações desta ferramenta passam pela rota local. Desativar restaura as configurações originais.",
-      "label": "Assumir roteamento para {{name}}"
+    "unavailable": {
+      "noService": "Escolha um endpoint primeiro",
+      "ownLogin": "Conectada com a própria conta, que não pode ser roteada",
+      "incomplete": "Falta ao endpoint o endereço ou a chave para rotear"
+    },
+    "note": {
+      "onLive": "As sessões abertas do {{name}} passam a usar o AI Manager na hora.",
+      "onAtStart": "As sessões abertas do {{name}} mantêm a conexão direta até você reiniciá-las.",
+      "offLive": "As sessões abertas do {{name}} voltam na hora, mas mantêm as configurações que o roteamento adicionou até você reiniciá-las.",
+      "offAtStart": "As sessões abertas do {{name}} continuam passando pelo AI Manager até você reiniciá-las. O AI Manager continua encaminhando para elas enquanto estiver aberto."
+    },
+    "quit": {
+      "title": "Sair do AI Manager?",
+      "description": "Roteadas pelo AI Manager: {{tools}}. Ao sair, cada uma volta às próprias configurações.",
+      "live": "As sessões abertas de {{tools}} voltam sozinhas; reinicie-as para tirar as configurações que o roteamento adicionou.",
+      "atStart": "Reinicie as sessões abertas de {{tools}} depois de sair: até lá elas mantêm o endereço do AI Manager e as solicitações falham.",
+      "confirm": "Sair"
     },
     "failover": {
       "title": "Failover automático",
@@ -2264,10 +2271,7 @@
       "label": "Failover automático para {{name}}"
     },
     "queue": {
-      "title": "Ordem de failover",
-      "description": "P1 é selecionado quando o failover começa.",
-      "count_one": "{{count}} endpoint",
-      "count_other": "{{count}} endpoints",
+      "title": "Ordem de failover do {{name}}",
       "empty": "Adicione um endpoint ou ative o failover para usar o endpoint atual como P1.",
       "selectLabel": "Endpoint a adicionar ao failover",
       "selectLabelNamed": "Endpoint a adicionar ao failover de {{name}}",
@@ -2299,9 +2303,6 @@
       "title": "A alteração de roteamento não terminou"
     },
     "live": {
-      "title": "Roteamento ao vivo",
-      "description": "Quando ativo, suas ferramentas enviam as solicitações pelo AI Manager e esta página mostra ao vivo qual serviço respondeu; desligue para voltar às conexões diretas.",
-      "noTargets": "Primeiro escolha um serviço para uma ferramenta em \"{{page}}\".",
       "listSeparator": ", ",
       "panelLabel": "Solicitações ao vivo",
       "listLabel": "Solicitações recentes",
@@ -2332,16 +2333,6 @@
         "unavailable": "Nenhum serviço disponível",
         "cancelled": "Cancelada",
         "other": "Erro"
-      },
-      "confirm": {
-        "title": "Ligar o roteamento ao vivo?",
-        "description": "{{tools}} passarão a enviar solicitações pelo AI Manager. As configurações são salvas antes e restauradas quando você desligar o roteamento ao vivo.",
-        "action": "Ligar"
-      },
-      "partial": {
-        "title": "Algumas ferramentas não puderam ser roteadas; as demais agora passam pelo AI Manager.",
-        "noneTitle": "Nenhuma ferramenta pôde ser roteada; tudo continua em conexão direta.",
-        "item": "{{name}}: {{reason}}"
       },
       "header": {
         "title": "Roteamento",

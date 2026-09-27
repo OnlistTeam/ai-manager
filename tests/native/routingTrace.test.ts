@@ -3,7 +3,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   native,
   NativeError,
+  onQuitRequested,
   onRoutingTrace,
+  QUIT_REQUESTED_EVENT,
   ROUTING_TRACE_EVENT,
   routingTraceUpdateSchema,
 } from "@/native";
@@ -48,28 +50,7 @@ const snapshot = {
   entries: [traceEntry],
 };
 
-const overview = {
-  running: true,
-  address: "127.0.0.1",
-  port: 15_721,
-  activeConnections: 0,
-  totalRequests: 0,
-  successRequests: 0,
-  failedRequests: 0,
-  failoverCount: 0,
-  targets: ["claude-code", "codex", "gemini-cli", "grok-build"].map(
-    (tool, index) => ({
-      tool,
-      takeoverEnabled: index === 0,
-      autoFailoverEnabled: false,
-      currentProvider: null,
-      queue: [],
-      available: [],
-    }),
-  ),
-};
-
-describe("native.routing live mode and trace", () => {
+describe("native.routing trace and quit", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -83,34 +64,37 @@ describe("native.routing live mode and trace", () => {
     await expect(native.routing.trace()).resolves.toEqual(snapshot);
   });
 
-  it("sends only the switch position and parses per-tool failures", async () => {
-    const bodies: unknown[] = [];
-    const outcome = {
-      overview,
-      failures: [
-        {
-          tool: "gemini-cli",
-          error: {
-            code: "CONFIG_WRITE_FAILED",
-            messageKey: "error.routing.liveTakeoverFailed",
-            technicalMessage: null,
-            remediation: null,
-            contextId: null,
-          },
-        },
+  it("confirms a held quit through the product command", async () => {
+    const calls: string[] = [];
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_quit_confirmed`, ({ request }) => {
+        calls.push(new URL(request.url).pathname);
+        return HttpResponse.json(null);
+      }),
+    );
+    await expect(native.routing.confirmQuit()).resolves.toBeNull();
+    expect(calls).toEqual(["/app_quit_confirmed"]);
+  });
+
+  it("delivers a held quit with each routed tool and drops malformed ones", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const received: unknown[] = [];
+    const unlisten = await onQuitRequested((payload) => received.push(payload));
+    const payload = {
+      tools: [
+        { tool: "claude-code", pickup: "live" },
+        { tool: "codex", pickup: "atStart" },
       ],
     };
-    server.use(
-      http.post(
-        `${TAURI_ENDPOINT}/app_routing_set_live_mode`,
-        async ({ request }) => {
-          bodies.push(await request.json());
-          return HttpResponse.json(outcome);
-        },
-      ),
-    );
-    await expect(native.routing.setLiveMode(true)).resolves.toEqual(outcome);
-    expect(bodies).toEqual([{ enabled: true }]);
+
+    emitTauriEvent(QUIT_REQUESTED_EVENT, payload);
+    emitTauriEvent(QUIT_REQUESTED_EVENT, { tools: [] });
+    emitTauriEvent(QUIT_REQUESTED_EVENT, {
+      tools: [{ tool: "codex", pickup: "sometimes" }],
+    });
+
+    expect(received).toEqual([payload]);
+    unlisten();
   });
 
   it("accepts a try that is still in progress", () => {

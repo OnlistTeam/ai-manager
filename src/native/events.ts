@@ -13,6 +13,7 @@ import {
   routingTraceUpdateSchema,
   type RoutingTraceUpdate,
 } from "./schemas/routingTrace";
+import { routingPickupSchema, type RoutingPickup } from "./schemas/routing";
 import { toolIdSchema, type ToolId } from "./schemas/tool";
 
 export const OPERATION_CHANGED_EVENT = "operation://changed";
@@ -20,10 +21,32 @@ export const PROVIDER_CHANGED_EVENT = "provider://changed";
 export const DEEP_LINK_PENDING_EVENT = "deeplink://pending";
 export const CONFIG_LOAD_ERROR_EVENT = "configLoadError";
 export const ROUTING_TRACE_EVENT = "routing://trace";
+export const QUIT_REQUESTED_EVENT = "app://quit-requested";
 
 export interface ProviderChangedPayload {
   tool: ToolId;
 }
+
+export interface RoutedTool {
+  tool: ToolId;
+  pickup: RoutingPickup;
+}
+
+export interface QuitRequestedPayload {
+  /** The tools routed through AI Manager when the quit was asked for. */
+  tools: RoutedTool[];
+}
+
+const quitRequestedPayloadSchema = z
+  .object({
+    tools: z
+      .array(
+        z.object({ tool: toolIdSchema, pickup: routingPickupSchema }).strict(),
+      )
+      .min(1)
+      .max(16),
+  })
+  .strict();
 
 const providerChangedPayloadSchema = z.object({ tool: toolIdSchema }).strict();
 
@@ -119,6 +142,26 @@ export function onRoutingTrace(
     }
     console.error(
       `Discarded malformed ${ROUTING_TRACE_EVENT} payload`,
+      parsed.error.message,
+    );
+  });
+}
+
+/**
+ * Pushed when the user quits while tools are routed through AI Manager
+ * (ADR-0054). The quit waits for `native.routing.confirmQuit()`.
+ */
+export function onQuitRequested(
+  callback: (payload: QuitRequestedPayload) => void,
+): Promise<UnlistenFn> {
+  return listen<unknown>(QUIT_REQUESTED_EVENT, (event) => {
+    const parsed = quitRequestedPayloadSchema.safeParse(event.payload);
+    if (parsed.success) {
+      callback(parsed.data);
+      return;
+    }
+    console.error(
+      `Discarded malformed ${QUIT_REQUESTED_EVENT} payload`,
       parsed.error.message,
     );
   });
