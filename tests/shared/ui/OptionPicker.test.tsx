@@ -176,6 +176,26 @@ describe("OptionPicker", () => {
       expect(onTyped).toHaveBeenCalledWith("gpt-9");
     });
 
+    it("shortens a long group until the filter is used", async () => {
+      mount({
+        options: undefined,
+        filterAbove: 0,
+        groupLimit: 1,
+        moreLabel: (hidden) => `${hidden} more`,
+        groups: [groups[0]!],
+      });
+      const user = userEvent.setup();
+      await user.click(screen.getByRole("button", { name: "Open" }));
+      await screen.findByRole("listbox");
+      expect(
+        screen.getAllByRole("option").map((option) => option.textContent),
+      ).toEqual(["Alpha", "one", "1 more", "Manage…"]);
+      await user.type(screen.getByPlaceholderText("Filter"), "two");
+      expect(
+        screen.getAllByRole("option").map((option) => option.textContent),
+      ).toEqual(["Alpha", "two", "Manage…"]);
+    });
+
     it("tells the owner when it opens and closes", async () => {
       const onOpenChange = vi.fn();
       mount({ onOpenChange });

@@ -3,28 +3,22 @@ import { Command } from "cmdk";
 import { Search } from "lucide-react";
 import * as React from "react";
 import { cn } from "./cn";
+import { filterGroups, matches } from "./optionPickerFilter";
 import {
   OptionPickerActionItem,
   OptionPickerFreeEntry,
   OptionPickerItem,
   OptionPickerNote,
   type OptionPickerAction,
+  type OptionPickerGroup,
   type OptionPickerOption,
 } from "./OptionPickerItem";
 
 export type {
   OptionPickerAction,
+  OptionPickerGroup,
   OptionPickerOption,
 } from "./OptionPickerItem";
-
-/** A choosable heading with the options that belong under it. */
-export interface OptionPickerGroup {
-  id: string;
-  header: OptionPickerOption;
-  options: readonly OptionPickerOption[];
-  /** Shown under the heading while it lists no options, e.g. while they load. */
-  note?: string | null;
-}
 
 export interface OptionPickerFreeEntryConfig {
   /** The row's text for what was typed, e.g. `Use "gpt-5"`. */
@@ -53,33 +47,15 @@ export interface OptionPickerProps {
   noMatch: string;
   /** A filter field appears once the list is longer than this. */
   filterAbove?: number;
+  /** Unfiltered, a group lists at most this many options; the filter reaches all. */
+  groupLimit?: number;
+  /** The line under a shortened group, given how many it holds back. */
+  moreLabel?: (hidden: number) => string;
   align?: "start" | "center" | "end";
   /** Width of the open list; it is never narrower than the trigger. */
   contentClassName?: string;
   onOpenChange?: (open: boolean) => void;
   onSelect: (id: string) => void;
-}
-
-function matches(option: OptionPickerOption, needle: string): boolean {
-  return `${option.label} ${option.detail ?? ""}`
-    .toLocaleLowerCase()
-    .includes(needle);
-}
-
-/**
- * A group stays whole when its heading matches, and otherwise keeps only the
- * options that match; a group with neither goes.
- */
-function filterGroups(
-  groups: readonly OptionPickerGroup[],
-  needle: string,
-): OptionPickerGroup[] {
-  if (!needle) return [...groups];
-  return groups.flatMap((group) => {
-    if (matches(group.header, needle)) return [group];
-    const options = group.options.filter((option) => matches(option, needle));
-    return options.length > 0 ? [{ ...group, options, note: null }] : [];
-  });
 }
 
 /**
@@ -101,6 +77,8 @@ export function OptionPicker({
   filterPlaceholder,
   noMatch,
   filterAbove = 7,
+  groupLimit = Number.POSITIVE_INFINITY,
+  moreLabel,
   align = "end",
   contentClassName = "w-72",
   onOpenChange,
@@ -120,7 +98,12 @@ export function OptionPicker({
     filterable && needle
       ? options.filter((option) => matches(option, needle))
       : options;
-  const shownGroups = filterGroups(groups, filterable ? needle : "");
+  const shownGroups = filterGroups(
+    groups,
+    filterable ? needle : "",
+    groupLimit,
+    moreLabel,
+  );
   const shownCount =
     shown.length +
     shownGroups.reduce((count, group) => count + 1 + group.options.length, 0);
@@ -220,7 +203,7 @@ export function OptionPicker({
                       onSelect={() => choose(() => onSelect(option.id))}
                     />
                   ))}
-                  {group.options.length === 0 && group.note ? (
+                  {group.note ? (
                     <OptionPickerNote id={group.id} text={group.note} />
                   ) : null}
                 </React.Fragment>

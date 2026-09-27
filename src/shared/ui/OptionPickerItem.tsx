@@ -16,6 +16,15 @@ export interface OptionPickerOption {
   disabled?: boolean;
 }
 
+/** A choosable heading with the options that belong under it. */
+export interface OptionPickerGroup {
+  id: string;
+  header: OptionPickerOption;
+  options: readonly OptionPickerOption[];
+  /** A muted line after the group's options, e.g. while they load. */
+  note?: string | null;
+}
+
 export interface OptionPickerAction {
   id: string;
   label: string;
