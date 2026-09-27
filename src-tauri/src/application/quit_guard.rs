@@ -8,9 +8,16 @@
 //! Its confirmation quits for real. A second quit request shortly after
 //! goes ahead without asking again, so a window that cannot answer never
 //! keeps AI Manager from quitting.
+//!
+//! macOS also ends the app without a quit request: a logout, restart or
+//! shutdown, the app menu's Quit and the Dock's Quit all go through
+//! NSApplication `terminate:`, which Tauri reports only as the end of the
+//! event loop, with no reason attached and no way to hold it. Nothing is
+//! asked there; the routed tools are put back before the process ends.
 
+use std::future::Future;
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use serde::Serialize;
 use tauri::Emitter;
@@ -21,6 +28,9 @@ use crate::domain::RoutedTool;
 pub const QUIT_REQUESTED_EVENT: &str = "app://quit-requested";
 /// A quit requested again within this time after asking goes ahead.
 const ASKED_RECENTLY_MS: u64 = 60_000;
+/// How long putting the routed tools back may hold a process the system is
+/// ending. The next launch puts back whatever did not finish.
+const ENDING_CLEANUP_BUDGET: Duration = Duration::from_secs(5);
 
 static CONFIRMED: AtomicBool = AtomicBool::new(false);
 static ASKED_AT_MS: AtomicU64 = AtomicU64::new(0);
@@ -42,6 +52,11 @@ fn now_ms() -> u64 {
 fn should_ask(confirmed: bool, asked_at_ms: u64, now_ms: u64, routed: &[RoutedTool]) -> bool {
     let asked_recently = asked_at_ms != 0 && now_ms.saturating_sub(asked_at_ms) < ASKED_RECENTLY_MS;
     !confirmed && !asked_recently && !routed.is_empty()
+}
+
+/// Runs `work` for at most `budget`; `false` when it did not finish.
+async fn within_budget(budget: Duration, work: impl Future<Output = ()>) -> bool {
+    tokio::time::timeout(budget, work).await.is_ok()
 }
 
 pub struct QuitGuard;
@@ -79,6 +94,23 @@ impl QuitGuard {
         }
     }
 
+    /// The event loop is ending (see the module note): put every routed tool
+    /// back, within a bounded time. Runs on the main thread, which blocks
+    /// until the clean-up is done; a quit that already cleaned up finds
+    /// nothing left to do.
+    pub fn clean_up_as_the_app_ends(app_handle: &tauri::AppHandle) {
+        let handle = app_handle.clone();
+        let finished =
+            tauri::async_runtime::block_on(within_budget(ENDING_CLEANUP_BUDGET, async move {
+                RoutingControl::release_before_exit(&handle).await
+            }));
+        if !finished {
+            log::error!(
+                "Putting the routed tools back did not finish in time; the next launch does it"
+            );
+        }
+    }
+
     /// The user confirmed: quit, and do not ask again.
     pub fn confirm_and_quit(app_handle: &tauri::AppHandle) {
         CONFIRMED.store(true, Ordering::SeqCst);
@@ -88,8 +120,19 @@ impl QuitGuard {
 
 #[cfg(test)]
 mod tests {
-    use super::{should_ask, ASKED_RECENTLY_MS};
+    use std::time::Duration;
+
+    use super::{should_ask, within_budget, ASKED_RECENTLY_MS};
     use crate::domain::{RoutedTool, RoutingPickup, ToolId};
+
+    #[tokio::test]
+    async fn the_clean_up_of_an_ending_process_is_bounded() {
+        assert!(within_budget(Duration::from_millis(50), async {}).await);
+        assert!(
+            !within_budget(Duration::from_millis(20), std::future::pending::<()>()).await,
+            "a stuck clean-up must not keep the system from ending the app"
+        );
+    }
 
     #[test]
     fn asks_once_when_tools_are_routed_and_never_blocks_a_second_quit() {
