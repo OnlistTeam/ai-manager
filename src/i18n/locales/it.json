@@ -234,8 +234,6 @@
       "runningHint": "Scansione delle sessioni locali in corso. Puoi lasciare questa pagina: la sincronizzazione continuerà.",
       "largeHistory": "Una prima sincronizzazione o una cronologia ampia possono richiedere diversi minuti.",
       "elapsed": "Trascorsi: {{seconds}} secondi",
-      "action": "Sincronizza utilizzo locale",
-      "success": "Analizzati {{filesScanned}} file locali e aggiunti {{recordsImported}} nuovi record.",
       "partial": "Analizzati {{filesScanned}} file locali e aggiunti {{recordsImported}} record. {{sourceIssues}} controlli sulle fonti non sono riusciti a completarsi; i dati esistenti restano visibili.",
       "errorTitle": "Impossibile sincronizzare l'utilizzo locale",
       "errorHint": "Il riepilogo salvato non è stato rimosso. Riprova."
@@ -246,7 +244,7 @@
     },
     "empty": {
       "title": "Ancora nessun record di utilizzo locale",
-      "description": "Sincronizza le sessioni locali per vedere qui l'utilizzo."
+      "description": "L'utilizzo compare qui dopo che usi uno strumento di programmazione AI su questo computer."
     },
     "error": {
       "title": "Impossibile leggere l'utilizzo locale",

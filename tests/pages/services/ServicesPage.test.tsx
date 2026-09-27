@@ -15,6 +15,21 @@ import {
 } from "../../entities/queryWrapper";
 
 const TAURI_ENDPOINT = "http://tauri.local";
+
+const emptyUsage = {
+  periodDays: 30,
+  startDate: "2026-08-06",
+  endDate: "2026-09-05",
+  summary: {
+    requests: 0,
+    estimatedCostUsd: "0.000000",
+    tokens: 0,
+    successRatePercent: 0,
+    cacheHitRatePercent: 0,
+  },
+  byTool: [],
+  trend: [],
+};
 const toastMocks = vi.hoisted(() => ({
   error: vi.fn(),
   info: vi.fn(),
@@ -2886,19 +2901,17 @@ describe("ServicesPage tabs", () => {
         }),
       ),
       http.post(`${TAURI_ENDPOINT}/app_usage_overview`, () =>
+        HttpResponse.json(emptyUsage),
+      ),
+      http.post(`${TAURI_ENDPOINT}/app_usage_refresh`, () =>
         HttpResponse.json({
-          periodDays: 30,
-          startDate: "2026-08-06",
-          endDate: "2026-09-05",
-          summary: {
-            requests: 0,
-            estimatedCostUsd: "0.000000",
-            tokens: 0,
-            successRatePercent: 0,
-            cacheHitRatePercent: 0,
+          overview: emptyUsage,
+          sync: {
+            filesScanned: 0,
+            recordsImported: 0,
+            recordsSkipped: 0,
+            sourceIssues: 0,
           },
-          byTool: [],
-          trend: [],
         }),
       ),
     );

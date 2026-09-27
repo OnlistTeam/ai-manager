@@ -234,8 +234,6 @@
       "runningHint": "Memindai sesi lokal. Anda dapat meninggalkan halaman ini; sinkronisasi akan terus berjalan.",
       "largeHistory": "Sinkronisasi pertama atau riwayat yang besar dapat memakan waktu beberapa menit.",
       "elapsed": "Waktu berjalan: {{seconds}} detik",
-      "action": "Sinkronkan penggunaan lokal",
-      "success": "Memindai {{filesScanned}} file lokal dan menambahkan {{recordsImported}} catatan baru.",
       "partial": "Memindai {{filesScanned}} file lokal dan menambahkan {{recordsImported}} catatan. {{sourceIssues}} pemeriksaan sumber tidak dapat diselesaikan; data yang ada tetap ditampilkan.",
       "errorTitle": "Tidak dapat menyinkronkan penggunaan lokal",
       "errorHint": "Ringkasan tersimpan tidak dihapus. Coba lagi."
@@ -246,7 +244,7 @@
     },
     "empty": {
       "title": "Belum ada catatan penggunaan lokal",
-      "description": "Sinkronkan sesi lokal untuk melihat penggunaan di sini."
+      "description": "Penggunaan akan muncul di sini setelah Anda memakai alat coding AI di komputer ini."
     },
     "error": {
       "title": "Tidak dapat membaca penggunaan lokal",

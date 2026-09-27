@@ -234,8 +234,6 @@
       "runningHint": "正在扫描本机会话；可以切换到其他页面，同步会继续。",
       "largeHistory": "首次同步或历史记录较多时可能需要几分钟。",
       "elapsed": "已用时 {{seconds}} 秒",
-      "action": "同步本机用量",
-      "success": "已扫描 {{filesScanned}} 个本机文件，新增 {{recordsImported}} 条记录。",
       "partial": "已扫描 {{filesScanned}} 个本机文件，新增 {{recordsImported}} 条记录；有 {{sourceIssues}} 个来源未能检查完，现有数据仍会保留显示。",
       "errorTitle": "没能同步本机用量",
       "errorHint": "已保存的汇总没有被删除，可以再试一次。"
@@ -246,7 +244,7 @@
     },
     "empty": {
       "title": "还没有本机用量记录",
-      "description": "同步本机会话后，这里会显示用量。"
+      "description": "在这台电脑上用过 AI 编程工具后，这里会显示用量。"
     },
     "error": {
       "title": "没能读取本机用量",

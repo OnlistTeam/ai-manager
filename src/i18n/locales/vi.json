@@ -234,8 +234,6 @@
       "runningHint": "Đang quét các phiên làm việc cục bộ. Bạn có thể rời khỏi trang này; quá trình đồng bộ sẽ tiếp tục.",
       "largeHistory": "Lần đồng bộ đầu tiên hoặc lịch sử lớn có thể mất vài phút.",
       "elapsed": "Đã trôi qua: {{seconds}} giây",
-      "action": "Đồng bộ dữ liệu sử dụng cục bộ",
-      "success": "Đã quét {{filesScanned}} tệp cục bộ và thêm {{recordsImported}} bản ghi mới.",
       "partial": "Đã quét {{filesScanned}} tệp cục bộ và thêm {{recordsImported}} bản ghi. {{sourceIssues}} lượt kiểm tra nguồn chưa hoàn tất; dữ liệu hiện có vẫn được hiển thị.",
       "errorTitle": "Không thể đồng bộ dữ liệu sử dụng cục bộ",
       "errorHint": "Bản tóm tắt đã lưu không bị xóa. Hãy thử lại."
@@ -246,7 +244,7 @@
     },
     "empty": {
       "title": "Chưa có bản ghi sử dụng cục bộ nào",
-      "description": "Đồng bộ các phiên cục bộ để xem mức sử dụng ở đây."
+      "description": "Mức sử dụng sẽ hiện ở đây khi bạn dùng một công cụ lập trình AI trên máy tính này."
     },
     "error": {
       "title": "Không thể đọc dữ liệu sử dụng cục bộ",
