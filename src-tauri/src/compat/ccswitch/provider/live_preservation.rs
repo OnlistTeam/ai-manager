@@ -19,6 +19,12 @@ use crate::platform::redact::{looks_like_credential, redact_secrets, truncate_ta
 
 const PRESERVE_FAILED: &str = "error.provider.settingsPreserveFailed";
 
+/// The thinking effort belongs to the tool, not to an endpoint (ADR-0054): a switch keeps the
+/// effort in force before it, even over an older copy the target's snapshot still carries
+/// (upstream backfills the whole live file into the endpoint being left), and an effort the
+/// user reset to the tool default stays unset.
+use super::model_choice::{CLAUDE_EFFORT_KEY, CODEX_EFFORT_KEY};
+
 // ---------- Claude Code ----------
 
 /// When the target provider does not write these three keys, fill in `""`: the official
@@ -80,6 +86,15 @@ pub(super) fn merge_claude_settings(previous: &Value, written: &Value) -> Value 
             {
                 target.insert(key.clone(), value.clone());
             }
+        }
+    }
+
+    match previous.get(CLAUDE_EFFORT_KEY) {
+        Some(effort) => {
+            target.insert(CLAUDE_EFFORT_KEY.to_string(), effort.clone());
+        }
+        None => {
+            target.remove(CLAUDE_EFFORT_KEY);
         }
     }
 
@@ -166,6 +181,14 @@ pub(super) fn merge_codex_config(previous: &str, written: &str) -> Result<String
             continue;
         }
         written_doc.insert(key, item.clone());
+    }
+    match previous_doc.get(CODEX_EFFORT_KEY) {
+        Some(effort) => {
+            written_doc.insert(CODEX_EFFORT_KEY, effort.clone());
+        }
+        None => {
+            written_doc.remove(CODEX_EFFORT_KEY);
+        }
     }
     Ok(written_doc.to_string())
 }

@@ -1,11 +1,21 @@
 use crate::compat::ccswitch::install_probe::{
     HermesInstallOwner, InstallSource, InstalledEntry, LifecycleProbe,
 };
-use crate::domain::{ToolCapabilities, ToolId};
+use crate::domain::{ModelChoiceSpec, ToolCapabilities, ToolId};
 use crate::platform::Platform;
 
 /// The capability table of spec §12. Repair is only enabled when there is a verified recovery plan that does not guess the install ownership.
+/// What Home may choose comes from the model-choice table (ADR-0054), so the two cannot drift.
 pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
+    let choice = ModelChoiceSpec::for_tool(id);
+    ToolCapabilities {
+        can_choose_model: choice.is_some(),
+        can_choose_effort: choice.is_some_and(|spec| spec.has_effort()),
+        ..lifecycle_capabilities(id)
+    }
+}
+
+fn lifecycle_capabilities(id: ToolId) -> ToolCapabilities {
     let can_launch = platform_supports_launch(Platform::current());
     match id {
         ToolId::ClaudeCode => ToolCapabilities {
@@ -19,6 +29,7 @@ pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
             can_manage_skills: true,
             can_manage_prompts: true,
             can_manage_version: true,
+            ..ToolCapabilities::default()
         },
         ToolId::Codex => ToolCapabilities {
             can_install: true,
@@ -31,6 +42,7 @@ pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
             can_manage_skills: true,
             can_manage_prompts: true,
             can_manage_version: true,
+            ..ToolCapabilities::default()
         },
         ToolId::OpenCode => ToolCapabilities {
             can_install: true,
@@ -43,6 +55,7 @@ pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
             can_manage_skills: true,
             can_manage_prompts: true,
             can_manage_version: true,
+            ..ToolCapabilities::default()
         },
         ToolId::GeminiCli => ToolCapabilities {
             can_install: true,
@@ -55,6 +68,7 @@ pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
             can_manage_skills: true,
             can_manage_prompts: true,
             can_manage_version: true,
+            ..ToolCapabilities::default()
         },
         ToolId::GrokBuild => ToolCapabilities {
             can_install: true,
@@ -69,6 +83,7 @@ pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
             can_manage_skills: true,
             can_manage_prompts: true,
             can_manage_version: true,
+            ..ToolCapabilities::default()
         },
         ToolId::OpenClaw => ToolCapabilities {
             can_install: true,
@@ -84,6 +99,7 @@ pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
             // workspace-level AGENTS.md managed by the Prompt service.
             can_manage_prompts: true,
             can_manage_version: true,
+            ..ToolCapabilities::default()
         },
         ToolId::Hermes => ToolCapabilities {
             can_install: true,
@@ -96,6 +112,7 @@ pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
             can_manage_skills: true,
             can_manage_prompts: true,
             can_manage_version: true,
+            ..ToolCapabilities::default()
         },
         ToolId::Pi => ToolCapabilities {
             can_install: true,
@@ -112,6 +129,7 @@ pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
             // revision-checked write path for that model.
             can_manage_prompts: true,
             can_manage_version: true,
+            ..ToolCapabilities::default()
         },
         ToolId::KimiCode => ToolCapabilities {
             can_install: true,
@@ -126,6 +144,7 @@ pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
             can_manage_skills: false,
             can_manage_prompts: false,
             can_manage_version: true,
+            ..ToolCapabilities::default()
         },
         ToolId::DeepSeekDsh => ToolCapabilities {
             can_install: true,
@@ -140,6 +159,7 @@ pub fn capabilities_for(id: ToolId) -> ToolCapabilities {
             can_manage_skills: false,
             can_manage_prompts: false,
             can_manage_version: true,
+            ..ToolCapabilities::default()
         },
     }
 }
@@ -237,8 +257,25 @@ fn hermes_python_owner(entry: &InstalledEntry) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::platform_supports_launch;
+    use super::{capabilities_for, platform_supports_launch};
+    use crate::domain::ToolId;
     use crate::platform::Platform;
+
+    #[test]
+    fn home_chooses_a_model_only_where_it_also_manages_endpoints() {
+        for tool in ToolId::ALL {
+            let capabilities = capabilities_for(tool);
+            if capabilities.can_choose_model {
+                assert!(capabilities.can_manage_provider, "{tool:?}");
+            }
+            if capabilities.can_choose_effort {
+                assert!(capabilities.can_choose_model, "{tool:?}");
+            }
+        }
+        assert!(capabilities_for(ToolId::Codex).can_choose_effort);
+        assert!(!capabilities_for(ToolId::GeminiCli).can_choose_effort);
+        assert!(!capabilities_for(ToolId::OpenCode).can_choose_model);
+    }
 
     #[test]
     fn every_shipped_desktop_platform_can_launch_tools() {

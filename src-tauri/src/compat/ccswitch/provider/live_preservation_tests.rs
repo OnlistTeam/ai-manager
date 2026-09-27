@@ -349,3 +349,34 @@ fn gemini_never_carries_credential_shaped_env_across_a_switch() {
         Some("docker")
     );
 }
+
+#[test]
+fn claude_keeps_the_effort_in_force_over_an_older_snapshot_copy() {
+    let previous = json!({"env": {}, "effortLevel": "xhigh"});
+    let written = json!({"env": {}, "effortLevel": "low"});
+    let merged = merge_claude_settings(&previous, &written);
+    assert_eq!(merged.get("effortLevel"), Some(&json!("xhigh")));
+}
+
+#[test]
+fn claude_keeps_an_effort_reset_to_the_tool_default() {
+    let previous = json!({"env": {}});
+    let written = json!({"env": {}, "effortLevel": "high"});
+    let merged = merge_claude_settings(&previous, &written);
+    assert_eq!(merged.get("effortLevel"), None);
+}
+
+#[test]
+fn codex_keeps_the_effort_in_force_and_its_reset() {
+    let merged = merge_codex_config(
+        "model_reasoning_effort = \"xhigh\"\n",
+        "model = \"gpt-5.5\"\nmodel_reasoning_effort = \"low\"\n",
+    )
+    .unwrap();
+    let doc: toml_edit::DocumentMut = merged.parse().unwrap();
+    assert_eq!(doc["model_reasoning_effort"].as_str(), Some("xhigh"));
+    assert_eq!(doc["model"].as_str(), Some("gpt-5.5"));
+
+    let reset = merge_codex_config("", "model_reasoning_effort = \"low\"\n").unwrap();
+    assert!(!reset.contains("model_reasoning_effort"));
+}
