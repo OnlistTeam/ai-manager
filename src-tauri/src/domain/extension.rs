@@ -7,9 +7,17 @@
 //! so all three extension kinds share exactly the same list shape and one UI serves all three.
 //!
 //! **This type deliberately has no field that could hold a config payload** — no `server`, no
-//! `content`, no paths. Spec §36 requires "do not show JSON on first entry", and deleting those
-//! fields from the wire format is far more reliable than asking the frontend to "be careful not
-//! to display them" (the same trick as the outbound secret channel in §19).
+//! `content`, no environment or header values. Spec §36 requires "do not show JSON on first
+//! entry", and deleting those fields from the wire format is far more reliable than asking the
+//! frontend to "be careful not to display them" (the same trick as the outbound secret channel in
+//! §19).
+//!
+//! ADR-0062 relaxes one clause: each entry carries a single bounded display line, `detail` — the
+//! command line or address of an MCP server, or where a Skill lives — because people could not
+//! tell what a row was or where it lived. ADR-0045 already argued a path is not a payload. The
+//! line is built in `domain::extension_detail`, which never includes an environment or header
+//! value and masks anything that names or looks like a credential. It is display text only: the
+//! renderer never sends it back.
 //!
 //! The conversion happens only in the three modules under `compat/ccswitch/extension/`.
 
@@ -182,6 +190,31 @@ impl ExtensionKind {
     }
 }
 
+/// Why an entry may stop working once it is used from another app or project.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum PortabilityReason {
+    /// A local MCP server names a file relative to the folder it is started in, and no working
+    /// folder is set.
+    RelativePath,
+    /// A value uses `${NAME}`, which only some apps fill in from the environment.
+    EnvReference,
+    /// A Skill's SKILL.md points into one app's own home folder (`~/.claude/…`).
+    ToolHome,
+}
+
+/// A hint that an entry depends on where it was set up. The same value is attached to the
+/// entry in every scope, so the renderer can also warn *before* a switch is turned on.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ExtensionPortability {
+    pub reason: PortabilityReason,
+    /// The apps where the entry is expected to keep working as written: the app whose home a
+    /// Skill names, or the apps that expand `${NAME}`. Empty when no app is safe (a relative
+    /// path depends on the project, not the app).
+    pub works_in: Vec<ExtensionScope>,
+}
+
 /// One extension, as seen within the scope of a given tool.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -196,6 +229,15 @@ pub struct Extension {
     pub name: String,
     /// A one-line human description the extension carries (written by its author or the user). An empty string counts as None.
     pub description: Option<String>,
+    /// One display line saying what the entry is (ADR-0062): an MCP server's command line or
+    /// address, or the folder a Skill lives in with `$HOME` shortened to `~`. Secrets are masked
+    /// and environment/header values are never included; at most
+    /// `extension_detail::DETAIL_MAX_CHARS` characters. `None` for prompts and whenever nothing
+    /// useful can be said.
+    pub detail: Option<String>,
+    /// Set when the entry probably only works where it was first set up (ADR-0062). The
+    /// renderer shows one warning icon when the entry is on in an app outside `works_in`.
+    pub portability: Option<ExtensionPortability>,
     pub management: ExtensionManagement,
     pub enabled: bool,
     /// Whether this entry can be "turned off". Always false for prompts: upstream only supports
@@ -222,6 +264,8 @@ mod tests {
             scope: ExtensionScope::tool(ToolId::ClaudeCode),
             name: "Filesystem".to_string(),
             description: Some("Reads and writes files you pick.".to_string()),
+            detail: None,
+            portability: None,
             management: ExtensionManagement::Managed,
             enabled: true,
             can_disable: true,
@@ -266,10 +310,13 @@ mod tests {
         let json = serde_json::to_string(&sample()).expect("serialize extension");
         assert_eq!(
             json,
-            r#"{"kind":"mcp","id":"filesystem","scope":{"kind":"tool","id":"claude-code"},"name":"Filesystem","description":"Reads and writes files you pick.","management":"managed","enabled":true,"canDisable":true}"#
+            r#"{"kind":"mcp","id":"filesystem","scope":{"kind":"tool","id":"claude-code"},"name":"Filesystem","description":"Reads and writes files you pick.","detail":null,"portability":null,"management":"managed","enabled":true,"canDisable":true}"#
         );
-        // Spec §36: the wire format simply has no key that could hold a config payload, so the frontend has no JSON to display.
-        for forbidden in ["server", "config", "content", "path", "command", "args"] {
+        // Spec §36: the wire format simply has no key that could hold a config payload, so the
+        // frontend has no JSON to display. `detail` is the one display line (ADR-0062).
+        for forbidden in [
+            "server", "config", "content", "path", "command", "args", "env",
+        ] {
             assert!(
                 !json.contains(forbidden),
                 "the wire format grew a field that could carry raw configuration: {forbidden}"

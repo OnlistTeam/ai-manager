@@ -16,6 +16,11 @@ use crate::store::AppState;
 
 use super::{adopt_failed, list_failed, non_empty, not_found, resource_open_failed, toggle_failed};
 
+mod display;
+
+use display::is_single_component;
+pub(super) use display::SkillDisplay;
+
 const SHARED_SKILL_SOURCES: [&str; 2] = ["agents", "cc-switch"];
 
 /// A Skill in a tool directory belongs only to that tool. A Skill found in
@@ -32,26 +37,38 @@ pub(super) fn extension_from_skill(
     tool: ToolId,
     raw: &InstalledSkill,
     app_type: &AppType,
+    display: &SkillDisplay,
 ) -> Extension {
+    let (detail, portability) = display.managed(raw);
     Extension {
         kind: ExtensionKind::Skill,
         id: raw.id.clone(),
         scope: ExtensionScope::tool(tool),
         name: raw.name.clone(),
         description: non_empty(raw.description.clone()),
+        detail,
+        portability,
         management: ExtensionManagement::Managed,
         enabled: raw.apps.is_enabled_for(app_type),
         can_disable: true,
     }
 }
 
-pub(super) fn extension_from_unmanaged(tool: ToolId, raw: &UnmanagedSkill) -> Extension {
+pub(super) fn extension_from_unmanaged(
+    tool: ToolId,
+    raw: &UnmanagedSkill,
+    folder: Option<&Path>,
+    display: &SkillDisplay,
+) -> Extension {
+    let (detail, portability) = display.found(folder);
     Extension {
         kind: ExtensionKind::Skill,
         id: raw.directory.clone(),
         scope: ExtensionScope::tool(tool),
         name: raw.name.clone(),
         description: non_empty(raw.description.clone()),
+        detail,
+        portability,
         management: ExtensionManagement::Detected,
         // Presence in this tool's directory is the only status asserted here.
         enabled: true,
@@ -65,18 +82,30 @@ pub(super) fn list(
     tool: ToolId,
     app_type: &AppType,
 ) -> Result<Vec<Extension>, AppError> {
+    let display = SkillDisplay::current();
     let raw = SkillService::get_all_installed(&state.db).map_err(list_failed)?;
     let mut projected = raw
         .iter()
-        .map(|entry| extension_from_skill(tool, entry, app_type))
+        .map(|entry| extension_from_skill(tool, entry, app_type, &display))
         .collect::<Vec<_>>();
 
     let source = app_type.as_str();
+    let current_root = SkillService::get_app_skills_dir(app_type).ok();
+    let agents_root = agents_root();
     let mut detected = SkillService::scan_unmanaged(&state.db)
         .map_err(list_failed)?
         .into_iter()
         .filter(|entry| visible_in_scope(entry, source))
-        .map(|entry| extension_from_unmanaged(tool, &entry))
+        .map(|entry| {
+            let folder = first_existing_skill_path(
+                &entry,
+                source,
+                current_root.clone(),
+                agents_root.clone(),
+                display.ssot().map(Path::to_path_buf),
+            );
+            extension_from_unmanaged(tool, &entry, folder.as_deref(), &display)
+        })
         .collect::<Vec<_>>();
     detected.sort_by_cached_key(|entry| (entry.name.to_lowercase(), entry.id.clone()));
     projected.extend(detected);
@@ -139,10 +168,39 @@ pub(super) fn detected_path(
         entry,
         source,
         SkillService::get_app_skills_dir(app_type).ok(),
-        crate::config::get_home_dir().join(".agents").join("skills"),
+        agents_root(),
         ssot_root,
     )
     .ok_or_else(|| resource_open_failed("detected Skill no longer has a readable SKILL.md"))
+}
+
+/// The shared Agent Skills folder that found Skills may live in.
+fn agents_root() -> PathBuf {
+    crate::config::get_home_dir().join(".agents").join("skills")
+}
+
+/// The stored copy of one managed Skill, resolved from its id. The renderer
+/// supplies the id only; the folder must still be a Skill folder inside the
+/// store.
+pub(super) fn managed_path(state: &AppState, id: &str) -> Result<PathBuf, AppError> {
+    let managed = SkillService::get_all_installed(&state.db).map_err(resource_open_failed)?;
+    let skill = managed.iter().find(|skill| skill.id == id).ok_or_else(|| {
+        resource_open_failed(format!("managed Skill {id} is not in the inventory"))
+    })?;
+    if !is_single_component(&skill.directory) {
+        return Err(resource_open_failed(
+            "managed Skill directory is not a single folder name",
+        ));
+    }
+    let folder = SkillService::get_ssot_dir()
+        .map_err(resource_open_failed)?
+        .join(&skill.directory);
+    if !is_skill_directory(&folder, &skill.directory) {
+        return Err(resource_open_failed(
+            "managed Skill no longer has a readable SKILL.md",
+        ));
+    }
+    Ok(folder)
 }
 
 pub(super) fn set_enabled(

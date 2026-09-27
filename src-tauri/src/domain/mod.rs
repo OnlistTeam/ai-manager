@@ -5,9 +5,11 @@ pub mod desktop_app;
 pub mod desktop_preferences;
 pub mod error;
 pub mod extension;
+pub mod extension_detail;
 pub mod health;
 pub mod import;
 pub mod mcp;
+pub mod mcp_edit;
 pub mod message_keys;
 pub mod model_choice;
 pub mod model_probe;
@@ -49,14 +51,16 @@ pub use desktop_preferences::DesktopPreferences;
 pub use error::{AppError, ErrorCode};
 pub use extension::{
     DetectedSkillResourceAction, DetectedSkillResourceOpenOutcome, Extension, ExtensionKind,
-    ExtensionLocation, ExtensionLocationAction, ExtensionManagement, ExtensionScope,
-    LocalExtensionInventory, LocalExtensionScope, LocalExtensionScopeStatus,
+    ExtensionLocation, ExtensionLocationAction, ExtensionManagement, ExtensionPortability,
+    ExtensionScope, LocalExtensionInventory, LocalExtensionScope, LocalExtensionScopeStatus,
+    PortabilityReason,
 };
 pub use health::{
     ConfigHealth, ConfigReadStatus, HealthProviderTarget, HealthSnapshot, McpHealth, ProviderHealth,
 };
 pub use import::{ImportOutcome, ImportPreview, ImportSummary};
 pub use mcp::{McpConnectionDraft, McpInstallDraft, McpVariableDraft};
+pub use mcp_edit::{McpConnectionForm, McpEditForm, McpVariableForm};
 pub use model_choice::{
     canonical_model_name, normalize_model_name, validate_effort, EffortInForce, EffortModel,
     ModelChoiceSpec, ModelEffort, ToolModelChoice, MAX_MODEL_NAME_CHARS,

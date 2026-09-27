@@ -45,6 +45,8 @@ pub(super) fn extension_from_prompt(tool: ToolId, id: &str, raw: &Prompt) -> Ext
         scope: ExtensionScope::tool(tool),
         name: raw.name.clone(),
         description: non_empty(raw.description.clone()),
+        detail: None,
+        portability: None,
         management: ExtensionManagement::Managed,
         enabled: raw.enabled,
         // Upstream is single-select; turning off the last one would clear the instruction file, so only "switch to this one" is offered.

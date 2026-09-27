@@ -28,6 +28,8 @@ fn updated() -> Extension {
         scope: ExtensionScope::tool(ToolId::ClaudeCode),
         name: "Code review".to_string(),
         description: None,
+        detail: None,
+        portability: None,
         management: ExtensionManagement::Managed,
         enabled: true,
         can_disable: true,

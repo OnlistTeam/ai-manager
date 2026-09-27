@@ -26,7 +26,7 @@ use std::path::PathBuf;
 use crate::compat::ccswitch::provider::app_type_for;
 use crate::domain::{
     AppError, DesktopAppId, ErrorCode, Extension, ExtensionKind, ExtensionManagement,
-    ExtensionScope, McpInstallDraft, PromptDetail, PromptDraft, ToolId,
+    ExtensionScope, McpEditForm, McpInstallDraft, PromptDetail, PromptDraft, ToolId,
 };
 use crate::platform::redact::{redact_secrets, truncate_tail};
 use crate::store::AppState;
@@ -180,6 +180,12 @@ impl ExtensionStore {
         skill::detected_path(&self.state, scope, &app_type, id)
     }
 
+    /// The single stored copy of a managed Skill (ADR-0062). The renderer
+    /// provides the managed id only; no path crosses IPC.
+    pub fn managed_skill_path(&self, id: &str) -> Result<PathBuf, AppError> {
+        skill::managed_path(&self.state, id)
+    }
+
     /// Enable / disable one extension and return the refreshed full list.
     ///
     /// All three write paths have cross-entry side effects (switching to one prompt turns off
@@ -291,6 +297,27 @@ impl ExtensionStore {
         self.installed_mcp_in_scope(ExtensionScope::tool(tool), id)
     }
 
+    /// The saved connection in the guided form's shape, values included, for
+    /// the explicit edit flow only (ADR-0062). A found connection is read
+    /// from this scope's own file.
+    pub fn mcp_edit_form(&self, scope: ExtensionScope, id: &str) -> Result<McpEditForm, AppError> {
+        let app_type = app_type_for_scope(scope)?;
+        mcp::form(&self.state, scope, &app_type, id)
+    }
+
+    /// Replace one managed connection in place, keeping its id and every
+    /// app's flag, then return this scope's refreshed inventory.
+    pub fn update_mcp(
+        &self,
+        scope: ExtensionScope,
+        id: &str,
+        draft: &McpInstallDraft,
+    ) -> Result<Vec<Extension>, AppError> {
+        app_type_for_scope(scope)?;
+        mcp::update(&self.state, scope, id, draft)?;
+        self.list_scope(scope, ExtensionKind::Mcp)
+    }
+
     pub fn installed_mcp_in_scope(
         &self,
         scope: ExtensionScope,
@@ -377,7 +404,7 @@ pub(super) fn project_installed_skill(
     raw: &crate::app_config::InstalledSkill,
     app_type: &crate::app_config::AppType,
 ) -> Extension {
-    skill::extension_from_skill(tool, raw, app_type)
+    skill::extension_from_skill(tool, raw, app_type, &skill::SkillDisplay::current())
 }
 
 // The production-code scanner in message_keys.rs stops at the first `#[cfg(test)]` in a file —
@@ -391,3 +418,7 @@ mod tests;
 #[cfg(test)]
 #[path = "extension/tests_write.rs"]
 mod tests_write;
+
+#[cfg(test)]
+#[path = "extension/tests_edit.rs"]
+mod tests_edit;

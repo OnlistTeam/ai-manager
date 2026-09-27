@@ -99,6 +99,7 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.mcp.commandInvalid",
     "error.mcp.commandRequired",
     "error.mcp.descriptionTooLong",
+    "error.mcp.editUnavailable",
     "error.mcp.envInvalid",
     "error.mcp.headersInvalid",
     "error.mcp.installCleanupFailed",
@@ -112,6 +113,8 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.mcp.removeRestoreFailed",
     "error.mcp.removeVerifyFailed",
     "error.mcp.unsupportedScope",
+    "error.mcp.updateFailed",
+    "error.mcp.updateRestoreFailed",
     "error.mcp.urlCredentials",
     "error.mcp.urlInsecure",
     "error.mcp.urlInvalid",
@@ -491,6 +494,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 341);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 344);
     }
 }

@@ -104,7 +104,7 @@ fn unsupported(scope: ExtensionScope, kind: ExtensionKind) -> AppError {
     ))
 }
 
-fn gate(
+pub(crate) fn gate(
     app_handle: &tauri::AppHandle,
     scope: ExtensionScope,
     kind: ExtensionKind,
@@ -215,33 +215,19 @@ impl ExtensionDirectory {
     ) -> Result<DetectedSkillResourceOpenOutcome, AppError> {
         let directory =
             gate(app_handle, scope, ExtensionKind::Skill)?.detected_skill_path(scope, id)?;
-        let (target, outcome) = match action {
-            DetectedSkillResourceAction::Browse => {
-                if !directory.is_dir() {
-                    return Err(resource_open_error(
-                        "detected Skill directory disappeared before opening",
-                    ));
-                }
-                (directory, DetectedSkillResourceOpenOutcome::FolderOpened)
-            }
-            DetectedSkillResourceAction::Edit => {
-                let document = directory.join("SKILL.md");
-                if !document.is_file() {
-                    return Err(resource_open_error(
-                        "detected Skill document disappeared before opening",
-                    ));
-                }
-                (document, DetectedSkillResourceOpenOutcome::EditorOpened)
-            }
-        };
+        open_skill_folder(app_handle, directory, action)
+    }
 
-        app_handle
-            .opener()
-            .open_path(target.to_string_lossy().to_string(), None::<String>)
-            .map_err(|error| {
-                resource_open_error(format!("system opener failed for detected Skill: {error}"))
-            })?;
-        Ok(outcome)
+    /// The same two actions for a managed Skill, resolved to its single
+    /// stored copy (ADR-0062). Managed Skills are global, so no scope is
+    /// needed; the renderer sends the managed id and the action only.
+    pub fn open_managed_skill_resource(
+        app_handle: &tauri::AppHandle,
+        id: &str,
+        action: DetectedSkillResourceAction,
+    ) -> Result<DetectedSkillResourceOpenOutcome, AppError> {
+        let directory = ExtensionStore::open(app_handle)?.managed_skill_path(id)?;
+        open_skill_folder(app_handle, directory, action)
     }
 
     pub fn adopt_detected(
@@ -253,6 +239,39 @@ impl ExtensionDirectory {
     ) -> Result<Vec<Extension>, AppError> {
         gate(app_handle, scope, kind)?.adopt_detected_scope(scope, kind, id, enabled)
     }
+}
+
+/// Show a Skill folder, or hand its SKILL.md to the system editor.
+fn open_skill_folder(
+    app_handle: &tauri::AppHandle,
+    directory: std::path::PathBuf,
+    action: DetectedSkillResourceAction,
+) -> Result<DetectedSkillResourceOpenOutcome, AppError> {
+    let (target, outcome) = match action {
+        DetectedSkillResourceAction::Browse => {
+            if !directory.is_dir() {
+                return Err(resource_open_error(
+                    "Skill directory disappeared before opening",
+                ));
+            }
+            (directory, DetectedSkillResourceOpenOutcome::FolderOpened)
+        }
+        DetectedSkillResourceAction::Edit => {
+            let document = directory.join("SKILL.md");
+            if !document.is_file() {
+                return Err(resource_open_error(
+                    "Skill document disappeared before opening",
+                ));
+            }
+            (document, DetectedSkillResourceOpenOutcome::EditorOpened)
+        }
+    };
+
+    app_handle
+        .opener()
+        .open_path(target.to_string_lossy().to_string(), None::<String>)
+        .map_err(|error| resource_open_error(format!("system opener failed for Skill: {error}")))?;
+    Ok(outcome)
 }
 
 fn resource_open_error(technical: impl Into<String>) -> AppError {
@@ -391,6 +410,8 @@ mod tests {
             scope: ExtensionScope::tool(ToolId::ClaudeCode),
             name: "Local release".to_string(),
             description: None,
+            detail: None,
+            portability: None,
             management: ExtensionManagement::Detected,
             enabled: true,
             can_disable: false,
