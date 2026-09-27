@@ -738,6 +738,30 @@ describe("HomePage", () => {
       ).toBeVisible();
     });
 
+    it("says an official entry is not signed in where its model would stand", async () => {
+      serveProviders({
+        "claude-code": [
+          provider({
+            id: "official",
+            name: "Claude Official",
+            kind: "official",
+            active: true,
+          }),
+        ],
+      });
+      server.use(
+        http.post(`${TAURI_ENDPOINT}/app_provider_tool_login_status`, () =>
+          HttpResponse.json({ state: "signedOut", account: null, plan: null }),
+        ),
+      );
+      mount([tool()]);
+
+      const claude = await findRow("Claude Code");
+      expect(
+        await within(claude).findByText(en.home.tools.signedOut),
+      ).toBeVisible();
+    });
+
     it("lists the endpoint in use first and checked, then the rest in saved order", async () => {
       serveProviders({
         "claude-code": [

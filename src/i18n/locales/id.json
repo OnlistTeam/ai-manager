@@ -661,7 +661,10 @@
       "switchFailed": "Tidak dapat beralih ke endpoint ini.",
       "testFailed": "Pemeriksaan tidak dapat dijalankan.",
       "unsupportedTool": "AI Manager belum mengintegrasikan endpoint API untuk alat ini.",
-      "reorderFailed": "Urutan baru tidak dapat disimpan. Daftar sudah kembali seperti semula; coba pindahkan endpoint itu lagi."
+      "reorderFailed": "Urutan baru tidak dapat disimpan. Daftar sudah kembali seperti semula; coba pindahkan endpoint itu lagi.",
+      "signInGone": "Proses masuk ini sudah berakhir.",
+      "signInAccountMissing": "Data masuk akun ini tidak lagi tersimpan.",
+      "signInFailed": "Proses masuk tidak bisa dimulai."
     },
     "remediation": {
       "chooseAnotherService": "Pilih endpoint lain untuk alat ini, lalu coba lagi.",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "Coba lagi, atau buka Lihat Detail untuk melihat apa yang terjadi.",
       "useOriginalUpdateChannel": "Gunakan updater asli instalasi ini, atau hapus secara eksplisit sebelum menginstal melalui npm.",
       "uninstallManually": "Anda dapat menghapus file yang tersisa sendiri, lalu jalankan Periksa lagi.",
-      "allowTerminalAutomation": "Buka «Pengaturan Sistem → Privasi & Keamanan → Otomatisasi», lalu aktifkan «Terminal» untuk AI Manager."
+      "allowTerminalAutomation": "Buka «Pengaturan Sistem → Privasi & Keamanan → Otomatisasi», lalu aktifkan «Terminal» untuk AI Manager.",
+      "signInAgain": "Masuk lagi ke akun ini dari Tambah endpoint."
     },
     "routing": {
       "cannotForward": "Koneksi alat ini saat ini tidak dapat dirutekan melalui AI Manager.",
@@ -1369,6 +1373,7 @@
       "install": "Instal Alat AI",
       "empty": "Tidak ada alat terinstal yang memakai endpoint API.",
       "official": "Masuk resmi",
+      "signedOut": "Belum masuk",
       "notConnected": "Belum terhubung",
       "added_one": "{{count}} endpoint ditambahkan",
       "added_other": "{{count}} endpoint ditambahkan",
@@ -1669,6 +1674,7 @@
       "routesTestFailed": "Tidak dapat menguji rute ini. Periksa jaringan Anda dan coba lagi.",
       "routesTesting": "Menguji rute…",
       "description": "Ubah nama, kunci, atau model.",
+      "descriptionName": "Ubah nama.",
       "errorTitle": "Tidak dapat menyimpan endpoint ini",
       "headerKeepValue": "Biarkan kosong untuk mempertahankan nilai tersimpan",
       "headerNameNamed": "Nama header {{index}}",
@@ -1930,23 +1936,38 @@
         "google": "Akun Google",
         "superGrok": "Langganan SuperGrok"
       },
-      "loginDetail": "Masuk di {{tool}}",
-      "added": "Ditambahkan",
+      "loginDetail": "Masuk ke {{tool}} di sini, tanpa kunci API",
       "noMatch": "Tidak ada yang cocok dengan “{{query}}”.",
       "addAsCustom": "Atur sebagai endpoint kustom"
     },
     "login": {
-      "description": "Endpoint yang memakai akun yang Anda gunakan untuk masuk ke {{tool}}.",
-      "signInThere": "Tidak perlu kunci API. Proses masuk berlangsung di {{tool}}; AI Manager tidak pernah melihat akun Anda.",
-      "how": {
-        "claude": "Di Claude Code, jalankan /login.",
-        "chatGpt": "Di Codex, pilih “Sign in with ChatGPT”.",
-        "google": "Di Gemini CLI, pilih “Login with Google”.",
-        "superGrok": "Di Grok Build, masuk dengan akun xAI Anda."
+      "description": "Memakai langganan Anda, bukan kunci API.",
+      "state": {
+        "signedIn": "Sudah masuk",
+        "apiKey": "Masuk dengan kunci API",
+        "signedOut": "Belum masuk"
       },
-      "alreadySaved": "Endpoint ini sudah ada di daftar Anda.",
-      "add": "Tambah endpoint",
-      "showList": "Kembali ke daftar endpoint"
+      "current": "{{tool}} saat ini: {{status}}",
+      "signIn": "Masuk",
+      "signInAnother": "Masuk ke akun lain",
+      "tryAgain": "Coba lagi",
+      "browserHint": "Browser akan membuka halaman masuk. Kembali ke sini setelah halaman itu menyatakan Anda sudah masuk.",
+      "browserHintSeveral": "Browser akan membuka halaman masuk. Setiap akun yang Anda masuki menjadi endpoint yang bisa Anda pilih.",
+      "waiting": "Menunggu Anda masuk di browser…",
+      "code": "Kode untuk dimasukkan di halaman",
+      "codeName": "kode",
+      "linkName": "tautan masuk",
+      "openAgain": "Buka halaman lagi",
+      "useToolLogin": "Pakai akun yang sudah masuk di {{tool}}",
+      "accountEndpoint": "Akun langganan",
+      "failure": {
+        "refused": "Proses masuk ditolak. Coba lagi.",
+        "timedOut": "Proses masuk menunggu terlalu lama dan dihentikan. Coba lagi.",
+        "portBusy": "Proses masuk Codex lain sedang memakai port 1455. Tutup dulu, lalu coba lagi.",
+        "notInstalled": "Instal {{tool}} dulu, lalu masuk.",
+        "network": "Tidak bisa menjangkau layanan masuk. Periksa jaringan atau proxy Anda.",
+        "saveFailed": "Anda sudah masuk, tetapi akun tidak bisa disimpan. Coba lagi."
+      }
     }
   },
   "extensions": {

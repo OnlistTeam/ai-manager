@@ -661,7 +661,10 @@
       "switchFailed": "このエンドポイントに切り替えられませんでした。",
       "testFailed": "確認を実行できませんでした。",
       "unsupportedTool": "AI Manager はこのツールの API エンドポイントにまだ対応していません。",
-      "reorderFailed": "新しい並び順を保存できませんでした。一覧は元に戻っています。もう一度エンドポイントを動かしてください。"
+      "reorderFailed": "新しい並び順を保存できませんでした。一覧は元に戻っています。もう一度エンドポイントを動かしてください。",
+      "signInGone": "このサインインは終了しています。",
+      "signInAccountMissing": "このアカウントのサインイン情報はもう保存されていません。",
+      "signInFailed": "サインインを開始できませんでした。"
     },
     "remediation": {
       "chooseAnotherService": "このツールで別のエンドポイントを選び、もう一度お試しください。",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "もう一度試すか、「詳細を表示」で状況を確認してください。",
       "useOriginalUpdateChannel": "このインストール元の更新機能を使うか、明示的に削除してから npm でインストールしてください。",
       "uninstallManually": "残ったファイルはご自分で削除し、もう一度確認してください。",
-      "allowTerminalAutomation": "「システム設定 → プライバシーとセキュリティ → オートメーション」を開き、AI Manager の「ターミナル」をオンにしてください。"
+      "allowTerminalAutomation": "「システム設定 → プライバシーとセキュリティ → オートメーション」を開き、AI Manager の「ターミナル」をオンにしてください。",
+      "signInAgain": "「エンドポイントを追加」から、このアカウントにもう一度サインインしてください。"
     },
     "routing": {
       "cannotForward": "このツールの現在の接続は AI Manager 経由で転送できません。",
@@ -1368,6 +1372,7 @@
       "install": "AI ツールをインストール",
       "empty": "インストール済みのツールはどれも API エンドポイントを使いません。",
       "official": "公式ログイン",
+      "signedOut": "未サインイン",
       "notConnected": "未接続",
       "added_one": "{{count}} 件のエンドポイントを追加済み",
       "added_other": "{{count}} 件のエンドポイントを追加済み",
@@ -1668,6 +1673,7 @@
       "routesTestFailed": "ルートをテストできませんでした。ネットワークを確認して、もう一度お試しください。",
       "routesTesting": "ルートをテスト中…",
       "description": "名前、キー、モデルを変更します。",
+      "descriptionName": "名前を変更します。",
       "errorTitle": "このエンドポイントを保存できませんでした",
       "headerKeepValue": "空のままなら保存済みの値を維持",
       "headerNameNamed": "ヘッダー {{index}} の名前",
@@ -1929,23 +1935,38 @@
         "google": "Google アカウント",
         "superGrok": "SuperGrok サブスクリプション"
       },
-      "loginDetail": "{{tool}} 内でサインイン",
-      "added": "追加済み",
+      "loginDetail": "ここで {{tool}} にサインイン、API キーは不要",
       "noMatch": "「{{query}}」に一致するものはありません。",
       "addAsCustom": "カスタムエンドポイントとして設定"
     },
     "login": {
-      "description": "{{tool}} にサインインしたアカウントを使うエンドポイントです。",
-      "signInThere": "API キーは不要です。サインインは {{tool}} の中で行われ、AI Manager があなたのアカウントに触れることはありません。",
-      "how": {
-        "claude": "Claude Code で /login を実行します。",
-        "chatGpt": "Codex で「Sign in with ChatGPT」を選びます。",
-        "google": "Gemini CLI で「Login with Google」を選びます。",
-        "superGrok": "Grok Build で xAI アカウントにサインインします。"
+      "description": "API キーの代わりにサブスクリプションを使います。",
+      "state": {
+        "signedIn": "サインイン済み",
+        "apiKey": "API キーでサインイン中",
+        "signedOut": "未サインイン"
       },
-      "alreadySaved": "すでにエンドポイント一覧にあります。",
-      "add": "エンドポイントを追加",
-      "showList": "エンドポイント一覧に戻る"
+      "current": "{{tool}} の現在の状態：{{status}}",
+      "signIn": "サインイン",
+      "signInAnother": "別のアカウントでサインイン",
+      "tryAgain": "もう一度試す",
+      "browserHint": "ブラウザでサインインページが開きます。サインイン完了と表示されたら、ここに戻ってください。",
+      "browserHintSeveral": "ブラウザでサインインページが開きます。サインインしたアカウントごとに、切り替え可能なエンドポイントになります。",
+      "waiting": "ブラウザでのサインインを待っています…",
+      "code": "ページに入力するコード",
+      "codeName": "コード",
+      "linkName": "サインインリンク",
+      "openAgain": "ページをもう一度開く",
+      "useToolLogin": "{{tool}} でサインイン済みのアカウントを使う",
+      "accountEndpoint": "サブスクリプションアカウント",
+      "failure": {
+        "refused": "サインインが拒否されました。もう一度お試しください。",
+        "timedOut": "待ち時間が長すぎたため、サインインを中止しました。もう一度お試しください。",
+        "portBusy": "別の Codex サインインがポート 1455 を使用中です。それを閉じてから、もう一度お試しください。",
+        "notInstalled": "先に {{tool}} をインストールしてから、サインインしてください。",
+        "network": "サインインサービスに接続できません。ネットワークかプロキシを確認してください。",
+        "saveFailed": "サインインはできましたが、アカウントを保存できませんでした。もう一度お試しください。"
+      }
     }
   },
   "extensions": {

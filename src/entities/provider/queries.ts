@@ -15,6 +15,7 @@ import {
   type ProviderRuntimeContext,
   type ProviderRuntimeResourceOpenOutcome,
   type ToolId,
+  type ToolLoginStatus,
   type ToolModelChoice,
 } from "@/native";
 import { providerKeys } from "./keys";
@@ -128,6 +129,27 @@ export function useToolModelChoice(
       tool === null
         ? Promise.reject(new Error("A tool is required"))
         : native.modelChoice.get(tool),
+    enabled: tool !== null,
+    staleTime: 30_000,
+    refetchOnWindowFocus: true,
+    retry: false,
+  });
+}
+
+/**
+ * Whether the tool is signed in to its own account (ADR-0060). The user signs
+ * in at the terminal, so the answer is read again when the window regains
+ * focus. `tool` is null for a tool without a sign-in of its own.
+ */
+export function useToolLoginStatus(
+  tool: ToolId | null,
+): UseQueryResult<ToolLoginStatus, Error> {
+  return useQuery({
+    queryKey: providerKeys.loginStatus(tool ?? ""),
+    queryFn: () =>
+      tool === null
+        ? Promise.reject(new Error("A tool is required"))
+        : native.providers.toolLoginStatus(tool),
     enabled: tool !== null,
     staleTime: 30_000,
     refetchOnWindowFocus: true,

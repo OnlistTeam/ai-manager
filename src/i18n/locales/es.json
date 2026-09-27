@@ -661,7 +661,10 @@
       "switchFailed": "No se pudo cambiar a este endpoint.",
       "testFailed": "No se pudo ejecutar la comprobación.",
       "unsupportedTool": "AI Manager no ha integrado endpoints de API para esta herramienta.",
-      "reorderFailed": "No se pudo guardar el nuevo orden. La lista volvió a como estaba; intenta mover el endpoint otra vez."
+      "reorderFailed": "No se pudo guardar el nuevo orden. La lista volvió a como estaba; intenta mover el endpoint otra vez.",
+      "signInGone": "Este inicio de sesión ha terminado.",
+      "signInAccountMissing": "El inicio de sesión de esta cuenta ya no está guardado.",
+      "signInFailed": "No se pudo iniciar el inicio de sesión."
     },
     "remediation": {
       "chooseAnotherService": "Elige otro endpoint para esta herramienta y vuelve a intentarlo.",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "Vuelve a intentarlo, o abre Ver detalles para ver qué ocurrió.",
       "useOriginalUpdateChannel": "Usa el actualizador original de esta instalación, o quítalo explícitamente antes de instalar mediante npm.",
       "uninstallManually": "Puedes eliminar los archivos restantes tú mismo y luego volver a ejecutar Comprobar.",
-      "allowTerminalAutomation": "Abre «Ajustes del Sistema → Privacidad y seguridad → Automatización» y activa «Terminal» para AI Manager."
+      "allowTerminalAutomation": "Abre «Ajustes del Sistema → Privacidad y seguridad → Automatización» y activa «Terminal» para AI Manager.",
+      "signInAgain": "Vuelve a iniciar sesión con la cuenta desde «Añadir endpoint»."
     },
     "routing": {
       "cannotForward": "La conexión actual de esta herramienta no se puede enrutar a través de AI Manager.",
@@ -1369,6 +1373,7 @@
       "install": "Instalar herramienta de IA",
       "empty": "Ninguna de tus herramientas instaladas usa endpoints de API.",
       "official": "Inicio de sesión oficial",
+      "signedOut": "Sin iniciar sesión",
       "notConnected": "Sin conectar",
       "added_one": "{{count}} endpoint añadido",
       "added_other": "{{count}} endpoints añadidos",
@@ -1669,6 +1674,7 @@
       "routesTestFailed": "No se pudieron probar estas rutas. Comprueba tu red y vuelve a intentarlo.",
       "routesTesting": "Probando rutas…",
       "description": "Cambia el nombre, la clave o el modelo.",
+      "descriptionName": "Cambia el nombre.",
       "errorTitle": "No se pudo guardar este endpoint",
       "headerKeepValue": "Déjalo vacío para conservar el valor guardado",
       "headerNameNamed": "Nombre del encabezado {{index}}",
@@ -1930,23 +1936,38 @@
         "google": "Cuenta de Google",
         "superGrok": "Suscripción a SuperGrok"
       },
-      "loginDetail": "Inicia sesión en {{tool}}",
-      "added": "Añadido",
+      "loginDetail": "Inicia sesión en {{tool}} aquí, sin clave de API",
       "noMatch": "No hay resultados para «{{query}}».",
       "addAsCustom": "Configurarlo como endpoint personalizado"
     },
     "login": {
-      "description": "Un endpoint que usa la cuenta con la que inicias sesión en {{tool}}.",
-      "signInThere": "No necesitas una API key. El inicio de sesión se hace en {{tool}}; AI Manager nunca ve tu cuenta.",
-      "how": {
-        "claude": "En Claude Code, ejecuta /login.",
-        "chatGpt": "En Codex, elige «Sign in with ChatGPT».",
-        "google": "En Gemini CLI, elige «Login with Google».",
-        "superGrok": "En Grok Build, inicia sesión con tu cuenta de xAI."
+      "description": "Usa tu suscripción en lugar de una clave de API.",
+      "state": {
+        "signedIn": "Sesión iniciada",
+        "apiKey": "Sesión iniciada con clave de API",
+        "signedOut": "Sin iniciar sesión"
       },
-      "alreadySaved": "Ya está en tu lista de endpoints.",
-      "add": "Añadir endpoint",
-      "showList": "Volver a los endpoints"
+      "current": "{{tool}} ahora: {{status}}",
+      "signIn": "Iniciar sesión",
+      "signInAnother": "Iniciar sesión con otra cuenta",
+      "tryAgain": "Reintentar",
+      "browserHint": "El navegador abrirá la página de inicio de sesión. Vuelve aquí cuando indique que has iniciado sesión.",
+      "browserHintSeveral": "El navegador abrirá la página de inicio de sesión. Cada cuenta con la que inicies sesión será un endpoint al que podrás cambiar.",
+      "waiting": "Esperando a que inicies sesión en el navegador…",
+      "code": "Código para introducir en la página",
+      "codeName": "código",
+      "linkName": "enlace de inicio de sesión",
+      "openAgain": "Abrir la página de nuevo",
+      "useToolLogin": "Usar la cuenta con sesión iniciada en {{tool}}",
+      "accountEndpoint": "Cuenta de suscripción",
+      "failure": {
+        "refused": "Se rechazó el inicio de sesión. Vuelve a intentarlo.",
+        "timedOut": "El inicio de sesión esperó demasiado y se detuvo. Vuelve a intentarlo.",
+        "portBusy": "Otro inicio de sesión de Codex está ocupando el puerto 1455. Ciérralo y vuelve a intentarlo.",
+        "notInstalled": "Instala {{tool}} primero y luego inicia sesión.",
+        "network": "No se pudo conectar con el servicio de inicio de sesión. Revisa tu red o proxy.",
+        "saveFailed": "Has iniciado sesión, pero no se pudo guardar la cuenta. Vuelve a intentarlo."
+      }
     }
   },
   "extensions": {

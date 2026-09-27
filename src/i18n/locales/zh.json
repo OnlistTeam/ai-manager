@@ -661,7 +661,10 @@
       "switchFailed": "没能切换到这个端点。",
       "testFailed": "这次检查没能跑起来。",
       "unsupportedTool": "AI 管家尚未接入这个工具的 API 端点。",
-      "reorderFailed": "没能保存新的顺序，列表已恢复原样，请再拖一次试试。"
+      "reorderFailed": "没能保存新的顺序，列表已恢复原样，请再拖一次试试。",
+      "signInGone": "这次登录已经结束。",
+      "signInAccountMissing": "这个账号的登录没有保存下来。",
+      "signInFailed": "登录没能开始。"
     },
     "remediation": {
       "chooseAnotherService": "先为这个工具选择另一个端点，然后再试一次。",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "可以再试一次，或者打开「查看详情」看看发生了什么。",
       "useOriginalUpdateChannel": "请使用这份安装原来的更新渠道；也可以先明确移除，再通过 npm 安装。",
       "uninstallManually": "你可以自己删掉剩下的文件，然后重新检查一次。",
-      "allowTerminalAutomation": "打开「系统设置 → 隐私与安全性 → 自动化」，为 AI 管家开启「终端」。"
+      "allowTerminalAutomation": "打开「系统设置 → 隐私与安全性 → 自动化」，为 AI 管家开启「终端」。",
+      "signInAgain": "在“添加端点”里重新登录这个账号。"
     },
     "routing": {
       "cannotForward": "这个软件当前的连接无法经 AI 管家转发。",
@@ -1368,6 +1372,7 @@
       "install": "安装 AI 工具",
       "empty": "已安装的工具都不使用 API 端点。",
       "official": "官方登录",
+      "signedOut": "未登录",
       "notConnected": "未连接",
       "added_one": "已添加 {{count}} 个端点",
       "added_other": "已添加 {{count}} 个端点",
@@ -1668,6 +1673,7 @@
       "routesTestFailed": "没能测试这些线路，请检查网络后重试。",
       "routesTesting": "正在测试线路…",
       "description": "修改名称、密钥或模型。",
+      "descriptionName": "修改名称。",
       "errorTitle": "没能保存这个端点",
       "headerKeepValue": "留空以保留已保存的值",
       "headerNameNamed": "第 {{index}} 个 Header 名称",
@@ -1929,23 +1935,38 @@
         "google": "Google 账号",
         "superGrok": "SuperGrok 订阅"
       },
-      "loginDetail": "在 {{tool}} 里登录",
-      "added": "已添加",
+      "loginDetail": "在这里登录 {{tool}}，不用 API 密钥",
       "noMatch": "没有找到“{{query}}”。",
       "addAsCustom": "添加为自定义端点"
     },
     "login": {
-      "description": "这个端点使用你在 {{tool}} 里登录的账号。",
-      "signInThere": "不需要 API 密钥。登录在 {{tool}} 里完成，AI 管家不经手你的账号。",
-      "how": {
-        "claude": "在 Claude Code 里输入 /login。",
-        "chatGpt": "在 Codex 里选择“用 ChatGPT 登录”。",
-        "google": "在 Gemini CLI 里选择“用 Google 登录”。",
-        "superGrok": "在 Grok Build 里登录你的 xAI 账号。"
+      "description": "用订阅代替 API 密钥。",
+      "state": {
+        "signedIn": "已登录",
+        "apiKey": "用 API 密钥登录",
+        "signedOut": "未登录"
       },
-      "alreadySaved": "它已经在端点列表里了。",
-      "add": "添加端点",
-      "showList": "回到端点列表"
+      "current": "{{tool}} 目前：{{status}}",
+      "signIn": "登录",
+      "signInAnother": "登录另一个账号",
+      "tryAgain": "再试一次",
+      "browserHint": "浏览器会打开登录页，页面提示登录成功后回到这里。",
+      "browserHintSeveral": "浏览器会打开登录页。每个登录的账号都会成为一个端点，可以随时切换。",
+      "waiting": "等你在浏览器里完成登录…",
+      "code": "在页面上输入的代码",
+      "codeName": "代码",
+      "linkName": "登录链接",
+      "openAgain": "重新打开登录页",
+      "useToolLogin": "使用 {{tool}} 里已登录的账号",
+      "accountEndpoint": "订阅账号",
+      "failure": {
+        "refused": "登录被拒绝了，再试一次。",
+        "timedOut": "等待太久，登录已停止，再试一次。",
+        "portBusy": "另一个 Codex 登录占着 1455 端口，关掉它再试。",
+        "notInstalled": "先安装 {{tool}}，再来登录。",
+        "network": "连不上登录服务，检查网络或代理。",
+        "saveFailed": "已经登录，但账号没能保存，再试一次。"
+      }
     }
   },
   "extensions": {

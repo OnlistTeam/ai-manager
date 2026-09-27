@@ -2,6 +2,7 @@ import {
   useProviderEditProfile,
   useProviderRuntimeContext,
   useProviders,
+  useToolLoginStatus,
   useToolModelChoice,
 } from "@/entities/provider";
 import type { Tool } from "@/entities/tool";
@@ -48,6 +49,10 @@ export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
   );
   const inUseId = inUseProviderId(connection);
   const profile = useProviderEditProfile(inUseId ? tool.id : null, inUseId);
+  // Only the tool's own sign-in can be signed out (ADR-0060).
+  const login = useToolLoginStatus(
+    connection.kind === "official" ? tool.id : null,
+  );
   const modelChoice = useToolModelChoice(
     tool.capabilities.canChooseModel ? tool.id : null,
   );
@@ -66,6 +71,7 @@ export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
     connection,
     inUseId,
     model: choice ? choice.model : savedModel,
+    signedOut: login.data?.state === "signedOut",
     choice,
     choiceUnavailable: modelChoice.isError,
     choices: pickerProviders(providers.data, inUseId),

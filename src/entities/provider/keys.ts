@@ -21,4 +21,7 @@ export const providerKeys = {
    */
   modelChoice: (tool: string) =>
     ["providers", "runtime-context", tool, "model-choice"] as const,
+  /** Under the runtime context too: a switch can move Codex's login aside. */
+  loginStatus: (tool: string) =>
+    ["providers", "runtime-context", tool, "login-status"] as const,
 };

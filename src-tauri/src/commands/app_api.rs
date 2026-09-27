@@ -33,9 +33,9 @@ use crate::domain::{
     ProviderEditProfile, ProviderEndpointCandidate, ProviderEndpointTestResult,
     ProviderPreflightOutcome, ProviderPreflightStatus, ProviderRuntimeContext,
     ProviderRuntimeResourceOpenOutcome, ProviderSaveOutcome, ProviderTestResult,
-    ShellVariableLocation, ShellVariableUpdate, ShellVariableWritten, SkillCatalogItem, Tool,
-    ToolId, ToolLaunchOutcome, ToolModelChoice, ToolUninstallPreview, ToolUpdatePreview,
-    ToolVersionCatalog, UninstallOptions,
+    ShellVariableLocation, ShellVariableUpdate, ShellVariableWritten, SignInProgress,
+    SkillCatalogItem, Tool, ToolId, ToolLaunchOutcome, ToolLoginStatus, ToolModelChoice,
+    ToolUninstallPreview, ToolUpdatePreview, ToolVersionCatalog, UninstallOptions,
 };
 use crate::infrastructure::OperationManager;
 use crate::repositories::tool_version_events::SqliteToolVersionEventRepository;
@@ -399,6 +399,64 @@ pub async fn app_provider_restore_tool_login(
         blocking(move || ProviderDirectory::restore_tool_login(&worker_handle, tool)).await?;
     crate::tray::provider_changed(&app_handle, tool);
     Ok(result)
+}
+
+/// Read-only: runs the tool's own status command (ADR-0060).
+#[tauri::command]
+pub async fn app_provider_tool_login_status(
+    app_handle: tauri::AppHandle,
+    tool: String,
+) -> Result<ToolLoginStatus, AppError> {
+    let tool = parse_tool(&tool)?;
+    ProviderDirectory::tool_login_status(&app_handle, tool).await
+}
+
+/// Starts signing in to the tool's subscription (ADR-0061). The dialog
+/// follows it with `app_provider_sign_in_status`.
+#[tauri::command]
+pub async fn app_provider_sign_in_start(
+    app_handle: tauri::AppHandle,
+    tool: String,
+) -> Result<SignInProgress, AppError> {
+    let tool = parse_tool(&tool)?;
+    ProviderDirectory::sign_in_start(&app_handle, tool).await
+}
+
+#[tauri::command]
+pub async fn app_provider_sign_in_status(
+    app_handle: tauri::AppHandle,
+    tool: String,
+    id: String,
+) -> Result<SignInProgress, AppError> {
+    let tool = parse_tool(&tool)?;
+    let worker_handle = app_handle.clone();
+    let progress =
+        blocking(move || ProviderDirectory::sign_in_status(&worker_handle, tool, &id)).await?;
+    if progress.created.is_some() {
+        crate::tray::provider_changed(&app_handle, tool);
+    }
+    Ok(progress)
+}
+
+#[tauri::command]
+pub async fn app_provider_sign_in_cancel(
+    app_handle: tauri::AppHandle,
+    tool: String,
+    id: String,
+) -> Result<(), AppError> {
+    let tool = parse_tool(&tool)?;
+    ProviderDirectory::sign_in_cancel(&app_handle, tool, &id)
+}
+
+/// Opens the vendor's page of a sign-in still waiting, again.
+#[tauri::command]
+pub async fn app_provider_sign_in_open(
+    app_handle: tauri::AppHandle,
+    tool: String,
+    id: String,
+) -> Result<bool, AppError> {
+    let tool = parse_tool(&tool)?;
+    ProviderDirectory::sign_in_open(&app_handle, tool, &id)
 }
 
 #[tauri::command]

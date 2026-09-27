@@ -9,6 +9,7 @@ export {
   useOpenProviderRuntimeResource,
   useProviderRuntimeContext,
   useProviders,
+  useToolLoginStatus,
   useToolModelChoice,
 } from "./queries";
 export { useProviderEvents } from "./useProviderEvents";
@@ -19,6 +20,7 @@ export type {
   ProviderConnectionProfile,
   ProviderPresetKind,
   ToolLoginAccount,
+  ToolLoginStatus,
   ProviderCreateDraft,
   ProviderCreateResult,
   ProviderCustomCreateDraft,

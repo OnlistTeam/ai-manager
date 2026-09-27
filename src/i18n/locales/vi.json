@@ -661,7 +661,10 @@
       "switchFailed": "Không thể chuyển sang điểm cuối này.",
       "testFailed": "Không thể chạy kiểm tra.",
       "unsupportedTool": "AI Manager chưa tích hợp điểm cuối API cho công cụ này.",
-      "reorderFailed": "Không lưu được thứ tự mới. Danh sách đã trở lại như cũ; hãy thử di chuyển điểm cuối lần nữa."
+      "reorderFailed": "Không lưu được thứ tự mới. Danh sách đã trở lại như cũ; hãy thử di chuyển điểm cuối lần nữa.",
+      "signInGone": "Phiên đăng nhập này đã kết thúc.",
+      "signInAccountMissing": "Thông tin đăng nhập của tài khoản này không còn được lưu.",
+      "signInFailed": "Không bắt đầu được đăng nhập."
     },
     "remediation": {
       "chooseAnotherService": "Chọn một điểm cuối khác cho công cụ này, rồi thử lại.",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "Thử lại, hoặc mở Xem chi tiết để biết chuyện gì đã xảy ra.",
       "useOriginalUpdateChannel": "Dùng trình cập nhật gốc của bản cài đặt này, hoặc gỡ nó một cách tường minh trước khi cài qua npm.",
       "uninstallManually": "Bạn có thể tự xóa các tệp còn lại, rồi chạy Kiểm tra lại.",
-      "allowTerminalAutomation": "Mở «Cài đặt Hệ thống → Quyền riêng tư & Bảo mật → Tự động hoá» rồi bật «Terminal» cho AI Manager."
+      "allowTerminalAutomation": "Mở «Cài đặt Hệ thống → Quyền riêng tư & Bảo mật → Tự động hoá» rồi bật «Terminal» cho AI Manager.",
+      "signInAgain": "Đăng nhập lại tài khoản này trong \"Thêm điểm cuối\"."
     },
     "routing": {
       "cannotForward": "Kết nối hiện tại của công cụ này không thể định tuyến qua AI Manager.",
@@ -1369,6 +1373,7 @@
       "install": "Cài công cụ AI",
       "empty": "Các công cụ đã cài không dùng API endpoint nào.",
       "official": "Đăng nhập chính thức",
+      "signedOut": "Chưa đăng nhập",
       "notConnected": "Chưa kết nối",
       "added_one": "Đã thêm {{count}} endpoint",
       "added_other": "Đã thêm {{count}} endpoint",
@@ -1669,6 +1674,7 @@
       "routesTestFailed": "Không thể kiểm tra các tuyến này. Kiểm tra mạng của bạn và thử lại.",
       "routesTesting": "Đang kiểm tra tuyến…",
       "description": "Thay đổi tên, khóa hoặc model.",
+      "descriptionName": "Thay đổi tên.",
       "errorTitle": "Không thể lưu điểm cuối này",
       "headerKeepValue": "Để trống để giữ giá trị đã lưu",
       "headerNameNamed": "Tên header {{index}}",
@@ -1930,23 +1936,38 @@
         "google": "Tài khoản Google",
         "superGrok": "Gói SuperGrok"
       },
-      "loginDetail": "Đăng nhập trong {{tool}}",
-      "added": "Đã thêm",
+      "loginDetail": "Đăng nhập {{tool}} ngay tại đây, không cần khóa API",
       "noMatch": "Không tìm thấy “{{query}}”.",
       "addAsCustom": "Thiết lập làm điểm cuối tùy chỉnh"
     },
     "login": {
-      "description": "Điểm cuối dùng tài khoản bạn đã đăng nhập trong {{tool}}.",
-      "signInThere": "Không cần khóa API. Việc đăng nhập diễn ra trong {{tool}}; AI Manager không bao giờ thấy tài khoản của bạn.",
-      "how": {
-        "claude": "Trong Claude Code, chạy /login.",
-        "chatGpt": "Trong Codex, chọn “Sign in with ChatGPT”.",
-        "google": "Trong Gemini CLI, chọn “Login with Google”.",
-        "superGrok": "Trong Grok Build, đăng nhập bằng tài khoản xAI của bạn."
+      "description": "Dùng gói đăng ký thay cho khóa API.",
+      "state": {
+        "signedIn": "Đã đăng nhập",
+        "apiKey": "Đăng nhập bằng khóa API",
+        "signedOut": "Chưa đăng nhập"
       },
-      "alreadySaved": "Điểm cuối này đã có trong danh sách.",
-      "add": "Thêm điểm cuối",
-      "showList": "Quay lại danh sách điểm cuối"
+      "current": "{{tool}} hiện tại: {{status}}",
+      "signIn": "Đăng nhập",
+      "signInAnother": "Đăng nhập tài khoản khác",
+      "tryAgain": "Thử lại",
+      "browserHint": "Trình duyệt sẽ mở trang đăng nhập. Quay lại đây khi trang báo bạn đã đăng nhập.",
+      "browserHintSeveral": "Trình duyệt sẽ mở trang đăng nhập. Mỗi tài khoản bạn đăng nhập sẽ thành một điểm cuối để chuyển sang.",
+      "waiting": "Đang chờ bạn đăng nhập trong trình duyệt…",
+      "code": "Mã cần nhập trên trang",
+      "codeName": "mã",
+      "linkName": "liên kết đăng nhập",
+      "openAgain": "Mở lại trang",
+      "useToolLogin": "Dùng tài khoản đã đăng nhập trong {{tool}}",
+      "accountEndpoint": "Tài khoản gói đăng ký",
+      "failure": {
+        "refused": "Đăng nhập bị từ chối. Hãy thử lại.",
+        "timedOut": "Đăng nhập chờ quá lâu nên đã dừng. Hãy thử lại.",
+        "portBusy": "Một phiên đăng nhập Codex khác đang giữ cổng 1455. Đóng nó rồi thử lại.",
+        "notInstalled": "Hãy cài {{tool}} trước, rồi đăng nhập.",
+        "network": "Không kết nối được dịch vụ đăng nhập. Kiểm tra mạng hoặc proxy.",
+        "saveFailed": "Bạn đã đăng nhập nhưng không lưu được tài khoản. Hãy thử lại."
+      }
     }
   },
   "extensions": {

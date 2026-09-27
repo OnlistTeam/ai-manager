@@ -661,7 +661,10 @@
       "switchFailed": "Não foi possível trocar para este endpoint.",
       "testFailed": "Não foi possível executar a verificação.",
       "unsupportedTool": "O AI Manager ainda não integrou endpoints de API para esta ferramenta.",
-      "reorderFailed": "Não foi possível salvar a nova ordem. A lista voltou ao que era; tente mover o endpoint de novo."
+      "reorderFailed": "Não foi possível salvar a nova ordem. A lista voltou ao que era; tente mover o endpoint de novo.",
+      "signInGone": "Este login foi encerrado.",
+      "signInAccountMissing": "O login desta conta não está mais salvo.",
+      "signInFailed": "Não foi possível iniciar o login."
     },
     "remediation": {
       "chooseAnotherService": "Escolha outro endpoint para esta ferramenta e tente novamente.",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "Tente novamente, ou abra Ver detalhes para saber o que aconteceu.",
       "useOriginalUpdateChannel": "Use o atualizador original desta instalação, ou remova-a explicitamente antes de instalar pelo npm.",
       "uninstallManually": "Você pode excluir os arquivos restantes você mesmo e depois executar Verificar novamente.",
-      "allowTerminalAutomation": "Abra «Ajustes do Sistema → Privacidade e Segurança → Automação» e ative o «Terminal» para o AI Manager."
+      "allowTerminalAutomation": "Abra «Ajustes do Sistema → Privacidade e Segurança → Automação» e ative o «Terminal» para o AI Manager.",
+      "signInAgain": "Faça login nesta conta de novo em \"Adicionar endpoint\"."
     },
     "routing": {
       "cannotForward": "A conexão atual desta ferramenta não pode ser roteada pelo AI Manager.",
@@ -1369,6 +1373,7 @@
       "install": "Instalar ferramenta de IA",
       "empty": "Nenhuma das ferramentas instaladas usa endpoints de API.",
       "official": "Login oficial",
+      "signedOut": "Não conectado",
       "notConnected": "Não conectado",
       "added_one": "{{count}} endpoint adicionado",
       "added_other": "{{count}} endpoints adicionados",
@@ -1669,6 +1674,7 @@
       "routesTestFailed": "Não foi possível testar estas rotas. Verifique sua rede e tente novamente.",
       "routesTesting": "Testando rotas…",
       "description": "Altere o nome, a chave ou o modelo.",
+      "descriptionName": "Altere o nome.",
       "errorTitle": "Não foi possível salvar este endpoint",
       "headerKeepValue": "Deixe em branco para manter o valor salvo",
       "headerNameNamed": "Nome do cabeçalho {{index}}",
@@ -1930,23 +1936,38 @@
         "google": "Conta Google",
         "superGrok": "Assinatura do SuperGrok"
       },
-      "loginDetail": "Faça login no {{tool}}",
-      "added": "Adicionado",
+      "loginDetail": "Faça login no {{tool}} aqui, sem chave de API",
       "noMatch": "Nada corresponde a “{{query}}”.",
       "addAsCustom": "Configurar como endpoint personalizado"
     },
     "login": {
-      "description": "Um endpoint que usa a conta com que você faz login no {{tool}}.",
-      "signInThere": "Não é preciso chave de API. O login acontece no {{tool}}; o AI Manager nunca vê sua conta.",
-      "how": {
-        "claude": "No Claude Code, execute /login.",
-        "chatGpt": "No Codex, escolha “Sign in with ChatGPT”.",
-        "google": "No Gemini CLI, escolha “Login with Google”.",
-        "superGrok": "No Grok Build, faça login com sua conta xAI."
+      "description": "Usa sua assinatura em vez de uma chave de API.",
+      "state": {
+        "signedIn": "Conectado",
+        "apiKey": "Conectado com chave de API",
+        "signedOut": "Não conectado"
       },
-      "alreadySaved": "Ele já está na sua lista de endpoints.",
-      "add": "Adicionar endpoint",
-      "showList": "Voltar aos endpoints"
+      "current": "{{tool}} agora: {{status}}",
+      "signIn": "Fazer login",
+      "signInAnother": "Entrar em outra conta",
+      "tryAgain": "Tentar novamente",
+      "browserHint": "O navegador abre a página de login. Volte aqui quando ela disser que você está conectado.",
+      "browserHintSeveral": "O navegador abre a página de login. Cada conta em que você entrar vira um endpoint para o qual você pode trocar.",
+      "waiting": "Aguardando você fazer login no navegador…",
+      "code": "Código para digitar na página",
+      "codeName": "código",
+      "linkName": "link de login",
+      "openAgain": "Abrir a página de novo",
+      "useToolLogin": "Usar a conta já conectada no {{tool}}",
+      "accountEndpoint": "Conta de assinatura",
+      "failure": {
+        "refused": "O login foi recusado. Tente novamente.",
+        "timedOut": "O login esperou demais e foi interrompido. Tente novamente.",
+        "portBusy": "Outro login do Codex está ocupando a porta 1455. Feche-o e tente novamente.",
+        "notInstalled": "Instale o {{tool}} primeiro e depois faça login.",
+        "network": "Não foi possível acessar o serviço de login. Verifique sua rede ou proxy.",
+        "saveFailed": "Você fez login, mas não foi possível salvar a conta. Tente novamente."
+      }
     }
   },
   "extensions": {

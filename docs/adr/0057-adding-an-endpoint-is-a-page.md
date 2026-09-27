@@ -4,6 +4,9 @@
 - Date: 2026-09-27
 - Amends: ADR-0046 (the 2026-09-22 amendment's "edit the address and it
   becomes custom", and the allowlist), design-spec §34.
+- Amended by: ADR-0060 (the subscription card reads whether the tool is
+  signed in).
+- Amended by: ADR-0061 (the subscription card signs in from AI Manager).
 
 ## Context
 

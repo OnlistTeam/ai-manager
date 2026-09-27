@@ -661,7 +661,10 @@
       "switchFailed": "沒能切換到這個端點。",
       "testFailed": "這次檢查沒能跑起來。",
       "unsupportedTool": "AI 管家尚未接入這個工具的 API 端點。",
-      "reorderFailed": "沒能儲存新的順序，列表已恢復原樣，請再拖一次試試。"
+      "reorderFailed": "沒能儲存新的順序，列表已恢復原樣，請再拖一次試試。",
+      "signInGone": "這次登入已經結束。",
+      "signInAccountMissing": "這個帳號的登入沒有儲存下來。",
+      "signInFailed": "登入沒能開始。"
     },
     "remediation": {
       "chooseAnotherService": "先為這個工具選擇另一個端點，然後再試一次。",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "可以再試一次，或者打開「查看詳情」看看發生了什麼。",
       "useOriginalUpdateChannel": "請使用這份安裝原來的更新管道；也可以先明確移除，再透過 npm 安裝。",
       "uninstallManually": "你可以自己刪掉剩下的檔案，然後重新檢查一次。",
-      "allowTerminalAutomation": "開啟「系統設定 → 隱私權與安全性 → 自動化」，為 AI 管家開啟「終端機」。"
+      "allowTerminalAutomation": "開啟「系統設定 → 隱私權與安全性 → 自動化」，為 AI 管家開啟「終端機」。",
+      "signInAgain": "在「新增端點」裡重新登入這個帳號。"
     },
     "routing": {
       "cannotForward": "這個軟體目前的連線無法經 AI 管家轉發。",
@@ -1368,6 +1372,7 @@
       "install": "安裝 AI 工具",
       "empty": "已安裝的工具都不使用 API 端點。",
       "official": "官方登入",
+      "signedOut": "未登入",
       "notConnected": "未連線",
       "added_one": "已新增 {{count}} 個端點",
       "added_other": "已新增 {{count}} 個端點",
@@ -1668,6 +1673,7 @@
       "routesTestFailed": "未能測試這些線路，請檢查網路後重試。",
       "routesTesting": "正在測試線路…",
       "description": "修改名稱、金鑰或模型。",
+      "descriptionName": "修改名稱。",
       "errorTitle": "沒能儲存這個端點",
       "headerKeepValue": "留空以保留已儲存的值",
       "headerNameNamed": "第 {{index}} 個 Header 名稱",
@@ -1929,23 +1935,38 @@
         "google": "Google 帳號",
         "superGrok": "SuperGrok 訂閱"
       },
-      "loginDetail": "在 {{tool}} 裡登入",
-      "added": "已新增",
+      "loginDetail": "在這裡登入 {{tool}}，不用 API 金鑰",
       "noMatch": "找不到「{{query}}」。",
       "addAsCustom": "新增為自訂端點"
     },
     "login": {
-      "description": "這個端點使用你在 {{tool}} 裡登入的帳號。",
-      "signInThere": "不需要 API 金鑰。登入在 {{tool}} 裡完成，AI 管家不經手你的帳號。",
-      "how": {
-        "claude": "在 Claude Code 裡輸入 /login。",
-        "chatGpt": "在 Codex 裡選擇「Sign in with ChatGPT」。",
-        "google": "在 Gemini CLI 裡選擇「Login with Google」。",
-        "superGrok": "在 Grok Build 裡登入你的 xAI 帳號。"
+      "description": "用訂閱代替 API 金鑰。",
+      "state": {
+        "signedIn": "已登入",
+        "apiKey": "用 API 金鑰登入",
+        "signedOut": "未登入"
       },
-      "alreadySaved": "它已經在端點列表裡了。",
-      "add": "新增端點",
-      "showList": "回到端點列表"
+      "current": "{{tool}} 目前：{{status}}",
+      "signIn": "登入",
+      "signInAnother": "登入另一個帳號",
+      "tryAgain": "再試一次",
+      "browserHint": "瀏覽器會開啟登入頁，頁面提示登入成功後回到這裡。",
+      "browserHintSeveral": "瀏覽器會開啟登入頁。每個登入的帳號都會成為一個端點，可以隨時切換。",
+      "waiting": "等你在瀏覽器裡完成登入…",
+      "code": "在頁面上輸入的代碼",
+      "codeName": "代碼",
+      "linkName": "登入連結",
+      "openAgain": "重新開啟登入頁",
+      "useToolLogin": "使用 {{tool}} 裡已登入的帳號",
+      "accountEndpoint": "訂閱帳號",
+      "failure": {
+        "refused": "登入被拒絕了，再試一次。",
+        "timedOut": "等待太久，登入已停止，再試一次。",
+        "portBusy": "另一個 Codex 登入佔用著 1455 連接埠，關掉它再試。",
+        "notInstalled": "先安裝 {{tool}}，再來登入。",
+        "network": "連不上登入服務，檢查網路或代理。",
+        "saveFailed": "已經登入，但帳號沒能儲存，再試一次。"
+      }
     }
   },
   "extensions": {

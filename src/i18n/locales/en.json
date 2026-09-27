@@ -661,7 +661,10 @@
       "switchFailed": "Could not switch to this endpoint.",
       "testFailed": "The check could not run.",
       "unsupportedTool": "AI Manager has not integrated API endpoints for this tool.",
-      "reorderFailed": "Could not save the new order. The list is back as it was; try moving the endpoint again."
+      "reorderFailed": "Could not save the new order. The list is back as it was; try moving the endpoint again.",
+      "signInGone": "This sign-in has ended.",
+      "signInAccountMissing": "This account's sign-in is no longer saved.",
+      "signInFailed": "The sign-in couldn't start."
     },
     "remediation": {
       "chooseAnotherService": "Choose another endpoint for this tool, then try again.",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "Try again, or open View Details to see what happened.",
       "useOriginalUpdateChannel": "Use this installation's original updater, or remove it explicitly before installing through npm.",
       "uninstallManually": "You can delete the remaining files yourself, then run Check again.",
-      "allowTerminalAutomation": "In System Settings, open Privacy & Security, then Automation, and switch Terminal on for AI Manager."
+      "allowTerminalAutomation": "In System Settings, open Privacy & Security, then Automation, and switch Terminal on for AI Manager.",
+      "signInAgain": "Sign in to the account again from Add endpoint."
     },
     "routing": {
       "cannotForward": "This tool's current connection can't be routed through AI Manager.",
@@ -1369,6 +1373,7 @@
       "install": "Install AI Tool",
       "empty": "None of your installed tools use API endpoints.",
       "official": "Official sign-in",
+      "signedOut": "Not signed in",
       "notConnected": "Not connected",
       "added_one": "{{count}} endpoint added",
       "added_other": "{{count}} endpoints added",
@@ -1669,6 +1674,7 @@
       "routesTestFailed": "Could not test these routes. Check your network and try again.",
       "routesTesting": "Testing routes…",
       "description": "Change the name, key, or model.",
+      "descriptionName": "Change the name.",
       "errorTitle": "Could not save this endpoint",
       "headerKeepValue": "Leave empty to keep the saved value",
       "headerNameNamed": "Header {{index}} name",
@@ -1930,23 +1936,38 @@
         "google": "Google account",
         "superGrok": "SuperGrok subscription"
       },
-      "loginDetail": "Sign in inside {{tool}}",
-      "added": "Added",
+      "loginDetail": "Sign in to {{tool}} here, no API key needed",
       "noMatch": "Nothing matches “{{query}}”.",
       "addAsCustom": "Set it up as a custom endpoint"
     },
     "login": {
-      "description": "An endpoint that uses the account you sign in to {{tool}} with.",
-      "signInThere": "No API key needed. Signing in happens in {{tool}}, and AI Manager never sees your account.",
-      "how": {
-        "claude": "In Claude Code, run /login.",
-        "chatGpt": "In Codex, choose Sign in with ChatGPT.",
-        "google": "In Gemini CLI, choose Login with Google.",
-        "superGrok": "In Grok Build, sign in with your xAI account."
+      "description": "Uses your subscription instead of an API key.",
+      "state": {
+        "signedIn": "Signed in",
+        "apiKey": "Signed in with an API key",
+        "signedOut": "Not signed in"
       },
-      "alreadySaved": "It's already in your endpoint list.",
-      "add": "Add endpoint",
-      "showList": "Back to endpoints"
+      "current": "{{tool}} right now: {{status}}",
+      "signIn": "Sign in",
+      "signInAnother": "Sign in to another account",
+      "tryAgain": "Try again",
+      "browserHint": "Your browser opens the sign-in page. Come back here once it says you're signed in.",
+      "browserHintSeveral": "Your browser opens the sign-in page. Each account you sign in to becomes an endpoint you can switch to.",
+      "waiting": "Waiting for you to sign in in the browser…",
+      "code": "Code to enter on the page",
+      "codeName": "code",
+      "linkName": "sign-in link",
+      "openAgain": "Open the page again",
+      "useToolLogin": "Use the account already signed in to {{tool}}",
+      "accountEndpoint": "Subscription account",
+      "failure": {
+        "refused": "The sign-in was declined. Try again.",
+        "timedOut": "The sign-in waited too long and stopped. Try again.",
+        "portBusy": "Another Codex sign-in is holding port 1455. Close it and try again.",
+        "notInstalled": "Install {{tool}} first, then sign in.",
+        "network": "Couldn't reach the sign-in service. Check your network or proxy.",
+        "saveFailed": "You signed in, but the account couldn't be saved. Try again."
+      }
     }
   },
   "extensions": {

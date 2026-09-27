@@ -1446,8 +1446,12 @@ Relays                (onList first)
 Local                 (Ollama, LM Studio)
 ```
 
-A tool lists only services that speak its protocol; one it cannot use is left
-out, not shown disabled. Search filters by name or address, and the speed test
+The subscription card shows whether the tool is signed in right now, as the
+tool itself reports it (ADR-0060), and signs in from AI Manager: the vendor's
+page opens in the browser, and each Claude or ChatGPT account signed in this
+way becomes an endpoint of its own (ADR-0061). A tool lists only
+services that speak its protocol; one it cannot use is left out, not shown
+disabled. Search filters by name or address, and the speed test
 tags each card with its latency.
 
 A card opens a dialog with:

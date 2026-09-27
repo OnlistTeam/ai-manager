@@ -411,6 +411,7 @@ mod tests {
             api_key: None,
             website_url: None,
             can_remove: true,
+            account_bound: false,
         }
     }
 

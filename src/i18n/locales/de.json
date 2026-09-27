@@ -661,7 +661,10 @@
       "switchFailed": "Es konnte nicht zu diesem Endpunkt gewechselt werden.",
       "testFailed": "Die Prüfung konnte nicht durchgeführt werden.",
       "unsupportedTool": "AI Manager hat API-Endpunkte für dieses Tool noch nicht integriert.",
-      "reorderFailed": "Die neue Reihenfolge konnte nicht gespeichert werden. Die Liste ist wieder wie vorher; verschieben Sie den Endpunkt bitte erneut."
+      "reorderFailed": "Die neue Reihenfolge konnte nicht gespeichert werden. Die Liste ist wieder wie vorher; verschieben Sie den Endpunkt bitte erneut.",
+      "signInGone": "Diese Anmeldung ist beendet.",
+      "signInAccountMissing": "Die Anmeldung dieses Kontos ist nicht mehr gespeichert.",
+      "signInFailed": "Die Anmeldung konnte nicht gestartet werden."
     },
     "remediation": {
       "chooseAnotherService": "Wählen Sie einen anderen Endpunkt für dieses Tool und versuchen Sie es erneut.",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "Versuchen Sie es erneut, oder öffnen Sie Details anzeigen, um zu sehen, was passiert ist.",
       "useOriginalUpdateChannel": "Verwenden Sie den ursprünglichen Updater dieser Installation, oder entfernen Sie sie ausdrücklich, bevor Sie über npm installieren.",
       "uninstallManually": "Sie können die verbleibenden Dateien selbst löschen und dann erneut prüfen lassen.",
-      "allowTerminalAutomation": "Öffnen Sie „Systemeinstellungen → Datenschutz & Sicherheit → Automation“ und aktivieren Sie dort „Terminal“ für AI Manager."
+      "allowTerminalAutomation": "Öffnen Sie „Systemeinstellungen → Datenschutz & Sicherheit → Automation“ und aktivieren Sie dort „Terminal“ für AI Manager.",
+      "signInAgain": "Melden Sie das Konto unter „Endpunkt hinzufügen“ erneut an."
     },
     "routing": {
       "cannotForward": "Die aktuelle Verbindung dieses Tools kann nicht über AI Manager geleitet werden.",
@@ -1369,6 +1373,7 @@
       "install": "KI-Tool installieren",
       "empty": "Keines Ihrer installierten Tools nutzt API-Endpunkte.",
       "official": "Offizielle Anmeldung",
+      "signedOut": "Nicht angemeldet",
       "notConnected": "Nicht verbunden",
       "added_one": "{{count}} Endpunkt hinzugefügt",
       "added_other": "{{count}} Endpunkte hinzugefügt",
@@ -1669,6 +1674,7 @@
       "routesTestFailed": "Diese Routen konnten nicht getestet werden. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
       "routesTesting": "Routen werden getestet …",
       "description": "Ändern Sie Name, Schlüssel oder Modell.",
+      "descriptionName": "Ändern Sie den Namen.",
       "errorTitle": "Dieser Endpunkt konnte nicht gespeichert werden",
       "headerKeepValue": "Leer lassen, um den gespeicherten Wert zu behalten",
       "headerNameNamed": "Name von Header {{index}}",
@@ -1930,23 +1936,38 @@
         "google": "Google-Konto",
         "superGrok": "SuperGrok-Abo"
       },
-      "loginDetail": "In {{tool}} anmelden",
-      "added": "Hinzugefügt",
+      "loginDetail": "Hier bei {{tool}} anmelden, kein API-Schlüssel nötig",
       "noMatch": "Keine Treffer für „{{query}}“.",
       "addAsCustom": "Als benutzerdefinierten Endpunkt einrichten"
     },
     "login": {
-      "description": "Ein Endpunkt, der das Konto nutzt, mit dem Sie in {{tool}} angemeldet sind.",
-      "signInThere": "Kein API-Schlüssel nötig. Die Anmeldung erfolgt in {{tool}}; AI Manager sieht Ihr Konto nie.",
-      "how": {
-        "claude": "Führen Sie in Claude Code /login aus.",
-        "chatGpt": "Wählen Sie in Codex „Sign in with ChatGPT“.",
-        "google": "Wählen Sie in Gemini CLI „Login with Google“.",
-        "superGrok": "Melden Sie sich in Grok Build mit Ihrem xAI-Konto an."
+      "description": "Nutzt Ihr Abo statt eines API-Schlüssels.",
+      "state": {
+        "signedIn": "Angemeldet",
+        "apiKey": "Mit API-Schlüssel angemeldet",
+        "signedOut": "Nicht angemeldet"
       },
-      "alreadySaved": "Er ist bereits in Ihrer Endpunktliste.",
-      "add": "Endpunkt hinzufügen",
-      "showList": "Zurück zu den Endpunkten"
+      "current": "{{tool}} gerade: {{status}}",
+      "signIn": "Anmelden",
+      "signInAnother": "Mit einem anderen Konto anmelden",
+      "tryAgain": "Erneut versuchen",
+      "browserHint": "Ihr Browser öffnet die Anmeldeseite. Kommen Sie hierher zurück, sobald dort steht, dass Sie angemeldet sind.",
+      "browserHintSeveral": "Ihr Browser öffnet die Anmeldeseite. Jedes Konto, mit dem Sie sich anmelden, wird zu einem Endpunkt, zu dem Sie wechseln können.",
+      "waiting": "Warte auf Ihre Anmeldung im Browser…",
+      "code": "Code zur Eingabe auf der Seite",
+      "codeName": "Code",
+      "linkName": "Anmeldelink",
+      "openAgain": "Seite erneut öffnen",
+      "useToolLogin": "Das bereits in {{tool}} angemeldete Konto verwenden",
+      "accountEndpoint": "Abo-Konto",
+      "failure": {
+        "refused": "Die Anmeldung wurde abgelehnt. Versuchen Sie es erneut.",
+        "timedOut": "Die Anmeldung hat zu lange gewartet und wurde beendet. Versuchen Sie es erneut.",
+        "portBusy": "Eine andere Codex-Anmeldung belegt Port 1455. Schließen Sie sie und versuchen Sie es erneut.",
+        "notInstalled": "Installieren Sie zuerst {{tool}} und melden Sie sich dann an.",
+        "network": "Der Anmeldedienst ist nicht erreichbar. Prüfen Sie Netzwerk oder Proxy.",
+        "saveFailed": "Sie sind angemeldet, aber das Konto konnte nicht gespeichert werden. Versuchen Sie es erneut."
+      }
     }
   },
   "extensions": {

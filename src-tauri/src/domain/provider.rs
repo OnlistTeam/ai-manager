@@ -55,6 +55,11 @@ pub struct Provider {
     /// entries managed by a tool-specific config fail closed, and the UI must also explain
     /// why the action is disabled.
     pub can_remove: bool,
+    /// An official entry bound to one account signed in from AI Manager
+    /// (ADR-0061): its name says which, and the tool's own sign-in is not
+    /// what it uses until it is switched to.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub account_bound: bool,
 }
 
 impl std::fmt::Debug for Provider {
@@ -71,6 +76,7 @@ impl std::fmt::Debug for Provider {
             .field("website_url", &self.website_url)
             .field("testable", &self.testable)
             .field("can_remove", &self.can_remove)
+            .field("account_bound", &self.account_bound)
             .finish()
     }
 }
@@ -131,6 +137,88 @@ pub enum ToolLoginAccount {
     ChatGpt,
     Google,
     SuperGrok,
+}
+
+/// Whether a tool is signed in to its own account right now, as the tool
+/// itself reports it (ADR-0060).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum ToolLoginState {
+    SignedIn,
+    /// Signed in, but with an API key rather than the subscription.
+    ApiKey,
+    SignedOut,
+    /// The tool has no way to ask, is not installed, or did not answer.
+    Unknown,
+}
+
+/// The subscription card's reading of the tool's sign-in. It names the
+/// account, never anything that authenticates it.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ToolLoginStatus {
+    pub state: ToolLoginState,
+    /// The account's email, when the tool names one.
+    pub account: Option<String>,
+    /// The plan as the tool spells it (`max`, `pro`, …).
+    pub plan: Option<String>,
+}
+
+impl ToolLoginStatus {
+    pub fn of(state: ToolLoginState) -> Self {
+        Self {
+            state,
+            account: None,
+            plan: None,
+        }
+    }
+}
+
+/// Where a sign-in started from AI Manager stands (ADR-0061).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum SignInPhase {
+    /// Waiting for the browser, or for the tool's own login command.
+    Waiting,
+    Done,
+    Failed,
+    Canceled,
+}
+
+/// Why a sign-in did not finish, in words the dialog can say.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum SignInFailure {
+    /// The vendor turned the sign-in down, or the user did in the browser.
+    Refused,
+    /// Nobody came back within ten minutes.
+    TimedOut,
+    /// Codex's callback port is held by another program.
+    PortBusy,
+    /// Grok Build signs in with its own CLI, which is not installed.
+    NotInstalled,
+    /// The vendor could not be reached.
+    Network,
+    /// The account was signed in but could not be saved.
+    SaveFailed,
+}
+
+/// A sign-in as the dialog follows it. It carries the page to open and the
+/// code to type there, never anything that authenticates.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SignInProgress {
+    pub id: String,
+    pub phase: SignInPhase,
+    /// The vendor's page, to open again or copy.
+    pub url: Option<String>,
+    /// What to type on that page, for a device code.
+    pub code: Option<String>,
+    /// The account that signed in, once done.
+    pub account: Option<String>,
+    pub failure: Option<SignInFailure>,
+    /// The endpoint the sign-in added or updated, once done.
+    pub created: Option<ProviderCreateResult>,
 }
 
 /// The catalog of safe connections for a tool. The default preset must be one of `presets`.
@@ -437,6 +525,7 @@ mod tests {
             website_url: None,
             testable: true,
             can_remove: false,
+            account_bound: false,
         }
     }
 

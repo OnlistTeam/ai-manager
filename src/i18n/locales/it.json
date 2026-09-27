@@ -661,7 +661,10 @@
       "switchFailed": "Impossibile passare a questo endpoint.",
       "testFailed": "Non è stato possibile eseguire il controllo.",
       "unsupportedTool": "AI Manager non ha ancora integrato gli endpoint API per questo strumento.",
-      "reorderFailed": "Impossibile salvare il nuovo ordine. L'elenco è tornato com'era; prova a spostare di nuovo l'endpoint."
+      "reorderFailed": "Impossibile salvare il nuovo ordine. L'elenco è tornato com'era; prova a spostare di nuovo l'endpoint.",
+      "signInGone": "Questo accesso è terminato.",
+      "signInAccountMissing": "L'accesso di questo account non è più salvato.",
+      "signInFailed": "Non è stato possibile avviare l'accesso."
     },
     "remediation": {
       "chooseAnotherService": "Scegli un altro endpoint per questo strumento, poi riprova.",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "Riprova, oppure apri Visualizza dettagli per vedere cosa è successo.",
       "useOriginalUpdateChannel": "Usa l'updater originale di questa installazione, oppure rimuovila esplicitamente prima di installare tramite npm.",
       "uninstallManually": "Puoi eliminare tu stesso i file rimanenti, poi esegui di nuovo Verifica.",
-      "allowTerminalAutomation": "Apri «Impostazioni di Sistema → Privacy e sicurezza → Automazione» e attiva «Terminale» per AI Manager."
+      "allowTerminalAutomation": "Apri «Impostazioni di Sistema → Privacy e sicurezza → Automazione» e attiva «Terminale» per AI Manager.",
+      "signInAgain": "Accedi di nuovo con l'account da «Aggiungi endpoint»."
     },
     "routing": {
       "cannotForward": "La connessione attuale di questo strumento non può passare da AI Manager.",
@@ -1369,6 +1373,7 @@
       "install": "Installa strumento AI",
       "empty": "Nessuno degli strumenti installati usa endpoint API.",
       "official": "Accesso ufficiale",
+      "signedOut": "Accesso non effettuato",
       "notConnected": "Non connesso",
       "added_one": "{{count}} endpoint aggiunto",
       "added_other": "{{count}} endpoint aggiunti",
@@ -1669,6 +1674,7 @@
       "routesTestFailed": "Impossibile verificare questi percorsi. Controlla la rete e riprova.",
       "routesTesting": "Verifica dei percorsi in corso…",
       "description": "Cambia il nome, la chiave o il modello.",
+      "descriptionName": "Cambia il nome.",
       "errorTitle": "Impossibile salvare questo endpoint",
       "headerKeepValue": "Lascia vuoto per mantenere il valore salvato",
       "headerNameNamed": "Nome dell'header {{index}}",
@@ -1930,23 +1936,38 @@
         "google": "Account Google",
         "superGrok": "Abbonamento SuperGrok"
       },
-      "loginDetail": "Accedi in {{tool}}",
-      "added": "Aggiunto",
+      "loginDetail": "Accedi a {{tool}} qui, senza chiave API",
       "noMatch": "Nessun risultato per «{{query}}».",
       "addAsCustom": "Configuralo come endpoint personalizzato"
     },
     "login": {
-      "description": "Un endpoint che usa l'account con cui accedi a {{tool}}.",
-      "signInThere": "Nessuna API Key necessaria. L'accesso avviene in {{tool}}; AI Manager non vede mai il tuo account.",
-      "how": {
-        "claude": "In Claude Code, esegui /login.",
-        "chatGpt": "In Codex, scegli «Sign in with ChatGPT».",
-        "google": "In Gemini CLI, scegli «Login with Google».",
-        "superGrok": "In Grok Build, accedi con il tuo account xAI."
+      "description": "Usa il tuo abbonamento invece di una chiave API.",
+      "state": {
+        "signedIn": "Accesso effettuato",
+        "apiKey": "Accesso con chiave API",
+        "signedOut": "Accesso non effettuato"
       },
-      "alreadySaved": "È già nel tuo elenco di endpoint.",
-      "add": "Aggiungi endpoint",
-      "showList": "Torna agli endpoint"
+      "current": "{{tool}} ora: {{status}}",
+      "signIn": "Accedi",
+      "signInAnother": "Accedi con un altro account",
+      "tryAgain": "Riprova",
+      "browserHint": "Il browser apre la pagina di accesso. Torna qui quando indica che hai effettuato l'accesso.",
+      "browserHintSeveral": "Il browser apre la pagina di accesso. Ogni account con cui accedi diventa un endpoint a cui puoi passare.",
+      "waiting": "In attesa che tu acceda nel browser…",
+      "code": "Codice da inserire nella pagina",
+      "codeName": "codice",
+      "linkName": "link di accesso",
+      "openAgain": "Riapri la pagina",
+      "useToolLogin": "Usa l'account già connesso a {{tool}}",
+      "accountEndpoint": "Account in abbonamento",
+      "failure": {
+        "refused": "L'accesso è stato rifiutato. Riprova.",
+        "timedOut": "L'accesso ha atteso troppo ed è stato interrotto. Riprova.",
+        "portBusy": "Un altro accesso Codex sta occupando la porta 1455. Chiudilo e riprova.",
+        "notInstalled": "Installa prima {{tool}}, poi accedi.",
+        "network": "Impossibile raggiungere il servizio di accesso. Controlla la rete o il proxy.",
+        "saveFailed": "Hai effettuato l'accesso, ma non è stato possibile salvare l'account. Riprova."
+      }
     }
   },
   "extensions": {

@@ -24,6 +24,8 @@ import {
   providerRuntimeResourceOpenOutcomeSchema,
   providerSaveOutcomeSchema,
   providerTestResultSchema,
+  toolLoginStatusSchema,
+  signInProgressSchema,
   type Provider,
   type ProviderConnectionProfile,
   type ProviderCreateDraft,
@@ -38,6 +40,8 @@ import {
   type ProviderTestResult,
   type ProviderRuntimeContext,
   type ProviderRuntimeResourceOpenOutcome,
+  type ToolLoginStatus,
+  type SignInProgress,
 } from "../schemas/provider";
 import type { ToolId } from "../schemas/tool";
 import { operationIdSchema } from "../schemas/operation";
@@ -198,6 +202,47 @@ export const providers = {
       providerCreateResultSchema,
       { tool },
     );
+  },
+
+  /** Read-only: asks the tool whether it is signed in (ADR-0060). */
+  toolLoginStatus(tool: ToolId): Promise<ToolLoginStatus> {
+    return invokeNative(
+      "app_provider_tool_login_status",
+      toolLoginStatusSchema,
+      { tool },
+    );
+  },
+
+  /**
+   * Starts signing in to the tool's subscription (ADR-0061). The backend
+   * builds the vendor's page and opens it in the browser.
+   */
+  signInStart(tool: ToolId): Promise<SignInProgress> {
+    return invokeNative("app_provider_sign_in_start", signInProgressSchema, {
+      tool,
+    });
+  },
+
+  signInStatus(tool: ToolId, id: string): Promise<SignInProgress> {
+    return invokeNative("app_provider_sign_in_status", signInProgressSchema, {
+      tool,
+      id,
+    });
+  },
+
+  signInCancel(tool: ToolId, id: string): Promise<null> {
+    return invokeNative("app_provider_sign_in_cancel", z.null(), {
+      tool,
+      id,
+    });
+  },
+
+  /** Opens the page of a sign-in still waiting, again. */
+  signInOpen(tool: ToolId, id: string): Promise<boolean> {
+    return invokeNative("app_provider_sign_in_open", z.boolean(), {
+      tool,
+      id,
+    });
   },
 
   remove(tool: ToolId, provider: string): Promise<Provider[]> {

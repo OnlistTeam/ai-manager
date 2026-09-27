@@ -15,6 +15,7 @@ import type {
   Provider,
   ProviderEffectiveState,
   ProviderTestResult,
+  ToolLoginStatus,
 } from "@/entities/provider";
 import { Badge } from "@/shared/ui/Badge";
 import { Button } from "@/shared/ui/Button";
@@ -38,6 +39,8 @@ export interface ProviderCardProps {
   /** Three states: currently in effect / selected but overridden / just saved. */
   effectiveState: ProviderEffectiveState;
   effectiveCredential?: EffectiveCredential;
+  /** What the tool says about its own sign-in; read for official entries only (ADR-0060). */
+  loginStatus?: ToolLoginStatus;
   /** The variable name or file path that overrode this selection; `null` when `overridden` and the source is unknown. */
   overrideSource?: string | null;
   /** A one-line explanation of "why this one" while it's in effect (only needed when the source is a shell/environment variable). */
@@ -66,6 +69,8 @@ export interface ProviderCardProps {
   testResult?: ProviderTestResult;
   onUse?: () => void;
   onEdit?: () => void;
+  /** Signs the tool in from here when it is signed out (ADR-0061). */
+  onSignIn?: () => void;
   onTest?: () => void;
   onTryNext?: () => void;
   onBrowseCompatible?: () => void;
@@ -135,6 +140,7 @@ export function ProviderCard({
   toolName,
   effectiveState,
   effectiveCredential,
+  loginStatus,
   overrideSource = null,
   sourceNote = null,
   credentialNote = null,
@@ -150,6 +156,7 @@ export function ProviderCard({
   testResult,
   onUse,
   onEdit,
+  onSignIn,
   onTest,
   onTryNext,
   onBrowseCompatible,
@@ -188,6 +195,7 @@ export function ProviderCard({
     toolName,
     t,
     effectiveCredential,
+    loginStatus,
   );
   const KeyIcon = keyPresentation.icon;
   const removeHint = provider.canRemove
@@ -281,6 +289,17 @@ export function ProviderCard({
                   value={keyPresentation.copyValue}
                   label={t("services.form.key")}
                 />
+              ) : null}
+              {keyPresentation.signIn && onSignIn ? (
+                <Button
+                  variant="secondary"
+                  size="xs"
+                  className="ml-1"
+                  disabled={actionsBlocked}
+                  onClick={onSignIn}
+                >
+                  {t("services.login.signIn")}
+                </Button>
               ) : null}
             </p>
           </div>

@@ -797,6 +797,26 @@ describe("ProviderFormModal", () => {
     );
   });
 
+  it("asks no key of an endpoint that signs in", () => {
+    render(
+      <ProviderFormModal
+        provider={{
+          ...provider,
+          id: "codex-official",
+          tool: "codex",
+          name: "OpenAI Official",
+          kind: "official",
+          baseUrl: null,
+          apiKey: null,
+        }}
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    expect(screen.queryByLabelText(en.services.form.key)).toBeNull();
+    expect(screen.getByText(en.services.form.descriptionName)).toBeVisible();
+  });
+
   it("renders nothing when no service is selected", () => {
     render(
       <ProviderFormModal

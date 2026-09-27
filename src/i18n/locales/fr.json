@@ -661,7 +661,10 @@
       "switchFailed": "Impossible de basculer vers ce point d'accès.",
       "testFailed": "La vérification n'a pas pu s'exécuter.",
       "unsupportedTool": "AI Manager n'a pas encore intégré les points d'accès API pour cet outil.",
-      "reorderFailed": "Impossible d'enregistrer le nouvel ordre. La liste est revenue à son état précédent ; déplacez à nouveau le point d'accès."
+      "reorderFailed": "Impossible d'enregistrer le nouvel ordre. La liste est revenue à son état précédent ; déplacez à nouveau le point d'accès.",
+      "signInGone": "Cette connexion est terminée.",
+      "signInAccountMissing": "La connexion de ce compte n'est plus enregistrée.",
+      "signInFailed": "La connexion n'a pas pu démarrer."
     },
     "remediation": {
       "chooseAnotherService": "Choisissez un autre point d'accès pour cet outil, puis réessayez.",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "Réessayez, ou ouvrez Voir les détails pour savoir ce qui s'est passé.",
       "useOriginalUpdateChannel": "Utilisez le programme de mise à jour d'origine de cette installation, ou supprimez-la explicitement avant d'installer via npm.",
       "uninstallManually": "Vous pouvez supprimer vous-même les fichiers restants, puis relancer Revérifier.",
-      "allowTerminalAutomation": "Ouvrez « Réglages Système → Confidentialité et sécurité → Automatisation » et activez « Terminal » pour AI Manager."
+      "allowTerminalAutomation": "Ouvrez « Réglages Système → Confidentialité et sécurité → Automatisation » et activez « Terminal » pour AI Manager.",
+      "signInAgain": "Reconnectez ce compte depuis « Ajouter un point d'accès »."
     },
     "routing": {
       "cannotForward": "La connexion actuelle de cet outil ne peut pas passer par AI Manager.",
@@ -1369,6 +1373,7 @@
       "install": "Installer un outil IA",
       "empty": "Aucun de vos outils installés n'utilise de point d'accès API.",
       "official": "Connexion officielle",
+      "signedOut": "Non connecté",
       "notConnected": "Non connecté",
       "added_one": "{{count}} point d'accès ajouté",
       "added_other": "{{count}} points d'accès ajoutés",
@@ -1669,6 +1674,7 @@
       "routesTestFailed": "Impossible de tester ces routes. Vérifiez votre réseau et réessayez.",
       "routesTesting": "Test des routes en cours…",
       "description": "Modifiez le nom, la clé ou le modèle.",
+      "descriptionName": "Modifiez le nom.",
       "errorTitle": "Impossible d'enregistrer ce point d'accès",
       "headerKeepValue": "Laissez vide pour conserver la valeur enregistrée",
       "headerNameNamed": "Nom de l'en-tête {{index}}",
@@ -1930,23 +1936,38 @@
         "google": "Compte Google",
         "superGrok": "Abonnement SuperGrok"
       },
-      "loginDetail": "Se connecter dans {{tool}}",
-      "added": "Ajouté",
+      "loginDetail": "Connectez-vous à {{tool}} ici, sans clé API",
       "noMatch": "Aucun résultat pour « {{query}} ».",
       "addAsCustom": "Le configurer comme point d'accès personnalisé"
     },
     "login": {
-      "description": "Un point d'accès qui utilise le compte avec lequel vous êtes connecté à {{tool}}.",
-      "signInThere": "Aucune clé API nécessaire. La connexion se fait dans {{tool}} ; AI Manager ne voit jamais votre compte.",
-      "how": {
-        "claude": "Dans Claude Code, lancez /login.",
-        "chatGpt": "Dans Codex, choisissez « Sign in with ChatGPT ».",
-        "google": "Dans Gemini CLI, choisissez « Login with Google ».",
-        "superGrok": "Dans Grok Build, connectez-vous avec votre compte xAI."
+      "description": "Utilise votre abonnement au lieu d'une clé API.",
+      "state": {
+        "signedIn": "Connecté",
+        "apiKey": "Connecté avec une clé API",
+        "signedOut": "Non connecté"
       },
-      "alreadySaved": "Il figure déjà dans votre liste de points d'accès.",
-      "add": "Ajouter le point d'accès",
-      "showList": "Retour aux points d'accès"
+      "current": "{{tool}} en ce moment : {{status}}",
+      "signIn": "Se connecter",
+      "signInAnother": "Se connecter à un autre compte",
+      "tryAgain": "Réessayer",
+      "browserHint": "Votre navigateur ouvre la page de connexion. Revenez ici une fois qu'elle indique que vous êtes connecté.",
+      "browserHintSeveral": "Votre navigateur ouvre la page de connexion. Chaque compte connecté devient un point d'accès vers lequel vous pouvez basculer.",
+      "waiting": "En attente de votre connexion dans le navigateur…",
+      "code": "Code à saisir sur la page",
+      "codeName": "code",
+      "linkName": "lien de connexion",
+      "openAgain": "Rouvrir la page",
+      "useToolLogin": "Utiliser le compte déjà connecté à {{tool}}",
+      "accountEndpoint": "Compte d'abonnement",
+      "failure": {
+        "refused": "La connexion a été refusée. Réessayez.",
+        "timedOut": "La connexion a attendu trop longtemps et s'est arrêtée. Réessayez.",
+        "portBusy": "Une autre connexion Codex occupe le port 1455. Fermez-la et réessayez.",
+        "notInstalled": "Installez d'abord {{tool}}, puis connectez-vous.",
+        "network": "Impossible de joindre le service de connexion. Vérifiez votre réseau ou proxy.",
+        "saveFailed": "Vous êtes connecté, mais le compte n'a pas pu être enregistré. Réessayez."
+      }
     }
   },
   "extensions": {

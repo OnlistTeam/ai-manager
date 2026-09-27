@@ -68,7 +68,6 @@ function renderPage(overrides: Partial<PageProps> = {}) {
     tool: "claude-code",
     toolName: "Claude Code",
     profile,
-    toolLoginSaved: false,
     onPickPreset: vi.fn(),
     onPickCustom: vi.fn(),
     onPickToolLogin: vi.fn(),
@@ -128,14 +127,47 @@ describe("ProviderAddPage", () => {
     expect(headings()).not.toContain(en.services.add.group.login);
   });
 
-  it("marks the sign-in card once its entry is in the list, and still opens it", async () => {
-    const props = renderPage({ toolLoginSaved: true });
+  it("says whether the tool is signed in on the sign-in card, and still opens it", async () => {
+    const props = renderPage({
+      loginStatus: {
+        state: "signedIn",
+        account: "someone@example.com",
+        plan: "max",
+      },
+    });
     const card = screen.getByRole("button", {
       name: new RegExp(en.services.add.login.claude),
     });
-    expect(card).toHaveTextContent(en.services.add.added);
+    expect(card).toHaveTextContent(
+      `${en.services.login.state.signedIn} · someone@example.com · Max`,
+    );
     await userEvent.click(card);
     expect(props.onPickToolLogin).toHaveBeenCalled();
+  });
+
+  it("offers a signed-out user to sign in here, never says they are", () => {
+    renderPage({
+      loginStatus: { state: "signedOut", account: null, plan: null },
+    });
+    const card = screen.getByRole("button", {
+      name: new RegExp(en.services.add.login.claude),
+    });
+    expect(card).toHaveTextContent(
+      en.services.add.loginDetail.replace("{{tool}}", "Claude Code"),
+    );
+    expect(card).not.toHaveTextContent(en.services.login.state.signedIn);
+  });
+
+  it("keeps the plain sign-in hint while the tool could not say", () => {
+    renderPage({
+      loginStatus: { state: "unknown", account: null, plan: null },
+    });
+    const card = screen.getByRole("button", {
+      name: new RegExp(en.services.add.login.claude),
+    });
+    expect(card).toHaveTextContent(
+      en.services.add.loginDetail.replace("{{tool}}", "Claude Code"),
+    );
   });
 
   it("hands the picked preset and the Custom card to their own dialogs", async () => {

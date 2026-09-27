@@ -661,7 +661,10 @@
       "switchFailed": "이 엔드포인트로 전환할 수 없습니다.",
       "testFailed": "확인을 실행할 수 없습니다.",
       "unsupportedTool": "AI Manager가 이 도구의 API 엔드포인트를 아직 연동하지 않았습니다.",
-      "reorderFailed": "새 순서를 저장하지 못했습니다. 목록은 원래대로 돌아갔으니 엔드포인트를 다시 옮겨 보세요."
+      "reorderFailed": "새 순서를 저장하지 못했습니다. 목록은 원래대로 돌아갔으니 엔드포인트를 다시 옮겨 보세요.",
+      "signInGone": "이 로그인은 종료되었습니다.",
+      "signInAccountMissing": "이 계정의 로그인 정보가 더 이상 저장되어 있지 않습니다.",
+      "signInFailed": "로그인을 시작하지 못했습니다."
     },
     "remediation": {
       "chooseAnotherService": "이 도구에 사용할 다른 엔드포인트를 선택한 다음 다시 시도하세요.",
@@ -687,7 +690,8 @@
       "retryOrViewDetails": "다시 시도하거나, 세부 정보 보기를 열어 무슨 일이 있었는지 확인하세요.",
       "useOriginalUpdateChannel": "이 설치의 원래 업데이트 프로그램을 사용하거나, npm으로 설치하기 전에 명시적으로 제거하세요.",
       "uninstallManually": "남은 파일을 직접 삭제한 다음 다시 확인을 실행하세요.",
-      "allowTerminalAutomation": "‘시스템 설정 → 개인정보 보호 및 보안 → 자동화’를 열고 AI Manager의 ‘터미널’을 켜십시오."
+      "allowTerminalAutomation": "‘시스템 설정 → 개인정보 보호 및 보안 → 자동화’를 열고 AI Manager의 ‘터미널’을 켜십시오.",
+      "signInAgain": "'엔드포인트 추가'에서 이 계정에 다시 로그인하세요."
     },
     "routing": {
       "cannotForward": "이 도구의 현재 연결은 AI Manager를 거쳐 전달할 수 없습니다.",
@@ -1369,6 +1373,7 @@
       "install": "AI 도구 설치",
       "empty": "설치된 도구 중 API 엔드포인트를 쓰는 도구가 없습니다.",
       "official": "공식 로그인",
+      "signedOut": "로그인 안 됨",
       "notConnected": "연결 안 됨",
       "added_one": "엔드포인트 {{count}}개 추가됨",
       "added_other": "엔드포인트 {{count}}개 추가됨",
@@ -1669,6 +1674,7 @@
       "routesTestFailed": "이 경로들을 테스트할 수 없습니다. 네트워크를 확인하고 다시 시도하세요.",
       "routesTesting": "경로를 테스트하는 중…",
       "description": "이름, 키 또는 모델을 변경하세요.",
+      "descriptionName": "이름을 변경하세요.",
       "errorTitle": "이 엔드포인트를 저장하지 못했습니다",
       "headerKeepValue": "저장된 값을 유지하려면 비워 두세요",
       "headerNameNamed": "헤더 {{index}} 이름",
@@ -1930,23 +1936,38 @@
         "google": "Google 계정",
         "superGrok": "SuperGrok 구독"
       },
-      "loginDetail": "{{tool}}에서 로그인",
-      "added": "추가됨",
+      "loginDetail": "여기서 {{tool}}에 로그인, API 키 불필요",
       "noMatch": "“{{query}}”와(과) 일치하는 항목이 없습니다.",
       "addAsCustom": "사용자 지정 엔드포인트로 설정"
     },
     "login": {
-      "description": "{{tool}}에 로그인한 계정을 사용하는 엔드포인트입니다.",
-      "signInThere": "API 키가 필요 없습니다. 로그인은 {{tool}}에서 이루어지며 AI Manager는 계정 정보를 다루지 않습니다.",
-      "how": {
-        "claude": "Claude Code에서 /login을 실행하세요.",
-        "chatGpt": "Codex에서 \"Sign in with ChatGPT\"를 선택하세요.",
-        "google": "Gemini CLI에서 \"Login with Google\"을 선택하세요.",
-        "superGrok": "Grok Build에서 xAI 계정으로 로그인하세요."
+      "description": "API 키 대신 구독을 사용합니다.",
+      "state": {
+        "signedIn": "로그인됨",
+        "apiKey": "API 키로 로그인됨",
+        "signedOut": "로그인 안 됨"
       },
-      "alreadySaved": "이미 엔드포인트 목록에 있습니다.",
-      "add": "엔드포인트 추가",
-      "showList": "엔드포인트 목록으로"
+      "current": "{{tool}} 현재 상태: {{status}}",
+      "signIn": "로그인",
+      "signInAnother": "다른 계정으로 로그인",
+      "tryAgain": "다시 시도",
+      "browserHint": "브라우저에서 로그인 페이지가 열립니다. 로그인되었다고 표시되면 여기로 돌아오세요.",
+      "browserHintSeveral": "브라우저에서 로그인 페이지가 열립니다. 로그인한 계정마다 전환할 수 있는 엔드포인트가 됩니다.",
+      "waiting": "브라우저에서 로그인하기를 기다리는 중…",
+      "code": "페이지에 입력할 코드",
+      "codeName": "코드",
+      "linkName": "로그인 링크",
+      "openAgain": "페이지 다시 열기",
+      "useToolLogin": "{{tool}}에 이미 로그인된 계정 사용",
+      "accountEndpoint": "구독 계정",
+      "failure": {
+        "refused": "로그인이 거부되었습니다. 다시 시도하세요.",
+        "timedOut": "로그인 대기 시간이 너무 길어 중단되었습니다. 다시 시도하세요.",
+        "portBusy": "다른 Codex 로그인이 1455 포트를 사용 중입니다. 그것을 닫고 다시 시도하세요.",
+        "notInstalled": "먼저 {{tool}}을(를) 설치한 다음 로그인하세요.",
+        "network": "로그인 서비스에 연결할 수 없습니다. 네트워크나 프록시를 확인하세요.",
+        "saveFailed": "로그인은 되었지만 계정을 저장하지 못했습니다. 다시 시도하세요."
+      }
     }
   },
   "extensions": {

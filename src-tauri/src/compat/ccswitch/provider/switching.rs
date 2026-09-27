@@ -7,6 +7,7 @@ use crate::services::ProviderService;
 use crate::store::AppState;
 
 use super::live_preservation::{self, LivePreservation};
+use super::sign_in::claude_accounts;
 use super::{app_type_for, log_switch_warnings, upstream_detail, ProviderStore};
 
 pub(super) fn switch(
@@ -16,8 +17,13 @@ pub(super) fn switch(
 ) -> Result<Vec<Provider>, AppError> {
     // Confirm the record still exists first, so "it was already deleted" can be said in plain
     // words instead of falling into upstream's generic failure branch.
-    store.find_raw(tool, id)?;
+    let target = store.find_raw(tool, id)?;
     let app_type = app_type_for(tool);
+    // A Claude account's endpoint is switched to by moving the account into
+    // Claude Code; the one it is signed in to is kept first (ADR-0061).
+    if tool == ToolId::ClaudeCode {
+        claude_accounts::before_switch(store, &target)?;
+    }
     let previous = ProviderService::current(&store.state, app_type.clone())
         .map_err(|error| switch_failed(&error))?;
     // During a proxy takeover, live holds only placeholders and upstream does not write live
@@ -52,6 +58,9 @@ pub(super) fn switch(
             } else {
                 // The switch already succeeded; a preservation failure is reported as a preservation failure only and does not roll back current.
                 preservation.restore()?;
+            }
+            if tool == ToolId::ClaudeCode {
+                claude_accounts::after_switch(&target)?;
             }
             store.list(tool)
         }

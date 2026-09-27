@@ -7,6 +7,7 @@ import type {
   ProviderEndpointTestResult,
   ProviderPresetKind,
   ToolId,
+  ToolLoginStatus,
 } from "@/entities/provider";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
@@ -14,6 +15,7 @@ import { ServiceLogo } from "@/shared/ui/ServiceArtwork";
 import { cn } from "@/shared/ui/cn";
 import { FOCUS_RING } from "@/shared/ui/focusRing";
 import { hostOf } from "./effectiveConnectionCopy";
+import { toolLoginSummary } from "./toolLoginCopy";
 import { useProviderPresetSpeedTest } from "./useProviderPresetSpeedTest";
 
 /** Group order on the page; `login` (the tool's own account) comes first. */
@@ -27,8 +29,8 @@ export interface ProviderAddPageProps {
   tool: ToolId;
   toolName: string;
   profile: ProviderConnectionProfile;
-  /** Whether the tool's own sign-in entry is already in the list. */
-  toolLoginSaved: boolean;
+  /** What the tool says about its own sign-in (ADR-0060). */
+  loginStatus?: ToolLoginStatus;
   disabled?: boolean;
   onPickPreset: (preset: ProviderConnectionPreset) => void;
   onPickCustom: () => void;
@@ -51,7 +53,7 @@ export function ProviderAddPage({
   tool,
   toolName,
   profile,
-  toolLoginSaved,
+  loginStatus,
   disabled = false,
   onPickPreset,
   onPickCustom,
@@ -64,6 +66,15 @@ export function ProviderAddPage({
   const loginName = profile.toolLogin
     ? t(`services.add.login.${profile.toolLogin}`)
     : null;
+  // The card says whether the tool is signed in, not whether its entry is
+  // saved: upstream seeds that entry, so a saved mark read as "signed in" to
+  // someone who never was (ADR-0060). Signed out, it offers to sign in here
+  // (ADR-0061).
+  const loginDetail =
+    (loginStatus?.state === "signedOut"
+      ? null
+      : toolLoginSummary(loginStatus, t)) ??
+    t("services.add.loginDetail", { tool: toolName });
 
   const measurements = useMemo(
     () =>
@@ -156,15 +167,14 @@ export function ProviderAddPage({
               <ServiceLogo name={loginName ?? ""} account={profile.toolLogin} />
             }
             name={loginName ?? ""}
-            detail={t("services.add.loginDetail", { tool: toolName })}
+            detail={loginDetail}
             trailing={
-              toolLoginSaved ? (
-                // An icon alone: the word took the room the name needs, and
-                // the dialog behind the card says the rest.
-                <span className="flex shrink-0 items-center text-brand">
-                  <Check className="h-4 w-4" aria-hidden="true" />
-                  <span className="sr-only">{t("services.add.added")}</span>
-                </span>
+              loginStatus?.state === "signedIn" ? (
+                // The detail line already says it in words.
+                <Check
+                  className="h-4 w-4 shrink-0 text-brand"
+                  aria-hidden="true"
+                />
               ) : null
             }
             disabled={disabled}

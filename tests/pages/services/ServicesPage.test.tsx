@@ -851,16 +851,95 @@ describe("ServicesPage", () => {
     const dialog = await screen.findByRole("dialog", {
       name: en.services.add.login.claude,
     });
-    // The card adds an endpoint; signing in stays inside the tool.
-    expect(dialog).toHaveTextContent(en.services.login.how.claude);
+    // Signing in happens here (ADR-0061); the entry that follows the tool's
+    // own sign-in can still be put back beside it.
+    expect(
+      within(dialog).getByRole("button", { name: en.services.login.signIn }),
+    ).toBeEnabled();
     await userEvent.click(
-      within(dialog).getByRole("button", { name: en.services.login.add }),
+      within(dialog).getByRole("button", {
+        name: en.services.login.useToolLogin.replace("{{tool}}", "Claude Code"),
+      }),
     );
     await waitFor(() => expect(restored).toEqual([{ tool: "claude-code" }]));
     expect(
       await screen.findByRole("article", { name: "Claude Official" }),
     ).toBeVisible();
     expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  function signedOutClaude() {
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_connection_profile`, () =>
+        HttpResponse.json({
+          defaultPresetId: "official",
+          modelRequired: false,
+          baseUrlTakesNoVersion: true,
+          toolLogin: "claude",
+          presets: [
+            {
+              id: "official",
+              serviceName: "Anthropic API",
+              defaultName: "Anthropic",
+              defaultModel: "claude-sonnet-5",
+              baseUrl: "https://api.anthropic.com",
+              websiteUrl: "https://www.anthropic.com",
+              apiKeyUrl: "https://console.anthropic.com",
+              official: true,
+              kind: "vendor",
+            },
+          ],
+        }),
+      ),
+      http.post(`${TAURI_ENDPOINT}/app_provider_tool_login_status`, () =>
+        HttpResponse.json({ state: "signedOut", account: null, plan: null }),
+      ),
+    );
+  }
+
+  const claudeOfficial = (overrides: Record<string, unknown> = {}) =>
+    service({
+      id: "claude-official",
+      name: "Claude Official",
+      kind: "official",
+      baseUrl: null,
+      apiKey: null,
+      ...overrides,
+    });
+
+  it("signs a signed-out tool in right from the card in use", async () => {
+    signedOutClaude();
+    mount([claudeOfficial({ active: true })]);
+    const card = await screen.findByRole("article", {
+      name: "Claude Official",
+    });
+    await userEvent.click(
+      await within(card).findByRole("button", {
+        name: en.services.login.signIn,
+      }),
+    );
+    const dialog = await screen.findByRole("dialog", {
+      name: en.services.add.login.claude,
+    });
+    expect(
+      within(dialog).getByRole("button", { name: en.services.login.signIn }),
+    ).toBeEnabled();
+  });
+
+  it("leaves out the tool's own sign-in while it points at no account", async () => {
+    signedOutClaude();
+    mount([service({ active: true }), claudeOfficial()]);
+    await screen.findByText("My Relay");
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("article", { name: "Claude Official" }),
+      ).toBeNull(),
+    );
+    expect(
+      screen.getByText(
+        en.services.endpoints.count_one.replace("{{count}}", "1"),
+      ),
+    ).toBeVisible();
   });
 
   it("shows connection setup loading without calling it a failure", async () => {

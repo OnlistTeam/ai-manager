@@ -101,6 +101,9 @@ export const handlers = [
       return success({ tool, previousVersion: null, events: [] });
     },
   ),
+  http.post(`${TAURI_ENDPOINT}/app_provider_tool_login_status`, () =>
+    success({ state: "unknown", account: null, plan: null }),
+  ),
   http.post(
     `${TAURI_ENDPOINT}/app_provider_runtime_context`,
     async ({ request }) => {

@@ -40,12 +40,13 @@ describe("provider connection locale contract", () => {
         expect(services.add.groupHint[kind].trim()).not.toBe("");
       }
       expect(services.add.groupHint.login).toContain("{{tool}}");
-      for (const account of Object.keys(services.add.login)) {
-        expect(
-          services.login.how[account as keyof typeof services.login.how],
-        ).toBeTruthy();
+      // Signing in from AI Manager (ADR-0061): every way it can fail is
+      // said, and the ones about the tool name it.
+      expect(services.login.useToolLogin).toContain("{{tool}}");
+      expect(services.login.failure.notInstalled).toContain("{{tool}}");
+      for (const failure of Object.values(services.login.failure)) {
+        expect(failure.trim()).not.toBe("");
       }
-      expect(services.login.signInThere).toContain("{{tool}}");
       expect(services.test.operational.trim()).not.toBe("");
       expect(services.test.degraded.trim()).not.toBe("");
       expect(services.test.failed.trim()).not.toBe("");

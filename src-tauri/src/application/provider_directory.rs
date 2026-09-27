@@ -14,7 +14,8 @@ use crate::domain::{
     AppError, ErrorCode, Provider, ProviderConnectionProfile, ProviderCreateDraft,
     ProviderCreateResult, ProviderCustomCreateDraft, ProviderDraft, ProviderEditProfile,
     ProviderEndpointCandidate, ProviderEndpointTestResult, ProviderRuntimeContext,
-    ProviderRuntimeResourceAction, ProviderRuntimeResourceOpenOutcome, ProviderTestResult, ToolId,
+    ProviderRuntimeResourceAction, ProviderRuntimeResourceOpenOutcome, ProviderTestResult,
+    SignInProgress, ToolId, ToolLoginStatus,
 };
 use std::fs::OpenOptions;
 use std::io::ErrorKind;
@@ -164,6 +165,69 @@ impl ProviderDirectory {
         tool: ToolId,
     ) -> Result<ProviderCreateResult, AppError> {
         gate(app_handle, tool)?.restore_tool_login(tool)
+    }
+
+    /// The subscription card's reading of the tool's own sign-in (ADR-0060).
+    pub async fn tool_login_status(
+        app_handle: &tauri::AppHandle,
+        tool: ToolId,
+    ) -> Result<ToolLoginStatus, AppError> {
+        Ok(gate(app_handle, tool)?.tool_login_status(tool).await)
+    }
+
+    /// Starts signing in to the tool's subscription from AI Manager
+    /// (ADR-0061). The vendor's page is built here and opened in the
+    /// browser; the renderer never names a URL.
+    pub async fn sign_in_start(
+        app_handle: &tauri::AppHandle,
+        tool: ToolId,
+    ) -> Result<SignInProgress, AppError> {
+        let store = gate(app_handle, tool)?;
+        let opener = app_handle.clone();
+        let open = std::sync::Arc::new(move |url: &str| {
+            use tauri_plugin_opener::OpenerExt;
+            if let Err(error) = opener.opener().open_url(url, None::<String>) {
+                log::warn!("sign-in: could not open the browser: {error}");
+            }
+        });
+        store.sign_in_start(tool, open).await
+    }
+
+    pub fn sign_in_status(
+        app_handle: &tauri::AppHandle,
+        tool: ToolId,
+        id: &str,
+    ) -> Result<SignInProgress, AppError> {
+        gate(app_handle, tool)?.sign_in_status(tool, id)
+    }
+
+    pub fn sign_in_cancel(
+        app_handle: &tauri::AppHandle,
+        tool: ToolId,
+        id: &str,
+    ) -> Result<(), AppError> {
+        gate(app_handle, tool)?.sign_in_cancel(tool, id);
+        Ok(())
+    }
+
+    /// Opens the page of a sign-in still waiting, again.
+    pub fn sign_in_open(
+        app_handle: &tauri::AppHandle,
+        tool: ToolId,
+        id: &str,
+    ) -> Result<bool, AppError> {
+        let Some(url) = gate(app_handle, tool)?.sign_in_page(tool, id)? else {
+            return Ok(false);
+        };
+        app_handle
+            .opener()
+            .open_url(url, None::<String>)
+            .map(|_| true)
+            .map_err(|error| {
+                AppError::new(ErrorCode::Internal, "error.provider.signInFailed")
+                    .with_technical(error.to_string())
+                    .with_remediation("error.remediation.retryOrViewDetails")
+            })
     }
 
     pub fn switch(

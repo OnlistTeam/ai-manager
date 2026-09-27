@@ -528,6 +528,63 @@ impl CodexOAuthManager {
         Ok(Some(account))
     }
 
+    /// AI Manager (ADR-0061): adds the account a browser sign-in returned, the
+    /// authorization-code + PKCE round `codex login` runs, whose redirect is
+    /// the loopback callback rather than the device-code one.
+    pub(crate) async fn add_account_from_authorization_code(
+        &self,
+        code: &str,
+        code_verifier: &str,
+        redirect_uri: &str,
+    ) -> Result<GitHubAccount, CodexOAuthError> {
+        let response = crate::proxy::http_client::get()
+            .post(OAUTH_TOKEN_URL)
+            .timeout(OAUTH_HTTP_TIMEOUT)
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .header("User-Agent", CODEX_USER_AGENT)
+            .form(&[
+                ("grant_type", "authorization_code"),
+                ("code", code),
+                ("redirect_uri", redirect_uri),
+                ("client_id", CODEX_CLIENT_ID),
+                ("code_verifier", code_verifier),
+            ])
+            .send()
+            .await?;
+        if !response.status().is_success() {
+            let status = response.status();
+            let text = response.text().await.unwrap_or_default();
+            return Err(CodexOAuthError::TokenFetchFailed(format!(
+                "Token exchange failed: {status} - {text}"
+            )));
+        }
+        let tokens: OAuthTokenResponse = response
+            .json()
+            .await
+            .map_err(|e| CodexOAuthError::ParseError(e.to_string()))?;
+        let refresh_token = tokens.refresh_token.clone().ok_or_else(|| {
+            CodexOAuthError::TokenFetchFailed("Response is missing refresh_token".to_string())
+        })?;
+        let (account_id, email) = extract_identity_from_tokens(&tokens);
+        let account_id = account_id.ok_or_else(|| {
+            CodexOAuthError::ParseError("Cannot extract account_id from the token".to_string())
+        })?;
+        let obtained_at_ms = chrono::Utc::now().timestamp_millis();
+        self.add_account_internal(
+            account_id,
+            refresh_token,
+            email,
+            tokens.id_token.clone().filter(|t| !t.trim().is_empty()),
+            Some(CachedAccessToken {
+                token: tokens.access_token.clone(),
+                expires_at_ms: compute_expires_at_ms(tokens.expires_in),
+                obtained_at_ms,
+            }),
+            None,
+        )
+        .await
+    }
+
     /// Exchanges authorization_code + code_verifier for tokens
     async fn exchange_code_for_tokens(
         &self,

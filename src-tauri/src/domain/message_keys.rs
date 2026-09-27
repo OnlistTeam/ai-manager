@@ -197,6 +197,9 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.provider.saveFailed",
     "error.provider.saveRestoreFailed",
     "error.provider.settingsPreserveFailed",
+    "error.provider.signInAccountMissing",
+    "error.provider.signInFailed",
+    "error.provider.signInGone",
     "error.provider.storeUnavailable",
     "error.provider.switchFailed",
     "error.provider.testFailed",
@@ -222,6 +225,7 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.remediation.refreshSessions",
     "error.remediation.removeInTool",
     "error.remediation.retryOrViewDetails",
+    "error.remediation.signInAgain",
     "error.remediation.uninstallDesktopAppManually",
     "error.remediation.uninstallManually",
     "error.remediation.useOriginalUpdateChannel",
@@ -487,6 +491,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 337);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 341);
     }
 }

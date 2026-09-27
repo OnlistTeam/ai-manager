@@ -476,6 +476,40 @@ describe("ProviderCard", () => {
     expect(screen.queryByText(en.services.card.noKey)).not.toBeInTheDocument();
   });
 
+  it("signs a signed-out tool in from the card itself", async () => {
+    const onSignIn = vi.fn();
+    const { rerender } = render(
+      <ProviderCard
+        provider={provider({ kind: "official", apiKey: null })}
+        toolName="Codex CLI"
+        effectiveState="saved"
+        loginStatus={{ state: "signedOut", account: null, plan: null }}
+        onSignIn={onSignIn}
+      />,
+    );
+    expect(
+      screen.getByText(en.services.login.state.signedOut),
+    ).toBeInTheDocument();
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.login.signIn }),
+    );
+    expect(onSignIn).toHaveBeenCalledOnce();
+
+    // Signed in, there is nothing to offer.
+    rerender(
+      <ProviderCard
+        provider={provider({ kind: "official", apiKey: null })}
+        toolName="Codex CLI"
+        effectiveState="saved"
+        loginStatus={{ state: "signedIn", account: null, plan: null }}
+        onSignIn={onSignIn}
+      />,
+    );
+    expect(
+      screen.queryByRole("button", { name: en.services.login.signIn }),
+    ).toBeNull();
+  });
+
   it("gives Check, Edit, and Remove unique names when cards repeat actions", () => {
     render(
       <ProviderCard

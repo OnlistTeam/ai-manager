@@ -195,6 +195,19 @@ export function useProviderConnectionFlow({
     );
   };
 
+  /**
+   * A sign-in from AI Manager finished (ADR-0061): the endpoint it added or
+   * updated takes the after-save path of any other.
+   */
+  const signedIn = (
+    { tool, toolName }: { tool: ToolId; toolName: string },
+    result: ProviderCreateResult,
+    onSaved?: () => void,
+  ) => {
+    restoreLogin.reset();
+    afterCreated(tool, toolName, toolName, onSaved)(result);
+  };
+
   const resetCreateError = () => {
     create.reset();
     createCustom.reset();
@@ -207,6 +220,7 @@ export function useProviderConnectionFlow({
     connectProvider,
     connectCustomProvider,
     restoreToolLogin,
+    signedIn,
     checkProvider,
     checkFailure,
     checkBusy: test.isPending,

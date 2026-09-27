@@ -37,7 +37,12 @@ export function pillCopy(
     case "official":
       return {
         label: state.provider?.name ?? t(LABEL_KEYS.official),
-        detail: state.provider ? model : null,
+        // A model means nothing until the tool is signed in (ADR-0060).
+        detail: connection.signedOut
+          ? t("home.tools.signedOut")
+          : state.provider
+            ? model
+            : null,
       };
     case "added":
       return {

@@ -5,6 +5,7 @@ import { useProviderConnectivity } from "@/entities/health";
 import {
   useProviderConnectionProfile,
   useProviderRuntimeContext,
+  useToolLoginStatus,
   type Provider,
 } from "@/entities/provider";
 import type { ToolId } from "@/entities/tool";
@@ -159,15 +160,67 @@ export function ServicesEndpointsPanel({
   };
   // The add page needs the tool's catalogue; until it is here (or if it cannot
   // load) the list stays, with its own notice for the failure.
-  // The tool's own sign-in is an official entry; any one of them means the
-  // subscription card has nothing left to add.
+  // The tool's own sign-in is an official entry not bound to an account
+  // signed in here (ADR-0061); with one listed there is nothing to put back.
   const toolLoginSaved = (providerData ?? []).some(
-    (provider) => provider.kind === "official",
+    (provider) => provider.kind === "official" && !provider.accountBound,
   );
   const addProfile =
     view === "add" && managedActive !== null && providerData !== undefined
       ? (connection.data ?? null)
       : null;
+  // The tool that can be signed in from here, on the add page and the list.
+  const toolLogin = connection.data?.toolLogin ?? null;
+  const loginStatus = useToolLoginStatus(toolLogin ? managedActive : null);
+  // The entry that follows the tool's own sign-in points at no account while
+  // the tool is signed out, so the list leaves it out unless it is in use or
+  // holds a key (ADR-0061). An unknown answer hides nothing.
+  const effectiveId = runtime.data?.effectiveConnection?.providerId ?? null;
+  const hiddenIds =
+    loginStatus.data?.state === "signedOut"
+      ? (providerData ?? [])
+          .filter(
+            (provider) =>
+              provider.kind === "official" &&
+              !provider.accountBound &&
+              !provider.apiKey &&
+              !provider.active &&
+              provider.id !== effectiveId,
+          )
+          .map((provider) => provider.id)
+      : [];
+  const listed = providerData?.filter(
+    (provider) => !hiddenIds.includes(provider.id),
+  );
+  const loginModal = (onSaved?: () => void) =>
+    managedActive === null ? null : (
+      <ProviderToolLoginModal
+        account={connectionFlow.loginOpen ? toolLogin : null}
+        tool={managedActive}
+        toolName={activeName}
+        saved={toolLoginSaved}
+        status={loginStatus.data}
+        busy={connectionFlow.createBusy}
+        error={connectionFlow.createError}
+        mutationsBlocked={authorityActionsBlocked && !busy}
+        onOpenChange={(open) => {
+          if (!open) connectionFlow.closeConnection();
+        }}
+        onRestore={() =>
+          connectionFlow.restoreToolLogin(
+            { tool: managedActive, toolName: activeName },
+            onSaved,
+          )
+        }
+        onSignedIn={(result) =>
+          connectionFlow.signedIn(
+            { tool: managedActive, toolName: activeName },
+            result,
+            onSaved,
+          )
+        }
+      />
+    );
 
   if (addProfile !== null && managedActive !== null) {
     return (
@@ -183,7 +236,7 @@ export function ServicesEndpointsPanel({
           tool={managedActive}
           toolName={activeName}
           profile={addProfile}
-          toolLoginSaved={toolLoginSaved}
+          loginStatus={loginStatus.data}
           disabled={busy || authorityActionsBlocked}
           onPickPreset={(preset) =>
             connectionFlow.openConnection({ kind: "preset", preset })
@@ -216,24 +269,7 @@ export function ServicesEndpointsPanel({
             )
           }
         />
-        <ProviderToolLoginModal
-          account={connectionFlow.loginOpen ? addProfile.toolLogin : null}
-          toolName={activeName}
-          saved={toolLoginSaved}
-          busy={connectionFlow.createBusy}
-          error={connectionFlow.createError}
-          mutationsBlocked={authorityActionsBlocked && !busy}
-          onOpenChange={(open) => {
-            if (!open) connectionFlow.closeConnection();
-          }}
-          onRestore={() =>
-            connectionFlow.restoreToolLogin(
-              { tool: managedActive, toolName: activeName },
-              showList,
-            )
-          }
-          onShowList={showList}
-        />
+        {loginModal(showList)}
       </div>
     );
   }
@@ -313,14 +349,14 @@ export function ServicesEndpointsPanel({
       )}
 
       {!activeScopeUnsupported &&
-      providerData !== undefined &&
-      providerData.length === 0 ? (
+      listed !== undefined &&
+      listed.length === 0 ? (
         <ServicesEmptyInventory />
       ) : null}
 
       {!activeScopeUnsupported &&
-      providerData !== undefined &&
-      providerData.length === 0 &&
+      listed !== undefined &&
+      listed.length === 0 &&
       managedActive !== null ? (
         <ServicesHeaderActions
           canConnect={canConnect}
@@ -332,8 +368,8 @@ export function ServicesEndpointsPanel({
       ) : null}
 
       {!activeScopeUnsupported &&
-      providerData !== undefined &&
-      providerData.length > 0 &&
+      listed !== undefined &&
+      listed.length > 0 &&
       managedActive !== null ? (
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap items-end justify-between gap-3">
@@ -342,7 +378,7 @@ export function ServicesEndpointsPanel({
                 {t("services.endpoints.title", { tool: activeName })}
               </h2>
               <p className="mt-0.5 text-caption text-content-muted">
-                {t("services.endpoints.count", { count: providerData.length })}
+                {t("services.endpoints.count", { count: listed.length })}
               </p>
             </div>
             <div className="flex flex-wrap items-center justify-end gap-2">
@@ -363,7 +399,8 @@ export function ServicesEndpointsPanel({
             </div>
           </div>
           <ServicesProviderGrid
-            providers={providerData}
+            providers={listed}
+            hiddenIds={hiddenIds}
             tool={managedActive}
             toolName={activeName}
             effective={
@@ -383,9 +420,7 @@ export function ServicesEndpointsPanel({
             onUse={switchFlow.switchProvider}
             onTryNext={switchFlow.tryNextHealthy}
             onTest={(providerId) => {
-              const provider = providerData.find(
-                (entry) => entry.id === providerId,
-              );
+              const provider = listed.find((entry) => entry.id === providerId);
               setProbing(provider ? { kind: "provider", provider } : null);
             }}
             onTestExternal={
@@ -402,6 +437,9 @@ export function ServicesEndpointsPanel({
             externalEditableVariables={editableVariables}
             onBrowseCompatible={canConnect ? openAdd : undefined}
             onEdit={editFlow.open}
+            onSignIn={
+              toolLogin && canConnect ? connectionFlow.openToolLogin : undefined
+            }
             onRemove={(provider) => {
               remove.reset();
               setRemoving(provider);
@@ -465,6 +503,7 @@ export function ServicesEndpointsPanel({
           );
         }}
       />
+      {loginModal()}
     </div>
   );
 }

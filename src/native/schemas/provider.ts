@@ -120,6 +120,8 @@ export const providerSchema = z
     websiteUrl: z.string().nullable(),
     testable: z.boolean(),
     canRemove: z.boolean(),
+    /** An official entry bound to one account signed in here (ADR-0061). */
+    accountBound: z.boolean().optional(),
   })
   .strict();
 
@@ -157,6 +159,15 @@ export const toolLoginAccountSchema = z.enum([
   "google",
   "superGrok",
 ]);
+
+/** Whether the tool is signed in to its own account right now (ADR-0060). */
+export const toolLoginStatusSchema = z
+  .object({
+    state: z.enum(["signedIn", "apiKey", "signedOut", "unknown"]),
+    account: z.string().max(320).nullable(),
+    plan: z.string().max(64).nullable(),
+  })
+  .strict();
 
 export const providerConnectionProfileSchema = z
   .object({
@@ -543,6 +554,31 @@ export const providerCreateResultSchema = z
   })
   .strict();
 
+/**
+ * A sign-in started from AI Manager (ADR-0061). It carries the vendor's page
+ * and the code to type there, never anything that authenticates.
+ */
+export const signInProgressSchema = z
+  .object({
+    id: z.string().min(1).max(64),
+    phase: z.enum(["waiting", "done", "failed", "canceled"]),
+    url: z.string().url().max(8192).nullable(),
+    code: z.string().max(64).nullable(),
+    account: z.string().max(320).nullable(),
+    failure: z
+      .enum([
+        "refused",
+        "timedOut",
+        "portBusy",
+        "notInstalled",
+        "network",
+        "saveFailed",
+      ])
+      .nullable(),
+    created: providerCreateResultSchema.nullable(),
+  })
+  .strict();
+
 export type ProviderKind = z.infer<typeof providerKindSchema>;
 export type EffectiveConnectionSource = z.infer<
   typeof effectiveConnectionSourceSchema
@@ -576,6 +612,9 @@ export type ProviderConnectionProfile = z.infer<
 >;
 export type ProviderPresetKind = z.infer<typeof providerPresetKindSchema>;
 export type ToolLoginAccount = z.infer<typeof toolLoginAccountSchema>;
+export type ToolLoginStatus = z.infer<typeof toolLoginStatusSchema>;
+export type SignInProgress = z.infer<typeof signInProgressSchema>;
+export type SignInFailure = NonNullable<SignInProgress["failure"]>;
 export type ProviderConnectionPreset = z.infer<
   typeof providerConnectionPresetSchema
 >;

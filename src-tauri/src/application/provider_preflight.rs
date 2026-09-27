@@ -260,6 +260,7 @@ mod tests {
             website_url: None,
             testable,
             can_remove: !active,
+            account_bound: false,
         }
     }
 

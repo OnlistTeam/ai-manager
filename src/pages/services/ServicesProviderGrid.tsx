@@ -4,10 +4,11 @@ import {
   type ProviderConnectivity,
   type ToolId,
 } from "@/entities/health";
-import type {
-  EffectiveConnection,
-  Provider,
-  ProviderRuntimeResource,
+import {
+  useToolLoginStatus,
+  type EffectiveConnection,
+  type Provider,
+  type ProviderRuntimeResource,
 } from "@/entities/provider";
 import {
   describeSource,
@@ -52,6 +53,10 @@ interface ServicesProviderGridProps {
   onTryNext: (providerId: string) => void;
   onBrowseCompatible?: () => void;
   onEdit: (provider: Provider) => void;
+  /** Saved but left out of the list (ADR-0061); a drag keeps them after the rows shown. */
+  hiddenIds?: readonly string[];
+  /** Signs the tool in from AI Manager; absent when the tool has no sign-in to start. */
+  onSignIn?: () => void;
   onRemove: (provider: Provider) => void;
 }
 
@@ -77,10 +82,16 @@ export function ServicesProviderGrid({
   onTryNext,
   onBrowseCompatible,
   onEdit,
+  hiddenIds = [],
+  onSignIn,
   onRemove,
 }: ServicesProviderGridProps) {
   const { t } = useTranslation();
   const reorder = useReorderProviders();
+  // Only an official entry stands on the tool's own sign-in.
+  const loginStatus = useToolLoginStatus(
+    providers.some((provider) => provider.kind === "official") ? tool : null,
+  );
   const overrideSource = effective ? overrideSourceFor(effective) : null;
   // When the effective address doesn't match any saved endpoint, it becomes the first card in the list.
   const external =
@@ -113,7 +124,12 @@ export function ServicesProviderGrid({
         <ServicesSortableList
           providers={providers}
           disabled={busy || reorder.isPending}
-          onReorder={(providerIds) => reorder.mutate({ tool, providerIds })}
+          onReorder={(providerIds) =>
+            reorder.mutate({
+              tool,
+              providerIds: [...providerIds, ...hiddenIds],
+            })
+          }
         >
           {(provider, dragHandle) => {
             const hasSavedCandidate =
@@ -139,6 +155,9 @@ export function ServicesProviderGrid({
                 dragHandle={dragHandle}
                 toolName={toolName}
                 effectiveState={state}
+                loginStatus={
+                  provider.kind === "official" ? loginStatus.data : undefined
+                }
                 effectiveCredential={
                   matched
                     ? effective?.credential
@@ -194,6 +213,7 @@ export function ServicesProviderGrid({
                 }
                 onBrowseCompatible={onBrowseCompatible}
                 onEdit={() => onEdit(provider)}
+                onSignIn={onSignIn}
                 onRemove={() => onRemove(provider)}
               />
             );

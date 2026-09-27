@@ -37,6 +37,9 @@ pub enum AllowedProgram {
     Open,
     /// ADR-0033: only `/usr/bin/codesign` may verify the signature of a native program supplied into the official layout.
     Codesign,
+    /// ADR-0061: only `/usr/bin/security` may read or write the Keychain item
+    /// Claude Code keeps its sign-in in.
+    Security,
     Wsl,
     Env,
     #[serde(rename = "xdg-terminal-exec")]
@@ -79,6 +82,7 @@ impl AllowedProgram {
             Self::Osascript => "osascript",
             Self::Open => "open",
             Self::Codesign => "codesign",
+            Self::Security => "security",
             Self::Wsl => "wsl",
             Self::Env => "env",
             Self::XdgTerminalExec => "xdg-terminal-exec",

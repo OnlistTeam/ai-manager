@@ -78,6 +78,10 @@ export function ProviderFormModal({
     return null;
   }
 
+  // An official endpoint signs in instead of holding a key (ADR-0061): a
+  // key typed here would quietly replace the sign-in. One that already holds
+  // a key keeps the field, so the key can still be changed.
+  const takesKey = provider.kind !== "official" || provider.apiKey !== null;
   const errorCopy = error ? toErrorCopy(error) : null;
   const errorTitle = t("services.form.errorTitle");
 
@@ -122,7 +126,11 @@ export function ProviderFormModal({
       dismissible={!busy}
       initialFocusRef={nameRef}
       title={t("services.form.title")}
-      description={t("services.form.description")}
+      description={t(
+        takesKey
+          ? "services.form.description"
+          : "services.form.descriptionName",
+      )}
       footer={
         <>
           <Button
@@ -202,30 +210,32 @@ export function ProviderFormModal({
           />
         </Field>
 
-        <Field
-          id={KEY_ID}
-          label={t("services.form.key")}
-          hint={t(
-            provider.apiKey === null
-              ? "services.form.keyHintEmpty"
-              : "services.form.keyHint",
-          )}
-        >
-          <CopyableInput
+        {takesKey ? (
+          <Field
             id={KEY_ID}
-            copyLabel={t("services.form.key")}
-            type="text"
-            autoComplete="off"
-            spellCheck={false}
-            className="font-mono text-mono-sm"
-            value={key}
-            disabled={busy}
-            onChange={(event) => {
-              setKey(event.target.value);
-              if (error) onErrorReset?.();
-            }}
-          />
-        </Field>
+            label={t("services.form.key")}
+            hint={t(
+              provider.apiKey === null
+                ? "services.form.keyHintEmpty"
+                : "services.form.keyHint",
+            )}
+          >
+            <CopyableInput
+              id={KEY_ID}
+              copyLabel={t("services.form.key")}
+              type="text"
+              autoComplete="off"
+              spellCheck={false}
+              className="font-mono text-mono-sm"
+              value={key}
+              disabled={busy}
+              onChange={(event) => {
+                setKey(event.target.value);
+                if (error) onErrorReset?.();
+              }}
+            />
+          </Field>
+        ) : null}
 
         <ProviderSettingsFields
           provider={provider}

@@ -13,7 +13,8 @@ use crate::compat::ccswitch::provider_runtime::ToolTerminal;
 use crate::domain::{
     AppError, ErrorCode, Provider, ProviderCreateDraft, ProviderCreateResult,
     ProviderCustomCreateDraft, ProviderDraft, ProviderEditProfile, ProviderEndpointCandidate,
-    ProviderKind, ProviderReachability, ProviderTestResult, ToolId, ToolModelChoice,
+    ProviderKind, ProviderReachability, ProviderTestResult, SignInProgress, ToolId,
+    ToolLoginStatus, ToolModelChoice,
 };
 use crate::platform::redact::{redact_secrets, truncate_tail};
 use crate::provider::Provider as UpstreamProvider;
@@ -38,8 +39,10 @@ mod ordering;
 mod presets;
 mod removal;
 mod saving;
+mod sign_in;
 mod switching;
 mod tool_login;
+mod tool_login_status;
 pub use create::connection_profile_for;
 use create::{
     create_error, is_connection_attempt_provider, provider_for_create, provider_for_custom_create,
@@ -129,6 +132,7 @@ pub(super) fn provider_from_upstream(
         api_key: non_empty_key(&api_key),
         website_url: raw.website_url.clone(),
         can_remove: removal::can_remove(raw, active),
+        account_bound: kind == ProviderKind::Official && sign_in::is_account_bound(raw),
     }
 }
 
@@ -563,7 +567,16 @@ impl ProviderStore {
     /// verification; no raw provider configuration leaves this boundary.
     pub fn remove(&self, tool: ToolId, id: &str) -> Result<Vec<Provider>, AppError> {
         let _mutation = self.lock_mutation();
-        removal::remove(&self.state, tool, id)
+        let bound = self.find_raw(tool, id).ok().and_then(|raw| {
+            sign_in::bound_account(&raw, sign_in::claude_accounts::AUTH_PROVIDER)
+                .or_else(|| sign_in::bound_account(&raw, "codex_oauth"))
+        });
+        let remaining = removal::remove(&self.state, tool, id)?;
+        // Removing an account's endpoint forgets the account (ADR-0061).
+        if let Some(account) = bound {
+            sign_in::forget_unbound(self, tool, &account);
+        }
+        Ok(remaining)
     }
 
     /// Switch the current service and return the already-verified list. The
@@ -614,6 +627,34 @@ impl ProviderStore {
     pub fn restore_tool_login(&self, tool: ToolId) -> Result<ProviderCreateResult, AppError> {
         let _mutation = self.lock_mutation();
         tool_login::restore(self, tool)
+    }
+
+    /// Whether the tool is signed in to its own account right now (ADR-0060).
+    pub async fn tool_login_status(&self, tool: ToolId) -> ToolLoginStatus {
+        tool_login_status::read(self, tool).await
+    }
+
+    /// Starts signing in to the tool's subscription (ADR-0061); `open`
+    /// takes the vendor's page to the browser.
+    pub async fn sign_in_start(
+        &self,
+        tool: ToolId,
+        open: sign_in::Opener,
+    ) -> Result<SignInProgress, AppError> {
+        sign_in::start(self, tool, open).await
+    }
+
+    pub fn sign_in_status(&self, tool: ToolId, id: &str) -> Result<SignInProgress, AppError> {
+        sign_in::status(self, tool, id)
+    }
+
+    pub fn sign_in_cancel(&self, tool: ToolId, id: &str) {
+        sign_in::cancel(tool, id);
+    }
+
+    /// The page of a sign-in still waiting, to open again.
+    pub fn sign_in_page(&self, tool: ToolId, id: &str) -> Result<Option<String>, AppError> {
+        sign_in::page(tool, id)
     }
 
     /// Save the user's order of this tool's services and return the reordered
