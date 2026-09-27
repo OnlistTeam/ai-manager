@@ -246,6 +246,7 @@ describe("warmSessionEnvironment", () => {
                 websiteUrl: "https://openai.com",
                 apiKeyUrl: "https://platform.openai.com",
                 official: true,
+                kind: "vendor",
               },
             ],
           });

@@ -83,6 +83,7 @@ describe("useProviders", () => {
               websiteUrl: "https://www.anthropic.com",
               apiKeyUrl: "https://console.anthropic.com",
               official: true,
+              kind: "vendor",
             },
           ],
         }),

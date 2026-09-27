@@ -152,6 +152,7 @@ describe("ServicesPage", () => {
               websiteUrl: "https://www.anthropic.com",
               apiKeyUrl: "https://console.anthropic.com",
               official: true,
+              kind: "vendor",
             },
           ],
         }),
@@ -819,6 +820,7 @@ describe("ServicesPage", () => {
                 websiteUrl: "https://www.anthropic.com",
                 apiKeyUrl: "https://console.anthropic.com",
                 official: true,
+                kind: "vendor",
               },
             ],
           });
@@ -2797,6 +2799,7 @@ describe("ServicesPage", () => {
               websiteUrl: "https://www.anthropic.com",
               apiKeyUrl: "https://console.anthropic.com",
               official: true,
+              kind: "vendor",
             },
             {
               id: "deepseek-safe",
@@ -2807,6 +2810,7 @@ describe("ServicesPage", () => {
               websiteUrl: "https://platform.deepseek.com",
               apiKeyUrl: "https://platform.deepseek.com",
               official: false,
+              kind: "vendor",
             },
           ],
         }),

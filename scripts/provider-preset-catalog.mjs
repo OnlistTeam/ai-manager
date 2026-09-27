@@ -3,7 +3,11 @@ import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
 
-import { HOUSE_PRESETS, isAllowedService } from "./provider-preset-policy.mjs";
+import {
+  ADDED_PRESETS,
+  HOUSE_PRESETS,
+  allowedService,
+} from "./provider-preset-policy.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 export const catalogFile = new URL(
@@ -65,6 +69,7 @@ const officialPresets = [
     apiKeyUrl: "https://console.anthropic.com",
     official: true,
     default: true,
+    kind: "vendor",
     settingsConfig: {
       env: {
         ANTHROPIC_BASE_URL: "https://api.anthropic.com",
@@ -82,6 +87,7 @@ const officialPresets = [
     apiKeyUrl: "https://platform.openai.com",
     official: true,
     default: true,
+    kind: "vendor",
     settingsConfig: {
       auth: { OPENAI_API_KEY: "" },
       config:
@@ -98,6 +104,7 @@ const officialPresets = [
     apiKeyUrl: "https://platform.openai.com",
     official: true,
     default: true,
+    kind: "vendor",
     settingsConfig: {
       npm: "@ai-sdk/openai",
       name: "OpenAI",
@@ -120,6 +127,7 @@ const officialPresets = [
     apiKeyUrl: "https://aistudio.google.com",
     official: true,
     default: true,
+    kind: "vendor",
     settingsConfig: {
       env: {
         GOOGLE_GEMINI_BASE_URL: "https://generativelanguage.googleapis.com",
@@ -234,6 +242,7 @@ function commonProjection(
     apiKeyUrl,
     official: false,
     default: false,
+    kind: preset.kind,
     settingsConfig: cloneJson(settingsConfig),
   };
 }
@@ -530,16 +539,32 @@ function comparePresets(left, right) {
 
 export async function buildProviderPresetCatalog() {
   const sources = await loadSourcePresets();
-  const projected = sources
-    .flatMap(({ tool, presets }) => presets.map(projectors[tool]).filter(Boolean))
-    // The upstream sources are cherry-picked, so this has to be a standing
-    // filter rather than a deletion: a relay added upstream tomorrow is kept
-    // out without anyone remembering to do it again.
-    .filter((preset) => isAllowedService(preset.serviceName));
+  const projected = sources.flatMap(({ tool, presets }) =>
+    presets
+      // The upstream sources are cherry-picked, so this has to be a standing
+      // filter rather than a deletion: a relay added upstream tomorrow is kept
+      // out without anyone remembering to do it again.
+      .flatMap((preset) => {
+        const allowed = allowedService(preset.name);
+        return allowed
+          ? [{ ...preset, name: allowed.name ?? preset.name, kind: allowed.kind }]
+          : [];
+      })
+      .map(projectors[tool])
+      .filter(Boolean),
+  );
+  // Upstream's template wins where it already covers a service for a tool.
+  const covered = new Set(
+    projected.map((preset) => `${preset.tool}:${preset.serviceName}`),
+  );
+  const added = ADDED_PRESETS.filter(
+    (preset) => !covered.has(`${preset.tool}:${preset.serviceName}`),
+  );
   const presets = [
     ...HOUSE_PRESETS.map(cloneJson),
     ...officialPresets.map(cloneJson),
     ...projected,
+    ...added.map(cloneJson),
   ].sort(comparePresets);
   const identities = new Set();
   for (const preset of presets) {

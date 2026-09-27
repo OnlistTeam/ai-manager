@@ -14,7 +14,7 @@ use url::Url;
 use crate::compat::ccswitch::tools::capabilities_for;
 use crate::domain::{
     AppError, ProviderConnectionPreset, ProviderConnectionProfile, ProviderDraft,
-    ProviderEndpointCandidate, ProviderWireProtocol, ToolId,
+    ProviderEndpointCandidate, ProviderPresetKind, ProviderWireProtocol, ToolId,
 };
 use crate::provider::Provider as UpstreamProvider;
 
@@ -47,6 +47,7 @@ pub(super) struct CatalogPreset {
     official: bool,
     #[serde(rename = "default")]
     is_default: bool,
+    kind: ProviderPresetKind,
     settings_config: Value,
 }
 
@@ -86,6 +87,7 @@ impl CatalogPreset {
             website_url: self.website_url.clone(),
             api_key_url: self.api_key_url.clone(),
             official: self.official,
+            kind: self.kind,
         }
     }
 }

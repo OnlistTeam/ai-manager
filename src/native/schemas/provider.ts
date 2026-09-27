@@ -125,6 +125,12 @@ export const providerSchema = z
 
 export const providerListSchema = z.array(providerSchema);
 
+/**
+ * The add page's group for a preset (ADR-0057). Only `local` changes what the
+ * native side accepts: a loopback `http://` address and no key.
+ */
+export const providerPresetKindSchema = z.enum(["vendor", "relay", "local"]);
+
 export const providerConnectionPresetSchema = z
   .object({
     id: z.string().min(1).max(64),
@@ -140,6 +146,7 @@ export const providerConnectionPresetSchema = z
     websiteUrl: z.string().url(),
     apiKeyUrl: z.string().url(),
     official: z.boolean(),
+    kind: providerPresetKindSchema,
   })
   .strict();
 
@@ -536,6 +543,7 @@ export type Provider = z.infer<typeof providerSchema>;
 export type ProviderConnectionProfile = z.infer<
   typeof providerConnectionProfileSchema
 >;
+export type ProviderPresetKind = z.infer<typeof providerPresetKindSchema>;
 export type ProviderConnectionPreset = z.infer<
   typeof providerConnectionPresetSchema
 >;

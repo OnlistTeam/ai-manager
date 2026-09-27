@@ -9,6 +9,7 @@ import {
   serializeProviderPresetCatalog,
 } from "./provider-preset-catalog.mjs";
 import {
+  ADDED_PRESETS,
   ALLOWED_SERVICES,
   HOUSE_PRESETS,
 } from "./provider-preset-policy.mjs";
@@ -112,12 +113,19 @@ test("catalog keeps eight-tool coverage without promotional metadata", async () 
  */
 test("catalog ships only services on the allowlist", async () => {
   const generated = await catalog();
-  const house = new Set(HOUSE_PRESETS.map((preset) => preset.serviceName));
+  const shipped = new Set([
+    ...[...ALLOWED_SERVICES].map(([name, entry]) => entry.name ?? name),
+    ...ADDED_PRESETS.map((preset) => preset.serviceName),
+    ...HOUSE_PRESETS.map((preset) => preset.serviceName),
+  ]);
   for (const preset of generated.presets) {
     assert.ok(
-      ALLOWED_SERVICES.has(preset.serviceName) ||
-        house.has(preset.serviceName),
+      shipped.has(preset.serviceName),
       `${preset.tool}:${preset.serviceName} is not on the allowlist`,
+    );
+    assert.ok(
+      ["vendor", "relay", "local"].includes(preset.kind),
+      `${preset.tool}:${preset.serviceName} has no group`,
     );
   }
   // Spot-checks from the 39 resellers the upstream catalogue lists, so a
@@ -131,6 +139,10 @@ test("catalog ships only services on the allowlist", async () => {
     "TheRouter",
     "QwenCloud",
     "千问AI平台",
+    // Inference clouds reselling other labs' models, dropped in ADR-0057.
+    "Together AI",
+    "Novita",
+    "Nvidia",
   ]) {
     assert.doesNotMatch(
       serialized,

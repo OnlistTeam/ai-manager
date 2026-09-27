@@ -32,6 +32,7 @@ const FILLER = [
   websiteUrl: "https://example.test",
   apiKeyUrl: "https://example.test",
   official: false,
+  kind: "vendor" as const,
 }));
 
 const PRESETS: ProviderConnectionPreset[] = [
@@ -44,6 +45,7 @@ const PRESETS: ProviderConnectionPreset[] = [
     websiteUrl: "https://www.anthropic.com",
     apiKeyUrl: "https://console.anthropic.com",
     official: true,
+    kind: "vendor",
   },
   {
     id: "deepseek",
@@ -54,6 +56,7 @@ const PRESETS: ProviderConnectionPreset[] = [
     websiteUrl: "https://www.deepseek.com",
     apiKeyUrl: "https://platform.deepseek.com",
     official: false,
+    kind: "vendor",
   },
   {
     id: "openrouter",
@@ -64,6 +67,7 @@ const PRESETS: ProviderConnectionPreset[] = [
     websiteUrl: "https://openrouter.ai",
     apiKeyUrl: "https://openrouter.ai",
     official: false,
+    kind: "vendor",
   },
   ...FILLER,
 ];

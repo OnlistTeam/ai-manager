@@ -11,6 +11,7 @@
       "apiKeyUrl": "https://onlist.io",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "env": {
           "ANTHROPIC_BASE_URL": "https://onlist.io",
@@ -28,6 +29,7 @@
       "apiKeyUrl": "https://console.anthropic.com",
       "official": true,
       "default": true,
+      "kind": "vendor",
       "settingsConfig": {
         "env": {
           "ANTHROPIC_BASE_URL": "https://api.anthropic.com",
@@ -45,6 +47,7 @@
       "apiKeyUrl": "https://platform.deepseek.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "env": {
           "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
@@ -58,14 +61,15 @@
     },
     {
       "tool": "claude-code",
-      "id": "kimi-5514d25c78",
-      "serviceName": "Kimi",
-      "defaultName": "Kimi",
+      "id": "kimi-china-50b8c6946b",
+      "serviceName": "Kimi (China)",
+      "defaultName": "Kimi (China)",
       "defaultModel": "kimi-k2.7-code",
       "websiteUrl": "https://platform.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "env": {
           "ANTHROPIC_BASE_URL": "https://api.moonshot.cn/anthropic",
@@ -79,14 +83,15 @@
     },
     {
       "tool": "claude-code",
-      "id": "kimi-for-coding-2ba2956082",
-      "serviceName": "Kimi For Coding",
-      "defaultName": "Kimi For Coding",
+      "id": "kimi-code-d7a0b191e4",
+      "serviceName": "Kimi Code",
+      "defaultName": "Kimi Code",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://www.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "env": {
           "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
@@ -102,38 +107,15 @@
     },
     {
       "tool": "claude-code",
-      "id": "minimax-920ae85369",
+      "id": "minimax-c8bab6ed33",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
-      "defaultModel": "MiniMax-M3[1M]",
-      "websiteUrl": "https://platform.minimaxi.com",
-      "apiKeyUrl": "https://platform.minimaxi.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "env": {
-          "ANTHROPIC_BASE_URL": "https://api.minimaxi.com/anthropic",
-          "ANTHROPIC_AUTH_TOKEN": "",
-          "API_TIMEOUT_MS": "3000000",
-          "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": 1,
-          "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1000000",
-          "ANTHROPIC_MODEL": "MiniMax-M3[1M]",
-          "ANTHROPIC_DEFAULT_SONNET_MODEL": "MiniMax-M3[1M]",
-          "ANTHROPIC_DEFAULT_OPUS_MODEL": "MiniMax-M3[1M]",
-          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "MiniMax-M3[1M]"
-        }
-      }
-    },
-    {
-      "tool": "claude-code",
-      "id": "minimax-en-a9d803550e",
-      "serviceName": "MiniMax en",
-      "defaultName": "MiniMax en",
       "defaultModel": "MiniMax-M3[1M]",
       "websiteUrl": "https://platform.minimax.io",
       "apiKeyUrl": "https://platform.minimax.io",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "env": {
           "ANTHROPIC_BASE_URL": "https://api.minimax.io/anthropic",
@@ -150,22 +132,26 @@
     },
     {
       "tool": "claude-code",
-      "id": "novita-ai-bad7c06bb2",
-      "serviceName": "Novita AI",
-      "defaultName": "Novita AI",
-      "defaultModel": "zai-org/glm-5.1",
-      "websiteUrl": "https://novita.ai",
-      "apiKeyUrl": "https://novita.ai",
+      "id": "minimax-china-b5e86ec7a7",
+      "serviceName": "MiniMax (China)",
+      "defaultName": "MiniMax (China)",
+      "defaultModel": "MiniMax-M3[1M]",
+      "websiteUrl": "https://platform.minimaxi.com",
+      "apiKeyUrl": "https://platform.minimaxi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "env": {
-          "ANTHROPIC_BASE_URL": "https://api.novita.ai/anthropic",
+          "ANTHROPIC_BASE_URL": "https://api.minimaxi.com/anthropic",
           "ANTHROPIC_AUTH_TOKEN": "",
-          "ANTHROPIC_MODEL": "zai-org/glm-5.1",
-          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "zai-org/glm-5.1",
-          "ANTHROPIC_DEFAULT_SONNET_MODEL": "zai-org/glm-5.1",
-          "ANTHROPIC_DEFAULT_OPUS_MODEL": "zai-org/glm-5.1"
+          "API_TIMEOUT_MS": "3000000",
+          "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": 1,
+          "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1000000",
+          "ANTHROPIC_MODEL": "MiniMax-M3[1M]",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "MiniMax-M3[1M]",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "MiniMax-M3[1M]",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "MiniMax-M3[1M]"
         }
       }
     },
@@ -179,6 +165,7 @@
       "apiKeyUrl": "https://openrouter.ai",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "env": {
           "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
@@ -192,17 +179,18 @@
     },
     {
       "tool": "claude-code",
-      "id": "zhipu-glm-84d2e1dfeb",
-      "serviceName": "Zhipu GLM",
-      "defaultName": "Zhipu GLM",
+      "id": "z-ai-6b4f13512e",
+      "serviceName": "Z.ai",
+      "defaultName": "Z.ai",
       "defaultModel": "glm-5.1",
-      "websiteUrl": "https://open.bigmodel.cn",
-      "apiKeyUrl": "https://www.bigmodel.cn",
+      "websiteUrl": "https://z.ai",
+      "apiKeyUrl": "https://z.ai",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "env": {
-          "ANTHROPIC_BASE_URL": "https://open.bigmodel.cn/api/anthropic",
+          "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic",
           "ANTHROPIC_AUTH_TOKEN": "",
           "ANTHROPIC_MODEL": "glm-5.1",
           "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-5.1",
@@ -213,17 +201,18 @@
     },
     {
       "tool": "claude-code",
-      "id": "zhipu-glm-en-b7feb2cd23",
-      "serviceName": "Zhipu GLM en",
-      "defaultName": "Zhipu GLM en",
+      "id": "zhipu-glm-84d2e1dfeb",
+      "serviceName": "Zhipu GLM",
+      "defaultName": "Zhipu GLM",
       "defaultModel": "glm-5.1",
-      "websiteUrl": "https://z.ai",
-      "apiKeyUrl": "https://z.ai",
+      "websiteUrl": "https://open.bigmodel.cn",
+      "apiKeyUrl": "https://www.bigmodel.cn",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "env": {
-          "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic",
+          "ANTHROPIC_BASE_URL": "https://open.bigmodel.cn/api/anthropic",
           "ANTHROPIC_AUTH_TOKEN": "",
           "ANTHROPIC_MODEL": "glm-5.1",
           "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-5.1",
@@ -242,6 +231,7 @@
       "apiKeyUrl": "https://onlist.io",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "auth": {
           "OPENAI_API_KEY": ""
@@ -259,6 +249,7 @@
       "apiKeyUrl": "https://platform.openai.com",
       "official": true,
       "default": true,
+      "kind": "vendor",
       "settingsConfig": {
         "auth": {
           "OPENAI_API_KEY": ""
@@ -276,6 +267,7 @@
       "apiKeyUrl": "https://platform.deepseek.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "auth": {
           "OPENAI_API_KEY": ""
@@ -285,14 +277,15 @@
     },
     {
       "tool": "codex",
-      "id": "kimi-358d23baba",
-      "serviceName": "Kimi",
-      "defaultName": "Kimi",
+      "id": "kimi-china-e6f1b69588",
+      "serviceName": "Kimi (China)",
+      "defaultName": "Kimi (China)",
       "defaultModel": "kimi-k3",
       "websiteUrl": "https://platform.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "auth": {
           "OPENAI_API_KEY": ""
@@ -302,14 +295,15 @@
     },
     {
       "tool": "codex",
-      "id": "kimi-for-coding-c0c606f053",
-      "serviceName": "Kimi For Coding",
-      "defaultName": "Kimi For Coding",
+      "id": "kimi-code-bee7397215",
+      "serviceName": "Kimi Code",
+      "defaultName": "Kimi Code",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://www.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "auth": {
           "OPENAI_API_KEY": ""
@@ -319,31 +313,15 @@
     },
     {
       "tool": "codex",
-      "id": "minimax-f435f4a050",
+      "id": "minimax-b5d467a861",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
-      "defaultModel": "MiniMax-M3",
-      "websiteUrl": "https://platform.minimaxi.com",
-      "apiKeyUrl": "https://platform.minimaxi.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "auth": {
-          "OPENAI_API_KEY": ""
-        },
-        "config": "model_provider = \"custom\"\nmodel = \"MiniMax-M3\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"minimax\"\nbase_url = \"https://api.minimaxi.com/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true"
-      }
-    },
-    {
-      "tool": "codex",
-      "id": "minimax-en-4c717ae9db",
-      "serviceName": "MiniMax en",
-      "defaultName": "MiniMax en",
       "defaultModel": "MiniMax-M3",
       "websiteUrl": "https://platform.minimax.io",
       "apiKeyUrl": "https://platform.minimax.io",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "auth": {
           "OPENAI_API_KEY": ""
@@ -353,36 +331,20 @@
     },
     {
       "tool": "codex",
-      "id": "novita-ai-6bb4b6dc1a",
-      "serviceName": "Novita AI",
-      "defaultName": "Novita AI",
-      "defaultModel": "zai-org/glm-5.3",
-      "websiteUrl": "https://novita.ai",
-      "apiKeyUrl": "https://novita.ai",
+      "id": "minimax-china-254e4f04fa",
+      "serviceName": "MiniMax (China)",
+      "defaultName": "MiniMax (China)",
+      "defaultModel": "MiniMax-M3",
+      "websiteUrl": "https://platform.minimaxi.com",
+      "apiKeyUrl": "https://platform.minimaxi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "auth": {
           "OPENAI_API_KEY": ""
         },
-        "config": "model_provider = \"custom\"\nmodel = \"zai-org/glm-5.3\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"novita\"\nbase_url = \"https://api.novita.ai/openai/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true"
-      }
-    },
-    {
-      "tool": "codex",
-      "id": "nvidia-58f3da9dc1",
-      "serviceName": "Nvidia",
-      "defaultName": "Nvidia",
-      "defaultModel": "moonshotai/kimi-k3",
-      "websiteUrl": "https://build.nvidia.com",
-      "apiKeyUrl": "https://build.nvidia.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "auth": {
-          "OPENAI_API_KEY": ""
-        },
-        "config": "model_provider = \"custom\"\nmodel = \"moonshotai/kimi-k3\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"nvidia\"\nbase_url = \"https://integrate.api.nvidia.com/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true"
+        "config": "model_provider = \"custom\"\nmodel = \"MiniMax-M3\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"minimax\"\nbase_url = \"https://api.minimaxi.com/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true"
       }
     },
     {
@@ -395,6 +357,7 @@
       "apiKeyUrl": "https://openrouter.ai",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "auth": {
           "OPENAI_API_KEY": ""
@@ -412,11 +375,30 @@
       "apiKeyUrl": "https://console.x.ai",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "auth": {
           "OPENAI_API_KEY": ""
         },
         "config": "model_provider = \"custom\"\nmodel = \"grok-4.5\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"xai\"\nbase_url = \"https://api.x.ai/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true"
+      }
+    },
+    {
+      "tool": "codex",
+      "id": "z-ai-d0ed6de478",
+      "serviceName": "Z.ai",
+      "defaultName": "Z.ai",
+      "defaultModel": "glm-5.3",
+      "websiteUrl": "https://z.ai",
+      "apiKeyUrl": "https://z.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"glm-5.3\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"zhipu_glm_en\"\nbase_url = \"https://api.z.ai/api/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true"
       }
     },
     {
@@ -429,28 +411,12 @@
       "apiKeyUrl": "https://www.bigmodel.cn",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "auth": {
           "OPENAI_API_KEY": ""
         },
         "config": "model_provider = \"custom\"\nmodel = \"glm-5.3\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"zhipu_glm\"\nbase_url = \"https://open.bigmodel.cn/api/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true"
-      }
-    },
-    {
-      "tool": "codex",
-      "id": "zhipu-glm-en-66f98cccb7",
-      "serviceName": "Zhipu GLM en",
-      "defaultName": "Zhipu GLM en",
-      "defaultModel": "glm-5.3",
-      "websiteUrl": "https://z.ai",
-      "apiKeyUrl": "https://z.ai",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "auth": {
-          "OPENAI_API_KEY": ""
-        },
-        "config": "model_provider = \"custom\"\nmodel = \"glm-5.3\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"zhipu_glm_en\"\nbase_url = \"https://api.z.ai/api/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true"
       }
     },
     {
@@ -463,6 +429,7 @@
       "apiKeyUrl": "https://onlist.io",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "env": {
           "GOOGLE_GEMINI_BASE_URL": "https://onlist.io",
@@ -481,6 +448,7 @@
       "apiKeyUrl": "https://aistudio.google.com",
       "official": true,
       "default": true,
+      "kind": "vendor",
       "settingsConfig": {
         "env": {
           "GOOGLE_GEMINI_BASE_URL": "https://generativelanguage.googleapis.com",
@@ -499,6 +467,7 @@
       "apiKeyUrl": "https://onlist.io",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "config": "[models]\ndefault = \"x-ai/grok-4.5\"\n\n[model.\"x-ai/grok-4.5\"]\nmodel = \"x-ai/grok-4.5\"\nbase_url = \"https://onlist.io/v1\"\nname = \"onList\"\napi_key = \"\"\napi_backend = \"responses\"\ncontext_window = 500000\n"
       }
@@ -513,6 +482,7 @@
       "apiKeyUrl": "https://console.x.ai",
       "official": true,
       "default": true,
+      "kind": "vendor",
       "settingsConfig": {
         "config": "[models]\ndefault = \"grok-4.5\"\n\n[model.\"grok-4.5\"]\nmodel = \"grok-4.5\"\nbase_url = \"https://api.x.ai/v1\"\nname = \"xAI (Grok)\"\napi_key = \"\"\napi_backend = \"responses\"\ncontext_window = 500000\n"
       }
@@ -527,6 +497,7 @@
       "apiKeyUrl": "https://openrouter.ai",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "config": "[models]\ndefault = \"x-ai/grok-4.5\"\n\n[model.\"x-ai/grok-4.5\"]\nmodel = \"x-ai/grok-4.5\"\nbase_url = \"https://openrouter.ai/api/v1\"\nname = \"OpenRouter\"\napi_key = \"\"\napi_backend = \"responses\"\ncontext_window = 500000\n"
       }
@@ -541,6 +512,7 @@
       "apiKeyUrl": "https://onlist.io",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "name": "onlist",
         "base_url": "https://onlist.io/v1",
@@ -570,6 +542,7 @@
       "apiKeyUrl": "https://portal.nousresearch.com",
       "official": true,
       "default": true,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "nous",
         "base_url": "https://inference-api.nousresearch.com/v1",
@@ -599,6 +572,7 @@
       "apiKeyUrl": "https://platform.deepseek.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "deepseek",
         "base_url": "https://api.deepseek.com",
@@ -620,14 +594,15 @@
     },
     {
       "tool": "hermes",
-      "id": "kimi-ef96b55732",
-      "serviceName": "Kimi",
-      "defaultName": "Kimi",
+      "id": "kimi-china-9d20769aa5",
+      "serviceName": "Kimi (China)",
+      "defaultName": "Kimi (China)",
       "defaultModel": "kimi-k2.7-code",
       "websiteUrl": "https://platform.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "kimi",
         "base_url": "https://api.moonshot.cn/v1",
@@ -648,14 +623,15 @@
     },
     {
       "tool": "hermes",
-      "id": "kimi-for-coding-113b885d37",
-      "serviceName": "Kimi For Coding",
-      "defaultName": "Kimi For Coding",
+      "id": "kimi-code-370b99448e",
+      "serviceName": "Kimi Code",
+      "defaultName": "Kimi Code",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://www.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "kimi_coding",
         "base_url": "https://api.kimi.com/coding/",
@@ -671,37 +647,15 @@
     },
     {
       "tool": "hermes",
-      "id": "minimax-cf998c6cc3",
+      "id": "minimax-22e3ba1239",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
-      "defaultModel": "MiniMax-M3",
-      "websiteUrl": "https://platform.minimaxi.com",
-      "apiKeyUrl": "https://platform.minimaxi.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "name": "minimax",
-        "base_url": "https://api.minimaxi.com/v1",
-        "api_key": "",
-        "api_mode": "chat_completions",
-        "models": [
-          {
-            "id": "MiniMax-M3",
-            "name": "MiniMax M3"
-          }
-        ]
-      }
-    },
-    {
-      "tool": "hermes",
-      "id": "minimax-en-4770138471",
-      "serviceName": "MiniMax en",
-      "defaultName": "MiniMax en",
       "defaultModel": "MiniMax-M3",
       "websiteUrl": "https://platform.minimax.io",
       "apiKeyUrl": "https://platform.minimax.io",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "minimax_en",
         "base_url": "https://api.minimax.io/v1",
@@ -717,46 +671,24 @@
     },
     {
       "tool": "hermes",
-      "id": "novita-ai-5fa1c7f1ba",
-      "serviceName": "Novita AI",
-      "defaultName": "Novita AI",
-      "defaultModel": "zai-org/glm-5.1",
-      "websiteUrl": "https://novita.ai",
-      "apiKeyUrl": "https://novita.ai",
+      "id": "minimax-china-e867c79a2a",
+      "serviceName": "MiniMax (China)",
+      "defaultName": "MiniMax (China)",
+      "defaultModel": "MiniMax-M3",
+      "websiteUrl": "https://platform.minimaxi.com",
+      "apiKeyUrl": "https://platform.minimaxi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
-        "name": "novita",
-        "base_url": "https://api.novita.ai/v3/openai",
+        "name": "minimax",
+        "base_url": "https://api.minimaxi.com/v1",
         "api_key": "",
         "api_mode": "chat_completions",
         "models": [
           {
-            "id": "zai-org/glm-5.1",
-            "name": "Zai-Org / GLM-5.1"
-          }
-        ]
-      }
-    },
-    {
-      "tool": "hermes",
-      "id": "nvidia-6a8faabcbc",
-      "serviceName": "Nvidia",
-      "defaultName": "Nvidia",
-      "defaultModel": "moonshotai/kimi-k2.5",
-      "websiteUrl": "https://build.nvidia.com",
-      "apiKeyUrl": "https://build.nvidia.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "name": "nvidia",
-        "base_url": "https://integrate.api.nvidia.com",
-        "api_key": "",
-        "api_mode": "chat_completions",
-        "models": [
-          {
-            "id": "moonshotai/kimi-k2.5",
-            "name": "Moonshot Kimi K2.5"
+            "id": "MiniMax-M3",
+            "name": "MiniMax M3"
           }
         ]
       }
@@ -771,6 +703,7 @@
       "apiKeyUrl": "https://openrouter.ai",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "name": "openrouter",
         "base_url": "https://openrouter.ai/api/v1",
@@ -807,34 +740,24 @@
     },
     {
       "tool": "hermes",
-      "id": "together-ai-4374e021e0",
-      "serviceName": "Together AI",
-      "defaultName": "Together AI",
-      "defaultModel": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
-      "websiteUrl": "https://together.ai",
-      "apiKeyUrl": "https://api.together.ai",
+      "id": "z-ai-9111fd3d84",
+      "serviceName": "Z.ai",
+      "defaultName": "Z.ai",
+      "defaultModel": "glm-5.1",
+      "websiteUrl": "https://z.ai",
+      "apiKeyUrl": "https://z.ai",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
-        "name": "together",
-        "base_url": "https://api.together.xyz/v1",
+        "name": "zhipu_glm_en",
+        "base_url": "https://api.z.ai/api/coding/paas/v4",
         "api_key": "",
         "api_mode": "chat_completions",
         "models": [
           {
-            "id": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
-            "name": "Qwen3 Coder 480B",
-            "context_length": 262144
-          },
-          {
-            "id": "deepseek-ai/DeepSeek-V3.2",
-            "name": "DeepSeek V3.2",
-            "context_length": 64000
-          },
-          {
-            "id": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
-            "name": "Llama 4 Maverick",
-            "context_length": 131072
+            "id": "glm-5.1",
+            "name": "GLM-5.1"
           }
         ]
       }
@@ -849,32 +772,10 @@
       "apiKeyUrl": "https://www.bigmodel.cn",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "zhipu_glm",
         "base_url": "https://open.bigmodel.cn/api/coding/paas/v4",
-        "api_key": "",
-        "api_mode": "chat_completions",
-        "models": [
-          {
-            "id": "glm-5.1",
-            "name": "GLM-5.1"
-          }
-        ]
-      }
-    },
-    {
-      "tool": "hermes",
-      "id": "zhipu-glm-en-77b134c007",
-      "serviceName": "Zhipu GLM en",
-      "defaultName": "Zhipu GLM en",
-      "defaultModel": "glm-5.1",
-      "websiteUrl": "https://z.ai",
-      "apiKeyUrl": "https://z.ai",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "name": "zhipu_glm_en",
-        "base_url": "https://api.z.ai/api/coding/paas/v4",
         "api_key": "",
         "api_mode": "chat_completions",
         "models": [
@@ -895,6 +796,7 @@
       "apiKeyUrl": "https://onlist.io",
       "official": false,
       "default": true,
+      "kind": "relay",
       "settingsConfig": {
         "baseUrl": "https://onlist.io/v1",
         "apiKey": "",
@@ -923,6 +825,7 @@
       "apiKeyUrl": "https://aws.amazon.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "baseUrl": "https://bedrock-runtime.us-west-2.amazonaws.com",
         "apiKey": "",
@@ -974,6 +877,7 @@
       "apiKeyUrl": "https://platform.deepseek.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "baseUrl": "https://api.deepseek.com/v1",
         "apiKey": "",
@@ -1003,14 +907,15 @@
     },
     {
       "tool": "openclaw",
-      "id": "kimi-53c4d266c7",
-      "serviceName": "Kimi",
-      "defaultName": "Kimi",
+      "id": "kimi-china-89eea5ed79",
+      "serviceName": "Kimi (China)",
+      "defaultName": "Kimi (China)",
       "defaultModel": "kimi-k2.7-code",
       "websiteUrl": "https://platform.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "baseUrl": "https://api.moonshot.cn/v1",
         "apiKey": "",
@@ -1042,14 +947,15 @@
     },
     {
       "tool": "openclaw",
-      "id": "kimi-for-coding-ed38dafdcd",
-      "serviceName": "Kimi For Coding",
-      "defaultName": "Kimi For Coding",
+      "id": "kimi-code-e2598fb1e1",
+      "serviceName": "Kimi Code",
+      "defaultName": "Kimi Code",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "baseUrl": "https://api.kimi.com/coding/v1",
         "apiKey": "",
@@ -1070,43 +976,15 @@
     },
     {
       "tool": "openclaw",
-      "id": "minimax-d5e8b57e61",
+      "id": "minimax-bdad66b73b",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
-      "defaultModel": "MiniMax-M3",
-      "websiteUrl": "https://platform.minimaxi.com",
-      "apiKeyUrl": "https://platform.minimaxi.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "baseUrl": "https://api.minimaxi.com/v1",
-        "apiKey": "",
-        "api": "openai-completions",
-        "models": [
-          {
-            "id": "MiniMax-M3",
-            "name": "MiniMax M3",
-            "reasoning": true,
-            "input": [
-              "text",
-              "image"
-            ],
-            "contextWindow": 1000000,
-            "maxTokens": 131072
-          }
-        ]
-      }
-    },
-    {
-      "tool": "openclaw",
-      "id": "minimax-en-7b5305aa7b",
-      "serviceName": "MiniMax en",
-      "defaultName": "MiniMax en",
       "defaultModel": "MiniMax-M3",
       "websiteUrl": "https://platform.minimax.io",
       "apiKeyUrl": "https://platform.minimax.io",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "baseUrl": "https://api.minimax.io/v1",
         "apiKey": "",
@@ -1128,56 +1006,30 @@
     },
     {
       "tool": "openclaw",
-      "id": "novita-ai-a523f7dce8",
-      "serviceName": "Novita AI",
-      "defaultName": "Novita AI",
-      "defaultModel": "zai-org/glm-5.1",
-      "websiteUrl": "https://novita.ai",
-      "apiKeyUrl": "https://novita.ai",
+      "id": "minimax-china-b7c7c78e09",
+      "serviceName": "MiniMax (China)",
+      "defaultName": "MiniMax (China)",
+      "defaultModel": "MiniMax-M3",
+      "websiteUrl": "https://platform.minimaxi.com",
+      "apiKeyUrl": "https://platform.minimaxi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
-        "baseUrl": "https://api.novita.ai/openai",
+        "baseUrl": "https://api.minimaxi.com/v1",
         "apiKey": "",
         "api": "openai-completions",
         "models": [
           {
-            "id": "zai-org/glm-5.1",
-            "name": "GLM-5.1",
-            "contextWindow": 202800,
-            "cost": {
-              "input": 1,
-              "output": 3.2,
-              "cacheRead": 0.2
-            }
-          }
-        ]
-      }
-    },
-    {
-      "tool": "openclaw",
-      "id": "nvidia-03cef5a584",
-      "serviceName": "Nvidia",
-      "defaultName": "Nvidia",
-      "defaultModel": "moonshotai/kimi-k2.5",
-      "websiteUrl": "https://build.nvidia.com",
-      "apiKeyUrl": "https://build.nvidia.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "baseUrl": "https://integrate.api.nvidia.com/v1",
-        "apiKey": "",
-        "api": "openai-completions",
-        "models": [
-          {
-            "id": "moonshotai/kimi-k2.5",
-            "name": "Kimi K2.5",
-            "contextWindow": 131072,
-            "cost": {
-              "input": 0.6,
-              "output": 3,
-              "cacheRead": 0.1
-            }
+            "id": "MiniMax-M3",
+            "name": "MiniMax M3",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 131072
           }
         ]
       }
@@ -1192,6 +1044,7 @@
       "apiKeyUrl": "https://openrouter.ai",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "baseUrl": "https://openrouter.ai/api/v1",
         "apiKey": "",
@@ -1220,16 +1073,17 @@
     },
     {
       "tool": "openclaw",
-      "id": "zhipu-glm-ea499208a2",
-      "serviceName": "Zhipu GLM",
-      "defaultName": "Zhipu GLM",
+      "id": "z-ai-9dda3ec75e",
+      "serviceName": "Z.ai",
+      "defaultName": "Z.ai",
       "defaultModel": "glm-5.1",
-      "websiteUrl": "https://open.bigmodel.cn",
-      "apiKeyUrl": "https://www.bigmodel.cn",
+      "websiteUrl": "https://z.ai",
+      "apiKeyUrl": "https://z.ai",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
-        "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+        "baseUrl": "https://api.z.ai/api/coding/paas/v4",
         "apiKey": "",
         "api": "openai-completions",
         "models": [
@@ -1248,16 +1102,17 @@
     },
     {
       "tool": "openclaw",
-      "id": "zhipu-glm-en-1f85299e84",
-      "serviceName": "Zhipu GLM en",
-      "defaultName": "Zhipu GLM en",
+      "id": "zhipu-glm-ea499208a2",
+      "serviceName": "Zhipu GLM",
+      "defaultName": "Zhipu GLM",
       "defaultModel": "glm-5.1",
-      "websiteUrl": "https://z.ai",
-      "apiKeyUrl": "https://z.ai",
+      "websiteUrl": "https://open.bigmodel.cn",
+      "apiKeyUrl": "https://www.bigmodel.cn",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
-        "baseUrl": "https://api.z.ai/api/coding/paas/v4",
+        "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
         "apiKey": "",
         "api": "openai-completions",
         "models": [
@@ -1284,6 +1139,7 @@
       "apiKeyUrl": "https://onlist.io",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "npm": "@ai-sdk/anthropic",
         "name": "onList",
@@ -1312,6 +1168,7 @@
       "apiKeyUrl": "https://platform.openai.com",
       "official": true,
       "default": true,
+      "kind": "vendor",
       "settingsConfig": {
         "npm": "@ai-sdk/openai",
         "name": "OpenAI",
@@ -1336,6 +1193,7 @@
       "apiKeyUrl": "https://platform.deepseek.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "npm": "@ai-sdk/openai-compatible",
         "options": {
@@ -1355,14 +1213,15 @@
     },
     {
       "tool": "opencode",
-      "id": "kimi-04d957ac84",
-      "serviceName": "Kimi",
-      "defaultName": "Kimi",
+      "id": "kimi-china-2e301746a4",
+      "serviceName": "Kimi (China)",
+      "defaultName": "Kimi (China)",
       "defaultModel": "kimi-k2.7-code",
       "websiteUrl": "https://platform.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "npm": "@ai-sdk/openai-compatible",
         "name": "Kimi",
@@ -1383,14 +1242,15 @@
     },
     {
       "tool": "opencode",
-      "id": "kimi-for-coding-791f363c55",
-      "serviceName": "Kimi For Coding",
-      "defaultName": "Kimi For Coding",
+      "id": "kimi-code-8d29d56c0e",
+      "serviceName": "Kimi Code",
+      "defaultName": "Kimi Code",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "npm": "@ai-sdk/anthropic",
         "name": "Kimi For Coding",
@@ -1408,53 +1268,15 @@
     },
     {
       "tool": "opencode",
-      "id": "minimax-111a5bb69d",
+      "id": "minimax-a7a50b1cce",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
-      "defaultModel": "MiniMax-M3",
-      "websiteUrl": "https://platform.minimaxi.com",
-      "apiKeyUrl": "https://platform.minimaxi.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "npm": "@ai-sdk/openai-compatible",
-        "name": "MiniMax",
-        "options": {
-          "baseURL": "https://api.minimaxi.com/v1",
-          "apiKey": "",
-          "setCacheKey": true
-        },
-        "models": {
-          "MiniMax-M3": {
-            "name": "MiniMax M3",
-            "reasoning": true,
-            "limit": {
-              "context": 1000000,
-              "output": 131072
-            },
-            "modalities": {
-              "input": [
-                "text",
-                "image"
-              ],
-              "output": [
-                "text"
-              ]
-            }
-          }
-        }
-      }
-    },
-    {
-      "tool": "opencode",
-      "id": "minimax-en-4507d9438a",
-      "serviceName": "MiniMax en",
-      "defaultName": "MiniMax en",
       "defaultModel": "MiniMax-M3",
       "websiteUrl": "https://platform.minimax.io",
       "apiKeyUrl": "https://platform.minimax.io",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "npm": "@ai-sdk/openai-compatible",
         "name": "MiniMax en",
@@ -1486,50 +1308,40 @@
     },
     {
       "tool": "opencode",
-      "id": "novita-ai-e702903093",
-      "serviceName": "Novita AI",
-      "defaultName": "Novita AI",
-      "defaultModel": "zai-org/glm-5.1",
-      "websiteUrl": "https://novita.ai",
-      "apiKeyUrl": "https://novita.ai",
+      "id": "minimax-china-675a9aa17b",
+      "serviceName": "MiniMax (China)",
+      "defaultName": "MiniMax (China)",
+      "defaultModel": "MiniMax-M3",
+      "websiteUrl": "https://platform.minimaxi.com",
+      "apiKeyUrl": "https://platform.minimaxi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "npm": "@ai-sdk/openai-compatible",
-        "name": "Novita AI",
+        "name": "MiniMax",
         "options": {
-          "baseURL": "https://api.novita.ai/openai",
+          "baseURL": "https://api.minimaxi.com/v1",
           "apiKey": "",
           "setCacheKey": true
         },
         "models": {
-          "zai-org/glm-5.1": {
-            "name": "GLM-5.1"
-          }
-        }
-      }
-    },
-    {
-      "tool": "opencode",
-      "id": "nvidia-bbdbaf3f85",
-      "serviceName": "Nvidia",
-      "defaultName": "Nvidia",
-      "defaultModel": "moonshotai/kimi-k2.5",
-      "websiteUrl": "https://build.nvidia.com",
-      "apiKeyUrl": "https://build.nvidia.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "npm": "@ai-sdk/openai-compatible",
-        "name": "Nvidia",
-        "options": {
-          "baseURL": "https://integrate.api.nvidia.com/v1",
-          "apiKey": "",
-          "setCacheKey": true
-        },
-        "models": {
-          "moonshotai/kimi-k2.5": {
-            "name": "Kimi K2.5"
+          "MiniMax-M3": {
+            "name": "MiniMax M3",
+            "reasoning": true,
+            "limit": {
+              "context": 1000000,
+              "output": 131072
+            },
+            "modalities": {
+              "input": [
+                "text",
+                "image"
+              ],
+              "output": [
+                "text"
+              ]
+            }
           }
         }
       }
@@ -1544,6 +1356,7 @@
       "apiKeyUrl": "https://openrouter.ai",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "npm": "@ai-sdk/anthropic",
         "name": "OpenRouter",
@@ -1564,19 +1377,20 @@
     },
     {
       "tool": "opencode",
-      "id": "zhipu-glm-ea5b4ba12c",
-      "serviceName": "Zhipu GLM",
-      "defaultName": "Zhipu GLM",
+      "id": "z-ai-72333b8ac2",
+      "serviceName": "Z.ai",
+      "defaultName": "Z.ai",
       "defaultModel": "glm-5.1",
-      "websiteUrl": "https://open.bigmodel.cn",
-      "apiKeyUrl": "https://www.bigmodel.cn",
+      "websiteUrl": "https://z.ai",
+      "apiKeyUrl": "https://z.ai",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "npm": "@ai-sdk/openai-compatible",
-        "name": "Zhipu GLM",
+        "name": "Zhipu GLM en",
         "options": {
-          "baseURL": "https://open.bigmodel.cn/api/coding/paas/v4",
+          "baseURL": "https://api.z.ai/api/coding/paas/v4",
           "apiKey": "",
           "setCacheKey": true
         },
@@ -1589,19 +1403,20 @@
     },
     {
       "tool": "opencode",
-      "id": "zhipu-glm-en-b73630f134",
-      "serviceName": "Zhipu GLM en",
-      "defaultName": "Zhipu GLM en",
+      "id": "zhipu-glm-ea5b4ba12c",
+      "serviceName": "Zhipu GLM",
+      "defaultName": "Zhipu GLM",
       "defaultModel": "glm-5.1",
-      "websiteUrl": "https://z.ai",
-      "apiKeyUrl": "https://z.ai",
+      "websiteUrl": "https://open.bigmodel.cn",
+      "apiKeyUrl": "https://www.bigmodel.cn",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "npm": "@ai-sdk/openai-compatible",
-        "name": "Zhipu GLM en",
+        "name": "Zhipu GLM",
         "options": {
-          "baseURL": "https://api.z.ai/api/coding/paas/v4",
+          "baseURL": "https://open.bigmodel.cn/api/coding/paas/v4",
           "apiKey": "",
           "setCacheKey": true
         },
@@ -1622,6 +1437,7 @@
       "apiKeyUrl": "https://onlist.io",
       "official": false,
       "default": true,
+      "kind": "relay",
       "settingsConfig": {
         "name": "onList",
         "baseUrl": "https://onlist.io",
@@ -1663,6 +1479,7 @@
       "apiKeyUrl": "https://aws.amazon.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "AWS Bedrock",
         "baseUrl": "https://bedrock-runtime.us-east-1.amazonaws.com",
@@ -1757,6 +1574,7 @@
       "apiKeyUrl": "https://platform.deepseek.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "DeepSeek",
         "baseUrl": "https://api.deepseek.com/v1",
@@ -1802,14 +1620,15 @@
     },
     {
       "tool": "pi",
-      "id": "kimi-11f6799055",
-      "serviceName": "Kimi",
-      "defaultName": "Kimi",
+      "id": "kimi-china-16362a4e49",
+      "serviceName": "Kimi (China)",
+      "defaultName": "Kimi (China)",
       "defaultModel": "kimi-k2.7-code",
       "websiteUrl": "https://platform.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "Kimi",
         "baseUrl": "https://api.moonshot.cn/v1",
@@ -1865,14 +1684,15 @@
     },
     {
       "tool": "pi",
-      "id": "kimi-for-coding-f566677ee3",
-      "serviceName": "Kimi For Coding",
-      "defaultName": "Kimi For Coding",
+      "id": "kimi-code-5b351cde82",
+      "serviceName": "Kimi Code",
+      "defaultName": "Kimi Code",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "Kimi For Coding",
         "baseUrl": "https://api.kimi.com/coding",
@@ -1896,45 +1716,15 @@
     },
     {
       "tool": "pi",
-      "id": "minimax-81c86860d8",
+      "id": "minimax-246212d80d",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
-      "defaultModel": "MiniMax-M3",
-      "websiteUrl": "https://platform.minimaxi.com",
-      "apiKeyUrl": "https://platform.minimaxi.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "name": "MiniMax",
-        "baseUrl": "https://api.minimaxi.com/v1",
-        "api": "openai-completions",
-        "apiKey": "",
-        "models": [
-          {
-            "name": "MiniMax-M3",
-            "reasoning": true,
-            "input": [
-              "text",
-              "image"
-            ],
-            "contextWindow": 1000000,
-            "maxTokens": 131072,
-            "id": "MiniMax-M3",
-            "thinkingLevelMap": {}
-          }
-        ]
-      }
-    },
-    {
-      "tool": "pi",
-      "id": "minimax-en-9439cd7ab3",
-      "serviceName": "MiniMax en",
-      "defaultName": "MiniMax en",
       "defaultModel": "MiniMax-M3",
       "websiteUrl": "https://platform.minimax.io",
       "apiKeyUrl": "https://platform.minimax.io",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
         "name": "MiniMax en",
         "baseUrl": "https://api.minimax.io/v1",
@@ -1958,60 +1748,31 @@
     },
     {
       "tool": "pi",
-      "id": "novita-ai-f87521937b",
-      "serviceName": "Novita AI",
-      "defaultName": "Novita AI",
-      "defaultModel": "zai-org/glm-5.1",
-      "websiteUrl": "https://novita.ai",
-      "apiKeyUrl": "https://novita.ai",
+      "id": "minimax-china-8ddc20cda7",
+      "serviceName": "MiniMax (China)",
+      "defaultName": "MiniMax (China)",
+      "defaultModel": "MiniMax-M3",
+      "websiteUrl": "https://platform.minimaxi.com",
+      "apiKeyUrl": "https://platform.minimaxi.com",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
-        "name": "Novita AI",
-        "baseUrl": "https://api.novita.ai/openai",
+        "name": "MiniMax",
+        "baseUrl": "https://api.minimaxi.com/v1",
         "api": "openai-completions",
         "apiKey": "",
         "models": [
           {
-            "name": "GLM-5.1",
-            "reasoning": true,
-            "input": [
-              "text"
-            ],
-            "contextWindow": 200000,
-            "maxTokens": 131072,
-            "id": "zai-org/glm-5.1",
-            "thinkingLevelMap": {}
-          }
-        ]
-      }
-    },
-    {
-      "tool": "pi",
-      "id": "nvidia-5b3492d296",
-      "serviceName": "Nvidia",
-      "defaultName": "Nvidia",
-      "defaultModel": "moonshotai/kimi-k2.5",
-      "websiteUrl": "https://build.nvidia.com",
-      "apiKeyUrl": "https://build.nvidia.com",
-      "official": false,
-      "default": false,
-      "settingsConfig": {
-        "name": "Nvidia",
-        "baseUrl": "https://integrate.api.nvidia.com/v1",
-        "api": "openai-completions",
-        "apiKey": "",
-        "models": [
-          {
-            "name": "Kimi K2.5",
+            "name": "MiniMax-M3",
             "reasoning": true,
             "input": [
               "text",
               "image"
             ],
-            "contextWindow": 262144,
-            "maxTokens": 262144,
-            "id": "moonshotai/kimi-k2.5",
+            "contextWindow": 1000000,
+            "maxTokens": 131072,
+            "id": "MiniMax-M3",
             "thinkingLevelMap": {}
           }
         ]
@@ -2027,6 +1788,7 @@
       "apiKeyUrl": "https://openrouter.ai",
       "official": false,
       "default": false,
+      "kind": "relay",
       "settingsConfig": {
         "name": "OpenRouter",
         "baseUrl": "https://openrouter.ai/api",
@@ -2074,17 +1836,18 @@
     },
     {
       "tool": "pi",
-      "id": "zhipu-glm-610e5a83bd",
-      "serviceName": "Zhipu GLM",
-      "defaultName": "Zhipu GLM",
+      "id": "z-ai-3b4c6a7a7a",
+      "serviceName": "Z.ai",
+      "defaultName": "Z.ai",
       "defaultModel": "glm-5.1",
-      "websiteUrl": "https://open.bigmodel.cn",
-      "apiKeyUrl": "https://www.bigmodel.cn",
+      "websiteUrl": "https://z.ai",
+      "apiKeyUrl": "https://z.ai",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
-        "name": "Zhipu GLM",
-        "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+        "name": "Zhipu GLM en",
+        "baseUrl": "https://api.z.ai/api/coding/paas/v4",
         "api": "openai-completions",
         "apiKey": "",
         "models": [
@@ -2104,17 +1867,18 @@
     },
     {
       "tool": "pi",
-      "id": "zhipu-glm-en-5b723bfb48",
-      "serviceName": "Zhipu GLM en",
-      "defaultName": "Zhipu GLM en",
+      "id": "zhipu-glm-610e5a83bd",
+      "serviceName": "Zhipu GLM",
+      "defaultName": "Zhipu GLM",
       "defaultModel": "glm-5.1",
-      "websiteUrl": "https://z.ai",
-      "apiKeyUrl": "https://z.ai",
+      "websiteUrl": "https://open.bigmodel.cn",
+      "apiKeyUrl": "https://www.bigmodel.cn",
       "official": false,
       "default": false,
+      "kind": "vendor",
       "settingsConfig": {
-        "name": "Zhipu GLM en",
-        "baseUrl": "https://api.z.ai/api/coding/paas/v4",
+        "name": "Zhipu GLM",
+        "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
         "api": "openai-completions",
         "apiKey": "",
         "models": [

@@ -320,6 +320,7 @@ const CONNECTION_PROFILE: ProviderConnectionProfile = {
       websiteUrl: "https://www.anthropic.com",
       apiKeyUrl: "https://console.anthropic.com",
       official: true,
+      kind: "vendor",
     },
   ],
 };

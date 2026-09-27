@@ -89,6 +89,22 @@ impl std::fmt::Debug for Provider {
 /// address, while an edited address goes through the custom-create path and is
 /// recorded as custom. Showing the address never lets the renderer relabel its
 /// own URL as a preset.
+/// Which group of the add page a preset belongs to (ADR-0057).
+///
+/// Only `Local` changes behaviour: it is the one kind allowed a loopback
+/// `http://` address and an empty key, because a server on this machine has
+/// neither a certificate nor an account.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum ProviderPresetKind {
+    /// The company that makes the model, or the cloud that hosts it.
+    Vendor,
+    /// One key in front of many vendors' models.
+    Relay,
+    /// A server running on this machine.
+    Local,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProviderConnectionPreset {
@@ -102,6 +118,7 @@ pub struct ProviderConnectionPreset {
     pub website_url: String,
     pub api_key_url: String,
     pub official: bool,
+    pub kind: ProviderPresetKind,
 }
 
 /// The catalog of safe connections for a tool. The default preset must be one of `presets`.
@@ -388,7 +405,7 @@ mod tests {
         Provider, ProviderAdvancedDraft, ProviderConnectionPreset, ProviderConnectionProfile,
         ProviderCreateDraft, ProviderCreateResult, ProviderCustomCreateDraft, ProviderDraft,
         ProviderEditCapabilities, ProviderEditProfile, ProviderKind, ProviderPreflightOutcome,
-        ProviderPreflightStatus, ProviderReachability, ProviderTestResult,
+        ProviderPreflightStatus, ProviderPresetKind, ProviderReachability, ProviderTestResult,
     };
     use crate::domain::ToolId;
 
@@ -598,13 +615,14 @@ mod tests {
                 website_url: "https://www.anthropic.com".to_string(),
                 api_key_url: "https://console.anthropic.com".to_string(),
                 official: true,
+                kind: ProviderPresetKind::Vendor,
             }],
             model_required: false,
             base_url_takes_no_version: true,
         };
         assert_eq!(
             serde_json::to_string(&profile).expect("serialize profile"),
-            r#"{"defaultPresetId":"official","presets":[{"id":"official","serviceName":"Anthropic API","defaultName":"Anthropic","defaultModel":"claude-sonnet-5","baseUrl":"https://api.anthropic.com","websiteUrl":"https://www.anthropic.com","apiKeyUrl":"https://console.anthropic.com","official":true}],"modelRequired":false,"baseUrlTakesNoVersion":true}"#
+            r#"{"defaultPresetId":"official","presets":[{"id":"official","serviceName":"Anthropic API","defaultName":"Anthropic","defaultModel":"claude-sonnet-5","baseUrl":"https://api.anthropic.com","websiteUrl":"https://www.anthropic.com","apiKeyUrl":"https://console.anthropic.com","official":true,"kind":"vendor"}],"modelRequired":false,"baseUrlTakesNoVersion":true}"#
         );
     }
 

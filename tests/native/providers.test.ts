@@ -147,6 +147,7 @@ describe("native.providers", () => {
                 websiteUrl: "https://www.anthropic.com",
                 apiKeyUrl: "https://console.anthropic.com",
                 official: true,
+                kind: "vendor",
               },
             ],
           });
@@ -178,6 +179,7 @@ describe("native.providers", () => {
                 websiteUrl: "https://openrouter.ai",
                 apiKeyUrl: "https://openrouter.ai",
                 official: false,
+                kind: "vendor",
               },
             ],
           });

@@ -25,6 +25,7 @@ const profile: ProviderConnectionProfile = {
       websiteUrl: "https://www.anthropic.com",
       apiKeyUrl: "https://console.anthropic.com",
       official: true,
+      kind: "vendor",
     },
     {
       id: "deepseek-safe",
@@ -35,6 +36,7 @@ const profile: ProviderConnectionProfile = {
       websiteUrl: "https://platform.deepseek.com",
       apiKeyUrl: "https://platform.deepseek.com",
       official: false,
+      kind: "vendor",
     },
   ],
 };
@@ -302,6 +304,7 @@ describe("ProviderConnectModal", () => {
               websiteUrl: "https://onlist.io",
               apiKeyUrl: "https://onlist.io",
               official: false,
+              kind: "vendor",
             },
             ...profile.presets,
           ],
