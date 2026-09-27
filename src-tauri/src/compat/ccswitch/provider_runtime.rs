@@ -2,9 +2,10 @@ use std::path::{Path, PathBuf};
 
 use crate::compat::ccswitch::tools::tool_id_to_app_type;
 use crate::domain::{
-    AppError, ErrorCode, ProviderRuntimeContext, ProviderRuntimeResource,
-    ProviderRuntimeResourceAction, ProviderRuntimeResourceKind, ProviderRuntimeResourceScope,
-    ShellVariableLocation, ShellVariableUpdate, ShellVariableWritten, ToolId,
+    AppError, EffectiveConnectionSource, ErrorCode, ProviderRuntimeContext,
+    ProviderRuntimeResource, ProviderRuntimeResourceAction, ProviderRuntimeResourceKind,
+    ProviderRuntimeResourceScope, ShellVariableLocation, ShellVariableUpdate, ShellVariableWritten,
+    ToolId,
 };
 
 mod effective;
@@ -91,6 +92,57 @@ pub(crate) fn effective_probe_target(tool: ToolId) -> Result<Option<(String, Str
         tool,
         &tool_environment(tool)?,
     ))
+}
+
+/// The values the terminal gives the variables a tool reads for its model and
+/// effort (ADR-0055), with where each comes from. Only names listed in
+/// `environment::model_choice_variables` are ever looked up, and nothing here
+/// is logged or crosses IPC except through `EffortInForce::Terminal`.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct ToolTerminal {
+    values: Vec<(String, String, EffectiveConnectionSource)>,
+}
+
+impl ToolTerminal {
+    /// This terminal with one more value.
+    pub(crate) fn push(
+        mut self,
+        name: &str,
+        value: &str,
+        source: EffectiveConnectionSource,
+    ) -> Self {
+        self.values
+            .push((name.to_string(), value.to_string(), source));
+        self
+    }
+
+    /// The value of `name` and where it comes from; a blank value is none.
+    pub(crate) fn get(&self, name: &str) -> Option<(&str, &EffectiveConnectionSource)> {
+        self.values
+            .iter()
+            .find(|(candidate, value, _)| candidate == name && !value.trim().is_empty())
+            .map(|(_, value, source)| (value.trim(), source))
+    }
+}
+
+/// What the terminal holds for the tool's model and effort. A tool that reads
+/// no such variable never starts a login shell; a terminal that cannot be read
+/// holds nothing, so the file alone decides.
+pub fn model_choice_terminal(tool: ToolId) -> ToolTerminal {
+    let names = environment::model_choice_variables(tool);
+    if names.is_empty() {
+        return ToolTerminal::default();
+    }
+    match tool_environment(tool) {
+        Ok(environment) => effective::terminal_values(&environment, names),
+        Err(error) => {
+            log::warn!(
+                "model choice: the terminal environment could not be read: {}",
+                error.message_key
+            );
+            ToolTerminal::default()
+        }
+    }
 }
 
 /// Where the tool's connection variables are written down, and which of them

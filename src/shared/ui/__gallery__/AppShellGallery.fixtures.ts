@@ -264,33 +264,42 @@ const CODEX_EDIT_PROFILE: ProviderEditProfile = {
 };
 
 /**
- * Claude Code as a real settings file often stands: an effort, no model, and a
- * level Claude Code saved for one model itself.
+ * Claude Code as a real settings file often stands: no model, the older
+ * tool-wide level, and levels `/effort` saved per model that disagree, so the
+ * pill says the models differ and the list names each one.
  */
 const MODEL_CHOICES: ToolModelChoice[] = [
   {
     tool: "claude-code",
     model: null,
-    effort: "xhigh",
-    effortLevels: ["low", "medium", "high", "xhigh"],
+    effort: {
+      kind: "mixed",
+      perModel: [
+        { model: "claude-fable-5-1", effort: "xhigh", modelDefault: false },
+        { model: "claude-opus-5-5", effort: "xhigh", modelDefault: false },
+        { model: "claude-opus-5", effort: "high", modelDefault: false },
+        { model: "claude-sonnet-5", effort: "xhigh", modelDefault: false },
+      ],
+    },
+    effortLevels: ["low", "medium", "high", "xhigh", "max"],
+    variableOnlyLevels: ["max"],
     officialModels: ["fable", "opus", "opus[1m]", "sonnet", "haiku"],
-    effortOverrides: [{ model: "claude-opus-5-5", effort: "medium" }],
   },
   {
     tool: "codex",
     model: "gpt-5-codex",
-    effort: "low",
+    effort: { kind: "level", level: "low" },
     effortLevels: ["low", "medium", "high", "xhigh"],
+    variableOnlyLevels: [],
     officialModels: ["gpt-6-sol", "gpt-6-astra", "gpt-6-luna", "gpt-5.5"],
-    effortOverrides: [],
   },
   {
     tool: "gemini-cli",
     model: null,
-    effort: null,
+    effort: { kind: "toolDefault" },
     effortLevels: [],
+    variableOnlyLevels: [],
     officialModels: ["auto", "pro", "flash", "flash-lite"],
-    effortOverrides: [],
   },
 ];
 

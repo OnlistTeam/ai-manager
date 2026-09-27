@@ -226,11 +226,14 @@ the session warm-up fills, so both pages share one login-shell probe per tool. U
 Software page and the per-tool routing switches on the Local Routing tab; Home only links to them.
 
 Home rows also choose the model and the thinking effort (ADR-0055) where `ToolCapabilities`
-declares `canChooseModel` / `canChooseEffort`. The per-tool facts (effort levels, a short official
-model list) live in `domain/model_choice.rs`; the keys and files live only in
-`compat/ccswitch/provider/model_choice.rs`, which writes one key at a time through `live_key.rs`
-(backup, atomic replace, read-back). `live_preservation.rs` keeps the effort in force across a
-switch. The renderer reads `useToolModelChoice` (`entities/provider`, keyed under the runtime
+declares `canChooseModel` / `canChooseEffort`. The per-tool facts (effort levels, the levels kept
+only by an environment variable, the models a tool saves an effort for, a short official model
+list) live in `domain/model_choice.rs`; the keys and files live only in
+`compat/ccswitch/provider/model_choice.rs`, which writes through `live_key.rs` (backup, atomic
+replace, read-back). Claude Code's effort spans several keys, so `claude_effort.rs` resolves it as
+Claude Code does for a new session and writes it as `/effort` does; the terminal's own values come
+from `provider_runtime::model_choice_terminal`. `live_preservation.rs` keeps the effort in force
+across a switch. The renderer reads `useToolModelChoice` (`entities/provider`, keyed under the runtime
 context so every switch re-reads it) and writes through `useSetToolModel` / `useSetToolEffort`
 (`features/provider-management`); custom endpoints' model lists reuse the model-probe catalogue
 query.

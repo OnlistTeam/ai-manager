@@ -329,12 +329,17 @@ export {
   providerTestResultSchema,
 } from "./schemas/provider";
 export {
-  effortOverrideSchema,
+  effortInForceSchema,
   MAX_MODEL_NAME_CHARS,
+  modelEffortSchema,
   modelNameSchema,
   toolModelChoiceSchema,
 } from "./schemas/modelChoice";
-export type { EffortOverride, ToolModelChoice } from "./schemas/modelChoice";
+export type {
+  EffortInForce,
+  ModelEffort,
+  ToolModelChoice,
+} from "./schemas/modelChoice";
 export {
   MAX_PROBE_MODELS,
   MAX_PROBE_PROMPT_CHARS,

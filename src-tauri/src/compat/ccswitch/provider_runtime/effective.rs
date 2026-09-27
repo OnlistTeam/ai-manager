@@ -190,6 +190,19 @@ fn resolve(tool: ToolId, environment: &ToolEnvironment) -> Option<Resolution> {
     Some(resolution)
 }
 
+/// The terminal's values for these variables, with where each comes from.
+pub(super) fn terminal_values(
+    environment: &ToolEnvironment,
+    names: &[&str],
+) -> super::ToolTerminal {
+    names
+        .iter()
+        .filter_map(|name| environment.lookup(name))
+        .fold(super::ToolTerminal::default(), |terminal, variable| {
+            terminal.push(&variable.name, &variable.value, from_variable(&variable))
+        })
+}
+
 fn read_json_or_empty(path: &Path) -> Option<Value> {
     match std::fs::read(path) {
         Ok(bytes) => serde_json::from_slice::<Value>(&bytes)
@@ -1401,5 +1414,28 @@ context_window = 100000
         let rendered = format!("{resolution:?}");
         assert!(!rendered.contains("sk-must-not-be-logged"), "{rendered}");
         assert!(rendered.contains("<redacted>"), "{rendered}");
+    }
+
+    #[test]
+    fn only_the_named_model_choice_variables_are_taken_from_the_terminal() {
+        let terminal = super::terminal_values(
+            &env(&[
+                ("CLAUDE_CODE_EFFORT_LEVEL", "max"),
+                ("ANTHROPIC_AUTH_TOKEN", "sk-not-for-this"),
+            ]),
+            crate::compat::ccswitch::provider_runtime::environment::model_choice_variables(
+                ToolId::ClaudeCode,
+            ),
+        );
+        let (level, source) = terminal.get("CLAUDE_CODE_EFFORT_LEVEL").expect("effort");
+        assert_eq!(level, "max");
+        assert_eq!(
+            source,
+            &EffectiveConnectionSource::Environment {
+                variable: "CLAUDE_CODE_EFFORT_LEVEL".to_string()
+            }
+        );
+        assert!(terminal.get("ANTHROPIC_AUTH_TOKEN").is_none());
+        assert!(terminal.get("ANTHROPIC_MODEL").is_none());
     }
 }

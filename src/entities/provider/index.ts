@@ -45,5 +45,7 @@ export type {
   ProviderTestResult,
   ToolId,
   ToolModelChoice,
+  EffortInForce,
+  ModelEffort,
 } from "@/native";
 export type { OpenProviderRuntimeResourceVariables } from "./queries";

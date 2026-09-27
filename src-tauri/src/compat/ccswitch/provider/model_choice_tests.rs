@@ -9,6 +9,16 @@ use crate::app_config::AppType;
 use crate::database::Database;
 use crate::store::AppState;
 
+fn none() -> ToolTerminal {
+    ToolTerminal::default()
+}
+
+fn level(level: &str) -> EffortInForce {
+    EffortInForce::Level {
+        level: level.to_string(),
+    }
+}
+
 fn store() -> ProviderStore {
     ProviderStore {
         state: AppState::new(Arc::new(Database::memory().expect("db"))),
@@ -48,11 +58,11 @@ fn write_claude_live(value: &Value) {
 
 #[test]
 #[serial_test::serial]
-fn reads_the_effort_and_the_models_that_keep_their_own() {
+fn reads_the_effort_a_new_session_of_the_model_in_use_runs_at() {
     let temp = tempfile::tempdir().expect("temp home");
     let _home = TestHome::set(temp.path());
     write_claude_live(&json!({
-        "env": {"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"},
+        "env": {"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1", "ANTHROPIC_MODEL": "opus"},
         "effortLevel": "xhigh",
         "modelSettings": {
             "claude-opus-5-5": {"effortLevel": "medium"},
@@ -60,17 +70,14 @@ fn reads_the_effort_and_the_models_that_keep_their_own() {
         }
     }));
 
-    let choice = read(ToolId::ClaudeCode).expect("read");
-    assert_eq!(choice.model, None);
-    assert_eq!(choice.effort.as_deref(), Some("xhigh"));
-    assert_eq!(choice.effort_levels, ["low", "medium", "high", "xhigh"]);
+    let choice = read(ToolId::ClaudeCode, &none()).expect("read");
+    assert_eq!(choice.model.as_deref(), Some("opus"));
+    assert_eq!(choice.effort, level("medium"));
     assert_eq!(
-        choice.effort_overrides,
-        vec![EffortOverride {
-            model: "claude-opus-5-5".to_string(),
-            effort: "medium".to_string(),
-        }]
+        choice.effort_levels,
+        ["low", "medium", "high", "xhigh", "max"]
     );
+    assert_eq!(choice.variable_only_levels, ["max"]);
 }
 
 #[test]
@@ -89,7 +96,12 @@ fn a_model_follows_its_endpoint_across_switches() {
     seed(&store, AppType::Claude, &[&official, &relay], &official.id);
 
     store
-        .set_model(ToolId::ClaudeCode, Some(&official.id), Some("opus"))
+        .set_model(
+            ToolId::ClaudeCode,
+            Some(&official.id),
+            Some("opus"),
+            &none(),
+        )
         .expect("set model");
     let live = claude_live();
     assert_eq!(live["env"]["ANTHROPIC_MODEL"], "opus");
@@ -106,10 +118,10 @@ fn a_model_follows_its_endpoint_across_switches() {
     assert_eq!(claude_live()["env"]["ANTHROPIC_MODEL"], "opus");
 
     store
-        .set_model(ToolId::ClaudeCode, Some(&official.id), None)
+        .set_model(ToolId::ClaudeCode, Some(&official.id), None, &none())
         .expect("tool default");
     assert!(claude_live()["env"].get("ANTHROPIC_MODEL").is_none());
-    assert_eq!(read(ToolId::ClaudeCode).unwrap().model, None);
+    assert_eq!(read(ToolId::ClaudeCode, &none()).unwrap().model, None);
 }
 
 #[test]
@@ -124,7 +136,7 @@ fn a_model_for_an_endpoint_not_in_use_is_saved_without_touching_the_file() {
     seed(&store, AppType::Claude, &[&official, &relay], &official.id);
 
     store
-        .set_model(ToolId::ClaudeCode, Some(&relay.id), Some("glm-5"))
+        .set_model(ToolId::ClaudeCode, Some(&relay.id), Some("glm-5"), &none())
         .expect("set model");
 
     assert!(claude_live()["env"].get("ANTHROPIC_MODEL").is_none());
@@ -152,24 +164,100 @@ fn the_effort_survives_a_switch_to_an_endpoint_with_an_older_copy() {
     seed(&store, AppType::Claude, &[&official, &relay], &official.id);
 
     let choice = store
-        .set_effort(ToolId::ClaudeCode, Some("xhigh"))
+        .set_effort(ToolId::ClaudeCode, Some("xhigh"), &none())
         .expect("set effort");
-    assert_eq!(choice.effort.as_deref(), Some("xhigh"));
+    assert_eq!(choice.effort, level("xhigh"));
     let saved = store.find_raw(ToolId::ClaudeCode, &official.id).unwrap();
     assert_eq!(saved.settings_config["effortLevel"], "xhigh");
+    assert_eq!(
+        saved.settings_config["modelSettings"]["claude-opus-5-5"]["effortLevel"],
+        "xhigh"
+    );
 
     store
         .switch(ToolId::ClaudeCode, &relay.id)
         .expect("to relay");
-    assert_eq!(claude_live()["effortLevel"], "xhigh");
+    let live = claude_live();
+    assert_eq!(live["effortLevel"], "xhigh");
+    assert_eq!(
+        live["modelSettings"]["claude-opus-5-5"]["effortLevel"],
+        "xhigh"
+    );
+    assert_eq!(
+        live["env"]["ANTHROPIC_BASE_URL"],
+        "https://relay.example.test"
+    );
 
     store
-        .set_effort(ToolId::ClaudeCode, None)
-        .expect("tool default");
+        .set_effort(ToolId::ClaudeCode, Some("max"), &none())
+        .expect("max");
     store
         .switch(ToolId::ClaudeCode, &official.id)
         .expect("back to official");
-    assert!(claude_live().get("effortLevel").is_none());
+    assert_eq!(claude_live()["env"]["CLAUDE_CODE_EFFORT_LEVEL"], "max");
+    assert_eq!(
+        read(ToolId::ClaudeCode, &none()).unwrap().effort,
+        EffortInForce::Fixed {
+            level: "max".to_string()
+        }
+    );
+
+    store
+        .set_effort(ToolId::ClaudeCode, None, &none())
+        .expect("tool default");
+    store
+        .switch(ToolId::ClaudeCode, &relay.id)
+        .expect("to relay again");
+    let live = claude_live();
+    assert!(live.get("effortLevel").is_none());
+    assert!(live.get("modelSettings").is_none());
+    assert!(live["env"].get("CLAUDE_CODE_EFFORT_LEVEL").is_none());
+    assert_eq!(
+        read(ToolId::ClaudeCode, &none()).unwrap().effort,
+        EffortInForce::ToolDefault
+    );
+}
+
+#[test]
+#[serial_test::serial]
+fn the_real_example_file_differs_by_model_until_a_level_is_chosen() {
+    let temp = tempfile::tempdir().expect("temp home");
+    let _home = TestHome::set(temp.path());
+    write_claude_live(&json!({
+        "effortLevel": "xhigh",
+        "modelSettings": {
+            "claude-fable-5-1": {"effortLevel": "xhigh"},
+            "claude-opus-5": {"effortLevel": "high"},
+            "claude-opus-5-5": {"effortLevel": "xhigh"}
+        }
+    }));
+    let choice = read(ToolId::ClaudeCode, &none()).expect("read");
+    let EffortInForce::Mixed { per_model } = choice.effort else {
+        panic!("expected mixed, got {:?}", choice.effort);
+    };
+    let shown: Vec<(&str, &str)> = per_model
+        .iter()
+        .map(|model| (model.model.as_str(), model.effort.as_str()))
+        .collect();
+    assert_eq!(
+        shown,
+        [
+            ("claude-fable-5-1", "xhigh"),
+            ("claude-opus-5-5", "xhigh"),
+            ("claude-opus-5", "high"),
+            ("claude-sonnet-5", "xhigh"),
+        ]
+    );
+
+    let store = store();
+    let choice = store
+        .set_effort(ToolId::ClaudeCode, Some("xhigh"), &none())
+        .expect("set effort");
+    assert_eq!(choice.effort, level("xhigh"));
+    assert_eq!(
+        claude_live()["modelSettings"]["claude-opus-5"]["effortLevel"],
+        "xhigh"
+    );
 }
 
 #[test]
@@ -187,11 +275,11 @@ fn codex_effort_keeps_the_rest_of_config_toml() {
     let store = store();
 
     let choice = store
-        .set_effort(ToolId::Codex, Some("high"))
+        .set_effort(ToolId::Codex, Some("high"), &none())
         .expect("set effort");
 
     assert_eq!(choice.model.as_deref(), Some("gpt-5.6-sol"));
-    assert_eq!(choice.effort.as_deref(), Some("high"));
+    assert_eq!(choice.effort, level("high"));
     assert_eq!(
         std::fs::read_to_string(&path).unwrap(),
         "# mine\nmodel = \"gpt-5.6-sol\" # daily\nmodel_reasoning_effort = \"high\"\n\n[projects.\"/x\"]\ntrust_level = \"trusted\"\n"
@@ -205,11 +293,15 @@ fn only_levels_the_tool_accepts_are_written() {
     let _home = TestHome::set(temp.path());
     let store = store();
     let error = store
-        .set_effort(ToolId::ClaudeCode, Some("max"))
-        .expect_err("max is session-only");
+        .set_effort(ToolId::ClaudeCode, Some("ultracode"), &none())
+        .expect_err("not an effort level");
     assert_eq!(error.message_key, "error.modelChoice.invalid");
     let error = store
-        .set_effort(ToolId::GeminiCli, Some("low"))
+        .set_effort(ToolId::Codex, Some("max"), &none())
+        .expect_err("codex keeps no variable-only level");
+    assert_eq!(error.message_key, "error.modelChoice.invalid");
+    let error = store
+        .set_effort(ToolId::GeminiCli, Some("low"), &none())
         .expect_err("no effort setting");
     assert_eq!(error.message_key, "error.provider.unsupportedTool");
     assert!(!crate::config::get_claude_settings_path().exists());

@@ -9,6 +9,7 @@
 //! the crate root, so they are visible here naturally.
 
 use crate::app_config::AppType;
+use crate::compat::ccswitch::provider_runtime::ToolTerminal;
 use crate::domain::{
     AppError, ErrorCode, Provider, ProviderCreateDraft, ProviderCreateResult,
     ProviderCustomCreateDraft, ProviderDraft, ProviderEditProfile, ProviderEndpointCandidate,
@@ -24,6 +25,7 @@ use indexmap::IndexMap;
 use std::sync::MutexGuard;
 
 mod advanced;
+mod claude_effort;
 mod codex_identity;
 mod create;
 pub mod deep_link;
@@ -556,8 +558,14 @@ impl ProviderStore {
     }
 
     /// The model and effort the tool runs, with what Home may choose (ADR-0055).
-    pub fn model_choice(&self, tool: ToolId) -> Result<ToolModelChoice, AppError> {
-        model_choice::read(tool)
+    /// `terminal` holds what the terminal sets for them, which the effort in
+    /// force can depend on.
+    pub fn model_choice(
+        &self,
+        tool: ToolId,
+        terminal: &ToolTerminal,
+    ) -> Result<ToolModelChoice, AppError> {
+        model_choice::read(tool, terminal)
     }
 
     /// Sets the model of one saved endpoint, or of the connection in force when
@@ -567,9 +575,10 @@ impl ProviderStore {
         tool: ToolId,
         provider: Option<&str>,
         model: Option<&str>,
+        terminal: &ToolTerminal,
     ) -> Result<ToolModelChoice, AppError> {
         let _mutation = self.lock_mutation();
-        model_choice::set_model(self, tool, provider, model)
+        model_choice::set_model(self, tool, provider, model, terminal)
     }
 
     /// Sets how hard the tool thinks; a later switch keeps it.
@@ -577,9 +586,10 @@ impl ProviderStore {
         &self,
         tool: ToolId,
         effort: Option<&str>,
+        terminal: &ToolTerminal,
     ) -> Result<ToolModelChoice, AppError> {
         let _mutation = self.lock_mutation();
-        model_choice::set_effort(self, tool, effort)
+        model_choice::set_effort(self, tool, effort, terminal)
     }
 
     /// Save the user's order of this tool's services and return the reordered

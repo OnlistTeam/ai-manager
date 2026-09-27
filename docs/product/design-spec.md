@@ -1180,14 +1180,21 @@ with its model, and the thinking effort (ADR-0055).
   model belongs to its endpoint: a later switch writes the target's own
   model, and switching back restores the one picked for it.
 - Where the tool has an effort setting (`canChooseEffort`), a second, narrower
-  picker names it with "Tool default" and the levels the tool's own setting
-  accepts. Its list says the level applies to new sessions and names any
-  model for which the tool keeps its own level, which wins over this one.
-  The effort belongs to the tool and survives every switch. A tool without
-  an effort setting keeps an empty slot, so the columns line up.
-- Only the tool's own keys are written (Claude Code `env.ANTHROPIC_MODEL` and
-  `effortLevel`, Codex `model` and `model_reasoning_effort`, Gemini CLI
-  `GEMINI_MODEL`), with a backup, an atomic replace and a read-back.
+  picker names the level a new session will actually run at, as the tool
+  itself resolves it, with "Tool default" and the levels the tool accepts.
+  When no model is named and the models run at different levels, it says
+  "Per model" and its list names each model's level. Choosing a level
+  sets it for every model; a level the tool keeps only through its own
+  environment variable (Claude Code's "Max") says it then holds for every
+  session and the tool's `/effort` cannot change it until another level is
+  chosen here. A level held by a terminal variable is shown with where it
+  comes from and cannot be chosen. The effort belongs to the tool and
+  survives every switch. A tool without an effort setting keeps an empty
+  slot, so the columns line up.
+- Only the tool's own keys are written (Claude Code `env.ANTHROPIC_MODEL`,
+  and for the effort `effortLevel`, every model's `modelSettings` entry and
+  `env.CLAUDE_CODE_EFFORT_LEVEL`; Codex `model` and `model_reasoning_effort`;
+  Gemini CLI `GEMINI_MODEL`), with a backup, an atomic replace and a read-back.
 - The picker first answers from the saved inventory, then follows the
   effective connection read in the background through the endpoints page's
   own query (ADR-0035, ADR-0051, ADR-0053). A saved endpoint the tool really

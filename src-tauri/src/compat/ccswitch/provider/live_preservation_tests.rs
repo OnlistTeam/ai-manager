@@ -367,6 +367,42 @@ fn claude_keeps_an_effort_reset_to_the_tool_default() {
 }
 
 #[test]
+fn claude_keeps_the_levels_saved_per_model_and_the_effort_variable() {
+    let previous = json!({
+        "env": {"CLAUDE_CODE_EFFORT_LEVEL": "max"},
+        "effortLevel": "xhigh",
+        "modelSettings": {
+            "claude-opus-5-5": {"effortLevel": "xhigh", "maxEffortLevel": "max"}
+        }
+    });
+    let written = json!({
+        "env": {"ANTHROPIC_BASE_URL": "https://relay.example.test"},
+        "effortLevel": "low",
+        "modelSettings": {"claude-opus-5-5": {"effortLevel": "low"}}
+    });
+    let merged = merge_claude_settings(&previous, &written);
+    assert_eq!(merged["modelSettings"], previous["modelSettings"]);
+    assert_eq!(merged["env"]["CLAUDE_CODE_EFFORT_LEVEL"], "max");
+    assert_eq!(
+        merged["env"]["ANTHROPIC_BASE_URL"],
+        "https://relay.example.test"
+    );
+    assert_eq!(merged["effortLevel"], "xhigh");
+}
+
+#[test]
+fn claude_drops_per_model_levels_and_the_variable_the_file_in_force_lacked() {
+    let previous = json!({"env": {}});
+    let written = json!({
+        "env": {"CLAUDE_CODE_EFFORT_LEVEL": "max"},
+        "modelSettings": {"claude-opus-5-5": {"effortLevel": "low"}}
+    });
+    let merged = merge_claude_settings(&previous, &written);
+    assert!(merged.get("modelSettings").is_none());
+    assert!(merged["env"].get("CLAUDE_CODE_EFFORT_LEVEL").is_none());
+}
+
+#[test]
 fn codex_keeps_the_effort_in_force_and_its_reset() {
     let merged = merge_codex_config(
         "model_reasoning_effort = \"xhigh\"\n",
