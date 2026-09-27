@@ -304,6 +304,8 @@ describe("AppShell", () => {
       canManageSkills: true,
       canManagePrompts: false,
       canManageVersion: false,
+      canChooseModel: false,
+      canChooseEffort: false,
       canLaunch: false,
     };
     server.use(
@@ -543,6 +545,8 @@ describe("AppShell", () => {
       canManageSkills: true,
       canManagePrompts: true,
       canManageVersion: true,
+      canChooseModel: false,
+      canChooseEffort: false,
       canLaunch: true,
     };
     server.use(
@@ -660,6 +664,8 @@ describe("AppShell", () => {
       canManageSkills: true,
       canManagePrompts: true,
       canManageVersion: true,
+      canChooseModel: false,
+      canChooseEffort: false,
       canLaunch: true,
     };
     server.use(
@@ -810,6 +816,8 @@ describe("AppShell", () => {
               canManageSkills: true,
               canManagePrompts: true,
               canManageVersion: true,
+              canChooseModel: false,
+              canChooseEffort: false,
               canLaunch: true,
             },
             sessionsInsideSettings: false,

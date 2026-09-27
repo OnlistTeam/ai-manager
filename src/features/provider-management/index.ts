@@ -8,11 +8,17 @@ export { ProviderRemovalModal } from "./ProviderRemovalModal";
 export type { ProviderRemovalModalProps } from "./ProviderRemovalModal";
 export { ProviderTestModal } from "./ProviderTestModal";
 export {
+  modelCatalogQueryOptions,
   nextModels,
   useAdoptModel,
   useModelCatalog,
   useProbeModel,
 } from "./useProviderModelProbe";
+export { useSetToolEffort, useSetToolModel } from "./useModelChoice";
+export type {
+  SetToolEffortVariables,
+  SetToolModelVariables,
+} from "./useModelChoice";
 export type {
   AdoptModelVariables,
   ModelProbeVariables,

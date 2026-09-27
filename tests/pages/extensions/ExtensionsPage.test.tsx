@@ -47,6 +47,8 @@ function tool(
       canManageSkills: false,
       canManagePrompts: false,
       canManageVersion: true,
+      canChooseModel: false,
+      canChooseEffort: false,
       canLaunch: true,
       ...capabilities,
     },

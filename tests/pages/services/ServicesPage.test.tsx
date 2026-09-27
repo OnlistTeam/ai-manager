@@ -42,6 +42,8 @@ function tool(id: string, name: string) {
       canManageSkills: false,
       canManagePrompts: false,
       canManageVersion: true,
+      canChooseModel: false,
+      canChooseEffort: false,
       canLaunch: true,
     },
   };

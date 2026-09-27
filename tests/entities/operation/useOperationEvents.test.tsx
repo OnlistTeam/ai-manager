@@ -24,6 +24,8 @@ const CAPABILITIES = {
   canManageSkills: true,
   canManagePrompts: true,
   canManageVersion: true,
+  canChooseModel: false,
+  canChooseEffort: false,
 };
 
 function makeTool(overrides: Partial<Tool> = {}): Tool {

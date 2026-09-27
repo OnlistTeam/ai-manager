@@ -23,6 +23,10 @@ export const toolCapabilitiesSchema = z.object({
   canManageSkills: z.boolean(),
   canManagePrompts: z.boolean(),
   canManageVersion: z.boolean(),
+  /** Home can choose the model the tool runs (ADR-0054). */
+  canChooseModel: z.boolean(),
+  /** Home can choose how hard the tool thinks (ADR-0054). */
+  canChooseEffort: z.boolean(),
 });
 
 export const toolAccessRequirementSchema = z.enum([

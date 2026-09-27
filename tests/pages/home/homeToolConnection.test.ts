@@ -21,6 +21,8 @@ const CAPABILITIES = {
   canManageSkills: true,
   canManagePrompts: true,
   canManageVersion: true,
+  canChooseModel: false,
+  canChooseEffort: false,
   canLaunch: true,
 };
 

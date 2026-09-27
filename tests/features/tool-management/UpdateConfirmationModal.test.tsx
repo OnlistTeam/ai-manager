@@ -27,6 +27,8 @@ const CLAUDE: Tool = {
     canManageSkills: true,
     canManagePrompts: true,
     canManageVersion: true,
+    canChooseModel: false,
+    canChooseEffort: false,
   },
   sessionsInsideSettings: false,
   environment: "macos",
