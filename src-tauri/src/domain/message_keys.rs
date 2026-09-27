@@ -75,6 +75,22 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.desktopPreferences.invalid",
     "error.desktopPreferences.readFailed",
     "error.desktopPreferences.saveFailed",
+    "error.discover.alreadyAdded",
+    "error.discover.enableFailed",
+    "error.discover.iconRefused",
+    "error.discover.iconUnavailable",
+    "error.discover.inputInvalid",
+    "error.discover.inputRequired",
+    "error.discover.linkUnavailable",
+    "error.discover.openLinkFailed",
+    "error.discover.queryInvalid",
+    "error.discover.registryUnreachable",
+    "error.discover.serverUnknown",
+    "error.discover.skillInvalid",
+    "error.discover.skillMissing",
+    "error.discover.skillsUnreachable",
+    "error.discover.targetsInvalid",
+    "error.discover.transportUnsupported",
     "error.extension.adoptFailed",
     "error.extension.adoptUnsupported",
     "error.extension.cannotDisable",
@@ -375,6 +391,7 @@ mod tests {
         "src/commands/app_api.rs",
         "src/commands/app_deeplink_api.rs",
         "src/commands/app_desktop_api.rs",
+        "src/commands/app_discover_api.rs",
         "src/commands/app_network_api.rs",
         "src/commands/app_routing_api.rs",
         "src/commands/app_session_api.rs",
@@ -491,6 +508,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 341);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 357);
     }
 }

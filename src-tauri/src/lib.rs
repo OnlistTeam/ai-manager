@@ -1245,6 +1245,14 @@ pub fn run() {
             // AI Manager product API (About / Appropriate Legal Notices, AGPL-3.0 §5).
             commands::app_about_open_source_code,
             commands::app_about_open_license,
+            // AI Manager product API (Discover on the Skills and MCP pages; ADR-0063).
+            commands::app_discover_mcp_list,
+            commands::app_discover_skill_list,
+            commands::app_discover_skill_descriptions,
+            commands::app_discover_icon,
+            commands::app_discover_mcp_install,
+            commands::app_discover_skill_install,
+            commands::app_discover_link_open,
             // AI Manager product API (Advanced Routing; ADR-0007).
             commands::app_routing_overview,
             commands::app_routing_set_takeover,

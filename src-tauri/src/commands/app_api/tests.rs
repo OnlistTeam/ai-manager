@@ -432,6 +432,7 @@ fn every_product_command_is_registered_in_the_invoke_handler() {
     let api = [
         "src/commands/app_api.rs",
         "src/commands/app_desktop_api.rs",
+        "src/commands/app_discover_api.rs",
         "src/commands/app_network_api.rs",
         "src/commands/app_routing_api.rs",
         "src/commands/app_session_api.rs",
@@ -468,7 +469,7 @@ fn every_product_command_is_registered_in_the_invoke_handler() {
         declared.push(name);
     }
 
-    assert_eq!(declared.len(), 127, "found {declared:?}");
+    assert_eq!(declared.len(), 134, "found {declared:?}");
     for name in declared {
         assert!(
             lib.contains(&format!("commands::{name},")),

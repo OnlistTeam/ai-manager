@@ -3,6 +3,7 @@ pub mod backup;
 pub mod deep_link;
 pub mod desktop_app;
 pub mod desktop_preferences;
+pub mod discover;
 pub mod error;
 pub mod extension;
 pub mod health;
@@ -46,6 +47,11 @@ pub use desktop_app::{
     DesktopAppUninstallHandoff, DesktopAppUninstallOutcome,
 };
 pub use desktop_preferences::DesktopPreferences;
+pub use discover::{
+    DiscoverInput, DiscoverInputKind, DiscoverInputTarget, DiscoverInputValue, DiscoverLink,
+    DiscoverMcpList, DiscoverMcpReach, DiscoverMcpServer, DiscoverRunner, DiscoverSkill,
+    DiscoverSkillList, DiscoverTransport,
+};
 pub use error::{AppError, ErrorCode};
 pub use extension::{
     DetectedSkillResourceAction, DetectedSkillResourceOpenOutcome, Extension, ExtensionKind,

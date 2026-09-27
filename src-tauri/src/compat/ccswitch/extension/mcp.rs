@@ -72,7 +72,9 @@ fn extension_from_detected_server(scope: ExtensionScope, raw: &McpServer) -> Ext
 /// Read one tool's live MCP file into an in-memory upstream config. The free-
 /// form server spec never crosses the product boundary; only the small
 /// `Extension` projection is returned by `list`.
-fn scan_live(app_type: &AppType) -> Result<Vec<McpServer>, crate::error::AppError> {
+pub(in crate::compat::ccswitch) fn scan_live(
+    app_type: &AppType,
+) -> Result<Vec<McpServer>, crate::error::AppError> {
     let mut config = MultiAppConfig::default();
     match app_type {
         AppType::Claude => crate::mcp::import_from_claude(&mut config)?,
