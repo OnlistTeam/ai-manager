@@ -614,22 +614,20 @@ failure, not "up to date".
 ### 6.9 One-click import by deep link (ADR-0029)
 
 The product registers exactly one scheme, `aimanager`, and never co-registers the inherited one.
-`domain/deep_link.rs` is the single parser both paths use: a strict allowlist of scheme, host,
-path and query, with duplicate keys, unknown keys, fragments, userinfo, NUL, over-long fields and
-malformed Base64 refused, and an 8 KiB cap on the raw URL. `x-` prefixed parameters are ignored
-rather than rejected, so the format can grow.
+`domain/deep_link.rs` is the single parser: a strict allowlist of scheme, host, path and query, with
+duplicate keys, unknown keys, fragments, userinfo, NUL, over-long fields and malformed Base64
+refused, and an 8 KiB cap on the raw URL. `x-` prefixed parameters are ignored rather than rejected,
+so the format can grow.
 
-Both paths accept the same fields, credentials included (ADR-0029 decision 3, revised
-2026-09-23). The one thing that still differs is spelling: a link the operating system delivers
-(cold-start `get_current`, or a second instance the single-instance plugin forwards) is
-`LinkOrigin::Argv` and is accepted only under `aimanager://`, because that is the only scheme the
-product registers; a link the user pastes into Settings is `LinkOrigin::Paste` and additionally
-accepts the upstream scheme and a bare `v1/import?...` query. These are two separate flags in the
-code on purpose — they were once one boolean, and collapsing them again would make argv start
-accepting `ccswitch://`. Credential detection still runs on both paths so the confirmation dialog
-can name the field that carries a key: it reuses `platform::redact`, cross-checked in
-`compat/ccswitch/provider/deep_link.rs` against `api_key_slots` and the upstream credential
-reader; a tool with no upstream service format fails closed.
+Links reach the product only from the operating system: the cold-start `get_current`, a second
+instance the single-instance plugin forwards, or a macOS `open-url` event. Only `aimanager://` is
+accepted, because that is the only scheme the product registers; `ccswitch://` and a bare
+`v1/import?...` query are refused, so the parser takes no origin and no scheme flag (the Settings
+paste card that once accepted them was removed on 2026-09-27, withdrawing ADR-0029 decision 4).
+Links may carry credentials (ADR-0029 decision 3, revised 2026-09-23). Credential detection still
+runs so the confirmation dialog can name the field that carries a key: it reuses `platform::redact`,
+cross-checked in `compat/ccswitch/provider/deep_link.rs` against `api_key_slots` and the upstream
+credential reader; a tool with no upstream service format fails closed.
 
 `application/deep_link_import.rs` holds an in-memory queue of at most eight entries with a
 ten-minute expiry, hands the renderer only an opaque pending id, and projects a safe preview

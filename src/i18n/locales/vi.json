@@ -2939,10 +2939,7 @@
       "prompt": "Một prompt toàn cục",
       "skill": "Một kỹ năng"
     },
-    "origin": {
-      "argv": "Liên kết này được mở từ bên ngoài AI Manager. Hãy chắc chắn bạn biết nó đến từ đâu.",
-      "paste": "Bạn đã tự dán liên kết này. Hãy chắc chắn nó đến từ nhà cung cấp mà bạn tin tưởng."
-    },
+    "origin": "Liên kết này được mở từ bên ngoài AI Manager. Hãy chắc chắn bạn biết nó đến từ đâu.",
     "credential": {
       "apiKey": "Liên kết này mang theo một khóa. Khóa được lưu cùng điểm cuối API và không bao giờ hiển thị trên màn hình này.",
       "config": "Liên kết này mang theo một khóa bên trong cài đặt của nó. Khóa được lưu cùng điểm cuối API và không bao giờ hiển thị trên màn hình này."
@@ -2973,14 +2970,6 @@
     "toast": {
       "imported_one": "Đã thêm 1 mục.",
       "imported_other": "Đã thêm {{count}} mục."
-    },
-    "paste": {
-      "title": "Thêm từ liên kết",
-      "description": "Dán liên kết một chạm từ nhà cung cấp.",
-      "label": "Liên kết",
-      "hint": "AI Manager đọc liên kết và yêu cầu bạn xác nhận trước khi lưu bất cứ điều gì.",
-      "placeholder": "aimanager://v1/import?...",
-      "action": "Đọc liên kết"
     }
   }
 }

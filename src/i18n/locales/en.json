@@ -2940,10 +2940,7 @@
       "prompt": "A global prompt",
       "skill": "A skill"
     },
-    "origin": {
-      "argv": "This link was opened from outside AI Manager. Make sure you know where it came from.",
-      "paste": "You pasted this link yourself. Make sure it came from a provider you trust."
-    },
+    "origin": "This link was opened from outside AI Manager. Make sure you know where it came from.",
     "credential": {
       "apiKey": "The link carries a key. It is saved with the API endpoint and is never shown on this screen.",
       "config": "The link carries a key inside its settings. It is saved with the API endpoint and is never shown on this screen."
@@ -2974,14 +2971,6 @@
     "toast": {
       "imported_one": "Added 1 item.",
       "imported_other": "Added {{count}} items."
-    },
-    "paste": {
-      "title": "Add from a link",
-      "description": "Paste a one-click link from a provider.",
-      "label": "Link",
-      "hint": "AI Manager reads the link and asks you to confirm before anything is saved.",
-      "placeholder": "aimanager://v1/import?...",
-      "action": "Read link"
     }
   }
 }

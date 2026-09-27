@@ -2,20 +2,19 @@ use super::{block_reason, can_manage, mcp_draft, project, supported_tools};
 use crate::application::deep_link_import::queue::{DeepLinkQueue, PendingDeepLink};
 use crate::domain::deep_link::parse;
 use crate::domain::{
-    DeepLinkBlockReason, DeepLinkCredentialField, DeepLinkIntent, DeepLinkResource, LinkOrigin,
+    DeepLinkBlockReason, DeepLinkCredentialField, DeepLinkIntent, DeepLinkResource,
     McpConnectionDraft, ToolId,
 };
 use base64::engine::general_purpose::STANDARD;
 use base64::Engine;
 
 fn intent(link: &str) -> DeepLinkIntent {
-    parse(link, LinkOrigin::Paste).unwrap_or_else(|error| panic!("{link}: {}", error.message_key))
+    parse(link).unwrap_or_else(|error| panic!("{link}: {}", error.message_key))
 }
 
 fn pending(link: &str) -> PendingDeepLink {
     PendingDeepLink {
         id: "pending-1".to_string(),
-        origin: LinkOrigin::Paste,
         intent: intent(link),
         expires_at: 600,
     }
@@ -55,7 +54,6 @@ fn the_preview_names_the_change_and_never_the_credential() {
     let preview = project(&pending(PROVIDER_WITH_KEY));
 
     assert_eq!(preview.id, "pending-1");
-    assert_eq!(preview.origin, LinkOrigin::Paste);
     assert_eq!(preview.resource, DeepLinkResource::Provider);
     assert_eq!(preview.name.as_deref(), Some("Example"));
     assert_eq!(
@@ -189,7 +187,7 @@ fn mcp_servers_become_the_product_typed_draft_without_a_free_form_payload() {
 #[test]
 fn a_queued_link_is_projected_the_same_way_through_the_queue() {
     let queue = DeepLinkQueue::new();
-    let id = queue.push(LinkOrigin::Paste, intent(PROVIDER_WITH_KEY), 0);
+    let id = queue.push(intent(PROVIDER_WITH_KEY), 0);
 
     let listed = queue.project(0, project);
     assert_eq!(listed.len(), 1);

@@ -5,7 +5,6 @@ import type { ToolId } from "@/entities/tool";
 import { useProductSettings } from "@/entities/settings";
 import { AboutSection } from "@/features/about";
 import { BackupSection } from "@/features/backup";
-import { DeepLinkPasteSection } from "@/features/deep-link-import";
 import { ImportSection } from "@/features/import-existing";
 import { UpdateSection } from "@/features/updater";
 import { Button } from "@/shared/ui/Button";
@@ -153,7 +152,6 @@ export function SettingsPage({
           <SettingsGroup title={t("preferences.groups.backup")}>
             <BackupSection onReviewServices={onOpenServices} />
             <ImportSection />
-            <DeepLinkPasteSection />
           </SettingsGroup>
 
           <SettingsGroup title={t("preferences.groups.about")}>

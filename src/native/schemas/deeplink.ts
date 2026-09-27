@@ -2,7 +2,6 @@ import { z } from "zod";
 import { operationIdSchema } from "./operation";
 import { toolIdSchema } from "./tool";
 
-export const deepLinkOriginSchema = z.enum(["argv", "paste"]);
 export const deepLinkResourceSchema = z.enum([
   "provider",
   "mcp",
@@ -28,7 +27,6 @@ export const deepLinkTargetSchema = z
 export const deepLinkPreviewSchema = z
   .object({
     id: z.string().min(1),
-    origin: deepLinkOriginSchema,
     resource: deepLinkResourceSchema,
     name: z.string().nullable(),
     endpoint: z.string().nullable(),
@@ -56,7 +54,6 @@ export const deepLinkPendingEventSchema = z
   .object({ pending: z.number() })
   .strict();
 
-export type DeepLinkOrigin = z.infer<typeof deepLinkOriginSchema>;
 export type DeepLinkResource = z.infer<typeof deepLinkResourceSchema>;
 export type DeepLinkCredentialField = z.infer<
   typeof deepLinkCredentialFieldSchema

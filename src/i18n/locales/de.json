@@ -2940,10 +2940,7 @@
       "prompt": "Ein globaler Prompt",
       "skill": "Ein Skill"
     },
-    "origin": {
-      "argv": "Dieser Link wurde von außerhalb von AI Manager geöffnet. Stellen Sie sicher, dass Sie wissen, woher er stammt.",
-      "paste": "Sie haben diesen Link selbst eingefügt. Stellen Sie sicher, dass er von einem Anbieter stammt, dem Sie vertrauen."
-    },
+    "origin": "Dieser Link wurde von außerhalb von AI Manager geöffnet. Stellen Sie sicher, dass Sie wissen, woher er stammt.",
     "credential": {
       "apiKey": "Der Link enthält einen Schlüssel. Er wird mit dem API-Endpunkt gespeichert und nie auf diesem Bildschirm angezeigt.",
       "config": "Der Link enthält einen Schlüssel in seinen Einstellungen. Er wird mit dem API-Endpunkt gespeichert und nie auf diesem Bildschirm angezeigt."
@@ -2974,14 +2971,6 @@
     "toast": {
       "imported_one": "1 Eintrag hinzugefügt.",
       "imported_other": "{{count}} Einträge hinzugefügt."
-    },
-    "paste": {
-      "title": "Über einen Link hinzufügen",
-      "description": "Fügen Sie einen One-Click-Link eines Anbieters ein.",
-      "label": "Link",
-      "hint": "AI Manager liest den Link und bittet Sie um Bestätigung, bevor etwas gespeichert wird.",
-      "placeholder": "aimanager://v1/import?...",
-      "action": "Link lesen"
     }
   }
 }

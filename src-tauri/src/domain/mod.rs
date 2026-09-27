@@ -38,7 +38,7 @@ pub use backup::{
 pub use deep_link::{
     DeepLinkBlockReason, DeepLinkCredentialField, DeepLinkImportOutcome, DeepLinkIntent,
     DeepLinkMcp, DeepLinkMcpConnection, DeepLinkMcpServer, DeepLinkPreview, DeepLinkPrompt,
-    DeepLinkProvider, DeepLinkResource, DeepLinkSkill, DeepLinkTarget, LinkOrigin,
+    DeepLinkProvider, DeepLinkResource, DeepLinkSkill, DeepLinkTarget,
 };
 pub use desktop_app::{
     DesktopApp, DesktopAppConfigurationRelationship, DesktopAppId, DesktopAppInstallerHandoff,

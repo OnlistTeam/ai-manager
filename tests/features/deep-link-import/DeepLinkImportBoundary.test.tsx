@@ -17,7 +17,6 @@ const TAURI_ENDPOINT = "http://tauri.local";
 function preview(overrides: Partial<DeepLinkPreview> = {}): DeepLinkPreview {
   return {
     id: "pending-1",
-    origin: "argv",
     resource: "provider",
     name: "Example endpoint",
     endpoint: "https://api.example.test/v1",
@@ -84,7 +83,7 @@ describe("DeepLinkImportBoundary", () => {
     expect(
       within(dialog).getByRole("heading", { name: en.deeplink.confirm.title }),
     ).toBeInTheDocument();
-    expect(within(dialog).getByText(en.deeplink.origin.argv)).toBeVisible();
+    expect(within(dialog).getByText(en.deeplink.origin)).toBeVisible();
     expect(within(dialog).getByText("Example endpoint")).toBeVisible();
     expect(
       within(dialog).getByText("https://api.example.test/v1"),
@@ -135,30 +134,20 @@ describe("DeepLinkImportBoundary", () => {
     await waitFor(() => expect(confirm).toHaveBeenCalledTimes(1));
   });
 
-  it("names the field holding a credential and never a credential value", async () => {
-    mountWith([preview({ origin: "paste", credentialFields: ["apiKey"] })]);
-
-    const dialog = await screen.findByRole("dialog");
-    expect(
-      within(dialog).getByText(en.deeplink.credential.apiKey),
-    ).toBeVisible();
-    expect(within(dialog).getByText(en.deeplink.origin.paste)).toBeVisible();
-    expect(dialog.textContent ?? "").not.toMatch(/sk-/);
-  });
-
   // ADR-0029 decision 3, revised 2026-09-23: a link opened from outside may now
   // carry a key. The dialog is what stands between an external link and a write,
   // so it has to name the credential field, say where the link came from, and
   // still offer the action — the old behaviour refused the link before any of
   // this was ever rendered.
   it("accepts a credential from an external link and still offers the action", async () => {
-    mountWith([preview({ origin: "argv", credentialFields: ["apiKey"] })]);
+    mountWith([preview({ credentialFields: ["apiKey"] })]);
 
     const dialog = await screen.findByRole("dialog");
     expect(
       within(dialog).getByText(en.deeplink.credential.apiKey),
     ).toBeVisible();
-    expect(within(dialog).getByText(en.deeplink.origin.argv)).toBeVisible();
+    expect(within(dialog).getByText(en.deeplink.origin)).toBeVisible();
+    expect(dialog.textContent ?? "").not.toMatch(/sk-/);
     expect(
       within(dialog).getByRole("button", { name: en.deeplink.confirm.action }),
     ).toBeEnabled();

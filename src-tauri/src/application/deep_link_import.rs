@@ -19,8 +19,8 @@ use crate::domain::{
     AppError, DeepLinkBlockReason, DeepLinkCredentialField, DeepLinkImportOutcome, DeepLinkIntent,
     DeepLinkMcp, DeepLinkMcpConnection, DeepLinkMcpServer, DeepLinkPreview, DeepLinkPrompt,
     DeepLinkProvider, DeepLinkResource, DeepLinkSkill, DeepLinkTarget, ErrorCode, ExtensionScope,
-    LinkOrigin, McpConnectionDraft, McpInstallDraft, PromptDraft, ProviderCustomCreateDraft,
-    SkillCatalogItem, SkillSource, ToolCapabilities, ToolId,
+    McpConnectionDraft, McpInstallDraft, PromptDraft, ProviderCustomCreateDraft, SkillCatalogItem,
+    SkillSource, ToolCapabilities, ToolId,
 };
 use crate::infrastructure::OperationManager;
 
@@ -38,14 +38,10 @@ pub struct DeepLinkImportService;
 impl DeepLinkImportService {
     /// Parses one link and queues it. Nothing is written, and the raw link is
     /// dropped here — only the validated intent survives.
-    pub fn submit(
-        queue: &DeepLinkQueue,
-        raw: &str,
-        origin: LinkOrigin,
-    ) -> Result<DeepLinkPreview, AppError> {
-        let intent = crate::domain::deep_link::parse(raw, origin)?;
+    pub fn submit(queue: &DeepLinkQueue, raw: &str) -> Result<DeepLinkPreview, AppError> {
+        let intent = crate::domain::deep_link::parse(raw)?;
         let now = now_seconds();
-        let id = queue.push(origin, intent, now);
+        let id = queue.push(intent, now);
         queue.with(&id, now, project)
     }
 
@@ -290,7 +286,6 @@ fn project(pending: &PendingDeepLink) -> DeepLinkPreview {
 
     DeepLinkPreview {
         id: pending.id.clone(),
-        origin: pending.origin,
         resource: intent.resource(),
         name,
         endpoint,

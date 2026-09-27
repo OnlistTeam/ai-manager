@@ -55,20 +55,6 @@ export function useDeepLinkEvents(): void {
   }, [queryClient]);
 }
 
-export function useSubmitPastedDeepLink(): UseMutationResult<
-  DeepLinkPreview,
-  Error,
-  string
-> {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (link: string) => native.deepLink.submitPasted(link),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: deepLinkKeys.pending() });
-    },
-  });
-}
-
 export function useDismissDeepLink(): UseMutationResult<void, Error, string> {
   const queryClient = useQueryClient();
   return useMutation({

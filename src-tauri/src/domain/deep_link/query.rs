@@ -9,10 +9,10 @@ use url::Url;
 use super::{invalid, MAX_DEEP_LINK_BYTES, MAX_VALUE_BYTES};
 use crate::domain::AppError;
 
+/// The only accepted scheme. The upstream `ccswitch` is refused: registering it
+/// would hijack the import links of users who also have the upstream
+/// application installed (ADR-0029 decision 1).
 pub const PRODUCT_SCHEME: &str = "aimanager";
-/// Accepted by paste only. Registering it would hijack the import links of users
-/// who also have the upstream application installed (ADR-0029 decision 1).
-pub const COMPATIBLE_SCHEME: &str = "ccswitch";
 const LINK_HOST: &str = "v1";
 const LINK_PATH: &str = "/import";
 
@@ -21,12 +21,8 @@ pub struct LinkQuery {
     pairs: BTreeMap<String, String>,
 }
 
-/// Normalizes the three accepted spellings into one absolute URL string.
-///
-/// `allow_compatible_scheme` is true only on the paste path. A pasted link may
-/// also omit the scheme entirely, which is what users get when they copy the
-/// visible part of a vendor's instructions.
-pub fn normalize(raw: &str, allow_compatible_scheme: bool) -> Result<String, AppError> {
+/// Trims one link and checks its size, characters and scheme.
+pub fn normalize(raw: &str) -> Result<String, AppError> {
     let raw = raw.trim();
     if raw.is_empty() {
         return Err(invalid("error.deepLink.invalidLink", "deep link is empty"));
@@ -44,34 +40,24 @@ pub fn normalize(raw: &str, allow_compatible_scheme: bool) -> Result<String, App
         ));
     }
 
-    let Some((scheme, rest)) = split_scheme(raw) else {
-        // No scheme at all: only a pasted bare `v1/import?...` query is accepted.
-        return if allow_compatible_scheme && raw.starts_with(LINK_HOST) {
-            Ok(format!("{PRODUCT_SCHEME}://{raw}"))
-        } else {
-            Err(invalid(
-                "error.deepLink.unsupportedScheme",
-                "deep link has no recognized scheme",
-            ))
-        };
+    let Some(scheme) = scheme_of(raw) else {
+        return Err(invalid(
+            "error.deepLink.unsupportedScheme",
+            "deep link has no recognized scheme",
+        ));
     };
-
-    let lowered = scheme.to_ascii_lowercase();
-    if lowered == PRODUCT_SCHEME {
-        return Ok(raw.to_string());
+    if !scheme.eq_ignore_ascii_case(PRODUCT_SCHEME) {
+        return Err(invalid(
+            "error.deepLink.unsupportedScheme",
+            "deep link scheme is not accepted",
+        ));
     }
-    if lowered == COMPATIBLE_SCHEME && allow_compatible_scheme {
-        return Ok(format!("{PRODUCT_SCHEME}://{rest}"));
-    }
-    Err(invalid(
-        "error.deepLink.unsupportedScheme",
-        "deep link scheme is not accepted on this path",
-    ))
+    Ok(raw.to_string())
 }
 
-/// Splits `scheme://rest`. Only the `//` form exists in this format, so a bare
-/// `scheme:opaque` is deliberately not recognized as a scheme at all.
-fn split_scheme(raw: &str) -> Option<(&str, &str)> {
+/// The scheme of `scheme://rest`. Only the `//` form exists in this format, so
+/// a bare `scheme:opaque` is deliberately not recognized as a scheme at all.
+fn scheme_of(raw: &str) -> Option<&str> {
     let separator = raw.find("://")?;
     let scheme = &raw[..separator];
     if scheme.is_empty()
@@ -82,7 +68,7 @@ fn split_scheme(raw: &str) -> Option<(&str, &str)> {
     {
         return None;
     }
-    Some((scheme, &raw[separator + 3..]))
+    Some(scheme)
 }
 
 /// Parses a normalized `aimanager://v1/import?...` URL into its query pairs.
