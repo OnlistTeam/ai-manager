@@ -93,7 +93,7 @@ function PresetGroup({
           <Command.Item
             key={preset.id}
             value={preset.id}
-            keywords={[preset.serviceName, preset.defaultModel ?? ""]}
+            keywords={[preset.serviceName, hostOf(preset.baseUrl)]}
             onSelect={() => onSelect(preset.id)}
             className="flex cursor-default select-none items-center gap-2.5 rounded-lg px-2.5 py-2 text-body outline-none data-[selected=true]:bg-brand/[0.11] data-[selected=true]:text-content"
           >
@@ -111,8 +111,11 @@ function PresetGroup({
               <span className="block truncate font-medium">
                 {preset.serviceName}
               </span>
+              {/* The address, not the model: the model is only a starting
+                  value in the form below, and naming it here read as the one
+                  model this service could be used with. */}
               <span className="block truncate text-caption text-content-muted">
-                {preset.defaultModel ?? hostOf(preset.baseUrl)}
+                {hostOf(preset.baseUrl)}
               </span>
             </span>
             {measurement ? (
@@ -195,7 +198,10 @@ export function ProviderPresetPicker({
       <label htmlFor={id} className="text-caption text-content">
         {t("services.connect.preset")}
       </label>
-      <Popover.Root open={open} onOpenChange={setOpen}>
+      {/* Modal, because it opens from a dialog: the dialog's scroll lock
+          swallows the wheel over anything portalled outside it, and only a
+          modal popover takes that lock over for its own list. */}
+      <Popover.Root modal open={open} onOpenChange={setOpen}>
         <Popover.Trigger asChild>
           <button
             id={id}

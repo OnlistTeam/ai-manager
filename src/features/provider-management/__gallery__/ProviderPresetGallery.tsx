@@ -3,6 +3,7 @@ import type {
   ProviderConnectionPreset,
   ProviderEndpointTestResult,
 } from "@/entities/provider";
+import { Modal } from "@/shared/ui/Modal";
 import { ProviderPresetPicker } from "../ProviderPresetPicker";
 
 /*
@@ -119,11 +120,14 @@ export function ProviderPresetGallery() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-layer-1 p-8 text-content">
-      <section className="w-full max-w-2xl rounded-2xl border border-hairline bg-layer-1 p-6 shadow-lg backdrop-blur-xl">
-        <h1 className="text-title">Provider preset speed test</h1>
-        <p className="mb-5 mt-1 text-body text-content-muted">
-          Development-only interaction surface. No network request is made.
-        </p>
+      {/* Inside a Modal, as in the product: the dialog's scroll lock is what
+          a picker opened from it has to get past. */}
+      <Modal
+        open
+        onOpenChange={() => undefined}
+        title="Provider preset speed test"
+        description="Development-only interaction surface. No network request is made."
+      >
         <ProviderPresetPicker
           id="provider-preset-gallery"
           toolName="Claude Code"
@@ -136,7 +140,7 @@ export function ProviderPresetGallery() {
           onMeasure={measure}
           onChange={setValue}
         />
-      </section>
+      </Modal>
     </main>
   );
 }

@@ -401,6 +401,49 @@ describe("ProviderConnectModal", () => {
     expect(screen.getByText(en.services.connect.modelRequired)).toBeVisible();
   });
 
+  it("names each preset by its address rather than a model", async () => {
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    await userEvent.click(
+      screen.getByRole("combobox", { name: en.services.connect.preset }),
+    );
+    const option = screen.getByRole("option", { name: /DeepSeek/ });
+    expect(option).toHaveTextContent("api.example.test");
+    expect(option).not.toHaveTextContent("deepseek-v4-pro");
+  });
+
+  it("leaves the wheel to the preset list instead of the dialog's scroll lock", async () => {
+    render(
+      <ProviderConnectModal
+        profile={profile}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+    await userEvent.click(
+      screen.getByRole("combobox", { name: en.services.connect.preset }),
+    );
+    const list = screen.getByRole("listbox");
+    Object.defineProperty(list, "scrollHeight", { value: 800 });
+    Object.defineProperty(list, "clientHeight", { value: 200 });
+    const wheel = new WheelEvent("wheel", {
+      deltaY: 120,
+      bubbles: true,
+      cancelable: true,
+    });
+    screen.getByRole("option", { name: /DeepSeek/ }).dispatchEvent(wheel);
+    expect(wheel.defaultPrevented).toBe(false);
+  });
+
   it("searches compatible presets, applies their defaults, and clears the previous key", async () => {
     const onSubmit = vi.fn();
     render(

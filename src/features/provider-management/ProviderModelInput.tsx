@@ -80,7 +80,10 @@ export function ProviderModelInput({
         className="min-w-0 font-mono"
         onChange={(event) => onChange(event.target.value)}
       />
+      {/* Modal for the same reason as the preset picker: it opens from a
+          dialog whose scroll lock would otherwise swallow the wheel. */}
       <Popover.Root
+        modal
         open={open}
         onOpenChange={(next) => {
           setOpen(next);
