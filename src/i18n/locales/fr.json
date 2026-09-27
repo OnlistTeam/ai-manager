@@ -2975,10 +2975,7 @@
       "prompt": "Un prompt global",
       "skill": "Une compétence"
     },
-    "origin": {
-      "argv": "Ce lien a été ouvert depuis l'extérieur d'AI Manager. Assurez-vous de savoir d'où il provient.",
-      "paste": "Vous avez collé ce lien vous-même. Assurez-vous qu'il provient d'un fournisseur de confiance."
-    },
+    "origin": "Ce lien a été ouvert depuis l'extérieur d'AI Manager. Assurez-vous de savoir d'où il provient.",
     "credential": {
       "apiKey": "Ce lien contient une clé. Elle est enregistrée avec le point d'accès API et n'est jamais affichée sur cet écran.",
       "config": "Ce lien contient une clé dans ses paramètres. Elle est enregistrée avec le point d'accès API et n'est jamais affichée sur cet écran."
@@ -3009,14 +3006,6 @@
     "toast": {
       "imported_one": "1 élément ajouté.",
       "imported_other": "{{count}} éléments ajoutés."
-    },
-    "paste": {
-      "title": "Ajouter depuis un lien",
-      "description": "Collez un lien en un clic fourni par un fournisseur.",
-      "label": "Lien",
-      "hint": "AI Manager lit le lien et vous demande de confirmer avant tout enregistrement.",
-      "placeholder": "aimanager://v1/import?...",
-      "action": "Lire le lien"
     }
   }
 }

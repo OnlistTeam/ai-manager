@@ -10,8 +10,8 @@ import {
 
 /**
  * One-click import (ADR-0029). The queue lives in native memory: the renderer
- * only ever holds opaque pending ids, and a link it did not paste itself never
- * crosses this boundary in either direction.
+ * only ever holds opaque pending ids, and a link never crosses this boundary
+ * in either direction.
  */
 export const deepLink = {
   pending(): Promise<DeepLinkPreview[]> {
@@ -21,13 +21,6 @@ export const deepLink = {
   preview(pending: string): Promise<DeepLinkPreview> {
     return invokeNative("app_deeplink_preview", deepLinkPreviewSchema, {
       pending,
-    });
-  },
-
-  /** The paste path may carry a credential; the registered-scheme path may not. */
-  submitPasted(link: string): Promise<DeepLinkPreview> {
-    return invokeNative("app_deeplink_submit_pasted", deepLinkPreviewSchema, {
-      link,
     });
   },
 

@@ -5,13 +5,11 @@ export {
   useDeepLinkEvents,
   useDeepLinkPending,
   useDismissDeepLink,
-  useSubmitPastedDeepLink,
 } from "./queries";
 export type {
   DeepLinkBlockReason,
   DeepLinkCredentialField,
   DeepLinkImportOutcome,
-  DeepLinkOrigin,
   DeepLinkPreview,
   DeepLinkResource,
   DeepLinkTarget,

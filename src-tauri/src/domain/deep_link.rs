@@ -1,10 +1,8 @@
 //! Product-owned deep link model and parser (ADR-0029).
 //!
-//! One parser serves both paths, and since the 2026-09-23 revision of decision 3
-//! both accept the same fields, credentials included. The one thing that still
-//! differs is spelling: the compatible `ccswitch://` prefix and the bare
-//! `v1/import?...` query are paste-only, because `aimanager` is the only scheme
-//! the product registers (decision 1).
+//! Links arrive only from the operating system, under `aimanager://`, the one
+//! scheme the product registers (decision 1). Since the 2026-09-23 revision of
+//! decision 3 they may carry credentials.
 //!
 //! This module is pure. It does not know which tools are installed, it never
 //! writes anything, and it never logs the URL. Resolving the upstream `app`
@@ -19,7 +17,7 @@ use super::{AppError, ErrorCode, OperationId, ToolId};
 mod decode;
 mod query;
 
-pub use query::{COMPATIBLE_SCHEME, PRODUCT_SCHEME};
+pub use query::PRODUCT_SCHEME;
 
 /// ADR-0029 decision 5. Windows hands a URL over as a command-line argument, so
 /// the cap is deliberately far below any argv limit.
@@ -35,31 +33,6 @@ const MAX_APPS: usize = 8;
 const MAX_MCP_SERVERS: usize = 8;
 const MAX_REPO_SEGMENT_CHARS: usize = 100;
 const MAX_DIRECTORY_CHARS: usize = 200;
-
-/// Where a link came from. Both paths accept the same fields, including
-/// credentials (ADR-0029 decision 3, revised 2026-09-23); the origin still
-/// travels with the intent so the confirmation dialog can say where the link
-/// came from, and so the compatible spelling stays paste-only.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum LinkOrigin {
-    /// Delivered by the operating system: cold start argv or a second instance.
-    Argv,
-    /// Typed or pasted by the user into a focused product window.
-    Paste,
-}
-
-impl LinkOrigin {
-    /// Whether this path accepts `ccswitch://` and the bare `v1/import?...`
-    /// query. Paste only — this is decision 1 (scheme contention), which is
-    /// untouched by the credential revision: registering the compatible scheme
-    /// would hijack the import links of users who also have CC Switch
-    /// installed, and a link the OS hands us always arrives under a scheme we
-    /// registered.
-    const fn allows_compatible_scheme(self) -> bool {
-        matches!(self, Self::Paste)
-    }
-}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -101,7 +74,6 @@ pub enum DeepLinkBlockReason {
 pub struct DeepLinkPreview {
     /// Opaque; the renderer never sees the link itself.
     pub id: String,
-    pub origin: LinkOrigin,
     pub resource: DeepLinkResource,
     /// The service, prompt or skill name. MCP links name their servers in
     /// `items` instead.
@@ -328,13 +300,9 @@ impl DeepLinkSkill {
     }
 }
 
-/// Parses one link. Nothing is written and nothing is logged on any path.
-///
-/// Both origins accept the same fields, credentials included (ADR-0029
-/// decision 3, revised 2026-09-23). What the argv path still cannot do is use
-/// the compatible spelling — that is decision 1, a different concern.
-pub fn parse(raw: &str, origin: LinkOrigin) -> Result<DeepLinkIntent, AppError> {
-    let normalized = query::normalize(raw, origin.allows_compatible_scheme())?;
+/// Parses one link. Nothing is written and nothing is logged.
+pub fn parse(raw: &str) -> Result<DeepLinkIntent, AppError> {
+    let normalized = query::normalize(raw)?;
     let parsed = query::parse(&normalized)?;
 
     let intent = match parsed.required("resource")? {

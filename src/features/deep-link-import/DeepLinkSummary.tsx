@@ -52,7 +52,7 @@ export function DeepLinkSummary({ preview }: DeepLinkSummaryProps) {
     <div className="flex flex-col gap-3">
       <p className="flex items-start gap-2 text-caption leading-5 text-content-muted">
         <Link2 className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-        {t(`deeplink.origin.${preview.origin}`)}
+        {t("deeplink.origin")}
       </p>
 
       <dl

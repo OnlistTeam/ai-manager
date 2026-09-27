@@ -2974,10 +2974,7 @@
       "prompt": "Sebuah prompt global",
       "skill": "Sebuah skill"
     },
-    "origin": {
-      "argv": "Tautan ini dibuka dari luar AI Manager. Pastikan Anda tahu asalnya.",
-      "paste": "Anda menempelkan tautan ini sendiri. Pastikan tautan ini berasal dari penyedia yang Anda percaya."
-    },
+    "origin": "Tautan ini dibuka dari luar AI Manager. Pastikan Anda tahu asalnya.",
     "credential": {
       "apiKey": "Tautan ini membawa kunci. Kunci ini disimpan bersama endpoint API dan tidak pernah ditampilkan di layar ini.",
       "config": "Tautan ini membawa kunci di dalam pengaturannya. Kunci ini disimpan bersama endpoint API dan tidak pernah ditampilkan di layar ini."
@@ -3008,14 +3005,6 @@
     "toast": {
       "imported_one": "1 item ditambahkan.",
       "imported_other": "{{count}} item ditambahkan."
-    },
-    "paste": {
-      "title": "Tambah dari tautan",
-      "description": "Tempelkan tautan sekali klik dari penyedia.",
-      "label": "Tautan",
-      "hint": "AI Manager membaca tautan ini dan meminta konfirmasi Anda sebelum ada yang disimpan.",
-      "placeholder": "aimanager://v1/import?...",
-      "action": "Baca tautan"
     }
   }
 }

@@ -6,7 +6,7 @@
 use std::collections::VecDeque;
 use std::sync::Mutex;
 
-use crate::domain::{AppError, DeepLinkIntent, DeepLinkPreview, ErrorCode, LinkOrigin};
+use crate::domain::{AppError, DeepLinkIntent, DeepLinkPreview, ErrorCode};
 
 /// Small on purpose. A window that queued more than this has almost certainly
 /// been pointed at a link generator rather than at one vendor's install button.
@@ -16,12 +16,11 @@ const TTL_SECONDS: i64 = 10 * 60;
 #[derive(Debug)]
 pub struct PendingDeepLink {
     pub id: String,
-    pub origin: LinkOrigin,
     pub intent: DeepLinkIntent,
     pub expires_at: i64,
 }
 
-/// The queue is registered as Tauri state and shared by every path.
+/// The queue is registered as Tauri state.
 #[derive(Default)]
 pub struct DeepLinkQueue {
     entries: Mutex<VecDeque<PendingDeepLink>>,
@@ -35,7 +34,7 @@ impl DeepLinkQueue {
     /// Queues one parsed link and returns its opaque identity. The oldest entry
     /// is dropped when the queue is full: a fresh link the user just clicked is
     /// worth more than one they ignored.
-    pub fn push(&self, origin: LinkOrigin, intent: DeepLinkIntent, now: i64) -> String {
+    pub fn push(&self, intent: DeepLinkIntent, now: i64) -> String {
         let id = uuid::Uuid::new_v4().to_string();
         let mut entries = self.lock();
         retain_live(&mut entries, now);
@@ -44,7 +43,6 @@ impl DeepLinkQueue {
         }
         entries.push_back(PendingDeepLink {
             id: id.clone(),
-            origin,
             intent,
             expires_at: now + TTL_SECONDS,
         });
@@ -125,28 +123,25 @@ pub fn now_seconds() -> i64 {
 #[cfg(test)]
 mod tests {
     use super::{DeepLinkQueue, MAX_PENDING, TTL_SECONDS};
-    use crate::domain::deep_link::{parse, LinkOrigin};
+    use crate::domain::deep_link::parse;
 
     fn intent(name: &str) -> crate::domain::DeepLinkIntent {
-        parse(
-            &format!(
-                "aimanager://v1/import?resource=provider&app=claude&name={name}&endpoint=https://api.example.test"
-            ),
-            LinkOrigin::Argv,
-        )
+        parse(&format!(
+            "aimanager://v1/import?resource=provider&app=claude&name={name}&endpoint=https://api.example.test"
+        ))
         .expect("a valid link")
     }
 
     #[test]
     fn a_full_queue_drops_the_oldest_entry_and_keeps_the_newest() {
         let queue = DeepLinkQueue::new();
-        let first = queue.push(LinkOrigin::Argv, intent("First"), 0);
+        let first = queue.push(intent("First"), 0);
         for index in 1..MAX_PENDING {
-            queue.push(LinkOrigin::Argv, intent(&format!("Link{index}")), 0);
+            queue.push(intent(&format!("Link{index}")), 0);
         }
         assert_eq!(queue.len(0), MAX_PENDING);
 
-        let newest = queue.push(LinkOrigin::Argv, intent("Newest"), 0);
+        let newest = queue.push(intent("Newest"), 0);
         assert_eq!(queue.len(0), MAX_PENDING);
         assert!(queue.with(&first, 0, |_| ()).is_err(), "oldest is evicted");
         assert!(queue.with(&newest, 0, |_| ()).is_ok());
@@ -155,7 +150,7 @@ mod tests {
     #[test]
     fn confirming_consumes_the_entry_so_a_second_press_cannot_import_twice() {
         let queue = DeepLinkQueue::new();
-        let id = queue.push(LinkOrigin::Paste, intent("Once"), 0);
+        let id = queue.push(intent("Once"), 0);
 
         queue.take(&id, 0).expect("the first take succeeds");
         let second = queue.take(&id, 0).expect_err("the second must not");
@@ -165,7 +160,7 @@ mod tests {
     #[test]
     fn an_expired_entry_is_neither_listed_nor_confirmable() {
         let queue = DeepLinkQueue::new();
-        let id = queue.push(LinkOrigin::Argv, intent("Stale"), 0);
+        let id = queue.push(intent("Stale"), 0);
 
         assert_eq!(queue.len(TTL_SECONDS - 1), 1);
         assert_eq!(queue.len(TTL_SECONDS + 1), 0);
@@ -181,7 +176,7 @@ mod tests {
     #[test]
     fn dismissing_removes_the_entry_without_returning_anything() {
         let queue = DeepLinkQueue::new();
-        let id = queue.push(LinkOrigin::Paste, intent("Rejected"), 0);
+        let id = queue.push(intent("Rejected"), 0);
 
         queue.dismiss(&id, 0).expect("dismissal succeeds");
         assert_eq!(queue.len(0), 0);

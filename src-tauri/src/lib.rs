@@ -282,12 +282,11 @@ fn register_deep_link_handling(app: &tauri::AppHandle) {
 }
 
 /// Queues every acceptable URL and brings the window forward so the user can
-/// see what they clicked. The URL itself is never logged: it may be a link the
-/// user intended to paste, and rejection must leave no trace of it either.
+/// see what they clicked. The URL itself is never logged: it may carry a key,
+/// and rejection must leave no trace of it either.
 fn accept_deep_links(app: &tauri::AppHandle, urls: &[url::Url]) {
     use crate::application::deep_link_import::{DeepLinkImportService, DeepLinkQueue};
     use crate::commands::DEEP_LINK_PENDING_EVENT;
-    use crate::domain::LinkOrigin;
     use tauri::Emitter;
 
     let Some(queue) = app.try_state::<Arc<DeepLinkQueue>>() else {
@@ -297,7 +296,7 @@ fn accept_deep_links(app: &tauri::AppHandle, urls: &[url::Url]) {
 
     let mut accepted = 0_usize;
     for url in urls {
-        match DeepLinkImportService::submit(queue.inner(), url.as_str(), LinkOrigin::Argv) {
+        match DeepLinkImportService::submit(queue.inner(), url.as_str()) {
             Ok(_) => accepted += 1,
             Err(error) => log::warn!("Refused an incoming link: {}", error.message_key),
         }
@@ -1257,7 +1256,6 @@ pub fn run() {
             // AI Manager product API (one-click import; ADR-0029).
             commands::app_deeplink_pending_list,
             commands::app_deeplink_preview,
-            commands::app_deeplink_submit_pasted,
             commands::app_deeplink_dismiss,
             commands::app_deeplink_confirm,
         ]);

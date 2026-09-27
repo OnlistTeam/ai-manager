@@ -9,9 +9,7 @@ use std::sync::Arc;
 use tauri::State;
 
 use crate::application::deep_link_import::{DeepLinkImportService, DeepLinkQueue};
-use crate::domain::{
-    AppError, DeepLinkImportOutcome, DeepLinkPreview, DeepLinkResource, ErrorCode, LinkOrigin,
-};
+use crate::domain::{AppError, DeepLinkImportOutcome, DeepLinkPreview, DeepLinkResource};
 use crate::infrastructure::OperationManager;
 
 /// The renderer is told only that the queue changed; it reads the safe preview
@@ -31,25 +29,6 @@ pub async fn app_deeplink_preview(
     pending: String,
 ) -> Result<DeepLinkPreview, AppError> {
     DeepLinkImportService::preview(queue.inner(), &pending)
-}
-
-/// The paste path. On top of what every path accepts it also takes the upstream
-/// `ccswitch://` prefix and a bare `v1/import?...` query, which is what users
-/// get when they copy the visible part of a vendor's instructions (ADR-0029
-/// decision 4).
-#[tauri::command]
-pub async fn app_deeplink_submit_pasted(
-    queue: State<'_, Arc<DeepLinkQueue>>,
-    link: String,
-) -> Result<DeepLinkPreview, AppError> {
-    if link.len() > crate::domain::deep_link::MAX_DEEP_LINK_BYTES {
-        return Err(
-            AppError::new(ErrorCode::ConfigParseFailed, "error.deepLink.tooLarge")
-                .with_technical("the pasted link exceeds the accepted size")
-                .with_remediation("error.remediation.retryOrViewDetails"),
-        );
-    }
-    DeepLinkImportService::submit(queue.inner(), &link, LinkOrigin::Paste)
 }
 
 #[tauri::command]

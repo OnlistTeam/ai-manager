@@ -168,10 +168,10 @@ test("the product registers its own deep link and never the inherited one", asyn
   assert(singleInstance >= 0 && deepLink > singleInstance);
   assert.match(lib, /fn register_deep_link_handling/);
   assert.match(lib, /\.on_open_url\(/);
-  assert.match(lib, /LinkOrigin::Argv/);
+  assert.match(lib, /DeepLinkImportService::submit\(/);
   assert.match(lib, /commands::app_deeplink_confirm/);
-  // Only the renderer's own paste may carry a credential (decision 3/4).
-  assert.doesNotMatch(lib, /LinkOrigin::Paste/);
+  // Links arrive only from the OS; the Settings paste path is gone (ADR-0029).
+  assert.doesNotMatch(lib, /app_deeplink_submit_pasted/);
   assert.doesNotMatch(
     lib,
     /tauri_plugin_store|app_store|handle_deeplink_url|commands::(?:parse_deeplink|merge_deeplink_config|import_from_deeplink|enter_lightweight_mode|exit_lightweight_mode|is_lightweight_mode|get_app_config_dir_override|set_app_config_dir_override)/,
