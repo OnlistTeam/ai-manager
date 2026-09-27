@@ -10,6 +10,12 @@ export interface OptionPickerOption {
   /** A muted second fact on the same line, e.g. the model an endpoint pins. */
   detail?: string | null;
   checked?: boolean;
+  /**
+   * Listed but not choosable, e.g. the connection in force when it was set
+   * outside this app. A checked one keeps full strength: it is the current
+   * state, not an unavailable choice.
+   */
+  disabled?: boolean;
 }
 
 export interface OptionPickerAction {
@@ -41,7 +47,7 @@ export interface OptionPickerProps {
 
 const ITEM_CLASS = cn(
   "mx-1 flex min-w-0 cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5 text-caption text-content outline-none",
-  "data-[selected=true]:bg-layer-2 data-[disabled=true]:opacity-50",
+  "data-[selected=true]:bg-layer-2",
 );
 
 /**
@@ -147,8 +153,12 @@ export function OptionPicker({
                   key={option.id}
                   value={option.id}
                   aria-current={option.checked ? "true" : undefined}
+                  disabled={option.disabled}
                   onSelect={() => choose(() => onSelect(option.id))}
-                  className={ITEM_CLASS}
+                  className={cn(
+                    ITEM_CLASS,
+                    option.disabled && !option.checked && "opacity-50",
+                  )}
                 >
                   <Check
                     className={cn(

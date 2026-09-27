@@ -166,6 +166,57 @@ function renderHome(onOpenServices = vi.fn()) {
   return client;
 }
 
+/** The claude-code case that started this: exported shell variables point at a relay. */
+const SHELL_RELAY = {
+  selection: "configuration",
+  endpoint: "https://api.onlist.net/",
+  endpointSource: {
+    kind: "shellFile",
+    variable: "ANTHROPIC_BASE_URL",
+    path: "~/.config/zsh/relay.zsh",
+  },
+  credential: "configured",
+  credentialSource: {
+    kind: "shellFile",
+    variable: "ANTHROPIC_AUTH_TOKEN",
+    path: "~/.config/zsh/relay.zsh",
+  },
+  providerId: null,
+  shellInspected: true,
+  outranksSwitch: false,
+};
+
+/**
+ * The effective connection per tool, answered once `release` resolves, so a
+ * test can look at the row before the slow runtime context arrives.
+ */
+function serveRuntime(
+  byTool: Record<string, unknown>,
+  release: Promise<void> = Promise.resolve(),
+) {
+  server.use(
+    http.post(
+      `${TAURI_ENDPOINT}/app_provider_runtime_context`,
+      async ({ request }) => {
+        const { tool: toolId } = (await request.json()) as { tool: string };
+        await release;
+        return HttpResponse.json({
+          tool: toolId,
+          liveConfigPaths: [],
+          resources: [],
+          storage: {
+            totalBytes: 0,
+            sessionBytes: 0,
+            sessionCount: 0,
+            measurementLimited: false,
+          },
+          effectiveConnection: byTool[toolId] ?? null,
+        });
+      },
+    ),
+  );
+}
+
 async function findRow(name: string): Promise<HTMLElement> {
   return screen.findByRole("article", { name });
 }
@@ -710,6 +761,158 @@ describe("HomePage", () => {
       expect(options[1]).not.toHaveAttribute("aria-current");
       // A short list has no filter field.
       expect(screen.queryByPlaceholderText(en.home.tools.filter)).toBeNull();
+    });
+
+    describe("what the tool really connects to", () => {
+      const officialEntry = () =>
+        provider({
+          id: "official",
+          name: "Claude Official",
+          kind: "official",
+          active: true,
+        });
+
+      it("keeps the saved answer until the runtime context arrives, then names the shell variable's address", async () => {
+        let release = () => undefined as void;
+        serveProviders({ "claude-code": [officialEntry()] });
+        serveRuntime(
+          { "claude-code": SHELL_RELAY },
+          new Promise<void>((resolve) => {
+            release = resolve;
+          }),
+        );
+        mount([tool()]);
+
+        const row = await findRow("Claude Code");
+        const pill = await pickerFor(row, "Claude Code");
+        // Saved inventory first: no placeholder, no spinner, no guess.
+        expect(await within(pill).findByText("Claude Official")).toBeVisible();
+        expect(within(pill).queryByText("api.onlist.net")).toBeNull();
+
+        release();
+        expect(await within(pill).findByText("api.onlist.net")).toBeVisible();
+        expect(
+          within(pill).getByText(en.services.effective.shortSource.terminal),
+        ).toBeVisible();
+        expect(within(pill).queryByText("Claude Official")).toBeNull();
+        expect(pill).toHaveAccessibleName(
+          `Endpoint Claude Code uses: api.onlist.net, ${en.services.effective.shortSource.terminal}`,
+        );
+      });
+
+      it("lists the outside address first as current and not choosable, then the saved endpoints", async () => {
+        const activations: unknown[] = [];
+        serveProviders({
+          "claude-code": [officialEntry(), provider({ name: "Backup" })],
+        });
+        serveRuntime({ "claude-code": SHELL_RELAY });
+        server.use(
+          http.post(
+            `${TAURI_ENDPOINT}/app_provider_activation_prepare`,
+            async ({ request }) => {
+              activations.push(await request.json());
+              return HttpResponse.json({
+                status: "notChecked",
+                originProviderId: "official",
+                activeProviderId: "official",
+                providers: [officialEntry()],
+                checks: [],
+              });
+            },
+          ),
+        );
+        mount([tool()]);
+
+        const row = await findRow("Claude Code");
+        const pill = await pickerFor(row, "Claude Code");
+        await within(pill).findByText("api.onlist.net");
+        const listbox = await openPicker(row, "Claude Code");
+        const options = within(listbox).getAllByRole("option");
+        expect(options.map((option) => option.textContent)).toEqual([
+          `api.onlist.net${en.services.effective.shortSource.terminal}`,
+          "Claude Official",
+          "Backup",
+          en.home.tools.manageEndpoints,
+        ]);
+        expect(options[0]).toHaveAttribute("aria-current", "true");
+        expect(options[0]).toHaveAttribute("aria-disabled", "true");
+        expect(options[1]).not.toHaveAttribute("aria-current");
+        // Where it comes from, and what choosing here does by this tool's rules.
+        expect(
+          screen.getByText(
+            en.services.effective.source.shellFile
+              .replace("{{variable}}", "ANTHROPIC_BASE_URL")
+              .replace("{{path}}", "~/.config/zsh/relay.zsh"),
+          ),
+        ).toBeVisible();
+        expect(
+          screen.getByText(
+            en.services.external.replacedByChoice.replace(
+              "{{name}}",
+              "Claude Code",
+            ),
+          ),
+        ).toBeVisible();
+
+        // The saved endpoints stay choosable.
+        await userEvent.click(options[1]);
+        await waitFor(() =>
+          expect(activations).toEqual([
+            { tool: "claude-code", provider: "official" },
+          ]),
+        );
+      });
+
+      it("says a choice here will not take effect while a variable that outranks it is set", async () => {
+        serveProviders({
+          "gemini-cli": [provider({ tool: "gemini-cli", active: true })],
+        });
+        serveRuntime({
+          "gemini-cli": {
+            ...SHELL_RELAY,
+            endpointSource: {
+              kind: "environment",
+              variable: "GOOGLE_GEMINI_BASE_URL",
+            },
+            outranksSwitch: true,
+          },
+        });
+        mount([tool({ id: "gemini-cli", name: "Gemini CLI" })]);
+
+        const row = await findRow("Gemini CLI");
+        await within(await pickerFor(row, "Gemini CLI")).findByText(
+          "api.onlist.net",
+        );
+        await openPicker(row, "Gemini CLI");
+        expect(
+          screen.getByText(
+            en.services.external.overrides.replace("{{name}}", "Gemini CLI"),
+          ),
+        ).toBeVisible();
+      });
+
+      it("names the saved endpoint the tool really uses over the one selected", async () => {
+        serveProviders({
+          "claude-code": [officialEntry(), provider({ name: "Relay" })],
+        });
+        serveRuntime({
+          "claude-code": {
+            ...SHELL_RELAY,
+            endpoint: "https://relay.example.test/",
+            providerId: "relay",
+          },
+        });
+        mount([tool()]);
+
+        const row = await findRow("Claude Code");
+        const pill = await pickerFor(row, "Claude Code");
+        expect(await within(pill).findByText("Relay")).toBeVisible();
+        const listbox = await openPicker(row, "Claude Code");
+        const options = within(listbox).getAllByRole("option");
+        expect(options[0]).toHaveTextContent("Relay");
+        expect(options[0]).toHaveAttribute("aria-current", "true");
+        expect(options[1]).toHaveTextContent("Claude Official");
+      });
     });
 
     it("switches through the shared preflight when an endpoint is picked", async () => {

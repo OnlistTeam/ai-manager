@@ -220,8 +220,10 @@ Home and API Endpoints both choose which endpoint each tool uses (ADR-0053). Hom
 per installed tool with an `OptionPicker` (`shared/ui`, Radix Popover plus cmdk) that links to that
 tool's endpoints; the endpoints page keeps a Use button on every card and also manages the per-tool
 lists (add, edit, check, order, remove). Both switch through `useRecoverableProviderSwitch`
-(`features/provider-management`). Updates live on the Software page and the live routing switch on
-the Local Routing tab; Home only links to them.
+(`features/provider-management`). Home rows answer from the saved inventory first and then follow
+the effective connection from `useProviderRuntimeContext`, the query the endpoints page reads and
+the session warm-up fills, so both pages share one login-shell probe per tool. Updates live on the
+Software page and the live routing switch on the Local Routing tab; Home only links to them.
 
 Tab selection is page-local state and never enters `ProductSettings`. Cross-page hand-offs use
 `useRouteIntents` (`openServices(tool?, tab?)`, `openExtensions(tab?, kind?)`, `openRoute`);

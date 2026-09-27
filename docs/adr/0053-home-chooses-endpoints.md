@@ -74,6 +74,23 @@ shared flow, so they cannot disagree.
 7. **The status line is one quiet line**: status icon, one sentence, the
    update count, the last check, Recheck and the single next step as small
    buttons, without a card frame.
+8. **Home shows what the tool really connects to.** The row reads the
+   effective connection in the background (ADR-0051 decision 3), from the
+   query the endpoints page uses, and follows it when it differs from the
+   saved selection. An address set outside this app, by a shell variable or
+   a hand-edited config file, is named the way the endpoints page names it:
+   its host, and a short "Terminal variable" or "Config file", with a small
+   warning tint and icon. Its picker lists that address first, checked and
+   not choosable, under one note that says where it comes from and what
+   choosing here does, by the tool's own precedence (ADR-0035): for most
+   tools choosing a saved endpoint replaces it (Claude Code's settings file
+   beats the shell, and a switch writes `""` to cancel the variable); for
+   Gemini CLI, which reads the terminal ahead of its `.env`, the note says
+   the variable keeps winning. The saved endpoints follow and stay
+   choosable. The native side reports which case applies
+   (`EffectiveConnection.outranksSwitch`), so the frontend has no tool check.
+   This was added after a shell variable made Home claim "Official sign-in"
+   while Claude Code used a relay.
 
 ## Consequences
 
@@ -83,6 +100,10 @@ shared flow, so they cannot disagree.
 - Positive: updates and live routing each have exactly one place.
 - Negative: switching has two entry points. They share one hook and one
   query cache, so they behave the same and always agree on what is in use.
+- Positive: Home no longer states a connection the tool does not use.
+- Negative: Codex reads `OPENAI_BASE_URL` only for its built-in provider, so
+  choosing a saved custom endpoint replaces such an address but choosing the
+  official entry does not; the note describes the custom case.
 - Negative: bulk "Update All" (one review for every tool with an update)
   existed only on Home and is gone; updates are reviewed one tool at a time
   on the Software page. If a bulk update is wanted again it belongs on the

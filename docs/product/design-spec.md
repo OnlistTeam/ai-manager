@@ -1165,9 +1165,22 @@ a small text button in the list header.
   row says so and links to the API Endpoints page. Picking the one in use
   writes it again. The API Endpoints page switches through the same flow.
 - While the list loads the picker is a placeholder; when the list cannot be
-  read it is plain text. Home reads only the saved inventory, never the
-  terminal environment (ADR-0035, ADR-0039); the API Endpoints page carries
-  the precise answer.
+  read it is plain text.
+- The picker first answers from the saved inventory, then follows the
+  effective connection read in the background through the endpoints page's
+  own query (ADR-0035, ADR-0051, ADR-0053). A saved endpoint the tool really
+  uses is named instead of the selected one. An address set outside this app
+  is named by its host and a short source, with a warning tint:
+
+  ```text
+  [icon] Claude Code ............. [⚠ relay.example.test  Terminal variable ▾]
+  ```
+
+  Its list starts with that address, checked and not choosable, under one
+  note: where it comes from, and whether choosing a saved endpoint replaces
+  it or the variable keeps winning, by the tool's own precedence. The saved
+  endpoints follow and stay choosable. Until the answer arrives the saved
+  label stays, with no spinner.
 
 There are no quick-action cards, no update buttons and no live routing panel
 on Home.
