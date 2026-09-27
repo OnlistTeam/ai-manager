@@ -162,6 +162,7 @@ export function ExtensionsUnifiedPanel({
                   new Set(skillUpdates.data?.map((update) => update.id) ?? [])
                 }
                 onRemove={dialogs.openRemoval}
+                onEdit={dialogs.openMcpEdit}
                 onUpdate={(skill) => {
                   if (skill.scope.kind !== "tool") return;
                   updateSkill.mutate({

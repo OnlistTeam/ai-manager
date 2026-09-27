@@ -28,6 +28,8 @@ fn restored(tool: ToolId) -> Extension {
         scope: ExtensionScope::tool(tool),
         name: "Code review".to_string(),
         description: None,
+        detail: None,
+        portability: None,
         management: ExtensionManagement::Managed,
         enabled: true,
         can_disable: true,

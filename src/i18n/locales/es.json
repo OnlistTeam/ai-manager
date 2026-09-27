@@ -547,6 +547,7 @@
       "commandInvalid": "Ese comando no se pudo añadir de forma segura.",
       "commandRequired": "Introduce el programa que debe ejecutar esta conexión.",
       "descriptionTooLong": "Limita la descripción a 240 caracteres o menos.",
+      "editUnavailable": "La configuración guardada de esta conexión no se puede mostrar en el formulario.",
       "envInvalid": "Revisa las variables de entorno: los nombres usan letras, números y guiones bajos, no empiezan por un número y no se repiten.",
       "headersInvalid": "Revisa los encabezados de solicitud: los nombres usan letras, números y guiones y no se repiten, y los valores ocupan una sola línea.",
       "installCleanupFailed": "No se pudo añadir la conexión, y AI Manager no pudo deshacer completamente el cambio intentado.",
@@ -560,6 +561,8 @@
       "removeRestoreFailed": "No se pudo quitar la conexión, y AI Manager no pudo confirmar que la configuración anterior se restauró por completo.",
       "removeVerifyFailed": "AI Manager no pudo confirmar que la conexión MCP se quitó.",
       "unsupportedScope": "AI Manager no ha integrado conexiones MCP para este destino.",
+      "updateFailed": "No se pudieron guardar los cambios de esta conexión MCP.",
+      "updateRestoreFailed": "No se pudieron guardar los cambios, y AI Manager no pudo confirmar que la configuración anterior se restauró por completo.",
       "urlCredentials": "No incluyas un nombre de usuario ni una contraseña en la dirección del servidor.",
       "urlInsecure": "Usa HTTPS para servidores remotos. HTTP solo se permite para este equipo.",
       "urlInvalid": "Introduce una dirección de servidor HTTP o HTTPS completa, sin fragmento.",
@@ -2267,6 +2270,14 @@
       "empty": {
         "title": "Aún no hay conexiones",
         "description": "Elige Añadir MCP para conectar esta herramienta con un programa local o un servicio seguro."
+      },
+      "edit": {
+        "title": "Editar {{name}}",
+        "description": "Los cambios se aplican en todas las apps donde esta conexión está activada.",
+        "descriptionFound": "Al guardar, AI Manager se encarga de esta conexión y aplica el cambio en todas las apps donde está activada.",
+        "confirm": "Guardar cambios",
+        "loading": "Leyendo la conexión guardada…",
+        "saved": "{{name}} guardada"
       }
     },
     "prompt": {
@@ -2315,6 +2326,12 @@
         "title": "Aún no hay instrucciones",
         "description": "Crea instrucciones reutilizables, o importa el archivo que ya usa esta herramienta."
       }
+    },
+    "portability": {
+      "relativePath": "Ejecuta un archivo con una ruta relativa a la carpeta donde se configuró, así que {{tools, list}} quizá no pueda iniciarlo desde otros proyectos. Edítala para usar una ruta completa.",
+      "envReference": "Usa marcadores ${…} que {{tools, list}} quizá no rellene, así que el servidor podría recibir el marcador en lugar de tu valor. Edítala y escribe el valor directamente.",
+      "toolHome": "SKILL.md apunta a la carpeta de otra app, así que quizá no funcione tal cual en {{tools, list}}. Abre SKILL.md y revisa esas rutas.",
+      "switchCaution": "Puede que no funcione aquí tal como está configurado."
     }
   },
   "routing": {

@@ -8,6 +8,7 @@ pub mod endpoint_change;
 pub mod extension_directory;
 pub mod health_check;
 pub mod import_existing;
+pub mod mcp_editing;
 pub mod mcp_installation;
 pub mod mcp_removal;
 pub mod model_choice;

@@ -195,7 +195,7 @@ fn skill_inventory_merges_local_directories_only_into_their_real_tool_scope() {
 
 #[test]
 #[serial_test::serial]
-fn mcp_inventory_detects_live_only_connections_without_exposing_their_specs() {
+fn mcp_inventory_detects_live_only_connections_showing_only_their_command_line() {
     use std::sync::Arc;
 
     let temp = tempfile::tempdir().expect("temp home");
@@ -203,13 +203,13 @@ fn mcp_inventory_detects_live_only_connections_without_exposing_their_specs() {
     std::fs::create_dir_all(temp.path().join(".claude")).expect("create Claude directory");
     std::fs::write(
         temp.path().join(".claude.json"),
-        r#"{"mcpServers":{"browser":{"command":"npx","args":["secret-package"]}}}"#,
+        r#"{"mcpServers":{"browser":{"command":"npx","args":["browser-package"],"env":{"API_TOKEN":"tok-hidden-value"}}}}"#,
     )
     .expect("write Claude MCP config");
     std::fs::create_dir_all(temp.path().join(".codex")).expect("create Codex directory");
     std::fs::write(
         temp.path().join(".codex/config.toml"),
-        "[mcp_servers.node_repl]\ncommand = \"node\"\nargs = [\"--do-not-expose\"]\n",
+        "[mcp_servers.node_repl]\ncommand = \"node\"\nargs = [\"repl.js\", \"--api-key\", \"k-hidden\"]\n",
     )
     .expect("write Codex MCP config");
     let state = crate::store::AppState::new(Arc::new(
@@ -225,9 +225,13 @@ fn mcp_inventory_detects_live_only_connections_without_exposing_their_specs() {
     assert_eq!(claude.len(), 1);
     assert_eq!(claude[0].id, "browser");
     assert_eq!(claude[0].management, ExtensionManagement::Detected);
+    // ADR-0062: the command line is the row's one detail line; environment
+    // values never cross the boundary.
+    assert_eq!(claude[0].detail.as_deref(), Some("npx browser-package"));
     let claude_wire = serde_json::to_string(&claude).expect("serialize Claude inventory");
-    assert!(!claude_wire.contains("secret-package"));
-    assert!(!claude_wire.contains("command"));
+    assert!(!claude_wire.contains("tok-hidden-value"));
+    assert!(!claude_wire.contains("API_TOKEN"));
+    assert!(!claude_wire.contains("\"command\""));
 
     let codex = super::mcp::list(
         &state,
@@ -238,9 +242,13 @@ fn mcp_inventory_detects_live_only_connections_without_exposing_their_specs() {
     assert_eq!(codex.len(), 1);
     assert_eq!(codex[0].id, "node_repl");
     assert_eq!(codex[0].management, ExtensionManagement::Detected);
+    assert_eq!(
+        codex[0].detail.as_deref(),
+        Some("node repl.js --api-key ••••")
+    );
     let codex_wire = serde_json::to_string(&codex).expect("serialize Codex inventory");
-    assert!(!codex_wire.contains("do-not-expose"));
-    assert!(!codex_wire.contains("args"));
+    assert!(!codex_wire.contains("k-hidden"));
+    assert!(!codex_wire.contains("\"args\""));
 }
 
 #[test]
@@ -333,8 +341,16 @@ fn a_shared_agents_skill_is_listed_even_before_it_has_a_tool_specific_copy() {
     assert_eq!(claude.len(), 1);
     assert_eq!(claude[0].id, "shared-agent-skill");
     assert_eq!(claude[0].management, ExtensionManagement::Detected);
+    // ADR-0062: the row names its folder, with the home folder shortened.
+    let expected = std::path::Path::new(".agents")
+        .join("skills")
+        .join("shared-agent-skill");
+    assert_eq!(
+        claude[0].detail,
+        Some(format!("~/{}", expected.to_string_lossy()))
+    );
     let wire = serde_json::to_string(&claude).expect("serialize shared inventory");
-    assert!(!wire.contains(".agents"));
+    assert!(!wire.contains(&temp.path().to_string_lossy().replace('\\', "\\\\")));
     assert!(!wire.contains("SKILL.md"));
 }
 
@@ -493,14 +509,15 @@ fn adopting_detected_mcp_keeps_live_bytes_and_returns_no_connection_payload() {
     let stored = rows.get("browser").expect("browser was imported");
     assert!(stored.apps.claude);
     assert!(stored.server.to_string().contains("fixture-secret"));
+    // ADR-0062: the command line is the one detail; env names and values never are.
+    assert_eq!(refreshed[0].detail.as_deref(), Some("npx secret-package"));
     let wire = serde_json::to_string(&refreshed).expect("serialize product inventory");
     for forbidden in [
         "fixture-secret",
-        "secret-package",
         "PRIVATE_TOKEN",
-        "command",
-        "args",
-        "env",
+        "\"command\"",
+        "\"args\"",
+        "\"env\"",
     ] {
         assert!(!wire.contains(forbidden), "wire leaked {forbidden}");
     }
@@ -1213,12 +1230,7 @@ fn claude_desktop_is_a_real_mcp_scope_with_non_destructive_adoption_and_toggles(
         original
     );
     let wire = serde_json::to_string(&adopted).expect("serialize desktop inventory");
-    for forbidden in [
-        "fixture-secret",
-        "private-package",
-        "PRIVATE_TOKEN",
-        "command",
-    ] {
+    for forbidden in ["fixture-secret", "PRIVATE_TOKEN", "\"command\""] {
         assert!(!wire.contains(forbidden), "wire leaked {forbidden}");
     }
 

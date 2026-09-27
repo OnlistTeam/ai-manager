@@ -547,6 +547,7 @@
       "commandInvalid": "Perintah tersebut tidak dapat ditambahkan dengan aman.",
       "commandRequired": "Masukkan program yang harus dijalankan koneksi ini.",
       "descriptionTooLong": "Jaga deskripsi hingga 240 karakter atau kurang.",
+      "editUnavailable": "Pengaturan tersimpan koneksi ini tidak dapat ditampilkan di formulir.",
       "envInvalid": "Periksa variabel lingkungan: nama hanya memakai huruf, angka, dan garis bawah, tidak diawali angka, dan tidak berulang.",
       "headersInvalid": "Periksa header permintaan: nama hanya memakai huruf, angka, dan tanda hubung, tidak berulang, dan nilainya satu baris.",
       "installCleanupFailed": "Koneksi tidak dapat ditambahkan, dan AI Manager tidak dapat sepenuhnya membersihkan perubahan yang dicoba.",
@@ -560,6 +561,8 @@
       "removeRestoreFailed": "Koneksi tidak dapat dihapus, dan AI Manager tidak dapat memastikan pengaturan sebelumnya sepenuhnya dipulihkan.",
       "removeVerifyFailed": "AI Manager tidak dapat memastikan koneksi MCP telah dihapus.",
       "unsupportedScope": "AI Manager belum mengintegrasikan koneksi MCP untuk target ini.",
+      "updateFailed": "Perubahan pada koneksi MCP ini tidak dapat disimpan.",
+      "updateRestoreFailed": "Perubahan tidak dapat disimpan, dan AI Manager tidak dapat memastikan pengaturan sebelumnya sepenuhnya dipulihkan.",
       "urlCredentials": "Jangan masukkan nama pengguna atau kata sandi dalam alamat server.",
       "urlInsecure": "Gunakan HTTPS untuk server jarak jauh. HTTP hanya diizinkan untuk komputer ini.",
       "urlInvalid": "Masukkan alamat server HTTP atau HTTPS lengkap tanpa fragmen.",
@@ -2267,6 +2270,14 @@
       "empty": {
         "title": "Belum ada koneksi",
         "description": "Pilih Tambah MCP untuk menghubungkan alat ini ke program lokal atau layanan yang aman."
+      },
+      "edit": {
+        "title": "Edit {{name}}",
+        "description": "Perubahan berlaku di setiap aplikasi tempat koneksi ini aktif.",
+        "descriptionFound": "Saat disimpan, AI Manager mengelola koneksi ini dan menerapkan perubahan di setiap aplikasi tempat koneksi ini aktif.",
+        "confirm": "Simpan Perubahan",
+        "loading": "Membaca koneksi yang tersimpan…",
+        "saved": "{{name}} disimpan"
       }
     },
     "prompt": {
@@ -2315,6 +2326,12 @@
         "title": "Belum ada instruksi",
         "description": "Buat instruksi yang dapat digunakan kembali, atau impor file yang sudah digunakan alat ini."
       }
+    },
+    "portability": {
+      "relativePath": "Menjalankan file dengan jalur relatif terhadap folder tempat koneksi ini disiapkan, jadi {{tools, list}} mungkin tidak dapat memulainya dari proyek lain. Edit agar memakai jalur lengkap.",
+      "envReference": "Memakai placeholder ${…} yang mungkin tidak diisi oleh {{tools, list}}, sehingga server bisa menerima placeholder alih-alih nilai Anda. Edit dan masukkan nilainya langsung.",
+      "toolHome": "SKILL.md menunjuk ke folder aplikasi lain, jadi mungkin tidak berjalan sesuai tulisannya di {{tools, list}}. Buka SKILL.md dan periksa jalur tersebut.",
+      "switchCaution": "Dengan pengaturan saat ini, mungkin tidak berfungsi di sini."
     }
   },
   "routing": {

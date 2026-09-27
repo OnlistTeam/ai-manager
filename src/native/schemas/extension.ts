@@ -18,10 +18,35 @@ export const extensionScopeSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("desktopApp"), id: desktopAppIdSchema }).strict(),
 ]);
 
+export const portabilityReasonSchema = z.enum([
+  "relativePath",
+  "envReference",
+  "toolHome",
+]);
+
+/**
+ * The entry probably only works where it was first set up (ADR-0062).
+ * `worksIn` lists the apps where it is expected to keep working; the row
+ * warns when the entry is on, or is being turned on, anywhere else.
+ */
+export const extensionPortabilitySchema = z
+  .object({
+    reason: portabilityReasonSchema,
+    worksIn: z.array(extensionScopeSchema).max(32),
+  })
+  .strict();
+
 /**
  * Aligned field for field with Rust's `domain::extension::Extension`.
  * The wire format deliberately has **no** field that could carry a config payload --
- * no `server`, no `content`, no path (Spec §36, "avoid showing raw JSON on first entry").
+ * no `server`, no `content`, no environment or header values (Spec §36, "avoid
+ * showing raw JSON on first entry").
+ *
+ * ADR-0062 relaxes one clause: `detail` is a single bounded display line (an
+ * MCP server's command line or address, or where a Skill lives, `$HOME` as
+ * `~`) with anything secret-looking masked on the native side. It is shown,
+ * never sent back. Both new fields are optional here so payloads and fixtures
+ * that predate them stay valid; native always sends them.
  */
 export const extensionSchema = z.object({
   kind: extensionKindSchema,
@@ -29,6 +54,8 @@ export const extensionSchema = z.object({
   scope: extensionScopeSchema,
   name: z.string(),
   description: z.string().nullable(),
+  detail: z.string().max(400).nullish(),
+  portability: extensionPortabilitySchema.nullish(),
   management: extensionManagementSchema,
   enabled: z.boolean(),
   /**
@@ -46,12 +73,11 @@ export const extensionLocationActionSchema = z.enum(["browse", "edit"]);
 /**
  * The single file a scope's MCP servers or instructions are written in.
  *
- * `extensionSchema` deliberately carries no path, because a per-row path would
- * be one more thing on every card that the reader did not ask for. This is the
- * scope's own file, named once above the list, so someone can see which file
- * the product is about to change (ADR-0045). It is still only a path: no
- * contents cross the boundary, and the renderer sends back the scope and kind
- * rather than this string.
+ * Named once above a per-app list (Global Prompts) so someone can see which
+ * file the product is about to change (ADR-0045); Skill and MCP rows name
+ * their own location in `detail` instead (ADR-0062). It is still only a path:
+ * no contents cross the boundary, and the renderer sends back the scope and
+ * kind rather than this string.
  */
 export const extensionLocationSchema = z
   .object({
@@ -120,6 +146,8 @@ export type ExtensionLocationAction = z.infer<
   typeof extensionLocationActionSchema
 >;
 export type ExtensionScope = z.infer<typeof extensionScopeSchema>;
+export type ExtensionPortability = z.infer<typeof extensionPortabilitySchema>;
+export type PortabilityReason = z.infer<typeof portabilityReasonSchema>;
 export type Extension = z.infer<typeof extensionSchema>;
 export type LocalExtensionInventory = z.infer<
   typeof localExtensionInventorySchema

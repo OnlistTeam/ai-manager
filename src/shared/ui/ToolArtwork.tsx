@@ -14,6 +14,8 @@ import { cn } from "./cn";
 interface ArtworkMeta {
   src: string;
   imageClassName: string;
+  /** A word or two that fits a narrow column header, e.g. above a switch. */
+  shortName: string;
 }
 
 /**
@@ -24,42 +26,52 @@ const TOOL_ARTWORK: Record<ToolId, ArtworkMeta> = {
   "claude-code": {
     src: ClaudeSvg,
     imageClassName: "h-7 w-7",
+    shortName: "Claude",
   },
   codex: {
     src: OpenAISvg,
     imageClassName: "h-7 w-7 dark:invert",
+    shortName: "Codex",
   },
   opencode: {
     src: OpenCodeSvg,
     imageClassName: "h-8 w-7 dark:invert",
+    shortName: "OpenCode",
   },
   "gemini-cli": {
     src: GeminiSvg,
     imageClassName: "h-7 w-7",
+    shortName: "Gemini",
   },
   "grok-build": {
     src: GrokSvg,
     imageClassName: "h-7 w-7 dark:invert",
+    shortName: "Grok",
   },
   openclaw: {
     src: OpenClawSvg,
     imageClassName: "h-8 w-8",
+    shortName: "OpenClaw",
   },
   hermes: {
     src: HermesPng,
     imageClassName: "h-8 w-8 rounded-md",
+    shortName: "Hermes",
   },
   pi: {
     src: `data:image/svg+xml,${encodeURIComponent(getIcon("pi"))}`,
     imageClassName: "h-7 w-7 dark:invert",
+    shortName: "Pi",
   },
   "kimi-code": {
     src: KimiSvg,
     imageClassName: "h-7 w-7",
+    shortName: "Kimi",
   },
   "deepseek-dsh": {
     src: DeepSeekSvg,
     imageClassName: "h-7 w-7",
+    shortName: "DeepSeek",
   },
 };
 
@@ -111,4 +123,9 @@ export function ToolGlyph({ toolId, className }: ToolArtworkProps) {
       )}
     />
   );
+}
+
+/** The short name for a narrow column, such as the header above per-app switches. */
+export function toolShortName(id: ToolId): string {
+  return TOOL_ARTWORK[id].shortName;
 }

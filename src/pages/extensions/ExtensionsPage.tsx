@@ -212,6 +212,7 @@ export function ExtensionsPage({
         activeTool={target?.tool ?? null}
         catalogOpen={dialogs.catalogOpen}
         mcpInstallOpen={dialogs.mcpInstallOpen}
+        editingMcp={dialogs.editingMcp}
         promptEditorOpen={dialogs.promptEditorOpen}
         editingPrompt={dialogs.editingPrompt}
         mutationsBlocked={mutationsBlocked}

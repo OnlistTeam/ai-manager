@@ -23,7 +23,11 @@ use super::{
     toggle_failed,
 };
 
+mod display;
+mod editing;
 mod removal;
+
+pub(super) use editing::{form, update};
 
 /// Product MCP writes share a global record set even though each operation is
 /// scoped to one tool. This lock closes the read-create-write race between two
@@ -43,12 +47,15 @@ pub(super) fn extension_from_server(
     raw: &McpServer,
     app_type: &AppType,
 ) -> Extension {
+    let (detail, portability) = display::describe(&raw.server);
     Extension {
         kind: ExtensionKind::Mcp,
         id: raw.id.clone(),
         scope,
         name: raw.name.clone(),
         description: non_empty(raw.description.clone()),
+        detail,
+        portability,
         management: ExtensionManagement::Managed,
         enabled: raw.apps.is_enabled_for(app_type),
         // Turning off an MCP entry only affects the current tool; the switches of the other tools are left untouched.
@@ -57,12 +64,15 @@ pub(super) fn extension_from_server(
 }
 
 fn extension_from_detected_server(scope: ExtensionScope, raw: &McpServer) -> Extension {
+    let (detail, portability) = display::describe(&raw.server);
     Extension {
         kind: ExtensionKind::Mcp,
         id: raw.id.clone(),
         scope,
         name: raw.name.clone(),
         description: non_empty(raw.description.clone()),
+        detail,
+        portability,
         management: ExtensionManagement::Detected,
         enabled: true,
         can_disable: false,
@@ -71,7 +81,8 @@ fn extension_from_detected_server(scope: ExtensionScope, raw: &McpServer) -> Ext
 
 /// Read one tool's live MCP file into an in-memory upstream config. The free-
 /// form server spec never crosses the product boundary; only the small
-/// `Extension` projection is returned by `list`.
+/// `Extension` projection is returned by `list`, and the edit form reads
+/// typed fields out of it (`editing::form`).
 fn scan_live(app_type: &AppType) -> Result<Vec<McpServer>, crate::error::AppError> {
     let mut config = MultiAppConfig::default();
     match app_type {

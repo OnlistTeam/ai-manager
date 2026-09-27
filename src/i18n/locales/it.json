@@ -547,6 +547,7 @@
       "commandInvalid": "Non è stato possibile aggiungere in sicurezza quel comando.",
       "commandRequired": "Inserisci il programma che questa connessione deve eseguire.",
       "descriptionTooLong": "Mantieni la descrizione entro 240 caratteri.",
+      "editUnavailable": "La configurazione salvata di questa connessione non può essere mostrata nel modulo.",
       "envInvalid": "Controlla le variabili d'ambiente: i nomi usano lettere, cifre e trattini bassi, non iniziano con una cifra e non si ripetono.",
       "headersInvalid": "Controlla le intestazioni della richiesta: i nomi usano lettere, cifre e trattini e non si ripetono, e i valori stanno su una riga.",
       "installCleanupFailed": "Non è stato possibile aggiungere la connessione, e AI Manager non è riuscito a ripulire completamente la modifica tentata.",
@@ -560,6 +561,8 @@
       "removeRestoreFailed": "Non è stato possibile rimuovere la connessione, e AI Manager non è riuscito a confermare che la configurazione precedente fosse stata ripristinata completamente.",
       "removeVerifyFailed": "AI Manager non è riuscito a confermare che la connessione MCP fosse stata rimossa.",
       "unsupportedScope": "AI Manager non ha integrato le connessioni MCP per questa destinazione.",
+      "updateFailed": "Non è stato possibile salvare le modifiche a questa connessione MCP.",
+      "updateRestoreFailed": "Non è stato possibile salvare le modifiche, e AI Manager non è riuscito a confermare che la configurazione precedente fosse stata ripristinata completamente.",
       "urlCredentials": "Non inserire un nome utente o una password nell'indirizzo del server.",
       "urlInsecure": "Usa HTTPS per i server remoti. HTTP è consentito solo per questo computer.",
       "urlInvalid": "Inserisci un indirizzo server HTTP o HTTPS completo senza frammento.",
@@ -2267,6 +2270,14 @@
       "empty": {
         "title": "Ancora nessuna connessione",
         "description": "Scegli Aggiungi MCP per connettere questo strumento a un programma locale o a un servizio sicuro."
+      },
+      "edit": {
+        "title": "Modifica {{name}}",
+        "description": "Le modifiche valgono in ogni app in cui questa connessione è attiva.",
+        "descriptionFound": "Salvando, AI Manager prende in carico questa connessione e applica la modifica in ogni app in cui è attiva.",
+        "confirm": "Salva modifiche",
+        "loading": "Lettura della connessione salvata…",
+        "saved": "{{name}} salvata"
       }
     },
     "prompt": {
@@ -2315,6 +2326,12 @@
         "title": "Ancora nessuna istruzione",
         "description": "Crea istruzioni riutilizzabili, oppure importa il file che questo strumento usa già."
       }
+    },
+    "portability": {
+      "relativePath": "Avvia un file con un percorso relativo alla cartella in cui è stata configurata, quindi {{tools, list}} potrebbe non avviarla da altri progetti. Modificala per usare un percorso completo.",
+      "envReference": "Usa segnaposto ${…} che {{tools, list}} potrebbe non compilare, quindi il server potrebbe ricevere il segnaposto invece del tuo valore. Modificala e inserisci il valore vero e proprio.",
+      "toolHome": "SKILL.md punta alla cartella di un’altra app, quindi in {{tools, list}} potrebbe non funzionare così com’è. Apri SKILL.md e controlla quei percorsi.",
+      "switchCaution": "Così com’è configurato, qui potrebbe non funzionare."
     }
   },
   "routing": {

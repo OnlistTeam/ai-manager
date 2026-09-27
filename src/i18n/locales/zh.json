@@ -547,6 +547,7 @@
       "commandInvalid": "这个程序命令无法安全添加。",
       "commandRequired": "填写这个连接要运行的程序。",
       "descriptionTooLong": "说明不能超过 240 个字符。",
+      "editUnavailable": "这个连接保存的设置没法在表单里显示。",
       "envInvalid": "请检查环境变量：名称只能用字母、数字和下划线，不能以数字开头，也不能重复。",
       "headersInvalid": "请检查请求头：名称只能用字母、数字和连字符，不能重复，值不能换行。",
       "installCleanupFailed": "连接没有添加成功，而且 AI 管家没能完全清理这次改动。",
@@ -560,6 +561,8 @@
       "removeRestoreFailed": "连接没有移除成功，而且 AI 管家无法确认原来的设置已经完整恢复。",
       "removeVerifyFailed": "AI 管家没能确认 MCP 连接已经移除。",
       "unsupportedScope": "AI 管家尚未接入这个目标的 MCP 连接。",
+      "updateFailed": "没能保存对这个 MCP 连接的修改。",
+      "updateRestoreFailed": "修改没有保存成功，而且 AI 管家无法确认原来的设置已经完整恢复。",
       "urlCredentials": "不要把用户名或密码写进服务器地址。",
       "urlInsecure": "远程服务器请使用 HTTPS；只有这台电脑上的地址可以使用 HTTP。",
       "urlInvalid": "填写完整的 HTTP 或 HTTPS 服务器地址，地址里不能带片段标识。",
@@ -2266,6 +2269,14 @@
       "empty": {
         "title": "还没有连接",
         "description": "选择“添加 MCP”，把这个工具接到本地程序或安全的远程服务。"
+      },
+      "edit": {
+        "title": "编辑 {{name}}",
+        "description": "修改会应用到所有开启了这个连接的应用。",
+        "descriptionFound": "保存后由 AI 管家接管这个连接，并把修改应用到所有开启了它的应用。",
+        "confirm": "保存修改",
+        "loading": "正在读取已保存的连接…",
+        "saved": "已保存 {{name}}"
       }
     },
     "prompt": {
@@ -2314,6 +2325,12 @@
         "title": "还没有提示词",
         "description": "新建一份常用说明，或者导入这个工具已经在使用的文件。"
       }
+    },
+    "portability": {
+      "relativePath": "它用相对路径运行文件，离开当初设置它的文件夹后，{{tools, list}} 在其他项目里可能启动不了它。请改用完整路径。",
+      "envReference": "它用了 ${…} 占位符，{{tools, list}} 可能不会替换，服务拿到的会是占位文字而不是你的值。请编辑并直接填入实际值。",
+      "toolHome": "SKILL.md 指向了另一个应用的文件夹，在 {{tools, list}} 中可能无法照原样工作。请打开 SKILL.md 检查这些路径。",
+      "switchCaution": "按现在的设置，在这里可能用不了。"
     }
   },
   "routing": {

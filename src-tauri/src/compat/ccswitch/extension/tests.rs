@@ -2,7 +2,7 @@ use super::mcp::extension_from_server;
 use super::non_empty;
 use super::prompt::extension_from_prompt;
 use super::skill::{
-    adoption_scopes, extension_from_skill, extension_from_unmanaged, visible_in_scope,
+    adoption_scopes, extension_from_skill, extension_from_unmanaged, visible_in_scope, SkillDisplay,
 };
 use crate::app_config::{AppType, InstalledSkill, McpApps, McpServer, SkillApps, UnmanagedSkill};
 use crate::domain::{ExtensionKind, ExtensionManagement, ExtensionScope, ToolId};
@@ -95,7 +95,12 @@ fn a_skill_reads_its_enabled_flag_out_of_the_scoped_tool() {
         apps,
     );
 
-    let on = extension_from_skill(ToolId::ClaudeCode, &raw, &AppType::Claude);
+    let on = extension_from_skill(
+        ToolId::ClaudeCode,
+        &raw,
+        &AppType::Claude,
+        &SkillDisplay::empty(),
+    );
     assert_eq!(on.kind, ExtensionKind::Skill);
     assert_eq!(on.id, "anthropics/skills:code-review");
     assert_eq!(on.name, "Code review");
@@ -106,7 +111,7 @@ fn a_skill_reads_its_enabled_flag_out_of_the_scoped_tool() {
     assert!(on.enabled);
     assert!(on.can_disable);
 
-    let off = extension_from_skill(ToolId::Codex, &raw, &AppType::Codex);
+    let off = extension_from_skill(ToolId::Codex, &raw, &AppType::Codex, &SkillDisplay::empty());
     assert!(!off.enabled);
 }
 
@@ -120,7 +125,7 @@ fn an_unmanaged_skill_is_visible_without_exposing_its_local_path() {
         path: "/Users/alice/.codex/skills/mobile-app-release".to_string(),
     };
 
-    let extension = extension_from_unmanaged(ToolId::Codex, &raw);
+    let extension = extension_from_unmanaged(ToolId::Codex, &raw, None, &SkillDisplay::empty());
     assert_eq!(extension.kind, ExtensionKind::Skill);
     assert_eq!(extension.id, "mobile-app-release");
     assert_eq!(extension.scope, scope(ToolId::Codex));
@@ -202,6 +207,7 @@ fn prompts_are_the_only_kind_that_cannot_be_switched_off() {
         ToolId::ClaudeCode,
         &skill("o/r:d", "D", None, SkillApps::default()),
         &AppType::Claude,
+        &SkillDisplay::empty(),
     );
     let prompt_ext = extension_from_prompt(ToolId::ClaudeCode, "p", &prompt("p", "P", None, false));
 
@@ -222,16 +228,21 @@ fn prompts_are_the_only_kind_that_cannot_be_switched_off() {
 
 #[test]
 fn no_conversion_ever_lets_a_configuration_payload_reach_the_wire() {
-    // All three records carry free-form config or bodies. After the conversion the wire format must not contain a single byte of it.
-    let mcp = extension_from_server(
-        scope(ToolId::ClaudeCode),
-        &server("filesystem", "Filesystem", None, McpApps::default()),
-        &AppType::Claude,
+    // All three records carry free-form config or bodies. After the conversion the wire format
+    // carries only the one display line ADR-0062 allows: an MCP server's command line, never its
+    // environment values.
+    let mut raw = server("filesystem", "Filesystem", None, McpApps::default());
+    raw.server["env"] = json!({ "FILESYSTEM_TOKEN": "tok-never-on-the-wire" });
+    let mcp = extension_from_server(scope(ToolId::ClaudeCode), &raw, &AppType::Claude);
+    assert_eq!(
+        mcp.detail.as_deref(),
+        Some("npx -y @modelcontextprotocol/server-filesystem")
     );
     let skill_ext = extension_from_skill(
         ToolId::ClaudeCode,
         &skill("o/r:code-review", "Code review", None, SkillApps::default()),
         &AppType::Claude,
+        &SkillDisplay::empty(),
     );
     let prompt_ext = extension_from_prompt(
         ToolId::ClaudeCode,
@@ -242,8 +253,8 @@ fn no_conversion_ever_lets_a_configuration_payload_reach_the_wire() {
     for extension in [mcp, skill_ext, prompt_ext] {
         let json = serde_json::to_string(&extension).expect("serialize extension");
         for leaked in [
-            "modelcontextprotocol",
-            "npx",
+            "tok-never-on-the-wire",
+            "FILESYSTEM_TOKEN",
             "House rules\\nAlways run the tests",
             "code-review\",\"repo",
         ] {

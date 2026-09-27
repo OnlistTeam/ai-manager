@@ -558,6 +558,30 @@ type GalleryScope = Extension["scope"];
  * Each app lists every managed item with its own switch, plus what it has
  * on disk that is not imported yet, exactly as the native lists do.
  */
+/** Detail lines and portability hints as native would send them (ADR-0062). */
+const GALLERY_EXTENSION_DETAILS: Record<
+  string,
+  Pick<Extension, "detail" | "portability">
+> = {
+  "release-helper": {
+    detail: "~/.agents/skills/release-helper · onlist/skills",
+  },
+  "frontend-review": {
+    detail: "~/.agents/skills/frontend-review",
+    portability: {
+      reason: "toolHome",
+      worksIn: [{ kind: "tool", id: "claude-code" }],
+    },
+  },
+  "local-design-audit": { detail: "~/.claude/skills/local-design-audit" },
+  "project-files": {
+    detail: "node ./dist/server.js --root ~/work --api-key ••••",
+    portability: { reason: "relativePath", worksIn: [] },
+  },
+  browser: { detail: "npx -y @playwright/mcp@latest" },
+  context7: { detail: "https://mcp.context7.com/mcp" },
+};
+
 function galleryExtension(
   scope: GalleryScope,
   kind: Extension["kind"],
@@ -573,6 +597,7 @@ function galleryExtension(
     scope,
     name,
     description,
+    ...(kind === "prompt" ? {} : GALLERY_EXTENSION_DETAILS[id]),
     management: detected ? "detected" : "managed",
     enabled: detected || enabledIn.includes(scope.id),
     // A prompt is picked, never switched off (one is always in use).

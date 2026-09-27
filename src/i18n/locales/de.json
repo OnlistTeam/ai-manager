@@ -547,6 +547,7 @@
       "commandInvalid": "Dieser Befehl konnte nicht sicher hinzugefügt werden.",
       "commandRequired": "Geben Sie das Programm ein, das diese Verbindung ausführen soll.",
       "descriptionTooLong": "Beschränken Sie die Beschreibung auf höchstens 240 Zeichen.",
+      "editUnavailable": "Die gespeicherte Einrichtung dieser Verbindung lässt sich im Formular nicht anzeigen.",
       "envInvalid": "Prüfen Sie die Umgebungsvariablen: Namen bestehen aus Buchstaben, Ziffern und Unterstrichen, beginnen nicht mit einer Ziffer und kommen nur einmal vor.",
       "headersInvalid": "Prüfen Sie die Anfrage-Header: Namen bestehen aus Buchstaben, Ziffern und Bindestrichen und kommen nur einmal vor; Werte bleiben einzeilig.",
       "installCleanupFailed": "Die Verbindung konnte nicht hinzugefügt werden, und AI Manager konnte den Versuch nicht vollständig rückgängig machen.",
@@ -560,6 +561,8 @@
       "removeRestoreFailed": "Die Verbindung konnte nicht entfernt werden, und AI Manager konnte nicht bestätigen, dass die vorherige Einrichtung vollständig wiederhergestellt wurde.",
       "removeVerifyFailed": "AI Manager konnte nicht bestätigen, dass die MCP-Verbindung entfernt wurde.",
       "unsupportedScope": "AI Manager hat MCP-Verbindungen für dieses Ziel nicht integriert.",
+      "updateFailed": "Die Änderungen an dieser MCP-Verbindung konnten nicht gespeichert werden.",
+      "updateRestoreFailed": "Die Änderungen konnten nicht gespeichert werden, und AI Manager konnte nicht bestätigen, dass die vorherige Einrichtung vollständig wiederhergestellt wurde.",
       "urlCredentials": "Geben Sie keinen Benutzernamen oder kein Passwort in die Serveradresse ein.",
       "urlInsecure": "Verwenden Sie HTTPS für entfernte Server. HTTP ist nur für diesen Computer erlaubt.",
       "urlInvalid": "Geben Sie eine vollständige HTTP- oder HTTPS-Serveradresse ohne Fragment ein.",
@@ -2267,6 +2270,14 @@
       "empty": {
         "title": "Noch keine Verbindungen",
         "description": "Wählen Sie MCP hinzufügen, um dieses Tool mit einem lokalen Programm oder sicheren Dienst zu verbinden."
+      },
+      "edit": {
+        "title": "{{name}} bearbeiten",
+        "description": "Änderungen gelten in jeder App, in der diese Verbindung eingeschaltet ist.",
+        "descriptionFound": "Beim Speichern übernimmt AI Manager diese Verbindung und wendet die Änderung in jeder App an, in der sie eingeschaltet ist.",
+        "confirm": "Änderungen speichern",
+        "loading": "Gespeicherte Verbindung wird gelesen …",
+        "saved": "{{name}} gespeichert"
       }
     },
     "prompt": {
@@ -2315,6 +2326,12 @@
         "title": "Noch keine Anweisungen",
         "description": "Erstellen Sie wiederverwendbare Anweisungen, oder importieren Sie die Datei, die dieses Tool bereits verwendet."
       }
+    },
+    "portability": {
+      "relativePath": "Startet eine Datei über einen Pfad relativ zu dem Ordner, in dem sie eingerichtet wurde, daher startet {{tools, list}} sie aus anderen Projekten womöglich nicht. Ändere ihn in einen vollständigen Pfad.",
+      "envReference": "Verwendet ${…}-Platzhalter, die {{tools, list}} möglicherweise nicht ausfüllt, sodass der Server den Platzhalter statt deines Werts erhält. Bearbeite sie und trage den Wert selbst ein.",
+      "toolHome": "SKILL.md verweist in den Ordner einer anderen App und funktioniert in {{tools, list}} womöglich nicht wie geschrieben. Öffne SKILL.md und prüfe diese Pfade.",
+      "switchCaution": "Funktioniert hier so, wie es eingerichtet ist, womöglich nicht."
     }
   },
   "routing": {

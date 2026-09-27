@@ -547,6 +547,7 @@
       "commandInvalid": "無法安全加入這個程式命令。",
       "commandRequired": "填寫這個連線要執行的程式。",
       "descriptionTooLong": "說明不能超過 240 個字元。",
+      "editUnavailable": "這個連線儲存的設定無法在表單中顯示。",
       "envInvalid": "請檢查環境變數：名稱只能用字母、數字和底線，不能以數字開頭，也不能重複。",
       "headersInvalid": "請檢查請求標頭：名稱只能用字母、數字和連字號，不能重複，值不能換行。",
       "installCleanupFailed": "連線沒有加入成功，而且 AI 管家無法完全清理這次變更。",
@@ -560,6 +561,8 @@
       "removeRestoreFailed": "連線沒有移除成功，而且 AI 管家無法確認原本的設定已完整還原。",
       "removeVerifyFailed": "AI 管家無法確認 MCP 連線已經移除。",
       "unsupportedScope": "AI 管家尚未接入這個目標的 MCP 連線。",
+      "updateFailed": "沒能儲存對這個 MCP 連線的修改。",
+      "updateRestoreFailed": "修改沒有儲存成功，而且 AI 管家無法確認原本的設定已完整還原。",
       "urlCredentials": "請勿把使用者名稱或密碼寫進伺服器網址。",
       "urlInsecure": "遠端伺服器請使用 HTTPS；只有這台電腦上的網址可以使用 HTTP。",
       "urlInvalid": "填寫完整的 HTTP 或 HTTPS 伺服器網址，網址不能包含片段識別碼。",
@@ -2266,6 +2269,14 @@
       "empty": {
         "title": "還沒有連線",
         "description": "選擇「加入 MCP」，把這個工具連到本機程式或安全的遠端服務。"
+      },
+      "edit": {
+        "title": "編輯 {{name}}",
+        "description": "修改會套用到所有開啟這個連線的應用程式。",
+        "descriptionFound": "儲存後由 AI 管家接管這個連線，並把修改套用到所有開啟它的應用程式。",
+        "confirm": "儲存修改",
+        "loading": "正在讀取已儲存的連線…",
+        "saved": "已儲存 {{name}}"
       }
     },
     "prompt": {
@@ -2314,6 +2325,12 @@
         "title": "還沒有提示詞",
         "description": "新增一份常用說明，或者匯入這個工具已經在使用的檔案。"
       }
+    },
+    "portability": {
+      "relativePath": "它用相對路徑執行檔案，離開當初設定它的資料夾後，{{tools, list}} 在其他專案裡可能無法啟動它。請改用完整路徑。",
+      "envReference": "它用了 ${…} 預留位置，{{tools, list}} 可能不會替換，服務拿到的會是預留文字而不是你的值。請編輯並直接填入實際值。",
+      "toolHome": "SKILL.md 指向了另一個應用程式的資料夾，在 {{tools, list}} 中可能無法照原樣運作。請開啟 SKILL.md 檢查這些路徑。",
+      "switchCaution": "依目前的設定，在這裡可能無法使用。"
     }
   },
   "routing": {

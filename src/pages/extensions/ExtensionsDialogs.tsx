@@ -2,6 +2,7 @@ import type { Extension, ExtensionKind } from "@/entities/extension";
 import type { Tool } from "@/entities/tool";
 import {
   type ExtensionScopeOption,
+  type McpEditTarget,
   McpInstallModal,
   McpRemovalModal,
   PromptEditorModal,
@@ -16,6 +17,8 @@ interface ExtensionsDialogsProps {
   activeTool: Tool | null;
   catalogOpen: boolean;
   mcpInstallOpen: boolean;
+  /** Set when the MCP form edits a saved connection instead of adding one. */
+  editingMcp?: McpEditTarget | null;
   promptEditorOpen: boolean;
   editingPrompt: Extension | null;
   mutationsBlocked: boolean;
@@ -32,6 +35,7 @@ export function ExtensionsDialogs({
   activeTool,
   catalogOpen,
   mcpInstallOpen,
+  editingMcp = null,
   promptEditorOpen,
   editingPrompt,
   mutationsBlocked,
@@ -56,6 +60,7 @@ export function ExtensionsDialogs({
       {activeKind === "mcp" && activeScope ? (
         <McpInstallModal
           open={mcpInstallOpen}
+          editing={editingMcp}
           scope={activeScope.scope}
           scopeName={activeScope.name}
           mutationsBlocked={mutationsBlocked}

@@ -2,6 +2,7 @@ import {
   extensionScopeKey,
   type Extension,
   type ExtensionKind,
+  type ExtensionPortability,
 } from "@/entities/extension";
 
 /**
@@ -19,6 +20,10 @@ export interface UnifiedExtensionRow {
   kind: ExtensionKind;
   name: string;
   description: string | null;
+  /** The one display line: command line, address or folder (ADR-0062). */
+  detail: string | null;
+  /** Set when the item probably only works where it was set up. */
+  portability: ExtensionPortability | null;
   management: Extension["management"];
   /** This row's entry in each app that lists it, keyed by `extensionScopeKey`. */
   entries: ReadonlyMap<string, Extension>;
@@ -40,9 +45,15 @@ export function unifiedExtensionRows(
         kind: entry.kind,
         name: entry.name,
         description: entry.description,
+        detail: null,
+        portability: null,
         management: entry.management,
         entries: new Map<string, Extension>(),
       };
+      // A found item can live in two apps' folders; the first app that
+      // names a detail keeps it, like the first entry keeps the name.
+      row.detail ??= entry.detail ?? null;
+      row.portability ??= entry.portability ?? null;
       row.entries.set(extensionScopeKey(entry.scope), entry);
       rows.set(key, row);
     }

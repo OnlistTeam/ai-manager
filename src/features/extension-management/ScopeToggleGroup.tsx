@@ -13,6 +13,14 @@ export interface ScopeToggleTarget {
   scope: ExtensionScope;
 }
 
+/**
+ * The per-app column layout, shared by every row's switches and the header
+ * above them so the columns line up at any width: the group sits at the
+ * right edge of the same padded row, and every cell has the same width.
+ */
+export const SCOPE_COLUMNS_CLASS = "ml-auto flex shrink-0 items-center gap-1";
+export const SCOPE_CELL_WIDTH_CLASS = "w-8";
+
 export interface ScopeToggleGroupProps {
   /** The item's name, so every switch has its own accessible name. */
   itemName: string;
@@ -22,6 +30,11 @@ export interface ScopeToggleGroupProps {
   /** The switch whose last write failed; it is renamed as a retry. */
   failedKey?: string | null;
   retryLabel?: string | null;
+  /**
+   * A short warning to show on an off switch before it is turned on, e.g.
+   * that the item may not work in that app as it is set up (ADR-0062).
+   */
+  cautionFor?: (target: ScopeToggleTarget) => string | null;
   disabled: boolean;
   onToggle: (target: ScopeToggleTarget, enabled: boolean) => void;
 }
@@ -30,7 +43,7 @@ export interface ScopeToggleGroupProps {
  * A desktop app can share its maker's mark with a CLI tool (Claude Desktop and
  * Claude Code), so desktop apps carry a small screen badge.
  */
-function ScopeGlyph({ scope }: { scope: ExtensionScope }) {
+export function ScopeGlyph({ scope }: { scope: ExtensionScope }) {
   if (scope.kind === "tool") return <ToolGlyph toolId={scope.id} />;
   return (
     <>
@@ -56,6 +69,7 @@ export function ScopeToggleGroup({
   pendingKey = null,
   failedKey = null,
   retryLabel = null,
+  cautionFor,
   disabled,
   onToggle,
 }: ScopeToggleGroupProps) {
@@ -65,7 +79,7 @@ export function ScopeToggleGroup({
     <div
       role="group"
       aria-label={t("extensions.list.appsNamed", { name: itemName })}
-      className="ml-auto flex shrink-0 items-center gap-1"
+      className={SCOPE_COLUMNS_CLASS}
     >
       {targets.map((target) => {
         const on = isOn(target);
@@ -74,26 +88,28 @@ export function ScopeToggleGroup({
           on ? "extensions.list.stateOn" : "extensions.list.stateOff",
           { tool: target.name },
         );
+        const caution = on ? null : (cautionFor?.(target) ?? null);
+        const name =
+          failedKey === target.key && retryLabel
+            ? retryLabel
+            : t("extensions.list.useIn", {
+                name: itemName,
+                tool: target.name,
+              });
 
         return (
           <Tooltip key={target.key}>
             <TooltipTrigger asChild>
               <button
                 type="button"
-                aria-label={
-                  failedKey === target.key && retryLabel
-                    ? retryLabel
-                    : t("extensions.list.useIn", {
-                        name: itemName,
-                        tool: target.name,
-                      })
-                }
+                aria-label={caution ? `${name}. ${caution}` : name}
                 aria-pressed={on}
                 aria-busy={pending || undefined}
                 disabled={disabled}
                 onClick={() => onToggle(target, !on)}
                 className={cn(
-                  "relative flex h-8 w-8 items-center justify-center rounded-lg border transition-[opacity,background-color,border-color] duration-fast ease-standard",
+                  "relative flex h-8 items-center justify-center rounded-lg border transition-[opacity,background-color,border-color] duration-fast ease-standard",
+                  SCOPE_CELL_WIDTH_CLASS,
                   "enabled:hover:opacity-100 enabled:hover:grayscale-0 disabled:cursor-not-allowed",
                   on
                     ? "border-brand/40 bg-brand/10"
@@ -111,7 +127,10 @@ export function ScopeToggleGroup({
                 )}
               </button>
             </TooltipTrigger>
-            <TooltipContent side="bottom">{stateLabel}</TooltipContent>
+            <TooltipContent side="bottom">
+              <span className="block">{stateLabel}</span>
+              {caution ? <span className="block">{caution}</span> : null}
+            </TooltipContent>
           </Tooltip>
         );
       })}

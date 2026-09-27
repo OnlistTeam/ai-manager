@@ -1,4 +1,4 @@
-import type { McpInstallDraft } from "@/native";
+import type { McpEditForm, McpInstallDraft } from "@/native";
 
 export type McpTransport = "stdio" | "http" | "sse";
 
@@ -207,5 +207,35 @@ export function mcpDraftFrom(values: McpInstallValues): McpInstallDraft {
       url: values.url.trim(),
       headers: variablesFrom(values.headers),
     },
+  };
+}
+
+/**
+ * The form's values for a saved connection (ADR-0062). The other transport's
+ * fields start empty, as they would for a new connection.
+ */
+export function mcpValuesFrom(form: McpEditForm): McpInstallValues {
+  const shared = {
+    ...EMPTY_MCP_INSTALL_VALUES,
+    name: form.name,
+    description: form.description ?? "",
+  };
+  const rows = (variables: readonly { name: string; value: string }[]) =>
+    variables.map((variable) => mcpVariableRow(variable.name, variable.value));
+  const { connection } = form;
+  if (connection.transport === "stdio") {
+    return {
+      ...shared,
+      transport: "stdio",
+      command: connection.command,
+      argumentsText: connection.arguments.join("\n"),
+      env: rows(connection.env),
+    };
+  }
+  return {
+    ...shared,
+    transport: connection.transport,
+    url: connection.url,
+    headers: rows(connection.headers),
   };
 }

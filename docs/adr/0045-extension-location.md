@@ -4,6 +4,11 @@
 - Date: 2026-09-22
 - Relaxes one clause of the rule in `domain/extension.rs`. Follows the
   precedent set by ADR-0042.
+- Partly superseded by ADR-0062: Skill and MCP entries now carry one display
+  line (`Extension.detail`), and MCP rows have an edit action. The rejected
+  alternatives "a path field on `Extension`" and "per-row MCP edit buttons"
+  no longer hold for those two kinds; the shared-file row still serves
+  Global Prompts.
 
 ## Context
 

@@ -228,6 +228,7 @@ export {
   extensionLocationActionSchema,
   extensionLocationSchema,
   extensionManagementSchema,
+  extensionPortabilitySchema,
   extensionScopeSchema,
   extensionSchema,
   localExtensionInventorySchema,
@@ -242,14 +243,24 @@ export type {
   ExtensionLocation,
   ExtensionLocationAction,
   ExtensionManagement,
+  ExtensionPortability,
   ExtensionScope,
   LocalExtensionInventory,
   LocalExtensionScope,
   LocalExtensionScopeStatus,
+  PortabilityReason,
 } from "./schemas/extension";
 export { extensionScopeKey, toolExtensionScope } from "./schemas/extension";
-export { mcpConnectionDraftSchema, mcpInstallDraftSchema } from "./schemas/mcp";
-export type { McpConnectionDraft, McpInstallDraft } from "./schemas/mcp";
+export {
+  mcpConnectionDraftSchema,
+  mcpEditFormSchema,
+  mcpInstallDraftSchema,
+} from "./schemas/mcp";
+export type {
+  McpConnectionDraft,
+  McpEditForm,
+  McpInstallDraft,
+} from "./schemas/mcp";
 export {
   MAX_PROMPT_CONTENT_BYTES,
   MAX_PROMPT_DESCRIPTION_CHARS,

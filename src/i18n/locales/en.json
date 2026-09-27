@@ -547,6 +547,7 @@
       "commandInvalid": "That command could not be added safely.",
       "commandRequired": "Enter the program this connection should run.",
       "descriptionTooLong": "Keep the description to 240 characters or fewer.",
+      "editUnavailable": "This connection's saved setup can't be shown in the form.",
       "envInvalid": "Check the environment variables: names use letters, digits and underscores, don't start with a digit, and aren't repeated.",
       "headersInvalid": "Check the request headers: names use letters, digits and hyphens and aren't repeated, and values stay on one line.",
       "installCleanupFailed": "The connection could not be added, and AI Manager could not fully clean up the attempted change.",
@@ -560,6 +561,8 @@
       "removeRestoreFailed": "The connection could not be removed, and AI Manager could not confirm that the previous setup was fully restored.",
       "removeVerifyFailed": "AI Manager could not confirm that the MCP connection was removed.",
       "unsupportedScope": "AI Manager has not integrated MCP connections for this target.",
+      "updateFailed": "The changes to this MCP connection could not be saved.",
+      "updateRestoreFailed": "The changes could not be saved, and AI Manager could not confirm that the previous setup was fully restored.",
       "urlCredentials": "Do not put a username or password in the server address.",
       "urlInsecure": "Use HTTPS for remote servers. HTTP is allowed only for this computer.",
       "urlInvalid": "Enter a complete HTTP or HTTPS server address without a fragment.",
@@ -2267,6 +2270,14 @@
       "empty": {
         "title": "No connections yet",
         "description": "Choose Add MCP to connect this tool to a local program or secure service."
+      },
+      "edit": {
+        "title": "Edit {{name}}",
+        "description": "Changes apply to every app where this connection is on.",
+        "descriptionFound": "Saving lets AI Manager keep this connection and applies the change to every app where it is on.",
+        "confirm": "Save Changes",
+        "loading": "Reading the saved connection…",
+        "saved": "{{name}} saved"
       }
     },
     "prompt": {
@@ -2315,6 +2326,12 @@
         "title": "No instructions yet",
         "description": "Create reusable instructions, or import the file this tool already uses."
       }
+    },
+    "portability": {
+      "relativePath": "Runs a file by a path relative to the folder it was set up in, so {{tools, list}} may not start it from other projects. Edit it to use a full path.",
+      "envReference": "Uses ${…} placeholders that {{tools, list}} may not fill in, so the server could get the placeholder instead of your value. Edit it and enter the value itself.",
+      "toolHome": "SKILL.md points into another app's folder, so it may not work as written in {{tools, list}}. Open SKILL.md and check those paths.",
+      "switchCaution": "May not work here as it is set up."
     }
   },
   "routing": {

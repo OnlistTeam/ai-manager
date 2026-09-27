@@ -41,7 +41,7 @@ pub fn location_path(scope: ExtensionScope, kind: ExtensionKind) -> Result<PathB
 /// The home directory is abbreviated so the line stays short and does not put
 /// the account name on screen; a file outside home keeps its full path,
 /// because there the location is the whole point.
-fn display_path(path: &Path) -> String {
+pub(super) fn display_path(path: &Path) -> String {
     let home = crate::config::get_home_dir();
     match path.strip_prefix(&home) {
         Ok(relative) => format!("~/{}", relative.to_string_lossy()),

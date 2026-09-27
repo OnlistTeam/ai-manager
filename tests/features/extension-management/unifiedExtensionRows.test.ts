@@ -94,4 +94,27 @@ describe("unifiedExtensionRows", () => {
       id: "codex",
     });
   });
+
+  it("keeps the first detail and portability hint any app reports", () => {
+    const hint = {
+      reason: "relativePath" as const,
+      worksIn: [],
+    };
+    const [row] = unifiedExtensionRows([
+      [entry({ detail: null })],
+      [
+        entry({
+          scope: { kind: "tool", id: "codex" },
+          detail: "~/.codex/skills/shared-item",
+          portability: hint,
+        }),
+      ],
+    ]);
+    expect(row?.detail).toBe("~/.codex/skills/shared-item");
+    expect(row?.portability).toEqual(hint);
+
+    const [bare] = unifiedExtensionRows([[entry({})]]);
+    expect(bare?.detail).toBeNull();
+    expect(bare?.portability).toBeNull();
+  });
 });

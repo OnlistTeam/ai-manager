@@ -113,6 +113,7 @@ src-tauri/src/
                            migration, Database::init, OperationManager, tray, updater manager) and
                            the invoke_handler registration list
   commands/                app_api.rs, app_deeplink_api.rs, app_desktop_api.rs,
+                           app_extension_edit_api.rs,
                            app_network_api.rs, app_routing_api.rs,
                            app_session_api.rs, app_skill_api.rs, app_system_api.rs,
                            app_update_api.rs, app_usage_api.rs, app_workspace_api.rs: the product
@@ -129,7 +130,8 @@ src-tauri/src/
                            usage_overview, routing_control, privacy_protection,
                            openclaw_workspace, reveal
   domain/                  tool, provider, provider_endpoint, provider_runtime, model_probe,
-                           extension, mcp, prompt, skill, operation, health, import, backup,
+                           extension, extension_detail, mcp, mcp_edit, prompt, skill,
+                           operation, health, import, backup,
                            settings, session, usage, routing, desktop_app, app_update, deep_link,
                            error, message_keys
   adapters/                tool_adapter.rs (trait + contexts), registry.rs (AdapterRegistry,
@@ -364,7 +366,8 @@ depend on ports (traits) and facade types, never on inherited types.
 
 `domain/` defines the product models that cross the IPC boundary: `Tool` (id, status,
 capabilities, discovery, versions), `Provider` and its drafts and profiles, `EffectiveConnection`,
-`Extension` (deliberately without any configuration payload), `Operation` (id, kind, status,
+`Extension` (deliberately without any configuration payload; one bounded, masked display line
+per ADR-0062), `Operation` (id, kind, status,
 progress, phase key, bounded redacted log, optional output), `HealthSnapshot`, `ProductSettings`,
 `BackupList`, `SessionSummary`/`SessionThread`, `UsageOverview`, `RoutingOverview`, desktop app
 models, and `AppUpdateStatus`. `ToolId` is the ten-entry registry (`claude-code`, `codex`,
@@ -580,7 +583,7 @@ references; bodies are read only after explicit selection and under byte limits;
 argv on the backend and hands it to the terminal launcher. Local context items report path and
 size; the prompt item defers to the extensions page when `canManagePrompts` is true (ADR-0037).
 
-### 6.6 Extensions (ADR-0014, ADR-0022, ADR-0037, ADR-0047)
+### 6.6 Extensions (ADR-0014, ADR-0022, ADR-0037, ADR-0047, ADR-0062)
 
 `ExtensionStore` projects MCP servers, Skills, and Prompts into one `Extension` shape per
 `(tool, kind)` scope without configuration payloads. Guided MCP installation accepts a strict
@@ -589,6 +592,13 @@ URL and request headers; never free-form JSON). Pasted README JSON is parsed int
 the renderer and never crosses IPC. Skill installation, ZIP installation, updates, backups, and
 trusted sources wrap the mature `SkillService`; Prompt bodies are read only on demand and the active file is
 edited through the eight-step path. Skill and MCP tasks take the same `OperationManager` lock.
+
+Skill and MCP rows (ADR-0062) carry one detail line (an MCP command line or address with
+credentials masked, or a Skill's folder with `$HOME` as `~`) and a portability hint computed in
+the facade (relative paths, `${…}` references a tool does not expand, a SKILL.md naming another
+tool's home folder). A saved MCP connection is edited in place: `app_mcp_get` returns an outbound
+`McpEditForm` (not `Debug`), `app_mcp_update` validates the ordinary draft, merges it into the
+stored spec, keeps every app flag, and rewrites the enabled apps through `upsert_server`.
 
 ### 6.7 Backups, transfer, and import (ADR-0002, ADR-0030)
 

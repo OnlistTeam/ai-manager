@@ -41,8 +41,12 @@ export type {
 export {
   useAdoptDetected,
   useOpenDetectedSkillResource,
+  useOpenSkillResource,
   useSetExtensionEnabled,
 } from "./useExtensionMutations";
+export { ScopeColumnHeader } from "./ScopeColumnHeader";
+export { useMcpEditForm, useUpdateMcp } from "./useMcpEdit";
+export type { McpEditTarget, UpdateMcpVariables } from "./useMcpEdit";
 export { useInstallSkill } from "./useSkillInstallation";
 export { useInstallSkillZip } from "./useSkillZipInstallation";
 export {
@@ -70,5 +74,6 @@ export type {
   AdoptDetectedVariables,
   ExtensionTarget,
   OpenDetectedSkillResourceVariables,
+  OpenSkillResourceVariables,
   SetExtensionEnabledVariables,
 } from "./useExtensionMutations";

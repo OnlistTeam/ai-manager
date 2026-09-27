@@ -117,6 +117,26 @@ export const extensions = {
   },
 
   /**
+   * The same folder actions for a managed Skill, resolved natively to its
+   * single stored copy (ADR-0062). Managed ids look like `owner/repo:dir`, so
+   * they are not held to the directory-name rule above; the renderer still
+   * sends only the id and the action.
+   */
+  openSkillResource(
+    skill: string,
+    action: DetectedSkillResourceAction,
+  ): Promise<DetectedSkillResourceOpenOutcome> {
+    return invokeNative(
+      "app_skill_resource_open",
+      detectedSkillResourceOpenOutcomeSchema,
+      {
+        skill: z.string().min(1).max(1_024).parse(skill),
+        action: detectedSkillResourceActionSchema.parse(action),
+      },
+    );
+  },
+
+  /**
    * Bring one detected item under management and set it on or off for this
    * scope. The renderer submits only the item's stable id: no connection
    * spec, path, command, environment value, or credential.

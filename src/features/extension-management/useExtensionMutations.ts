@@ -97,6 +97,29 @@ export function useOpenDetectedSkillResource(): UseMutationResult<
   });
 }
 
+export interface OpenSkillResourceVariables
+  extends OpenDetectedSkillResourceVariables {
+  management: Extension["management"];
+}
+
+/**
+ * Open a Skill's folder or its SKILL.md, found or managed (ADR-0062). A
+ * managed Skill resolves natively to its single stored copy; a found one to
+ * its folder in the app it was found in.
+ */
+export function useOpenSkillResource(): UseMutationResult<
+  "folderOpened" | "editorOpened",
+  Error,
+  OpenSkillResourceVariables
+> {
+  return useMutation({
+    mutationFn: ({ scope, skillId, action, management }) =>
+      management === "managed"
+        ? native.extensions.openSkillResource(skillId, action)
+        : native.extensions.openDetectedSkillResource(scope, skillId, action),
+  });
+}
+
 /**
  * A switch on a found item: the item is taken over from every app it was
  * found in, then the clicked app is set as asked. The calls run one after
