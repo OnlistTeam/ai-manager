@@ -148,7 +148,7 @@ export function ProviderModelInput({
                     // eslint-disable-next-line jsx-a11y/no-autofocus -- search field of a list that was just opened on purpose
                     autoFocus
                     placeholder={t("services.form.modelSearch")}
-                    className="h-11 min-w-0 flex-1 bg-transparent text-body text-content outline-none focus-visible:outline-none placeholder:text-content-muted"
+                    className="h-11 min-w-0 flex-1 bg-transparent text-body text-content outline-none placeholder:text-content-muted"
                   />
                 </div>
                 <Command.List className="scrollbar-always min-h-0 flex-1 overflow-y-auto overscroll-contain py-1">

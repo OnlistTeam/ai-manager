@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "./cn";
-import { FOCUS_RING } from "./focusRing";
+import { FIELD_FOCUS } from "./focusRing";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -25,8 +25,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           "disabled:cursor-not-allowed disabled:opacity-60",
           invalid
             ? "border-danger"
-            : "border-hairline hover:border-hairline-strong",
-          FOCUS_RING,
+            : cn("border-hairline hover:border-hairline-strong", FIELD_FOCUS),
           className,
         )}
         {...props}

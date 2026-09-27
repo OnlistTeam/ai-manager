@@ -2886,10 +2886,20 @@ html[data-window-active="false"] .status-heartbeat {
    * ring rendering in place of ours.
    *
    * Deliberately quiet: one hairline-weight stroke at low opacity. Keyboard
-   * users still get an unambiguous ring, but clicking a field no longer lights
-   * up a saturated halo around it. */
+   * users still get an unambiguous ring. */
   @apply outline outline-1 outline-offset-2;
   outline-color: hsl(var(--ui-accent) / 0.45);
+}
+
+/* A text field matches `:focus-visible` on every click, not only from the
+ * keyboard, and its caret already shows where typing goes: no ring boxes it
+ * in. A bordered field darkens its own border instead. */
+:is(
+  textarea,
+  [contenteditable="true"],
+  input:not([type="checkbox"], [type="radio"], [type="range"])
+):focus-visible {
+  outline: none;
 }
 
 @layer utilities {

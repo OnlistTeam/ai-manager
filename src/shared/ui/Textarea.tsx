@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "./cn";
-import { FOCUS_RING } from "./focusRing";
+import { FIELD_FOCUS } from "./focusRing";
 
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -19,8 +19,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           "disabled:cursor-not-allowed disabled:opacity-60",
           invalid
             ? "border-danger"
-            : "border-hairline hover:border-hairline-strong",
-          FOCUS_RING,
+            : cn("border-hairline hover:border-hairline-strong", FIELD_FOCUS),
           className,
         )}
         {...props}

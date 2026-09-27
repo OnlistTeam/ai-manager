@@ -2,7 +2,7 @@ import { ShieldCheck } from "lucide-react";
 import type { RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { Field } from "@/shared/ui/Field";
-import { FOCUS_RING } from "@/shared/ui/focusRing";
+import { FIELD_FOCUS } from "@/shared/ui/focusRing";
 import { Input } from "@/shared/ui/Input";
 import { cn } from "@/shared/ui/cn";
 import type {
@@ -112,8 +112,9 @@ export function McpInstallFields({
               className={cn(
                 "min-h-24 w-full resize-y rounded-md border bg-layer-1 px-3 py-2 font-mono text-body text-content",
                 "placeholder:text-content-muted disabled:cursor-not-allowed disabled:opacity-60",
-                errors.argumentsText ? "border-danger" : "border-hairline",
-                FOCUS_RING,
+                errors.argumentsText
+                  ? "border-danger"
+                  : cn("border-hairline", FIELD_FOCUS),
               )}
               onChange={(event) =>
                 onFieldChange("argumentsText", event.target.value)
@@ -167,8 +168,9 @@ export function McpInstallFields({
           className={cn(
             "w-full resize-none rounded-md border bg-layer-1 px-3 py-2 text-body text-content",
             "disabled:cursor-not-allowed disabled:opacity-60",
-            errors.description ? "border-danger" : "border-hairline",
-            FOCUS_RING,
+            errors.description
+              ? "border-danger"
+              : cn("border-hairline", FIELD_FOCUS),
           )}
           onChange={(event) => onFieldChange("description", event.target.value)}
         />

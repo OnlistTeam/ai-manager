@@ -15,3 +15,10 @@
  */
 export const FOCUS_RING =
   "focus-visible:ring-1 focus-visible:ring-brand-foreground/40 focus-visible:ring-offset-0";
+
+/**
+ * Focus on a bordered text field: its border darkens to the hover weight.
+ * Fields carry no ring (`index.css`); the caret already shows where typing
+ * goes, and a clicked field matches `:focus-visible` like a tabbed one.
+ */
+export const FIELD_FOCUS = "focus-visible:border-hairline-strong";

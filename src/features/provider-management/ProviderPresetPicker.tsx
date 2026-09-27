@@ -256,7 +256,7 @@ export function ProviderPresetPicker({
                   // No focus ring: this field is focused the moment the menu
                   // opens and is the only place focus can be, so the global
                   // outline only drew a green box around the whole top strip.
-                  className="h-11 min-w-0 flex-1 bg-transparent text-body text-content outline-none focus-visible:outline-none placeholder:text-content-muted"
+                  className="h-11 min-w-0 flex-1 bg-transparent text-body text-content outline-none placeholder:text-content-muted"
                 />
               </div>
               <div className="shrink-0 border-b border-hairline px-3 py-2.5">
