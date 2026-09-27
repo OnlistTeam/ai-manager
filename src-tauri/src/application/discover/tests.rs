@@ -784,3 +784,39 @@ fn every_featured_server_is_complete_and_unique() {
     }
     let _: &[MarketServer] = featured();
 }
+
+const RENDERED_FRONT_PAGE: &str = r#"<main><a href="/docs">Docs</a>
+<a class="group grid" href="/vercel-labs/skills/find-skills"><div><span class="font-mono">1</span></div>
+<div><h3 class="font-semibold">find-skills</h3><p class="font-mono">vercel-labs/skills</p></div>
+<div><svg role="img" aria-label="Weekly installs: 101,120"></svg></div>
+<div><svg></svg><span class="font-mono text-sm text-foreground">3.6M</span></div></a>
+<a class="group grid" href="/vercel-labs/agent-browser/agent-browser"><div><span class="font-mono">2</span></div>
+<div><h3 class="font-semibold">agent &amp; browser</h3><p>vercel-labs/agent-browser</p></div>
+<div><span class="font-mono text-sm text-foreground">954.8K</span></div></a>
+<a class="group grid" href="/vercel-labs/skills/find-skills"><h3>find-skills</h3></a>
+</main>"#;
+
+#[test]
+fn a_front_page_that_only_renders_its_list_is_read_from_its_links() {
+    let list = skills_sh::extract_popular(RENDERED_FRONT_PAGE).expect("list");
+    assert_eq!(
+        list.len(),
+        2,
+        "a link without a heading, or a repeat, is not a Skill"
+    );
+    assert_eq!(list[0].id(), "vercel-labs/skills/find-skills");
+    assert_eq!(list[0].installs, 3_600_000);
+    assert_eq!(list[1].name, "agent & browser");
+    assert_eq!(list[1].installs, 954_800);
+}
+
+#[test]
+fn a_saved_live_front_page_can_be_read() {
+    // Opt-in check against a page saved by hand; nothing is fetched here.
+    let Ok(path) = std::env::var("DISCOVER_FRONT_PAGE") else {
+        return;
+    };
+    let page = std::fs::read_to_string(path).expect("saved page");
+    let list = skills_sh::extract_popular(&page).expect("list");
+    assert!(list.len() > 50, "{}", list.len());
+}

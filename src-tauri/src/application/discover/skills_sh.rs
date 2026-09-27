@@ -1,6 +1,6 @@
-//! Reading skills.sh: its front page lists the most installed Skills in the
-//! page's own data, its search API finds more, and each Skill's page says
-//! what it is for in its `<meta name="description">`.
+//! Reading skills.sh: its front page lists the most installed Skills, its
+//! search API finds more, and each Skill's page says what it is for in its
+//! `<meta name="description">`.
 
 use std::sync::OnceLock;
 
@@ -77,8 +77,9 @@ fn clean(mut list: Vec<SkillsShEntry>) -> Vec<SkillsShEntry> {
     list
 }
 
-/// The list the front page carries for itself. It sits in the page's data as
-/// JSON inside a JavaScript string, so its quotes arrive escaped.
+/// The front page's list of the most installed Skills. Some versions of the
+/// page carry it as data (JSON inside a JavaScript string, its quotes
+/// escaped); others only render it, one link per Skill. Both are read.
 pub(crate) fn extract_popular(page: &str) -> Result<Vec<SkillsShEntry>, String> {
     const ESCAPED: &str = "initialSkills\\\":";
     const PLAIN: &str = "\"initialSkills\":";
@@ -87,7 +88,12 @@ pub(crate) fn extract_popular(page: &str) -> Result<Vec<SkillsShEntry>, String> 
     } else if let Some(index) = page.find(PLAIN) {
         page[index + PLAIN.len()..].to_string()
     } else {
-        return Err("the page carries no list of Skills".to_string());
+        let rendered = rendered_rows(page);
+        return if rendered.is_empty() {
+            Err("the page carries no list of Skills".to_string())
+        } else {
+            Ok(rendered)
+        };
     };
     let mut stream =
         serde_json::Deserializer::from_str(rest.trim_start()).into_iter::<Vec<SkillsShEntry>>();
@@ -96,6 +102,64 @@ pub(crate) fn extract_popular(page: &str) -> Result<Vec<SkillsShEntry>, String> 
         Some(Err(error)) => Err(format!("the list of Skills: {error}")),
         None => Err("the list of Skills is empty".to_string()),
     }
+}
+
+fn rendered_patterns() -> &'static (Regex, Regex, Regex) {
+    static RE: OnceLock<(Regex, Regex, Regex)> = OnceLock::new();
+    RE.get_or_init(|| {
+        (
+            Regex::new(
+                r#"(?s)<a\s[^>]*href="/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)/([^"/?#]+)"[^>]*>(.*?)</a>"#,
+            )
+            .expect("constant pattern compiles"),
+            Regex::new(r"(?s)<h3[^>]*>([^<]*)</h3>").expect("constant pattern compiles"),
+            Regex::new(r#"<span class="font-mono[^"]*">\s*([0-9][0-9.,]*\s*[KkMmBb]?)\s*</span>"#)
+                .expect("constant pattern compiles"),
+        )
+    })
+}
+
+/// The rendered list: each Skill is a link to `/owner/repo/skill` holding
+/// its name in a heading and its install count as `3.6M`.
+fn rendered_rows(page: &str) -> Vec<SkillsShEntry> {
+    let (row, heading, count) = rendered_patterns();
+    let mut seen = std::collections::HashSet::new();
+    let list = row
+        .captures_iter(page)
+        .filter_map(|captures| {
+            let source = format!("{}/{}", &captures[1], &captures[2]);
+            let skill_id = captures[3].to_string();
+            let body = &captures[4];
+            let name = heading.captures(body)?.get(1)?.as_str();
+            let installs = count
+                .captures_iter(body)
+                .last()
+                .and_then(|found| compact_number(&found[1]))
+                .unwrap_or(0);
+            seen.insert(format!("{source}/{skill_id}"))
+                .then(|| SkillsShEntry {
+                    source,
+                    skill_id,
+                    name: unescape_html(name.trim()),
+                    installs,
+                    official: false,
+                })
+        })
+        .collect();
+    clean(list)
+}
+
+/// `3.6M`, `954.8K`, `1,204` as a number.
+fn compact_number(text: &str) -> Option<u64> {
+    let text = text.trim().replace(',', "");
+    let (digits, scale) = match text.chars().last()? {
+        'k' | 'K' => (&text[..text.len() - 1], 1e3),
+        'm' | 'M' => (&text[..text.len() - 1], 1e6),
+        'b' | 'B' => (&text[..text.len() - 1], 1e9),
+        _ => (text.as_str(), 1.0),
+    };
+    let value = digits.trim().parse::<f64>().ok()? * scale;
+    (value.is_finite() && value >= 0.0).then(|| value.round() as u64)
 }
 
 /// Undoes one level of `\"` and `\\` escaping.

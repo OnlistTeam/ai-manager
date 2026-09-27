@@ -46,10 +46,12 @@ checked by hand is the better first screen.
      and a repository count for a little, republishing wrappers sink), cut to
      30, and deduplicated by what they run. Registry descriptions are shown as
      returned.
-   - Skills, first screen: skills.sh's most installed, read from the
-     `initialSkills` data its front page carries (requests say they come from
-     a browser; skills.sh answers unknown clients with a page of its own), at
-     most four per repository so the first screen is not one author's.
+   - Skills, first screen: skills.sh's most installed, read from its front
+     page: the `initialSkills` data some versions of the page carry, else the
+     list it renders (one `/owner/repo/skill` link per Skill, with its name and
+     install count). Requests say they come from a browser; skills.sh answers
+     unknown clients with a page of its own. At most four per repository, so
+     the first screen is not one author's.
    - Skills, search (two characters or more): local matches of that list,
      then `GET /api/search?q=<q>&limit=40`; at most 60 cards.
    - Skill descriptions: each card's skills.sh page `<meta name="description">`,
