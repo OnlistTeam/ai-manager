@@ -302,11 +302,11 @@ const RUNTIME_CONTEXT: ProviderRuntimeContext = {
     measurementLimited: false,
   },
   effectiveConnection: {
-    endpoint: "https://relay.example.test/",
+    endpoint: "https://api.anthropic.com",
     endpointSource: { kind: "liveConfig", path: "~/.claude/settings.json" },
     credential: "configured",
     credentialSource: { kind: "liveConfig", path: "~/.claude/settings.json" },
-    providerId: "relay",
+    providerId: "anthropic-official",
     shellInspected: true,
   },
 };

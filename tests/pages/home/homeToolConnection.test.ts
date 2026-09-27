@@ -4,9 +4,9 @@ import type { Tool } from "@/entities/tool";
 import type { QuickCheckItem } from "@/features/health";
 import {
   connectableTools,
-  coveredByToolRow,
+  pickerProviders,
   pinnedModel,
-  switchChoices,
+  shownElsewhereOnHome,
   toolConnection,
 } from "@/pages/home/homeToolConnection";
 
@@ -151,15 +151,16 @@ describe("toolConnection", () => {
   });
 });
 
-describe("switchChoices", () => {
-  it("offers every non-additive entry that is not in use", () => {
-    const choices = switchChoices([
-      provider({ id: "a", active: true }),
+describe("pickerProviders", () => {
+  it("lists every non-additive entry, the one in use first, the rest in saved order", () => {
+    const choices = pickerProviders([
       provider({ id: "b" }),
+      provider({ id: "a", active: true }),
       provider({ id: "c", additive: true }),
+      provider({ id: "d" }),
     ]);
-    expect(choices.map((entry) => entry.id)).toEqual(["b"]);
-    expect(switchChoices(undefined)).toEqual([]);
+    expect(choices.map((entry) => entry.id)).toEqual(["a", "b", "d"]);
+    expect(pickerProviders(undefined)).toEqual([]);
   });
 });
 
@@ -188,15 +189,15 @@ describe("pinnedModel", () => {
   });
 });
 
-describe("coveredByToolRow", () => {
+describe("shownElsewhereOnHome", () => {
   const rows = new Set(["claude-code"]);
 
-  it("leaves updates and missing endpoints of listed tools to their rows", () => {
-    expect(coveredByToolRow(item({ resolution: "updateTool" }), rows)).toBe(
+  it("leaves missing endpoints to the rows and updates to the status line", () => {
+    expect(shownElsewhereOnHome(item({ resolution: "updateTool" }), rows)).toBe(
       true,
     );
     expect(
-      coveredByToolRow(
+      shownElsewhereOnHome(
         item({ kind: "provider", resolution: "connectService" }),
         rows,
       ),
@@ -205,19 +206,19 @@ describe("coveredByToolRow", () => {
 
   it("keeps every other finding, and every finding of an unlisted tool", () => {
     expect(
-      coveredByToolRow(
+      shownElsewhereOnHome(
         item({ kind: "config", resolution: "reviewService" }),
         rows,
       ),
     ).toBe(false);
     expect(
-      coveredByToolRow(
+      shownElsewhereOnHome(
         item({ toolId: "kimi-code", resolution: "updateTool" }),
         rows,
       ),
     ).toBe(false);
     expect(
-      coveredByToolRow(
+      shownElsewhereOnHome(
         item({ toolId: null, kind: "mcp", resolution: "reviewMcp" }),
         rows,
       ),

@@ -347,7 +347,6 @@
     "action": {
       "install": "Installieren",
       "configure": "Zum Tool hinzufügen",
-      "readOnly": "Nur lesen",
       "update": "Aktualisieren",
       "versions": "Version wechseln",
       "open": "Öffnen",
@@ -359,7 +358,6 @@
       "copyNamed": "{{name}} kopieren",
       "copied": "Kopiert",
       "use": "Verwenden",
-      "inUse": "Aktuell",
       "cancel": "Abbrechen",
       "close": "Schließen",
       "named": {
@@ -1357,7 +1355,6 @@
     "tools": {
       "title": "Meine Tools",
       "install": "KI-Tool installieren",
-      "updateAll": "Alle aktualisieren",
       "empty": "Keines Ihrer installierten Tools nutzt API-Endpunkte.",
       "official": "Offizielle Anmeldung",
       "notConnected": "Nicht verbunden",
@@ -1365,41 +1362,21 @@
       "added_other": "{{count}} Endpunkte hinzugefügt",
       "modelInTool": "Modell wird in {{tool}} gewählt",
       "unavailable": "Endpunkte nicht lesbar",
-      "switchTo": "Wechseln zu …",
-      "switchNamed": "Endpunkt von {{tool}} wechseln",
-      "connect": "Verbinden",
-      "connectNamed": "API-Endpunkt mit {{tool}} verbinden",
-      "update": "Aktualisieren",
-      "updateNamed": "{{tool}} aktualisieren",
-      "openNamed": "API-Endpunkte für {{tool}} öffnen",
-      "switchUnreachable": "{{name}} hat nicht geantwortet, daher wurde nichts geändert."
+      "switchUnreachable": "{{name}} hat nicht geantwortet, daher wurde nichts geändert.",
+      "pickerLabel": "Endpunkte für {{tool}}",
+      "pickNamed": "Von {{tool}} verwendeter Endpunkt: {{current}}",
+      "manageEndpoints": "API-Endpunkte verwalten…",
+      "addEndpoint": "Endpunkt hinzufügen…",
+      "noEndpoints": "Noch keine Endpunkte hinzugefügt.",
+      "filter": "Endpunkte filtern",
+      "noMatch": "Keine passenden Endpunkte."
     },
     "updateAll": {
       "reviewTitle_one": "{{count}} Tool-Update prüfen",
       "reviewTitle_other": "{{count}} Tool-Updates prüfen",
       "previewSummary": "{{ready}} können jetzt aktualisiert werden. {{skipped}} werden übersprungen, bis ihre Installation geprüft wurde.",
-      "skippedSummary_one": "{{count}} Tool wurde übersprungen, weil seine Update-Methode nicht bestätigt werden konnte.",
-      "skippedSummary_other": "{{count}} Tools wurden übersprungen, weil ihre Update-Methoden nicht bestätigt werden konnten.",
       "confirm_one": "{{count}} Tool aktualisieren",
-      "confirm_other": "{{count}} Tools aktualisieren",
-      "failure": {
-        "partial": {
-          "title": "Einige Updates laufen jetzt",
-          "description_one": "{{count}} Update unter Aktivität gestartet. Nur das Tool, das nicht gestartet ist, bleibt ausgewählt.",
-          "description_other": "{{count}} Updates unter Aktivität gestartet. Nur die Tools, die nicht gestartet sind, bleiben ausgewählt."
-        },
-        "all": {
-          "title": "Updates konnten nicht gestartet werden",
-          "description_one": "Es wurde keine Update-Aufgabe erstellt. Erneut versuchen prüft dieses Tool noch einmal, bevor etwas gestartet wird.",
-          "description_other": "Es wurden keine Update-Aufgaben erstellt. Erneut versuchen prüft diese Tools noch einmal, bevor etwas gestartet wird."
-        }
-      },
-      "hints": {
-        "running": "Updates laufen bereits unter Aktivität",
-        "checking": "Wird geprüft, was aktualisiert werden kann",
-        "unavailable": "Update-Status ist gerade nicht verfügbar",
-        "review": "Dieses Update unter Software prüfen"
-      }
+      "confirm_other": "{{count}} Tools aktualisieren"
     },
     "error": {
       "title": "Ihre Einrichtung konnte nicht geprüft werden",
@@ -1407,12 +1384,12 @@
     },
     "refreshError": {
       "title": "Startseite konnte nicht aktualisiert werden",
-      "description": "Die zuletzt geprüfte Einrichtung wird weiterhin angezeigt. Starten und Aktualisieren von Tools bleiben pausiert, bis eine neue Prüfung erfolgreich ist.",
+      "description": "Die zuletzt geprüfte Einrichtung wird weiterhin angezeigt. Das Starten von Tools bleibt pausiert, bis eine neue Prüfung erfolgreich ist.",
       "action": "Erneut prüfen"
     },
     "refreshing": {
       "title": "Startseite wird erneut geprüft",
-      "description": "Starten und Aktualisieren von Tools werden fortgesetzt, sobald diese Prüfung abgeschlossen ist."
+      "description": "Das Starten von Tools wird fortgesetzt, sobald diese Prüfung abgeschlossen ist."
     }
   },
   "taskCenter": {
@@ -1507,15 +1484,13 @@
   "services": {
     "action": {
       "add": "Endpunkt hinzufügen",
-      "configureNamed": "{{name}} zum Tool hinzufügen",
       "edit": "Bearbeiten",
       "editNamed": "{{name}} bearbeiten",
       "remove": "Entfernen",
       "removeNamed": "{{name}} entfernen",
       "test": "Testen",
       "testAll": "Alle Adressen prüfen",
-      "testNamed": "{{name}} testen",
-      "useNamed": "{{name}} verwenden"
+      "testNamed": "{{name}} testen"
     },
     "card": {
       "custom": "Benutzerdefinierter Endpunkt",
@@ -1581,7 +1556,8 @@
       "toolDefaultGroup": "Standardverbindung von {{tool}}",
       "otherServices": "Weitere Anbieter"
     },
-    "description": "Wählen Sie ein Tool, fügen Sie dann seine API-Endpunkte hinzu, wechseln Sie sie und prüfen Sie sie.",
+    "chooseOnHome": "Welchen Endpunkt jedes Tool verwendet, wählen Sie auf der Startseite.",
+    "openHome": "Zur Startseite",
     "effective": {
       "selection": {
         "defaultModel": "Globales Standardmodell: {{model}}. Projekt- oder Sitzungseinstellungen können es überschreiben.",
@@ -1752,7 +1728,7 @@
     },
     "refresh": "Aktualisieren",
     "remove": {
-      "activeHint": "Wählen Sie einen anderen Endpunkt, bevor Sie diesen entfernen.",
+      "activeHint": "Wählen Sie auf der Startseite einen anderen Endpunkt, bevor Sie diesen entfernen.",
       "confirm": "Endpunkt entfernen",
       "description": "Dies entfernt den gespeicherten Endpunkt aus AI Manager und {{tool}}.",
       "errorTitle": "Dieser Endpunkt konnte nicht entfernt werden",
@@ -1781,7 +1757,6 @@
       "openNow": "Jetzt öffnen",
       "reopenHint": "Ein bereits laufendes {{tool}} behält seinen alten Endpunkt, bis Sie es erneut öffnen.",
       "retryHint": "Versuchen Sie denselben Wechsel erneut.",
-      "retryNamed": "Wechsel zu {{name}} erneut versuchen",
       "switchingNamed": "Wechselt zu {{name}}"
     },
     "failover": {

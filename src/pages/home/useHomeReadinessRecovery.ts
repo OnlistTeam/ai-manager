@@ -44,13 +44,10 @@ export function useHomeReadinessRecovery() {
 
   return {
     check,
-    operations,
     pageRef,
     retryButtonRef,
     checkUnavailable,
     refreshFailed,
-    sourcesUnavailable,
-    sourcesPending,
     retrying,
     actionsBlocked,
     retryHome,

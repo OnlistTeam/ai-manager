@@ -34,12 +34,16 @@ describe("home guidance locale contract", () => {
         tools.notConnected,
         tools.unavailable,
         tools.modelInTool,
-        tools.switchTo,
+        tools.manageEndpoints,
+        tools.addEndpoint,
+        tools.noEndpoints,
       ]) {
         expect(value.trim()).not.toBe("");
       }
       expect(tools.added_other).toContain("{{count}}");
       expect(tools.switchUnreachable).toContain("{{name}}");
+      expect(tools.pickNamed).toContain("{{tool}}");
+      expect(tools.pickNamed).toContain("{{current}}");
     },
   );
 });

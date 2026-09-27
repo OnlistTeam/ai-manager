@@ -3,7 +3,7 @@ import type { Tool } from "@/entities/tool";
 import type { QuickCheckItem } from "@/features/health";
 
 /**
- * What the saved inventory says a tool is connected to (ADR-0051).
+ * What the saved inventory says a tool is connected to (ADR-0051, ADR-0053).
  *
  * This reads only the saved list, never the terminal environment: a variable
  * exported in a shell profile can still override it, and the API Endpoints
@@ -52,13 +52,18 @@ export function toolConnection(
     : { kind: "notConnected" };
 }
 
-/** Saved endpoints the row can switch to: every non-additive entry not in use. */
-export function switchChoices(
+/**
+ * What the row's picker lists: every non-additive entry, the one in use first
+ * and the rest in the user's own order from the API Endpoints page.
+ */
+export function pickerProviders(
   providers: readonly Provider[] | undefined,
 ): Provider[] {
-  return (providers ?? []).filter(
-    (provider) => !provider.additive && !provider.active,
-  );
+  const choosable = (providers ?? []).filter((provider) => !provider.additive);
+  return [
+    ...choosable.filter((provider) => provider.active),
+    ...choosable.filter((provider) => !provider.active),
+  ];
 }
 
 /** A model name is shown only when the saved endpoint pins exactly one. */
@@ -69,11 +74,12 @@ export function pinnedModel(
 }
 
 /**
- * Findings a tool row already states. An available update gets its own
- * button on the row, and a missing endpoint reads as the row's connection, so
- * repeating either in the findings list would say the same thing twice.
+ * Findings Home already states elsewhere. A missing endpoint reads as the
+ * row's own picker, and an available update is counted in the status line,
+ * which links to the Software page where updates are reviewed; listing either
+ * again would say the same thing twice and put an update action on Home.
  */
-export function coveredByToolRow(
+export function shownElsewhereOnHome(
   item: QuickCheckItem,
   rowToolIds: ReadonlySet<string>,
 ): boolean {

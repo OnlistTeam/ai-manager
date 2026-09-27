@@ -10,11 +10,15 @@ interface HomeToolRowNoticeProps {
   onOpenServices: () => void;
 }
 
+/** Lines the notice up under the tool name, past the glyph. */
+const NOTICE_CLASS = "flex min-w-0 items-start gap-1.5 pl-10 text-caption";
+
 /**
- * What the last switch from this row left behind. Nothing here needs its own
- * retry: choosing the endpoint again in the row's menu is the retry, and the
- * fuller recovery (trying the next endpoint, browsing compatible ones) lives
- * on the API Endpoints page, where the failed check is already recorded.
+ * What the last switch from this row left behind, as a small line under it.
+ * Nothing here needs its own retry: choosing the endpoint again in the row's
+ * picker is the retry, and the fuller recovery (trying the next endpoint,
+ * browsing compatible ones) lives on the API Endpoints page, where the failed
+ * check is already recorded.
  */
 export function HomeToolRowNotice({
   connection,
@@ -29,18 +33,16 @@ export function HomeToolRowNotice({
       name: failure.name ?? t("services.failover.unknownService"),
     });
     return (
-      <div
-        role="alert"
-        aria-label={title}
-        className="flex items-start gap-2 rounded-md border border-danger/30 bg-danger/5 px-3 py-2"
-      >
+      <div role="alert" aria-label={title} className={NOTICE_CLASS}>
         <AlertCircle
-          className="mt-0.5 h-4 w-4 shrink-0 text-danger"
+          className="mt-0.5 h-3.5 w-3.5 shrink-0 text-danger"
           aria-hidden="true"
         />
-        <div className="min-w-0 text-caption leading-5">
-          <p className="font-medium text-content">{title}</p>
-          <p className="text-content-muted">{t(copy.messageKey)}</p>
+        <div className="min-w-0 leading-5">
+          <p className="text-content">
+            <span className="font-medium">{title}</span>{" "}
+            <span className="text-content-muted">{t(copy.messageKey)}</span>
+          </p>
           <ErrorDetailsDisclosure copy={copy} />
         </div>
       </div>
@@ -49,18 +51,18 @@ export function HomeToolRowNotice({
 
   if (unreachableName) {
     return (
-      <div
-        role="status"
-        className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-warning/30 bg-warning/5 px-3 py-1.5 text-caption"
-      >
-        <Radio className="h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
-        <span className="min-w-0 flex-1 text-content">
+      <div role="status" className={`${NOTICE_CLASS} items-center`}>
+        <Radio
+          className="h-3.5 w-3.5 shrink-0 text-warning"
+          aria-hidden="true"
+        />
+        <span className="min-w-0 text-content">
           {t("home.tools.switchUnreachable", { name: unreachableName })}
         </span>
         <Button
           variant="ghost"
           size="xs"
-          className="-my-1"
+          className="-my-1 h-6"
           onClick={onOpenServices}
         >
           {t("home.status.actions.services")}

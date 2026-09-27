@@ -347,7 +347,6 @@
     "action": {
       "install": "Installer",
       "configure": "Ajouter à l'outil",
-      "readOnly": "Lecture seule",
       "update": "Mettre à jour",
       "versions": "Changer de version",
       "open": "Ouvrir",
@@ -359,7 +358,6 @@
       "copyNamed": "Copier {{name}}",
       "copied": "Copié",
       "use": "Utiliser",
-      "inUse": "Actuel",
       "cancel": "Annuler",
       "close": "Fermer",
       "named": {
@@ -1357,7 +1355,6 @@
     "tools": {
       "title": "Mes outils",
       "install": "Installer un outil IA",
-      "updateAll": "Tout mettre à jour",
       "empty": "Aucun de vos outils installés n'utilise de point d'accès API.",
       "official": "Connexion officielle",
       "notConnected": "Non connecté",
@@ -1365,41 +1362,21 @@
       "added_other": "{{count}} points d'accès ajoutés",
       "modelInTool": "Modèle choisi dans {{tool}}",
       "unavailable": "Impossible de lire les points d'accès",
-      "switchTo": "Basculer vers…",
-      "switchNamed": "Changer le point d'accès utilisé par {{tool}}",
-      "connect": "Connecter",
-      "connectNamed": "Connecter un point d'accès API à {{tool}}",
-      "update": "Mettre à jour",
-      "updateNamed": "Mettre à jour {{tool}}",
-      "openNamed": "Ouvrir les points d'accès API de {{tool}}",
-      "switchUnreachable": "{{name}} n'a pas répondu, rien n'a donc été modifié."
+      "switchUnreachable": "{{name}} n'a pas répondu, rien n'a donc été modifié.",
+      "pickerLabel": "Points d'accès de {{tool}}",
+      "pickNamed": "Point d'accès utilisé par {{tool}} : {{current}}",
+      "manageEndpoints": "Gérer les points d'accès API…",
+      "addEndpoint": "Ajouter un point d'accès…",
+      "noEndpoints": "Aucun point d'accès ajouté pour l'instant.",
+      "filter": "Filtrer les points d'accès",
+      "noMatch": "Aucun point d'accès correspondant."
     },
     "updateAll": {
       "reviewTitle_one": "Vérifier {{count}} mise à jour d'outil",
       "reviewTitle_other": "Vérifier {{count}} mises à jour d'outils",
       "previewSummary": "{{ready}} peuvent être mis à jour maintenant. {{skipped}} seront ignorés jusqu'à ce que leur installation soit vérifiée.",
-      "skippedSummary_one": "{{count}} outil a été ignoré car sa méthode de mise à jour n'a pas pu être confirmée.",
-      "skippedSummary_other": "{{count}} outils ont été ignorés car leurs méthodes de mise à jour n'ont pas pu être confirmées.",
       "confirm_one": "Mettre à jour {{count}} outil",
-      "confirm_other": "Mettre à jour {{count}} outils",
-      "failure": {
-        "partial": {
-          "title": "Certaines mises à jour sont en cours",
-          "description_one": "{{count}} mise à jour démarrée dans Activité. Seul l'outil qui n'a pas démarré reste sélectionné.",
-          "description_other": "{{count}} mises à jour démarrées dans Activité. Seuls les outils qui n'ont pas démarré restent sélectionnés."
-        },
-        "all": {
-          "title": "Les mises à jour n'ont pas pu démarrer",
-          "description_one": "Aucune tâche de mise à jour n'a été créée. Réessayer revérifie cet outil avant de démarrer quoi que ce soit.",
-          "description_other": "Aucune tâche de mise à jour n'a été créée. Réessayer revérifie ces outils avant de démarrer quoi que ce soit."
-        }
-      },
-      "hints": {
-        "running": "Des mises à jour sont déjà en cours dans Activité",
-        "checking": "Vérification de ce qui peut être mis à jour",
-        "unavailable": "L'état des mises à jour est indisponible pour le moment",
-        "review": "Vérifier cette mise à jour dans Logiciels"
-      }
+      "confirm_other": "Mettre à jour {{count}} outils"
     },
     "error": {
       "title": "Impossible de vérifier votre configuration",
@@ -1407,12 +1384,12 @@
     },
     "refreshError": {
       "title": "L'accueil n'a pas pu s'actualiser",
-      "description": "La dernière configuration vérifiée reste affichée. Le démarrage et la mise à jour des outils restent suspendus jusqu'à la réussite d'une nouvelle vérification.",
+      "description": "La dernière configuration vérifiée reste affichée. Le démarrage des outils reste suspendu jusqu'à la réussite d'une nouvelle vérification.",
       "action": "Vérifier à nouveau"
     },
     "refreshing": {
       "title": "Nouvelle vérification de l'accueil",
-      "description": "Le démarrage et la mise à jour des outils reprendront une fois cette vérification terminée."
+      "description": "Le démarrage des outils reprendra une fois cette vérification terminée."
     }
   },
   "taskCenter": {
@@ -1507,15 +1484,13 @@
   "services": {
     "action": {
       "add": "Ajouter un point d'accès",
-      "configureNamed": "Ajouter {{name}} à l'outil",
       "edit": "Modifier",
       "editNamed": "Modifier {{name}}",
       "remove": "Supprimer",
       "removeNamed": "Supprimer {{name}}",
       "test": "Tester",
       "testAll": "Vérifier toutes les adresses",
-      "testNamed": "Tester {{name}}",
-      "useNamed": "Utiliser {{name}}"
+      "testNamed": "Tester {{name}}"
     },
     "card": {
       "custom": "Point d'accès personnalisé",
@@ -1581,7 +1556,8 @@
       "toolDefaultGroup": "Connexion par défaut de {{tool}}",
       "otherServices": "Autres fournisseurs"
     },
-    "description": "Choisissez un outil, puis ajoutez, changez et vérifiez ses points d'accès API.",
+    "chooseOnHome": "Choisissez sur l'Accueil le point d'accès utilisé par chaque outil.",
+    "openHome": "Aller à l'Accueil",
     "effective": {
       "selection": {
         "defaultModel": "Modèle par défaut global : {{model}}. Les paramètres du projet ou de la session peuvent le remplacer.",
@@ -1752,7 +1728,7 @@
     },
     "refresh": "Actualiser",
     "remove": {
-      "activeHint": "Choisissez un autre point d'accès avant de supprimer celui-ci.",
+      "activeHint": "Choisissez un autre point d'accès sur l'Accueil avant de supprimer celui-ci.",
       "confirm": "Supprimer le point d'accès",
       "description": "Cela supprime le point d'accès enregistré d'AI Manager et de {{tool}}.",
       "errorTitle": "Impossible de supprimer ce point d'accès",
@@ -1781,7 +1757,6 @@
       "openNow": "Ouvrir maintenant",
       "reopenHint": "{{tool}} déjà en cours d'exécution conserve son ancien point d'accès jusqu'à ce que vous le rouvriez.",
       "retryHint": "Réessayez le même changement.",
-      "retryNamed": "Réessayer de basculer vers {{name}}",
       "switchingNamed": "Basculement vers {{name}}"
     },
     "failover": {

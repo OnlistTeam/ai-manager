@@ -2,7 +2,6 @@ import { AlertTriangle, LoaderCircle, Stethoscope } from "lucide-react";
 import type { Ref } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/shared/ui/Button";
-import { Card } from "@/shared/ui/Card";
 import { STATUS_LINE_CLASS } from "./HomeStatusLine";
 
 /** The status line before the first check has an answer. */
@@ -10,18 +9,19 @@ export function HomeStatusChecking() {
   const { t } = useTranslation();
 
   return (
-    <Card
-      padding="none"
+    <div
       role="status"
       aria-label={t("home.status.checking")}
       className={STATUS_LINE_CLASS}
     >
       <LoaderCircle
-        className="h-5 w-5 shrink-0 text-content-muted motion-safe:animate-spin"
+        className="h-4 w-4 shrink-0 text-content-muted motion-safe:animate-spin"
         aria-hidden="true"
       />
-      <h1 className="text-heading text-content">{t("home.status.checking")}</h1>
-    </Card>
+      <h1 className="text-body font-medium text-content">
+        {t("home.status.checking")}
+      </h1>
+    </div>
   );
 }
 
@@ -40,20 +40,19 @@ export function HomeUnavailableState({
   const { t } = useTranslation();
 
   return (
-    <Card
-      padding="none"
+    <div
       role="alert"
       aria-labelledby="home-unavailable-error-title"
       aria-busy={retrying || undefined}
       className={STATUS_LINE_CLASS}
     >
       <Stethoscope
-        className="h-5 w-5 shrink-0 text-danger"
+        className="h-4 w-4 shrink-0 text-danger"
         aria-hidden="true"
       />
       <h1
         id="home-unavailable-error-title"
-        className="text-heading text-content"
+        className="text-body font-medium text-content"
       >
         {t("home.error.title")}
       </h1>
@@ -62,14 +61,15 @@ export function HomeUnavailableState({
       </p>
       <Button
         ref={retryButtonRef}
-        size="sm"
+        variant="secondary"
+        size="xs"
         className="ml-auto"
         loading={retrying}
         onClick={onRetry}
       >
         {t("home.refreshError.action")}
       </Button>
-    </Card>
+    </div>
   );
 }
 

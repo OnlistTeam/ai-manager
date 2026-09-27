@@ -66,15 +66,13 @@ describe("ProviderCard", () => {
     expect(screen.getByText(en.services.card.inUse)).toBeInTheDocument();
   });
 
-  it("shows recent use and tool-stored credentials without claiming an active session", async () => {
-    const onUse = vi.fn();
+  it("shows recent use and tool-stored credentials without claiming an active session", () => {
     render(
       <ProviderCard
         provider={provider({ tool: "opencode", additive: true, apiKey: null })}
         toolName="OpenCode"
         effectiveState="recentModel"
         effectiveCredential="configured"
-        onUse={onUse}
       />,
     );
     expect(screen.getByText(en.services.card.recentModel)).toBeInTheDocument();
@@ -88,10 +86,9 @@ describe("ProviderCard", () => {
         name: en.ds.action.copyNamed.replace("{{name}}", en.services.form.key),
       }),
     ).not.toBeInTheDocument();
-    await userEvent
-      .setup()
-      .click(screen.getByRole("button", { name: "Add My Relay to tool" }));
-    expect(onUse).toHaveBeenCalledOnce();
+    expect(
+      screen.queryByRole("button", { name: en.ds.action.configure }),
+    ).not.toBeInTheDocument();
   });
 
   it.each(["unknown", "defaultModel"] as const)(
@@ -179,7 +176,7 @@ describe("ProviderCard", () => {
     expect(screen.queryByText(/^From /)).not.toBeInTheDocument();
   });
 
-  it("shows who overrides a selected but ineffective service, and still offers Use to re-apply it", () => {
+  it("shows who overrides a selected but ineffective service", () => {
     render(
       <ProviderCard
         provider={{ ...provider(), active: true }}
@@ -191,53 +188,33 @@ describe("ProviderCard", () => {
     expect(
       screen.getByText("Selected, but overridden by ANTHROPIC_BASE_URL"),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Use/ })).toBeInTheDocument();
   });
 
-  it("offers Use on a card in effect but not the DB selection", () => {
-    render(
-      <ProviderCard
-        provider={provider({ active: false })}
-        toolName="Claude Code"
-        effectiveState="inUse"
-      />,
-    );
-    expect(screen.getByRole("button", { name: /Use/ })).toBeInTheDocument();
-  });
+  it.each([
+    ["saved", false],
+    ["inUse", false],
+    ["inUse", true],
+    ["overridden", true],
+  ] as const)(
+    "offers no Use action for a %s card (DB selection: %s); Home chooses",
+    (effectiveState, active) => {
+      render(
+        <ProviderCard
+          provider={provider({ active })}
+          toolName="Claude Code"
+          effectiveState={effectiveState}
+        />,
+      );
+      expect(
+        screen.queryByRole("button", { name: /^Use\b/ }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: en.ds.action.use }),
+      ).not.toBeInTheDocument();
+    },
+  );
 
-  it("hides Use on the card that is both in effect and the DB selection", () => {
-    render(
-      <ProviderCard
-        provider={provider({ active: true })}
-        toolName="Claude Code"
-        effectiveState="inUse"
-      />,
-    );
-    expect(
-      screen.queryByRole("button", { name: /Use/ }),
-    ).not.toBeInTheDocument();
-  });
-
-  it("offers Use when it is not the active one", async () => {
-    const onUse = vi.fn();
-    render(
-      <ProviderCard
-        provider={provider()}
-        toolName="Claude Code"
-        effectiveState="saved"
-        onUse={onUse}
-      />,
-    );
-    await userEvent.click(
-      screen.getByRole("button", {
-        name: en.services.action.useNamed.replace("{{name}}", "My Relay"),
-      }),
-    );
-    expect(onUse).toHaveBeenCalledTimes(1);
-  });
-
-  it("keeps a partially applied switch safe and retryable on the same card", async () => {
-    const onUse = vi.fn();
+  it("keeps a partially applied switch visible on the same card", () => {
     render(
       <ProviderCard
         provider={provider({ active: true, canRemove: false })}
@@ -252,7 +229,6 @@ describe("ProviderCard", () => {
             contextId: null,
           })
         }
-        onUse={onUse}
       />,
     );
 
@@ -263,12 +239,6 @@ describe("ProviderCard", () => {
     expect(alert).toHaveTextContent(en.error.remediation.checkPermissions);
     // Technical detail stays folded behind View details, never primary copy.
     expect(within(alert).getByText(/private\/tool\.json/)).not.toBeVisible();
-    await userEvent.click(
-      screen.getByRole("button", {
-        name: "Try switching to My Relay again",
-      }),
-    );
-    expect(onUse).toHaveBeenCalledTimes(1);
   });
 
   it("offers Remove for an inactive standard service", async () => {
@@ -444,7 +414,12 @@ describe("ProviderCard", () => {
     );
     expect(
       screen.getByRole("button", {
-        name: en.services.action.useNamed.replace("{{name}}", "My Relay"),
+        name: en.services.action.editNamed.replace("{{name}}", "My Relay"),
+      }),
+    ).toBeDisabled();
+    expect(
+      screen.getByRole("button", {
+        name: en.services.action.testNamed.replace("{{name}}", "My Relay"),
       }),
     ).toBeDisabled();
   });

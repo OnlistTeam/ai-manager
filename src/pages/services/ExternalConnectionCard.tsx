@@ -139,15 +139,8 @@ export function ExternalConnectionCard({
           ? [toolName]
           : []
       }
-      connected
       active={!connection.selection || connection.selection === "configuration"}
-      useAvailable={false}
       activeLabelKey="services.card.inUse"
-      unavailableLabelKey={
-        connection.selection && connection.selection !== "configuration"
-          ? "ds.action.readOnly"
-          : undefined
-      }
       actions={
         <>
           {testable ? (

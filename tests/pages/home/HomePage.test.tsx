@@ -35,18 +35,6 @@ const CAPABILITIES = {
   canLaunch: true,
 };
 
-const RUNNING_UPDATE = {
-  id: "op-running",
-  kind: "update",
-  tool: "claude-code",
-  status: "running",
-  progress: 42,
-  messageKey: "operation.phase.downloading",
-  error: null,
-  startedAt: 5,
-  finishedAt: null,
-};
-
 function tool(overrides: Record<string, unknown> = {}) {
   return {
     id: "claude-code",
@@ -97,42 +85,6 @@ function editProfile(providerId: string, models: string[]) {
   };
 }
 
-function readyUpdatePreview(toolId: string, fingerprint: string) {
-  return {
-    state: "ready",
-    preview: {
-      tool: toolId,
-      previewFingerprint: fingerprint,
-      targetVersion: "2.0.0",
-      source: "nativeInstaller",
-      installations: [
-        {
-          source: "nativeInstaller",
-          version: "1.0.0",
-          runnable: true,
-          isDefault: true,
-          location: `/Users/test/.local/bin/${toolId}`,
-        },
-      ],
-      attempts: [
-        {
-          method: "nativeSelfUpdate",
-          commands: [`/Users/test/.local/bin/${toolId} update`],
-        },
-      ],
-      multipleInstallations: false,
-    },
-  };
-}
-
-function blockedUpdatePreview(toolId: string) {
-  return {
-    state: "blocked",
-    tool: toolId,
-    reason: "ambiguousInstallation",
-  };
-}
-
 function healthySnapshot(tools: unknown[]) {
   const installed = (tools as ReturnType<typeof tool>[]).filter(
     (entry) =>
@@ -176,7 +128,6 @@ function mount(
   onOpenMcp = vi.fn(),
   snapshot = healthySnapshot(tools),
   onOpenServices = vi.fn(),
-  operations: unknown[] = [],
 ) {
   server.use(
     http.post(`${TAURI_ENDPOINT}/app_tools_list`, () =>
@@ -186,7 +137,7 @@ function mount(
       HttpResponse.json(snapshot),
     ),
     http.post(`${TAURI_ENDPOINT}/app_operations_list`, () =>
-      HttpResponse.json(operations),
+      HttpResponse.json([]),
     ),
   );
   render(
@@ -228,22 +179,6 @@ describe("HomePage", () => {
     toastMocks.info.mockClear();
     toastMocks.success.mockClear();
     serveProviders();
-    server.use(
-      http.post(
-        `${TAURI_ENDPOINT}/app_tools_update_preview`,
-        async ({ request }) => {
-          const body = (await request.json()) as { tools: string[] };
-          return HttpResponse.json(
-            body.tools.map((toolId, index) =>
-              readyUpdatePreview(
-                toolId,
-                String.fromCharCode("a".charCodeAt(0) + index).repeat(64),
-              ),
-            ),
-          );
-        },
-      ),
-    );
     i18n.addResourceBundle(
       "en",
       "translation",
@@ -359,9 +294,7 @@ describe("HomePage", () => {
         within(status).getByRole("heading", { level: 1 }),
       ).toHaveTextContent(en.home.status.checking);
       expect(within(status).queryByRole("button")).toBeNull();
-      expect(
-        screen.queryByRole("button", { name: en.home.tools.updateAll }),
-      ).toBeNull();
+      expect(screen.queryByRole("article")).toBeNull();
     });
 
     it("rechecks on demand and then tests the saved service addresses once", async () => {
@@ -652,6 +585,26 @@ describe("HomePage", () => {
   });
 
   describe("my tools", () => {
+    beforeEach(() => {
+      // cmdk keeps the highlighted option in view; jsdom has no layout.
+      Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
+        configurable: true,
+        value: vi.fn(),
+      });
+    });
+
+    const pickerFor = (row: HTMLElement, tool: string) =>
+      within(row).findByRole("button", {
+        name: new RegExp(`^Endpoint ${tool} uses: `),
+      });
+
+    async function openPicker(row: HTMLElement, tool: string) {
+      const pill = await pickerFor(row, tool);
+      await waitFor(() => expect(pill).toBeEnabled());
+      await userEvent.click(pill);
+      return screen.findByRole("listbox", { name: `Endpoints for ${tool}` });
+    }
+
     it("lists each installed tool that can use an endpoint, and nothing else", async () => {
       mount([
         tool(),
@@ -675,7 +628,7 @@ describe("HomePage", () => {
       expect(screen.queryByRole("article", { name: "Kimi Code" })).toBeNull();
     });
 
-    it("names the endpoint in use and the model it pins", async () => {
+    it("names the endpoint in use and the model it pins on the row's picker", async () => {
       serveProviders({
         "claude-code": [
           provider({ id: "kimi", name: "Kimi", active: true }),
@@ -694,8 +647,9 @@ describe("HomePage", () => {
       mount([tool()]);
 
       const row = await findRow("Claude Code");
-      expect(await within(row).findByText("Kimi")).toBeVisible();
-      expect(await within(row).findByText("kimi-k2")).toBeVisible();
+      const pill = await pickerFor(row, "Claude Code");
+      expect(await within(pill).findByText("Kimi")).toBeVisible();
+      expect(await within(pill).findByText("kimi-k2")).toBeVisible();
     });
 
     it("says Official sign-in when the official entry or the tool's own login is in effect", async () => {
@@ -733,73 +687,34 @@ describe("HomePage", () => {
       ).toBeVisible();
     });
 
-    it("says Not connected and offers to connect when a tool needs an endpoint", async () => {
-      const onOpenServices = vi.fn();
-      mount(
-        [
-          tool({
-            id: "opencode",
-            name: "OpenCode",
-            discovery: {
-              publisher: "SST",
-              access: "provider",
-              useCases: ["modelChoice"],
-            },
-          }),
-        ],
-        vi.fn(),
-        vi.fn(),
-        undefined,
-        onOpenServices,
-      );
-
-      const row = await findRow("OpenCode");
-      expect(
-        await within(row).findByText(en.home.tools.notConnected),
-      ).toBeVisible();
-      await userEvent.click(
-        within(row).getByRole("button", {
-          name: "Connect an API endpoint to OpenCode",
-        }),
-      );
-      expect(onOpenServices).toHaveBeenCalledWith("opencode");
-    });
-
-    it("counts added endpoints for a tool that picks its model itself", async () => {
+    it("lists the endpoint in use first and checked, then the rest in saved order", async () => {
       serveProviders({
-        opencode: [
-          provider({ id: "a", tool: "opencode", additive: true }),
-          provider({ id: "b", tool: "opencode", name: "B", additive: true }),
+        "claude-code": [
+          provider({ id: "relay", name: "Relay" }),
+          provider({ id: "kimi", name: "Kimi", active: true }),
+          provider({ id: "backup", name: "Backup" }),
         ],
       });
-      mount([tool({ id: "opencode", name: "OpenCode" })]);
+      mount([tool()]);
 
-      const row = await findRow("OpenCode");
-      expect(await within(row).findByText("2 endpoints added")).toBeVisible();
-      expect(within(row).getByText("Model chosen in OpenCode")).toBeVisible();
-      expect(within(row).queryByRole("combobox")).toBeNull();
+      const listbox = await openPicker(
+        await findRow("Claude Code"),
+        "Claude Code",
+      );
+      const options = within(listbox).getAllByRole("option");
+      expect(options.map((option) => option.textContent)).toEqual([
+        "Kimi",
+        "Relay",
+        "Backup",
+        en.home.tools.manageEndpoints,
+      ]);
+      expect(options[0]).toHaveAttribute("aria-current", "true");
+      expect(options[1]).not.toHaveAttribute("aria-current");
+      // A short list has no filter field.
+      expect(screen.queryByPlaceholderText(en.home.tools.filter)).toBeNull();
     });
 
-    it("opens the tool's API endpoints from the row", async () => {
-      const onOpenServices = vi.fn();
-      mount(
-        [tool(), tool({ id: "codex", name: "Codex" })],
-        vi.fn(),
-        vi.fn(),
-        undefined,
-        onOpenServices,
-      );
-
-      const row = await findRow("Codex");
-      await userEvent.click(
-        within(row).getByRole("button", {
-          name: "Open API endpoints for Codex",
-        }),
-      );
-      expect(onOpenServices).toHaveBeenCalledWith("codex");
-    });
-
-    it("switches through the shared preflight and announces the reopen hint", async () => {
+    it("switches through the shared preflight when an endpoint is picked", async () => {
       const activations: unknown[] = [];
       serveProviders({
         "claude-code": [
@@ -828,24 +743,20 @@ describe("HomePage", () => {
       mount([tool()]);
 
       const row = await findRow("Claude Code");
-      const select = await within(row).findByRole("combobox", {
-        name: "Switch the endpoint Claude Code uses",
-      });
-      await waitFor(() => expect(select).toBeEnabled());
-      expect(
-        within(select)
-          .getAllByRole("option")
-          .map((option) => option.textContent),
-      ).toEqual([en.home.tools.switchTo, "Relay"]);
-
-      await userEvent.selectOptions(select, "relay");
+      const listbox = await openPicker(row, "Claude Code");
+      await userEvent.click(
+        within(listbox).getByRole("option", { name: "Relay" }),
+      );
 
       await waitFor(() =>
         expect(activations).toEqual([
           { tool: "claude-code", provider: "relay" },
         ]),
       );
-      expect(await within(row).findByText("Relay")).toBeVisible();
+      expect(screen.queryByRole("listbox")).toBeNull();
+      expect(
+        await within(await pickerFor(row, "Claude Code")).findByText("Relay"),
+      ).toBeVisible();
       await waitFor(() =>
         expect(toastMocks.success).toHaveBeenCalledWith(
           "Switched to Relay",
@@ -857,6 +768,145 @@ describe("HomePage", () => {
           }),
         ),
       );
+    });
+
+    it("opens the tool's API endpoints from the picker", async () => {
+      const onOpenServices = vi.fn();
+      serveProviders({
+        codex: [provider({ id: "team", tool: "codex", active: true })],
+      });
+      mount(
+        [tool(), tool({ id: "codex", name: "Codex" })],
+        vi.fn(),
+        vi.fn(),
+        undefined,
+        onOpenServices,
+      );
+
+      const listbox = await openPicker(await findRow("Codex"), "Codex");
+      await userEvent.click(
+        within(listbox).getByRole("option", {
+          name: en.home.tools.manageEndpoints,
+        }),
+      );
+      expect(onOpenServices).toHaveBeenCalledWith("codex");
+      expect(screen.queryByRole("listbox")).toBeNull();
+    });
+
+    it("says there are no endpoints yet and offers to add one", async () => {
+      const onOpenServices = vi.fn();
+      mount(
+        [
+          tool({
+            id: "opencode",
+            name: "OpenCode",
+            discovery: {
+              publisher: "SST",
+              access: "provider",
+              useCases: ["modelChoice"],
+            },
+          }),
+        ],
+        vi.fn(),
+        vi.fn(),
+        undefined,
+        onOpenServices,
+      );
+
+      const row = await findRow("OpenCode");
+      expect(
+        await within(row).findByText(en.home.tools.notConnected),
+      ).toBeVisible();
+      const listbox = await openPicker(row, "OpenCode");
+      expect(screen.getByText(en.home.tools.noEndpoints)).toBeVisible();
+      const options = within(listbox).getAllByRole("option");
+      expect(options.map((option) => option.textContent)).toEqual([
+        en.home.tools.addEndpoint,
+      ]);
+      await userEvent.click(options[0]);
+      expect(onOpenServices).toHaveBeenCalledWith("opencode");
+    });
+
+    it("counts added endpoints for a tool that picks its model itself", async () => {
+      serveProviders({
+        opencode: [
+          provider({ id: "a", tool: "opencode", additive: true }),
+          provider({ id: "b", tool: "opencode", name: "B", additive: true }),
+        ],
+      });
+      mount([tool({ id: "opencode", name: "OpenCode" })]);
+
+      const row = await findRow("OpenCode");
+      expect(await within(row).findByText("2 endpoints added")).toBeVisible();
+      const listbox = await openPicker(row, "OpenCode");
+      // Nothing to pick here: the tool chooses the model itself.
+      expect(screen.getByText("Model chosen in OpenCode")).toBeVisible();
+      expect(
+        within(listbox)
+          .getAllByRole("option")
+          .map((option) => option.textContent),
+      ).toEqual([en.home.tools.manageEndpoints]);
+    });
+
+    it("filters a long list of endpoints", async () => {
+      serveProviders({
+        "claude-code": Array.from({ length: 8 }, (_, index) =>
+          provider({
+            id: `relay-${index}`,
+            name: index === 5 ? "Team Gateway" : `Relay ${index}`,
+            active: index === 0,
+          }),
+        ),
+      });
+      mount([tool()]);
+
+      const listbox = await openPicker(
+        await findRow("Claude Code"),
+        "Claude Code",
+      );
+      const filter = screen.getByPlaceholderText(en.home.tools.filter);
+      await waitFor(() => expect(filter).toHaveFocus());
+      await userEvent.type(filter, "gateway");
+      await waitFor(() =>
+        expect(
+          within(listbox)
+            .getAllByRole("option")
+            .map((option) => option.textContent),
+        ).toEqual(["Team Gateway", en.home.tools.manageEndpoints]),
+      );
+    });
+
+    it("shows an unreadable list as plain text instead of a picker", async () => {
+      server.use(
+        http.post(`${TAURI_ENDPOINT}/app_providers_list`, () =>
+          HttpResponse.text("private path", { status: 500 }),
+        ),
+      );
+      mount([tool()]);
+
+      const row = await findRow("Claude Code");
+      expect(
+        await within(row).findByText(en.home.tools.unavailable),
+      ).toBeVisible();
+      expect(within(row).queryByRole("button")).toBeNull();
+    });
+
+    it("has no update button and no whole-row target", async () => {
+      const onOpenTools = vi.fn();
+      mount(
+        [tool({ status: "updateAvailable", latestVersion: "1.1.0" })],
+        onOpenTools,
+      );
+
+      const row = await findRow("Claude Code");
+      await pickerFor(row, "Claude Code");
+      expect(within(row).getAllByRole("button")).toHaveLength(1);
+      expect(within(row).queryByRole("button", { name: /Update/ })).toBeNull();
+      expect(screen.queryByRole("button", { name: /Update all/i })).toBeNull();
+      await userEvent.click(
+        screen.getByRole("button", { name: "1 update available" }),
+      );
+      expect(onOpenTools).toHaveBeenCalledTimes(1);
     });
 
     it("says nothing changed when the chosen endpoint does not respond", async () => {
@@ -891,9 +941,10 @@ describe("HomePage", () => {
       mount([tool()], vi.fn(), vi.fn(), undefined, onOpenServices);
 
       const row = await findRow("Claude Code");
-      const select = await within(row).findByRole("combobox");
-      await waitFor(() => expect(select).toBeEnabled());
-      await userEvent.selectOptions(select, "relay");
+      const listbox = await openPicker(row, "Claude Code");
+      await userEvent.click(
+        within(listbox).getByRole("option", { name: "Relay" }),
+      );
 
       expect(
         await within(row).findByText(
@@ -934,9 +985,10 @@ describe("HomePage", () => {
       mount([tool()]);
 
       const row = await findRow("Claude Code");
-      const select = await within(row).findByRole("combobox");
-      await waitFor(() => expect(select).toBeEnabled());
-      await userEvent.selectOptions(select, "relay");
+      const listbox = await openPicker(row, "Claude Code");
+      await userEvent.click(
+        within(listbox).getByRole("option", { name: "Relay" }),
+      );
 
       expect(
         await within(row).findByRole("alert", {
@@ -946,41 +998,7 @@ describe("HomePage", () => {
       expect(toastMocks.success).not.toHaveBeenCalled();
     });
 
-    it("updates one tool from its row through the same review", async () => {
-      const seen: unknown[] = [];
-      server.use(
-        http.post(`${TAURI_ENDPOINT}/app_tool_update`, async ({ request }) => {
-          seen.push(await request.json());
-          return HttpResponse.json("op-1");
-        }),
-      );
-      mount([
-        tool({ status: "updateAvailable", latestVersion: "1.1.0" }),
-        tool({
-          id: "codex",
-          name: "Codex",
-          status: "updateAvailable",
-          latestVersion: "2.0.0",
-        }),
-      ]);
-      const user = userEvent.setup();
-      const row = await findRow("Codex");
-      const update = within(row).getByRole("button", { name: "Update Codex" });
-      await waitFor(() => expect(update).toBeEnabled());
-      await user.click(update);
-
-      const dialog = await screen.findByRole("dialog");
-      await user.click(
-        await within(dialog).findByRole("button", { name: /Update/ }),
-      );
-      await waitFor(() =>
-        expect(seen).toEqual([
-          { tool: "codex", previewFingerprint: "a".repeat(64) },
-        ]),
-      );
-    });
-
-    it("leaves updates and missing endpoints to the rows instead of repeating them as findings", async () => {
+    it("leaves updates and missing endpoints out of the findings", async () => {
       const onOpenServices = vi.fn();
       mount(
         [tool({ status: "updateAvailable", latestVersion: "1.1.0" })],
@@ -1020,667 +1038,14 @@ describe("HomePage", () => {
           "Claude Code has no API endpoint configured",
         ),
       ).toBeNull();
-      const row = await findRow("Claude Code");
       expect(
-        within(row).getByRole("button", { name: "Update Claude Code" }),
-      ).toBeVisible();
+        within(findings).queryByRole("button", { name: /Update/ }),
+      ).toBeNull();
 
       await userEvent.click(
         within(findings).getByRole("button", { name: "Review API Endpoints" }),
       );
       expect(onOpenServices).toHaveBeenCalledWith("claude-code");
-    });
-  });
-
-  describe("update all", () => {
-    it("is hidden while nothing has an update", async () => {
-      mount([tool({ latestVersion: "1.0.0" })]);
-      expect(await findRow("Claude Code")).toBeInTheDocument();
-      expect(
-        screen.queryByRole("button", { name: en.home.tools.updateAll }),
-      ).toBeNull();
-      expect(
-        screen.getByRole("button", { name: en.home.tools.install }),
-      ).toBeEnabled();
-    });
-
-    it("pauses Update All when the retained task baseline cannot refresh", async () => {
-      const tools = [
-        tool({ status: "updateAvailable", latestVersion: "1.1.0" }),
-      ];
-      let operationReads = 0;
-      server.use(
-        http.post(`${TAURI_ENDPOINT}/app_tools_list`, () =>
-          HttpResponse.json(tools),
-        ),
-        http.post(`${TAURI_ENDPOINT}/app_health_snapshot`, () =>
-          HttpResponse.json(healthySnapshot(tools)),
-        ),
-        http.post(`${TAURI_ENDPOINT}/app_operations_list`, () => {
-          operationReads += 1;
-          return operationReads === 2
-            ? HttpResponse.text("private task payload", { status: 500 })
-            : HttpResponse.json([]);
-        }),
-      );
-      const client = renderHome();
-      const updateAll = await screen.findByRole("button", {
-        name: en.home.tools.updateAll,
-      });
-      await waitFor(() => expect(updateAll).toBeEnabled());
-      await userEvent.click(updateAll);
-      const dialog = screen.getByRole("dialog");
-      const confirm = await within(dialog).findByRole("button", {
-        name: "Update 1 tool",
-      });
-      expect(confirm).toBeEnabled();
-
-      await client.invalidateQueries({ queryKey: operationKeys.all });
-      expect(
-        await within(dialog).findByRole("alert", {
-          name: en.home.refreshError.title,
-        }),
-      ).toBeInTheDocument();
-      expect(confirm).toBeDisabled();
-      const cancel = within(dialog).getByRole("button", {
-        name: en.ds.action.cancel,
-      });
-      expect(cancel).toBeEnabled();
-      await userEvent.click(cancel);
-
-      expect(
-        screen.getByRole("alert", { name: en.home.refreshError.title }),
-      ).toBeInTheDocument();
-      expect(updateAll).toBeDisabled();
-      expect(updateAll).toHaveAccessibleDescription(
-        en.home.updateAll.hints.unavailable,
-      );
-      expect(
-        screen.getByRole("button", { name: en.home.tools.install }),
-      ).toBeEnabled();
-      expect(document.body).not.toHaveTextContent("private task payload");
-    });
-
-    it("pauses an open bulk review when a candidate is no longer updateable", async () => {
-      let toolReads = 0;
-      const updates: unknown[] = [];
-      const tools = [
-        tool({ status: "updateAvailable", latestVersion: "1.1.0" }),
-      ];
-      server.use(
-        http.post(`${TAURI_ENDPOINT}/app_tools_list`, () => {
-          toolReads += 1;
-          return HttpResponse.json([
-            tool({
-              status: toolReads === 1 ? "updateAvailable" : "installed",
-              latestVersion: toolReads === 1 ? "1.1.0" : null,
-            }),
-          ]);
-        }),
-        http.post(`${TAURI_ENDPOINT}/app_health_snapshot`, () =>
-          HttpResponse.json(healthySnapshot(tools)),
-        ),
-        http.post(`${TAURI_ENDPOINT}/app_operations_list`, () =>
-          HttpResponse.json([]),
-        ),
-        http.post(`${TAURI_ENDPOINT}/app_tool_update`, async ({ request }) => {
-          updates.push(await request.json());
-          return HttpResponse.json("00000000-0000-4000-8000-000000000001");
-        }),
-      );
-      const client = renderHome();
-
-      await userEvent.click(
-        await screen.findByRole("button", { name: en.home.tools.updateAll }),
-      );
-      const dialog = await screen.findByRole("dialog", {
-        name: "Review 1 tool update",
-      });
-      const confirm = await within(dialog).findByRole("button", {
-        name: "Update 1 tool",
-      });
-      expect(confirm).toBeEnabled();
-
-      await client.invalidateQueries({ queryKey: toolKeys.all });
-      await waitFor(() => expect(toolReads).toBe(2));
-      await waitFor(() => expect(confirm).toBeDisabled());
-      await userEvent.click(confirm);
-      expect(updates).toEqual([]);
-    });
-
-    it("previews every candidate and starts only ready updates", async () => {
-      const previews: unknown[] = [];
-      const updates: unknown[] = [];
-      mount([
-        tool({ status: "updateAvailable", latestVersion: "1.1.0" }),
-        tool({
-          id: "codex",
-          name: "Codex",
-          status: "updateAvailable",
-          latestVersion: "2.0.0",
-        }),
-      ]);
-      server.use(
-        http.post(
-          `${TAURI_ENDPOINT}/app_tools_update_preview`,
-          async ({ request }) => {
-            previews.push(await request.json());
-            return HttpResponse.json([
-              readyUpdatePreview("claude-code", "a".repeat(64)),
-              blockedUpdatePreview("codex"),
-            ]);
-          },
-        ),
-        http.post(`${TAURI_ENDPOINT}/app_tool_update`, async ({ request }) => {
-          updates.push(await request.json());
-          return HttpResponse.json("00000000-0000-4000-8000-000000000001");
-        }),
-      );
-
-      const user = userEvent.setup();
-      const updateAll = await screen.findByRole("button", {
-        name: en.home.tools.updateAll,
-      });
-      await waitFor(() => expect(updateAll).toBeEnabled());
-      await user.click(updateAll);
-      await waitFor(() =>
-        expect(previews).toEqual([{ tools: ["claude-code", "codex"] }]),
-      );
-
-      const dialog = await screen.findByRole("dialog", {
-        name: "Review 2 tool updates",
-      });
-      expect(dialog).toHaveTextContent("Claude Code will update");
-      expect(dialog).toHaveTextContent("Codex will be skipped");
-      expect(updates).toEqual([]);
-      await user.click(
-        within(dialog).getByRole("button", { name: "Update 1 tool" }),
-      );
-
-      await waitFor(() =>
-        expect(updates).toEqual([
-          {
-            tool: "claude-code",
-            previewFingerprint: "a".repeat(64),
-          },
-        ]),
-      );
-    });
-
-    it("keeps every blocked candidate visible without starting an update", async () => {
-      const updates: unknown[] = [];
-      let previewReads = 0;
-      mount([
-        tool({ status: "updateAvailable", latestVersion: "1.1.0" }),
-        tool({
-          id: "codex",
-          name: "Codex",
-          status: "updateAvailable",
-          latestVersion: "2.0.0",
-        }),
-      ]);
-      server.use(
-        http.post(`${TAURI_ENDPOINT}/app_tools_update_preview`, () => {
-          previewReads += 1;
-          return HttpResponse.json([
-            blockedUpdatePreview("claude-code"),
-            blockedUpdatePreview("codex"),
-          ]);
-        }),
-        http.post(`${TAURI_ENDPOINT}/app_tool_update`, async ({ request }) => {
-          updates.push(await request.json());
-          return HttpResponse.json("00000000-0000-4000-8000-000000000001");
-        }),
-      );
-
-      await userEvent.click(
-        await screen.findByRole("button", { name: en.home.tools.updateAll }),
-      );
-      const dialog = await screen.findByRole("dialog", {
-        name: "Review 2 tool updates",
-      });
-      expect(dialog).toHaveTextContent("Claude Code will be skipped");
-      expect(dialog).toHaveTextContent("Codex will be skipped");
-      expect(
-        within(dialog).getByRole("button", { name: "Update 0 tools" }),
-      ).toBeDisabled();
-      await userEvent.click(
-        within(dialog).getByRole("button", { name: "Check again" }),
-      );
-      await waitFor(() => expect(previewReads).toBe(2));
-      expect(updates).toEqual([]);
-    });
-
-    it("reviews every out-of-date tool before scheduling updates", async () => {
-      const seen: unknown[] = [];
-      server.use(
-        http.post(`${TAURI_ENDPOINT}/app_tool_update`, async ({ request }) => {
-          seen.push(await request.json());
-          return HttpResponse.json("op-1");
-        }),
-      );
-      mount([
-        tool({ status: "updateAvailable", latestVersion: "1.1.0" }),
-        tool({
-          id: "codex",
-          name: "Codex",
-          status: "updateAvailable",
-          latestVersion: "2.0.0",
-        }),
-        tool({ id: "opencode", name: "OpenCode" }),
-      ]);
-      const user = userEvent.setup();
-      const updateAll = await screen.findByRole("button", {
-        name: en.home.tools.updateAll,
-      });
-      await waitFor(() => expect(updateAll).toBeEnabled());
-      await user.click(updateAll);
-
-      const dialog = screen.getByRole("dialog", {
-        name: "Review 2 tool updates",
-      });
-      expect(dialog).toHaveAccessibleDescription(
-        "2 can update now. 0 will be skipped until its installation is reviewed.",
-      );
-      expect(seen).toEqual([]);
-      const confirm = within(dialog).getByRole("button", {
-        name: "Update 2 tools",
-      });
-      expect(confirm).toHaveFocus();
-      await user.click(confirm);
-
-      await waitFor(() => expect(seen).toHaveLength(2));
-      expect(seen).toEqual([
-        { tool: "claude-code", previewFingerprint: "a".repeat(64) },
-        { tool: "codex", previewFingerprint: "b".repeat(64) },
-      ]);
-      await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-    });
-
-    it("keeps only failed updates selected and retries them in place", async () => {
-      const seen: unknown[] = [];
-      let codexAttempts = 0;
-      let previewReads = 0;
-      server.use(
-        http.post(
-          `${TAURI_ENDPOINT}/app_tools_update_preview`,
-          async ({ request }) => {
-            previewReads += 1;
-            const body = (await request.json()) as { tools: string[] };
-            return HttpResponse.json(
-              body.tools.map((toolId, index) =>
-                readyUpdatePreview(
-                  toolId,
-                  previewReads === 1
-                    ? String.fromCharCode("a".charCodeAt(0) + index).repeat(64)
-                    : "c".repeat(64),
-                ),
-              ),
-            );
-          },
-        ),
-        http.post(`${TAURI_ENDPOINT}/app_tool_update`, async ({ request }) => {
-          const body = await request.json();
-          seen.push(body);
-          if ((body as { tool?: string }).tool === "codex") {
-            codexAttempts += 1;
-            if (codexAttempts === 1) {
-              return HttpResponse.json(
-                {
-                  code: "UPDATE_FAILED",
-                  messageKey: "error.tool.updateFailed",
-                  technicalMessage: "private updater path /Users/alice/tool",
-                  remediation: "error.remediation.checkInternetConnection",
-                  contextId: null,
-                },
-                { status: 500 },
-              );
-            }
-          }
-          return HttpResponse.json("op-update");
-        }),
-      );
-      mount([
-        tool({ status: "updateAvailable", latestVersion: "1.1.0" }),
-        tool({
-          id: "codex",
-          name: "Codex",
-          status: "updateAvailable",
-          latestVersion: "2.0.0",
-        }),
-      ]);
-      const user = userEvent.setup();
-      const updateAll = await screen.findByRole("button", {
-        name: en.home.tools.updateAll,
-      });
-      await waitFor(() => expect(updateAll).toBeEnabled());
-      await user.click(updateAll);
-      await user.click(
-        within(screen.getByRole("dialog")).getByRole("button", {
-          name: "Update 2 tools",
-        }),
-      );
-
-      const alert = await screen.findByRole("alert", {
-        name: "Some updates are now running",
-      });
-      expect(alert).toHaveTextContent(
-        "1 update started in Activity. Only the tool that did not start remains selected.",
-      );
-      expect(alert).not.toHaveTextContent("/Users/alice/tool");
-      const retryDialog = screen.getByRole("dialog", {
-        name: "Review 1 tool update",
-      });
-      expect(retryDialog).toHaveAccessibleDescription(
-        "1 can update now. 0 will be skipped until its installation is reviewed.",
-      );
-      expect(toastMocks.error).not.toHaveBeenCalled();
-
-      await waitFor(() => expect(previewReads).toBe(2));
-      expect(seen).toHaveLength(2);
-      const refreshedConfirm = await within(retryDialog).findByRole("button", {
-        name: "Update 1 tool",
-      });
-      await user.click(refreshedConfirm);
-      await waitFor(() =>
-        expect(seen).toEqual([
-          { tool: "claude-code", previewFingerprint: "a".repeat(64) },
-          { tool: "codex", previewFingerprint: "b".repeat(64) },
-          { tool: "codex", previewFingerprint: "c".repeat(64) },
-        ]),
-      );
-      await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-    });
-
-    it("keeps skipped tools visible after a failed ready item later succeeds", async () => {
-      let previewReads = 0;
-      let codexAttempts = 0;
-      const onOpenTools = vi.fn();
-      mount(
-        [
-          tool({ status: "updateAvailable", latestVersion: "1.1.0" }),
-          tool({
-            id: "codex",
-            name: "Codex",
-            status: "updateAvailable",
-            latestVersion: "2.0.0",
-          }),
-          tool({
-            id: "opencode",
-            name: "OpenCode",
-            status: "updateAvailable",
-            latestVersion: "3.0.0",
-          }),
-        ],
-        onOpenTools,
-      );
-      server.use(
-        http.post(
-          `${TAURI_ENDPOINT}/app_tools_update_preview`,
-          async ({ request }) => {
-            previewReads += 1;
-            const body = (await request.json()) as { tools: string[] };
-            if (previewReads === 1) {
-              return HttpResponse.json([
-                readyUpdatePreview("claude-code", "a".repeat(64)),
-                readyUpdatePreview("codex", "b".repeat(64)),
-                blockedUpdatePreview("opencode"),
-              ]);
-            }
-            expect(body).toEqual({ tools: ["codex"] });
-            return HttpResponse.json([
-              readyUpdatePreview("codex", "c".repeat(64)),
-            ]);
-          },
-        ),
-        http.post(`${TAURI_ENDPOINT}/app_tool_update`, async ({ request }) => {
-          const body = (await request.json()) as { tool: string };
-          if (body.tool === "codex" && codexAttempts++ === 0) {
-            return HttpResponse.json(
-              {
-                code: "UPDATE_FAILED",
-                messageKey: "error.tool.updateFailed",
-                technicalMessage: null,
-                remediation: "error.remediation.retryOrViewDetails",
-                contextId: null,
-              },
-              { status: 500 },
-            );
-          }
-          return HttpResponse.json("00000000-0000-4000-8000-000000000001");
-        }),
-      );
-
-      await userEvent.click(
-        await screen.findByRole("button", { name: en.home.tools.updateAll }),
-      );
-      let dialog = await screen.findByRole("dialog", {
-        name: "Review 3 tool updates",
-      });
-      await userEvent.click(
-        within(dialog).getByRole("button", { name: "Update 2 tools" }),
-      );
-      dialog = await screen.findByRole("dialog", {
-        name: "Review 1 tool update",
-      });
-      await waitFor(() => expect(previewReads).toBe(2));
-      await userEvent.click(
-        await within(dialog).findByRole("button", { name: "Update 1 tool" }),
-      );
-
-      await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-      const skipped = screen.getByRole("alert");
-      expect(skipped).toHaveTextContent(
-        "1 tool was skipped because its update method could not be confirmed.",
-      );
-      await userEvent.click(
-        within(skipped).getByRole("button", {
-          name: "Review this update in Software",
-        }),
-      );
-      expect(onOpenTools).toHaveBeenCalledOnce();
-    });
-
-    it("keeps every failed update in the confirmation instead of closing it", async () => {
-      server.use(
-        http.post(`${TAURI_ENDPOINT}/app_tool_update`, () =>
-          HttpResponse.json(
-            {
-              code: "UPDATE_FAILED",
-              messageKey: "error.tool.updateFailed",
-              technicalMessage: "private updater exit code 127",
-              remediation: "error.remediation.checkInternetConnection",
-              contextId: null,
-            },
-            { status: 500 },
-          ),
-        ),
-      );
-      mount([tool({ status: "updateAvailable", latestVersion: "1.1.0" })]);
-      const user = userEvent.setup();
-      const updateAll = await screen.findByRole("button", {
-        name: en.home.tools.updateAll,
-      });
-      await waitFor(() => expect(updateAll).toBeEnabled());
-      await user.click(updateAll);
-      const dialog = screen.getByRole("dialog", {
-        name: "Review 1 tool update",
-      });
-      await user.click(
-        within(dialog).getByRole("button", { name: "Update 1 tool" }),
-      );
-
-      const alert = await screen.findByRole("alert", {
-        name: "Updates could not start",
-      });
-      expect(alert).toHaveTextContent(
-        "No update task was created. Retry checks this tool again before starting anything.",
-      );
-      expect(alert).not.toHaveTextContent("exit code 127");
-      expect(
-        await within(dialog).findByRole("button", { name: "Update 1 tool" }),
-      ).toBeEnabled();
-      expect(toastMocks.error).not.toHaveBeenCalled();
-    });
-
-    it("sends capability-blocked updates to the tools review path", async () => {
-      const onOpenTools = vi.fn();
-      mount(
-        [
-          tool({
-            status: "updateAvailable",
-            latestVersion: "1.1.0",
-            capabilities: { ...CAPABILITIES, canUpdate: false },
-          }),
-        ],
-        onOpenTools,
-      );
-
-      expect(
-        await screen.findByText(en.home.updateAll.hints.review),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: en.home.tools.updateAll }),
-      ).toBeDisabled();
-      const row = await findRow("Claude Code");
-      await userEvent.click(
-        within(row).getByRole("button", { name: "Update Claude Code" }),
-      );
-      expect(onOpenTools).toHaveBeenCalledTimes(1);
-      expect(screen.queryByRole("dialog")).toBeNull();
-    });
-
-    it("says when task state is unavailable instead of risking a duplicate", async () => {
-      const tools = [
-        tool({ status: "updateAvailable", latestVersion: "1.1.0" }),
-      ];
-      server.use(
-        http.post(`${TAURI_ENDPOINT}/app_tools_list`, () =>
-          HttpResponse.json(tools),
-        ),
-        http.post(`${TAURI_ENDPOINT}/app_health_snapshot`, () =>
-          HttpResponse.json(healthySnapshot(tools)),
-        ),
-        http.post(`${TAURI_ENDPOINT}/app_operations_list`, () =>
-          HttpResponse.text("not available", { status: 500 }),
-        ),
-      );
-      renderHome();
-
-      expect(
-        await screen.findByText(en.home.updateAll.hints.unavailable),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: en.home.tools.updateAll }),
-      ).toBeDisabled();
-    });
-
-    it("does not schedule a tool whose update task is already running", async () => {
-      mount(
-        [tool({ status: "updateAvailable", latestVersion: "1.1.0" })],
-        vi.fn(),
-        vi.fn(),
-        undefined,
-        vi.fn(),
-        [RUNNING_UPDATE],
-      );
-
-      const updateAll = await screen.findByRole("button", {
-        name: en.home.tools.updateAll,
-      });
-      expect(
-        await screen.findByText(en.home.updateAll.hints.running),
-      ).toBeInTheDocument();
-      expect(updateAll).toBeDisabled();
-      const row = await findRow("Claude Code");
-      expect(
-        within(row).getByRole("button", { name: "Update Claude Code" }),
-      ).toHaveAttribute("aria-busy", "true");
-    });
-
-    it("updates free tools while leaving an already-running tool alone", async () => {
-      const seen: unknown[] = [];
-      server.use(
-        http.post(`${TAURI_ENDPOINT}/app_tool_update`, async ({ request }) => {
-          seen.push(await request.json());
-          return HttpResponse.json("op-codex");
-        }),
-      );
-      const tools = [
-        tool({ status: "updateAvailable", latestVersion: "1.1.0" }),
-        tool({
-          id: "codex",
-          name: "Codex",
-          status: "updateAvailable",
-          latestVersion: "2.0.0",
-        }),
-      ];
-      mount(tools, vi.fn(), vi.fn(), healthySnapshot(tools), vi.fn(), [
-        RUNNING_UPDATE,
-      ]);
-
-      const user = userEvent.setup();
-      const updateAll = await screen.findByRole("button", {
-        name: en.home.tools.updateAll,
-      });
-      await waitFor(() => expect(updateAll).toBeEnabled());
-      await user.click(updateAll);
-      const dialog = screen.getByRole("dialog", {
-        name: "Review 1 tool update",
-      });
-      expect(dialog).toHaveAccessibleDescription(
-        "1 can update now. 0 will be skipped until its installation is reviewed.",
-      );
-      await user.click(
-        within(dialog).getByRole("button", { name: "Update 1 tool" }),
-      );
-
-      await waitFor(() =>
-        expect(seen).toEqual([
-          { tool: "codex", previewFingerprint: "a".repeat(64) },
-        ]),
-      );
-    });
-
-    it("lets the user leave while update tasks are still being scheduled", async () => {
-      let release!: () => void;
-      const scheduled = new Promise<void>((resolve) => {
-        release = resolve;
-      });
-      const seen: unknown[] = [];
-      server.use(
-        http.post(`${TAURI_ENDPOINT}/app_tool_update`, async ({ request }) => {
-          seen.push(await request.json());
-          await scheduled;
-          return HttpResponse.json("00000000-0000-4000-8000-000000000001");
-        }),
-      );
-      mount([tool({ status: "updateAvailable", latestVersion: "1.1.0" })]);
-      const user = userEvent.setup();
-      const updateAll = await screen.findByRole("button", {
-        name: en.home.tools.updateAll,
-      });
-      await waitFor(() => expect(updateAll).toBeEnabled());
-      await user.click(updateAll);
-      const dialog = screen.getByRole("dialog", {
-        name: "Review 1 tool update",
-      });
-      const confirm = within(dialog).getByRole("button", {
-        name: "Update 1 tool",
-      });
-      await user.click(confirm);
-
-      await waitFor(() => expect(confirm).toHaveAttribute("aria-busy", "true"));
-
-      // Scheduling can take seconds on a restricted network. The user is not
-      // held here for it: leaving does not undo the hand-off, and the task
-      // still lands in the activity panel.
-      await user.keyboard("{Escape}");
-      await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-
-      release();
-      await waitFor(() => expect(seen).toHaveLength(1));
-      expect(screen.queryByRole("dialog")).toBeNull();
     });
   });
 });

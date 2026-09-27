@@ -347,7 +347,6 @@
     "action": {
       "install": "安裝",
       "configure": "加入軟體",
-      "readOnly": "唯讀",
       "update": "更新",
       "versions": "切換版本",
       "open": "開啟",
@@ -359,7 +358,6 @@
       "copyNamed": "複製{{name}}",
       "copied": "已複製",
       "use": "使用",
-      "inUse": "使用中",
       "cancel": "取消",
       "close": "關閉",
       "named": {
@@ -1356,7 +1354,6 @@
     "tools": {
       "title": "我的工具",
       "install": "安裝 AI 工具",
-      "updateAll": "全部更新",
       "empty": "已安裝的工具都不使用 API 端點。",
       "official": "官方登入",
       "notConnected": "未連線",
@@ -1364,41 +1361,21 @@
       "added_other": "已新增 {{count}} 個端點",
       "modelInTool": "在 {{tool}} 裡選模型",
       "unavailable": "讀取不到端點",
-      "switchTo": "切換到…",
-      "switchNamed": "切換 {{tool}} 使用的端點",
-      "connect": "連線",
-      "connectNamed": "為 {{tool}} 連線 API 端點",
-      "update": "更新",
-      "updateNamed": "更新 {{tool}}",
-      "openNamed": "打開 {{tool}} 的 API 端點",
-      "switchUnreachable": "{{name}} 沒有回應，連線沒有變動。"
+      "switchUnreachable": "{{name}} 沒有回應，連線沒有變動。",
+      "pickerLabel": "{{tool}} 可用的端點",
+      "pickNamed": "{{tool}} 使用的端點：{{current}}",
+      "manageEndpoints": "管理 API 端點…",
+      "addEndpoint": "新增端點…",
+      "noEndpoints": "還沒有新增端點。",
+      "filter": "篩選端點",
+      "noMatch": "沒有符合的端點。"
     },
     "updateAll": {
       "reviewTitle_one": "檢查 {{count}} 個工具的更新",
       "reviewTitle_other": "檢查 {{count}} 個工具的更新",
       "previewSummary": "{{ready}} 個目前可以更新，{{skipped}} 個會先略過，等待處理安裝問題。",
-      "skippedSummary_one": "{{count}} 個工具因無法確認更新方式而被略過。",
-      "skippedSummary_other": "{{count}} 個工具因無法確認更新方式而被略過。",
       "confirm_one": "更新 {{count}} 個工具",
-      "confirm_other": "更新 {{count}} 個工具",
-      "failure": {
-        "partial": {
-          "title": "部分更新已開始",
-          "description_one": "{{count}} 項更新已進入「活動」。未能啟動的工具仍保持選取。",
-          "description_other": "{{count}} 項更新已進入「活動」。未能啟動的工具仍保持選取。"
-        },
-        "all": {
-          "title": "更新未能開始",
-          "description_one": "沒有建立更新工作。重試會先重新檢查這個工具，再開始更新。",
-          "description_other": "沒有建立更新工作。重試會先重新檢查這些工具，再開始更新。"
-        }
-      },
-      "hints": {
-        "running": "更新已經在「活動」中進行",
-        "checking": "正在確認哪些工具可以更新",
-        "unavailable": "暫時無法確認更新狀態",
-        "review": "請到「軟體管理」中查看這項更新"
-      }
+      "confirm_other": "更新 {{count}} 個工具"
     },
     "error": {
       "title": "沒能檢查你的環境",
@@ -1406,12 +1383,12 @@
     },
     "refreshError": {
       "title": "首頁沒能重新整理",
-      "description": "仍顯示上一次檢查結果。新檢查成功前，啟動工具和全部更新會保持暫停。",
+      "description": "仍顯示上一次檢查結果。新檢查成功前，啟動工具會保持暫停。",
       "action": "重新檢查"
     },
     "refreshing": {
       "title": "正在重新檢查首頁",
-      "description": "檢查完成後，啟動工具和全部更新會自動恢復。"
+      "description": "檢查完成後，啟動工具會自動恢復。"
     }
   },
   "taskCenter": {
@@ -1506,15 +1483,13 @@
   "services": {
     "action": {
       "add": "新增端點",
-      "configureNamed": "將 {{name}} 加入軟體",
       "edit": "編輯",
       "editNamed": "編輯 {{name}}",
       "remove": "移除",
       "removeNamed": "移除 {{name}}",
       "test": "測試",
       "testAll": "檢查全部位址",
-      "testNamed": "測試 {{name}}",
-      "useNamed": "使用 {{name}}"
+      "testNamed": "測試 {{name}}"
     },
     "card": {
       "custom": "自訂端點",
@@ -1580,7 +1555,8 @@
       "toolDefaultGroup": "{{tool}} 預設連接",
       "otherServices": "其他服務商"
     },
-    "description": "選擇軟體，新增、切換與檢查它使用的 API 端點。",
+    "chooseOnHome": "在首頁選擇每個軟體用哪一個。",
+    "openHome": "前往首頁",
     "effective": {
       "selection": {
         "defaultModel": "全域預設模型：{{model}}，可能被專案或工作階段設定覆寫。",
@@ -1751,7 +1727,7 @@
     },
     "refresh": "重新整理",
     "remove": {
-      "activeHint": "請先改用另一個端點，再移除這個端點。",
+      "activeHint": "請先在首頁改用另一個端點，再移除這個端點。",
       "confirm": "移除端點",
       "description": "這會從 AI 管家和 {{tool}} 中移除已儲存的端點。",
       "errorTitle": "沒能移除這個端點",
@@ -1780,7 +1756,6 @@
       "openNow": "現在開啟",
       "reopenHint": "正在執行的 {{tool}} 不會自動換用，重新開啟後才會使用它。",
       "retryHint": "請再試一次相同的切換。",
-      "retryNamed": "重新切換到 {{name}}",
       "switchingNamed": "正在切換到 {{name}}"
     },
     "failover": {

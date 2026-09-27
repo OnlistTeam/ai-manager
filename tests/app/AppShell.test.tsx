@@ -38,6 +38,23 @@ function renderShell() {
   });
 }
 
+/** Home's row picker for a tool with no endpoints leads to adding one. */
+async function openEndpointsFromHome(toolName: string) {
+  // cmdk keeps the highlighted option in view; jsdom has no layout.
+  Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
+    configurable: true,
+    value: vi.fn(),
+  });
+  await userEvent.click(
+    await screen.findByRole("button", {
+      name: new RegExp(`^Endpoint ${toolName} uses: `),
+    }),
+  );
+  await userEvent.click(
+    await screen.findByRole("option", { name: en.home.tools.addEndpoint }),
+  );
+}
+
 describe("AppShell", () => {
   beforeEach(async () => {
     window.localStorage.clear();
@@ -597,11 +614,7 @@ describe("AppShell", () => {
     renderShell();
 
     // The tool's own row on Home carries that tool to the services page.
-    await userEvent.click(
-      await screen.findByRole("button", {
-        name: "Open API endpoints for Claude Code",
-      }),
-    );
+    await openEndpointsFromHome("Claude Code");
 
     expect(
       await screen.findByRole("tab", { name: "Claude Code" }),
@@ -714,11 +727,7 @@ describe("AppShell", () => {
     renderShell();
 
     // Home hands the page a one-shot tool intent; the page consumes it once.
-    await userEvent.click(
-      await screen.findByRole("button", {
-        name: "Open API endpoints for Claude Code",
-      }),
-    );
+    await openEndpointsFromHome("Claude Code");
     const claudeTab = await screen.findByRole("tab", { name: "Claude Code" });
     expect(claudeTab).toHaveAttribute("aria-selected", "true");
 

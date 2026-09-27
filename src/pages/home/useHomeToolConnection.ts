@@ -2,16 +2,16 @@ import { useProviderEditProfile, useProviders } from "@/entities/provider";
 import type { Tool } from "@/entities/tool";
 import { useRecoverableProviderSwitch } from "@/features/provider-management";
 import {
+  pickerProviders,
   pinnedModel,
-  switchChoices,
   toolConnection,
   type ToolConnection,
 } from "./homeToolConnection";
 
 /**
  * One tool row's cheap connection evidence plus the same switch flow the API
- * Endpoints page uses, so a switch from Home announces the reopen hint and
- * leaves the same recovery state behind.
+ * Endpoints page uses for recovery, so a switch from Home runs the same
+ * preflight, announces the reopen hint and leaves the same recovery state.
  */
 export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
   const providers = useProviders(tool.id);
@@ -38,7 +38,7 @@ export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
   return {
     connection,
     model: selected ? pinnedModel(profile.data) : null,
-    choices: switchChoices(providers.data),
+    choices: pickerProviders(providers.data),
     // A list being re-read, or one that failed to refresh, is not a safe base
     // for choosing what to switch to.
     switchDisabled:
