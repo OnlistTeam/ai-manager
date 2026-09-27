@@ -2,6 +2,8 @@
 
 - Status: accepted
 - Date: 2026-09-27
+- Amended: 2026-09-27, decision 8 (Claude Code's effort follows Claude
+  Code's own resolution)
 - Amends: ADR-0053 decision 1 (what a Home row chooses), ADR-0041
   decision 1 (when a model catalogue is read), design-spec §29.
 
@@ -58,11 +60,11 @@ screen, one row per tool.
    is generated, and the log boundary of ADR-0041 decision 3 is unchanged.
 5. **Only the tool's own keys are written.**
 
-   | Tool        | Model (belongs to the endpoint)          | Effort (belongs to the tool)                   |
-   | ----------- | ---------------------------------------- | ---------------------------------------------- |
-   | Claude Code | `env.ANTHROPIC_MODEL` in `settings.json` | `effortLevel` in `settings.json`               |
-   | Codex       | `model` in `config.toml`                 | `model_reasoning_effort` in `config.toml`      |
-   | Gemini CLI  | `GEMINI_MODEL` in `~/.gemini/.env`       | none; the effort slot stays empty              |
+   | Tool        | Model (belongs to the endpoint)          | Effort (belongs to the tool)                                                                       |
+   | ----------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------- |
+   | Claude Code | `env.ANTHROPIC_MODEL` in `settings.json` | `effortLevel`, `modelSettings.<model>.effortLevel` and `env.CLAUDE_CODE_EFFORT_LEVEL` (decision 8) |
+   | Codex       | `model` in `config.toml`                 | `model_reasoning_effort` in `config.toml`                                                          |
+   | Gemini CLI  | `GEMINI_MODEL` in `~/.gemini/.env`       | none; the effort slot stays empty                                                                  |
 
    The model slot is the one the endpoint edit form and the model test's
    "use this model" already write, so an endpoint has one model wherever it is
@@ -92,6 +94,62 @@ screen, one row per tool.
    so the row never checks a tool's name. Tools outside the table (OpenCode,
    which picks the model inside the tool per ADR-0039, and Grok Build,
    OpenClaw, Hermes and Pi) keep the endpoint-only picker.
+8. **Claude Code's effort is shown and written the way Claude Code uses it.**
+   The first version wrote only the top-level `effortLevel`. Claude Code no
+   longer resolves effort from that key alone, so the pill could name a level
+   a new session would not run at, and a choice made here could change
+   nothing. The facts, from Claude Code's model configuration and settings
+   reference:
+
+   - A session takes the first of: an explicit choice
+     (`CLAUDE_CODE_EFFORT_LEVEL`, from the settings file's `env` block or the
+     terminal, `--effort`, or `/effort` in the session); the level saved for
+     that model in `modelSettings.<model>.effortLevel`, else the top-level
+     `effortLevel`; the model's default (`high`, except `medium` on Opus 5.5).
+   - In the user settings file the top-level `effortLevel` is the older form
+     `/effort` wrote. It still applies to Opus 5, Fable 5.1, Sonnet 5 and
+     earlier, but not to Opus 5.5 or models released after it. In project,
+     local and managed settings it applies to every model.
+   - `/effort` saves per model under `modelSettings`, keyed by the canonical
+     name (`claude-opus-5-5`), and matches aliases, `[1m]` and dated or cloud
+     spellings to the same entry. Both settings keys accept `low` to `xhigh`;
+     `max` persists only through `CLAUDE_CODE_EFFORT_LEVEL`, which also
+     outranks `/effort`.
+
+   So the product now does what `/effort` does, for every model at once:
+
+   - **A level from `low` to `xhigh`** is written to the top-level
+     `effortLevel` (for the older models), to the `effortLevel` of every entry
+     already in `modelSettings`, and to an entry for each current
+     effort-capable model in the domain table (`claude-fable-5-1`,
+     `claude-opus-5-5`, `claude-opus-5`, `claude-sonnet-5`). Other fields of an
+     entry, such as a `maxEffortLevel` cap, stay. `env.CLAUDE_CODE_EFFORT_LEVEL`
+     is removed, so the choice takes effect and a later `/effort` still works;
+     it changes only its own model's entry.
+   - **Max** is written as `env.CLAUDE_CODE_EFFORT_LEVEL=max`, the one place it
+     persists. The list says in plain words that it then holds for every
+     session and `/effort` cannot change it until another level is chosen
+     here, which removes the variable.
+   - **Tool default** removes the top-level key, the variable and the
+     `effortLevel` of every `modelSettings` entry, dropping an entry left
+     empty; each model then runs at its own default.
+
+   The pill resolves the level in the same order: the variable in the
+   settings file (an empty value there cancels the terminal's), else the
+   terminal's variable, shown with where it comes from and not choosable,
+   like an address set outside this app; else the level for the model in use,
+   named by `env.ANTHROPIC_MODEL`, the terminal's `ANTHROPIC_MODEL` or the
+   `model` key, with aliases mapped through the domain table. A model outside
+   the table is taken to read the top-level key, as every model before
+   Opus 5.5 does. When no model is named (or it is `default`, `best` or
+   `opusplan`), the pill shows one level only if every model in the table and
+   in `modelSettings` runs at it, and otherwise says the models differ and
+   lists each model's level, marking the ones that run at their default. The
+   terminal is read through the same cached login-shell probe as the
+   effective connection, and only for the variables the tool reads for these
+   two settings. A switch keeps `modelSettings` and the variable from the
+   file in force, like the top-level key; a route puts back only the keys it
+   wrote (ADR-0054), which these are not.
 
 ## Consequences
 
@@ -100,16 +158,17 @@ screen, one row per tool.
 - Positive: no new dependency and no schema change. Three commands are added:
   `app_tool_model_choice` (read), `app_tool_model_set` and
   `app_tool_effort_set`.
-- Negative: Claude Code now saves an effort per model under `modelSettings`
-  when `/effort` is used, and that saved level outranks the top-level
-  `effortLevel` this row writes. In the user settings file Claude Code also
-  ignores the top-level key for Opus 5.5 and later models that have no saved
-  level of their own, and `CLAUDE_CODE_EFFORT_LEVEL` outranks both. The row
-  shows and writes the documented top-level key; the effort menu lists the
-  models that carry their own saved level, so the row never implies it
-  governs them. Writing per-model levels was rejected because the model a
-  "Tool default" session runs depends on the account and cannot be read from
-  the file.
+- Negative: the pill reads only the user settings file and the terminal.
+  An `effortLevel` or `modelSettings` in a project, local or managed settings
+  file, a `--effort` flag, a `maxEffortLevel` cap, an organisation default,
+  and the fallback of a level a model does not support (`xhigh` runs as
+  `high` on Opus 4.6) can each make a session differ from what the pill
+  says. The model a session with no named model runs depends on the account,
+  which is why the pill then compares every model instead of guessing one.
+- Negative: the table of effort-capable models is a short current set, like
+  the official model lists. A model released later gets an entry only once
+  `/effort` saves one or the table is updated; until then the tool-wide key
+  and its own default decide for it.
 - Negative: an in-tool `/model` choice is saved by Claude Code as `model`,
   which an endpoint's `ANTHROPIC_MODEL` outranks. Choosing "Tool default" on
   Home removes the endpoint's model and hands the choice back to the tool.
