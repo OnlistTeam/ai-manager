@@ -9,7 +9,8 @@
   endpoint in use; Max is not offered; the slider writes on release);
   2026-09-27, decisions 2 and 3 (the saved model is not listed; catalogues
   are kept for the session); 2026-09-27, decisions 5 and 6 (Claude Code's
-  model is the key its own `/model` saves)
+  model is the key its own `/model` saves); 2026-09-27, decisions 8 and 9
+  (the pill names the level in force; the slider has no "Default" stop)
 - Amends: ADR-0053 decision 1 (what a Home row chooses), ADR-0041
   decision 1 (when a model catalogue is read), design-spec §29.
 
@@ -181,16 +182,18 @@ screen, one row per tool.
      sessions take the empty value up and treat it as unset.
    - **Tool default** removes the top-level key and the `effortLevel` of every
      `modelSettings` entry, dropping an entry left empty, and clears the
-     variable as above; each model then runs at its own default.
+     variable as above; each model then runs at its own default. Home no
+     longer offers it (decision 9); the command still accepts it.
 
    The pill resolves the level in the same order: the variable in the
    settings file (an empty value there cancels the terminal's), else the
    terminal's variable, shown with where it comes from and not choosable,
    like an address set outside this app; else the level for the model in use,
    named by `env.ANTHROPIC_MODEL`, the terminal's `ANTHROPIC_MODEL` or the
-   `model` key, with aliases mapped through the domain table. A model outside
-   the table is taken to read the top-level key, as every model before
-   Opus 5.5 does. When no model is named (or it is `default`, `best` or
+   `model` key, with aliases mapped through the domain table, else that
+   model's own default from the table. A model outside the table is taken to
+   read the top-level key, as every model before Opus 5.5 does, and with no
+   level set its default is not known. When no model is named (or it is `default`, `best` or
    `opusplan`), the pill shows one level only if every model in the table and
    in `modelSettings` runs at it, and otherwise says the models differ, with
    each model's level on its tooltip. The
@@ -201,8 +204,27 @@ screen, one row per tool.
    wrote (ADR-0054), which these are not.
 
 9. **The effort is a slider.** The pill shows four bars lit up to the level
-   and the level's name. It opens a slider from "Default" to the tool's
-   strongest level, with the two ends named under it. Dragging only moves the
+   and the level's name. It opens a slider from the tool's weakest level to
+   its strongest, with the two ends named under it.
+
+   The pill always names a level where one is known. A level nothing sets
+   reads as the model's own default: for Claude Code from its model
+   configuration page (decision 8); for Codex from `default_reasoning_level`
+   in Codex's bundled model catalogue, which Codex applies by model name
+   whichever endpoint serves it (so `gpt-5.6-sol` reads as Low). Only a model
+   neither table lists, such as a relay's own model under Codex, where Codex
+   sends no level and the endpoint decides, reads "Not set". The slider's
+   thumb then, and while the models differ, stands on no stop until one is
+   picked.
+
+   The first version put "Default" at the weak end of the slider, as magpie
+   does. It read as weaker than Low, while it meant the model's default,
+   which is Medium or High on most models. Neither tool's own picker has such
+   a stop: Codex marks the default on a real level ("Medium (default)"), and
+   Claude Code's `/effort` slider holds only levels, with `/effort auto` apart
+   from it. So there is no stop that hands the effort back to the tool: a
+   level once chosen stays chosen, and Codex keeps one level for every model,
+   so a model that does not take it falls back as Codex decides. Dragging only moves the
    slider; the stop it is let go on is written, a keyboard step counting as
    letting go and quick steps settling 300 ms into one write. The slider stays
    open, so neighbouring levels can be tried in turn, and closing it mid-step

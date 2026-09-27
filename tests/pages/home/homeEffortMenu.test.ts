@@ -27,19 +27,22 @@ describe("buildEffortMenu", () => {
     await i18n.changeLanguage("en");
   });
 
-  it("puts the default first, then the levels weakest first", () => {
-    const shown = menu({ kind: "toolDefault" });
+  it("offers only the levels, weakest first, and no default stop", () => {
+    const shown = menu({ kind: "level", level: "medium" });
     // Max persists only through a variable, which reaches running sessions.
     expect(shown.stops.map((stop) => stop.label)).toEqual([
-      "Default",
       "Low",
       "Medium",
       "High",
       "Extra high",
     ]);
-    expect(shown.label).toBe("Default");
+  });
+
+  it("says no level is set when the model's default is not known, and stands on no stop", () => {
+    const shown = menu({ kind: "toolDefault" });
+    expect(shown.label).toBe("Not set");
     expect(shown.muted).toBe(true);
-    expect(shown.index).toBe(0);
+    expect(shown.index).toBeNull();
     expect(shown.bars).toBe(0);
     expect(shown.title).toBeNull();
   });
@@ -48,7 +51,7 @@ describe("buildEffortMenu", () => {
     const shown = menu({ kind: "level", level: "high" });
     expect(shown.label).toBe("High");
     expect(shown.muted).toBe(false);
-    expect(shown.index).toBe(3);
+    expect(shown.index).toBe(2);
     expect(shown.bars).toBe(3);
     expect(menu({ kind: "level", level: "low" }).bars).toBe(1);
     expect(menu({ kind: "level", level: "xhigh" }).bars).toBe(4);
@@ -57,14 +60,13 @@ describe("buildEffortMenu", () => {
   it("keeps a level the file holds but Home does not offer as the strongest stop", () => {
     const shown = menu({ kind: "fixed", level: "max" });
     expect(shown.stops.map((stop) => stop.level)).toEqual([
-      null,
       "low",
       "medium",
       "high",
       "xhigh",
       "max",
     ]);
-    expect(shown.index).toBe(5);
+    expect(shown.index).toBe(4);
     expect(shown.label).toBe("Max");
     expect(shown.bars).toBe(4);
   });
@@ -108,14 +110,13 @@ describe("buildEffortMenu", () => {
     };
     const shown = menu({ kind: "level", level: "minimal" }, codex);
     expect(shown.stops.map((stop) => stop.level)).toEqual([
-      null,
       "low",
       "medium",
       "high",
       "xhigh",
       "minimal",
     ]);
-    expect(shown.index).toBe(5);
+    expect(shown.index).toBe(4);
     expect(shown.label).toBe("Minimal");
   });
 });

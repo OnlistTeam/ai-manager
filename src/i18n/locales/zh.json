@@ -1417,6 +1417,7 @@
       "pickNamed": "{{tool}} 的思考强度：{{current}}",
       "title": "思考强度",
       "mixed": "各模型不同",
+      "unset": "未设置",
       "terminal": "由终端变量 {{variable}} 设定，这里改不了。",
       "terminalAt": "由终端变量 {{variable}}（{{path}}）设定，这里改不了。",
       "unavailable": "读取不到",

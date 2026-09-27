@@ -1173,10 +1173,13 @@ its thinking effort (ADR-0055).
   read it is plain text.
 - Where the tool has an effort setting (`canChooseEffort`), a second, narrower
   pill shows four bars lit up to the level and names the level a new session
-  will actually run at, as the tool itself resolves it. It opens a slider from
-  "Default" to the strongest level the tool keeps in its settings (Claude
-  Code's Max, which only a variable holds and which would reach every running
-  session, is not offered). The stop the slider is let go on is written, for
+  will actually run at, as the tool itself resolves it: a level nothing sets
+  reads as the model's own default, and "Not set" only when that default is
+  not known (a model neither this product nor the tool lists). There is no
+  "Default" level. It opens a slider from the weakest level to the strongest
+  the tool keeps in its settings (Claude Code's Max, which only a variable
+  holds and which would reach every running session, is not offered); with no
+  single level known, the thumb stands on no stop until one is picked. The stop the slider is let go on is written, for
   sessions started after it, and the slider stays open. When no model is named and the models run
   at different levels, the pill says "Per model" and its tooltip names each
   model's level; choosing a level sets it for every model. A level held by a

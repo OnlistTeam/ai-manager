@@ -1418,6 +1418,7 @@
       "pickNamed": "Nivel de razonamiento de {{tool}}: {{current}}",
       "title": "Esfuerzo de razonamiento",
       "mixed": "Por modelo",
+      "unset": "Sin definir",
       "terminal": "Lo fija la variable de terminal {{variable}}; no se puede cambiar aquí.",
       "terminalAt": "Lo fija la variable de terminal {{variable}} en {{path}}; no se puede cambiar aquí.",
       "unavailable": "Ilegible",

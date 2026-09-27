@@ -435,7 +435,7 @@ describe("Home model and effort pickers", () => {
     );
   });
 
-  it("moves the effort slider to set a level for every model and back to the default", async () => {
+  it("moves the effort slider to set a level for every model", async () => {
     const calls = serve({ "claude-code": [OFFICIAL] });
     mount();
 
@@ -452,11 +452,15 @@ describe("Home model and effort pickers", () => {
     const slider = await screen.findByRole("slider", {
       name: "Thinking effort",
     });
-    // Max only persists through a variable, which reaches running sessions.
-    expect(slider).toHaveAttribute("max", "4");
+    // Levels only: no default stop, and Max only persists through a variable,
+    // which reaches running sessions.
+    expect(slider).toHaveAttribute("max", "3");
+    expect(screen.getByText("Low")).toBeVisible();
     expect(screen.getByText("Extra high")).toBeVisible();
+    // The models differ, so the thumb stands on no level.
+    expect(slider).toHaveAttribute("aria-valuetext", "Per model");
 
-    fireEvent.change(slider, { target: { value: "3" } });
+    fireEvent.change(slider, { target: { value: "2" } });
     await waitFor(() =>
       expect(calls.efforts).toEqual([{ tool: "claude-code", effort: "high" }]),
     );
@@ -464,14 +468,32 @@ describe("Home model and effort pickers", () => {
     await waitFor(() =>
       expect(calls.efforts).toEqual([
         { tool: "claude-code", effort: "high" },
-        { tool: "claude-code", effort: null },
+        { tool: "claude-code", effort: "low" },
       ]),
     );
     expect(
       await within(row).findByRole("button", {
-        name: "Thinking effort Claude Code uses: Default",
+        name: "Thinking effort Claude Code uses: Low",
       }),
     ).toBeVisible();
+  });
+
+  it("writes the weakest level when it is clicked while no level is placed", async () => {
+    const calls = serve({ "claude-code": [OFFICIAL] });
+    mount();
+
+    const row = await screen.findByRole("article", { name: "Claude Code" });
+    await userEvent.click(
+      await within(row).findByRole("button", {
+        name: "Thinking effort Claude Code uses: Per model",
+      }),
+    );
+    const slider = await screen.findByRole("slider");
+    // The hidden thumb already sits on the first stop, so no `change` fires.
+    fireEvent.pointerUp(slider);
+    await waitFor(() =>
+      expect(calls.efforts).toEqual([{ tool: "claude-code", effort: "low" }]),
+    );
   });
 
   it("writes nothing while the slider is dragged, then the stop it is let go on", async () => {
@@ -485,14 +507,14 @@ describe("Home model and effort pickers", () => {
       }),
     );
     const slider = await screen.findByRole("slider");
-    for (const stop of ["1", "2", "3"]) {
+    for (const stop of ["0", "1", "2"]) {
       fireEvent.input(slider, { target: { value: stop } });
     }
     expect(slider).toHaveAttribute("aria-valuetext", "High");
     await new Promise((resolve) => setTimeout(resolve, 400));
     expect(calls.efforts).toEqual([]);
 
-    fireEvent.change(slider, { target: { value: "2" } });
+    fireEvent.change(slider, { target: { value: "1" } });
     await waitFor(() =>
       expect(calls.efforts).toEqual([
         { tool: "claude-code", effort: "medium" },
@@ -511,7 +533,7 @@ describe("Home model and effort pickers", () => {
       }),
     );
     const slider = await screen.findByRole("slider");
-    for (const stop of ["1", "2", "3", "4"]) {
+    for (const stop of ["0", "1", "2", "3"]) {
       fireEvent.change(slider, { target: { value: stop } });
     }
     await waitFor(() =>

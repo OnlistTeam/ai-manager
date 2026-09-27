@@ -85,9 +85,6 @@ pub(super) fn resolve(
 
     let saved = saved_levels(settings);
     let tool_wide = text(settings.get(EFFORT_KEY));
-    if saved.is_empty() && tool_wide.is_none() {
-        return EffortInForce::ToolDefault;
-    }
     let from_file = || text(settings.get(MODEL_KEY));
     let model = match env_value(settings, MODEL_VARIABLE) {
         Some(Some(model)) => Some(model),
@@ -112,7 +109,8 @@ fn saved_for<'a>(saved: &[(&str, &'a str)], id: &str) -> Option<&'a str> {
 
 /// The model in use is named: its saved level, else the tool-wide one where
 /// it applies, else its own default. A model outside the table is assumed to
-/// read the tool-wide level, as every model before Opus 5.5 does.
+/// read the tool-wide level, as every model before Opus 5.5 does, and has no
+/// default this product knows.
 fn for_model(
     spec: &ModelChoiceSpec,
     saved: &[(&str, &str)],
@@ -122,7 +120,10 @@ fn for_model(
     let entry = spec.effort_model(model);
     let id = entry.map_or_else(|| canonical_model_name(model), |entry| entry.id.to_string());
     let reads_tool_wide = entry.is_none_or(|entry| entry.reads_tool_wide_level);
-    match saved_for(saved, &id).or(tool_wide.filter(|_| reads_tool_wide)) {
+    match saved_for(saved, &id)
+        .or(tool_wide.filter(|_| reads_tool_wide))
+        .or(entry.map(|entry| entry.default_level))
+    {
         Some(level) => EffortInForce::Level {
             level: level.to_string(),
         },

@@ -1418,6 +1418,7 @@
       "pickNamed": "Niveau de réflexion de {{tool}} : {{current}}",
       "title": "Effort de réflexion",
       "mixed": "Par modèle",
+      "unset": "Non défini",
       "terminal": "Défini par la variable de terminal {{variable}} ; impossible de le changer ici.",
       "terminalAt": "Défini par la variable de terminal {{variable}} dans {{path}} ; impossible de le changer ici.",
       "unavailable": "Illisible",

@@ -167,7 +167,8 @@ fn the_tool_default_removes_every_level_and_keeps_caps() {
             "hooks": {}
         })
     );
-    assert_eq!(resolved(&settings), EffortInForce::ToolDefault);
+    // Each model is back at its own default, and they differ.
+    assert!(matches!(resolved(&settings), EffortInForce::Mixed { .. }));
 
     let settings = applied(real_example(), None);
     assert_eq!(settings, json!({}));
@@ -187,7 +188,7 @@ fn the_tool_wide_level_alone_does_not_reach_opus_5_5() {
     );
 
     let with_model = json!({"effortLevel": "xhigh", "model": "opus"});
-    assert_eq!(resolved(&with_model), EffortInForce::ToolDefault);
+    assert_eq!(resolved(&with_model), level("medium"));
     let with_model = json!({"effortLevel": "xhigh", "model": "claude-fable-5-1[1m]"});
     assert_eq!(resolved(&with_model), level("xhigh"));
     let other_model = json!({"effortLevel": "low", "env": {"ANTHROPIC_MODEL": "glm-5"}});
@@ -198,7 +199,21 @@ fn the_tool_wide_level_alone_does_not_reach_opus_5_5() {
 fn an_unnamed_model_reads_as_one_level_only_when_every_model_agrees() {
     let settings = applied(json!({"model": "default"}), Some("low"));
     assert_eq!(resolved(&settings), level("low"));
-    assert_eq!(resolved(&json!({})), EffortInForce::ToolDefault);
+    assert!(matches!(resolved(&json!({})), EffortInForce::Mixed { .. }));
+}
+
+#[test]
+fn an_unset_level_reads_as_the_models_own_default() {
+    assert_eq!(resolved(&json!({"model": "opus[1m]"})), level("medium"));
+    assert_eq!(
+        resolved(&json!({"model": "anthropic/claude-sonnet-5"})),
+        level("high")
+    );
+    // A model outside the table has no default this product knows.
+    assert_eq!(
+        resolved(&json!({"model": "glm-5"})),
+        EffortInForce::ToolDefault
+    );
 }
 
 #[test]

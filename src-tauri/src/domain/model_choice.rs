@@ -1,8 +1,9 @@
 //! Which model a tool runs and how hard it thinks, as chosen on Home (ADR-0055).
 //!
 //! The per-tool facts live in one table: whether the model can be chosen, the
-//! effort levels the tool accepts, the models it keeps a saved effort for, and
-//! a short list of models its official service offers. The renderer receives
+//! effort levels the tool accepts, the models whose default level is known
+//! (and, for Claude Code, keep a saved effort each), and a short list of models
+//! its official service offers. The renderer receives
 //! them with the current choice, so no screen holds a model name or checks a
 //! tool's name.
 
@@ -22,7 +23,8 @@ pub struct ModelChoiceSpec {
     /// A short starting set for the tool's official service. Anything else can
     /// be typed.
     pub official_models: &'static [&'static str],
-    /// Models the tool keeps a saved effort for, one entry each.
+    /// Models whose default level is known, one entry each. Claude Code also
+    /// keeps a saved effort for each of them.
     pub effort_models: &'static [EffortModel],
 }
 
@@ -83,6 +85,31 @@ const CLAUDE_CODE: ModelChoiceSpec = ModelChoiceSpec {
     effort_models: CLAUDE_EFFORT_MODELS,
 };
 
+/// The level each model in Codex's bundled catalogue runs at when
+/// `model_reasoning_effort` is unset (`default_reasoning_level` in
+/// `codex-rs/models-manager/models.json`). Codex looks a model up there by
+/// name whichever endpoint serves it; a model it does not list has no default,
+/// and Codex then sends no level. One key holds the level for every model.
+/// Reviewed with Codex's releases, like the official list below.
+const CODEX_EFFORT_MODELS: &[EffortModel] = &[
+    codex_model("gpt-6-sol", "medium"),
+    codex_model("gpt-6-astra", "low"),
+    codex_model("gpt-6-luna", "medium"),
+    codex_model("gpt-5.6-sol", "low"),
+    codex_model("gpt-5.6-terra", "medium"),
+    codex_model("gpt-5.6-luna", "medium"),
+    codex_model("gpt-5.5", "medium"),
+];
+
+const fn codex_model(id: &'static str, default_level: &'static str) -> EffortModel {
+    EffortModel {
+        id,
+        aliases: &[],
+        reads_tool_wide_level: true,
+        default_level,
+    }
+}
+
 /// Every model in Codex's own catalogue accepts these four; stronger levels
 /// exist only on some models.
 const CODEX: ModelChoiceSpec = ModelChoiceSpec {
@@ -94,7 +121,7 @@ const CODEX: ModelChoiceSpec = ModelChoiceSpec {
         "gpt-5.6-sol",
         "gpt-5.5",
     ],
-    effort_models: &[],
+    effort_models: CODEX_EFFORT_MODELS,
 };
 
 /// Gemini CLI resolves these aliases itself; it has no effort setting.
@@ -184,7 +211,8 @@ pub struct ModelEffort {
     rename_all_fields = "camelCase"
 )]
 pub enum EffortInForce {
-    /// Nothing sets a level; each model runs at its own default.
+    /// Nothing sets a level and the model in use has no known default: the
+    /// tool, or for Codex the endpoint, decides.
     ToolDefault,
     /// The tool's settings give this level to the model in use, or to every
     /// model when the model in use is not named.
@@ -313,6 +341,16 @@ mod tests {
             .map(|model| model.id)
             .collect();
         assert_eq!(ignoring, ["claude-opus-5-5"]);
+    }
+
+    #[test]
+    fn codex_models_carry_the_default_of_its_own_catalogue() {
+        let spec = ModelChoiceSpec::for_tool(ToolId::Codex).expect("codex");
+        let default = |name: &str| spec.effort_model(name).map(|model| model.default_level);
+        assert_eq!(default("gpt-5.6-sol"), Some("low"));
+        assert_eq!(default("openai/gpt-5.6-sol"), Some("low"));
+        assert_eq!(default("gpt-5.5"), Some("medium"));
+        assert_eq!(default("glm-5"), None);
     }
 
     #[test]

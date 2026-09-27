@@ -1418,6 +1418,7 @@
       "pickNamed": "Nível de raciocínio do {{tool}}: {{current}}",
       "title": "Esforço de raciocínio",
       "mixed": "Por modelo",
+      "unset": "Não definido",
       "terminal": "Definido pela variável de terminal {{variable}}; não dá para mudar aqui.",
       "terminalAt": "Definido pela variável de terminal {{variable}} em {{path}}; não dá para mudar aqui.",
       "unavailable": "Ilegível",

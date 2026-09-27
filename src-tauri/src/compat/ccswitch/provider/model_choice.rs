@@ -120,20 +120,24 @@ fn strings(values: &[&str]) -> Vec<String> {
 pub(super) fn read(tool: ToolId, terminal: &ToolTerminal) -> Result<ToolModelChoice, AppError> {
     let (spec, slots) = spec_and_slots(tool)?;
     let text = live_key::read_file(&(slots.file)())?.unwrap_or_default();
+    let model = match slots.model {
+        ModelSlot::Key(key) => live_key::get(&text, key)?,
+        ModelSlot::ClaudeSettings => {
+            claude_model::named(&live_key::parse_json(&text)?).map(str::to_string)
+        }
+    };
     let effort = match slots.effort {
         None => EffortInForce::ToolDefault,
-        Some(EffortSlot::Key(key)) => match live_key::get(&text, key)? {
+        // Unset, the model runs at its own default where the table knows it.
+        Some(EffortSlot::Key(key)) => match live_key::get(&text, key)?.or_else(|| {
+            let entry = spec.effort_model(model.as_deref()?)?;
+            Some(entry.default_level.to_string())
+        }) {
             Some(level) => EffortInForce::Level { level },
             None => EffortInForce::ToolDefault,
         },
         Some(EffortSlot::ClaudeSettings) => {
             claude_effort::resolve(&live_key::parse_json(&text)?, terminal, &spec)
-        }
-    };
-    let model = match slots.model {
-        ModelSlot::Key(key) => live_key::get(&text, key)?,
-        ModelSlot::ClaudeSettings => {
-            claude_model::named(&live_key::parse_json(&text)?).map(str::to_string)
         }
     };
     Ok(ToolModelChoice {

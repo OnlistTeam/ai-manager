@@ -1418,6 +1418,7 @@
       "pickNamed": "Mức suy nghĩ của {{tool}}: {{current}}",
       "title": "Mức suy nghĩ",
       "mixed": "Theo mô hình",
+      "unset": "Chưa đặt",
       "terminal": "Được đặt bởi biến terminal {{variable}}; không thể đổi ở đây.",
       "terminalAt": "Được đặt bởi biến terminal {{variable}} trong {{path}}; không thể đổi ở đây.",
       "unavailable": "Không đọc được",

@@ -1418,6 +1418,7 @@
       "pickNamed": "{{tool}}의 사고 강도: {{current}}",
       "title": "사고 강도",
       "mixed": "모델별",
+      "unset": "설정 안 됨",
       "terminal": "터미널 변수 {{variable}}로 설정되어 있어 여기서는 바꿀 수 없습니다.",
       "terminalAt": "터미널 변수 {{variable}}({{path}})로 설정되어 있어 여기서는 바꿀 수 없습니다.",
       "unavailable": "읽을 수 없음",

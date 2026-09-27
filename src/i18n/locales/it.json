@@ -1418,6 +1418,7 @@
       "pickNamed": "Livello di ragionamento di {{tool}}: {{current}}",
       "title": "Livello di ragionamento",
       "mixed": "Per modello",
+      "unset": "Non impostato",
       "terminal": "Impostato dalla variabile del terminale {{variable}}; non si può cambiare qui.",
       "terminalAt": "Impostato dalla variabile del terminale {{variable}} in {{path}}; non si può cambiare qui.",
       "unavailable": "Illeggibile",

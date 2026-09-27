@@ -287,10 +287,11 @@ fn the_effort_survives_a_switch_to_an_endpoint_with_an_older_copy() {
     assert!(live.get("effortLevel").is_none());
     assert!(live.get("modelSettings").is_none());
     assert_eq!(live["env"]["CLAUDE_CODE_EFFORT_LEVEL"], "");
-    assert_eq!(
+    // No model is named, so each model runs at its own default.
+    assert!(matches!(
         read(ToolId::ClaudeCode, &none()).unwrap().effort,
-        EffortInForce::ToolDefault
-    );
+        EffortInForce::Mixed { .. }
+    ));
 }
 
 #[test]
@@ -358,6 +359,30 @@ fn codex_effort_keeps_the_rest_of_config_toml() {
     assert_eq!(
         std::fs::read_to_string(&path).unwrap(),
         "# mine\nmodel = \"gpt-5.6-sol\" # daily\nmodel_reasoning_effort = \"high\"\n\n[projects.\"/x\"]\ntrust_level = \"trusted\"\n"
+    );
+}
+
+#[test]
+#[serial_test::serial]
+fn an_unset_codex_effort_reads_as_the_models_own_default() {
+    let temp = tempfile::tempdir().expect("temp home");
+    let _home = TestHome::set(temp.path());
+    let path = crate::codex_config::get_codex_config_path();
+    std::fs::create_dir_all(path.parent().unwrap()).unwrap();
+
+    std::fs::write(&path, "model = \"gpt-5.6-sol\"\n").unwrap();
+    assert_eq!(read(ToolId::Codex, &none()).unwrap().effort, level("low"));
+
+    std::fs::write(&path, "model = \"glm-5\"\n").unwrap();
+    assert_eq!(
+        read(ToolId::Codex, &none()).unwrap().effort,
+        EffortInForce::ToolDefault
+    );
+
+    std::fs::write(&path, "").unwrap();
+    assert_eq!(
+        read(ToolId::Codex, &none()).unwrap().effort,
+        EffortInForce::ToolDefault
     );
 }
 

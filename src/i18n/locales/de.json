@@ -1418,6 +1418,7 @@
       "pickNamed": "Denkaufwand von {{tool}}: {{current}}",
       "title": "Denkaufwand",
       "mixed": "Je Modell",
+      "unset": "Nicht festgelegt",
       "terminal": "Durch die Terminalvariable {{variable}} festgelegt; hier nicht änderbar.",
       "terminalAt": "Durch die Terminalvariable {{variable}} in {{path}} festgelegt; hier nicht änderbar.",
       "unavailable": "Nicht lesbar",

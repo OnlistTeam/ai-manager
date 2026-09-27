@@ -1417,6 +1417,7 @@
       "pickNamed": "{{tool}} の思考の深さ：{{current}}",
       "title": "思考の深さ",
       "mixed": "モデル別",
+      "unset": "未設定",
       "terminal": "ターミナル変数 {{variable}} で設定されているため、ここでは変更できません。",
       "terminalAt": "ターミナル変数 {{variable}}（{{path}}）で設定されているため、ここでは変更できません。",
       "unavailable": "読み取れません",
