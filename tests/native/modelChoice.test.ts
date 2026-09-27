@@ -8,10 +8,10 @@ const TAURI_ENDPOINT = "http://tauri.local";
 const CHOICE = {
   tool: "codex",
   model: "gpt-5.5",
-  effort: "low",
+  effort: { kind: "level", level: "low" },
   effortLevels: ["low", "medium", "high", "xhigh"],
+  variableOnlyLevels: [],
   officialModels: ["gpt-5.5"],
-  effortOverrides: [],
 };
 
 /** Home's model and effort choice (ADR-0055): only names cross IPC, never a path. */
@@ -57,13 +57,16 @@ describe("native.modelChoice", () => {
         `${TAURI_ENDPOINT}/app_tool_effort_set`,
         async ({ request }) => {
           seen.push(await request.json());
-          return HttpResponse.json({ ...CHOICE, effort: null });
+          return HttpResponse.json({
+            ...CHOICE,
+            effort: { kind: "toolDefault" },
+          });
         },
       ),
     );
     const choice = await native.modelChoice.setEffort("codex", null);
     expect(seen).toEqual([{ tool: "codex", effort: null }]);
-    expect(choice.effort).toBeNull();
+    expect(choice.effort).toEqual({ kind: "toolDefault" });
   });
 
   it("rejects a reply that carries anything beyond the choice", async () => {

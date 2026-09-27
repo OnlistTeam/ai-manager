@@ -95,15 +95,33 @@ function editProfile(providerId: string, models: string[]) {
   };
 }
 
-/** The user's own Claude Code file: an effort, no model, one per-model level. */
+/**
+ * A real Claude Code file: no model, the older tool-wide level, and levels
+ * `/effort` saved per model that disagree.
+ */
 const CHOICE = {
   tool: "claude-code",
   model: null,
-  effort: "xhigh",
-  effortLevels: ["low", "medium", "high", "xhigh"],
+  effort: {
+    kind: "mixed",
+    perModel: [
+      { model: "claude-fable-5-1", effort: "xhigh", modelDefault: false },
+      { model: "claude-opus-5-5", effort: "xhigh", modelDefault: false },
+      { model: "claude-opus-5", effort: "high", modelDefault: false },
+      { model: "claude-sonnet-5", effort: "medium", modelDefault: true },
+    ],
+  },
+  effortLevels: ["low", "medium", "high", "xhigh", "max"],
+  variableOnlyLevels: ["max"],
   officialModels: ["fable", "opus", "sonnet"],
-  effortOverrides: [{ model: "claude-opus-5-5", effort: "medium" }],
 };
+
+/** What the backend answers after a write, as Claude Code will resolve it. */
+function effortAfter(effort: string | null) {
+  if (effort === null) return { kind: "toolDefault" };
+  if (effort === "max") return { kind: "fixed", level: effort };
+  return { kind: "level", level: effort };
+}
 
 interface Calls {
   models: unknown[];
@@ -177,7 +195,13 @@ function serve(
       async ({ request }) => {
         const { tool } = (await request.json()) as { tool: string };
         return HttpResponse.json(
-          current[tool] ?? { ...CHOICE, tool, effortLevels: [], effort: null },
+          current[tool] ?? {
+            ...CHOICE,
+            tool,
+            effortLevels: [],
+            variableOnlyLevels: [],
+            effort: { kind: "toolDefault" },
+          },
         );
       },
     ),
@@ -188,9 +212,15 @@ function serve(
       return HttpResponse.json(current[body.tool]);
     }),
     http.post(`${TAURI_ENDPOINT}/app_tool_effort_set`, async ({ request }) => {
-      const body = (await request.json()) as { tool: string; effort: string };
+      const body = (await request.json()) as {
+        tool: string;
+        effort: string | null;
+      };
       calls.efforts.push(body);
-      current[body.tool] = { ...current[body.tool], effort: body.effort };
+      current[body.tool] = {
+        ...current[body.tool],
+        effort: effortAfter(body.effort),
+      };
       return HttpResponse.json(current[body.tool]);
     }),
     http.post(
@@ -279,7 +309,7 @@ describe("Home model and effort pickers", () => {
     await i18n.changeLanguage("en");
   });
 
-  it("shows the effort in the file and the tool default when no model is set", async () => {
+  it("says the models differ when no model is set and their levels disagree", async () => {
     serve({ "claude-code": [OFFICIAL] });
     mount();
 
@@ -289,7 +319,7 @@ describe("Home model and effort pickers", () => {
     const row = await screen.findByRole("article", { name: "Claude Code" });
     expect(
       await within(row).findByRole("button", {
-        name: "Thinking effort Claude Code uses: Extra high",
+        name: "Thinking effort Claude Code uses: Per model",
       }),
     ).toBeVisible();
   });
@@ -387,7 +417,7 @@ describe("Home model and effort pickers", () => {
     );
   });
 
-  it("chooses an effort, names the models that keep their own, and resets to the default", async () => {
+  it("lists each model's level, sets one for every model, fixes max, and resets", async () => {
     const calls = serve({ "claude-code": [OFFICIAL] });
     mount();
 
@@ -407,9 +437,22 @@ describe("Home model and effort pickers", () => {
       "Mediummedium",
       "Highhigh",
       "Extra highxhigh",
+      "Maxmax",
     ]);
     expect(
-      screen.getByText(/claude-opus-5-5 Medium/, { exact: false }),
+      within(listbox)
+        .getAllByRole("option")
+        .filter((option) => option.getAttribute("aria-current") === "true"),
+    ).toEqual([]);
+    expect(
+      screen.getByText(
+        /claude-opus-5 High · claude-sonnet-5 Medium \(its default\)/,
+      ),
+    ).toBeVisible();
+    expect(
+      screen.getByText(
+        /Max holds for every session, and \/effort in Claude Code/,
+      ),
     ).toBeVisible();
     await user.click(within(listbox).getByRole("option", { name: /^High/ }));
     await waitFor(() =>
@@ -421,15 +464,69 @@ describe("Home model and effort pickers", () => {
         name: "Thinking effort Claude Code uses: High",
       }),
     );
+    await user.click(await screen.findByRole("option", { name: /^Max/ }));
+    await user.click(
+      await within(row).findByRole("button", {
+        name: "Thinking effort Claude Code uses: Max",
+      }),
+    );
     await user.click(
       await screen.findByRole("option", { name: "Tool default" }),
     );
     await waitFor(() =>
       expect(calls.efforts).toEqual([
         { tool: "claude-code", effort: "high" },
+        { tool: "claude-code", effort: "max" },
         { tool: "claude-code", effort: null },
       ]),
     );
+    expect(
+      await within(row).findByRole("button", {
+        name: "Thinking effort Claude Code uses: Tool default",
+      }),
+    ).toBeVisible();
+  });
+
+  it("shows a level a terminal variable holds and offers nothing to choose", async () => {
+    const calls = serve(
+      { "claude-code": [OFFICIAL] },
+      {
+        "claude-code": {
+          ...CHOICE,
+          effort: {
+            kind: "terminal",
+            level: "max",
+            source: {
+              kind: "shellFile",
+              variable: "CLAUDE_CODE_EFFORT_LEVEL",
+              path: "~/.zshrc:12",
+            },
+          },
+        },
+      },
+    );
+    mount();
+
+    const row = await screen.findByRole("article", { name: "Claude Code" });
+    const user = userEvent.setup();
+    await user.click(
+      await within(row).findByRole("button", {
+        name: "Thinking effort Claude Code uses: Max",
+      }),
+    );
+    const listbox = await screen.findByRole("listbox", {
+      name: "Thinking effort for Claude Code",
+    });
+    for (const option of within(listbox).getAllByRole("option")) {
+      expect(option).toHaveAttribute("aria-disabled", "true");
+    }
+    expect(
+      screen.getByText(
+        "Set by the terminal variable CLAUDE_CODE_EFFORT_LEVEL in ~/.zshrc:12; it cannot be changed here.",
+      ),
+    ).toBeVisible();
+    await user.click(within(listbox).getByRole("option", { name: /^Low/ }));
+    expect(calls.efforts).toEqual([]);
   });
 
   it("keeps the effort slot empty for a tool without an effort setting", async () => {
@@ -440,10 +537,10 @@ describe("Home model and effort pickers", () => {
         "gemini-cli": {
           ...CHOICE,
           tool: "gemini-cli",
-          effort: null,
+          effort: { kind: "toolDefault" },
           effortLevels: [],
+          variableOnlyLevels: [],
           officialModels: ["auto", "pro"],
-          effortOverrides: [],
         },
       },
     );

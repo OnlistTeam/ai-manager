@@ -1,10 +1,11 @@
 import { z } from "zod";
 import { toolIdSchema } from "./ids";
+import { effectiveConnectionSourceSchema } from "./provider";
 
 /**
  * Model and thinking-effort wire types (ADR-0055). Mirrors Rust
- * `domain::ToolModelChoice`; a `null` model or effort means this product's
- * key is absent and the tool decides.
+ * `domain::ToolModelChoice`; a `null` model means this product's key is
+ * absent and the tool decides.
  */
 
 /** Mirrors `MAX_MODEL_NAME_CHARS` in the Rust domain. */
@@ -12,21 +13,42 @@ export const MAX_MODEL_NAME_CHARS = 256;
 
 const settingValueSchema = z.string().min(1).max(MAX_MODEL_NAME_CHARS);
 
-export const effortOverrideSchema = z
+export const modelEffortSchema = z
   .object({
     model: settingValueSchema,
     effort: settingValueSchema,
+    modelDefault: z.boolean(),
   })
   .strict();
+
+/** The effort a new session runs at, as the tool itself resolves it. */
+export const effortInForceSchema = z.discriminatedUnion("kind", [
+  z.object({ kind: z.literal("toolDefault") }).strict(),
+  z.object({ kind: z.literal("level"), level: settingValueSchema }).strict(),
+  z
+    .object({
+      kind: z.literal("mixed"),
+      perModel: z.array(modelEffortSchema).max(64),
+    })
+    .strict(),
+  z.object({ kind: z.literal("fixed"), level: settingValueSchema }).strict(),
+  z
+    .object({
+      kind: z.literal("terminal"),
+      level: settingValueSchema,
+      source: effectiveConnectionSourceSchema,
+    })
+    .strict(),
+]);
 
 export const toolModelChoiceSchema = z
   .object({
     tool: toolIdSchema,
     model: settingValueSchema.nullable(),
-    effort: settingValueSchema.nullable(),
+    effort: effortInForceSchema,
     effortLevels: z.array(settingValueSchema).max(16),
+    variableOnlyLevels: z.array(settingValueSchema).max(16),
     officialModels: z.array(settingValueSchema).max(32),
-    effortOverrides: z.array(effortOverrideSchema).max(64),
   })
   .strict();
 
@@ -45,5 +67,6 @@ export const modelNameSchema = z
     "Model name contains a control character or a quote",
   );
 
-export type EffortOverride = z.infer<typeof effortOverrideSchema>;
+export type ModelEffort = z.infer<typeof modelEffortSchema>;
+export type EffortInForce = z.infer<typeof effortInForceSchema>;
 export type ToolModelChoice = z.infer<typeof toolModelChoiceSchema>;
