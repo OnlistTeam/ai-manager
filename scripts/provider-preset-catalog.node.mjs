@@ -191,3 +191,57 @@ test("catalog exposes clean public origins and never carries a plaintext secret"
     assert.equal(containsPlainSecret(preset.settingsConfig), false, identity);
   }
 });
+
+/**
+ * A preset is written straight into the tool's own config, so a tool may only
+ * list services that speak its protocol (ADR-0057). These pin the cases where
+ * that rule is what keeps a card off the page.
+ */
+test("each tool lists only services that speak its protocol", async () => {
+  const generated = await catalog();
+  const names = (tool) =>
+    generated.presets
+      .filter((preset) => preset.tool === tool)
+      .map((preset) => preset.serviceName);
+
+  // Gemini CLI speaks only Google's own API.
+  assert.deepEqual(names("gemini-cli").sort(), ["Google Gemini API", "onList"]);
+  // No Anthropic endpoint (Mistral, Groq) or a deprecated one (xAI).
+  for (const absent of ["Mistral", "Groq", "xAI (Grok)"]) {
+    assert.ok(!names("claude-code").includes(absent), `claude-code: ${absent}`);
+  }
+  // No Responses endpoint, or one Codex cannot edit files through.
+  for (const absent of ["Mistral", "Ollama Cloud"]) {
+    assert.ok(!names("codex").includes(absent), `codex: ${absent}`);
+  }
+  for (const tool of ["opencode", "openclaw", "hermes", "pi"]) {
+    for (const present of ["Mistral", "Groq", "Qwen", "StepFun", "OpenCode Go"]) {
+      assert.ok(names(tool).includes(present), `${tool}: ${present}`);
+    }
+  }
+
+  // Kimi Code's hosts are split by region: .com is China, .ai the rest.
+  const kimiCode = (name) =>
+    JSON.stringify(
+      generated.presets.find(
+        (preset) => preset.tool === "claude-code" && preset.serviceName === name,
+      ).settingsConfig,
+    );
+  assert.match(kimiCode("Kimi Code"), /api\.kimi\.ai\/coding/);
+  assert.match(kimiCode("Kimi Code (China)"), /api\.kimi\.com\/coding/);
+});
+
+test("the relay group is onList, OpenRouter and OpenCode, with onList first", async () => {
+  const generated = await catalog();
+  for (const tool of ["claude-code", "codex", "opencode", "pi"]) {
+    const relays = generated.presets
+      .filter((preset) => preset.tool === tool && preset.kind === "relay")
+      .map((preset) => preset.serviceName);
+    assert.equal(relays[0], "onList", tool);
+    assert.deepEqual(
+      [...relays].sort(),
+      ["OpenCode Go", "OpenCode Zen", "OpenRouter", "onList"],
+      tool,
+    );
+  }
+});

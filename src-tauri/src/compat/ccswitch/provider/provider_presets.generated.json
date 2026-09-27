@@ -61,6 +61,28 @@
     },
     {
       "tool": "claude-code",
+      "id": "kimi",
+      "serviceName": "Kimi",
+      "defaultName": "Kimi",
+      "defaultModel": "kimi-k2.7-code",
+      "websiteUrl": "https://platform.kimi.ai",
+      "apiKeyUrl": "https://platform.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "https://api.moonshot.ai/anthropic",
+          "ANTHROPIC_AUTH_TOKEN": "",
+          "ANTHROPIC_MODEL": "kimi-k2.7-code",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k2.7-code",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k2.7-code",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k2.7-code"
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
       "id": "kimi-china-50b8c6946b",
       "serviceName": "Kimi (China)",
       "defaultName": "Kimi (China)",
@@ -83,9 +105,31 @@
     },
     {
       "tool": "claude-code",
-      "id": "kimi-code-d7a0b191e4",
+      "id": "kimi-code",
       "serviceName": "Kimi Code",
       "defaultName": "Kimi Code",
+      "defaultModel": "kimi-for-coding",
+      "websiteUrl": "https://www.kimi.ai",
+      "apiKeyUrl": "https://www.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "https://api.kimi.ai/coding",
+          "ANTHROPIC_AUTH_TOKEN": "",
+          "ANTHROPIC_MODEL": "kimi-for-coding",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-for-coding",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-for-coding",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-for-coding"
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
+      "id": "kimi-code-china-2feddf94b0",
+      "serviceName": "Kimi Code (China)",
+      "defaultName": "Kimi Code (China)",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://www.kimi.com",
@@ -157,6 +201,68 @@
     },
     {
       "tool": "claude-code",
+      "id": "ollama-cloud",
+      "serviceName": "Ollama Cloud",
+      "defaultName": "Ollama Cloud",
+      "defaultModel": "glm-5.3",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "https://ollama.com",
+          "ANTHROPIC_AUTH_TOKEN": "",
+          "ANTHROPIC_MODEL": "glm-5.3",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-5.3-flash",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-5.3",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-5.3"
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
+      "id": "opencode-go",
+      "serviceName": "OpenCode Go",
+      "defaultName": "OpenCode Go",
+      "defaultModel": "minimax-m3",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "https://opencode.ai/zen/go",
+          "ANTHROPIC_AUTH_TOKEN": "",
+          "ANTHROPIC_MODEL": "minimax-m3",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "qwen3.8-flash",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "minimax-m3",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "minimax-m3"
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
+      "id": "opencode-zen",
+      "serviceName": "OpenCode Zen",
+      "defaultName": "OpenCode Zen",
+      "defaultModel": null,
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "https://opencode.ai/zen",
+          "ANTHROPIC_AUTH_TOKEN": ""
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
       "id": "openrouter-aef09f57df",
       "serviceName": "OpenRouter",
       "defaultName": "OpenRouter",
@@ -174,6 +280,94 @@
           "ANTHROPIC_DEFAULT_HAIKU_MODEL": "anthropic/claude-haiku-4.5",
           "ANTHROPIC_DEFAULT_SONNET_MODEL": "anthropic/claude-sonnet-5",
           "ANTHROPIC_DEFAULT_OPUS_MODEL": "anthropic/claude-opus-5"
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
+      "id": "qwen",
+      "serviceName": "Qwen",
+      "defaultName": "Qwen",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://modelstudio.console.alibabacloud.com",
+      "apiKeyUrl": "https://modelstudio.console.alibabacloud.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "https://dashscope-intl.aliyuncs.com/apps/anthropic",
+          "ANTHROPIC_AUTH_TOKEN": "",
+          "ANTHROPIC_MODEL": "qwen3.7-plus",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "qwen3.7-plus",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "qwen3.7-plus",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "qwen3.7-plus"
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
+      "id": "qwen-cn",
+      "serviceName": "Qwen (China)",
+      "defaultName": "Qwen (China)",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://bailian.console.aliyun.com",
+      "apiKeyUrl": "https://bailian.console.aliyun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "https://dashscope.aliyuncs.com/apps/anthropic",
+          "ANTHROPIC_AUTH_TOKEN": "",
+          "ANTHROPIC_MODEL": "qwen3.7-plus",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "qwen3.7-plus",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "qwen3.7-plus",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "qwen3.7-plus"
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
+      "id": "stepfun",
+      "serviceName": "StepFun",
+      "defaultName": "StepFun",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.ai",
+      "apiKeyUrl": "https://platform.stepfun.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "https://api.stepfun.ai",
+          "ANTHROPIC_AUTH_TOKEN": "",
+          "ANTHROPIC_MODEL": "step-5-preview",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "step-5-preview",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "step-5-preview",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "step-5-preview"
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
+      "id": "stepfun-cn",
+      "serviceName": "StepFun (China)",
+      "defaultName": "StepFun (China)",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.com",
+      "apiKeyUrl": "https://platform.stepfun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "https://api.stepfun.com",
+          "ANTHROPIC_AUTH_TOKEN": "",
+          "ANTHROPIC_MODEL": "step-5-preview",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "step-5-preview",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "step-5-preview",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "step-5-preview"
         }
       }
     },
@@ -277,6 +471,42 @@
     },
     {
       "tool": "codex",
+      "id": "groq",
+      "serviceName": "Groq",
+      "defaultName": "Groq",
+      "defaultModel": "openai/gpt-oss-120b",
+      "websiteUrl": "https://groq.com",
+      "apiKeyUrl": "https://console.groq.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"openai/gpt-oss-120b\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"Groq\"\nbase_url = \"https://api.groq.com/openai/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
+      }
+    },
+    {
+      "tool": "codex",
+      "id": "kimi",
+      "serviceName": "Kimi",
+      "defaultName": "Kimi",
+      "defaultModel": "kimi-k3",
+      "websiteUrl": "https://platform.kimi.ai",
+      "apiKeyUrl": "https://platform.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"kimi-k3\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"Kimi\"\nbase_url = \"https://api.moonshot.ai/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
+      }
+    },
+    {
+      "tool": "codex",
       "id": "kimi-china-e6f1b69588",
       "serviceName": "Kimi (China)",
       "defaultName": "Kimi (China)",
@@ -295,9 +525,27 @@
     },
     {
       "tool": "codex",
-      "id": "kimi-code-bee7397215",
+      "id": "kimi-code",
       "serviceName": "Kimi Code",
       "defaultName": "Kimi Code",
+      "defaultModel": "kimi-for-coding",
+      "websiteUrl": "https://www.kimi.ai",
+      "apiKeyUrl": "https://www.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"kimi-for-coding\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"Kimi Code\"\nbase_url = \"https://api.kimi.ai/coding/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
+      }
+    },
+    {
+      "tool": "codex",
+      "id": "kimi-code-china-f7ab68c5cd",
+      "serviceName": "Kimi Code (China)",
+      "defaultName": "Kimi Code (China)",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://www.kimi.com",
@@ -349,6 +597,42 @@
     },
     {
       "tool": "codex",
+      "id": "opencode-go",
+      "serviceName": "OpenCode Go",
+      "defaultName": "OpenCode Go",
+      "defaultModel": "gpt-6-luna",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"gpt-6-luna\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"OpenCode Go\"\nbase_url = \"https://opencode.ai/zen/go/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
+      }
+    },
+    {
+      "tool": "codex",
+      "id": "opencode-zen",
+      "serviceName": "OpenCode Zen",
+      "defaultName": "OpenCode Zen",
+      "defaultModel": "gpt-5.6-sol",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"gpt-5.6-sol\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"OpenCode Zen\"\nbase_url = \"https://opencode.ai/zen/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
+      }
+    },
+    {
+      "tool": "codex",
       "id": "openrouter-6d33f264e2",
       "serviceName": "OpenRouter",
       "defaultName": "OpenRouter",
@@ -363,6 +647,78 @@
           "OPENAI_API_KEY": ""
         },
         "config": "model_provider = \"custom\"\nmodel = \"gpt-5.6-sol\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"openrouter\"\nbase_url = \"https://openrouter.ai/api/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true"
+      }
+    },
+    {
+      "tool": "codex",
+      "id": "qwen",
+      "serviceName": "Qwen",
+      "defaultName": "Qwen",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://modelstudio.console.alibabacloud.com",
+      "apiKeyUrl": "https://modelstudio.console.alibabacloud.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"qwen3.7-plus\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"Qwen\"\nbase_url = \"https://dashscope-intl.aliyuncs.com/compatible-mode/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
+      }
+    },
+    {
+      "tool": "codex",
+      "id": "qwen-cn",
+      "serviceName": "Qwen (China)",
+      "defaultName": "Qwen (China)",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://bailian.console.aliyun.com",
+      "apiKeyUrl": "https://bailian.console.aliyun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"qwen3.7-plus\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"Qwen (China)\"\nbase_url = \"https://dashscope.aliyuncs.com/compatible-mode/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
+      }
+    },
+    {
+      "tool": "codex",
+      "id": "stepfun",
+      "serviceName": "StepFun",
+      "defaultName": "StepFun",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.ai",
+      "apiKeyUrl": "https://platform.stepfun.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"step-5-preview\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"StepFun\"\nbase_url = \"https://api.stepfun.ai/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
+      }
+    },
+    {
+      "tool": "codex",
+      "id": "stepfun-cn",
+      "serviceName": "StepFun (China)",
+      "defaultName": "StepFun (China)",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.com",
+      "apiKeyUrl": "https://platform.stepfun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"step-5-preview\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"StepFun (China)\"\nbase_url = \"https://api.stepfun.com/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
       }
     },
     {
@@ -594,6 +950,66 @@
     },
     {
       "tool": "hermes",
+      "id": "groq",
+      "serviceName": "Groq",
+      "defaultName": "Groq",
+      "defaultModel": "openai/gpt-oss-120b",
+      "websiteUrl": "https://groq.com",
+      "apiKeyUrl": "https://console.groq.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "groq",
+        "base_url": "https://api.groq.com/openai/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "openai/gpt-oss-120b",
+            "name": "GPT OSS 120B",
+            "context_length": 131072
+          },
+          {
+            "id": "openai/gpt-oss-20b",
+            "name": "GPT OSS 20B",
+            "context_length": 131072
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "kimi",
+      "serviceName": "Kimi",
+      "defaultName": "Kimi",
+      "defaultModel": "kimi-k2.7-code",
+      "websiteUrl": "https://platform.kimi.ai",
+      "apiKeyUrl": "https://platform.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "kimi",
+        "base_url": "https://api.moonshot.ai/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "kimi-k2.7-code",
+            "name": "Kimi K2.7 Code",
+            "context_length": 262144
+          },
+          {
+            "id": "kimi-k3",
+            "name": "Kimi K3",
+            "context_length": 1048576
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
       "id": "kimi-china-9d20769aa5",
       "serviceName": "Kimi (China)",
       "defaultName": "Kimi (China)",
@@ -623,9 +1039,39 @@
     },
     {
       "tool": "hermes",
-      "id": "kimi-code-370b99448e",
+      "id": "kimi-code",
       "serviceName": "Kimi Code",
       "defaultName": "Kimi Code",
+      "defaultModel": "kimi-for-coding",
+      "websiteUrl": "https://www.kimi.ai",
+      "apiKeyUrl": "https://www.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "kimi-code",
+        "base_url": "https://api.kimi.ai/coding/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "kimi-for-coding",
+            "name": "Kimi for Coding",
+            "context_length": 1048576
+          },
+          {
+            "id": "k3",
+            "name": "K3",
+            "context_length": 1048576
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "kimi-code-china-338a6100af",
+      "serviceName": "Kimi Code (China)",
+      "defaultName": "Kimi Code (China)",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://www.kimi.com",
@@ -695,6 +1141,126 @@
     },
     {
       "tool": "hermes",
+      "id": "mistral",
+      "serviceName": "Mistral",
+      "defaultName": "Mistral",
+      "defaultModel": "mistral-medium-3-5",
+      "websiteUrl": "https://mistral.ai",
+      "apiKeyUrl": "https://console.mistral.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "mistral",
+        "base_url": "https://api.mistral.ai/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "mistral-medium-3-5",
+            "name": "Mistral Medium 3.5",
+            "context_length": 262144
+          },
+          {
+            "id": "mistral-small-2603",
+            "name": "Mistral Small 4",
+            "context_length": 262144
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "ollama-cloud",
+      "serviceName": "Ollama Cloud",
+      "defaultName": "Ollama Cloud",
+      "defaultModel": "glm-5.3",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "ollama-cloud",
+        "base_url": "https://ollama.com/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "glm-5.3",
+            "name": "GLM-5.3",
+            "context_length": 1048576
+          },
+          {
+            "id": "kimi-k2.7-code",
+            "name": "Kimi K2.7 Code",
+            "context_length": 262144
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "opencode-go",
+      "serviceName": "OpenCode Go",
+      "defaultName": "OpenCode Go",
+      "defaultModel": "kimi-k3",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "name": "opencode-go",
+        "base_url": "https://opencode.ai/zen/go/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "kimi-k3",
+            "name": "Kimi K3",
+            "context_length": 1048576
+          },
+          {
+            "id": "glm-5.3",
+            "name": "GLM-5.3",
+            "context_length": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "opencode-zen",
+      "serviceName": "OpenCode Zen",
+      "defaultName": "OpenCode Zen",
+      "defaultModel": "kimi-k3",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "name": "opencode-zen",
+        "base_url": "https://opencode.ai/zen/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "kimi-k3",
+            "name": "Kimi K3",
+            "context_length": 1048576
+          },
+          {
+            "id": "glm-5.3",
+            "name": "GLM-5.3",
+            "context_length": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
       "id": "openrouter-f6c1345d25",
       "serviceName": "OpenRouter",
       "defaultName": "OpenRouter",
@@ -734,6 +1300,156 @@
             "id": "google/gemini-3.6-flash",
             "name": "Gemini 3.6 Flash",
             "context_length": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "qwen",
+      "serviceName": "Qwen",
+      "defaultName": "Qwen",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://modelstudio.console.alibabacloud.com",
+      "apiKeyUrl": "https://modelstudio.console.alibabacloud.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "qwen",
+        "base_url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "qwen3.7-plus",
+            "name": "Qwen3.7-Plus",
+            "context_length": 1000000
+          },
+          {
+            "id": "qwen3.8-flash",
+            "name": "Qwen3.8-Flash",
+            "context_length": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "qwen-cn",
+      "serviceName": "Qwen (China)",
+      "defaultName": "Qwen (China)",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://bailian.console.aliyun.com",
+      "apiKeyUrl": "https://bailian.console.aliyun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "qwen-cn",
+        "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "qwen3.7-plus",
+            "name": "Qwen3.7-Plus",
+            "context_length": 1000000
+          },
+          {
+            "id": "qwen3.8-flash",
+            "name": "Qwen3.8-Flash",
+            "context_length": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "stepfun",
+      "serviceName": "StepFun",
+      "defaultName": "StepFun",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.ai",
+      "apiKeyUrl": "https://platform.stepfun.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "stepfun",
+        "base_url": "https://api.stepfun.ai/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "step-5-preview",
+            "name": "Step 5 Preview",
+            "context_length": 1000000
+          },
+          {
+            "id": "step-3.7-flash",
+            "name": "Step 3.7 Flash",
+            "context_length": 256000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "stepfun-cn",
+      "serviceName": "StepFun (China)",
+      "defaultName": "StepFun (China)",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.com",
+      "apiKeyUrl": "https://platform.stepfun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "stepfun-cn",
+        "base_url": "https://api.stepfun.com/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "step-5-preview",
+            "name": "Step 5 Preview",
+            "context_length": 1000000
+          },
+          {
+            "id": "step-3.7-flash",
+            "name": "Step 3.7 Flash",
+            "context_length": 256000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "xai",
+      "serviceName": "xAI (Grok)",
+      "defaultName": "xAI (Grok)",
+      "defaultModel": "grok-4.7",
+      "websiteUrl": "https://x.ai",
+      "apiKeyUrl": "https://console.x.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "xai",
+        "base_url": "https://api.x.ai/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "grok-4.7",
+            "name": "Grok 4.7",
+            "context_length": 500000
+          },
+          {
+            "id": "grok-build-0.1",
+            "name": "Grok Build 0.1",
+            "context_length": 256000
           }
         ]
       }
@@ -907,6 +1623,64 @@
     },
     {
       "tool": "openclaw",
+      "id": "groq",
+      "serviceName": "Groq",
+      "defaultName": "Groq",
+      "defaultModel": "openai/gpt-oss-120b",
+      "websiteUrl": "https://groq.com",
+      "apiKeyUrl": "https://console.groq.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "baseUrl": "https://api.groq.com/openai/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "openai/gpt-oss-120b",
+            "name": "GPT OSS 120B",
+            "contextWindow": 131072
+          },
+          {
+            "id": "openai/gpt-oss-20b",
+            "name": "GPT OSS 20B",
+            "contextWindow": 131072
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "kimi",
+      "serviceName": "Kimi",
+      "defaultName": "Kimi",
+      "defaultModel": "kimi-k2.7-code",
+      "websiteUrl": "https://platform.kimi.ai",
+      "apiKeyUrl": "https://platform.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "baseUrl": "https://api.moonshot.ai/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "kimi-k2.7-code",
+            "name": "Kimi K2.7 Code",
+            "contextWindow": 262144
+          },
+          {
+            "id": "kimi-k3",
+            "name": "Kimi K3",
+            "contextWindow": 1048576
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
       "id": "kimi-china-89eea5ed79",
       "serviceName": "Kimi (China)",
       "defaultName": "Kimi (China)",
@@ -947,9 +1721,38 @@
     },
     {
       "tool": "openclaw",
-      "id": "kimi-code-e2598fb1e1",
+      "id": "kimi-code",
       "serviceName": "Kimi Code",
       "defaultName": "Kimi Code",
+      "defaultModel": "kimi-for-coding",
+      "websiteUrl": "https://www.kimi.ai",
+      "apiKeyUrl": "https://www.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "baseUrl": "https://api.kimi.ai/coding/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "kimi-for-coding",
+            "name": "Kimi for Coding",
+            "contextWindow": 1048576
+          },
+          {
+            "id": "k3",
+            "name": "K3",
+            "contextWindow": 1048576
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "kimi-code-china-66c348a5ab",
+      "serviceName": "Kimi Code (China)",
+      "defaultName": "Kimi Code (China)",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
@@ -1036,6 +1839,122 @@
     },
     {
       "tool": "openclaw",
+      "id": "mistral",
+      "serviceName": "Mistral",
+      "defaultName": "Mistral",
+      "defaultModel": "mistral-medium-3-5",
+      "websiteUrl": "https://mistral.ai",
+      "apiKeyUrl": "https://console.mistral.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "baseUrl": "https://api.mistral.ai/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "mistral-medium-3-5",
+            "name": "Mistral Medium 3.5",
+            "contextWindow": 262144
+          },
+          {
+            "id": "mistral-small-2603",
+            "name": "Mistral Small 4",
+            "contextWindow": 262144
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "ollama-cloud",
+      "serviceName": "Ollama Cloud",
+      "defaultName": "Ollama Cloud",
+      "defaultModel": "glm-5.3",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "baseUrl": "https://ollama.com/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "glm-5.3",
+            "name": "GLM-5.3",
+            "contextWindow": 1048576
+          },
+          {
+            "id": "kimi-k2.7-code",
+            "name": "Kimi K2.7 Code",
+            "contextWindow": 262144
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "opencode-go",
+      "serviceName": "OpenCode Go",
+      "defaultName": "OpenCode Go",
+      "defaultModel": "kimi-k3",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "baseUrl": "https://opencode.ai/zen/go/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "kimi-k3",
+            "name": "Kimi K3",
+            "contextWindow": 1048576
+          },
+          {
+            "id": "glm-5.3",
+            "name": "GLM-5.3",
+            "contextWindow": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "opencode-zen",
+      "serviceName": "OpenCode Zen",
+      "defaultName": "OpenCode Zen",
+      "defaultModel": "kimi-k3",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "baseUrl": "https://opencode.ai/zen/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "kimi-k3",
+            "name": "Kimi K3",
+            "contextWindow": 1048576
+          },
+          {
+            "id": "glm-5.3",
+            "name": "GLM-5.3",
+            "contextWindow": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
       "id": "openrouter-085c4d76da",
       "serviceName": "OpenRouter",
       "defaultName": "OpenRouter",
@@ -1067,6 +1986,151 @@
               "input": 3,
               "output": 15
             }
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "qwen",
+      "serviceName": "Qwen",
+      "defaultName": "Qwen",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://modelstudio.console.alibabacloud.com",
+      "apiKeyUrl": "https://modelstudio.console.alibabacloud.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "baseUrl": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3.7-plus",
+            "name": "Qwen3.7-Plus",
+            "contextWindow": 1000000
+          },
+          {
+            "id": "qwen3.8-flash",
+            "name": "Qwen3.8-Flash",
+            "contextWindow": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "qwen-cn",
+      "serviceName": "Qwen (China)",
+      "defaultName": "Qwen (China)",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://bailian.console.aliyun.com",
+      "apiKeyUrl": "https://bailian.console.aliyun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3.7-plus",
+            "name": "Qwen3.7-Plus",
+            "contextWindow": 1000000
+          },
+          {
+            "id": "qwen3.8-flash",
+            "name": "Qwen3.8-Flash",
+            "contextWindow": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "stepfun",
+      "serviceName": "StepFun",
+      "defaultName": "StepFun",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.ai",
+      "apiKeyUrl": "https://platform.stepfun.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "baseUrl": "https://api.stepfun.ai/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "step-5-preview",
+            "name": "Step 5 Preview",
+            "contextWindow": 1000000
+          },
+          {
+            "id": "step-3.7-flash",
+            "name": "Step 3.7 Flash",
+            "contextWindow": 256000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "stepfun-cn",
+      "serviceName": "StepFun (China)",
+      "defaultName": "StepFun (China)",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.com",
+      "apiKeyUrl": "https://platform.stepfun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "baseUrl": "https://api.stepfun.com/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "step-5-preview",
+            "name": "Step 5 Preview",
+            "contextWindow": 1000000
+          },
+          {
+            "id": "step-3.7-flash",
+            "name": "Step 3.7 Flash",
+            "contextWindow": 256000
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "xai",
+      "serviceName": "xAI (Grok)",
+      "defaultName": "xAI (Grok)",
+      "defaultModel": "grok-4.7",
+      "websiteUrl": "https://x.ai",
+      "apiKeyUrl": "https://console.x.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "baseUrl": "https://api.x.ai/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "grok-4.7",
+            "name": "Grok 4.7",
+            "contextWindow": 500000
+          },
+          {
+            "id": "grok-build-0.1",
+            "name": "Grok Build 0.1",
+            "contextWindow": 256000
           }
         ]
       }
@@ -1213,6 +2277,62 @@
     },
     {
       "tool": "opencode",
+      "id": "groq",
+      "serviceName": "Groq",
+      "defaultName": "Groq",
+      "defaultModel": "openai/gpt-oss-120b",
+      "websiteUrl": "https://groq.com",
+      "apiKeyUrl": "https://console.groq.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "Groq",
+        "options": {
+          "baseURL": "https://api.groq.com/openai/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "openai/gpt-oss-120b": {
+            "name": "GPT OSS 120B"
+          },
+          "openai/gpt-oss-20b": {
+            "name": "GPT OSS 20B"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "kimi",
+      "serviceName": "Kimi",
+      "defaultName": "Kimi",
+      "defaultModel": "kimi-k2.7-code",
+      "websiteUrl": "https://platform.kimi.ai",
+      "apiKeyUrl": "https://platform.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "Kimi",
+        "options": {
+          "baseURL": "https://api.moonshot.ai/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "kimi-k2.7-code": {
+            "name": "Kimi K2.7 Code"
+          },
+          "kimi-k3": {
+            "name": "Kimi K3"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
       "id": "kimi-china-2e301746a4",
       "serviceName": "Kimi (China)",
       "defaultName": "Kimi (China)",
@@ -1242,9 +2362,37 @@
     },
     {
       "tool": "opencode",
-      "id": "kimi-code-8d29d56c0e",
+      "id": "kimi-code",
       "serviceName": "Kimi Code",
       "defaultName": "Kimi Code",
+      "defaultModel": "kimi-for-coding",
+      "websiteUrl": "https://www.kimi.ai",
+      "apiKeyUrl": "https://www.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "Kimi Code",
+        "options": {
+          "baseURL": "https://api.kimi.ai/coding/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "kimi-for-coding": {
+            "name": "Kimi for Coding"
+          },
+          "k3": {
+            "name": "K3"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "kimi-code-china-2a73e35f42",
+      "serviceName": "Kimi Code (China)",
+      "defaultName": "Kimi Code (China)",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
@@ -1348,6 +2496,118 @@
     },
     {
       "tool": "opencode",
+      "id": "mistral",
+      "serviceName": "Mistral",
+      "defaultName": "Mistral",
+      "defaultModel": "mistral-medium-3-5",
+      "websiteUrl": "https://mistral.ai",
+      "apiKeyUrl": "https://console.mistral.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "Mistral",
+        "options": {
+          "baseURL": "https://api.mistral.ai/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "mistral-medium-3-5": {
+            "name": "Mistral Medium 3.5"
+          },
+          "mistral-small-2603": {
+            "name": "Mistral Small 4"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "ollama-cloud",
+      "serviceName": "Ollama Cloud",
+      "defaultName": "Ollama Cloud",
+      "defaultModel": "glm-5.3",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "Ollama Cloud",
+        "options": {
+          "baseURL": "https://ollama.com/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "glm-5.3": {
+            "name": "GLM-5.3"
+          },
+          "kimi-k2.7-code": {
+            "name": "Kimi K2.7 Code"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "opencode-go",
+      "serviceName": "OpenCode Go",
+      "defaultName": "OpenCode Go",
+      "defaultModel": "kimi-k3",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "OpenCode Go",
+        "options": {
+          "baseURL": "https://opencode.ai/zen/go/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "kimi-k3": {
+            "name": "Kimi K3"
+          },
+          "glm-5.3": {
+            "name": "GLM-5.3"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "opencode-zen",
+      "serviceName": "OpenCode Zen",
+      "defaultName": "OpenCode Zen",
+      "defaultModel": "kimi-k3",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "OpenCode Zen",
+        "options": {
+          "baseURL": "https://opencode.ai/zen/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "kimi-k3": {
+            "name": "Kimi K3"
+          },
+          "glm-5.3": {
+            "name": "GLM-5.3"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
       "id": "openrouter-1379510bc2",
       "serviceName": "OpenRouter",
       "defaultName": "OpenRouter",
@@ -1371,6 +2631,146 @@
           },
           "anthropic/claude-opus-5": {
             "name": "Claude Opus 5"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "qwen",
+      "serviceName": "Qwen",
+      "defaultName": "Qwen",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://modelstudio.console.alibabacloud.com",
+      "apiKeyUrl": "https://modelstudio.console.alibabacloud.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "Qwen",
+        "options": {
+          "baseURL": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "qwen3.7-plus": {
+            "name": "Qwen3.7-Plus"
+          },
+          "qwen3.8-flash": {
+            "name": "Qwen3.8-Flash"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "qwen-cn",
+      "serviceName": "Qwen (China)",
+      "defaultName": "Qwen (China)",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://bailian.console.aliyun.com",
+      "apiKeyUrl": "https://bailian.console.aliyun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "Qwen (China)",
+        "options": {
+          "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "qwen3.7-plus": {
+            "name": "Qwen3.7-Plus"
+          },
+          "qwen3.8-flash": {
+            "name": "Qwen3.8-Flash"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "stepfun",
+      "serviceName": "StepFun",
+      "defaultName": "StepFun",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.ai",
+      "apiKeyUrl": "https://platform.stepfun.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "StepFun",
+        "options": {
+          "baseURL": "https://api.stepfun.ai/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "step-5-preview": {
+            "name": "Step 5 Preview"
+          },
+          "step-3.7-flash": {
+            "name": "Step 3.7 Flash"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "stepfun-cn",
+      "serviceName": "StepFun (China)",
+      "defaultName": "StepFun (China)",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.com",
+      "apiKeyUrl": "https://platform.stepfun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "StepFun (China)",
+        "options": {
+          "baseURL": "https://api.stepfun.com/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "step-5-preview": {
+            "name": "Step 5 Preview"
+          },
+          "step-3.7-flash": {
+            "name": "Step 3.7 Flash"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "xai",
+      "serviceName": "xAI (Grok)",
+      "defaultName": "xAI (Grok)",
+      "defaultModel": "grok-4.7",
+      "websiteUrl": "https://x.ai",
+      "apiKeyUrl": "https://console.x.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "xAI (Grok)",
+        "options": {
+          "baseURL": "https://api.x.ai/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "grok-4.7": {
+            "name": "Grok 4.7"
+          },
+          "grok-build-0.1": {
+            "name": "Grok Build 0.1"
           }
         }
       }
@@ -1620,6 +3020,88 @@
     },
     {
       "tool": "pi",
+      "id": "groq",
+      "serviceName": "Groq",
+      "defaultName": "Groq",
+      "defaultModel": "openai/gpt-oss-120b",
+      "websiteUrl": "https://groq.com",
+      "apiKeyUrl": "https://console.groq.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "Groq",
+        "baseUrl": "https://api.groq.com/openai/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "openai/gpt-oss-120b",
+            "name": "GPT OSS 120B",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "contextWindow": 131072,
+            "maxTokens": 65536
+          },
+          {
+            "id": "openai/gpt-oss-20b",
+            "name": "GPT OSS 20B",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "contextWindow": 131072,
+            "maxTokens": 65536
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "kimi",
+      "serviceName": "Kimi",
+      "defaultName": "Kimi",
+      "defaultModel": "kimi-k2.7-code",
+      "websiteUrl": "https://platform.kimi.ai",
+      "apiKeyUrl": "https://platform.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "Kimi",
+        "baseUrl": "https://api.moonshot.ai/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "kimi-k2.7-code",
+            "name": "Kimi K2.7 Code",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 262144,
+            "maxTokens": 32768
+          },
+          {
+            "id": "kimi-k3",
+            "name": "Kimi K3",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1048576,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
       "id": "kimi-china-16362a4e49",
       "serviceName": "Kimi (China)",
       "defaultName": "Kimi (China)",
@@ -1684,9 +3166,51 @@
     },
     {
       "tool": "pi",
-      "id": "kimi-code-5b351cde82",
+      "id": "kimi-code",
       "serviceName": "Kimi Code",
       "defaultName": "Kimi Code",
+      "defaultModel": "kimi-for-coding",
+      "websiteUrl": "https://www.kimi.ai",
+      "apiKeyUrl": "https://www.kimi.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "Kimi Code",
+        "baseUrl": "https://api.kimi.ai/coding/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "kimi-for-coding",
+            "name": "Kimi for Coding",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1048576,
+            "maxTokens": 32768
+          },
+          {
+            "id": "k3",
+            "name": "K3",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1048576,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "kimi-code-china-6e23319312",
+      "serviceName": "Kimi Code (China)",
+      "defaultName": "Kimi Code (China)",
       "defaultModel": "kimi-for-coding",
       "websiteUrl": "https://www.kimi.com",
       "apiKeyUrl": "https://platform.kimi.com",
@@ -1780,6 +3304,173 @@
     },
     {
       "tool": "pi",
+      "id": "mistral",
+      "serviceName": "Mistral",
+      "defaultName": "Mistral",
+      "defaultModel": "mistral-medium-3-5",
+      "websiteUrl": "https://mistral.ai",
+      "apiKeyUrl": "https://console.mistral.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "Mistral",
+        "baseUrl": "https://api.mistral.ai/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "mistral-medium-3-5",
+            "name": "Mistral Medium 3.5",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 262144,
+            "maxTokens": 32768
+          },
+          {
+            "id": "mistral-small-2603",
+            "name": "Mistral Small 4",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 262144,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "ollama-cloud",
+      "serviceName": "Ollama Cloud",
+      "defaultName": "Ollama Cloud",
+      "defaultModel": "glm-5.3",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "Ollama Cloud",
+        "baseUrl": "https://ollama.com/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "glm-5.3",
+            "name": "GLM-5.3",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "contextWindow": 1048576,
+            "maxTokens": 32768
+          },
+          {
+            "id": "kimi-k2.7-code",
+            "name": "Kimi K2.7 Code",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 262144,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "opencode-go",
+      "serviceName": "OpenCode Go",
+      "defaultName": "OpenCode Go",
+      "defaultModel": "kimi-k3",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "name": "OpenCode Go",
+        "baseUrl": "https://opencode.ai/zen/go/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "kimi-k3",
+            "name": "Kimi K3",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1048576,
+            "maxTokens": 131072
+          },
+          {
+            "id": "glm-5.3",
+            "name": "GLM-5.3",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 131072
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "opencode-zen",
+      "serviceName": "OpenCode Zen",
+      "defaultName": "OpenCode Zen",
+      "defaultModel": "kimi-k3",
+      "websiteUrl": "https://opencode.ai",
+      "apiKeyUrl": "https://opencode.ai",
+      "official": false,
+      "default": false,
+      "kind": "relay",
+      "settingsConfig": {
+        "name": "OpenCode Zen",
+        "baseUrl": "https://opencode.ai/zen/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "kimi-k3",
+            "name": "Kimi K3",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1048576,
+            "maxTokens": 131072
+          },
+          {
+            "id": "glm-5.3",
+            "name": "GLM-5.3",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 131072
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
       "id": "openrouter-6f5580fe65",
       "serviceName": "OpenRouter",
       "defaultName": "OpenRouter",
@@ -1830,6 +3521,216 @@
             "compat": {
               "forceAdaptiveThinking": true
             }
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "qwen",
+      "serviceName": "Qwen",
+      "defaultName": "Qwen",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://modelstudio.console.alibabacloud.com",
+      "apiKeyUrl": "https://modelstudio.console.alibabacloud.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "Qwen",
+        "baseUrl": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "qwen3.7-plus",
+            "name": "Qwen3.7-Plus",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 32768
+          },
+          {
+            "id": "qwen3.8-flash",
+            "name": "Qwen3.8-Flash",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "qwen-cn",
+      "serviceName": "Qwen (China)",
+      "defaultName": "Qwen (China)",
+      "defaultModel": "qwen3.7-plus",
+      "websiteUrl": "https://bailian.console.aliyun.com",
+      "apiKeyUrl": "https://bailian.console.aliyun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "Qwen (China)",
+        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "qwen3.7-plus",
+            "name": "Qwen3.7-Plus",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 32768
+          },
+          {
+            "id": "qwen3.8-flash",
+            "name": "Qwen3.8-Flash",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "stepfun",
+      "serviceName": "StepFun",
+      "defaultName": "StepFun",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.ai",
+      "apiKeyUrl": "https://platform.stepfun.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "StepFun",
+        "baseUrl": "https://api.stepfun.ai/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "step-5-preview",
+            "name": "Step 5 Preview",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 64000
+          },
+          {
+            "id": "step-3.7-flash",
+            "name": "Step 3.7 Flash",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 256000,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "stepfun-cn",
+      "serviceName": "StepFun (China)",
+      "defaultName": "StepFun (China)",
+      "defaultModel": "step-5-preview",
+      "websiteUrl": "https://platform.stepfun.com",
+      "apiKeyUrl": "https://platform.stepfun.com",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "StepFun (China)",
+        "baseUrl": "https://api.stepfun.com/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "step-5-preview",
+            "name": "Step 5 Preview",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 64000
+          },
+          {
+            "id": "step-3.7-flash",
+            "name": "Step 3.7 Flash",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 256000,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "xai",
+      "serviceName": "xAI (Grok)",
+      "defaultName": "xAI (Grok)",
+      "defaultModel": "grok-4.7",
+      "websiteUrl": "https://x.ai",
+      "apiKeyUrl": "https://console.x.ai",
+      "official": false,
+      "default": false,
+      "kind": "vendor",
+      "settingsConfig": {
+        "name": "xAI (Grok)",
+        "baseUrl": "https://api.x.ai/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "grok-4.7",
+            "name": "Grok 4.7",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 500000,
+            "maxTokens": 32768
+          },
+          {
+            "id": "grok-build-0.1",
+            "name": "Grok Build 0.1",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 256000,
+            "maxTokens": 32768
           }
         ]
       }

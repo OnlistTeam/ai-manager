@@ -54,7 +54,9 @@ export const ALLOWED_SERVICES = new Map([
   // Open-weight labs with their own platforms.
   ["DeepSeek", { kind: "vendor" }],
   ["Kimi", { kind: "vendor", name: "Kimi (China)" }],
-  ["Kimi For Coding", { kind: "vendor", name: "Kimi Code" }],
+  // api.kimi.com/coding is Kimi Code's China host; api.kimi.ai/coding, the
+  // international one, is added below as plain "Kimi Code".
+  ["Kimi For Coding", { kind: "vendor", name: "Kimi Code (China)" }],
   ["Zhipu GLM", { kind: "vendor" }],
   ["Zhipu GLM en", { kind: "vendor", name: "Z.ai" }],
   ["MiniMax", { kind: "vendor", name: "MiniMax (China)" }],
@@ -316,7 +318,230 @@ export const HOUSE_PRESETS = [
  * and each address answered 401 or 403 without a key rather than 404
  * (2026-09-27). `models[0]` is the default; the chat tools also get the rest.
  */
-const ADDED_SERVICES = [];
+/*
+ * Output caps: where a vendor documents none, 32768 stands in. It only bounds
+ * one reply, and a cap the model cannot reach would be worse than a low one.
+ */
+const UNDOCUMENTED_MAX_OUTPUT = 32768;
+
+const KIMI_MODELS = [
+  { id: "kimi-k2.7-code", name: "Kimi K2.7 Code", context: 262144 },
+  { id: "kimi-k3", name: "Kimi K3", context: 1048576 },
+];
+const KIMI_CODE_MODELS = [
+  { id: "kimi-for-coding", name: "Kimi for Coding", context: 1048576 },
+  { id: "k3", name: "K3", context: 1048576 },
+];
+const STEPFUN_MODELS = [
+  {
+    id: "step-5-preview",
+    name: "Step 5 Preview",
+    context: 1000000,
+    maxOutput: 64000,
+  },
+  { id: "step-3.7-flash", name: "Step 3.7 Flash", context: 256000 },
+];
+const QWEN_MODELS = [
+  { id: "qwen3.7-plus", name: "Qwen3.7-Plus", context: 1000000 },
+  { id: "qwen3.8-flash", name: "Qwen3.8-Flash", context: 1000000 },
+];
+// OpenCode serves each model over exactly one protocol; these are the ones it
+// serves over chat completions.
+const OPENCODE_CHAT_MODELS = [
+  { id: "kimi-k3", name: "Kimi K3", context: 1048576, maxOutput: 131072 },
+  { id: "glm-5.3", name: "GLM-5.3", context: 1000000, maxOutput: 131072 },
+];
+
+const ADDED_SERVICES = [
+  {
+    id: "kimi",
+    name: "Kimi",
+    kind: "vendor",
+    website: "https://platform.kimi.ai",
+    keys: "https://platform.kimi.ai",
+    anthropic: "https://api.moonshot.ai/anthropic",
+    // Moonshot's Responses endpoint serves kimi-k3 only.
+    responses: "https://api.moonshot.ai/v1",
+    chat: "https://api.moonshot.ai/v1",
+    claudeModel: "kimi-k2.7-code",
+    codexModel: "kimi-k3",
+    models: KIMI_MODELS,
+  },
+  {
+    id: "kimi-code",
+    name: "Kimi Code",
+    kind: "vendor",
+    website: "https://www.kimi.ai",
+    keys: "https://www.kimi.ai",
+    anthropic: "https://api.kimi.ai/coding",
+    responses: "https://api.kimi.ai/coding/v1",
+    chat: "https://api.kimi.ai/coding/v1",
+    claudeModel: "kimi-for-coding",
+    codexModel: "kimi-for-coding",
+    models: KIMI_CODE_MODELS,
+  },
+  // Pay-as-you-go. A Step Plan key is the same key; the /step_plan addresses
+  // only change which balance is billed, and are a custom entry away.
+  {
+    id: "stepfun",
+    name: "StepFun",
+    kind: "vendor",
+    website: "https://platform.stepfun.ai",
+    keys: "https://platform.stepfun.ai",
+    anthropic: "https://api.stepfun.ai",
+    responses: "https://api.stepfun.ai/v1",
+    chat: "https://api.stepfun.ai/v1",
+    claudeModel: "step-5-preview",
+    codexModel: "step-5-preview",
+    models: STEPFUN_MODELS,
+  },
+  {
+    id: "stepfun-cn",
+    name: "StepFun (China)",
+    kind: "vendor",
+    website: "https://platform.stepfun.com",
+    keys: "https://platform.stepfun.com",
+    anthropic: "https://api.stepfun.com",
+    responses: "https://api.stepfun.com/v1",
+    chat: "https://api.stepfun.com/v1",
+    claudeModel: "step-5-preview",
+    codexModel: "step-5-preview",
+    models: STEPFUN_MODELS,
+  },
+  // Alibaba's own Model Studio (DashScope), pay-as-you-go. Its Coding Plan
+  // keys (`sk-sp-`) work only on the plan's own hosts.
+  {
+    id: "qwen",
+    name: "Qwen",
+    kind: "vendor",
+    website: "https://modelstudio.console.alibabacloud.com",
+    keys: "https://modelstudio.console.alibabacloud.com",
+    anthropic: "https://dashscope-intl.aliyuncs.com/apps/anthropic",
+    responses: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+    chat: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+    claudeModel: "qwen3.7-plus",
+    codexModel: "qwen3.7-plus",
+    models: QWEN_MODELS,
+  },
+  {
+    id: "qwen-cn",
+    name: "Qwen (China)",
+    kind: "vendor",
+    website: "https://bailian.console.aliyun.com",
+    keys: "https://bailian.console.aliyun.com",
+    anthropic: "https://dashscope.aliyuncs.com/apps/anthropic",
+    responses: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    chat: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    claudeModel: "qwen3.7-plus",
+    codexModel: "qwen3.7-plus",
+    models: QWEN_MODELS,
+  },
+  // Chat completions only: /v1/messages answers but is undocumented, and
+  // there is no Responses API.
+  {
+    id: "mistral",
+    name: "Mistral",
+    kind: "vendor",
+    website: "https://mistral.ai",
+    keys: "https://console.mistral.ai",
+    chat: "https://api.mistral.ai/v1",
+    models: [
+      { id: "mistral-medium-3-5", name: "Mistral Medium 3.5", context: 262144 },
+      { id: "mistral-small-2603", name: "Mistral Small 4", context: 262144 },
+    ],
+  },
+  // No Anthropic endpoint; Responses is documented as beta.
+  {
+    id: "groq",
+    name: "Groq",
+    kind: "vendor",
+    website: "https://groq.com",
+    keys: "https://console.groq.com",
+    responses: "https://api.groq.com/openai/v1",
+    chat: "https://api.groq.com/openai/v1",
+    codexModel: "openai/gpt-oss-120b",
+    models: [
+      {
+        id: "openai/gpt-oss-120b",
+        name: "GPT OSS 120B",
+        context: 131072,
+        maxOutput: 65536,
+        input: ["text"],
+      },
+      {
+        id: "openai/gpt-oss-20b",
+        name: "GPT OSS 20B",
+        context: 131072,
+        maxOutput: 65536,
+        input: ["text"],
+      },
+    ],
+  },
+  // Ollama's hosted models, with a key. Its Anthropic endpoint takes only a
+  // bearer token, which is the slot Claude Code's preset writes. Codex is left
+  // out: the cloud's Responses API is stateless and does not replay the
+  // freeform tool calls Codex edits files with.
+  {
+    id: "ollama-cloud",
+    name: "Ollama Cloud",
+    kind: "vendor",
+    website: "https://ollama.com",
+    keys: "https://ollama.com",
+    anthropic: "https://ollama.com",
+    chat: "https://ollama.com/v1",
+    claudeModel: "glm-5.3",
+    claudeFastModel: "glm-5.3-flash",
+    models: [
+      { id: "glm-5.3", name: "GLM-5.3", context: 1048576, input: ["text"] },
+      { id: "kimi-k2.7-code", name: "Kimi K2.7 Code", context: 262144 },
+    ],
+  },
+  // Upstream carries xAI for Codex and Grok Build; this adds the chat tools.
+  // Its Anthropic compatibility is documented as deprecated, so Claude Code
+  // gets none.
+  {
+    id: "xai",
+    name: "xAI (Grok)",
+    kind: "vendor",
+    website: "https://x.ai",
+    keys: "https://console.x.ai",
+    chat: "https://api.x.ai/v1",
+    models: [
+      { id: "grok-4.7", name: "Grok 4.7", context: 500000 },
+      { id: "grok-build-0.1", name: "Grok Build 0.1", context: 256000 },
+    ],
+  },
+  // OpenCode's paid gateway. Claude Code gets its Claude models under their
+  // own ids, so like onList it names none and keeps the tool's own tiers.
+  {
+    id: "opencode-zen",
+    name: "OpenCode Zen",
+    kind: "relay",
+    website: "https://opencode.ai",
+    keys: "https://opencode.ai",
+    anthropic: "https://opencode.ai/zen",
+    responses: "https://opencode.ai/zen/v1",
+    chat: "https://opencode.ai/zen/v1",
+    codexModel: "gpt-5.6-sol",
+    models: OPENCODE_CHAT_MODELS,
+  },
+  // The $10 subscription for open models. It serves no Claude model, so
+  // Claude Code is pointed at one it does serve over Anthropic's protocol.
+  {
+    id: "opencode-go",
+    name: "OpenCode Go",
+    kind: "relay",
+    website: "https://opencode.ai",
+    keys: "https://opencode.ai",
+    anthropic: "https://opencode.ai/zen/go",
+    responses: "https://opencode.ai/zen/go/v1",
+    chat: "https://opencode.ai/zen/go/v1",
+    claudeModel: "minimax-m3",
+    claudeFastModel: "qwen3.8-flash",
+    codexModel: "gpt-6-luna",
+    models: OPENCODE_CHAT_MODELS,
+  },
+];
 
 function claudeEnv(service) {
   const model = service.claudeModel ?? null;
@@ -418,10 +643,10 @@ const ADDED_BUILDERS = {
         models: service.models.map((model) => ({
           id: model.id,
           name: model.name,
-          reasoning: model.reasoning,
-          input: model.input,
+          reasoning: true,
+          input: model.input ?? ["text", "image"],
           contextWindow: model.context,
-          maxTokens: model.maxOutput,
+          maxTokens: model.maxOutput ?? UNDOCUMENTED_MAX_OUTPUT,
         })),
       },
     ],
