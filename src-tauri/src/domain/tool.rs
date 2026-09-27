@@ -316,7 +316,7 @@ mod tests {
             serde_json::to_string(&ToolCapabilities::default()).expect("serialize capabilities");
         assert_eq!(
             json,
-            r#"{"canInstall":false,"canUpdate":false,"canUninstall":false,"canRepair":false,"canLaunch":false,"canManageProvider":false,"canManageMcp":false,"canManageSkills":false,"canManagePrompts":false,"canManageVersion":false}"#
+            r#"{"canInstall":false,"canUpdate":false,"canUninstall":false,"canRepair":false,"canLaunch":false,"canManageProvider":false,"canManageMcp":false,"canManageSkills":false,"canManagePrompts":false,"canManageVersion":false,"canChooseModel":false,"canChooseEffort":false}"#
         );
     }
 
