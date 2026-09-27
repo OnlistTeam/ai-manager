@@ -22,8 +22,13 @@ const PRESERVE_FAILED: &str = "error.provider.settingsPreserveFailed";
 /// The thinking effort belongs to the tool, not to an endpoint (ADR-0055): a switch keeps the
 /// effort in force before it, even over an older copy the target's snapshot still carries
 /// (upstream backfills the whole live file into the endpoint being left), and an effort the
-/// user reset to the tool default stays unset.
-use super::model_choice::{CLAUDE_EFFORT_KEY, CODEX_EFFORT_KEY};
+/// user reset to the tool default stays unset. For Claude Code that is the tool-wide level,
+/// the levels saved per model, and the environment variable over both.
+use super::claude_effort::{EFFORT_KEY, EFFORT_VARIABLE, MODEL_SETTINGS_KEY};
+use super::model_choice::CODEX_EFFORT_KEY;
+
+/// Claude Code's top-level effort keys, which follow the file in force before a switch.
+const CLAUDE_EFFORT_KEYS: [&str; 2] = [EFFORT_KEY, MODEL_SETTINGS_KEY];
 
 // ---------- Claude Code ----------
 
@@ -89,12 +94,14 @@ pub(super) fn merge_claude_settings(previous: &Value, written: &Value) -> Value 
         }
     }
 
-    match previous.get(CLAUDE_EFFORT_KEY) {
-        Some(effort) => {
-            target.insert(CLAUDE_EFFORT_KEY.to_string(), effort.clone());
-        }
-        None => {
-            target.remove(CLAUDE_EFFORT_KEY);
+    for key in CLAUDE_EFFORT_KEYS {
+        match previous.get(key) {
+            Some(effort) => {
+                target.insert(key.to_string(), effort.clone());
+            }
+            None => {
+                target.remove(key);
+            }
         }
     }
 
@@ -114,6 +121,14 @@ pub(super) fn merge_claude_settings(previous: &Value, written: &Value) -> Value 
             {
                 env.insert(key.clone(), value.clone());
             }
+        }
+    }
+    match previous.get("env").and_then(|env| env.get(EFFORT_VARIABLE)) {
+        Some(effort) => {
+            env.insert(EFFORT_VARIABLE.to_string(), effort.clone());
+        }
+        None => {
+            env.remove(EFFORT_VARIABLE);
         }
     }
     for key in CLAUDE_CANCEL_KEYS {

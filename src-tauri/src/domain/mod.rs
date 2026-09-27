@@ -58,8 +58,8 @@ pub use health::{
 pub use import::{ImportOutcome, ImportPreview, ImportSummary};
 pub use mcp::{McpConnectionDraft, McpInstallDraft, McpVariableDraft};
 pub use model_choice::{
-    normalize_model_name, validate_effort, EffortOverride, ModelChoiceSpec, ToolModelChoice,
-    MAX_MODEL_NAME_CHARS,
+    canonical_model_name, normalize_model_name, validate_effort, EffortInForce, EffortModel,
+    ModelChoiceSpec, ModelEffort, ToolModelChoice, MAX_MODEL_NAME_CHARS,
 };
 pub use model_probe::{
     ModelCatalog, ModelCatalogRejection, ModelProbeOutcome, ModelProbeReply, ModelProbeRequest,

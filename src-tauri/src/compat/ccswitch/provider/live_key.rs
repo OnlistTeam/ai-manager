@@ -71,12 +71,7 @@ pub(super) fn set(text: &str, key: ConfigKey, value: Option<&str>) -> Result<Str
         ConfigKey::Json(path) => {
             let mut root = parse_json(text)?;
             json_set(&mut root, path, value)?;
-            let mut rendered = serde_json::to_string_pretty(&root)
-                .map_err(|error| write_failed(format!("serialize JSON: {error}")))?;
-            if text.is_empty() || text.ends_with('\n') {
-                rendered.push('\n');
-            }
-            Ok(rendered)
+            render_json(text, &root)
         }
         ConfigKey::Toml(name) => {
             let mut doc = parse_toml(text)?;
@@ -87,7 +82,18 @@ pub(super) fn set(text: &str, key: ConfigKey, value: Option<&str>) -> Result<Str
     }
 }
 
-fn parse_json(text: &str) -> Result<Value, AppError> {
+/// Pretty JSON, ending in a newline when the original did.
+fn render_json(original: &str, root: &Value) -> Result<String, AppError> {
+    let mut rendered = serde_json::to_string_pretty(root)
+        .map_err(|error| write_failed(format!("serialize JSON: {error}")))?;
+    if original.is_empty() || original.ends_with('\n') {
+        rendered.push('\n');
+    }
+    Ok(rendered)
+}
+
+/// A JSON settings file as an object; an empty file is an empty object.
+pub(super) fn parse_json(text: &str) -> Result<Value, AppError> {
     if text.trim().is_empty() {
         return Ok(Value::Object(Map::new()));
     }
@@ -249,15 +255,52 @@ pub(super) fn write(
     key: ConfigKey,
     value: Option<&str>,
 ) -> Result<(), AppError> {
+    commit(
+        path,
+        backups,
+        |before| {
+            // Refuses a file that does not parse before anything is touched.
+            get(before, key)?;
+            set(before, key, value)
+        },
+        |text| get(text, key).ok().flatten().as_deref() == value,
+    )
+}
+
+/// Applies one edit to a JSON settings file that may change several keys
+/// together, and proves the file holds it: the edit applied again changes
+/// nothing.
+pub(super) fn write_json(
+    path: &Path,
+    backups: &Path,
+    edit: &dyn Fn(&mut Value) -> Result<(), AppError>,
+) -> Result<(), AppError> {
+    let change = |text: &str| -> Result<String, AppError> {
+        let mut root = parse_json(text)?;
+        edit(&mut root)?;
+        render_json(text, &root)
+    };
+    commit(path, backups, change, |text| {
+        change(text).is_ok_and(|again| again == text)
+    })
+}
+
+/// The steps every write shares: read, change, check the change, back up,
+/// replace atomically, read back, and put the original back when the read-back
+/// does not hold the change.
+fn commit(
+    path: &Path,
+    backups: &Path,
+    change: impl Fn(&str) -> Result<String, AppError>,
+    holds: impl Fn(&str) -> bool,
+) -> Result<(), AppError> {
     let original = read_file(path)?;
     let before = original.as_deref().unwrap_or("");
-    // Refuses a file that does not parse before anything is touched.
-    get(before, key)?;
-    let after = set(before, key, value)?;
+    let after = change(before)?;
     if after == before {
         return Ok(());
     }
-    if get(&after, key)?.as_deref() != value {
+    if !holds(&after) {
         return Err(write_failed("the changed text does not hold the new value"));
     }
     let backup = match &original {
@@ -269,7 +312,7 @@ pub(super) fn write(
     let confirmed = read_file(path)
         .ok()
         .flatten()
-        .is_some_and(|text| get(&text, key).ok().flatten().as_deref() == value);
+        .is_some_and(|text| holds(&text));
     if confirmed {
         return Ok(());
     }

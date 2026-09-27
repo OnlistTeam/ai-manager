@@ -44,6 +44,24 @@ pub(crate) fn connection_variables(tool: ToolId) -> &'static [&'static str] {
     }
 }
 
+/// The variables a tool reads for the model it runs and how hard it thinks
+/// (ADR-0055), looked up only to show what a new session will use. Codex and
+/// Gemini CLI read theirs from their own files.
+pub(crate) fn model_choice_variables(tool: ToolId) -> &'static [&'static str] {
+    match tool {
+        ToolId::ClaudeCode => &["CLAUDE_CODE_EFFORT_LEVEL", "ANTHROPIC_MODEL"],
+        ToolId::Codex
+        | ToolId::GeminiCli
+        | ToolId::GrokBuild
+        | ToolId::OpenCode
+        | ToolId::OpenClaw
+        | ToolId::Hermes
+        | ToolId::Pi
+        | ToolId::KimiCode
+        | ToolId::DeepSeekDsh => &[],
+    }
+}
+
 /// Tools with no connection variables need no login shell — OpenCode is the exception, since Feature B uses it to resolve `{env:VAR}`.
 fn probes_login_shell(tool: ToolId) -> bool {
     !connection_variables(tool).is_empty() || tool == ToolId::OpenCode

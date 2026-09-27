@@ -151,3 +151,43 @@ fn nothing_owned_and_nothing_pointing_at_the_route_leaves_the_current_file() {
     let restored = restore_own_settings(&backup, &current, &[], DOCUMENT, &markers());
     assert_eq!(restored, current);
 }
+
+#[test]
+fn an_effort_chosen_while_routed_survives_the_end_of_the_route() {
+    let backup = json!({
+        "env": { "ANTHROPIC_BASE_URL": "https://relay.example.com" },
+        "effortLevel": "low",
+        "modelSettings": { "claude-opus-5-5": { "effortLevel": "low" } }
+    });
+    let routed = json!({
+        "env": { "ANTHROPIC_BASE_URL": "http://127.0.0.1:15721" },
+        "effortLevel": "low",
+        "modelSettings": { "claude-opus-5-5": { "effortLevel": "low" } }
+    });
+    let owned = owned_settings(&backup, &routed, DOCUMENT);
+
+    // While routed, every model was set to xhigh, then max was chosen.
+    let mut current = routed.clone();
+    current["effortLevel"] = json!("xhigh");
+    current["modelSettings"] = json!({
+        "claude-opus-5-5": { "effortLevel": "xhigh" },
+        "claude-sonnet-5": { "effortLevel": "xhigh" }
+    });
+    current["env"]["CLAUDE_CODE_EFFORT_LEVEL"] = json!("max");
+
+    let restored = restore_own_settings(&backup, &current, &owned, DOCUMENT, &markers());
+    assert_eq!(
+        restored,
+        json!({
+            "env": {
+                "ANTHROPIC_BASE_URL": "https://relay.example.com",
+                "CLAUDE_CODE_EFFORT_LEVEL": "max"
+            },
+            "effortLevel": "xhigh",
+            "modelSettings": {
+                "claude-opus-5-5": { "effortLevel": "xhigh" },
+                "claude-sonnet-5": { "effortLevel": "xhigh" }
+            }
+        })
+    );
+}

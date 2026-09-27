@@ -2,9 +2,12 @@
 //!
 //! The gate is the capability table, never a tool name: a tool Home cannot
 //! choose a model for is refused before any file is read. What is logged is
-//! the tool and whether a value was set, never a file's content.
+//! the tool and whether a value was set, never a file's content. The effort in
+//! force can come from the terminal, so each call reads the tool's own
+//! model-choice variables from it (a cached login-shell probe).
 
 use crate::compat::ccswitch::provider::ProviderStore;
+use crate::compat::ccswitch::provider_runtime::model_choice_terminal;
 use crate::compat::ccswitch::tools::capabilities_for;
 use crate::domain::{AppError, ErrorCode, ToolId, ToolModelChoice};
 
@@ -30,7 +33,7 @@ pub struct ModelChoiceService;
 impl ModelChoiceService {
     pub fn read(app_handle: &tauri::AppHandle, tool: ToolId) -> Result<ToolModelChoice, AppError> {
         gate(tool, false)?;
-        ProviderStore::open(app_handle)?.model_choice(tool)
+        ProviderStore::open(app_handle)?.model_choice(tool, &model_choice_terminal(tool))
     }
 
     pub fn set_model(
@@ -40,7 +43,12 @@ impl ModelChoiceService {
         model: Option<&str>,
     ) -> Result<ToolModelChoice, AppError> {
         gate(tool, false)?;
-        ProviderStore::open(app_handle)?.set_model(tool, provider, model)
+        ProviderStore::open(app_handle)?.set_model(
+            tool,
+            provider,
+            model,
+            &model_choice_terminal(tool),
+        )
     }
 
     pub fn set_effort(
@@ -49,7 +57,7 @@ impl ModelChoiceService {
         effort: Option<&str>,
     ) -> Result<ToolModelChoice, AppError> {
         gate(tool, true)?;
-        ProviderStore::open(app_handle)?.set_effort(tool, effort)
+        ProviderStore::open(app_handle)?.set_effort(tool, effort, &model_choice_terminal(tool))
     }
 }
 
