@@ -12,7 +12,7 @@ import {
   HomeModelRows,
   HomeModelTyped,
 } from "./HomeModelList";
-import { filterModelItems } from "./homeModelMenu";
+import { filterModelItems, modelPillLabel } from "./homeModelMenu";
 import { useHomeModelMenu } from "./useHomeModelMenu";
 import type { HomeToolConnection } from "./useHomeToolConnection";
 
@@ -74,10 +74,16 @@ export function HomeModelPicker({
   const model = connection.model;
   const label = switching
     ? t("services.switch.switchingNamed", { name: switching })
-    : (model ?? t("home.model.toolDefault"));
+    : model
+      ? modelPillLabel(model)
+      : t("home.model.toolDefault");
   const where = endpoint
     ? [endpoint.name, endpoint.detail].filter(Boolean).join(" · ")
     : t("home.tools.notConnected");
+  // The pill shortens the id (ADR-0059); the tooltip keeps it whole.
+  const title = [switching ? null : model, endpoint?.title ?? where]
+    .filter(Boolean)
+    .join("\n");
 
   return (
     <Popover.Root open={open} onOpenChange={openChange}>
@@ -86,7 +92,7 @@ export function HomeModelPicker({
           variant="secondary"
           size="xs"
           disabled={busy}
-          title={endpoint?.title ?? where}
+          title={title}
           aria-label={t("home.model.pickNamed", {
             tool: tool.name,
             current: `${label}, ${where}`,

@@ -35,6 +35,45 @@ function unique(models: readonly (string | null)[]): string[] {
   return [...new Set(models.filter((model): model is string => !!model))];
 }
 
+/** How one model id reads on Home (ADR-0059). */
+export interface ModelDisplay {
+  /** The model's own name: the id after its last `/`, without `[1m]`. */
+  name: string;
+  /** The namespace right above the name (usually the lab), and `1M` for `[1m]`. */
+  note: string | null;
+  /** Claude Code's context marker on the id, `1M` or `2M`. */
+  context: string | null;
+}
+
+const CONTEXT_MARKER = /\[([12])m\]$/i;
+
+/**
+ * Names a model the way Claude Code reads it, which drops everything up to the
+ * last `/` and treats a trailing `[1m]` as the context size. One model then
+ * looks the same whether an endpoint lists `gpt-5.6-sol`, `openai/gpt-5.6-sol`
+ * or `anthropic/openai/gpt-5.6-sol[1m]`. Display only: the id written to the
+ * tool's file stays exactly as the endpoint listed it.
+ */
+export function describeModel(id: string): ModelDisplay {
+  const trimmed = id.trim();
+  const marker = CONTEXT_MARKER.exec(trimmed);
+  const bare = marker ? trimmed.slice(0, marker.index) : trimmed;
+  const slash = bare.lastIndexOf("/");
+  const hasName = slash >= 0 && slash < bare.length - 1;
+  const name = hasName ? bare.slice(slash + 1) : bare;
+  const namespace =
+    hasName && slash > 0 ? bare.slice(0, slash).split("/").pop() : "";
+  const context = marker ? `${marker[1]}M` : null;
+  const note = [namespace, context].filter(Boolean).join(" · ");
+  return { name, note: note || null, context };
+}
+
+/** The pill's text: the model's name, with the context size when it has one. */
+export function modelPillLabel(id: string): string {
+  const { name, context } = describeModel(id);
+  return context ? `${name} · ${context}` : name;
+}
+
 /**
  * The model picker's rows (ADR-0055): the tool's default, then the model in
  * use and the endpoint's catalogue. Only the endpoint in use is listed;
@@ -56,17 +95,20 @@ export function buildModelItems(
       note: copy.toolDefaultNote,
       checked: currentModel === null,
     },
-    ...listed.map((model) => ({
-      id: model,
-      model,
-      label: model,
-      note: null,
-      checked: model === currentModel,
-    })),
+    ...listed.map((model) => {
+      const { name, note } = describeModel(model);
+      return {
+        id: model,
+        model,
+        label: name,
+        note,
+        checked: model === currentModel,
+      };
+    }),
   ];
 }
 
-/** The rows whose name or note contains the filter. */
+/** The rows whose name, note or full model id contains the filter. */
 export function filterModelItems(
   items: readonly ModelMenuItem[],
   query: string,
@@ -74,7 +116,7 @@ export function filterModelItems(
   const needle = query.trim().toLocaleLowerCase();
   if (!needle) return [...items];
   return items.filter((item) =>
-    [item.label, item.note].some((text) =>
+    [item.label, item.note, item.model].some((text) =>
       text?.toLocaleLowerCase().includes(needle),
     ),
   );

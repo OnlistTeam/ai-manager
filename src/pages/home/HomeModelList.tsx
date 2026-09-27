@@ -61,6 +61,7 @@ export function HomeModelRows({
           value={item.id}
           aria-current={item.checked ? "true" : undefined}
           onSelect={() => onChoose(item.model)}
+          title={item.model ?? undefined}
           className={ROW_CLASS}
         >
           <span className="min-w-0 truncate">{item.label}</span>
