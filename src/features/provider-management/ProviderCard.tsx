@@ -64,6 +64,7 @@ export interface ProviderCardProps {
   switchError?: Error;
   testError?: Error;
   testResult?: ProviderTestResult;
+  onUse?: () => void;
   onEdit?: () => void;
   onTest?: () => void;
   onTryNext?: () => void;
@@ -147,6 +148,7 @@ export function ProviderCard({
   switchError,
   testError,
   testResult,
+  onUse,
   onEdit,
   onTest,
   onTryNext,
@@ -163,6 +165,17 @@ export function ProviderCard({
     : undefined;
   const cardBusy = switching || testing || tryingNext;
   const actionsBlocked = busy || cardBusy;
+  const useActionState = switching ? "pending" : switchError ? "retry" : "idle";
+  const useAriaLabel = switching
+    ? t("services.switch.switchingNamed", { name: provider.name })
+    : switchError
+      ? t("services.switch.retryNamed", { name: provider.name })
+      : t(
+          provider.additive
+            ? "services.action.configureNamed"
+            : "services.action.useNamed",
+          { name: provider.name },
+        );
   const testAriaLabel = testing
     ? t("services.test.checkingNamed", { name: provider.name })
     : testError
@@ -192,9 +205,16 @@ export function ProviderCard({
         <ServiceArtwork provider={provider} className="h-9 w-9 rounded-lg" />
       }
       usedBy={effectiveState === "inUse" ? [toolName] : []}
+      connected
       active={effectiveState === "inUse"}
+      useAvailable={!(provider.active && effectiveState === "inUse")}
       activeLabelKey="services.card.inUse"
+      useLabelKey={provider.additive ? "ds.action.configure" : undefined}
       busy={cardBusy}
+      actionDisabled={busy}
+      useActionState={useActionState}
+      useAriaLabel={useAriaLabel}
+      onUse={onUse}
       dragHandle={dragHandle}
       className={
         switchError || testError ? "border-danger/30 shadow-sm" : undefined

@@ -347,6 +347,7 @@
     "action": {
       "install": "Instalar",
       "configure": "Adicionar à ferramenta",
+      "readOnly": "Somente leitura",
       "update": "Atualizar",
       "versions": "Trocar versão",
       "open": "Abrir",
@@ -358,6 +359,7 @@
       "copyNamed": "Copiar {{name}}",
       "copied": "Copiado",
       "use": "Usar",
+      "inUse": "Atual",
       "cancel": "Cancelar",
       "close": "Fechar",
       "named": {
@@ -1484,13 +1486,15 @@
   "services": {
     "action": {
       "add": "Adicionar endpoint",
+      "configureNamed": "Adicionar {{name}} à ferramenta",
       "edit": "Editar",
       "editNamed": "Editar {{name}}",
       "remove": "Remover",
       "removeNamed": "Remover {{name}}",
       "test": "Testar",
       "testAll": "Verificar todos os endereços",
-      "testNamed": "Testar {{name}}"
+      "testNamed": "Testar {{name}}",
+      "useNamed": "Usar {{name}}"
     },
     "card": {
       "custom": "Endpoint personalizado",
@@ -1556,8 +1560,7 @@
       "toolDefaultGroup": "Conexão padrão do {{tool}}",
       "otherServices": "Outros provedores"
     },
-    "chooseOnHome": "Escolha no Início qual endpoint cada ferramenta usa.",
-    "openHome": "Ir para o Início",
+    "description": "Escolha uma ferramenta e depois adicione, troque e verifique seus endpoints de API.",
     "effective": {
       "selection": {
         "defaultModel": "Modelo padrão global: {{model}}. Configurações do projeto ou da sessão podem substituí-lo.",
@@ -1728,7 +1731,7 @@
     },
     "refresh": "Atualizar",
     "remove": {
-      "activeHint": "Escolha outro endpoint no Início antes de remover este.",
+      "activeHint": "Escolha outro endpoint antes de remover este.",
       "confirm": "Remover endpoint",
       "description": "Isso remove o endpoint salvo do AI Manager e de {{tool}}.",
       "errorTitle": "Não foi possível remover este endpoint",
@@ -1757,6 +1760,7 @@
       "openNow": "Abrir agora",
       "reopenHint": "{{tool}} que já está em execução mantém seu endpoint anterior até que você a reabra.",
       "retryHint": "Tente a mesma troca novamente.",
+      "retryNamed": "Tentar trocar para {{name}} novamente",
       "switchingNamed": "Trocando para {{name}}"
     },
     "failover": {

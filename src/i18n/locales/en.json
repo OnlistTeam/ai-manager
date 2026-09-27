@@ -347,6 +347,7 @@
     "action": {
       "install": "Install",
       "configure": "Add to tool",
+      "readOnly": "Read only",
       "update": "Update",
       "versions": "Switch version",
       "open": "Open",
@@ -358,6 +359,7 @@
       "copyNamed": "Copy {{name}}",
       "copied": "Copied",
       "use": "Use",
+      "inUse": "Current",
       "cancel": "Cancel",
       "close": "Close",
       "named": {
@@ -1484,13 +1486,15 @@
   "services": {
     "action": {
       "add": "Add endpoint",
+      "configureNamed": "Add {{name}} to tool",
       "edit": "Edit",
       "editNamed": "Edit {{name}}",
       "remove": "Remove",
       "removeNamed": "Remove {{name}}",
       "test": "Test",
       "testAll": "Check all addresses",
-      "testNamed": "Test {{name}}"
+      "testNamed": "Test {{name}}",
+      "useNamed": "Use {{name}}"
     },
     "card": {
       "custom": "Custom endpoint",
@@ -1556,8 +1560,7 @@
       "toolDefaultGroup": "{{tool}} connects here by default",
       "otherServices": "Other providers"
     },
-    "chooseOnHome": "Choose which endpoint each tool uses on Home.",
-    "openHome": "Go to Home",
+    "description": "Choose a tool, then add, switch, and check its API endpoints.",
     "effective": {
       "selection": {
         "defaultModel": "Global default model: {{model}}. Project or session settings may override it.",
@@ -1728,7 +1731,7 @@
     },
     "refresh": "Refresh",
     "remove": {
-      "activeHint": "Choose another endpoint on Home before removing this one.",
+      "activeHint": "Choose another endpoint before removing this one.",
       "confirm": "Remove Endpoint",
       "description": "This removes the saved endpoint from AI Manager and {{tool}}.",
       "errorTitle": "Could not remove this endpoint",
@@ -1757,6 +1760,7 @@
       "openNow": "Open now",
       "reopenHint": "{{tool}} that is already running keeps its old endpoint until you reopen it.",
       "retryHint": "Try the same switch again.",
+      "retryNamed": "Try switching to {{name}} again",
       "switchingNamed": "Switching to {{name}}"
     },
     "failover": {

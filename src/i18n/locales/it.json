@@ -347,6 +347,7 @@
     "action": {
       "install": "Installa",
       "configure": "Aggiungi allo strumento",
+      "readOnly": "Sola lettura",
       "update": "Aggiorna",
       "versions": "Cambia versione",
       "open": "Apri",
@@ -358,6 +359,7 @@
       "copyNamed": "Copia {{name}}",
       "copied": "Copiato",
       "use": "Usa",
+      "inUse": "Attuale",
       "cancel": "Annulla",
       "close": "Chiudi",
       "named": {
@@ -1484,13 +1486,15 @@
   "services": {
     "action": {
       "add": "Aggiungi endpoint",
+      "configureNamed": "Aggiungi {{name}} allo strumento",
       "edit": "Modifica",
       "editNamed": "Modifica {{name}}",
       "remove": "Rimuovi",
       "removeNamed": "Rimuovi {{name}}",
       "test": "Verifica",
       "testAll": "Controlla tutti gli indirizzi",
-      "testNamed": "Verifica {{name}}"
+      "testNamed": "Verifica {{name}}",
+      "useNamed": "Usa {{name}}"
     },
     "card": {
       "custom": "Endpoint personalizzato",
@@ -1556,8 +1560,7 @@
       "toolDefaultGroup": "Connessione predefinita di {{tool}}",
       "otherServices": "Altri fornitori"
     },
-    "chooseOnHome": "Scegli nella Home quale endpoint usa ogni strumento.",
-    "openHome": "Vai alla Home",
+    "description": "Scegli uno strumento, poi aggiungi, cambia e controlla i suoi endpoint API.",
     "effective": {
       "selection": {
         "defaultModel": "Modello predefinito globale: {{model}}. Le impostazioni di progetto o di sessione possono sovrascriverlo.",
@@ -1728,7 +1731,7 @@
     },
     "refresh": "Aggiorna",
     "remove": {
-      "activeHint": "Scegli un altro endpoint nella Home prima di rimuovere questo.",
+      "activeHint": "Scegli un altro endpoint prima di rimuovere questo.",
       "confirm": "Rimuovi endpoint",
       "description": "Questo rimuove l'endpoint salvato da AI Manager e da {{tool}}.",
       "errorTitle": "Impossibile rimuovere questo endpoint",
@@ -1757,6 +1760,7 @@
       "openNow": "Apri ora",
       "reopenHint": "{{tool}} già in esecuzione mantiene il vecchio endpoint finché non lo riapri.",
       "retryHint": "Prova di nuovo lo stesso passaggio.",
+      "retryNamed": "Prova di nuovo a passare a {{name}}",
       "switchingNamed": "Passaggio a {{name}} in corso"
     },
     "failover": {

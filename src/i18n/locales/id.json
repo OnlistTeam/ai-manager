@@ -347,6 +347,7 @@
     "action": {
       "install": "Instal",
       "configure": "Tambahkan ke alat",
+      "readOnly": "Hanya baca",
       "update": "Perbarui",
       "versions": "Ganti versi",
       "open": "Buka",
@@ -358,6 +359,7 @@
       "copyNamed": "Salin {{name}}",
       "copied": "Disalin",
       "use": "Gunakan",
+      "inUse": "Saat Ini",
       "cancel": "Batalkan",
       "close": "Tutup",
       "named": {
@@ -1484,13 +1486,15 @@
   "services": {
     "action": {
       "add": "Tambah endpoint",
+      "configureNamed": "Tambahkan {{name}} ke alat",
       "edit": "Ubah",
       "editNamed": "Ubah {{name}}",
       "remove": "Hapus",
       "removeNamed": "Hapus {{name}}",
       "test": "Uji",
       "testAll": "Periksa semua alamat",
-      "testNamed": "Uji {{name}}"
+      "testNamed": "Uji {{name}}",
+      "useNamed": "Gunakan {{name}}"
     },
     "card": {
       "custom": "Endpoint kustom",
@@ -1556,8 +1560,7 @@
       "toolDefaultGroup": "Koneksi bawaan {{tool}}",
       "otherServices": "Penyedia lain"
     },
-    "chooseOnHome": "Pilih endpoint yang dipakai setiap alat di Beranda.",
-    "openHome": "Ke Beranda",
+    "description": "Pilih alat, lalu tambahkan, alihkan, dan periksa endpoint API-nya.",
     "effective": {
       "selection": {
         "defaultModel": "Model default global: {{model}}. Pengaturan proyek atau sesi dapat menimpanya.",
@@ -1728,7 +1731,7 @@
     },
     "refresh": "Segarkan",
     "remove": {
-      "activeHint": "Pilih endpoint lain di Beranda sebelum menghapus yang ini.",
+      "activeHint": "Pilih endpoint lain sebelum menghapus yang ini.",
       "confirm": "Hapus Endpoint",
       "description": "Ini akan menghapus endpoint tersimpan dari AI Manager dan {{tool}}.",
       "errorTitle": "Tidak dapat menghapus endpoint ini",
@@ -1757,6 +1760,7 @@
       "openNow": "Buka sekarang",
       "reopenHint": "{{tool}} yang sudah berjalan tetap menggunakan endpoint lamanya sampai Anda membukanya kembali.",
       "retryHint": "Coba peralihan yang sama lagi.",
+      "retryNamed": "Coba beralih ke {{name}} lagi",
       "switchingNamed": "Beralih ke {{name}}"
     },
     "failover": {

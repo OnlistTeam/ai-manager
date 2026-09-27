@@ -347,6 +347,7 @@
     "action": {
       "install": "安装",
       "configure": "添加到软件",
+      "readOnly": "只读",
       "update": "更新",
       "versions": "切换版本",
       "open": "打开",
@@ -358,6 +359,7 @@
       "copyNamed": "复制{{name}}",
       "copied": "已复制",
       "use": "使用",
+      "inUse": "使用中",
       "cancel": "取消",
       "close": "关闭",
       "named": {
@@ -1483,13 +1485,15 @@
   "services": {
     "action": {
       "add": "添加端点",
+      "configureNamed": "添加 {{name}} 到软件",
       "edit": "编辑",
       "editNamed": "编辑 {{name}}",
       "remove": "移除",
       "removeNamed": "移除 {{name}}",
       "test": "测试",
       "testAll": "检查全部地址",
-      "testNamed": "测试 {{name}}"
+      "testNamed": "测试 {{name}}",
+      "useNamed": "使用 {{name}}"
     },
     "card": {
       "custom": "自定义端点",
@@ -1555,8 +1559,7 @@
       "toolDefaultGroup": "{{tool}} 默认连接",
       "otherServices": "其他服务商"
     },
-    "chooseOnHome": "在首页选择每个软件用哪个。",
-    "openHome": "去首页",
+    "description": "选择软件，添加、切换和检查它使用的 API 端点。",
     "effective": {
       "selection": {
         "defaultModel": "全局默认模型：{{model}}，可能被项目或会话设置覆盖。",
@@ -1727,7 +1730,7 @@
     },
     "refresh": "刷新",
     "remove": {
-      "activeHint": "请先在首页改用另一个端点，再移除这个端点。",
+      "activeHint": "请先改用另一个端点，再移除这个端点。",
       "confirm": "移除端点",
       "description": "这会从 AI 管家和 {{tool}} 中移除已保存的端点。",
       "errorTitle": "没能移除这个端点",
@@ -1756,6 +1759,7 @@
       "openNow": "现在打开",
       "reopenHint": "正在运行的 {{tool}} 不会自动换用，重新打开后才会使用它。",
       "retryHint": "请再试一次相同的切换。",
+      "retryNamed": "重新切换到 {{name}}",
       "switchingNamed": "正在切换到 {{name}}"
     },
     "failover": {

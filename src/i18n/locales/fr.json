@@ -347,6 +347,7 @@
     "action": {
       "install": "Installer",
       "configure": "Ajouter à l'outil",
+      "readOnly": "Lecture seule",
       "update": "Mettre à jour",
       "versions": "Changer de version",
       "open": "Ouvrir",
@@ -358,6 +359,7 @@
       "copyNamed": "Copier {{name}}",
       "copied": "Copié",
       "use": "Utiliser",
+      "inUse": "Actuel",
       "cancel": "Annuler",
       "close": "Fermer",
       "named": {
@@ -1484,13 +1486,15 @@
   "services": {
     "action": {
       "add": "Ajouter un point d'accès",
+      "configureNamed": "Ajouter {{name}} à l'outil",
       "edit": "Modifier",
       "editNamed": "Modifier {{name}}",
       "remove": "Supprimer",
       "removeNamed": "Supprimer {{name}}",
       "test": "Tester",
       "testAll": "Vérifier toutes les adresses",
-      "testNamed": "Tester {{name}}"
+      "testNamed": "Tester {{name}}",
+      "useNamed": "Utiliser {{name}}"
     },
     "card": {
       "custom": "Point d'accès personnalisé",
@@ -1556,8 +1560,7 @@
       "toolDefaultGroup": "Connexion par défaut de {{tool}}",
       "otherServices": "Autres fournisseurs"
     },
-    "chooseOnHome": "Choisissez sur l'Accueil le point d'accès utilisé par chaque outil.",
-    "openHome": "Aller à l'Accueil",
+    "description": "Choisissez un outil, puis ajoutez, changez et vérifiez ses points d'accès API.",
     "effective": {
       "selection": {
         "defaultModel": "Modèle par défaut global : {{model}}. Les paramètres du projet ou de la session peuvent le remplacer.",
@@ -1728,7 +1731,7 @@
     },
     "refresh": "Actualiser",
     "remove": {
-      "activeHint": "Choisissez un autre point d'accès sur l'Accueil avant de supprimer celui-ci.",
+      "activeHint": "Choisissez un autre point d'accès avant de supprimer celui-ci.",
       "confirm": "Supprimer le point d'accès",
       "description": "Cela supprime le point d'accès enregistré d'AI Manager et de {{tool}}.",
       "errorTitle": "Impossible de supprimer ce point d'accès",
@@ -1757,6 +1760,7 @@
       "openNow": "Ouvrir maintenant",
       "reopenHint": "{{tool}} déjà en cours d'exécution conserve son ancien point d'accès jusqu'à ce que vous le rouvriez.",
       "retryHint": "Réessayez le même changement.",
+      "retryNamed": "Réessayer de basculer vers {{name}}",
       "switchingNamed": "Basculement vers {{name}}"
     },
     "failover": {

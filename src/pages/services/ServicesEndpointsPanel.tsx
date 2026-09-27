@@ -284,6 +284,7 @@ export function ServicesEndpointsPanel({
             }
             switchFailure={switchFlow.switchFailure}
             checkFailure={connectionFlow.checkFailure ?? undefined}
+            onUse={switchFlow.switchProvider}
             onTryNext={switchFlow.tryNextHealthy}
             onTest={(providerId) => {
               const provider = providerData.find(

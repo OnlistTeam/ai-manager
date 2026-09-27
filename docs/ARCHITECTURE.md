@@ -216,12 +216,12 @@ and Global Prompts are independent destinations reusing `ExtensionsPage` with a 
 Sessions keeps the stable `data` route ID. Per-tool configuration, memory, storage, and the
 OpenClaw workspace live in Software details (`ToolDetailsModal`, ADR-0038).
 
-Each job has one page (ADR-0053). Home chooses which endpoint each tool uses: one row per
-installed tool with an `OptionPicker` (`shared/ui`, Radix Popover plus cmdk) that switches through
-`useRecoverableProviderSwitch` and links to that tool's endpoints. API Endpoints manages the
-per-tool endpoint lists (add, edit, check, order, remove) and marks the one in use read-only; it
-has no Use action. Updates live on the Software page and the live routing switch on the Local
-Routing tab; Home only links to them.
+Home and API Endpoints both choose which endpoint each tool uses (ADR-0053). Home has one row
+per installed tool with an `OptionPicker` (`shared/ui`, Radix Popover plus cmdk) that links to that
+tool's endpoints; the endpoints page keeps a Use button on every card and also manages the per-tool
+lists (add, edit, check, order, remove). Both switch through `useRecoverableProviderSwitch`
+(`features/provider-management`). Updates live on the Software page and the live routing switch on
+the Local Routing tab; Home only links to them.
 
 Tab selection is page-local state and never enters `ProductSettings`. Cross-page hand-offs use
 `useRouteIntents` (`openServices(tool?, tab?)`, `openExtensions(tab?, kind?)`, `openRoute`);
