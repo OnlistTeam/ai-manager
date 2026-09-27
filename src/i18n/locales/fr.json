@@ -1581,6 +1581,10 @@
         "shellFile": "Depuis {{variable}} dans {{path}}",
         "toolDefault": "Aucun paramètre personnalisé ; l'outil utilise sa propre adresse par défaut"
       },
+      "shortSource": {
+        "terminal": "Variable du terminal",
+        "file": "Fichier de configuration"
+      },
       "errorTitle": "Impossible de déterminer quelle connexion est active",
       "errorDescription": "La liste ci-dessous reste exacte, mais nous ne pouvons pas déterminer pour l'instant quelle entrée est réellement utilisée.",
       "shellNotInspectedTitle": "Impossible de lire l'environnement du terminal"
@@ -1588,7 +1592,8 @@
     "external": {
       "badge": "Hors de cette application",
       "endpoint": "Point d'accès actuellement actif",
-      "overrides": "{{name}} utilisera cette adresse. Elle prime sur le point d'accès que vous choisissez ci-dessous."
+      "overrides": "{{name}} utilisera cette adresse. Elle prime sur le point d'accès que vous choisissez ci-dessous.",
+      "replacedByChoice": "{{name}} utilise cette adresse pour l'instant. Choisir un point d'accès ci-dessous la remplace."
     },
     "endpoints": {
       "title": "Points d'accès de {{tool}}",

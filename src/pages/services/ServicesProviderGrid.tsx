@@ -10,6 +10,7 @@ import type {
   ProviderRuntimeResource,
 } from "@/entities/provider";
 import {
+  describeSource,
   ProviderCard,
   supportsLightweightProviderFailover,
   useReorderProviders,
@@ -17,7 +18,6 @@ import {
   type ProviderSwitchFailure,
 } from "@/features/provider-management";
 import { ListGroup } from "@/shared/ui/ListGroup";
-import { describeSource } from "./effectiveConnectionCopy";
 import { ExternalConnectionCard } from "./ExternalConnectionCard";
 import { ServicesOpenConfigAction } from "./ServicesOpenConfigAction";
 import {

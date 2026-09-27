@@ -71,6 +71,7 @@ describe("native.providers", () => {
               },
               providerId: null,
               shellInspected: true,
+              outranksSwitch: false,
             },
           });
         },

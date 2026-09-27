@@ -1581,6 +1581,10 @@
         "shellFile": "Da {{variable}} in {{path}}",
         "toolDefault": "Nessuna impostazione personalizzata; lo strumento usa il proprio indirizzo predefinito"
       },
+      "shortSource": {
+        "terminal": "Variabile del terminale",
+        "file": "File di configurazione"
+      },
       "errorTitle": "Impossibile leggere quale connessione è attiva",
       "errorDescription": "L'elenco qui sotto è ancora accurato, ma per ora non è possibile stabilire quale voce sia effettivamente in uso.",
       "shellNotInspectedTitle": "Impossibile leggere l'ambiente del terminale"
@@ -1588,7 +1592,8 @@
     "external": {
       "badge": "Fuori da questa app",
       "endpoint": "Endpoint attivo ora",
-      "overrides": "{{name}} userà questo indirizzo. Ha la priorità sull'endpoint che scegli qui sotto."
+      "overrides": "{{name}} userà questo indirizzo. Ha la priorità sull'endpoint che scegli qui sotto.",
+      "replacedByChoice": "{{name}} usa questo indirizzo ora. Scegliere un endpoint qui sotto lo sostituisce."
     },
     "endpoints": {
       "title": "Endpoint di {{tool}}",

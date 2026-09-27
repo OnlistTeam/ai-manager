@@ -16,12 +16,14 @@ import type { ToolId } from "@/entities/tool";
 import { Badge } from "@/shared/ui/Badge";
 import { Button } from "@/shared/ui/Button";
 import { CopyButton } from "@/shared/ui/CopyButton";
-import { ServiceCard } from "@/shared/ui/ServiceCard";
 import {
   credentialCopy,
   describeSource,
+  externalPrecedenceCopy,
+  hostOf,
   sameSource,
-} from "./effectiveConnectionCopy";
+} from "@/features/provider-management";
+import { ServiceCard } from "@/shared/ui/ServiceCard";
 import { ServicesOpenConfigAction } from "./ServicesOpenConfigAction";
 
 export interface ExternalConnectionCardProps {
@@ -50,15 +52,6 @@ export interface ExternalConnectionCardProps {
    */
   editableVariables?: ReadonlySet<string>;
   actionsBlocked?: boolean;
-}
-
-/** Host name as the title, full address in the detail — same reading pattern as a saved-endpoint card. */
-function hostOf(endpoint: string): string {
-  try {
-    return new URL(endpoint).host || endpoint;
-  } catch {
-    return endpoint;
-  }
 }
 
 /**
@@ -227,11 +220,10 @@ export function ExternalConnectionCard({
               {describeSource(connection.credentialSource, t)}
             </p>
           ) : null}
-          {/* Replaces the old "not saved here" wording: what matters is not
-              where the record lives but that this address wins over anything
-              chosen in the list below. */}
+          {/* Not where the record lives but what choosing an endpoint below
+              does to it, by this tool's own precedence (ADR-0035). */}
           <p className="text-caption text-content-muted">
-            {t("services.external.overrides", { name: toolName })}
+            {externalPrecedenceCopy(connection, toolName, t)}
           </p>
         </div>
       }

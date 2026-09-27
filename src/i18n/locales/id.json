@@ -1581,6 +1581,10 @@
         "shellFile": "Dari {{variable}} di {{path}}",
         "toolDefault": "Tidak ada pengaturan kustom; alat ini menggunakan alamat defaultnya sendiri"
       },
+      "shortSource": {
+        "terminal": "Variabel terminal",
+        "file": "File konfigurasi"
+      },
       "errorTitle": "Tidak dapat membaca koneksi mana yang berlaku",
       "errorDescription": "Daftar di bawah masih akurat, tetapi saat ini kami tidak dapat memastikan entri mana yang sebenarnya digunakan.",
       "shellNotInspectedTitle": "Tidak dapat membaca lingkungan terminal"
@@ -1588,7 +1592,8 @@
     "external": {
       "badge": "Diatur di luar aplikasi",
       "endpoint": "Endpoint yang berlaku sekarang",
-      "overrides": "{{name}} akan memakai alamat ini. Alamat ini mengalahkan endpoint yang Anda pilih di bawah."
+      "overrides": "{{name}} akan memakai alamat ini. Alamat ini mengalahkan endpoint yang Anda pilih di bawah.",
+      "replacedByChoice": "{{name}} memakai alamat ini sekarang. Memilih endpoint di bawah akan menggantinya."
     },
     "endpoints": {
       "title": "Endpoint {{tool}}",

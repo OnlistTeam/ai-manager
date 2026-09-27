@@ -85,6 +85,8 @@ export const effectiveConnectionSchema = z
     credentialSource: effectiveConnectionSourceSchema,
     providerId: z.string().min(1).max(128).nullable(),
     shellInspected: z.boolean(),
+    /** A terminal variable the tool reads ahead of anything a switch writes. */
+    outranksSwitch: z.boolean(),
   })
   .strict();
 

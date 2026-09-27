@@ -1581,6 +1581,10 @@
         "shellFile": "Aus {{variable}} in {{path}}",
         "toolDefault": "Keine benutzerdefinierte Einstellung; das Tool verwendet seine eigene Standardadresse"
       },
+      "shortSource": {
+        "terminal": "Terminal-Variable",
+        "file": "Konfigurationsdatei"
+      },
       "errorTitle": "Es konnte nicht gelesen werden, welche Verbindung aktiv ist",
       "errorDescription": "Die untenstehende Liste ist weiterhin korrekt, aber derzeit können wir nicht feststellen, welcher Eintrag tatsächlich verwendet wird.",
       "shellNotInspectedTitle": "Die Terminal-Umgebung konnte nicht gelesen werden"
@@ -1588,7 +1592,8 @@
     "external": {
       "badge": "Außerhalb dieser App",
       "endpoint": "Derzeit aktiver Endpunkt",
-      "overrides": "{{name}} verwendet diese Adresse. Sie hat Vorrang vor dem Endpunkt, den Sie unten auswählen."
+      "overrides": "{{name}} verwendet diese Adresse. Sie hat Vorrang vor dem Endpunkt, den Sie unten auswählen.",
+      "replacedByChoice": "{{name}} verwendet gerade diese Adresse. Wenn Sie unten einen Endpunkt wählen, wird sie ersetzt."
     },
     "endpoints": {
       "title": "{{tool}}-Endpunkte",

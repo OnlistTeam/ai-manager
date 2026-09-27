@@ -1581,6 +1581,10 @@
         "shellFile": "De {{variable}} em {{path}}",
         "toolDefault": "Nenhuma configuração personalizada; a ferramenta usa seu próprio endereço padrão"
       },
+      "shortSource": {
+        "terminal": "Variável do terminal",
+        "file": "Arquivo de configuração"
+      },
       "errorTitle": "Não foi possível ler qual conexão está em vigor",
       "errorDescription": "A lista abaixo ainda está correta, mas por enquanto não conseguimos dizer qual entrada está realmente sendo usada.",
       "shellNotInspectedTitle": "Não foi possível ler o ambiente do terminal"
@@ -1588,7 +1592,8 @@
     "external": {
       "badge": "Fora deste aplicativo",
       "endpoint": "Endpoint em vigor agora",
-      "overrides": "{{name}} vai usar este endereço. Ele tem prioridade sobre o endpoint que você escolher abaixo."
+      "overrides": "{{name}} vai usar este endereço. Ele tem prioridade sobre o endpoint que você escolher abaixo.",
+      "replacedByChoice": "{{name}} usa este endereço agora. Escolher um endpoint abaixo o substitui."
     },
     "endpoints": {
       "title": "Endpoints de {{tool}}",

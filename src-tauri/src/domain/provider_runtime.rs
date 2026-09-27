@@ -105,6 +105,9 @@ pub struct EffectiveConnection {
     pub provider_id: Option<String>,
     /// false = the login shell did not start, so only the config files and the GUI process environment were checked.
     pub shell_inspected: bool,
+    /// true = the endpoint comes from a terminal variable the tool reads ahead of the file a switch
+    /// writes, so choosing a saved endpoint changes nothing until that variable is gone (ADR-0035).
+    pub outranks_switch: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -170,6 +173,7 @@ mod tests {
                 },
                 provider_id: None,
                 shell_inspected: true,
+                outranks_switch: false,
             }),
         };
         let json = serde_json::to_string(&context).unwrap();

@@ -308,6 +308,7 @@ const RUNTIME_CONTEXT: ProviderRuntimeContext = {
     credentialSource: { kind: "liveConfig", path: "~/.claude/settings.json" },
     providerId: "anthropic-official",
     shellInspected: true,
+    outranksSwitch: false,
   },
 };
 

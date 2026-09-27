@@ -1580,6 +1580,10 @@
         "shellFile": "来自 {{path}} 里的 {{variable}}",
         "toolDefault": "没有自定义设置，使用工具自己的默认地址"
       },
+      "shortSource": {
+        "terminal": "终端变量",
+        "file": "配置文件"
+      },
       "errorTitle": "没能读出现在生效的连接",
       "errorDescription": "下面的列表还是准的，但暂时不知道哪一个真的在起作用。",
       "shellNotInspectedTitle": "没能读取终端环境"
@@ -1587,7 +1591,8 @@
     "external": {
       "badge": "应用之外设置的",
       "endpoint": "现在生效的地址",
-      "overrides": "{{name}} 实际会用这个地址。它优先于你在下面选的端点。"
+      "overrides": "{{name}} 实际会用这个地址。它优先于你在下面选的端点。",
+      "replacedByChoice": "{{name}} 现在用的是这个地址。选下面的端点就会换掉它。"
     },
     "endpoints": {
       "title": "{{tool}} 的端点",

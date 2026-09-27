@@ -1581,6 +1581,10 @@
         "shellFile": "Từ {{variable}} trong {{path}}",
         "toolDefault": "Không có cài đặt tùy chỉnh; công cụ dùng địa chỉ mặc định của nó"
       },
+      "shortSource": {
+        "terminal": "Biến terminal",
+        "file": "Tệp cấu hình"
+      },
       "errorTitle": "Không thể đọc kết nối nào đang có hiệu lực",
       "errorDescription": "Danh sách bên dưới vẫn chính xác, nhưng hiện tại chúng tôi không thể cho biết mục nào thực sự đang được dùng.",
       "shellNotInspectedTitle": "Không thể đọc môi trường terminal"
@@ -1588,7 +1592,8 @@
     "external": {
       "badge": "Đặt ngoài ứng dụng",
       "endpoint": "Điểm cuối đang có hiệu lực",
-      "overrides": "{{name}} sẽ dùng địa chỉ này. Nó được ưu tiên hơn điểm cuối bạn chọn bên dưới."
+      "overrides": "{{name}} sẽ dùng địa chỉ này. Nó được ưu tiên hơn điểm cuối bạn chọn bên dưới.",
+      "replacedByChoice": "{{name}} đang dùng địa chỉ này. Chọn một điểm cuối bên dưới sẽ thay thế nó."
     },
     "endpoints": {
       "title": "Điểm cuối của {{tool}}",

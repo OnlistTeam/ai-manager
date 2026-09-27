@@ -60,3 +60,12 @@ export type {
   ProviderTarget,
   SaveProviderVariables,
 } from "./useProviderMutations";
+export {
+  credentialCopy,
+  describeSource,
+  externalPrecedenceCopy,
+  hostOf,
+  sameSource,
+  shortSourceCopy,
+  sourceLabel,
+} from "./effectiveConnectionCopy";

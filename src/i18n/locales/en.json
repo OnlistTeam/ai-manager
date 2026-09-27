@@ -1581,6 +1581,10 @@
         "shellFile": "From {{variable}} in {{path}}",
         "toolDefault": "No custom setting; the tool uses its own default address"
       },
+      "shortSource": {
+        "terminal": "Terminal variable",
+        "file": "Config file"
+      },
       "errorTitle": "Couldn't read which connection is in effect",
       "errorDescription": "The list below is still accurate, but for now we cannot tell which entry is actually being used.",
       "shellNotInspectedTitle": "Could not read the terminal environment"
@@ -1588,7 +1592,8 @@
     "external": {
       "badge": "Outside this app",
       "endpoint": "Endpoint in effect now",
-      "overrides": "{{name}} will use this address. It overrides the endpoint you pick below."
+      "overrides": "{{name}} will use this address. It overrides the endpoint you pick below.",
+      "replacedByChoice": "{{name}} uses this address now. Choosing an endpoint below replaces it."
     },
     "endpoints": {
       "title": "{{tool}} endpoints",

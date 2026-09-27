@@ -1,8 +1,21 @@
 import type { TFunction } from "i18next";
 import type {
+  EffectiveConnection,
   EffectiveConnectionSource,
   EffectiveCredential,
 } from "@/entities/provider";
+
+// Copy for the connection a tool really uses, shared by the API Endpoints
+// page and Home so both name and explain it the same way (ADR-0035).
+
+/** Host name as the title, full address in the detail — same reading pattern as a saved-endpoint card. */
+export function hostOf(endpoint: string): string {
+  try {
+    return new URL(endpoint).host || endpoint;
+  } catch {
+    return endpoint;
+  }
+}
 
 /** The full "where it comes from" sentence, shared wording between the top card and the override badge. */
 export function describeSource(
@@ -64,6 +77,40 @@ export function sourceLabel(source: EffectiveConnectionSource): string {
     case "toolDefault":
       return "";
   }
+}
+
+/** Two words for where it comes from, short enough to sit beside the host. */
+export function shortSourceCopy(
+  source: EffectiveConnectionSource,
+  t: TFunction,
+): string | null {
+  switch (source.kind) {
+    case "shellFile":
+    case "environment":
+      return t("services.effective.shortSource.terminal");
+    case "liveConfig":
+      return t("services.effective.shortSource.file");
+    case "toolDefault":
+      return null;
+  }
+}
+
+/**
+ * What choosing a saved endpoint does to a connection set outside this app.
+ * The tool's own precedence decides (ADR-0035): only a variable the tool reads
+ * ahead of the file a switch writes keeps winning after the switch.
+ */
+export function externalPrecedenceCopy(
+  connection: EffectiveConnection,
+  toolName: string,
+  t: TFunction,
+): string {
+  return t(
+    connection.outranksSwitch
+      ? "services.external.overrides"
+      : "services.external.replacedByChoice",
+    { name: toolName },
+  );
 }
 
 /** Full wording for the credential state; the `switch` has no `default`, so a new state fails to compile. */

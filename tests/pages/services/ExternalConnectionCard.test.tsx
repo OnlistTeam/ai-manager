@@ -19,6 +19,7 @@ const CONNECTION: EffectiveConnection = {
   credentialSource: { kind: "toolDefault" },
   providerId: null,
   shellInspected: true,
+  outranksSwitch: false,
 };
 
 function mount(
@@ -85,16 +86,32 @@ it("copies the visible external URL without changing selection", async () => {
 
 /**
  * The card used to say only "not saved here", which told the reader where a
- * record lived rather than what the setting does. What matters is that this
- * address beats every choice in the list below it.
+ * record lived rather than what the setting does. What matters is what a
+ * choice in the list below does to it, and that follows the tool's own
+ * precedence (ADR-0035): only a variable read ahead of the file a switch
+ * writes keeps winning.
  */
-it("says this address wins over anything chosen in the list", () => {
-  mount();
+it("says this address wins over anything chosen in the list when it outranks a switch", () => {
+  mount({ outranksSwitch: true });
   expect(
     screen.getByText(
       en.services.external.overrides.replace("{{name}}", "OpenCode"),
     ),
   ).toBeVisible();
+});
+
+it("says choosing an endpoint below replaces it when a switch wins", () => {
+  mount();
+  expect(
+    screen.getByText(
+      en.services.external.replacedByChoice.replace("{{name}}", "OpenCode"),
+    ),
+  ).toBeVisible();
+  expect(
+    screen.queryByText(
+      en.services.external.overrides.replace("{{name}}", "OpenCode"),
+    ),
+  ).toBeNull();
 });
 
 const TEST_LABEL = en.services.action.testNamed.replace(

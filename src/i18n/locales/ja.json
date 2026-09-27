@@ -1580,6 +1580,10 @@
         "shellFile": "{{path}} の {{variable}} から",
         "toolDefault": "カスタム設定はなく、ツール既定のアドレスを使用"
       },
+      "shortSource": {
+        "terminal": "ターミナル変数",
+        "file": "設定ファイル"
+      },
       "errorTitle": "現在有効な接続を読み取れませんでした",
       "errorDescription": "下のリスト自体は正しいままですが、どれが実際に使われているかは今のところ分かりません。",
       "shellNotInspectedTitle": "ターミナル環境を読み取れませんでした"
@@ -1587,7 +1591,8 @@
     "external": {
       "badge": "アプリの外で設定",
       "endpoint": "現在有効なアドレス",
-      "overrides": "{{name}} は実際にこのアドレスを使います。下で選んだエンドポイントより優先されます。"
+      "overrides": "{{name}} は実際にこのアドレスを使います。下で選んだエンドポイントより優先されます。",
+      "replacedByChoice": "{{name}} は今このアドレスを使っています。下でエンドポイントを選ぶと置き換わります。"
     },
     "endpoints": {
       "title": "{{tool}} のエンドポイント",
