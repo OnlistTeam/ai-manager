@@ -414,7 +414,11 @@ mod tests {
             &default_draft(ToolId::ClaudeCode),
         )
         .expect("claude");
-        assert_eq!(claude.settings_config["env"]["ANTHROPIC_MODEL"], "model-a");
+        // The key Claude Code's own `/model` saves (ADR-0055 decision 5).
+        assert_eq!(claude.settings_config["model"], "model-a");
+        assert!(claude.settings_config["env"]
+            .get("ANTHROPIC_MODEL")
+            .is_none());
 
         let codex = provider_for_create(ToolId::Codex, "codex", &default_draft(ToolId::Codex))
             .expect("codex");
@@ -559,6 +563,7 @@ mod tests {
         ] {
             assert!(!env.contains_key(key), "unexpected {key} in {env:?}");
         }
+        assert!(raw.settings_config.get("model").is_none());
     }
 
     #[test]
@@ -580,6 +585,7 @@ mod tests {
         ] {
             assert!(!env.contains_key(key), "unexpected {key} in {env:?}");
         }
+        assert!(raw.settings_config.get("model").is_none());
     }
 
     #[test]

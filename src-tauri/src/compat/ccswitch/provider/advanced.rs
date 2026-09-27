@@ -15,7 +15,7 @@ use crate::domain::{
 use crate::provider::Provider as UpstreamProvider;
 use crate::settings::CustomEndpoint;
 
-use super::{app_type_for, long_tail, settings_not_object_error, write_slot};
+use super::{app_type_for, claude_model, long_tail, settings_not_object_error, write_slot};
 
 const MAX_MODELS: usize = 64;
 const MAX_MODEL_CHARS: usize = 256;
@@ -302,7 +302,7 @@ fn headers_shape_supported(raw: &UpstreamProvider) -> bool {
 
 fn models(tool: ToolId, raw: &UpstreamProvider) -> Vec<String> {
     let single = match tool {
-        ToolId::ClaudeCode => string_at(&raw.settings_config, "/env/ANTHROPIC_MODEL"),
+        ToolId::ClaudeCode => claude_model::named(&raw.settings_config).map(str::to_string),
         ToolId::Codex => raw
             .settings_config
             .get("config")
@@ -394,11 +394,13 @@ pub(super) fn write_models(
     models: &[String],
 ) -> Result<(), AppError> {
     match tool {
-        ToolId::ClaudeCode => write_optional_slot(
-            &mut raw.settings_config,
-            &["env", "ANTHROPIC_MODEL"],
-            models.first().map(String::as_str),
-        ),
+        ToolId::ClaudeCode => {
+            if !raw.settings_config.is_object() {
+                return Err(settings_not_object_error());
+            }
+            claude_model::set(&mut raw.settings_config, models.first().map(String::as_str));
+            Ok(())
+        }
         ToolId::GeminiCli => write_optional_slot(
             &mut raw.settings_config,
             &["env", "GEMINI_MODEL"],

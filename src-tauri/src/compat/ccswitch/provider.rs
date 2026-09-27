@@ -26,6 +26,7 @@ use std::sync::MutexGuard;
 
 mod advanced;
 mod claude_effort;
+pub(crate) mod claude_model;
 mod codex_identity;
 mod create;
 pub mod deep_link;

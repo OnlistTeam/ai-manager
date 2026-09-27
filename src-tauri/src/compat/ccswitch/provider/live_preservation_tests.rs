@@ -36,7 +36,8 @@ fn claude_keeps_everything_that_is_not_a_connection_key_and_cancels_shell_overri
     assert_eq!(merged.get("hooks"), previous.get("hooks"));
     assert_eq!(merged.get("statusLine"), previous.get("statusLine"));
     assert_eq!(merged.get("permissions"), previous.get("permissions"));
-    assert_eq!(merged.get("model"), Some(&json!("opus")));
+    // The model belongs to the endpoint being left (ADR-0055 decision 6).
+    assert_eq!(merged.get("model"), None);
 }
 
 #[test]

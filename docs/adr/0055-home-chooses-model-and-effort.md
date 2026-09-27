@@ -8,7 +8,8 @@
   2026-09-27, decisions 1, 2, 8 and 9 (the model list holds only the
   endpoint in use; Max is not offered; the slider writes on release);
   2026-09-27, decisions 2 and 3 (the saved model is not listed; catalogues
-  are kept for the session)
+  are kept for the session); 2026-09-27, decisions 5 and 6 (Claude Code's
+  model is the key its own `/model` saves)
 - Amends: ADR-0053 decision 1 (what a Home row chooses), ADR-0041
   decision 1 (when a model catalogue is read), design-spec §29.
 
@@ -85,9 +86,23 @@ screen, one row per tool.
 
    | Tool        | Model (belongs to the endpoint)          | Effort (belongs to the tool)                                                                       |
    | ----------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------- |
-   | Claude Code | `env.ANTHROPIC_MODEL` in `settings.json` | `effortLevel`, `modelSettings.<model>.effortLevel` and `env.CLAUDE_CODE_EFFORT_LEVEL` (decision 8) |
+   | Claude Code | `model` in `settings.json` (below)       | `effortLevel`, `modelSettings.<model>.effortLevel` and `env.CLAUDE_CODE_EFFORT_LEVEL` (decision 8) |
    | Codex       | `model` in `config.toml`                 | `model_reasoning_effort` in `config.toml`                                                          |
    | Gemini CLI  | `GEMINI_MODEL` in `~/.gemini/.env`       | none; the effort slot stays empty                                                                  |
+
+   Claude Code's model is the top-level `model`, the key its own `/model`
+   saves, so the two stand at one level and either replaces the other's
+   choice; the pill reads back a `/model` pick. The first version wrote
+   `env.ANTHROPIC_MODEL`, which Claude Code ranks above that key for every
+   new session: a user who picked Opus with 1M context in `/model` got the
+   endpoint's model back on the next launch, and read it as this product
+   taking control. The variable is still read, and outranks the key when
+   read, because presets and copies saved before this rule carry it and
+   another tool may write it. Every write moves a model it names to the key
+   and removes it; an empty value is left, since it names no model and
+   cancels one exported in the terminal. A running session keeps a removed
+   variable in its environment until it restarts, which does not change its
+   model: Claude Code reads the model only at start.
 
    The model slot is the one the endpoint edit form and the model test's
    "use this model" already write, so an endpoint has one model wherever it is
@@ -105,8 +120,13 @@ screen, one row per tool.
    was picked under, because model names are endpoint-specific: a relay's
    `glm-5` means nothing to the official service. A switch therefore writes the
    target's own saved model, and switching back restores the model picked for
-   the first endpoint; a pick is never carried to another endpoint, and the
-   switch's settings preservation already treats these keys as connection keys.
+   the first endpoint; a pick is never carried to another endpoint. The
+   switch's settings preservation treats these keys as connection keys,
+   Claude Code's top-level `model` included, and the file being left, with a
+   `/model` pick in it, is copied into that endpoint before the switch. The
+   Claude common config (upstream's snippet shared by every endpoint) never
+   carries `model`: it used to take a `/model` pick up from the file and then
+   laid it over every endpoint's own model on each switch.
    The effort belongs to the tool and survives every switch: after a switch the
    effort in force before it is put back, and an effort the user reset to the
    tool default stays unset even when the target's saved copy still carries an
@@ -211,9 +231,14 @@ screen, one row per tool.
   the official model lists. A model released later gets an entry only once
   `/effort` saves one or the table is updated; until then the tool-wide key
   and its own default decide for it.
-- Negative: an in-tool `/model` choice is saved by Claude Code as `model`,
-  which an endpoint's `ANTHROPIC_MODEL` outranks. Choosing "Tool default" on
-  Home removes the endpoint's model and hands the choice back to the tool.
+- Positive: a `/model` choice in Claude Code lasts across launches and shows
+  on Home. Choosing "Tool default" on Home removes `model`, which also clears
+  a `/model` choice: both name the same setting.
+- Negative: a project or local settings file's `model` outranks the user
+  file, and a terminal's `ANTHROPIC_MODEL` outranks both; the pill reads
+  neither. Live routing's model mapping (ADR-0054) still reads an endpoint's
+  default model from `ANTHROPIC_MODEL` only, so an endpoint whose model was
+  picked after this rule passes the model a request names through unchanged.
 - Negative: Codex's effort levels depend on the model. The list offers
   `low`, `medium`, `high` and `xhigh`, which every model in Codex's own
   catalogue accepts; a level already in the file that is not listed (such as

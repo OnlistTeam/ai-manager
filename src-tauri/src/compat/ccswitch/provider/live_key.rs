@@ -20,7 +20,11 @@ use crate::domain::{AppError, ErrorCode};
 /// Where one setting lives inside its file.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(super) enum ConfigKey {
-    /// A string at this path of a JSON object, e.g. `["env", "ANTHROPIC_MODEL"]`.
+    /// A string at this path of a JSON object, e.g. `["effortLevel"]`. No tool's
+    /// model or effort is a lone JSON key today (Claude Code's are read and
+    /// written by `claude_model` and `claude_effort`); the variant stays for the
+    /// next JSON-configured tool.
+    #[allow(dead_code)]
     Json(&'static [&'static str]),
     /// A top-level string in a TOML document.
     Toml(&'static str),

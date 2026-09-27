@@ -3,7 +3,9 @@
 //!
 //! The model belongs to the endpoint it was picked under: it is the same slot
 //! the endpoint edit form writes, saved with the endpoint and written to the
-//! live file while that endpoint is in use. The effort belongs to the tool: it
+//! live file while that endpoint is in use. Claude Code's model is the key its
+//! own `/model` saves (`claude_model`), so either side can replace the other's
+//! choice. The effort belongs to the tool: it
 //! is written to the live file and to the in-use endpoint's saved copy, and a
 //! switch keeps it (`live_preservation`). Claude Code's effort spans several
 //! keys; `claude_effort` reads and writes them.
@@ -20,6 +22,7 @@ use crate::domain::{
 use crate::provider::Provider as UpstreamProvider;
 
 use super::claude_effort;
+use super::claude_model;
 use super::live_key::{self, ConfigKey};
 use super::{advanced, app_type_for, upstream_detail, ProviderStore};
 
@@ -33,10 +36,19 @@ enum EffortSlot {
     ClaudeSettings,
 }
 
+/// Where one tool keeps its model.
+#[derive(Clone, Copy)]
+enum ModelSlot {
+    Key(ConfigKey),
+    /// Claude Code's settings file, where the key `/model` saves sits under
+    /// a variable that outranks it (`claude_model`).
+    ClaudeSettings,
+}
+
 /// Where one tool keeps the two settings.
 struct Slots {
     file: fn() -> PathBuf,
-    model: ConfigKey,
+    model: ModelSlot,
     effort: Option<EffortSlot>,
 }
 
@@ -47,17 +59,17 @@ fn slots(tool: ToolId) -> Option<Slots> {
     match tool {
         ToolId::ClaudeCode => Some(Slots {
             file: crate::config::get_claude_settings_path,
-            model: ConfigKey::Json(&["env", "ANTHROPIC_MODEL"]),
+            model: ModelSlot::ClaudeSettings,
             effort: Some(EffortSlot::ClaudeSettings),
         }),
         ToolId::Codex => Some(Slots {
             file: crate::codex_config::get_codex_config_path,
-            model: ConfigKey::Toml("model"),
+            model: ModelSlot::Key(ConfigKey::Toml("model")),
             effort: Some(EffortSlot::Key(ConfigKey::Toml(CODEX_EFFORT_KEY))),
         }),
         ToolId::GeminiCli => Some(Slots {
             file: crate::gemini_config::get_gemini_env_path,
-            model: ConfigKey::DotEnv("GEMINI_MODEL"),
+            model: ModelSlot::Key(ConfigKey::DotEnv("GEMINI_MODEL")),
             effort: None,
         }),
         ToolId::OpenCode
@@ -118,9 +130,15 @@ pub(super) fn read(tool: ToolId, terminal: &ToolTerminal) -> Result<ToolModelCho
             claude_effort::resolve(&live_key::parse_json(&text)?, terminal, &spec)
         }
     };
+    let model = match slots.model {
+        ModelSlot::Key(key) => live_key::get(&text, key)?,
+        ModelSlot::ClaudeSettings => {
+            claude_model::named(&live_key::parse_json(&text)?).map(str::to_string)
+        }
+    };
     Ok(ToolModelChoice {
         tool,
-        model: live_key::get(&text, slots.model)?,
+        model,
         effort,
         effort_levels: strings(spec.effort_levels),
         official_models: strings(spec.official_models),
@@ -185,8 +203,13 @@ pub(super) fn set_model(
             return read(tool, terminal);
         }
     }
-    write_live_or_restore(store, tool, original.as_ref(), || {
-        live_key::write(&(slots.file)(), &backups(), slots.model, model.as_deref())
+    let path = (slots.file)();
+    write_live_or_restore(store, tool, original.as_ref(), || match slots.model {
+        ModelSlot::Key(key) => live_key::write(&path, &backups(), key, model.as_deref()),
+        ModelSlot::ClaudeSettings => live_key::write_json(&path, &backups(), &|settings| {
+            claude_model::set(settings, model.as_deref());
+            Ok(())
+        }),
     })?;
     log::info!(
         "model choice: {} model {}",

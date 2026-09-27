@@ -12,6 +12,7 @@
 
 use serde_json::{Map, Value};
 
+use super::claude_model::{MODEL_KEY, MODEL_VARIABLE};
 use super::live_key;
 use crate::compat::ccswitch::provider_runtime::ToolTerminal;
 use crate::domain::{
@@ -24,8 +25,6 @@ pub(super) const EFFORT_KEY: &str = "effortLevel";
 pub(super) const MODEL_SETTINGS_KEY: &str = "modelSettings";
 /// Outranks both keys and `/effort`, and is the only place `max` persists.
 pub(super) const EFFORT_VARIABLE: &str = "CLAUDE_CODE_EFFORT_LEVEL";
-const MODEL_VARIABLE: &str = "ANTHROPIC_MODEL";
-const MODEL_KEY: &str = "model";
 
 /// Names that leave the model to the account or the mode, so the model a new
 /// session runs cannot be read from the file.

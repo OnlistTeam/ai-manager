@@ -1626,6 +1626,7 @@ GEMINI_TIMEOUT_MS=30000
                 "ANTHROPIC_MODEL": "default-mapped",
                 "ENABLE_TOOL_SEARCH": "true"
             },
+            "model": "opus[1m]",
             "theme": "dark"
         });
 
@@ -1655,6 +1656,10 @@ GEMINI_TIMEOUT_MS=30000
             env.and_then(|e| e.get("ENABLE_TOOL_SEARCH"))
                 .and_then(|v| v.as_str()),
             Some("true")
+        );
+        assert!(
+            value.get("model").is_none(),
+            "the model belongs to the endpoint (ADR-0055)"
         );
         assert_eq!(value.get("theme").and_then(|v| v.as_str()), Some("dark"));
     }
@@ -5770,6 +5775,8 @@ impl ProviderService {
 
         const TOP_LEVEL_EXCLUDES: &[&str] = &[
             "apiBaseUrl",
+            // AI Manager (ADR-0055): the model belongs to the endpoint, like ANTHROPIC_MODEL.
+            "model",
             // Legacy model fields
             "primaryModel",
             "smallFastModel",

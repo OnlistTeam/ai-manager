@@ -1184,8 +1184,9 @@ its thinking effort (ADR-0055).
   where the variable is set. There are no other notes. The effort belongs to
   the tool and survives every switch. A tool without an effort setting keeps
   an empty slot, so the columns line up.
-- Only the tool's own keys are written (Claude Code `env.ANTHROPIC_MODEL`,
-  and for the effort `effortLevel` and every model's `modelSettings` entry,
+- Only the tool's own keys are written (Claude Code the top-level `model`
+  its own `/model` saves, so either side replaces the other's choice, moving
+  a model named in `env.ANTHROPIC_MODEL` there; and for the effort `effortLevel` and every model's `modelSettings` entry,
   clearing a level held in `env.CLAUDE_CODE_EFFORT_LEVEL` to an empty value;
   Codex `model` and `model_reasoning_effort`;
   Gemini CLI `GEMINI_MODEL`), with a backup, an atomic replace and a read-back.

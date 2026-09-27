@@ -100,23 +100,28 @@ fn a_model_follows_its_endpoint_across_switches() {
         )
         .expect("set model");
     let live = claude_live();
-    assert_eq!(live["env"]["ANTHROPIC_MODEL"], "opus");
+    assert_eq!(live["model"], "opus");
+    assert!(live["env"].get("ANTHROPIC_MODEL").is_none());
     assert!(live.get("hooks").is_some(), "other keys stay");
 
+    // The relay's copy still names its model in the variable, as presets do; the
+    // file gets it in the key `/model` writes.
     store
         .switch(ToolId::ClaudeCode, &relay.id)
         .expect("to relay");
-    assert_eq!(claude_live()["env"]["ANTHROPIC_MODEL"], "glm-5");
+    let live = claude_live();
+    assert_eq!(live["model"], "glm-5");
+    assert!(live["env"].get("ANTHROPIC_MODEL").is_none());
 
     store
         .switch(ToolId::ClaudeCode, &official.id)
         .expect("back to official");
-    assert_eq!(claude_live()["env"]["ANTHROPIC_MODEL"], "opus");
+    assert_eq!(claude_live()["model"], "opus");
 
     store
         .set_model(ToolId::ClaudeCode, Some(&official.id), None, &none())
         .expect("tool default");
-    assert!(claude_live()["env"].get("ANTHROPIC_MODEL").is_none());
+    assert!(claude_live().get("model").is_none());
     assert_eq!(read(ToolId::ClaudeCode, &none()).unwrap().model, None);
 }
 
@@ -135,9 +140,82 @@ fn a_model_for_an_endpoint_not_in_use_is_saved_without_touching_the_file() {
         .set_model(ToolId::ClaudeCode, Some(&relay.id), Some("glm-5"), &none())
         .expect("set model");
 
-    assert!(claude_live()["env"].get("ANTHROPIC_MODEL").is_none());
+    assert!(claude_live().get("model").is_none());
     let saved = store.find_raw(ToolId::ClaudeCode, &relay.id).unwrap();
-    assert_eq!(saved.settings_config["env"]["ANTHROPIC_MODEL"], "glm-5");
+    assert_eq!(saved.settings_config["model"], "glm-5");
+}
+
+#[test]
+#[serial_test::serial]
+fn a_model_picked_with_slash_model_is_read_and_can_be_replaced() {
+    let temp = tempfile::tempdir().expect("temp home");
+    let _home = TestHome::set(temp.path());
+    let store = store();
+    let relay = record(
+        "relay",
+        "custom",
+        json!({"env": {"ANTHROPIC_BASE_URL": "https://relay.example.test"}, "model": "glm-5"}),
+    );
+    seed(&store, AppType::Claude, &[&relay], &relay.id);
+    // What Claude Code's `/model` saves: the top-level key.
+    write_claude_live(&json!({
+        "env": {"ANTHROPIC_BASE_URL": "https://relay.example.test"},
+        "model": "opus[1m]"
+    }));
+    assert_eq!(
+        read(ToolId::ClaudeCode, &none()).unwrap().model.as_deref(),
+        Some("opus[1m]")
+    );
+
+    store
+        .set_model(
+            ToolId::ClaudeCode,
+            Some(&relay.id),
+            Some("glm-5.1"),
+            &none(),
+        )
+        .expect("set model");
+    assert_eq!(claude_live()["model"], "glm-5.1");
+}
+
+#[test]
+#[serial_test::serial]
+fn a_pick_clears_a_variable_that_would_outrank_it() {
+    let temp = tempfile::tempdir().expect("temp home");
+    let _home = TestHome::set(temp.path());
+    let store = store();
+    let relay = record(
+        "relay",
+        "custom",
+        json!({"env": {"ANTHROPIC_BASE_URL": "https://relay.example.test", "ANTHROPIC_MODEL": "glm-5"}}),
+    );
+    seed(&store, AppType::Claude, &[&relay], &relay.id);
+    // Written before this rule, or by another tool: the variable is in force.
+    write_claude_live(&json!({
+        "env": {"ANTHROPIC_BASE_URL": "https://relay.example.test", "ANTHROPIC_MODEL": "glm-5"},
+        "model": "opus[1m]"
+    }));
+    assert_eq!(
+        read(ToolId::ClaudeCode, &none()).unwrap().model.as_deref(),
+        Some("glm-5")
+    );
+
+    store
+        .set_model(
+            ToolId::ClaudeCode,
+            Some(&relay.id),
+            Some("glm-5.1"),
+            &none(),
+        )
+        .expect("set model");
+    let live = claude_live();
+    assert_eq!(live["model"], "glm-5.1");
+    assert!(live["env"].get("ANTHROPIC_MODEL").is_none());
+    let saved = store.find_raw(ToolId::ClaudeCode, &relay.id).unwrap();
+    assert_eq!(saved.settings_config["model"], "glm-5.1");
+    assert!(saved.settings_config["env"]
+        .get("ANTHROPIC_MODEL")
+        .is_none());
 }
 
 #[test]

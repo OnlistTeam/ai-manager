@@ -25,10 +25,16 @@ const PRESERVE_FAILED: &str = "error.provider.settingsPreserveFailed";
 /// user reset to the tool default stays unset. For Claude Code that is the tool-wide level,
 /// the levels saved per model, and the environment variable over both.
 use super::claude_effort::{EFFORT_KEY, EFFORT_VARIABLE, MODEL_SETTINGS_KEY};
+use super::claude_model::MODEL_KEY;
 use super::model_choice::CODEX_EFFORT_KEY;
 
 /// Claude Code's top-level effort keys, which follow the file in force before a switch.
 const CLAUDE_EFFORT_KEYS: [&str; 2] = [EFFORT_KEY, MODEL_SETTINGS_KEY];
+
+/// The model belongs to the endpoint it was picked under (ADR-0055 decision 6), like
+/// Codex's `model` below: the target's own copy decides, and a model name from the file
+/// being left, which means nothing to another endpoint, is never pasted back.
+const CLAUDE_ENDPOINT_KEYS: [&str; 1] = [MODEL_KEY];
 
 // ---------- Claude Code ----------
 
@@ -87,6 +93,7 @@ pub(super) fn merge_claude_settings(previous: &Value, written: &Value) -> Value 
         for (key, value) in previous_object {
             if key != "env"
                 && !CLAUDE_TOP_LEVEL_CONNECTION_KEYS.contains(&key.as_str())
+                && !CLAUDE_ENDPOINT_KEYS.contains(&key.as_str())
                 && !target.contains_key(key)
             {
                 target.insert(key.clone(), value.clone());

@@ -172,7 +172,21 @@ pub(crate) fn sanitize_claude_settings_for_live(settings: &Value) -> Value {
         obj.remove("openrouter_compat_mode");
         obj.remove("openrouterCompatMode");
     }
+    // AI Manager (ADR-0055): the model goes to the key Claude Code's own `/model` saves,
+    // never to `env.ANTHROPIC_MODEL`, which would outrank every later `/model` choice.
+    crate::compat::ccswitch::provider::claude_model::move_variable_to_key(&mut v);
     v
+}
+
+/// AI Manager (ADR-0055): the Claude common config never carries the top-level `model`.
+/// The model belongs to an endpoint; a shared one would override every endpoint's own
+/// model on each switch, and stripping it on backfill would erase the endpoint's copy.
+fn parse_claude_common_config(snippet: &str) -> Result<Value, serde_json::Error> {
+    let mut source = serde_json::from_str::<Value>(snippet)?;
+    if let Some(obj) = source.as_object_mut() {
+        obj.remove(crate::compat::ccswitch::provider::claude_model::MODEL_KEY);
+    }
+    Ok(source)
 }
 
 pub(crate) fn provider_exists_in_live_config(
@@ -456,7 +470,7 @@ fn settings_contain_common_config(app_type: &AppType, settings: &Value, snippet:
     }
 
     match app_type {
-        AppType::Claude => match serde_json::from_str::<Value>(trimmed) {
+        AppType::Claude => match parse_claude_common_config(trimmed) {
             Ok(source) if source.is_object() => json_is_subset(settings, &source),
             _ => false,
         },
@@ -528,7 +542,7 @@ pub(crate) fn remove_common_config_from_settings(
 
     match app_type {
         AppType::Claude => {
-            let source = serde_json::from_str::<Value>(trimmed)
+            let source = parse_claude_common_config(trimmed)
                 .map_err(|e| AppError::Message(format!("Invalid Claude common config: {e}")))?;
             let mut result = settings.clone();
             json_deep_remove(&mut result, &source);
@@ -586,7 +600,7 @@ fn apply_common_config_to_settings(
 
     match app_type {
         AppType::Claude => {
-            let source = serde_json::from_str::<Value>(trimmed)
+            let source = parse_claude_common_config(trimmed)
                 .map_err(|e| AppError::Message(format!("Invalid Claude common config: {e}")))?;
             let mut result = settings.clone();
             json_deep_merge(&mut result, &source);
@@ -2687,6 +2701,43 @@ mod tests {
         let stripped =
             remove_common_config_from_settings(&AppType::Claude, &applied, snippet).unwrap();
         assert_eq!(stripped, settings);
+    }
+
+    #[test]
+    fn claude_live_settings_name_the_model_in_the_key_slash_model_writes() {
+        let saved = json!({
+            "env": {"ANTHROPIC_BASE_URL": "https://relay.example.test", "ANTHROPIC_MODEL": "glm-5"},
+            "model": "opus[1m]",
+            "apiFormat": "anthropic"
+        });
+        let live = sanitize_claude_settings_for_live(&saved);
+        assert_eq!(
+            live,
+            json!({
+                "env": {"ANTHROPIC_BASE_URL": "https://relay.example.test"},
+                "model": "glm-5"
+            })
+        );
+    }
+
+    #[test]
+    fn claude_common_config_never_carries_the_model() {
+        let settings = json!({"env": {}, "model": "glm-5"});
+        let snippet = r#"{"model": "claude-fable-5", "theme": "dark"}"#;
+
+        let applied =
+            apply_common_config_to_settings(&AppType::Claude, &settings, snippet).unwrap();
+        assert_eq!(applied["model"], json!("glm-5"));
+        assert_eq!(applied["theme"], json!("dark"));
+
+        let stripped =
+            remove_common_config_from_settings(&AppType::Claude, &applied, snippet).unwrap();
+        assert_eq!(stripped, settings);
+        assert!(settings_contain_common_config(
+            &AppType::Claude,
+            &applied,
+            snippet
+        ));
     }
 
     #[test]
