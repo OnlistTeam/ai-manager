@@ -1,6 +1,7 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { backupKeys } from "@/entities/backup";
 import { desktopAppKeys } from "@/entities/desktop-app";
+import { discoverKeys } from "@/entities/discover";
 import { extensionKeys } from "@/entities/extension";
 import { modelCatalogQueryOptions } from "@/features/provider-management";
 import { healthKeys, type ProviderConnectivity } from "@/entities/health";
@@ -693,6 +694,178 @@ function galleryPrompts(scope: GalleryScope): Extension[] {
   ];
 }
 
+/** The Discover section's first screen: featured servers and popular Skills. */
+function seedDiscover(client: QueryClient): void {
+  const server = (overrides: Record<string, unknown>) => ({
+    name: "",
+    description: null,
+    publisher: null,
+    icon: null,
+    homepage: true,
+    transport: "http" as const,
+    runs: null,
+    signIn: false,
+    featured: true,
+    inputs: [],
+    added: null,
+    ...overrides,
+  });
+  const apiKey = (key: string, target: "env" | "header", site: string) => ({
+    key,
+    target,
+    label: key,
+    kind: "apiKey" as const,
+    description: null,
+    site,
+    placeholder: null,
+    secret: true,
+    required: true,
+  });
+  client.setQueryData(discoverKeys.list("mcp", ""), {
+    items: [
+      server({
+        id: "context7",
+        name: "context7",
+        title: "Context7",
+        publisher: "Upstash",
+        added: "context7",
+      }),
+      server({
+        id: "playwright",
+        name: "playwright",
+        title: "Playwright",
+        publisher: "Microsoft",
+        transport: "stdio",
+        runs: "npx",
+        added: "Browser",
+      }),
+      server({
+        id: "chrome-devtools",
+        name: "chrome-devtools",
+        title: "Chrome DevTools",
+        publisher: "Google",
+        transport: "stdio",
+        runs: "npx",
+      }),
+      server({
+        id: "github",
+        name: "github",
+        title: "GitHub",
+        publisher: "GitHub",
+        inputs: [
+          apiKey(
+            "Authorization",
+            "header",
+            "github.com/settings/personal-access-tokens",
+          ),
+        ],
+      }),
+      server({
+        id: "deepwiki",
+        name: "deepwiki",
+        title: "DeepWiki",
+        publisher: "Cognition",
+      }),
+      server({
+        id: "notion",
+        name: "notion",
+        title: "Notion",
+        publisher: "Notion",
+        signIn: true,
+      }),
+      server({
+        id: "fetch",
+        name: "fetch",
+        title: "Fetch",
+        publisher: "Model Context Protocol",
+        transport: "stdio",
+        runs: "uvx",
+      }),
+      server({
+        id: "brave-search",
+        name: "brave-search",
+        title: "Brave Search",
+        publisher: "Brave",
+        transport: "stdio",
+        runs: "npx",
+        inputs: [apiKey("BRAVE_API_KEY", "env", "brave.com/search/api")],
+      }),
+    ],
+    reach: [
+      {
+        scope: { kind: "tool", id: "claude-code" },
+        transports: ["stdio", "http", "sse"],
+      },
+      { scope: { kind: "tool", id: "codex" }, transports: ["stdio", "http"] },
+      {
+        scope: { kind: "desktopApp", id: "claude-desktop" },
+        transports: ["stdio"],
+      },
+    ],
+    sourceError: null,
+  });
+  const skill = (
+    source: string,
+    skillId: string,
+    installs: number,
+    description: string,
+    added: string | null = null,
+  ) => ({
+    id: `${source}/${skillId}`,
+    source,
+    skillId,
+    name: skillId,
+    installs,
+    official:
+      source.startsWith("anthropics/") || source.startsWith("vercel-labs/"),
+    icon: `https://github.com/${source.split("/")[0]}.png?size=96`,
+    description,
+    added,
+  });
+  client.setQueryData(discoverKeys.list("skill", ""), {
+    items: [
+      skill(
+        "vercel-labs/agent-skills",
+        "react-best-practices",
+        184_200,
+        "React and Next.js performance guidance for components and data fetching.",
+      ),
+      skill(
+        "anthropics/skills",
+        "frontend-design",
+        132_900,
+        "Distinctive, production-grade interfaces that avoid generic AI aesthetics.",
+        "frontend-design",
+      ),
+      skill(
+        "anthropics/skills",
+        "pdf",
+        61_400,
+        "Read, fill and assemble PDF documents.",
+      ),
+      skill(
+        "obra/superpowers",
+        "systematic-debugging",
+        48_700,
+        "Find the root cause before proposing a fix.",
+      ),
+      skill(
+        "remotion-dev/skills",
+        "remotion-best-practices",
+        39_100,
+        "Build videos in React with Remotion.",
+      ),
+      skill(
+        "supabase/agent-skills",
+        "postgres-best-practices",
+        21_800,
+        "Postgres schema, index and query advice.",
+      ),
+    ],
+    sourceError: null,
+  });
+}
+
 function seedExtensionLists(client: QueryClient): void {
   const scopes: GalleryScope[] = [
     ...GALLERY_TOOLS.map((tool) => ({ kind: "tool" as const, id: tool.id })),
@@ -858,6 +1031,7 @@ export function seedAppShellGallery(client: QueryClient): void {
   client.setQueryData(toolKeys.list(), GALLERY_TOOLS);
   client.setQueryData(operationKeys.list(), []);
   client.setQueryData(desktopAppKeys.list(), DESKTOP_APPS);
+  seedDiscover(client);
   client.setQueryData(
     healthKeys.snapshot(GALLERY_TOOLS.map((tool) => tool.id)),
     HEALTH,

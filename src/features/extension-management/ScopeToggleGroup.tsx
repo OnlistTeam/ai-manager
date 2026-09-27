@@ -18,7 +18,7 @@ export interface ScopeToggleTarget {
  * above them so the columns line up at any width: the group sits at the
  * right edge of the same padded row, and every cell has the same width.
  */
-export const SCOPE_COLUMNS_CLASS = "ml-auto flex shrink-0 items-center gap-1";
+export const SCOPE_COLUMNS_CLASS = "ml-auto flex shrink-0 items-center gap-5";
 export const SCOPE_CELL_WIDTH_CLASS = "w-8";
 
 export interface ScopeToggleGroupProps {

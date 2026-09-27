@@ -1,3 +1,4 @@
+import { Monitor } from "lucide-react";
 import { cn } from "@/shared/ui/cn";
 import { desktopAppShortName } from "@/shared/ui/DesktopAppArtwork";
 import { toolShortName } from "@/shared/ui/ToolArtwork";
@@ -5,7 +6,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import {
   SCOPE_CELL_WIDTH_CLASS,
   SCOPE_COLUMNS_CLASS,
-  ScopeGlyph,
   type ScopeToggleTarget,
 } from "./ScopeToggleGroup";
 
@@ -41,19 +41,18 @@ export function ScopeColumnHeader({ label, targets }: ScopeColumnHeaderProps) {
             <TooltipTrigger asChild>
               <span
                 data-scope-column={target.key}
-                className={cn(
-                  "flex flex-col items-center gap-0.5",
-                  SCOPE_CELL_WIDTH_CLASS,
-                )}
+                className={cn("flex justify-center", SCOPE_CELL_WIDTH_CLASS)}
               >
-                <span className="relative flex h-4 w-4 items-center justify-center">
-                  <ScopeGlyph scope={target.scope} />
-                </span>
-                {/* The label may use the gap on either side of its column
-                    (a centered flex item overflows evenly), so "Claude"
-                    fits over a 32px switch while the columns stay put. */}
-                <span className="w-9 shrink-0 truncate text-center text-[10px] leading-3 text-content-muted">
-                  {shortName(target)}
+                {/* The name may use the gap on either side of its column (a
+                    centered flex item overflows evenly), so "OpenCode" fits
+                    over a 32px switch while the columns stay put. The marks
+                    are on the switches right below, so the header only names
+                    them; a desktop app keeps the switch's screen badge. */}
+                <span className="flex w-[52px] shrink-0 items-center justify-center gap-0.5 text-[10px] leading-3 text-content-muted">
+                  {target.scope.kind === "desktopApp" ? (
+                    <Monitor className="h-2.5 w-2.5 shrink-0" />
+                  ) : null}
+                  <span className="truncate">{shortName(target)}</span>
                 </span>
               </span>
             </TooltipTrigger>
