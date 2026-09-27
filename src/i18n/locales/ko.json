@@ -347,7 +347,6 @@
     "action": {
       "install": "설치",
       "configure": "도구에 추가",
-      "readOnly": "읽기 전용",
       "update": "업데이트",
       "versions": "버전 전환",
       "open": "열기",
@@ -359,7 +358,6 @@
       "copyNamed": "{{name}} 복사",
       "copied": "복사됨",
       "use": "사용",
-      "inUse": "사용 중",
       "cancel": "취소",
       "close": "닫기",
       "named": {
@@ -1357,7 +1355,6 @@
     "tools": {
       "title": "내 도구",
       "install": "AI 도구 설치",
-      "updateAll": "전체 업데이트",
       "empty": "설치된 도구 중 API 엔드포인트를 쓰는 도구가 없습니다.",
       "official": "공식 로그인",
       "notConnected": "연결 안 됨",
@@ -1365,41 +1362,21 @@
       "added_other": "엔드포인트 {{count}}개 추가됨",
       "modelInTool": "모델은 {{tool}}에서 선택",
       "unavailable": "엔드포인트를 읽을 수 없음",
-      "switchTo": "전환 대상…",
-      "switchNamed": "{{tool}}이(가) 쓰는 엔드포인트 전환",
-      "connect": "연결",
-      "connectNamed": "{{tool}}에 API 엔드포인트 연결",
-      "update": "업데이트",
-      "updateNamed": "{{tool}} 업데이트",
-      "openNamed": "{{tool}}의 API 엔드포인트 열기",
-      "switchUnreachable": "{{name}}이(가) 응답하지 않아 아무것도 바꾸지 않았습니다."
+      "switchUnreachable": "{{name}}이(가) 응답하지 않아 아무것도 바꾸지 않았습니다.",
+      "pickerLabel": "{{tool}}의 엔드포인트",
+      "pickNamed": "{{tool}}이(가) 사용하는 엔드포인트: {{current}}",
+      "manageEndpoints": "API 엔드포인트 관리…",
+      "addEndpoint": "엔드포인트 추가…",
+      "noEndpoints": "아직 추가한 엔드포인트가 없습니다.",
+      "filter": "엔드포인트 필터",
+      "noMatch": "일치하는 엔드포인트가 없습니다."
     },
     "updateAll": {
       "reviewTitle_one": "도구 업데이트 {{count}}건 검토",
       "reviewTitle_other": "도구 업데이트 {{count}}건 검토",
       "previewSummary": "{{ready}}개는 지금 업데이트할 수 있습니다. {{skipped}}개는 설치 상태를 검토할 때까지 건너뜁니다.",
-      "skippedSummary_one": "업데이트 방법을 확인할 수 없어 도구 {{count}}개를 건너뛰었습니다.",
-      "skippedSummary_other": "업데이트 방법을 확인할 수 없어 도구 {{count}}개를 건너뛰었습니다.",
       "confirm_one": "도구 {{count}}개 업데이트",
-      "confirm_other": "도구 {{count}}개 업데이트",
-      "failure": {
-        "partial": {
-          "title": "일부 업데이트가 실행 중입니다",
-          "description_one": "활동에서 업데이트 {{count}}건을 시작했습니다. 시작되지 않은 도구만 계속 선택된 상태입니다.",
-          "description_other": "활동에서 업데이트 {{count}}건을 시작했습니다. 시작되지 않은 도구만 계속 선택된 상태입니다."
-        },
-        "all": {
-          "title": "업데이트를 시작할 수 없습니다",
-          "description_one": "업데이트 작업이 생성되지 않았습니다. 다시 시도하면 작업을 시작하기 전에 이 도구를 다시 확인합니다.",
-          "description_other": "업데이트 작업이 생성되지 않았습니다. 다시 시도하면 작업을 시작하기 전에 이 도구들을 다시 확인합니다."
-        }
-      },
-      "hints": {
-        "running": "업데이트가 이미 활동에서 실행 중입니다",
-        "checking": "업데이트할 수 있는 항목을 확인하는 중",
-        "unavailable": "지금은 업데이트 상태를 확인할 수 없습니다",
-        "review": "소프트웨어에서 이 업데이트를 검토하세요"
-      }
+      "confirm_other": "도구 {{count}}개 업데이트"
     },
     "error": {
       "title": "설정을 확인할 수 없습니다",
@@ -1407,12 +1384,12 @@
     },
     "refreshError": {
       "title": "홈 화면을 새로고침할 수 없습니다",
-      "description": "마지막으로 확인된 설정이 계속 표시됩니다. 새 확인이 성공할 때까지 도구 시작과 업데이트는 일시 중지됩니다.",
+      "description": "마지막으로 확인된 설정이 계속 표시됩니다. 새 확인이 성공할 때까지 도구 시작은 일시 중지됩니다.",
       "action": "다시 확인"
     },
     "refreshing": {
       "title": "홈 화면을 다시 확인하는 중",
-      "description": "이 확인이 끝나면 도구 시작과 업데이트를 다시 사용할 수 있습니다."
+      "description": "이 확인이 끝나면 도구 시작을 다시 사용할 수 있습니다."
     }
   },
   "taskCenter": {
@@ -1507,15 +1484,13 @@
   "services": {
     "action": {
       "add": "엔드포인트 추가",
-      "configureNamed": "{{name}}을(를) 도구에 추가",
       "edit": "편집",
       "editNamed": "{{name}} 편집",
       "remove": "제거",
       "removeNamed": "{{name}} 제거",
       "test": "테스트",
       "testAll": "모든 주소 확인",
-      "testNamed": "{{name}} 테스트",
-      "useNamed": "{{name}} 사용"
+      "testNamed": "{{name}} 테스트"
     },
     "card": {
       "custom": "사용자 지정 엔드포인트",
@@ -1581,7 +1556,8 @@
       "toolDefaultGroup": "{{tool}} 기본 연결",
       "otherServices": "다른 제공자"
     },
-    "description": "도구를 선택한 다음 API 엔드포인트를 추가, 전환, 확인하세요.",
+    "chooseOnHome": "각 도구가 어떤 엔드포인트를 쓸지는 홈에서 선택합니다.",
+    "openHome": "홈으로",
     "effective": {
       "selection": {
         "defaultModel": "전역 기본 모델: {{model}}. 프로젝트나 세션 설정이 이를 재정의할 수 있습니다.",
@@ -1752,7 +1728,7 @@
     },
     "refresh": "새로고침",
     "remove": {
-      "activeHint": "이 엔드포인트를 제거하기 전에 다른 엔드포인트를 선택하세요.",
+      "activeHint": "이 엔드포인트를 제거하기 전에 홈에서 다른 엔드포인트를 선택하세요.",
       "confirm": "엔드포인트 제거",
       "description": "저장된 엔드포인트를 AI Manager와 {{tool}}에서 제거합니다.",
       "errorTitle": "이 엔드포인트를 제거할 수 없습니다",
@@ -1781,7 +1757,6 @@
       "openNow": "지금 열기",
       "reopenHint": "이미 실행 중인 {{tool}}은(는) 다시 열 때까지 이전 엔드포인트를 유지합니다.",
       "retryHint": "같은 전환을 다시 시도하세요.",
-      "retryNamed": "{{name}}(으)로 전환 다시 시도",
       "switchingNamed": "{{name}}(으)로 전환하는 중"
     },
     "failover": {

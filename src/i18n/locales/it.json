@@ -347,7 +347,6 @@
     "action": {
       "install": "Installa",
       "configure": "Aggiungi allo strumento",
-      "readOnly": "Sola lettura",
       "update": "Aggiorna",
       "versions": "Cambia versione",
       "open": "Apri",
@@ -359,7 +358,6 @@
       "copyNamed": "Copia {{name}}",
       "copied": "Copiato",
       "use": "Usa",
-      "inUse": "Attuale",
       "cancel": "Annulla",
       "close": "Chiudi",
       "named": {
@@ -1357,7 +1355,6 @@
     "tools": {
       "title": "I miei strumenti",
       "install": "Installa strumento AI",
-      "updateAll": "Aggiorna tutto",
       "empty": "Nessuno degli strumenti installati usa endpoint API.",
       "official": "Accesso ufficiale",
       "notConnected": "Non connesso",
@@ -1365,41 +1362,21 @@
       "added_other": "{{count}} endpoint aggiunti",
       "modelInTool": "Il modello si sceglie in {{tool}}",
       "unavailable": "Impossibile leggere gli endpoint",
-      "switchTo": "Passa a…",
-      "switchNamed": "Cambia l'endpoint usato da {{tool}}",
-      "connect": "Connetti",
-      "connectNamed": "Connetti un endpoint API a {{tool}}",
-      "update": "Aggiorna",
-      "updateNamed": "Aggiorna {{tool}}",
-      "openNamed": "Apri gli endpoint API di {{tool}}",
-      "switchUnreachable": "{{name}} non ha risposto, quindi non è cambiato nulla."
+      "switchUnreachable": "{{name}} non ha risposto, quindi non è cambiato nulla.",
+      "pickerLabel": "Endpoint di {{tool}}",
+      "pickNamed": "Endpoint usato da {{tool}}: {{current}}",
+      "manageEndpoints": "Gestisci endpoint API…",
+      "addEndpoint": "Aggiungi un endpoint…",
+      "noEndpoints": "Nessun endpoint aggiunto finora.",
+      "filter": "Filtra endpoint",
+      "noMatch": "Nessun endpoint corrispondente."
     },
     "updateAll": {
       "reviewTitle_one": "Controlla {{count}} aggiornamento dello strumento",
       "reviewTitle_other": "Controlla {{count}} aggiornamenti degli strumenti",
       "previewSummary": "{{ready}} possono essere aggiornati ora. {{skipped}} verranno saltati finché non sarà verificata la loro installazione.",
-      "skippedSummary_one": "{{count}} strumento è stato saltato perché non è stato possibile confermare il suo metodo di aggiornamento.",
-      "skippedSummary_other": "{{count}} strumenti sono stati saltati perché non è stato possibile confermare i loro metodi di aggiornamento.",
       "confirm_one": "Aggiorna {{count}} strumento",
-      "confirm_other": "Aggiorna {{count}} strumenti",
-      "failure": {
-        "partial": {
-          "title": "Alcuni aggiornamenti sono ora in corso",
-          "description_one": "{{count}} aggiornamento avviato in Attività. Resta selezionato solo lo strumento che non è partito.",
-          "description_other": "{{count}} aggiornamenti avviati in Attività. Restano selezionati solo gli strumenti che non sono partiti."
-        },
-        "all": {
-          "title": "Impossibile avviare gli aggiornamenti",
-          "description_one": "Non è stata creata alcuna attività di aggiornamento. Riprova per controllare di nuovo questo strumento prima di avviare qualcosa.",
-          "description_other": "Non è stata creata alcuna attività di aggiornamento. Riprova per controllare di nuovo questi strumenti prima di avviare qualcosa."
-        }
-      },
-      "hints": {
-        "running": "Gli aggiornamenti sono già in corso in Attività",
-        "checking": "Verifica di cosa può essere aggiornato",
-        "unavailable": "Lo stato degli aggiornamenti non è disponibile in questo momento",
-        "review": "Controlla questo aggiornamento in Software"
-      }
+      "confirm_other": "Aggiorna {{count}} strumenti"
     },
     "error": {
       "title": "Impossibile controllare la tua configurazione",
@@ -1407,12 +1384,12 @@
     },
     "refreshError": {
       "title": "Home non è riuscita ad aggiornarsi",
-      "description": "Viene ancora mostrata l'ultima configurazione controllata. L'avvio e l'aggiornamento degli strumenti restano in pausa finché un nuovo controllo non va a buon fine.",
+      "description": "Viene ancora mostrata l'ultima configurazione controllata. L'avvio degli strumenti resta in pausa finché un nuovo controllo non va a buon fine.",
       "action": "Controlla di nuovo"
     },
     "refreshing": {
       "title": "Nuovo controllo di Home in corso",
-      "description": "L'avvio e l'aggiornamento degli strumenti riprenderanno al termine di questo controllo."
+      "description": "L'avvio degli strumenti riprenderà al termine di questo controllo."
     }
   },
   "taskCenter": {
@@ -1507,15 +1484,13 @@
   "services": {
     "action": {
       "add": "Aggiungi endpoint",
-      "configureNamed": "Aggiungi {{name}} allo strumento",
       "edit": "Modifica",
       "editNamed": "Modifica {{name}}",
       "remove": "Rimuovi",
       "removeNamed": "Rimuovi {{name}}",
       "test": "Verifica",
       "testAll": "Controlla tutti gli indirizzi",
-      "testNamed": "Verifica {{name}}",
-      "useNamed": "Usa {{name}}"
+      "testNamed": "Verifica {{name}}"
     },
     "card": {
       "custom": "Endpoint personalizzato",
@@ -1581,7 +1556,8 @@
       "toolDefaultGroup": "Connessione predefinita di {{tool}}",
       "otherServices": "Altri fornitori"
     },
-    "description": "Scegli uno strumento, poi aggiungi, cambia e controlla i suoi endpoint API.",
+    "chooseOnHome": "Scegli nella Home quale endpoint usa ogni strumento.",
+    "openHome": "Vai alla Home",
     "effective": {
       "selection": {
         "defaultModel": "Modello predefinito globale: {{model}}. Le impostazioni di progetto o di sessione possono sovrascriverlo.",
@@ -1752,7 +1728,7 @@
     },
     "refresh": "Aggiorna",
     "remove": {
-      "activeHint": "Scegli un altro endpoint prima di rimuovere questo.",
+      "activeHint": "Scegli un altro endpoint nella Home prima di rimuovere questo.",
       "confirm": "Rimuovi endpoint",
       "description": "Questo rimuove l'endpoint salvato da AI Manager e da {{tool}}.",
       "errorTitle": "Impossibile rimuovere questo endpoint",
@@ -1781,7 +1757,6 @@
       "openNow": "Apri ora",
       "reopenHint": "{{tool}} già in esecuzione mantiene il vecchio endpoint finché non lo riapri.",
       "retryHint": "Prova di nuovo lo stesso passaggio.",
-      "retryNamed": "Prova di nuovo a passare a {{name}}",
       "switchingNamed": "Passaggio a {{name}} in corso"
     },
     "failover": {

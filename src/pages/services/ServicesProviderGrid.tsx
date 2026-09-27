@@ -41,7 +41,6 @@ interface ServicesProviderGridProps {
   recoveryUnavailableProviderId?: string;
   switchFailure?: ProviderSwitchFailure;
   checkFailure?: ProviderCheckFailure;
-  onUse: (providerId: string) => void;
   onTest: (providerId: string) => void;
   /** Tests the connection in force when it is not one of the saved services. */
   onTestExternal?: () => void;
@@ -69,7 +68,6 @@ export function ServicesProviderGrid({
   recoveryUnavailableProviderId,
   switchFailure,
   checkFailure,
-  onUse,
   onTest,
   onTestExternal,
   onEditExternalVariable,
@@ -187,7 +185,6 @@ export function ServicesProviderGrid({
                     : undefined
                 }
                 testResult={connectivityFor(connectivity, tool, provider.id)}
-                onUse={() => onUse(provider.id)}
                 onTest={() => onTest(provider.id)}
                 onTryNext={
                   hasSavedCandidate ? () => onTryNext(provider.id) : undefined

@@ -68,6 +68,7 @@ function mount(
     onRecheck: vi.fn(),
     onReview: vi.fn(),
     onStart: vi.fn(),
+    onOpenUpdates: vi.fn(),
     ...overrides,
   };
   render(<HomeStatusLine {...props} />);
@@ -156,5 +157,26 @@ describe("HomeStatusLine", () => {
       screen.getByRole("button", { name: en.home.status.actions.tools }),
     );
     expect(props.onReview).toHaveBeenCalledWith("tools");
+  });
+
+  it("counts updates as a way to the Software page, not as an update action", async () => {
+    const tools = [tool({ status: "updateAvailable", latestVersion: "1.1.0" })];
+    const summary = aggregateQuickCheck(tools, HEALTHY, {});
+    const props = mount({ summary, startTool: null }, tools);
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "1 update available" }),
+    );
+    expect(props.onOpenUpdates).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole("button", { name: /^Update/ })).toBeNull();
+  });
+
+  it("stays a quiet line rather than a banner card", () => {
+    mount();
+    const heading = screen.getByRole("heading", { level: 1 });
+    expect(heading.closest(".ds-card")).toBeNull();
+    for (const button of screen.getAllByRole("button")) {
+      expect(button).not.toHaveClass("ds-button-primary");
+    }
   });
 });

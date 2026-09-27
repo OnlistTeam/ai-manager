@@ -347,7 +347,6 @@
     "action": {
       "install": "Cài đặt",
       "configure": "Thêm vào công cụ",
-      "readOnly": "Chỉ đọc",
       "update": "Cập nhật",
       "versions": "Đổi phiên bản",
       "open": "Mở",
@@ -359,7 +358,6 @@
       "copyNamed": "Sao chép {{name}}",
       "copied": "Đã sao chép",
       "use": "Dùng",
-      "inUse": "Đang dùng",
       "cancel": "Hủy",
       "close": "Đóng",
       "named": {
@@ -1357,7 +1355,6 @@
     "tools": {
       "title": "Công cụ của tôi",
       "install": "Cài công cụ AI",
-      "updateAll": "Cập nhật tất cả",
       "empty": "Các công cụ đã cài không dùng API endpoint nào.",
       "official": "Đăng nhập chính thức",
       "notConnected": "Chưa kết nối",
@@ -1365,41 +1362,21 @@
       "added_other": "Đã thêm {{count}} endpoint",
       "modelInTool": "Chọn mô hình trong {{tool}}",
       "unavailable": "Không đọc được endpoint",
-      "switchTo": "Chuyển sang…",
-      "switchNamed": "Đổi endpoint mà {{tool}} dùng",
-      "connect": "Kết nối",
-      "connectNamed": "Kết nối API endpoint cho {{tool}}",
-      "update": "Cập nhật",
-      "updateNamed": "Cập nhật {{tool}}",
-      "openNamed": "Mở API Endpoints của {{tool}}",
-      "switchUnreachable": "{{name}} không phản hồi nên chưa có gì thay đổi."
+      "switchUnreachable": "{{name}} không phản hồi nên chưa có gì thay đổi.",
+      "pickerLabel": "Điểm cuối của {{tool}}",
+      "pickNamed": "Điểm cuối {{tool}} đang dùng: {{current}}",
+      "manageEndpoints": "Quản lý điểm cuối API…",
+      "addEndpoint": "Thêm điểm cuối…",
+      "noEndpoints": "Chưa thêm điểm cuối nào.",
+      "filter": "Lọc điểm cuối",
+      "noMatch": "Không có điểm cuối phù hợp."
     },
     "updateAll": {
       "reviewTitle_one": "Xem lại {{count}} bản cập nhật công cụ",
       "reviewTitle_other": "Xem lại {{count}} bản cập nhật công cụ",
       "previewSummary": "{{ready}} có thể cập nhật ngay. {{skipped}} sẽ bị bỏ qua cho đến khi việc cài đặt được xem lại.",
-      "skippedSummary_one": "{{count}} công cụ bị bỏ qua vì không thể xác nhận phương thức cập nhật.",
-      "skippedSummary_other": "{{count}} công cụ bị bỏ qua vì không thể xác nhận phương thức cập nhật.",
       "confirm_one": "Cập nhật {{count}} công cụ",
-      "confirm_other": "Cập nhật {{count}} công cụ",
-      "failure": {
-        "partial": {
-          "title": "Một số bản cập nhật đang chạy",
-          "description_one": "{{count}} bản cập nhật đã bắt đầu trong mục Hoạt động. Chỉ công cụ chưa bắt đầu vẫn còn được chọn.",
-          "description_other": "{{count}} bản cập nhật đã bắt đầu trong mục Hoạt động. Chỉ những công cụ chưa bắt đầu vẫn còn được chọn."
-        },
-        "all": {
-          "title": "Không thể bắt đầu cập nhật",
-          "description_one": "Không có nhiệm vụ cập nhật nào được tạo. Thử lại sẽ kiểm tra công cụ này lần nữa trước khi bắt đầu.",
-          "description_other": "Không có nhiệm vụ cập nhật nào được tạo. Thử lại sẽ kiểm tra các công cụ này lần nữa trước khi bắt đầu."
-        }
-      },
-      "hints": {
-        "running": "Các bản cập nhật đang chạy trong mục Hoạt động",
-        "checking": "Đang kiểm tra những gì có thể cập nhật",
-        "unavailable": "Trạng thái cập nhật hiện không khả dụng",
-        "review": "Xem lại bản cập nhật này trong mục Phần mềm"
-      }
+      "confirm_other": "Cập nhật {{count}} công cụ"
     },
     "error": {
       "title": "Không thể kiểm tra thiết lập của bạn",
@@ -1407,12 +1384,12 @@
     },
     "refreshError": {
       "title": "Trang chủ không thể làm mới",
-      "description": "Thiết lập kiểm tra gần nhất vẫn đang được hiển thị. Việc khởi động và cập nhật công cụ sẽ tạm dừng cho đến khi có một lần kiểm tra mới thành công.",
+      "description": "Thiết lập kiểm tra gần nhất vẫn đang được hiển thị. Việc khởi động công cụ sẽ tạm dừng cho đến khi có một lần kiểm tra mới thành công.",
       "action": "Kiểm tra lại"
     },
     "refreshing": {
       "title": "Đang kiểm tra lại Trang chủ",
-      "description": "Việc khởi động và cập nhật công cụ sẽ tiếp tục khi lần kiểm tra này hoàn tất."
+      "description": "Việc khởi động công cụ sẽ tiếp tục khi lần kiểm tra này hoàn tất."
     }
   },
   "taskCenter": {
@@ -1507,15 +1484,13 @@
   "services": {
     "action": {
       "add": "Thêm điểm cuối",
-      "configureNamed": "Thêm {{name}} vào công cụ",
       "edit": "Sửa",
       "editNamed": "Sửa {{name}}",
       "remove": "Xóa",
       "removeNamed": "Xóa {{name}}",
       "test": "Kiểm tra",
       "testAll": "Kiểm tra mọi địa chỉ",
-      "testNamed": "Kiểm tra {{name}}",
-      "useNamed": "Dùng {{name}}"
+      "testNamed": "Kiểm tra {{name}}"
     },
     "card": {
       "custom": "Điểm cuối tùy chỉnh",
@@ -1581,7 +1556,8 @@
       "toolDefaultGroup": "Kết nối mặc định của {{tool}}",
       "otherServices": "Nhà cung cấp khác"
     },
-    "description": "Chọn một công cụ, sau đó thêm, chuyển và kiểm tra các điểm cuối API của nó.",
+    "chooseOnHome": "Chọn điểm cuối cho từng công cụ ở Trang chủ.",
+    "openHome": "Đến Trang chủ",
     "effective": {
       "selection": {
         "defaultModel": "Model mặc định toàn cục: {{model}}. Cài đặt dự án hoặc phiên có thể ghi đè nó.",
@@ -1752,7 +1728,7 @@
     },
     "refresh": "Làm mới",
     "remove": {
-      "activeHint": "Chọn một điểm cuối khác trước khi xóa điểm cuối này.",
+      "activeHint": "Chọn một điểm cuối khác ở Trang chủ trước khi xóa điểm cuối này.",
       "confirm": "Xóa điểm cuối",
       "description": "Thao tác này xóa điểm cuối đã lưu khỏi AI Manager và {{tool}}.",
       "errorTitle": "Không thể xóa điểm cuối này",
@@ -1781,7 +1757,6 @@
       "openNow": "Mở ngay",
       "reopenHint": "{{tool}} đang chạy sẵn sẽ giữ điểm cuối cũ cho đến khi bạn mở lại.",
       "retryHint": "Thử lại cùng thao tác chuyển này.",
-      "retryNamed": "Thử chuyển lại sang {{name}}",
       "switchingNamed": "Đang chuyển sang {{name}}"
     },
     "failover": {

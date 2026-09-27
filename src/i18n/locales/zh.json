@@ -347,7 +347,6 @@
     "action": {
       "install": "安装",
       "configure": "添加到软件",
-      "readOnly": "只读",
       "update": "更新",
       "versions": "切换版本",
       "open": "打开",
@@ -359,7 +358,6 @@
       "copyNamed": "复制{{name}}",
       "copied": "已复制",
       "use": "使用",
-      "inUse": "使用中",
       "cancel": "取消",
       "close": "关闭",
       "named": {
@@ -1356,7 +1354,6 @@
     "tools": {
       "title": "我的工具",
       "install": "安装 AI 工具",
-      "updateAll": "全部更新",
       "empty": "已安装的工具都不使用 API 端点。",
       "official": "官方登录",
       "notConnected": "未连接",
@@ -1364,41 +1361,21 @@
       "added_other": "已添加 {{count}} 个端点",
       "modelInTool": "在 {{tool}} 里选模型",
       "unavailable": "读取不到端点",
-      "switchTo": "切换到…",
-      "switchNamed": "切换 {{tool}} 使用的端点",
-      "connect": "连接",
-      "connectNamed": "为 {{tool}} 连接 API 端点",
-      "update": "更新",
-      "updateNamed": "更新 {{tool}}",
-      "openNamed": "打开 {{tool}} 的 API 端点",
-      "switchUnreachable": "{{name}} 没有响应，连接没有改动。"
+      "switchUnreachable": "{{name}} 没有响应，连接没有改动。",
+      "pickerLabel": "{{tool}} 可用的端点",
+      "pickNamed": "{{tool}} 使用的端点：{{current}}",
+      "manageEndpoints": "管理 API 端点…",
+      "addEndpoint": "添加端点…",
+      "noEndpoints": "还没有添加端点。",
+      "filter": "筛选端点",
+      "noMatch": "没有匹配的端点。"
     },
     "updateAll": {
       "reviewTitle_one": "检查 {{count}} 个工具的更新",
       "reviewTitle_other": "检查 {{count}} 个工具的更新",
       "previewSummary": "{{ready}} 个现在可以更新，{{skipped}} 个会先跳过，等待处理安装问题。",
-      "skippedSummary_one": "{{count}} 个工具因无法确认更新方式而被跳过。",
-      "skippedSummary_other": "{{count}} 个工具因无法确认更新方式而被跳过。",
       "confirm_one": "更新 {{count}} 个工具",
-      "confirm_other": "更新 {{count}} 个工具",
-      "failure": {
-        "partial": {
-          "title": "部分更新已开始",
-          "description_one": "{{count}} 项更新已进入“活动”。未能启动的工具仍保持选中。",
-          "description_other": "{{count}} 项更新已进入“活动”。未能启动的工具仍保持选中。"
-        },
-        "all": {
-          "title": "更新未能开始",
-          "description_one": "没有创建更新任务。重试会先重新检查这个工具，再开始更新。",
-          "description_other": "没有创建更新任务。重试会先重新检查这些工具，再开始更新。"
-        }
-      },
-      "hints": {
-        "running": "更新已经在“活动”中进行",
-        "checking": "正在确认哪些工具可以更新",
-        "unavailable": "暂时无法确认更新状态",
-        "review": "请到“软件管理”中查看这项更新"
-      }
+      "confirm_other": "更新 {{count}} 个工具"
     },
     "error": {
       "title": "没能检查你的环境",
@@ -1406,12 +1383,12 @@
     },
     "refreshError": {
       "title": "首页没能刷新",
-      "description": "仍显示上一次检查结果。新检查成功前，开始工具和全部更新会保持暂停。",
+      "description": "仍显示上一次检查结果。新检查成功前，开始工具会保持暂停。",
       "action": "重新检查"
     },
     "refreshing": {
       "title": "正在重新检查首页",
-      "description": "检查完成后，开始工具和全部更新会自动恢复。"
+      "description": "检查完成后，开始工具会自动恢复。"
     }
   },
   "taskCenter": {
@@ -1506,15 +1483,13 @@
   "services": {
     "action": {
       "add": "添加端点",
-      "configureNamed": "添加 {{name}} 到软件",
       "edit": "编辑",
       "editNamed": "编辑 {{name}}",
       "remove": "移除",
       "removeNamed": "移除 {{name}}",
       "test": "测试",
       "testAll": "检查全部地址",
-      "testNamed": "测试 {{name}}",
-      "useNamed": "使用 {{name}}"
+      "testNamed": "测试 {{name}}"
     },
     "card": {
       "custom": "自定义端点",
@@ -1580,7 +1555,8 @@
       "toolDefaultGroup": "{{tool}} 默认连接",
       "otherServices": "其他服务商"
     },
-    "description": "选择软件，添加、切换和检查它使用的 API 端点。",
+    "chooseOnHome": "在首页选择每个软件用哪个。",
+    "openHome": "去首页",
     "effective": {
       "selection": {
         "defaultModel": "全局默认模型：{{model}}，可能被项目或会话设置覆盖。",
@@ -1751,7 +1727,7 @@
     },
     "refresh": "刷新",
     "remove": {
-      "activeHint": "请先改用另一个端点，再移除这个端点。",
+      "activeHint": "请先在首页改用另一个端点，再移除这个端点。",
       "confirm": "移除端点",
       "description": "这会从 AI 管家和 {{tool}} 中移除已保存的端点。",
       "errorTitle": "没能移除这个端点",
@@ -1780,7 +1756,6 @@
       "openNow": "现在打开",
       "reopenHint": "正在运行的 {{tool}} 不会自动换用，重新打开后才会使用它。",
       "retryHint": "请再试一次相同的切换。",
-      "retryNamed": "重新切换到 {{name}}",
       "switchingNamed": "正在切换到 {{name}}"
     },
     "failover": {

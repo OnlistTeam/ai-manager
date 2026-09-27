@@ -28,7 +28,6 @@ export interface UpdateConfirmationModalProps {
   submitting: boolean;
   mutationError?: Error | null;
   actionPaused?: boolean;
-  bulk?: boolean;
   confirmLabel?: string;
   notice?: ReactNode;
   returnFocusFallbackRef?: RefObject<HTMLElement>;
@@ -62,7 +61,6 @@ export function UpdateConfirmationModal({
   submitting,
   mutationError = null,
   actionPaused = false,
-  bulk = false,
   confirmLabel: confirmLabelOverride,
   notice,
   returnFocusFallbackRef,
@@ -76,7 +74,7 @@ export function UpdateConfirmationModal({
   const refreshRef = useRef<HTMLButtonElement>(null);
   const ready = useMemo(() => readyPreviews(previews), [previews]);
   const stale = isStaleError(mutationError);
-  const single = !bulk && tools.length === 1;
+  const single = tools.length === 1;
   const blockedCount = Math.max(0, tools.length - ready.length);
   const needsRefresh = Boolean(previewError) || stale || ready.length === 0;
   const confirmDisabled =

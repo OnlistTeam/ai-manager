@@ -347,7 +347,6 @@
     "action": {
       "install": "Instal",
       "configure": "Tambahkan ke alat",
-      "readOnly": "Hanya baca",
       "update": "Perbarui",
       "versions": "Ganti versi",
       "open": "Buka",
@@ -359,7 +358,6 @@
       "copyNamed": "Salin {{name}}",
       "copied": "Disalin",
       "use": "Gunakan",
-      "inUse": "Saat Ini",
       "cancel": "Batalkan",
       "close": "Tutup",
       "named": {
@@ -1357,7 +1355,6 @@
     "tools": {
       "title": "Alat saya",
       "install": "Instal Alat AI",
-      "updateAll": "Perbarui Semua",
       "empty": "Tidak ada alat terinstal yang memakai endpoint API.",
       "official": "Masuk resmi",
       "notConnected": "Belum terhubung",
@@ -1365,41 +1362,21 @@
       "added_other": "{{count}} endpoint ditambahkan",
       "modelInTool": "Model dipilih di {{tool}}",
       "unavailable": "Endpoint tidak dapat dibaca",
-      "switchTo": "Beralih ke…",
-      "switchNamed": "Ganti endpoint yang dipakai {{tool}}",
-      "connect": "Hubungkan",
-      "connectNamed": "Hubungkan endpoint API ke {{tool}}",
-      "update": "Perbarui",
-      "updateNamed": "Perbarui {{tool}}",
-      "openNamed": "Buka endpoint API untuk {{tool}}",
-      "switchUnreachable": "{{name}} tidak merespons, jadi tidak ada yang diubah."
+      "switchUnreachable": "{{name}} tidak merespons, jadi tidak ada yang diubah.",
+      "pickerLabel": "Endpoint untuk {{tool}}",
+      "pickNamed": "Endpoint yang dipakai {{tool}}: {{current}}",
+      "manageEndpoints": "Kelola endpoint API…",
+      "addEndpoint": "Tambah endpoint…",
+      "noEndpoints": "Belum ada endpoint yang ditambahkan.",
+      "filter": "Saring endpoint",
+      "noMatch": "Tidak ada endpoint yang cocok."
     },
     "updateAll": {
       "reviewTitle_one": "Tinjau {{count}} pembaruan alat",
       "reviewTitle_other": "Tinjau {{count}} pembaruan alat",
       "previewSummary": "{{ready}} dapat diperbarui sekarang. {{skipped}} akan dilewati sampai instalasinya ditinjau.",
-      "skippedSummary_one": "{{count}} alat dilewati karena metode pembaruannya tidak dapat dipastikan.",
-      "skippedSummary_other": "{{count}} alat dilewati karena metode pembaruannya tidak dapat dipastikan.",
       "confirm_one": "Perbarui {{count}} alat",
-      "confirm_other": "Perbarui {{count}} alat",
-      "failure": {
-        "partial": {
-          "title": "Beberapa pembaruan kini sedang berjalan",
-          "description_one": "{{count}} pembaruan dimulai di Aktivitas. Hanya alat yang tidak dimulai yang tetap terpilih.",
-          "description_other": "{{count}} pembaruan dimulai di Aktivitas. Hanya alat yang tidak dimulai yang tetap terpilih."
-        },
-        "all": {
-          "title": "Pembaruan tidak dapat dimulai",
-          "description_one": "Tidak ada tugas pembaruan yang dibuat. Coba lagi akan memeriksa alat ini sekali lagi sebelum memulai apa pun.",
-          "description_other": "Tidak ada tugas pembaruan yang dibuat. Coba lagi akan memeriksa alat-alat ini sekali lagi sebelum memulai apa pun."
-        }
-      },
-      "hints": {
-        "running": "Pembaruan sudah berjalan di Aktivitas",
-        "checking": "Memeriksa apa yang dapat diperbarui",
-        "unavailable": "Status pembaruan saat ini tidak tersedia",
-        "review": "Tinjau pembaruan ini di Perangkat Lunak"
-      }
+      "confirm_other": "Perbarui {{count}} alat"
     },
     "error": {
       "title": "Tidak dapat memeriksa konfigurasi Anda",
@@ -1407,12 +1384,12 @@
     },
     "refreshError": {
       "title": "Beranda tidak dapat disegarkan",
-      "description": "Konfigurasi terakhir yang diperiksa masih ditampilkan. Memulai dan memperbarui alat tetap tertunda sampai pemeriksaan baru berhasil.",
+      "description": "Konfigurasi terakhir yang diperiksa masih ditampilkan. Memulai alat tetap tertunda sampai pemeriksaan baru berhasil.",
       "action": "Periksa lagi"
     },
     "refreshing": {
       "title": "Memeriksa Beranda lagi",
-      "description": "Memulai dan memperbarui alat akan dilanjutkan setelah pemeriksaan ini selesai."
+      "description": "Memulai alat akan dilanjutkan setelah pemeriksaan ini selesai."
     }
   },
   "taskCenter": {
@@ -1507,15 +1484,13 @@
   "services": {
     "action": {
       "add": "Tambah endpoint",
-      "configureNamed": "Tambahkan {{name}} ke alat",
       "edit": "Ubah",
       "editNamed": "Ubah {{name}}",
       "remove": "Hapus",
       "removeNamed": "Hapus {{name}}",
       "test": "Uji",
       "testAll": "Periksa semua alamat",
-      "testNamed": "Uji {{name}}",
-      "useNamed": "Gunakan {{name}}"
+      "testNamed": "Uji {{name}}"
     },
     "card": {
       "custom": "Endpoint kustom",
@@ -1581,7 +1556,8 @@
       "toolDefaultGroup": "Koneksi bawaan {{tool}}",
       "otherServices": "Penyedia lain"
     },
-    "description": "Pilih alat, lalu tambahkan, alihkan, dan periksa endpoint API-nya.",
+    "chooseOnHome": "Pilih endpoint yang dipakai setiap alat di Beranda.",
+    "openHome": "Ke Beranda",
     "effective": {
       "selection": {
         "defaultModel": "Model default global: {{model}}. Pengaturan proyek atau sesi dapat menimpanya.",
@@ -1752,7 +1728,7 @@
     },
     "refresh": "Segarkan",
     "remove": {
-      "activeHint": "Pilih endpoint lain sebelum menghapus yang ini.",
+      "activeHint": "Pilih endpoint lain di Beranda sebelum menghapus yang ini.",
       "confirm": "Hapus Endpoint",
       "description": "Ini akan menghapus endpoint tersimpan dari AI Manager dan {{tool}}.",
       "errorTitle": "Tidak dapat menghapus endpoint ini",
@@ -1781,7 +1757,6 @@
       "openNow": "Buka sekarang",
       "reopenHint": "{{tool}} yang sudah berjalan tetap menggunakan endpoint lamanya sampai Anda membukanya kembali.",
       "retryHint": "Coba peralihan yang sama lagi.",
-      "retryNamed": "Coba beralih ke {{name}} lagi",
       "switchingNamed": "Beralih ke {{name}}"
     },
     "failover": {

@@ -347,7 +347,6 @@
     "action": {
       "install": "Install",
       "configure": "Add to tool",
-      "readOnly": "Read only",
       "update": "Update",
       "versions": "Switch version",
       "open": "Open",
@@ -359,7 +358,6 @@
       "copyNamed": "Copy {{name}}",
       "copied": "Copied",
       "use": "Use",
-      "inUse": "Current",
       "cancel": "Cancel",
       "close": "Close",
       "named": {
@@ -1357,7 +1355,6 @@
     "tools": {
       "title": "My tools",
       "install": "Install AI Tool",
-      "updateAll": "Update All",
       "empty": "None of your installed tools use API endpoints.",
       "official": "Official sign-in",
       "notConnected": "Not connected",
@@ -1365,41 +1362,21 @@
       "added_other": "{{count}} endpoints added",
       "modelInTool": "Model chosen in {{tool}}",
       "unavailable": "Couldn't read endpoints",
-      "switchTo": "Switch to…",
-      "switchNamed": "Switch the endpoint {{tool}} uses",
-      "connect": "Connect",
-      "connectNamed": "Connect an API endpoint to {{tool}}",
-      "update": "Update",
-      "updateNamed": "Update {{tool}}",
-      "openNamed": "Open API endpoints for {{tool}}",
-      "switchUnreachable": "{{name}} did not respond, so nothing was changed."
+      "switchUnreachable": "{{name}} did not respond, so nothing was changed.",
+      "pickerLabel": "Endpoints for {{tool}}",
+      "pickNamed": "Endpoint {{tool}} uses: {{current}}",
+      "manageEndpoints": "Manage API endpoints…",
+      "addEndpoint": "Add an endpoint…",
+      "noEndpoints": "No endpoints added yet.",
+      "filter": "Filter endpoints",
+      "noMatch": "No matching endpoints."
     },
     "updateAll": {
       "reviewTitle_one": "Review {{count}} tool update",
       "reviewTitle_other": "Review {{count}} tool updates",
       "previewSummary": "{{ready}} can update now. {{skipped}} will be skipped until its installation is reviewed.",
-      "skippedSummary_one": "{{count}} tool was skipped because its update method could not be confirmed.",
-      "skippedSummary_other": "{{count}} tools were skipped because their update methods could not be confirmed.",
       "confirm_one": "Update {{count}} tool",
-      "confirm_other": "Update {{count}} tools",
-      "failure": {
-        "partial": {
-          "title": "Some updates are now running",
-          "description_one": "{{count}} update started in Activity. Only the tool that did not start remains selected.",
-          "description_other": "{{count}} updates started in Activity. Only the tools that did not start remain selected."
-        },
-        "all": {
-          "title": "Updates could not start",
-          "description_one": "No update task was created. Retry checks this tool again before starting anything.",
-          "description_other": "No update tasks were created. Retry checks these tools again before starting anything."
-        }
-      },
-      "hints": {
-        "running": "Updates are already running in Activity",
-        "checking": "Checking what can be updated",
-        "unavailable": "Update status is unavailable right now",
-        "review": "Review this update in Software"
-      }
+      "confirm_other": "Update {{count}} tools"
     },
     "error": {
       "title": "Could not check your setup",
@@ -1407,12 +1384,12 @@
     },
     "refreshError": {
       "title": "Home could not refresh",
-      "description": "The last checked setup is still shown. Starting and updating tools stay paused until a new check succeeds.",
+      "description": "The last checked setup is still shown. Starting tools stays paused until a new check succeeds.",
       "action": "Check again"
     },
     "refreshing": {
       "title": "Checking Home again",
-      "description": "Starting and updating tools will resume when this check finishes."
+      "description": "Starting tools will resume when this check finishes."
     }
   },
   "taskCenter": {
@@ -1507,15 +1484,13 @@
   "services": {
     "action": {
       "add": "Add endpoint",
-      "configureNamed": "Add {{name}} to tool",
       "edit": "Edit",
       "editNamed": "Edit {{name}}",
       "remove": "Remove",
       "removeNamed": "Remove {{name}}",
       "test": "Test",
       "testAll": "Check all addresses",
-      "testNamed": "Test {{name}}",
-      "useNamed": "Use {{name}}"
+      "testNamed": "Test {{name}}"
     },
     "card": {
       "custom": "Custom endpoint",
@@ -1581,7 +1556,8 @@
       "toolDefaultGroup": "{{tool}} connects here by default",
       "otherServices": "Other providers"
     },
-    "description": "Choose a tool, then add, switch, and check its API endpoints.",
+    "chooseOnHome": "Choose which endpoint each tool uses on Home.",
+    "openHome": "Go to Home",
     "effective": {
       "selection": {
         "defaultModel": "Global default model: {{model}}. Project or session settings may override it.",
@@ -1752,7 +1728,7 @@
     },
     "refresh": "Refresh",
     "remove": {
-      "activeHint": "Choose another endpoint before removing this one.",
+      "activeHint": "Choose another endpoint on Home before removing this one.",
       "confirm": "Remove Endpoint",
       "description": "This removes the saved endpoint from AI Manager and {{tool}}.",
       "errorTitle": "Could not remove this endpoint",
@@ -1781,7 +1757,6 @@
       "openNow": "Open now",
       "reopenHint": "{{tool}} that is already running keeps its old endpoint until you reopen it.",
       "retryHint": "Try the same switch again.",
-      "retryNamed": "Try switching to {{name}} again",
       "switchingNamed": "Switching to {{name}}"
     },
     "failover": {

@@ -3,6 +3,8 @@
 - Status: accepted
 - Date: 2026-09-26
 - Revises: design-spec §26–§29 (home page). Relates to ADR-0035 and ADR-0039.
+- Amended by: ADR-0053 (the row's picker replaces the switch menu, row
+  target and Update button; Update All and the live routing slot leave Home).
 
 ## Context
 

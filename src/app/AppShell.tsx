@@ -127,7 +127,6 @@ export function AppShell() {
           onOpenTools={() => openRoute("tools")}
           onOpenServices={openServices}
           onOpenMcp={() => openExtensions(undefined, "mcp")}
-          onOpenPrivacySettings={() => openSettings("privacy")}
         />
       ),
       tools: () => (
@@ -141,6 +140,7 @@ export function AppShell() {
         <ServicesPage
           preferredToolId={intents.serviceTool}
           preferredTab={intents.servicesTab}
+          onOpenHome={() => openRoute("home")}
           onOpenPrivacySettings={() => openSettings("privacy")}
         />
       ),

@@ -222,25 +222,12 @@ export function ProductSection() {
       <ListGroup>
         <ServiceCard
           name="Claude"
-          connected
           active
           usedBy={["Claude Code", "OpenCode"]}
-          onUse={() => undefined}
         />
-        <ServiceCard
-          name="OpenRouter"
-          connected
-          usedBy={[]}
-          onUse={() => undefined}
-        />
-        <ServiceCard name="Custom" usedBy={[]} onConnect={() => undefined} />
-        <ServiceCard
-          name="OpenAI"
-          connected
-          usedBy={["Codex"]}
-          busy
-          onUse={() => undefined}
-        />
+        <ServiceCard name="OpenRouter" usedBy={[]} />
+        <ServiceCard name="Custom" usedBy={[]} />
+        <ServiceCard name="OpenAI" usedBy={["Codex"]} busy />
       </ListGroup>
 
       <div className="rounded-lg border border-hairline bg-layer-1 px-4">

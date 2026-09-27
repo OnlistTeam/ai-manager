@@ -1,8 +1,7 @@
 import { useTranslation } from "react-i18next";
-import type { Tool, ToolId } from "@/entities/tool";
+import type { ToolId } from "@/entities/tool";
 import { QuickCheckResolutionGuide } from "@/features/health";
 import {
-  busyTools,
   firstLaunchableTool,
   useToolLaunchFlow,
 } from "@/features/tool-management";
@@ -13,43 +12,39 @@ import {
   HomeStatusChecking,
   HomeUnavailableState,
 } from "./HomeReadinessNotice";
-import { HomeLiveRouting } from "./HomeLiveRouting";
 import { HomeStatusLine } from "./HomeStatusLine";
 import { HomeToolList } from "./HomeToolList";
 import {
   recommendHomeAction,
   type HomeDestination,
 } from "./homeRecommendation";
-import { connectableTools, coveredByToolRow } from "./homeToolConnection";
-import { UpdateAllFailureNotice } from "./UpdateAllFailureNotice";
-import { updateAllHintKey } from "./updateAllHint";
+import { connectableTools, shownElsewhereOnHome } from "./homeToolConnection";
 import { useHomeReadinessRecovery } from "./useHomeReadinessRecovery";
-import { useHomeUpdateAll } from "./useHomeUpdateAll";
 
 export interface HomePageProps {
   onOpenTools: () => void;
   onOpenServices: (toolId?: ToolId) => void;
   onOpenMcp: () => void;
-  /** Opens the privacy section of the settings page. */
-  onOpenPrivacySettings?: () => void;
 }
 
+/**
+ * Which tool uses what (ADR-0053): one quiet status line, the findings that
+ * need a next step, and one row per installed tool where its endpoint is
+ * chosen. Adding and checking endpoints, updates and routing live on their
+ * own pages.
+ */
 export function HomePage({
   onOpenTools,
   onOpenServices,
   onOpenMcp,
-  onOpenPrivacySettings,
 }: HomePageProps) {
   const { t } = useTranslation();
   const {
     check,
-    operations,
     pageRef,
     retryButtonRef,
     checkUnavailable,
     refreshFailed,
-    sourcesUnavailable,
-    sourcesPending,
     retrying,
     actionsBlocked,
     retryHome,
@@ -65,7 +60,7 @@ export function HomePage({
         (item) =>
           item.status !== "ready" &&
           item.resolution !== undefined &&
-          !coveredByToolRow(item, rowToolIds),
+          !shownElsewhereOnHome(item, rowToolIds),
       )
     : [];
   const startTool =
@@ -73,34 +68,12 @@ export function HomePage({
       ? firstLaunchableTool(list)
       : null;
   const recommendation = summary ? recommendHomeAction(summary) : null;
-  const outdated = list.filter((tool) => tool.status === "updateAvailable");
-  const updateable = outdated.filter((tool) => tool.capabilities.canUpdate);
-  const busy = busyTools(operations.data ?? []);
-  const readyToUpdate = updateable.filter((tool) => !busy.has(tool.id));
-  const updates = useHomeUpdateAll({
-    readyToUpdate,
-    actionsBlocked,
-    refetchOperations: operations.refetch,
-  });
 
   const destinations: Record<HomeDestination, () => void> = {
     tools: () => onOpenTools(),
     services: () => onOpenServices(recommendation?.toolId ?? undefined),
     mcp: () => onOpenMcp(),
   };
-
-  const updateFor = (tool: Tool) =>
-    tool.status !== "updateAvailable"
-      ? null
-      : {
-          running: busy.has(tool.id),
-          disabled: actionsBlocked || updates.scheduling,
-          // A tool this app cannot update itself is reviewed where its
-          // installation is explained, not in a dialog that could only refuse.
-          onSelect: tool.capabilities.canUpdate
-            ? () => updates.start([tool])
-            : onOpenTools,
-        };
 
   return (
     <div
@@ -138,13 +111,12 @@ export function HomePage({
           onRecheck={() => void check.recheck()}
           onReview={(destination) => destinations[destination]()}
           onStart={launch.openTool}
+          onOpenUpdates={onOpenTools}
         />
       )}
 
-      <HomeLiveRouting onOpenPrivacySettings={onOpenPrivacySettings} />
-
       {/* The status line counts; this list names each finding with its next
-          step. Findings a tool row already shows are left to that row. */}
+          step. Findings Home already states elsewhere are left out. */}
       {summary && !checkUnavailable && findings.length > 0 ? (
         <Card padding="sm" role="region" aria-label={t("home.health.title")}>
           <QuickCheckResolutionGuide
@@ -160,52 +132,17 @@ export function HomePage({
       {summary && !checkUnavailable && summary.installedCount > 0 ? (
         <HomeToolList
           tools={rows}
-          updateAll={
-            outdated.length === 0
-              ? null
-              : {
-                  disabled:
-                    actionsBlocked ||
-                    readyToUpdate.length === 0 ||
-                    updates.scheduling,
-                  loading: updates.scheduling && updates.bulk,
-                  hintKey: updateAllHintKey({
-                    scheduling: updates.scheduling,
-                    sourcesUnavailable,
-                    sourcesPending,
-                    retrying,
-                    readyCount: readyToUpdate.length,
-                    updateableBusy: updateable.some((tool) =>
-                      busy.has(tool.id),
-                    ),
-                  }),
-                  onSelect: () => updates.start(),
-                }
-          }
-          updateFor={updateFor}
           onInstall={onOpenTools}
           onOpenTool={launch.openTool}
           onOpenServices={onOpenServices}
         />
       ) : null}
 
-      {updates.skippedCount > 0 && updates.pending.length === 0 ? (
-        <UpdateAllFailureNotice
-          failedCount={0}
-          startedCount={0}
-          skippedCount={updates.skippedCount}
-          onReviewSkipped={onOpenTools}
-        />
-      ) : null}
-
       <HomeDialogs
-        updates={updates}
         launch={launch}
-        pageRef={pageRef}
         actionsBlocked={actionsBlocked}
         retrying={retrying}
         refreshFailed={refreshFailed}
-        onReviewSkipped={onOpenTools}
       />
     </div>
   );

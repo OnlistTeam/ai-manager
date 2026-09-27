@@ -347,7 +347,6 @@
     "action": {
       "install": "インストール",
       "configure": "ツールに追加",
-      "readOnly": "読み取り専用",
       "update": "アップデート",
       "versions": "バージョン切替",
       "open": "開く",
@@ -359,7 +358,6 @@
       "copyNamed": "{{name}}をコピー",
       "copied": "コピーしました",
       "use": "使用",
-      "inUse": "選択中",
       "cancel": "キャンセル",
       "close": "閉じる",
       "named": {
@@ -1356,7 +1354,6 @@
     "tools": {
       "title": "マイツール",
       "install": "AI ツールをインストール",
-      "updateAll": "すべて更新",
       "empty": "インストール済みのツールはどれも API エンドポイントを使いません。",
       "official": "公式ログイン",
       "notConnected": "未接続",
@@ -1364,41 +1361,21 @@
       "added_other": "{{count}} 件のエンドポイントを追加済み",
       "modelInTool": "モデルは {{tool}} で選択",
       "unavailable": "エンドポイントを読み取れません",
-      "switchTo": "切り替え先…",
-      "switchNamed": "{{tool}} が使うエンドポイントを切り替え",
-      "connect": "接続",
-      "connectNamed": "{{tool}} に API エンドポイントを接続",
-      "update": "更新",
-      "updateNamed": "{{tool}} を更新",
-      "openNamed": "{{tool}} の API エンドポイントを開く",
-      "switchUnreachable": "{{name}} が応答しなかったため、何も変更していません。"
+      "switchUnreachable": "{{name}} が応答しなかったため、何も変更していません。",
+      "pickerLabel": "{{tool}} のエンドポイント",
+      "pickNamed": "{{tool}} が使うエンドポイント：{{current}}",
+      "manageEndpoints": "API エンドポイントを管理…",
+      "addEndpoint": "エンドポイントを追加…",
+      "noEndpoints": "まだエンドポイントがありません。",
+      "filter": "エンドポイントを絞り込む",
+      "noMatch": "一致するエンドポイントはありません。"
     },
     "updateAll": {
       "reviewTitle_one": "{{count}} 個のツール更新を確認",
       "reviewTitle_other": "{{count}} 個のツール更新を確認",
       "previewSummary": "{{ready}} 個は今すぐ更新できます。{{skipped}} 個はインストールを確認するまでスキップされます。",
-      "skippedSummary_one": "更新方法を確認できないため、{{count}} 個のツールをスキップしました。",
-      "skippedSummary_other": "更新方法を確認できないため、{{count}} 個のツールをスキップしました。",
       "confirm_one": "{{count}} 個のツールを更新",
-      "confirm_other": "{{count}} 個のツールを更新",
-      "failure": {
-        "partial": {
-          "title": "一部の更新を開始しました",
-          "description_one": "{{count}} 件の更新をアクティビティで開始しました。開始できなかったツールだけが選択されたままです。",
-          "description_other": "{{count}} 件の更新をアクティビティで開始しました。開始できなかったツールだけが選択されたままです。"
-        },
-        "all": {
-          "title": "更新を開始できませんでした",
-          "description_one": "更新タスクは作成されませんでした。再試行すると、このツールをもう一度確認してから開始します。",
-          "description_other": "更新タスクは作成されませんでした。再試行すると、これらのツールをもう一度確認してから開始します。"
-        }
-      },
-      "hints": {
-        "running": "更新はアクティビティですでに実行中です",
-        "checking": "更新できるツールを確認しています",
-        "unavailable": "現在、更新状態を確認できません",
-        "review": "「ソフトウェア管理」でこの更新を確認してください"
-      }
+      "confirm_other": "{{count}} 個のツールを更新"
     },
     "error": {
       "title": "環境を確認できませんでした",
@@ -1406,12 +1383,12 @@
     },
     "refreshError": {
       "title": "ホームを更新できませんでした",
-      "description": "前回の確認結果を表示しています。新しい確認が成功するまで、ツールの開始と一括更新は一時停止します。",
+      "description": "前回の確認結果を表示しています。新しい確認が成功するまで、ツールの開始は一時停止します。",
       "action": "もう一度確認"
     },
     "refreshing": {
       "title": "ホームを再確認しています",
-      "description": "確認が終わると、ツールの開始と一括更新を再開できます。"
+      "description": "確認が終わると、ツールの開始を再開できます。"
     }
   },
   "taskCenter": {
@@ -1506,15 +1483,13 @@
   "services": {
     "action": {
       "add": "エンドポイントを追加",
-      "configureNamed": "{{name}} をツールに追加",
       "edit": "編集",
       "editNamed": "{{name}}を編集",
       "remove": "削除",
       "removeNamed": "{{name}}を削除",
       "test": "テスト",
       "testAll": "すべてのアドレスを確認",
-      "testNamed": "{{name}} をテスト",
-      "useNamed": "{{name}}を使用"
+      "testNamed": "{{name}} をテスト"
     },
     "card": {
       "custom": "カスタムエンドポイント",
@@ -1580,7 +1555,8 @@
       "toolDefaultGroup": "{{tool}} の既定の接続先",
       "otherServices": "ほかの提供元"
     },
-    "description": "ツールを選び、使用する API エンドポイントを追加・切り替え・確認します。",
+    "chooseOnHome": "各ツールがどれを使うかはホームで選びます。",
+    "openHome": "ホームへ",
     "effective": {
       "selection": {
         "defaultModel": "全体の既定モデル：{{model}}。プロジェクトやセッションの設定で上書きされる場合があります。",
@@ -1751,7 +1727,7 @@
     },
     "refresh": "再読み込み",
     "remove": {
-      "activeHint": "先に別のエンドポイントへ切り替えてから、このエンドポイントを削除してください。",
+      "activeHint": "先にホームで別のエンドポイントに切り替えてから、このエンドポイントを削除してください。",
       "confirm": "エンドポイントを削除",
       "description": "保存済みのエンドポイントを AI Manager と {{tool}} から削除します。",
       "errorTitle": "このエンドポイントを削除できませんでした",
@@ -1780,7 +1756,6 @@
       "openNow": "今すぐ開く",
       "reopenHint": "実行中の {{tool}} は自動では切り替わりません。開き直すと新しいエンドポイントを使います。",
       "retryHint": "同じ切り替えをもう一度お試しください。",
-      "retryNamed": "{{name}} への切り替えをもう一度試す",
       "switchingNamed": "{{name}} に切り替えています"
     },
     "failover": {
