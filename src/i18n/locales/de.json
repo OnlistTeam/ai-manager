@@ -347,6 +347,7 @@
     "action": {
       "install": "Installieren",
       "configure": "Zum Tool hinzufügen",
+      "readOnly": "Nur lesen",
       "update": "Aktualisieren",
       "versions": "Version wechseln",
       "open": "Öffnen",
@@ -358,6 +359,7 @@
       "copyNamed": "{{name}} kopieren",
       "copied": "Kopiert",
       "use": "Verwenden",
+      "inUse": "Aktuell",
       "cancel": "Abbrechen",
       "close": "Schließen",
       "named": {
@@ -1484,13 +1486,15 @@
   "services": {
     "action": {
       "add": "Endpunkt hinzufügen",
+      "configureNamed": "{{name}} zum Tool hinzufügen",
       "edit": "Bearbeiten",
       "editNamed": "{{name}} bearbeiten",
       "remove": "Entfernen",
       "removeNamed": "{{name}} entfernen",
       "test": "Testen",
       "testAll": "Alle Adressen prüfen",
-      "testNamed": "{{name}} testen"
+      "testNamed": "{{name}} testen",
+      "useNamed": "{{name}} verwenden"
     },
     "card": {
       "custom": "Benutzerdefinierter Endpunkt",
@@ -1556,8 +1560,7 @@
       "toolDefaultGroup": "Standardverbindung von {{tool}}",
       "otherServices": "Weitere Anbieter"
     },
-    "chooseOnHome": "Welchen Endpunkt jedes Tool verwendet, wählen Sie auf der Startseite.",
-    "openHome": "Zur Startseite",
+    "description": "Wählen Sie ein Tool, fügen Sie dann seine API-Endpunkte hinzu, wechseln Sie sie und prüfen Sie sie.",
     "effective": {
       "selection": {
         "defaultModel": "Globales Standardmodell: {{model}}. Projekt- oder Sitzungseinstellungen können es überschreiben.",
@@ -1578,6 +1581,10 @@
         "shellFile": "Aus {{variable}} in {{path}}",
         "toolDefault": "Keine benutzerdefinierte Einstellung; das Tool verwendet seine eigene Standardadresse"
       },
+      "shortSource": {
+        "terminal": "Terminal-Variable",
+        "file": "Konfigurationsdatei"
+      },
       "errorTitle": "Es konnte nicht gelesen werden, welche Verbindung aktiv ist",
       "errorDescription": "Die untenstehende Liste ist weiterhin korrekt, aber derzeit können wir nicht feststellen, welcher Eintrag tatsächlich verwendet wird.",
       "shellNotInspectedTitle": "Die Terminal-Umgebung konnte nicht gelesen werden"
@@ -1585,7 +1592,8 @@
     "external": {
       "badge": "Außerhalb dieser App",
       "endpoint": "Derzeit aktiver Endpunkt",
-      "overrides": "{{name}} verwendet diese Adresse. Sie hat Vorrang vor dem Endpunkt, den Sie unten auswählen."
+      "overrides": "{{name}} verwendet diese Adresse. Sie hat Vorrang vor dem Endpunkt, den Sie unten auswählen.",
+      "replacedByChoice": "{{name}} verwendet gerade diese Adresse. Wenn Sie unten einen Endpunkt wählen, wird sie ersetzt."
     },
     "endpoints": {
       "title": "{{tool}}-Endpunkte",
@@ -1728,7 +1736,7 @@
     },
     "refresh": "Aktualisieren",
     "remove": {
-      "activeHint": "Wählen Sie auf der Startseite einen anderen Endpunkt, bevor Sie diesen entfernen.",
+      "activeHint": "Wählen Sie einen anderen Endpunkt, bevor Sie diesen entfernen.",
       "confirm": "Endpunkt entfernen",
       "description": "Dies entfernt den gespeicherten Endpunkt aus AI Manager und {{tool}}.",
       "errorTitle": "Dieser Endpunkt konnte nicht entfernt werden",
@@ -1757,6 +1765,7 @@
       "openNow": "Jetzt öffnen",
       "reopenHint": "Ein bereits laufendes {{tool}} behält seinen alten Endpunkt, bis Sie es erneut öffnen.",
       "retryHint": "Versuchen Sie denselben Wechsel erneut.",
+      "retryNamed": "Wechsel zu {{name}} erneut versuchen",
       "switchingNamed": "Wechselt zu {{name}}"
     },
     "failover": {

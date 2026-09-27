@@ -301,13 +301,24 @@ const RUNTIME_CONTEXT: ProviderRuntimeContext = {
     sessionCount: 24,
     measurementLimited: false,
   },
+  // Variables exported from a shell profile point Claude Code at a relay that
+  // is not saved here: Home names it, and API Endpoints lists it first.
   effectiveConnection: {
-    endpoint: "https://api.anthropic.com",
-    endpointSource: { kind: "liveConfig", path: "~/.claude/settings.json" },
+    endpoint: "https://relay.example.test/",
+    endpointSource: {
+      kind: "shellFile",
+      variable: "ANTHROPIC_BASE_URL",
+      path: "~/.config/zsh/relay.zsh",
+    },
     credential: "configured",
-    credentialSource: { kind: "liveConfig", path: "~/.claude/settings.json" },
-    providerId: "anthropic-official",
+    credentialSource: {
+      kind: "shellFile",
+      variable: "ANTHROPIC_AUTH_TOKEN",
+      path: "~/.config/zsh/relay.zsh",
+    },
+    providerId: null,
     shellInspected: true,
+    outranksSwitch: false,
   },
 };
 

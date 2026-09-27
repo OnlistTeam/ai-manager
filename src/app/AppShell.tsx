@@ -140,7 +140,6 @@ export function AppShell() {
         <ServicesPage
           preferredToolId={intents.serviceTool}
           preferredTab={intents.servicesTab}
-          onOpenHome={() => openRoute("home")}
           onOpenPrivacySettings={() => openSettings("privacy")}
         />
       ),

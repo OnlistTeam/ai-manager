@@ -27,6 +27,7 @@ const shellOverride: EffectiveConnection = {
   credentialSource: { kind: "environment", variable: "ANTHROPIC_AUTH_TOKEN" },
   providerId: null,
   shellInspected: true,
+  outranksSwitch: false,
 };
 
 describe("providerEffectiveState", () => {

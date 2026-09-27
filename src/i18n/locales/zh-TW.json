@@ -347,6 +347,7 @@
     "action": {
       "install": "安裝",
       "configure": "加入軟體",
+      "readOnly": "唯讀",
       "update": "更新",
       "versions": "切換版本",
       "open": "開啟",
@@ -358,6 +359,7 @@
       "copyNamed": "複製{{name}}",
       "copied": "已複製",
       "use": "使用",
+      "inUse": "使用中",
       "cancel": "取消",
       "close": "關閉",
       "named": {
@@ -1483,13 +1485,15 @@
   "services": {
     "action": {
       "add": "新增端點",
+      "configureNamed": "將 {{name}} 加入軟體",
       "edit": "編輯",
       "editNamed": "編輯 {{name}}",
       "remove": "移除",
       "removeNamed": "移除 {{name}}",
       "test": "測試",
       "testAll": "檢查全部位址",
-      "testNamed": "測試 {{name}}"
+      "testNamed": "測試 {{name}}",
+      "useNamed": "使用 {{name}}"
     },
     "card": {
       "custom": "自訂端點",
@@ -1555,8 +1559,7 @@
       "toolDefaultGroup": "{{tool}} 預設連接",
       "otherServices": "其他服務商"
     },
-    "chooseOnHome": "在首頁選擇每個軟體用哪一個。",
-    "openHome": "前往首頁",
+    "description": "選擇軟體，新增、切換與檢查它使用的 API 端點。",
     "effective": {
       "selection": {
         "defaultModel": "全域預設模型：{{model}}，可能被專案或工作階段設定覆寫。",
@@ -1577,6 +1580,10 @@
         "shellFile": "來自 {{path}} 裡的 {{variable}}",
         "toolDefault": "沒有自訂設定，使用工具自己的預設位址"
       },
+      "shortSource": {
+        "terminal": "終端機變數",
+        "file": "設定檔"
+      },
       "errorTitle": "沒能讀出現在生效的連線",
       "errorDescription": "下面的清單還是準的，但暫時不知道哪一個真的在起作用。",
       "shellNotInspectedTitle": "沒能讀取終端機環境"
@@ -1584,7 +1591,8 @@
     "external": {
       "badge": "應用程式之外設定的",
       "endpoint": "現在生效的位址",
-      "overrides": "{{name}} 實際會用這個位址。它優先於你在下面選的端點。"
+      "overrides": "{{name}} 實際會用這個位址。它優先於你在下面選的端點。",
+      "replacedByChoice": "{{name}} 現在用的是這個位址。選下面的端點就會換掉它。"
     },
     "endpoints": {
       "title": "{{tool}} 的端點",
@@ -1727,7 +1735,7 @@
     },
     "refresh": "重新整理",
     "remove": {
-      "activeHint": "請先在首頁改用另一個端點，再移除這個端點。",
+      "activeHint": "請先改用另一個端點，再移除這個端點。",
       "confirm": "移除端點",
       "description": "這會從 AI 管家和 {{tool}} 中移除已儲存的端點。",
       "errorTitle": "沒能移除這個端點",
@@ -1756,6 +1764,7 @@
       "openNow": "現在開啟",
       "reopenHint": "正在執行的 {{tool}} 不會自動換用，重新開啟後才會使用它。",
       "retryHint": "請再試一次相同的切換。",
+      "retryNamed": "重新切換到 {{name}}",
       "switchingNamed": "正在切換到 {{name}}"
     },
     "failover": {

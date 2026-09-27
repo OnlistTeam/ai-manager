@@ -1053,10 +1053,10 @@ user's first question — "which endpoint does each of my AI tools use right
 now?" — lets the user change it right there, and shows what needs attention,
 on one screen (ADR-0051, ADR-0053).
 
-One place per job: Home chooses which endpoint each tool uses; API Endpoints
-adds, checks, orders and removes them; the Software page installs and
-updates; the Local Routing tab turns live routing on. Home has no second copy
-of any of those actions.
+Home and API Endpoints both choose which endpoint each tool uses, through one
+shared switch flow; API Endpoints also adds, checks, orders and removes them.
+The Software page installs and updates, and the Local Routing tab turns live
+routing on; Home has no second copy of those actions.
 
 Overall goal:
 
@@ -1163,11 +1163,24 @@ a small text button in the list header.
   preflight check, the reopen hint with "Open now", and its recovery state.
   A target that does not respond changes nothing, and a small line under the
   row says so and links to the API Endpoints page. Picking the one in use
-  writes it again.
+  writes it again. The API Endpoints page switches through the same flow.
 - While the list loads the picker is a placeholder; when the list cannot be
-  read it is plain text. Home reads only the saved inventory, never the
-  terminal environment (ADR-0035, ADR-0039); the API Endpoints page carries
-  the precise answer.
+  read it is plain text.
+- The picker first answers from the saved inventory, then follows the
+  effective connection read in the background through the endpoints page's
+  own query (ADR-0035, ADR-0051, ADR-0053). A saved endpoint the tool really
+  uses is named instead of the selected one. An address set outside this app
+  is named by its host and a short source, with a warning tint:
+
+  ```text
+  [icon] Claude Code ............. [⚠ relay.example.test  Terminal variable ▾]
+  ```
+
+  Its list starts with that address, checked and not choosable, under one
+  note: where it comes from, and whether choosing a saved endpoint replaces
+  it or the variable keeps winning, by the tool's own precedence. The saved
+  endpoints follow and stay choosable. Until the answer arrives the saved
+  label stays, with no spinner.
 
 There are no quick-action cards, no update buttons and no live routing panel
 on Home.
@@ -1372,24 +1385,29 @@ Proxy
 
 # 35. Current Service Switching
 
-Which endpoint a tool uses is chosen in one place: the picker on that tool's
-Home row (§29, ADR-0053). The API Endpoints page manages the endpoints (add,
-edit, check, order, remove) and never switches; its cards carry no Use
-button. The card a tool uses shows a small read-only badge:
+Home's picker (§29) and the endpoint cards both switch, through the same
+recoverable flow (ADR-0053).
+
+The card clearly shows:
 
 ```text
-In use
+Currently Used by
+
+Claude Code
+OpenCode
 ```
 
-A quiet line under the page title says where the choice is made:
+Switch button:
 
 ```text
-Choose which endpoint each tool uses on Home.   [Go to Home →]
+Use
 ```
 
-The only switches the endpoints page still starts are contextual: "try the
-next endpoint" on a card whose check failed, and "use it now" on the toast
-after adding an endpoint.
+After success:
+
+```text
+Now active
+```
 
 Do not use developer wording such as:
 

@@ -1,19 +1,28 @@
-import type { Provider, ProviderEditProfile } from "@/entities/provider";
+import type {
+  EffectiveConnection,
+  Provider,
+  ProviderEditProfile,
+} from "@/entities/provider";
 import type { Tool } from "@/entities/tool";
 import type { QuickCheckItem } from "@/features/health";
 
+/** An address in force that matches no saved endpoint, e.g. a shell variable. */
+export type ExternalConnection = EffectiveConnection & { endpoint: string };
+
 /**
- * What the saved inventory says a tool is connected to (ADR-0051, ADR-0053).
+ * What a tool is connected to (ADR-0051, ADR-0053).
  *
- * This reads only the saved list, never the terminal environment: a variable
- * exported in a shell profile can still override it, and the API Endpoints
- * page, which does inspect the terminal, carries that precise answer.
+ * The saved inventory answers first. The effective connection (ADR-0035),
+ * read in the background because its login-shell probe is slow, replaces
+ * that answer once it arrives and differs: a variable exported in a shell
+ * profile or a hand-edited config file can point the tool somewhere else.
  */
 export type ToolConnection =
   | { kind: "loading" }
   | { kind: "unavailable" }
   | { kind: "service"; provider: Provider }
   | { kind: "official"; provider: Provider | null }
+  | { kind: "external"; connection: ExternalConnection }
   | { kind: "added"; count: number }
   | { kind: "notConnected" };
 
@@ -26,10 +35,36 @@ export function connectableTools(tools: readonly Tool[]): Tool[] {
   );
 }
 
+/**
+ * What the effective connection says is in force, when it says anything
+ * definite: the saved endpoint it matched, or an address none of them has.
+ * Unknown or model-history evidence is no answer, and neither is a tool left
+ * on its own default, which the saved list already describes.
+ */
+function inForce(
+  providers: readonly Provider[],
+  effective: EffectiveConnection | null,
+): Extract<ToolConnection, { kind: "service" | "external" }> | null {
+  const definite =
+    effective && (effective.selection ?? "configuration") === "configuration";
+  if (!definite) return null;
+  if (effective.providerId !== null) {
+    const provider = providers.find(
+      (entry) => entry.id === effective.providerId,
+    );
+    return provider ? { kind: "service", provider } : null;
+  }
+  const { endpoint } = effective;
+  return endpoint === null
+    ? null
+    : { kind: "external", connection: { ...effective, endpoint } };
+}
+
 export function toolConnection(
   tool: Tool,
   providers: readonly Provider[] | undefined,
   unavailable: boolean,
+  effective: EffectiveConnection | null = null,
 ): ToolConnection {
   if (providers === undefined) {
     return unavailable ? { kind: "unavailable" } : { kind: "loading" };
@@ -39,7 +74,10 @@ export function toolConnection(
   const additive = providers.filter((provider) => provider.additive);
   if (additive.length > 0) return { kind: "added", count: additive.length };
 
-  const active = providers.find((provider) => provider.active);
+  const evidence = inForce(providers, effective);
+  if (evidence?.kind === "external") return evidence;
+  const active =
+    evidence?.provider ?? providers.find((provider) => provider.active);
   if (active) {
     return active.kind === "official"
       ? { kind: "official", provider: active }
@@ -52,17 +90,25 @@ export function toolConnection(
     : { kind: "notConnected" };
 }
 
+/** The saved entry the row names as in use, if the row names one. */
+export function inUseProviderId(connection: ToolConnection): string | null {
+  return connection.kind === "service" || connection.kind === "official"
+    ? (connection.provider?.id ?? null)
+    : null;
+}
+
 /**
  * What the row's picker lists: every non-additive entry, the one in use first
  * and the rest in the user's own order from the API Endpoints page.
  */
 export function pickerProviders(
   providers: readonly Provider[] | undefined,
+  inUseId: string | null,
 ): Provider[] {
   const choosable = (providers ?? []).filter((provider) => !provider.additive);
   return [
-    ...choosable.filter((provider) => provider.active),
-    ...choosable.filter((provider) => !provider.active),
+    ...choosable.filter((provider) => provider.id === inUseId),
+    ...choosable.filter((provider) => provider.id !== inUseId),
   ];
 }
 

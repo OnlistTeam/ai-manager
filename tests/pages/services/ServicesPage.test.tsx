@@ -73,7 +73,6 @@ function mount(
   preferredToolId: ToolId | null = null,
   advancedMode = false,
   preferredTab: ServicesTab | null = null,
-  onOpenHome: () => void = vi.fn(),
 ) {
   const client = createTestQueryClient();
   server.use(
@@ -104,7 +103,6 @@ function mount(
       <ServicesPage
         preferredToolId={preferredToolId}
         preferredTab={preferredTab}
-        onOpenHome={onOpenHome}
       />,
       { wrapper: withQueryClient(client) },
     ),
@@ -230,7 +228,7 @@ describe("ServicesPage", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("reports OpenCode recent history without claiming a model switch", async () => {
+  it("reports OpenCode recent history and adds configuration without claiming a model switch", async () => {
     const saved = service({ tool: "opencode", additive: true, apiKey: null });
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_provider_runtime_context`, () =>
@@ -259,7 +257,17 @@ describe("ServicesPage", () => {
             },
             providerId: "relay",
             shellInspected: true,
+            outranksSwitch: false,
           },
+        }),
+      ),
+      http.post(`${TAURI_ENDPOINT}/app_provider_activation_prepare`, () =>
+        HttpResponse.json({
+          status: "notChecked",
+          originProviderId: null,
+          activeProviderId: null,
+          providers: [saved],
+          checks: [],
         }),
       ),
     );
@@ -272,11 +280,20 @@ describe("ServicesPage", () => {
     expect(
       screen.getByText(en.services.effective.credential.configured),
     ).toBeInTheDocument();
-    // Adding the endpoint already wrote it into OpenCode; the card offers no
-    // second "add to tool" action.
-    expect(
-      screen.queryByRole("button", { name: en.ds.action.configure }),
-    ).not.toBeInTheDocument();
+    await userEvent.click(
+      screen.getByRole("button", { name: "Add My Relay to tool" }),
+    );
+    await waitFor(() =>
+      expect(toastMocks.success).toHaveBeenCalledWith(
+        "My Relay added to tool configuration",
+        expect.objectContaining({
+          description: en.services.switch.chooseModelHint.replace(
+            "{{tool}}",
+            "OpenCode",
+          ),
+        }),
+      ),
+    );
     expect(screen.getByText(en.services.card.recentModel)).toBeInTheDocument();
   });
 
@@ -313,6 +330,7 @@ describe("ServicesPage", () => {
             },
             providerId: "relay-b",
             shellInspected: true,
+            outranksSwitch: false,
           },
         }),
       ),
@@ -388,6 +406,7 @@ describe("ServicesPage", () => {
             },
             providerId: "relay-a",
             shellInspected: true,
+            outranksSwitch: false,
           },
         }),
       ),
@@ -439,6 +458,7 @@ describe("ServicesPage", () => {
             },
             providerId: "relay-a",
             shellInspected: true,
+            outranksSwitch: false,
           },
         }),
       ),
@@ -489,6 +509,7 @@ describe("ServicesPage", () => {
             },
             providerId: null,
             shellInspected: true,
+            outranksSwitch: false,
           },
         }),
       ),
@@ -549,6 +570,7 @@ describe("ServicesPage", () => {
                 },
                 providerId: "relay",
                 shellInspected: true,
+                outranksSwitch: false,
               },
             }),
       ),
@@ -600,6 +622,7 @@ describe("ServicesPage", () => {
             },
             providerId: "relay-a",
             shellInspected: true,
+            outranksSwitch: false,
           },
         }),
       ),
@@ -639,6 +662,7 @@ describe("ServicesPage", () => {
             },
             providerId: "relay-a",
             shellInspected: false,
+            outranksSwitch: false,
           },
         }),
       ),
@@ -1080,39 +1104,32 @@ describe("ServicesPage", () => {
     expect(bodies[1]?.draft).toEqual(bodies[0]?.draft);
   });
 
-  it("offers no Use action on any card and sends choosing to Home", async () => {
-    const onOpenHome = vi.fn();
-    mount(
-      [
-        service({
-          id: "relay-a",
-          name: "Relay A",
-          active: true,
-          canRemove: false,
+  it("switches to a service but waits for runtime evidence before calling it in use", async () => {
+    mount([service()]);
+    await screen.findByText("My Relay");
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_activation_prepare`, () =>
+        HttpResponse.json({
+          status: "notChecked",
+          originProviderId: "relay",
+          activeProviderId: "relay",
+          providers: [service({ active: true, canRemove: false })],
+          checks: [],
         }),
-        service({ id: "relay-b", name: "Relay B" }),
-      ],
-      undefined,
-      null,
-      null,
-      false,
-      null,
-      onOpenHome,
+      ),
     );
-    await screen.findByText("Relay B");
-
-    expect(screen.queryByRole("button", { name: /^Use / })).toBeNull();
-    expect(screen.queryByRole("button", { name: en.ds.action.use })).toBeNull();
-    expect(
-      screen.getByText(en.services.chooseOnHome, { exact: false }),
-    ).toBeVisible();
     await userEvent.click(
-      screen.getByRole("button", { name: en.services.openHome }),
+      screen.getByRole("button", {
+        name: en.services.action.useNamed.replace("{{name}}", "My Relay"),
+      }),
     );
-    expect(onOpenHome).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(toastMocks.success).toHaveBeenCalled());
+    expect(
+      await screen.findByText(en.services.card.unknown),
+    ).toBeInTheDocument();
   });
 
-  it("keeps every card in place when the tool starts using another service", async () => {
+  it("keeps every card in place when another service is put to use", async () => {
     const relayA = service({
       id: "relay-a",
       name: "Relay A",
@@ -1121,7 +1138,6 @@ describe("ServicesPage", () => {
     });
     const relayB = service({ id: "relay-b", name: "Relay B" });
     let inEffect = "relay-a";
-    let saved = [relayA, relayB];
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_provider_runtime_context`, () =>
         HttpResponse.json({
@@ -1147,11 +1163,25 @@ describe("ServicesPage", () => {
             },
             providerId: inEffect,
             shellInspected: true,
+            outranksSwitch: false,
           },
         }),
       ),
+      http.post(`${TAURI_ENDPOINT}/app_provider_activation_prepare`, () => {
+        inEffect = "relay-b";
+        return HttpResponse.json({
+          status: "notChecked",
+          originProviderId: "relay-b",
+          activeProviderId: "relay-b",
+          providers: [
+            { ...relayA, active: false, canRemove: true },
+            { ...relayB, active: true, canRemove: false },
+          ],
+          checks: [],
+        });
+      }),
     );
-    const { client } = mount(() => HttpResponse.json(saved));
+    mount([relayA, relayB]);
     const names = () =>
       screen
         .getAllByRole("article")
@@ -1166,13 +1196,11 @@ describe("ServicesPage", () => {
     );
     expect(names()).toEqual(["Relay A", "Relay B"]);
 
-    // The switch itself happens on Home; this page only re-reads.
-    inEffect = "relay-b";
-    saved = [
-      { ...relayA, active: false, canRemove: true },
-      { ...relayB, active: true, canRemove: false },
-    ];
-    await client.invalidateQueries({ queryKey: providerKeys.all });
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: en.services.action.useNamed.replace("{{name}}", "Relay B"),
+      }),
+    );
 
     await waitFor(() =>
       expect(
@@ -1184,23 +1212,57 @@ describe("ServicesPage", () => {
     expect(names()).toEqual(["Relay A", "Relay B"]);
   });
 
-  /** Runs the card's address check against a service that does not answer. */
-  async function failAddressCheck(name: string) {
+  it("tells the user to reopen the tool after a successful switch and offers to open it", async () => {
+    mount([service()]);
+    await screen.findByText("My Relay");
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_activation_prepare`, () =>
+        HttpResponse.json({
+          status: "ready",
+          originProviderId: "relay",
+          activeProviderId: "relay",
+          providers: [service({ active: true, canRemove: false })],
+          checks: [
+            {
+              providerId: "relay",
+              reachability: "operational",
+              responseTimeMs: 74,
+              httpStatus: 200,
+            },
+          ],
+        }),
+      ),
+    );
     await userEvent.click(
       screen.getByRole("button", {
-        name: en.services.action.testNamed.replace("{{name}}", name),
+        name: en.services.action.useNamed.replace("{{name}}", "My Relay"),
       }),
     );
-    const dialog = await screen.findByRole("dialog");
-    await within(dialog).findByText(en.services.test.failed);
-    await userEvent.click(
-      within(dialog).getByRole("button", { name: en.ds.action.close }),
+    await waitFor(() => expect(toastMocks.success).toHaveBeenCalled());
+    expect(
+      await screen.findByText(en.services.card.unknown),
+    ).toBeInTheDocument();
+    expect(toastMocks.success).toHaveBeenCalledWith(
+      en.services.switch.appliedNamed.replace("{{name}}", "My Relay"),
+      expect.objectContaining({
+        description: en.services.switch.reopenHint.replace(
+          "{{tool}}",
+          "Claude Code",
+        ),
+        action: expect.objectContaining({ label: en.services.switch.openNow }),
+      }),
     );
-    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-    return screen.getByRole("article", { name });
-  }
 
-  function recoveryInventory() {
+    const options = toastMocks.success.mock.calls.at(-1)?.[1] as {
+      action: { onClick: () => void };
+    };
+    act(() => options.action.onClick());
+    expect(
+      await screen.findByRole("dialog", { name: "Open Claude Code" }),
+    ).toBeInTheDocument();
+  });
+
+  it("does not announce a switch when the address check found the service unreachable", async () => {
     const relay = service();
     const primary = service({
       id: "primary",
@@ -1209,25 +1271,68 @@ describe("ServicesPage", () => {
       canRemove: false,
     });
     const backup = service({ id: "backup", name: "Backup" });
+    mount([relay, primary, backup]);
+    await screen.findByText("My Relay");
     server.use(
-      http.post(`${TAURI_ENDPOINT}/app_provider_test`, () =>
+      http.post(`${TAURI_ENDPOINT}/app_provider_activation_prepare`, () =>
         HttpResponse.json({
-          providerId: "relay",
-          reachability: "failed",
-          responseTimeMs: null,
-          httpStatus: null,
+          status: "unreachable",
+          originProviderId: "relay",
+          activeProviderId: "primary",
+          providers: [relay, primary, backup],
+          checks: [
+            {
+              providerId: "relay",
+              reachability: "failed",
+              responseTimeMs: null,
+              httpStatus: null,
+            },
+          ],
         }),
       ),
     );
-    return { relay, primary, backup };
-  }
+    await userEvent.click(screen.getByRole("button", { name: "Use My Relay" }));
+    const relayCard = screen.getByRole("article", { name: "My Relay" });
+    await within(relayCard).findByRole("button", {
+      name: en.services.failover.tryNextNamed.replace("{{name}}", "My Relay"),
+    });
+    expect(toastMocks.success).not.toHaveBeenCalled();
+  });
 
-  it("switches to the next reachable saved service after a failed check, in two explicit clicks", async () => {
-    const { relay, primary, backup } = recoveryInventory();
+  it("switches to the next reachable saved service in two explicit clicks", async () => {
+    const relay = service();
+    const primary = service({
+      id: "primary",
+      name: "Primary",
+      active: true,
+      canRemove: false,
+    });
+    const backup = service({ id: "backup", name: "Backup" });
+    const activationBodies: unknown[] = [];
     const recoveryBodies: unknown[] = [];
     mount([relay, primary, backup]);
     await screen.findByText("My Relay");
     server.use(
+      http.post(
+        `${TAURI_ENDPOINT}/app_provider_activation_prepare`,
+        async ({ request }) => {
+          activationBodies.push(await request.json());
+          return HttpResponse.json({
+            status: "unreachable",
+            originProviderId: "relay",
+            activeProviderId: "primary",
+            providers: [relay, primary, backup],
+            checks: [
+              {
+                providerId: "relay",
+                reachability: "failed",
+                responseTimeMs: null,
+                httpStatus: null,
+              },
+            ],
+          });
+        },
+      ),
       http.post(
         `${TAURI_ENDPOINT}/app_provider_next_healthy`,
         async ({ request }) => {
@@ -1254,10 +1359,14 @@ describe("ServicesPage", () => {
       ),
     );
 
-    const relayCard = await failAddressCheck("My Relay");
+    await userEvent.click(screen.getByRole("button", { name: "Use My Relay" }));
+    const relayCard = screen.getByRole("article", { name: "My Relay" });
     const tryNext = await within(relayCard).findByRole("button", {
       name: en.services.failover.tryNextNamed.replace("{{name}}", "My Relay"),
     });
+    expect(activationBodies).toEqual([
+      { tool: "claude-code", provider: "relay" },
+    ]);
     expect(recoveryBodies).toEqual([]);
 
     await userEvent.click(tryNext);
@@ -1282,21 +1391,36 @@ describe("ServicesPage", () => {
         action: expect.objectContaining({ label: en.services.switch.openNow }),
       }),
     );
-
-    const options = toastMocks.success.mock.calls.at(-1)?.[1] as {
-      action: { onClick: () => void };
-    };
-    act(() => options.action.onClick());
-    expect(
-      await screen.findByRole("dialog", { name: "Open Claude Code" }),
-    ).toBeInTheDocument();
   });
 
   it("keeps failed recovery feedback visible when no saved alternative responds", async () => {
-    const { relay, primary, backup } = recoveryInventory();
+    const relay = service();
+    const primary = service({
+      id: "primary",
+      name: "Primary",
+      active: true,
+      canRemove: false,
+    });
+    const backup = service({ id: "backup", name: "Backup" });
     mount([relay, primary, backup]);
     await screen.findByText("My Relay");
     server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_activation_prepare`, () =>
+        HttpResponse.json({
+          status: "unreachable",
+          originProviderId: "relay",
+          activeProviderId: "primary",
+          providers: [relay, primary, backup],
+          checks: [
+            {
+              providerId: "relay",
+              reachability: "failed",
+              responseTimeMs: null,
+              httpStatus: null,
+            },
+          ],
+        }),
+      ),
       http.post(`${TAURI_ENDPOINT}/app_provider_next_healthy`, () =>
         HttpResponse.json({
           status: "unreachable",
@@ -1315,7 +1439,8 @@ describe("ServicesPage", () => {
       ),
     );
 
-    const relayCard = await failAddressCheck("My Relay");
+    await userEvent.click(screen.getByRole("button", { name: "Use My Relay" }));
+    const relayCard = screen.getByRole("article", { name: "My Relay" });
     await userEvent.click(
       await within(relayCard).findByRole("button", {
         name: en.services.failover.tryNextNamed.replace("{{name}}", "My Relay"),
@@ -1329,18 +1454,41 @@ describe("ServicesPage", () => {
     expect(
       within(relayCard).getByRole("button", { name: "Edit My Relay" }),
     ).toBeEnabled();
-    expect(toastMocks.success).not.toHaveBeenCalled();
   });
 
-  it("keeps a failed recovery on the right card and retries it from the same button", async () => {
-    const { relay, primary, backup } = recoveryInventory();
+  it("refreshes a failed service switch, keeps it on the right card, and retries the same service", async () => {
+    const inventory = [
+      service(),
+      service({
+        id: "primary",
+        name: "Primary",
+        active: true,
+        canRemove: false,
+      }),
+    ];
+    const refreshed = [
+      service({ active: true, canRemove: false }),
+      service({
+        id: "primary",
+        name: "Primary",
+        active: false,
+        canRemove: true,
+      }),
+    ];
     const bodies: unknown[] = [];
     let attempts = 0;
-    mount([relay, primary, backup]);
+    let releaseRefresh: (() => void) | undefined;
+    mount(inventory);
     await screen.findByText("My Relay");
     server.use(
+      http.post(`${TAURI_ENDPOINT}/app_providers_list`, async () => {
+        await new Promise<void>((resolve) => {
+          releaseRefresh = resolve;
+        });
+        return HttpResponse.json(refreshed);
+      }),
       http.post(
-        `${TAURI_ENDPOINT}/app_provider_next_healthy`,
+        `${TAURI_ENDPOINT}/app_provider_activation_prepare`,
         async ({ request }) => {
           attempts += 1;
           bodies.push(await request.json());
@@ -1357,63 +1505,59 @@ describe("ServicesPage", () => {
             );
           }
           return HttpResponse.json({
-            status: "failedOver",
+            status: "notChecked",
             originProviderId: "relay",
-            activeProviderId: "backup",
-            providers: [
-              relay,
-              { ...primary, active: false, canRemove: true },
-              { ...backup, active: true, canRemove: false },
-            ],
-            checks: [
-              {
-                providerId: "backup",
-                reachability: "operational",
-                responseTimeMs: 74,
-                httpStatus: 200,
-              },
-            ],
+            activeProviderId: "relay",
+            providers: refreshed,
+            checks: [],
           });
         },
       ),
     );
+    const control = screen.getByRole("button", { name: "Use My Relay" });
 
-    const card = await failAddressCheck("My Relay");
-    const tryNextName = en.services.failover.tryNextNamed.replace(
-      "{{name}}",
-      "My Relay",
-    );
-    await userEvent.click(
-      await within(card).findByRole("button", { name: tryNextName }),
-    );
+    await userEvent.click(control);
+    await waitFor(() => expect(releaseRefresh).toBeTypeOf("function"));
+    const card = screen.getByRole("article", { name: "My Relay" });
+    expect(card).toHaveAttribute("aria-busy", "true");
+    expect(control).toBeDisabled();
+    expect(within(card).queryByRole("alert")).toBeNull();
+    const otherCard = screen.getByRole("article", { name: "Primary" });
+    expect(otherCard).not.toHaveAttribute("aria-busy");
+    expect(
+      within(otherCard).getByRole("button", { name: "Edit Primary" }),
+    ).toBeDisabled();
 
+    releaseRefresh?.();
     const alert = await within(card).findByRole("alert", {
       name: "Could not finish switching to My Relay",
     });
     expect(alert).toHaveTextContent(en.error.provider.switchFailed);
     expect(alert).toHaveTextContent(en.error.remediation.checkPermissions);
+    expect(alert).toHaveTextContent(en.services.switch.retryHint);
     // Technical detail stays folded behind View details, never primary copy.
     expect(within(alert).getByText(/\/private\/tool\.json/)).not.toBeVisible();
-    expect(
-      within(screen.getByRole("article", { name: "Primary" })).queryByRole(
-        "alert",
-      ),
-    ).toBeNull();
+    expect(within(otherCard).queryByRole("alert")).toBeNull();
     expect(toastMocks.error).not.toHaveBeenCalled();
 
-    await userEvent.click(
-      within(card).getByRole("button", { name: tryNextName }),
-    );
-    await waitFor(() =>
-      expect(
-        within(card).queryByRole("alert", {
-          name: "Could not finish switching to My Relay",
-        }),
-      ).toBeNull(),
-    );
+    const retry = within(card).getByRole("button", {
+      name: "Try switching to My Relay again",
+    });
+    expect(retry).toBe(control);
+    expect(retry).toHaveFocus();
+    expect(
+      within(card).getByText(en.services.card.unknown),
+    ).toBeInTheDocument();
+    await userEvent.click(retry);
+    await waitFor(() => expect(within(card).queryByRole("alert")).toBeNull());
+    expect(
+      within(card).queryByRole("button", {
+        name: "Try switching to My Relay again",
+      }),
+    ).toBeNull();
     expect(bodies).toEqual([
-      { tool: "claude-code", failedProvider: "relay" },
-      { tool: "claude-code", failedProvider: "relay" },
+      { tool: "claude-code", provider: "relay" },
+      { tool: "claude-code", provider: "relay" },
     ]);
   });
 
@@ -2015,6 +2159,11 @@ describe("ServicesPage", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("button", {
+        name: en.services.action.useNamed.replace("{{name}}", "My Relay"),
+      }),
+    ).toBeDisabled();
+    expect(
+      screen.getByRole("button", {
         name: en.services.action.testNamed.replace("{{name}}", "My Relay"),
       }),
     ).toBeDisabled();
@@ -2096,7 +2245,7 @@ describe("ServicesPage", () => {
     ).toBeDisabled();
     expect(
       screen.getByRole("button", {
-        name: en.services.action.testNamed.replace("{{name}}", "My Relay"),
+        name: en.services.action.useNamed.replace("{{name}}", "My Relay"),
       }),
     ).toBeDisabled();
 
@@ -2114,6 +2263,7 @@ describe("ServicesPage", () => {
       }),
     ).toBeInTheDocument();
     for (const name of [
+      en.services.action.useNamed.replace("{{name}}", "My Relay"),
       en.services.action.testNamed.replace("{{name}}", "My Relay"),
       en.services.action.editNamed.replace("{{name}}", "My Relay"),
       en.services.action.removeNamed.replace("{{name}}", "My Relay"),

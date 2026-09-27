@@ -1,7 +1,12 @@
-import { useProviderEditProfile, useProviders } from "@/entities/provider";
+import {
+  useProviderEditProfile,
+  useProviderRuntimeContext,
+  useProviders,
+} from "@/entities/provider";
 import type { Tool } from "@/entities/tool";
 import { useRecoverableProviderSwitch } from "@/features/provider-management";
 import {
+  inUseProviderId,
   pickerProviders,
   pinnedModel,
   toolConnection,
@@ -9,25 +14,31 @@ import {
 } from "./homeToolConnection";
 
 /**
- * One tool row's cheap connection evidence plus the same switch flow the API
- * Endpoints page uses for recovery, so a switch from Home runs the same
- * preflight, announces the reopen hint and leaves the same recovery state.
+ * One tool row's connection plus the same switch flow the API Endpoints page
+ * uses, so a switch from Home runs the same preflight, announces the reopen
+ * hint and leaves the same recovery state.
+ *
+ * The row answers from the saved inventory at once. The effective connection
+ * comes from the same session-cached query the endpoints page reads, so the
+ * slow login-shell probe runs once for both pages; until a fresh answer is in
+ * (first load, or a re-read after a switch) the saved answer stands, and a
+ * failed read never promotes stale evidence (ADR-0039).
  */
 export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
   const providers = useProviders(tool.id);
+  const runtime = useProviderRuntimeContext(tool.id);
+  const effective =
+    runtime.isSuccess && !runtime.isFetching
+      ? runtime.data.effectiveConnection
+      : null;
   const connection: ToolConnection = toolConnection(
     tool,
     providers.data,
     providers.isError,
+    effective,
   );
-  const selected =
-    connection.kind === "service" || connection.kind === "official"
-      ? (connection.provider ?? null)
-      : null;
-  const profile = useProviderEditProfile(
-    selected ? tool.id : null,
-    selected?.id ?? null,
-  );
+  const inUseId = inUseProviderId(connection);
+  const profile = useProviderEditProfile(inUseId ? tool.id : null, inUseId);
   const switchFlow = useRecoverableProviderSwitch(tool.id, {
     toolName: tool.name,
     onOpenTool,
@@ -37,8 +48,9 @@ export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
 
   return {
     connection,
-    model: selected ? pinnedModel(profile.data) : null,
-    choices: pickerProviders(providers.data),
+    inUseId,
+    model: inUseId ? pinnedModel(profile.data) : null,
+    choices: pickerProviders(providers.data, inUseId),
     // A list being re-read, or one that failed to refresh, is not a safe base
     // for choosing what to switch to.
     switchDisabled:

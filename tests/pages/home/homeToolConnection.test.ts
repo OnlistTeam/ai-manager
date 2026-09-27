@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
-import type { Provider } from "@/entities/provider";
+import type { EffectiveConnection, Provider } from "@/entities/provider";
 import type { Tool } from "@/entities/tool";
 import type { QuickCheckItem } from "@/features/health";
 import {
   connectableTools,
+  inUseProviderId,
   pickerProviders,
   pinnedModel,
   shownElsewhereOnHome,
@@ -50,6 +51,30 @@ function provider(overrides: Partial<Provider> = {}): Provider {
     websiteUrl: null,
     testable: true,
     canRemove: true,
+    ...overrides,
+  };
+}
+
+function effective(
+  overrides: Partial<EffectiveConnection> = {},
+): EffectiveConnection {
+  return {
+    selection: "configuration",
+    endpoint: "https://api.relay.example/",
+    endpointSource: {
+      kind: "shellFile",
+      variable: "ANTHROPIC_BASE_URL",
+      path: "~/.config/zsh/relay.zsh",
+    },
+    credential: "configured",
+    credentialSource: {
+      kind: "shellFile",
+      variable: "ANTHROPIC_AUTH_TOKEN",
+      path: "~/.config/zsh/relay.zsh",
+    },
+    providerId: null,
+    shellInspected: true,
+    outranksSwitch: false,
     ...overrides,
   };
 }
@@ -151,16 +176,113 @@ describe("toolConnection", () => {
   });
 });
 
+describe("toolConnection with the effective connection", () => {
+  const official = provider({
+    id: "official",
+    name: "Claude Official",
+    kind: "official",
+    active: true,
+  });
+
+  it("names an address set outside this app over the saved selection", () => {
+    const connection = effective();
+    expect(toolConnection(tool(), [official], false, connection)).toEqual({
+      kind: "external",
+      connection,
+    });
+  });
+
+  it("names the saved endpoint the tool really uses, even when another is selected", () => {
+    const relay = provider();
+    expect(
+      toolConnection(
+        tool(),
+        [official, relay],
+        false,
+        effective({ providerId: "relay" }),
+      ),
+    ).toEqual({ kind: "service", provider: relay });
+  });
+
+  it("keeps the saved answer when the evidence says nothing definite", () => {
+    const saved = { kind: "official", provider: official };
+    expect(toolConnection(tool(), [official], false, null)).toEqual(saved);
+    expect(
+      toolConnection(
+        tool(),
+        [official],
+        false,
+        effective({ selection: "unknown" }),
+      ),
+    ).toEqual(saved);
+    // The tool on its own default is what the saved list already says.
+    expect(
+      toolConnection(
+        tool(),
+        [official],
+        false,
+        effective({ endpoint: null, endpointSource: { kind: "toolDefault" } }),
+      ),
+    ).toEqual(saved);
+    // A match the list no longer has is not invented.
+    expect(
+      toolConnection(
+        tool(),
+        [official],
+        false,
+        effective({ providerId: "gone" }),
+      ),
+    ).toEqual(saved);
+  });
+
+  it("still counts additive entries", () => {
+    expect(
+      toolConnection(
+        tool(),
+        [provider({ additive: true })],
+        false,
+        effective(),
+      ),
+    ).toEqual({ kind: "added", count: 1 });
+  });
+});
+
 describe("pickerProviders", () => {
   it("lists every non-additive entry, the one in use first, the rest in saved order", () => {
-    const choices = pickerProviders([
-      provider({ id: "b" }),
-      provider({ id: "a", active: true }),
-      provider({ id: "c", additive: true }),
-      provider({ id: "d" }),
-    ]);
+    const choices = pickerProviders(
+      [
+        provider({ id: "b" }),
+        provider({ id: "a", active: true }),
+        provider({ id: "c", additive: true }),
+        provider({ id: "d" }),
+      ],
+      "a",
+    );
     expect(choices.map((entry) => entry.id)).toEqual(["a", "b", "d"]);
-    expect(pickerProviders(undefined)).toEqual([]);
+    expect(pickerProviders(undefined, null)).toEqual([]);
+  });
+
+  it("keeps the saved order when none of them is in use", () => {
+    const choices = pickerProviders(
+      [provider({ id: "b" }), provider({ id: "a", active: true })],
+      null,
+    );
+    expect(choices.map((entry) => entry.id)).toEqual(["b", "a"]);
+  });
+});
+
+describe("inUseProviderId", () => {
+  it("is the saved entry the row names, and nothing for an outside address", () => {
+    expect(
+      inUseProviderId({ kind: "service", provider: provider({ id: "x" }) }),
+    ).toBe("x");
+    expect(inUseProviderId({ kind: "official", provider: null })).toBeNull();
+    expect(
+      inUseProviderId({
+        kind: "external",
+        connection: { ...effective(), endpoint: "https://a.example/" },
+      }),
+    ).toBeNull();
   });
 });
 

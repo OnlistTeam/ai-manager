@@ -99,6 +99,7 @@ pub(super) fn resolve_effective_connection(
 ) -> Option<EffectiveConnection> {
     let resolution = resolve(tool, environment)?;
     let provider_id = match_provider(tool, &resolution, providers, current_id);
+    let outranks_switch = outranks_switch(tool, &resolution.endpoint_source);
     Some(EffectiveConnection {
         selection: resolution.selection,
         model: resolution.model,
@@ -108,7 +109,22 @@ pub(super) fn resolve_effective_connection(
         credential_source: resolution.credential_source,
         provider_id,
         shell_inspected: environment.shell_inspected(),
+        outranks_switch,
     })
+}
+
+/// Whether choosing a saved endpoint leaves an endpoint from this source in force.
+///
+/// Only Gemini CLI reads its terminal variables ahead of the `.env` a switch writes. Claude's
+/// `settings.json` beats the shell and a switch writes `""` to cancel a variable it does not set;
+/// Codex takes a saved custom endpoint's `base_url` from `config.toml` over `OPENAI_BASE_URL`;
+/// Grok Build and OpenCode read only their configuration files.
+fn outranks_switch(tool: ToolId, source: &EffectiveConnectionSource) -> bool {
+    let from_terminal = matches!(
+        source,
+        EffectiveConnectionSource::ShellFile { .. } | EffectiveConnectionSource::Environment { .. }
+    );
+    from_terminal && matches!(tool, ToolId::GeminiCli)
 }
 
 fn resolve(tool: ToolId, environment: &ToolEnvironment) -> Option<Resolution> {
@@ -946,6 +962,32 @@ requires_openai_auth = false
         assert_eq!(resolution.credential_source, live(".gemini/.env"));
     }
 
+    #[test]
+    fn only_a_gemini_terminal_variable_outranks_a_switch() {
+        let shell = EffectiveConnectionSource::ShellFile {
+            variable: "BASE_URL".to_string(),
+            path: "~/.zshrc:3".to_string(),
+        };
+        let environment = EffectiveConnectionSource::Environment {
+            variable: "BASE_URL".to_string(),
+        };
+        assert!(super::outranks_switch(ToolId::GeminiCli, &shell));
+        assert!(super::outranks_switch(ToolId::GeminiCli, &environment));
+        assert!(!super::outranks_switch(
+            ToolId::GeminiCli,
+            &live(".gemini/.env")
+        ));
+        for tool in [
+            ToolId::ClaudeCode,
+            ToolId::Codex,
+            ToolId::GrokBuild,
+            ToolId::OpenCode,
+        ] {
+            assert!(!super::outranks_switch(tool, &shell), "{tool:?}");
+            assert!(!super::outranks_switch(tool, &environment), "{tool:?}");
+        }
+    }
+
     // ---------- Grok ----------
 
     #[test]
@@ -1091,6 +1133,7 @@ context_window = 100000
                 credential_source: live(".claude/settings.json"),
                 provider_id: Some("relay".to_string()),
                 shell_inspected: false,
+                outranks_switch: false,
             })
         );
     }

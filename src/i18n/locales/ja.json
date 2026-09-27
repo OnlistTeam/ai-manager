@@ -347,6 +347,7 @@
     "action": {
       "install": "インストール",
       "configure": "ツールに追加",
+      "readOnly": "読み取り専用",
       "update": "アップデート",
       "versions": "バージョン切替",
       "open": "開く",
@@ -358,6 +359,7 @@
       "copyNamed": "{{name}}をコピー",
       "copied": "コピーしました",
       "use": "使用",
+      "inUse": "選択中",
       "cancel": "キャンセル",
       "close": "閉じる",
       "named": {
@@ -1483,13 +1485,15 @@
   "services": {
     "action": {
       "add": "エンドポイントを追加",
+      "configureNamed": "{{name}} をツールに追加",
       "edit": "編集",
       "editNamed": "{{name}}を編集",
       "remove": "削除",
       "removeNamed": "{{name}}を削除",
       "test": "テスト",
       "testAll": "すべてのアドレスを確認",
-      "testNamed": "{{name}} をテスト"
+      "testNamed": "{{name}} をテスト",
+      "useNamed": "{{name}}を使用"
     },
     "card": {
       "custom": "カスタムエンドポイント",
@@ -1555,8 +1559,7 @@
       "toolDefaultGroup": "{{tool}} の既定の接続先",
       "otherServices": "ほかの提供元"
     },
-    "chooseOnHome": "各ツールがどれを使うかはホームで選びます。",
-    "openHome": "ホームへ",
+    "description": "ツールを選び、使用する API エンドポイントを追加・切り替え・確認します。",
     "effective": {
       "selection": {
         "defaultModel": "全体の既定モデル：{{model}}。プロジェクトやセッションの設定で上書きされる場合があります。",
@@ -1577,6 +1580,10 @@
         "shellFile": "{{path}} の {{variable}} から",
         "toolDefault": "カスタム設定はなく、ツール既定のアドレスを使用"
       },
+      "shortSource": {
+        "terminal": "ターミナル変数",
+        "file": "設定ファイル"
+      },
       "errorTitle": "現在有効な接続を読み取れませんでした",
       "errorDescription": "下のリスト自体は正しいままですが、どれが実際に使われているかは今のところ分かりません。",
       "shellNotInspectedTitle": "ターミナル環境を読み取れませんでした"
@@ -1584,7 +1591,8 @@
     "external": {
       "badge": "アプリの外で設定",
       "endpoint": "現在有効なアドレス",
-      "overrides": "{{name}} は実際にこのアドレスを使います。下で選んだエンドポイントより優先されます。"
+      "overrides": "{{name}} は実際にこのアドレスを使います。下で選んだエンドポイントより優先されます。",
+      "replacedByChoice": "{{name}} は今このアドレスを使っています。下でエンドポイントを選ぶと置き換わります。"
     },
     "endpoints": {
       "title": "{{tool}} のエンドポイント",
@@ -1727,7 +1735,7 @@
     },
     "refresh": "再読み込み",
     "remove": {
-      "activeHint": "先にホームで別のエンドポイントに切り替えてから、このエンドポイントを削除してください。",
+      "activeHint": "先に別のエンドポイントへ切り替えてから、このエンドポイントを削除してください。",
       "confirm": "エンドポイントを削除",
       "description": "保存済みのエンドポイントを AI Manager と {{tool}} から削除します。",
       "errorTitle": "このエンドポイントを削除できませんでした",
@@ -1756,6 +1764,7 @@
       "openNow": "今すぐ開く",
       "reopenHint": "実行中の {{tool}} は自動では切り替わりません。開き直すと新しいエンドポイントを使います。",
       "retryHint": "同じ切り替えをもう一度お試しください。",
+      "retryNamed": "{{name}} への切り替えをもう一度試す",
       "switchingNamed": "{{name}} に切り替えています"
     },
     "failover": {

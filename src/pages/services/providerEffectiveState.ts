@@ -3,7 +3,7 @@ import type {
   Provider,
   ProviderEffectiveState,
 } from "@/entities/provider";
-import { sourceLabel } from "./effectiveConnectionCopy";
+import { sourceLabel } from "@/features/provider-management";
 
 /**
  * Missing evidence must never be replaced with the database's last selection.

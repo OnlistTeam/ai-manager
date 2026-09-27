@@ -347,6 +347,7 @@
     "action": {
       "install": "Cài đặt",
       "configure": "Thêm vào công cụ",
+      "readOnly": "Chỉ đọc",
       "update": "Cập nhật",
       "versions": "Đổi phiên bản",
       "open": "Mở",
@@ -358,6 +359,7 @@
       "copyNamed": "Sao chép {{name}}",
       "copied": "Đã sao chép",
       "use": "Dùng",
+      "inUse": "Đang dùng",
       "cancel": "Hủy",
       "close": "Đóng",
       "named": {
@@ -1484,13 +1486,15 @@
   "services": {
     "action": {
       "add": "Thêm điểm cuối",
+      "configureNamed": "Thêm {{name}} vào công cụ",
       "edit": "Sửa",
       "editNamed": "Sửa {{name}}",
       "remove": "Xóa",
       "removeNamed": "Xóa {{name}}",
       "test": "Kiểm tra",
       "testAll": "Kiểm tra mọi địa chỉ",
-      "testNamed": "Kiểm tra {{name}}"
+      "testNamed": "Kiểm tra {{name}}",
+      "useNamed": "Dùng {{name}}"
     },
     "card": {
       "custom": "Điểm cuối tùy chỉnh",
@@ -1556,8 +1560,7 @@
       "toolDefaultGroup": "Kết nối mặc định của {{tool}}",
       "otherServices": "Nhà cung cấp khác"
     },
-    "chooseOnHome": "Chọn điểm cuối cho từng công cụ ở Trang chủ.",
-    "openHome": "Đến Trang chủ",
+    "description": "Chọn một công cụ, sau đó thêm, chuyển và kiểm tra các điểm cuối API của nó.",
     "effective": {
       "selection": {
         "defaultModel": "Model mặc định toàn cục: {{model}}. Cài đặt dự án hoặc phiên có thể ghi đè nó.",
@@ -1578,6 +1581,10 @@
         "shellFile": "Từ {{variable}} trong {{path}}",
         "toolDefault": "Không có cài đặt tùy chỉnh; công cụ dùng địa chỉ mặc định của nó"
       },
+      "shortSource": {
+        "terminal": "Biến terminal",
+        "file": "Tệp cấu hình"
+      },
       "errorTitle": "Không thể đọc kết nối nào đang có hiệu lực",
       "errorDescription": "Danh sách bên dưới vẫn chính xác, nhưng hiện tại chúng tôi không thể cho biết mục nào thực sự đang được dùng.",
       "shellNotInspectedTitle": "Không thể đọc môi trường terminal"
@@ -1585,7 +1592,8 @@
     "external": {
       "badge": "Đặt ngoài ứng dụng",
       "endpoint": "Điểm cuối đang có hiệu lực",
-      "overrides": "{{name}} sẽ dùng địa chỉ này. Nó được ưu tiên hơn điểm cuối bạn chọn bên dưới."
+      "overrides": "{{name}} sẽ dùng địa chỉ này. Nó được ưu tiên hơn điểm cuối bạn chọn bên dưới.",
+      "replacedByChoice": "{{name}} đang dùng địa chỉ này. Chọn một điểm cuối bên dưới sẽ thay thế nó."
     },
     "endpoints": {
       "title": "Điểm cuối của {{tool}}",
@@ -1728,7 +1736,7 @@
     },
     "refresh": "Làm mới",
     "remove": {
-      "activeHint": "Chọn một điểm cuối khác ở Trang chủ trước khi xóa điểm cuối này.",
+      "activeHint": "Chọn một điểm cuối khác trước khi xóa điểm cuối này.",
       "confirm": "Xóa điểm cuối",
       "description": "Thao tác này xóa điểm cuối đã lưu khỏi AI Manager và {{tool}}.",
       "errorTitle": "Không thể xóa điểm cuối này",
@@ -1757,6 +1765,7 @@
       "openNow": "Mở ngay",
       "reopenHint": "{{tool}} đang chạy sẵn sẽ giữ điểm cuối cũ cho đến khi bạn mở lại.",
       "retryHint": "Thử lại cùng thao tác chuyển này.",
+      "retryNamed": "Thử chuyển lại sang {{name}}",
       "switchingNamed": "Đang chuyển sang {{name}}"
     },
     "failover": {

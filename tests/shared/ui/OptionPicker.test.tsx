@@ -53,6 +53,27 @@ describe("OptionPicker", () => {
     await waitFor(() => expect(screen.queryByRole("listbox")).toBeNull());
   });
 
+  it("shows a current option that cannot be chosen at full strength, and skips it", async () => {
+    const props = mount({
+      options: [
+        { id: "outside", label: "Outside", checked: true, disabled: true },
+        { id: "b", label: "Beta" },
+      ],
+    });
+    const user = userEvent.setup();
+    await user.click(screen.getByRole("button", { name: "Open" }));
+    const listbox = await screen.findByRole("listbox");
+    const current = within(listbox).getByRole("option", { name: "Outside" });
+    expect(current).toHaveAttribute("aria-current", "true");
+    expect(current).toHaveAttribute("aria-disabled", "true");
+    expect(current).not.toHaveClass("opacity-50");
+    await user.click(current);
+    expect(props.onSelect).not.toHaveBeenCalled();
+    // The keyboard lands on the first option that can be chosen.
+    await user.keyboard("{Enter}");
+    expect(props.onSelect).toHaveBeenCalledWith("b");
+  });
+
   it("runs an action and closes", async () => {
     const onManage = vi.fn();
     mount({
