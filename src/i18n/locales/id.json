@@ -573,10 +573,10 @@
       "unrecognized": "Ada yang salah. Coba lagi."
     },
     "networkProxy": {
-      "invalid": "Gunakan proxy lokal tanpa autentikasi seperti http://127.0.0.1:7890 atau socks5://localhost:1080.",
-      "readFailed": "AI Manager tidak dapat membaca pengaturan proxy unduhan.",
-      "saveFailed": "AI Manager tidak dapat menerapkan proxy unduhan dengan aman.",
-      "storeUnavailable": "Pengaturan proxy unduhan belum siap."
+      "invalid": "Masukkan proxy lokal tanpa kredensial, misalnya http://127.0.0.1:7890 atau socks5://127.0.0.1:1080.",
+      "readFailed": "AI Manager tidak dapat membaca pengaturan proxy.",
+      "saveFailed": "AI Manager tidak dapat menerapkan proxy dengan aman.",
+      "storeUnavailable": "Pengaturan proxy belum siap."
     },
     "openclawWorkspace": {
       "contentInvalid": "File workspace ini bukan teks UTF-8 yang valid.",
@@ -2555,15 +2555,23 @@
     },
     "network": {
       "proxy": {
-        "title": "Proxy unduhan lokal",
-        "description": "Saat unduhan alat atau aplikasi gagal, alihkan melalui proxy yang sudah berjalan di komputer ini.",
-        "protected": "Pengaturan terlindungi",
-        "protectedHint": "Proxy yang sudah ada berisi kredensial atau alamat jarak jauh, sehingga AI Manager akan menggunakannya tetapi tidak akan menampilkannya di sini. Ganti dengan alamat lokal atau kosongkan.",
-        "label": "Alamat proxy lokal",
-        "hint": "Contoh: http://127.0.0.1:7890. Hanya alamat lokal, tanpa kredensial.",
-        "loading": "Membaca proxy unduhan",
-        "readError": "Tidak dapat membaca proxy unduhan saat ini.",
-        "save": "Gunakan proxy ini"
+        "title": "Proxy",
+        "scope": "Dipakai untuk permintaan yang dikirim AI Manager sendiri: daftar dan uji model, unduhan, pembaruan, dan penerusan. Alat yang terhubung langsung ke layanan tidak terpengaruh.",
+        "auto": "Ikuti sistem",
+        "off": "Langsung",
+        "custom": "Kustom",
+        "status": {
+          "custom": "Memakai {{proxy}}",
+          "environment": "Memakai proxy dari variabel HTTPS_PROXY, {{proxy}}",
+          "system": "Memakai proxy sistem, {{proxy}}",
+          "none": "Sistem tidak menyetel proxy, jadi koneksi langsung",
+          "off": "Koneksi langsung, meski sistem menyetel proxy"
+        },
+        "protectedHint": "Proxy yang tersimpan berisi kredensial atau alamat jarak jauh. AI Manager tetap memakainya tetapi tidak menampilkannya di sini; masukkan alamat lokal atau pilih opsi lain.",
+        "label": "Alamat proxy",
+        "loading": "Membaca pengaturan proxy",
+        "readError": "Tidak dapat membaca pengaturan proxy.",
+        "save": "Simpan"
       }
     },
     "privacy": {

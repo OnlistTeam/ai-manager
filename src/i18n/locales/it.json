@@ -573,10 +573,10 @@
       "unrecognized": "Qualcosa è andato storto. Riprova."
     },
     "networkProxy": {
-      "invalid": "Usa un proxy locale senza autenticazione, come http://127.0.0.1:7890 o socks5://localhost:1080.",
-      "readFailed": "AI Manager non è riuscito a leggere l'impostazione del proxy di download.",
-      "saveFailed": "AI Manager non è riuscito ad applicare in sicurezza il proxy di download.",
-      "storeUnavailable": "L'impostazione del proxy di download non è ancora pronta."
+      "invalid": "Inserisci un proxy locale senza credenziali, ad esempio http://127.0.0.1:7890 o socks5://127.0.0.1:1080.",
+      "readFailed": "AI Manager non è riuscito a leggere l'impostazione proxy.",
+      "saveFailed": "AI Manager non è riuscito ad applicare il proxy in sicurezza.",
+      "storeUnavailable": "L'impostazione proxy non è ancora pronta."
     },
     "openclawWorkspace": {
       "contentInvalid": "Questo file dell'area di lavoro non è testo UTF-8 valido.",
@@ -2556,15 +2556,23 @@
     },
     "network": {
       "proxy": {
-        "title": "Proxy di download locale",
-        "description": "Quando i download di strumenti o app non riescono, falli passare da un proxy già in esecuzione su questo computer.",
-        "protected": "Impostazione protetta",
-        "protectedHint": "Un proxy preesistente contiene credenziali o un indirizzo remoto, quindi AI Manager lo userà ma non lo rivelerà qui. Sostituiscilo con un indirizzo locale oppure cancellalo.",
-        "label": "Indirizzo del proxy locale",
-        "hint": "Ad esempio http://127.0.0.1:7890. Solo indirizzi locali, senza credenziali.",
-        "loading": "Lettura del proxy di download",
-        "readError": "Impossibile leggere il proxy di download attuale.",
-        "save": "Usa questo proxy"
+        "title": "Proxy",
+        "scope": "Vale per le richieste che AI Manager invia da sé: elenchi e test dei modelli, download, aggiornamenti e inoltri. Non riguarda gli strumenti che si collegano direttamente a un servizio.",
+        "auto": "Come il sistema",
+        "off": "Diretto",
+        "custom": "Personalizzato",
+        "status": {
+          "custom": "In uso: {{proxy}}",
+          "environment": "In uso il proxy della variabile HTTPS_PROXY, {{proxy}}",
+          "system": "In uso il proxy di sistema, {{proxy}}",
+          "none": "Il sistema non indica un proxy, quindi la connessione è diretta",
+          "off": "Connessione diretta, anche se il sistema indica un proxy"
+        },
+        "protectedHint": "Il proxy salvato contiene credenziali o un indirizzo remoto. AI Manager continua a usarlo ma non lo mostra qui; inserisci un indirizzo locale o scegli un'altra opzione.",
+        "label": "Indirizzo del proxy",
+        "loading": "Lettura dell'impostazione proxy",
+        "readError": "Impossibile leggere l'impostazione proxy.",
+        "save": "Salva"
       }
     },
     "privacy": {

@@ -7,6 +7,7 @@ use once_cell::sync::OnceCell;
 use reqwest::Client;
 use std::env;
 use std::net::IpAddr;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::RwLock;
 use std::time::Duration;
 
@@ -19,6 +20,10 @@ static LOOPBACK_CLIENT: OnceCell<Client> = OnceCell::new();
 
 /// Current proxy URL (for logging and status queries)
 static CURRENT_PROXY_URL: OnceCell<RwLock<Option<String>>> = OnceCell::new();
+
+/// AI Manager: the user turned the proxy off, so without an explicit proxy
+/// the client goes direct instead of following the system proxy.
+static DIRECT: AtomicBool = AtomicBool::new(false);
 
 /// Port the CC Switch proxy server is currently listening on
 static LOCAL_PROXY_PORT: OnceCell<RwLock<u16>> = OnceCell::new();
@@ -36,6 +41,17 @@ pub fn set_proxy_port(port: u16) {
         let _ = LOCAL_PROXY_PORT.set(RwLock::new(port));
         log::debug!("[GlobalProxy] Initialized CC Switch proxy port to {port}");
     }
+}
+
+/// Sets whether requests without an explicit proxy skip the system proxy too.
+/// Takes effect on the next `init` or `apply_proxy`.
+pub fn set_direct(direct: bool) {
+    DIRECT.store(direct, Ordering::SeqCst);
+}
+
+/// Whether requests without an explicit proxy go direct.
+pub fn is_direct() -> bool {
+    DIRECT.load(Ordering::SeqCst)
 }
 
 /// Returns the listening port of the CC Switch proxy server
@@ -196,7 +212,10 @@ fn build_client(proxy_url: Option<&str>) -> Result<Client, String> {
     } else {
         // With no global proxy set, let reqwest auto-detect the system proxy (env vars)
         // If the system proxy points at this machine, disable it to avoid a loop
-        if system_proxy_points_to_loopback() {
+        if is_direct() {
+            builder = builder.no_proxy();
+            log::debug!("[GlobalProxy] Proxy turned off, connecting directly");
+        } else if system_proxy_points_to_loopback() {
             builder = builder.no_proxy();
             log::warn!(
                 "[GlobalProxy] System proxy points to localhost, bypassing to avoid recursion"

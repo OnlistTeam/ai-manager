@@ -30,7 +30,13 @@ export const handlers = [
     }),
   ),
   http.post(`${TAURI_ENDPOINT}/app_network_proxy_get`, () =>
-    success({ configured: false, url: null, protected: false }),
+    success({
+      mode: "auto",
+      url: null,
+      protected: false,
+      inUse: null,
+      source: "none",
+    }),
   ),
   http.post(`${TAURI_ENDPOINT}/app_privacy_protection_get`, () =>
     success({ maskSecrets: true, maskPersonal: false, words: [] }),

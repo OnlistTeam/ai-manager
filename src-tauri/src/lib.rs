@@ -980,6 +980,7 @@ pub fn run() {
             {
                 let db = &app.state::<AppState>().db;
                 let proxy_url = db.get_global_proxy_url().ok().flatten();
+                crate::compat::ccswitch::network_proxy::restore_direct(db);
 
                 if let Err(e) = crate::proxy::http_client::init(proxy_url.as_deref()) {
                     log::error!(

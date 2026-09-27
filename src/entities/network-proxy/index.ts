@@ -4,4 +4,5 @@ export {
   useNetworkProxy,
   useSaveNetworkProxy,
 } from "./queries";
-export type { NetworkProxySettings } from "@/native";
+export type { NetworkProxyMode, NetworkProxySettings } from "@/native";
+export type { NetworkProxyChoice } from "./queries";

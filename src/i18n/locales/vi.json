@@ -573,10 +573,10 @@
       "unrecognized": "Đã có lỗi xảy ra. Hãy thử lại."
     },
     "networkProxy": {
-      "invalid": "Dùng một proxy cục bộ không cần xác thực, ví dụ http://127.0.0.1:7890 hoặc socks5://localhost:1080.",
-      "readFailed": "AI Manager không thể đọc thiết lập proxy tải xuống.",
-      "saveFailed": "AI Manager không thể áp dụng proxy tải xuống một cách an toàn.",
-      "storeUnavailable": "Thiết lập proxy tải xuống chưa sẵn sàng."
+      "invalid": "Hãy nhập proxy cục bộ không có thông tin đăng nhập, ví dụ http://127.0.0.1:7890 hoặc socks5://127.0.0.1:1080.",
+      "readFailed": "AI Manager không đọc được cài đặt proxy.",
+      "saveFailed": "AI Manager không áp dụng proxy an toàn được.",
+      "storeUnavailable": "Cài đặt proxy chưa sẵn sàng."
     },
     "openclawWorkspace": {
       "contentInvalid": "Tệp workspace này không phải là văn bản UTF-8 hợp lệ.",
@@ -2555,15 +2555,23 @@
     },
     "network": {
       "proxy": {
-        "title": "Proxy tải xuống cục bộ",
-        "description": "Khi tải xuống công cụ hoặc ứng dụng thất bại, hãy cho chúng đi qua một proxy đã chạy sẵn trên máy này.",
-        "protected": "Cài đặt được bảo vệ",
-        "protectedHint": "Một proxy có sẵn từ trước chứa thông tin xác thực hoặc địa chỉ từ xa, vì vậy AI Manager sẽ dùng nó nhưng sẽ không hiển thị ở đây. Hãy thay bằng một địa chỉ cục bộ hoặc xóa nó.",
-        "label": "Địa chỉ proxy cục bộ",
-        "hint": "Ví dụ http://127.0.0.1:7890. Chỉ địa chỉ cục bộ, không kèm thông tin xác thực.",
-        "loading": "Đang đọc proxy tải xuống",
-        "readError": "Không thể đọc proxy tải xuống hiện tại.",
-        "save": "Dùng proxy này"
+        "title": "Proxy",
+        "scope": "Áp dụng cho các yêu cầu do AI Manager tự gửi: danh sách và kiểm tra mô hình, tải xuống, cập nhật và chuyển tiếp. Công cụ kết nối thẳng tới dịch vụ không bị ảnh hưởng.",
+        "auto": "Theo hệ thống",
+        "off": "Trực tiếp",
+        "custom": "Tùy chỉnh",
+        "status": {
+          "custom": "Đang dùng {{proxy}}",
+          "environment": "Đang dùng proxy trong biến HTTPS_PROXY, {{proxy}}",
+          "system": "Đang dùng proxy của hệ thống, {{proxy}}",
+          "none": "Hệ thống không đặt proxy nên kết nối trực tiếp",
+          "off": "Kết nối trực tiếp, kể cả khi hệ thống có đặt proxy"
+        },
+        "protectedHint": "Proxy đã lưu có thông tin đăng nhập hoặc địa chỉ từ xa. AI Manager vẫn dùng nhưng không hiển thị ở đây; hãy nhập địa chỉ cục bộ hoặc chọn cách khác.",
+        "label": "Địa chỉ proxy",
+        "loading": "Đang đọc cài đặt proxy",
+        "readError": "Không đọc được cài đặt proxy.",
+        "save": "Lưu"
       }
     },
     "privacy": {

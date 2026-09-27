@@ -22,10 +22,7 @@ impl ToolVersionDirectory {
 
     pub fn system(strategy: DownloadStrategy) -> Self {
         let mut directory = Self::new(Arc::new(SystemExecutor), Arc::new(AdapterRegistry::get));
-        directory.network = LifecycleNetworkPolicy::new(
-            strategy,
-            crate::compat::ccswitch::lifecycle::configured_proxy_url(),
-        );
+        directory.network = crate::compat::ccswitch::lifecycle::installer_network(strategy);
         directory
     }
 

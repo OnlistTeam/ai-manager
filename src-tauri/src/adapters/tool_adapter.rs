@@ -22,6 +22,8 @@ pub type OperationLogger =
 pub struct LifecycleNetworkPolicy {
     pub download_strategy: DownloadStrategy,
     pub(crate) proxy_url: Option<String>,
+    /// The proxy is turned off: blank any `*_PROXY` the child would inherit.
+    pub(crate) clear_proxy: bool,
 }
 
 impl Default for LifecycleNetworkPolicy {
@@ -37,7 +39,13 @@ impl LifecycleNetworkPolicy {
         Self {
             download_strategy,
             proxy_url,
+            clear_proxy: false,
         }
+    }
+
+    pub fn with_proxy_cleared(mut self, clear: bool) -> Self {
+        self.clear_proxy = clear;
+        self
     }
 }
 

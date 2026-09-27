@@ -96,7 +96,13 @@ const health = {
 
 const backups = { files: [] };
 
-const networkProxy = { configured: false, url: null, protected: false };
+const networkProxy = {
+  mode: "auto",
+  url: null,
+  protected: false,
+  inUse: null,
+  source: "none",
+};
 
 describe("warmSessionEnvironment", () => {
   it("warms each expensive local inventory once and reuses it for the session", async () => {

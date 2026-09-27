@@ -69,7 +69,7 @@ describe("DesignGallery", () => {
       await screen.findByRole("combobox", { name: "Language" }),
     ).toBeInTheDocument();
     expect(
-      await screen.findByDisplayValue("http://127.0.0.1:7890"),
+      await screen.findByText(/http:\/\/127\.0\.0\.1:7890/),
     ).toBeInTheDocument();
     await waitFor(() => expect(document.documentElement).toHaveClass("dark"));
   });

@@ -124,6 +124,23 @@ fn npm_registry_pin_overrides_both_environment_key_spellings() {
     }
 }
 
+#[test]
+fn a_proxy_turned_off_blanks_the_inherited_variables() {
+    let network = LifecycleNetworkPolicy::new(crate::domain::DownloadStrategy::OfficialOnly, None)
+        .with_proxy_cleared(true);
+    let prepared = prepare_download_spec(spec("install"), &network, false);
+    for key in ["HTTP_PROXY", "https_proxy", "ALL_PROXY"] {
+        assert!(prepared
+            .env
+            .iter()
+            .any(|(candidate, value)| candidate == key && value.is_empty()));
+    }
+
+    let untouched =
+        prepare_download_spec(spec("install"), &LifecycleNetworkPolicy::default(), false);
+    assert!(!untouched.env.iter().any(|(key, _)| key == "HTTPS_PROXY"));
+}
+
 #[tokio::test]
 async fn the_first_successful_attempt_wins_and_later_ones_never_run() {
     let executor = ScriptedExecutor::new(vec![Ok(ok_output())]);

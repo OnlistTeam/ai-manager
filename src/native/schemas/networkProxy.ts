@@ -26,19 +26,39 @@ const proxyUrlSchema = z
     }
   });
 
+export const networkProxyModeSchema = z.enum(["auto", "off", "custom"]);
+export type NetworkProxyMode = z.infer<typeof networkProxyModeSchema>;
+
+/** The proxy in use, as `scheme://host:port`: the system's may be remote. */
+const proxyInUseSchema = z
+  .string()
+  .min(1)
+  .max(512)
+  .regex(/^[a-z][a-z0-9+.-]*:\/\/[^/@\s]+$/i);
+
 export const networkProxySettingsSchema = z
   .object({
-    configured: z.boolean(),
+    mode: networkProxyModeSchema,
     url: proxyUrlSchema.nullable(),
     protected: z.boolean(),
+    inUse: proxyInUseSchema.nullable(),
+    source: z.enum(["custom", "environment", "system", "none", "off"]),
   })
   .strict()
   .superRefine((settings, context) => {
-    const valid = settings.configured
-      ? settings.protected
-        ? settings.url === null
-        : settings.url !== null
-      : settings.url === null && !settings.protected;
+    const valid =
+      settings.mode === "custom"
+        ? settings.source === "custom" &&
+          (settings.protected
+            ? settings.url === null && settings.inUse === null
+            : settings.url !== null && settings.inUse === settings.url)
+        : settings.url === null &&
+          !settings.protected &&
+          (settings.mode === "off"
+            ? settings.source === "off" && settings.inUse === null
+            : settings.source !== "custom" &&
+              settings.source !== "off" &&
+              (settings.source === "none") === (settings.inUse === null));
     if (!valid) {
       context.addIssue({
         code: "custom",

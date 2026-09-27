@@ -266,6 +266,8 @@ impl AppUpdateManager {
         if let Some(proxy) = crate::compat::ccswitch::network_proxy::updater_proxy_url() {
             builder = builder.proxy(proxy);
             log::info!("using configured local proxy for signed product update");
+        } else if crate::compat::ccswitch::network_proxy::updater_goes_direct() {
+            builder = builder.no_proxy();
         }
         builder.build()
     }

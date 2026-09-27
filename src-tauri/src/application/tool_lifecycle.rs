@@ -135,10 +135,7 @@ impl ToolLifecycleService {
             Arc::new(AdapterRegistry::get),
             version_history,
         );
-        service.network = LifecycleNetworkPolicy::new(
-            strategy,
-            crate::compat::ccswitch::lifecycle::configured_proxy_url(),
-        );
+        service.network = crate::compat::ccswitch::lifecycle::installer_network(strategy);
         service
     }
 

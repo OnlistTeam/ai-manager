@@ -187,7 +187,10 @@ export {
 } from "./schemas/error";
 export type { ErrorCode, NativeErrorPayload } from "./schemas/error";
 export { networkProxySettingsSchema } from "./schemas/networkProxy";
-export type { NetworkProxySettings } from "./schemas/networkProxy";
+export type {
+  NetworkProxyMode,
+  NetworkProxySettings,
+} from "./schemas/networkProxy";
 export { privacyProtectionSchema } from "./schemas/privacyProtection";
 export type {
   PrivacyProtection,

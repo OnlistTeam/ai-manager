@@ -573,10 +573,10 @@
       "unrecognized": "Something went wrong. Try again."
     },
     "networkProxy": {
-      "invalid": "Use an unauthenticated local proxy such as http://127.0.0.1:7890 or socks5://localhost:1080.",
-      "readFailed": "AI Manager could not read the download proxy setting.",
-      "saveFailed": "AI Manager could not apply the download proxy safely.",
-      "storeUnavailable": "The download proxy setting is not ready yet."
+      "invalid": "Enter a local proxy without credentials, such as http://127.0.0.1:7890 or socks5://127.0.0.1:1080.",
+      "readFailed": "AI Manager could not read the proxy setting.",
+      "saveFailed": "AI Manager could not apply the proxy safely.",
+      "storeUnavailable": "The proxy setting is not ready yet."
     },
     "openclawWorkspace": {
       "contentInvalid": "This workspace file is not valid UTF-8 text.",
@@ -2556,15 +2556,23 @@
     },
     "network": {
       "proxy": {
-        "title": "Local download proxy",
-        "description": "When tool or app downloads fail, send them through a proxy already running on this computer.",
-        "protected": "Protected setting",
-        "protectedHint": "A pre-existing proxy contains credentials or a remote address, so AI Manager will use it but will not reveal it here. Replace it with a local address or clear it.",
-        "label": "Local proxy address",
-        "hint": "For example http://127.0.0.1:7890. Local addresses only, without credentials.",
-        "loading": "Reading the download proxy",
-        "readError": "Could not read the current download proxy.",
-        "save": "Use this proxy"
+        "title": "Proxy",
+        "scope": "Requests AI Manager itself sends: model lists and tests, downloads, updates and forwarded requests. Tools that connect to a service directly are not affected.",
+        "auto": "Follow system",
+        "off": "Direct",
+        "custom": "Custom",
+        "status": {
+          "custom": "Using {{proxy}}",
+          "environment": "Using the proxy in the HTTPS_PROXY variable, {{proxy}}",
+          "system": "Using the system proxy, {{proxy}}",
+          "none": "The system names no proxy, so requests go direct",
+          "off": "Requests go direct, even if the system names a proxy"
+        },
+        "protectedHint": "The saved proxy has credentials or a remote address. AI Manager keeps using it but won't show it here; enter a local address or pick another option.",
+        "label": "Proxy address",
+        "loading": "Reading the proxy setting",
+        "readError": "Could not read the proxy setting.",
+        "save": "Save"
       }
     },
     "privacy": {

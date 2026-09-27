@@ -66,7 +66,7 @@ pub use model_probe::{
     ProbeModel, ProbeModelKind, ProviderWireProtocol, MAX_PROBE_IMAGE_BASE64_BYTES,
     MAX_PROBE_MODELS, MAX_PROBE_PROMPT_CHARS, MAX_PROBE_REPLY_CHARS,
 };
-pub use network_proxy::NetworkProxySettings;
+pub use network_proxy::{NetworkProxyMode, NetworkProxySettings, NetworkProxySource};
 pub use openclaw_workspace::{
     OpenClawDailyMemoryDocument, OpenClawDailyMemoryList, OpenClawDailyMemorySummary,
     OpenClawWorkspaceDirectory, OpenClawWorkspaceDocument, OpenClawWorkspaceFileId,

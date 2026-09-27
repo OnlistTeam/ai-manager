@@ -10,11 +10,19 @@ import { server } from "../../msw/server";
 import { createTestQueryClient, withQueryClient } from "../queryWrapper";
 
 const TAURI_ENDPOINT = "http://tauri.local";
-const direct = { configured: false, url: null, protected: false };
+const direct = {
+  mode: "off",
+  url: null,
+  protected: false,
+  inUse: null,
+  source: "off",
+};
 const proxied = {
-  configured: true,
+  mode: "custom",
   url: "http://127.0.0.1:7890",
   protected: false,
+  inUse: "http://127.0.0.1:7890",
+  source: "custom",
 };
 
 describe("network proxy queries", () => {
@@ -52,7 +60,7 @@ describe("network proxy queries", () => {
     const { result } = renderHook(() => useSaveNetworkProxy(), {
       wrapper: withQueryClient(client),
     });
-    result.current.mutate(proxied.url);
+    result.current.mutate({ mode: "custom", url: proxied.url });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(client.getQueryData(networkProxyKeys.current())).toEqual(proxied);
   });

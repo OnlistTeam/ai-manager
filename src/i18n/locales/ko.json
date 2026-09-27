@@ -573,10 +573,10 @@
       "unrecognized": "문제가 발생했습니다. 다시 시도하세요."
     },
     "networkProxy": {
-      "invalid": "http://127.0.0.1:7890 또는 socks5://localhost:1080처럼 인증이 필요 없는 로컬 프록시를 사용하세요.",
-      "readFailed": "AI Manager가 다운로드 프록시 설정을 읽을 수 없습니다.",
-      "saveFailed": "AI Manager가 다운로드 프록시를 안전하게 적용할 수 없습니다.",
-      "storeUnavailable": "다운로드 프록시 설정이 아직 준비되지 않았습니다."
+      "invalid": "http://127.0.0.1:7890 또는 socks5://127.0.0.1:1080처럼 인증 정보가 없는 로컬 프록시를 입력하세요.",
+      "readFailed": "AI Manager가 프록시 설정을 읽지 못했습니다.",
+      "saveFailed": "AI Manager가 프록시를 안전하게 적용하지 못했습니다.",
+      "storeUnavailable": "프록시 설정이 아직 준비되지 않았습니다."
     },
     "openclawWorkspace": {
       "contentInvalid": "이 워크스페이스 파일은 올바른 UTF-8 텍스트가 아닙니다.",
@@ -2555,15 +2555,23 @@
     },
     "network": {
       "proxy": {
-        "title": "로컬 다운로드 프록시",
-        "description": "도구나 앱 다운로드가 실패하면 이 컴퓨터에서 실행 중인 프록시를 거치게 합니다.",
-        "protected": "보호된 설정",
-        "protectedHint": "기존 프록시에 자격 증명이나 원격 주소가 포함되어 있어 AI Manager는 이를 사용하지만 여기에는 표시하지 않습니다. 로컬 주소로 교체하거나 비워 두세요.",
-        "label": "로컬 프록시 주소",
-        "hint": "예: http://127.0.0.1:7890. 로컬 주소만 가능하며 자격 증명은 넣을 수 없습니다.",
-        "loading": "다운로드 프록시를 읽는 중",
-        "readError": "현재 다운로드 프록시를 읽을 수 없습니다.",
-        "save": "이 프록시 사용"
+        "title": "프록시",
+        "scope": "AI Manager가 직접 보내는 요청에 적용됩니다: 모델 목록과 테스트, 다운로드, 업데이트, 전달. 서비스에 직접 연결하는 도구에는 영향이 없습니다.",
+        "auto": "시스템 따르기",
+        "off": "직접 연결",
+        "custom": "사용자 지정",
+        "status": {
+          "custom": "{{proxy}} 사용 중",
+          "environment": "HTTPS_PROXY 변수의 프록시 {{proxy}} 사용 중",
+          "system": "시스템 프록시 {{proxy}} 사용 중",
+          "none": "시스템에 설정된 프록시가 없어 직접 연결합니다",
+          "off": "시스템에 프록시가 있어도 직접 연결합니다"
+        },
+        "protectedHint": "저장된 프록시에 인증 정보나 원격 주소가 있습니다. 계속 사용하지만 여기에는 표시하지 않습니다. 로컬 주소를 입력하거나 다른 방식을 고르세요.",
+        "label": "프록시 주소",
+        "loading": "프록시 설정을 읽는 중",
+        "readError": "프록시 설정을 읽지 못했습니다.",
+        "save": "저장"
       }
     },
     "privacy": {

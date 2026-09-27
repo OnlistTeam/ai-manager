@@ -11,7 +11,7 @@ import { UpdateSection } from "@/features/updater";
 import { Button } from "@/shared/ui/Button";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { SectionHeader } from "@/shared/ui/SectionHeader";
-import { DownloadProxyCard } from "./DownloadProxyCard";
+import { NetworkProxyCard } from "./NetworkProxyCard";
 import { DesktopPreferencesCard } from "./DesktopPreferencesCard";
 import { LanguageCard } from "./LanguageCard";
 import { PrivacyCard } from "./PrivacyCard";
@@ -140,7 +140,7 @@ export function SettingsPage({
           </SettingsGroup>
 
           <SettingsGroup title={t("preferences.groups.network")}>
-            <DownloadProxyCard />
+            <NetworkProxyCard />
           </SettingsGroup>
 
           <SettingsGroup

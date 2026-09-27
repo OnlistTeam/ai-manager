@@ -573,10 +573,10 @@
       "unrecognized": "出了点问题，请再试一次。"
     },
     "networkProxy": {
-      "invalid": "请输入不带账号密码的本机代理，例如 http://127.0.0.1:7890 或 socks5://localhost:1080。",
-      "readFailed": "AI 管家没能读取下载代理设置。",
-      "saveFailed": "AI 管家没能安全应用这个下载代理。",
-      "storeUnavailable": "下载代理设置还没有准备好。"
+      "invalid": "请输入不带账号密码的本机代理，例如 http://127.0.0.1:7890 或 socks5://127.0.0.1:1080。",
+      "readFailed": "AI 管家没能读取代理设置。",
+      "saveFailed": "AI 管家没能安全应用这个代理。",
+      "storeUnavailable": "代理设置还没有准备好。"
     },
     "openclawWorkspace": {
       "contentInvalid": "这个工作区文件不是有效的 UTF-8 文本。",
@@ -2554,15 +2554,23 @@
     },
     "network": {
       "proxy": {
-        "title": "本机下载代理",
-        "description": "下载工具或更新失败时，让下载经过这台电脑上正在运行的代理。",
-        "protected": "受保护设置",
-        "protectedHint": "已有代理包含凭据或远程地址，AI 管家会继续使用，但不会在这里显示。你可以换成本机地址，或清除它。",
-        "label": "本机代理地址",
-        "hint": "例如 http://127.0.0.1:7890，只支持本机地址，不能带账号密码。",
-        "loading": "正在读取下载代理",
-        "readError": "没能读取当前下载代理。",
-        "save": "使用这个代理"
+        "title": "代理",
+        "scope": "AI 管家自己发出的请求走这里：模型列表和测试、下载、更新、转发。工具直连服务商时不受影响。",
+        "auto": "跟随系统",
+        "off": "直连",
+        "custom": "自定义",
+        "status": {
+          "custom": "正在用 {{proxy}}",
+          "environment": "正在用 HTTPS_PROXY 变量里的代理 {{proxy}}",
+          "system": "正在用系统代理 {{proxy}}",
+          "none": "系统没有设置代理，直接连接",
+          "off": "不走代理，系统设置了也直接连接"
+        },
+        "protectedHint": "已保存的代理带账号密码或是远程地址，AI 管家会继续用它，但不在这里显示；可以填一个本机地址，或选别的方式。",
+        "label": "代理地址",
+        "loading": "正在读取代理设置",
+        "readError": "没能读取代理设置。",
+        "save": "保存"
       }
     },
     "privacy": {

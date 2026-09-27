@@ -89,10 +89,14 @@ pub fn uninstall_plan(id: ToolId, probe: &LifecycleProbe) -> Result<UninstallPla
 }
 
 /// Compatibility boundary for the inherited global proxy state. The
-/// application layer receives only the current URL value and never reaches
-/// into the legacy proxy module directly.
-pub fn configured_proxy_url() -> Option<String> {
-    crate::proxy::http_client::get_current_proxy_url()
+/// application layer receives only the proxy an installer should name, and
+/// whether to blank the one it inherits, and never reaches into the legacy
+/// proxy module directly (ADR-0056).
+pub fn installer_network(
+    strategy: crate::domain::DownloadStrategy,
+) -> crate::adapters::LifecycleNetworkPolicy {
+    let (proxy_url, clear) = super::network_proxy::child_proxy();
+    crate::adapters::LifecycleNetworkPolicy::new(strategy, proxy_url).with_proxy_cleared(clear)
 }
 
 // The `program_path` values in the assertions are all POSIX absolute paths and the Windows version

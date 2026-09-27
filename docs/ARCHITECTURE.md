@@ -487,7 +487,9 @@ management over instead of writing (ADR-0037).
 Shell execution never starts from a string. Plans are built in the facade (`lifecycle.rs`,
 `lifecycle_specs.rs`) as `CommandSpec` values, checked against `AllowedProgram`, anchored to the
 probed executable, and run by the platform executor with a timeout. Network-facing installers get
-the download proxy (loopback only, no credentials) through the child environment; only npm-family
+the app's proxy through the child environment (ADR-0056): a custom one (loopback only, no
+credentials), the system's when following it and the environment names none, or blank variables
+when the proxy is off; only npm-family
 installers may retry once against the community registry after a recoverable failure. Uninstall
 targets must be lexically inside the home directory, in a tool-owned root, and are canonicalized to
 refuse symlink escapes; the whole batch is pre-checked before the first deletion.

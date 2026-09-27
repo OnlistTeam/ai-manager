@@ -5,6 +5,28 @@ import { server } from "../msw/server";
 
 const TAURI_ENDPOINT = "http://tauri.local";
 
+const SYSTEM = {
+  mode: "auto",
+  url: null,
+  protected: false,
+  inUse: "http://127.0.0.1:7890",
+  source: "system",
+};
+const CUSTOM = {
+  mode: "custom",
+  url: "socks5://127.0.0.1:1080",
+  protected: false,
+  inUse: "socks5://127.0.0.1:1080",
+  source: "custom",
+};
+const OFF = {
+  mode: "off",
+  url: null,
+  protected: false,
+  inUse: null,
+  source: "off",
+};
+
 describe("native.networkProxy", () => {
   it("reads only the safe product projection", async () => {
     server.use(
@@ -12,54 +34,41 @@ describe("native.networkProxy", () => {
         `${TAURI_ENDPOINT}/app_network_proxy_get`,
         async ({ request }) => {
           expect(await request.json()).toEqual({});
-          return HttpResponse.json({
-            configured: true,
-            url: "http://127.0.0.1:7890",
-            protected: false,
-          });
+          return HttpResponse.json(SYSTEM);
         },
       ),
     );
 
-    await expect(native.networkProxy.get()).resolves.toEqual({
-      configured: true,
-      url: "http://127.0.0.1:7890",
-      protected: false,
-    });
+    await expect(native.networkProxy.get()).resolves.toEqual(SYSTEM);
   });
 
   it.each([
-    ["http://127.0.0.1:7890", "http://127.0.0.1:7890"],
-    [null, null],
-  ])("sends the explicit proxy choice %s", async (url, expected) => {
+    ["custom", "socks5://127.0.0.1:1080", CUSTOM],
+    ["off", null, OFF],
+  ] as const)("sends the %s choice", async (mode, url, response) => {
     let body: unknown;
     server.use(
       http.post(
         `${TAURI_ENDPOINT}/app_network_proxy_save`,
         async ({ request }) => {
           body = await request.json();
-          return HttpResponse.json({
-            configured: expected !== null,
-            url: expected,
-            protected: false,
-          });
+          return HttpResponse.json(response);
         },
       ),
     );
 
-    await native.networkProxy.save(url);
-    expect(body).toEqual({ url: expected });
+    await native.networkProxy.save(mode, url);
+    expect(body).toEqual({ mode, url });
   });
 
   it.each([
-    {
-      configured: true,
-      url: "http://user:secret@127.0.0.1:7890",
-      protected: false,
-    },
-    { configured: true, url: null, protected: false },
-    { configured: false, url: "http://127.0.0.1:7890", protected: false },
-    { configured: true, url: null, protected: true, password: "private" },
+    { ...CUSTOM, url: "http://user:secret@127.0.0.1:7890" },
+    { ...CUSTOM, url: null },
+    { ...SYSTEM, url: "http://127.0.0.1:7890" },
+    { ...SYSTEM, inUse: "http://user:secret@proxy.example.com:8080" },
+    { ...SYSTEM, source: "none" },
+    { ...OFF, inUse: "http://127.0.0.1:7890" },
+    { ...CUSTOM, url: null, inUse: null, protected: true, password: "x" },
   ])("rejects an inconsistent or expanded response", async (response) => {
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_network_proxy_get`, () =>

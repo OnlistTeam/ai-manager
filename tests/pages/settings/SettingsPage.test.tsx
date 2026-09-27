@@ -73,7 +73,13 @@ describe("SettingsPage", () => {
         HttpResponse.json(SETTINGS),
       ),
       http.post(`${TAURI_ENDPOINT}/app_network_proxy_get`, () =>
-        HttpResponse.json({ configured: false, url: null, protected: false }),
+        HttpResponse.json({
+          mode: "auto",
+          url: null,
+          protected: false,
+          inUse: null,
+          source: "none",
+        }),
       ),
       http.post(`${TAURI_ENDPOINT}/app_desktop_preferences_get`, () =>
         HttpResponse.json({
@@ -396,12 +402,12 @@ describe("SettingsPage", () => {
     expect(
       screen.queryByRole("radio", { name: "China resilience" }),
     ).toBeNull();
-    // The recovery entry point is there for everyone; it's just tucked behind a toggle instead of always showing an address bar.
+    // The recovery entry point is there for everyone, as one row of three choices.
     expect(
-      await screen.findByRole("switch", {
-        name: en.preferences.network.proxy.title,
+      await screen.findByRole("radio", {
+        name: en.preferences.network.proxy.auto,
       }),
-    ).toBeVisible();
+    ).toBeChecked();
   });
 
   it("exposes safe startup and tray preferences", async () => {
@@ -569,19 +575,21 @@ describe("SettingsPage", () => {
         async ({ request }) => {
           received = await request.json();
           return HttpResponse.json({
-            configured: true,
+            mode: "custom",
             url: "http://127.0.0.1:7890",
             protected: false,
+            inUse: "http://127.0.0.1:7890",
+            source: "custom",
           });
         },
       ),
     );
     mount();
 
-    // The address bar is collapsed by default: the toggle has to be turned on before the address field appears.
+    // The address field only appears once "Custom" is picked.
     await userEvent.click(
-      await screen.findByRole("switch", {
-        name: en.preferences.network.proxy.title,
+      await screen.findByRole("radio", {
+        name: en.preferences.network.proxy.custom,
       }),
     );
 
@@ -596,22 +604,31 @@ describe("SettingsPage", () => {
     );
 
     await waitFor(() =>
-      expect(received).toEqual({ url: "http://127.0.0.1:7890" }),
+      expect(received).toEqual({
+        mode: "custom",
+        url: "http://127.0.0.1:7890",
+      }),
     );
     expect(
-      await screen.findByRole("switch", {
-        name: en.preferences.network.proxy.title,
+      await screen.findByRole("radio", {
+        name: en.preferences.network.proxy.custom,
       }),
     ).toBeChecked();
     expect(
-      screen.queryByText(en.preferences.network.proxy.protected),
+      screen.queryByText(en.preferences.network.proxy.protectedHint),
     ).toBeNull();
   });
 
   it("does not reveal a protected legacy proxy", async () => {
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_network_proxy_get`, () =>
-        HttpResponse.json({ configured: true, url: null, protected: true }),
+        HttpResponse.json({
+          mode: "custom",
+          url: null,
+          protected: true,
+          inUse: null,
+          source: "custom",
+        }),
       ),
     );
     mount();

@@ -5,6 +5,7 @@ pub mod executor;
 pub mod plan;
 pub mod redact;
 pub mod shell_environment;
+pub mod system_proxy;
 pub mod terminal;
 
 pub use command::{AllowedProgram, CommandSpec};

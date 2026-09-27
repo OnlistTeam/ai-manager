@@ -807,9 +807,11 @@ const SESSIONS: SessionList = {
 };
 
 const NETWORK_PROXY: NetworkProxySettings = {
-  configured: true,
-  url: "http://127.0.0.1:7890",
+  mode: "auto",
+  url: null,
   protected: false,
+  inUse: "http://127.0.0.1:7890",
+  source: "system",
 };
 
 const PRIVACY: PrivacyProtection = {

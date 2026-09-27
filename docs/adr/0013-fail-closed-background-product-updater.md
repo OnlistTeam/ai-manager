@@ -2,6 +2,7 @@
 
 - Status: Accepted; decision item 6 amended 2026-09-20
 - Date: 2026-08-26
+- Amended by: ADR-0056 (the updater goes direct when the proxy is turned off)
 - Extended by: ADR-0018
 
 ## Context

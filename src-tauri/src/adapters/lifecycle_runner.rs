@@ -158,7 +158,13 @@ pub(crate) fn prepare_download_spec(
     network: &crate::adapters::LifecycleNetworkPolicy,
     community_mirror: bool,
 ) -> CommandSpec {
-    if let Some(proxy_url) = &network.proxy_url {
+    // A blank variable reads as unset to curl, npm and the other installers.
+    let proxy_value = match (&network.proxy_url, network.clear_proxy) {
+        (Some(proxy_url), _) => Some(proxy_url.clone()),
+        (None, true) => Some(String::new()),
+        (None, false) => None,
+    };
+    if let Some(proxy_value) = proxy_value {
         spec = spec.with_env_pairs(
             [
                 "HTTP_PROXY",
@@ -169,7 +175,7 @@ pub(crate) fn prepare_download_spec(
                 "all_proxy",
             ]
             .into_iter()
-            .map(|key| (key.to_string(), proxy_url.clone()))
+            .map(|key| (key.to_string(), proxy_value.clone()))
             .collect(),
         );
     }
