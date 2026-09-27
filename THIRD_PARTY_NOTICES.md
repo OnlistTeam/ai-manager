@@ -61,7 +61,9 @@ to this project and are not part of the upstream work.
 - License: MIT License, the same text as in
   [LICENSE-MIT](./licenses/LICENSE-MIT) with this copyright line
 
-Parts of the in-app subscription sign-in are adapted from magpie.
+Parts of the in-app subscription sign-in and of the Skills and MCP discovery
+are adapted from magpie, including the featured server list and the Skill
+snapshot in `src-tauri/src/application/discover/skills_snapshot.json`.
 
 ## Lobe Icons
 
