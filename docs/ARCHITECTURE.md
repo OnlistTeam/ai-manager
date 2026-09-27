@@ -55,7 +55,7 @@ React component
 
 Events travel the other way on one channel: `OperationManager` emits `operation://changed`, the tray
 emits `provider://changed`, the deep-link handler emits `deeplink://pending`, the routing trace
-emits `routing://trace`, and
+emits `routing://trace`, a quit held for routed tools emits `app://quit-requested`, and
 `src/native/events.ts` validates every payload before any cache is touched.
 
 Forbidden shortcuts: UI touching the file system, a component running SQL, the renderer assembling
@@ -223,7 +223,7 @@ lists (add, edit, check, order, remove). Both switch through `useRecoverableProv
 (`features/provider-management`). Home rows answer from the saved inventory first and then follow
 the effective connection from `useProviderRuntimeContext`, the query the endpoints page reads and
 the session warm-up fills, so both pages share one login-shell probe per tool. Updates live on the
-Software page and the live routing switch on the Local Routing tab; Home only links to them.
+Software page and the per-tool routing switches on the Local Routing tab; Home only links to them.
 
 Tab selection is page-local state and never enters `ProductSettings`. Cross-page hand-offs use
 `useRouteIntents` (`openServices(tool?, tab?)`, `openExtensions(tab?, kind?)`, `openRoute`);
@@ -519,10 +519,16 @@ paths never cross IPC. The product startup does not activate the inherited cloud
 polling services; deep links are handled by the product's own parser (section 6.9), never by the
 inherited one.
 
-Live routing (ADR-0050) is one switch over the same path: `app_routing_set_live_mode` takes over
-every target with a current service and reports the ones that fail, or stops and restores all.
-It is derived, never stored: the route runs and at least one tool is taken over. The forwarder
-records each request into an in-memory ring of 60 (`infrastructure/routing_trace.rs`) through
+Routing is chosen per tool (ADR-0054). Each target carries `unavailable` (`noService`, `ownLogin`,
+`incomplete`), computed in `compat/ccswitch/routing/forwarding.rs` with the forwarder's own adapter,
+and `pickup` (`live` or `atStart`, from the routing table), which the renderer turns into the
+restart note. Takeover refuses an unavailable target. `routing/owned_settings.rs` notes the settings
+a route wrote (`aimgr.routing.owned.<app>`) and, when the route ends, narrows the inherited backup
+to the current file with only those settings put back; `routing/release.rs` ends a single route
+without stopping the gateway, puts every route back at launch and before exit, and lists the
+routed tools for the quit confirmation (`application/quit_guard.rs`, `app://quit-requested`,
+`app_quit_confirmed`). The live trace (ADR-0050) stays: the forwarder records each request into
+an in-memory ring of 60 (`infrastructure/routing_trace.rs`) through
 `compat/ccswitch/routing/trace.rs`: tool, requested model, services tried with outcome, HTTP
 status, error category and duration. `app_routing_trace` reads it and `routing://trace` pushes
 each change; no content, header, key, URL or error body is recorded.

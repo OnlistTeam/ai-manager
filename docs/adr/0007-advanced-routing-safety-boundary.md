@@ -4,6 +4,10 @@
 - Date: 2026-08-24
 - Amended by ADR-0050: live routing mode; decision 4 now also admits the
   per-request trace fields listed there.
+- Amended by ADR-0054: enabling takeover refuses a tool whose endpoint cannot
+  be forwarded, turning a tool off keeps the gateway running, only the
+  settings the route wrote are restored, and quitting with routed tools asks
+  first.
 
 > 2026-08-30: ADR-0031 supersedes this document's Advanced Mode navigation gate; the controlled local routing and IPC safety boundaries are unchanged.
 

@@ -1055,8 +1055,8 @@ on one screen (ADR-0051, ADR-0053).
 
 Home and API Endpoints both choose which endpoint each tool uses, through one
 shared switch flow; API Endpoints also adds, checks, orders and removes them.
-The Software page installs and updates, and the Local Routing tab turns live
-routing on; Home has no second copy of those actions.
+The Software page installs and updates, and the Local Routing tab chooses
+which tools go through AI Manager; Home has no second copy of those actions.
 
 Overall goal:
 
@@ -1356,6 +1356,35 @@ Not:
 ```text
 Add Provider
 ```
+
+## Local Routing tab
+
+Routing is chosen per tool; nothing goes through AI Manager until the user
+turns that tool on, and every launch starts with every tool direct
+(ADR-0054). The tab is one compact list, a row per tool the gateway can
+carry:
+
+```text
+[logo] Claude Code   Team Relay                        [switch]
+[logo] Codex         Signed in with its own account    (no switch)
+[logo] Gemini CLI    No endpoint chosen                (no switch)
+```
+
+- A tool whose current connection cannot be forwarded (its own account
+  login, an endpoint without an address or key, or no endpoint) shows the
+  one-line reason instead of a switch. It is never taken over.
+- After a switch changes, the row says in one sentence what a session of
+  that tool that is already open will do, by how the tool reads its
+  settings: a tool that rereads them follows at once; a tool that reads
+  them at start keeps its old connection until restarted.
+- A routed row shows its automatic failover switch and queue under it.
+- The live stage, its one-line narration, the totals and the recent
+  requests stay under the list while the gateway runs. The gateway keeps
+  running while AI Manager runs in the tray, so closing the window never
+  breaks a routed tool.
+- Quitting while tools are routed asks first, naming them and saying which
+  open sessions will need a restart. Turning a tool off or quitting puts
+  back only the settings routing wrote; other edits made meanwhile stay.
 
 ---
 

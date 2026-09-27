@@ -4,6 +4,9 @@
 - Date: 2026-09-26
 - Amends: ADR-0007 decision 4 (what crosses the product IPC) and its
   consequence that request counters live in a collapsed statistics disclosure.
+- Superseded in part by ADR-0054: decisions 1 and 2 (one switch over every
+  tool) and the switch in decision 6 are replaced by a switch per tool that
+  never takes over a connection it cannot forward. The trace stays.
 
 ## Context
 
