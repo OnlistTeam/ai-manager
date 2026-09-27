@@ -1,4 +1,8 @@
 version: 2
+# Only compatible (minor/patch) version updates arrive automatically, grouped into one PR per
+# ecosystem. Major upgrades need a written rationale first (AI_RULES rule 5), and the Tauri
+# bridge is pinned across Rust and JS together (ADR-0012, ADR-0029), so Dependabot never moves
+# either on its own. Security updates are unaffected by these ignore rules.
 updates:
   - package-ecosystem: "npm"
     directory: "/"
@@ -13,6 +17,15 @@ updates:
       frontend-deps:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@tauri-apps/*"
+      # Any Prettier release can reformat files; it moves together with a reformat commit.
+      - dependency-name: "prettier"
 
   - package-ecosystem: "cargo"
     directory: "/src-tauri"
@@ -27,6 +40,13 @@ updates:
       cargo-deps:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "tauri*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
