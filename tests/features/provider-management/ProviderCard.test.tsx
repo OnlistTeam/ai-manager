@@ -63,7 +63,9 @@ describe("ProviderCard", () => {
       />,
     );
     expect(screen.getByText("Claude Code")).toBeInTheDocument();
-    expect(screen.getByText(en.services.card.inUse)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: en.ds.action.inUse }),
+    ).toBeInTheDocument();
   });
 
   it("shows recent use and tool-stored credentials without claiming an active session", async () => {
@@ -78,7 +80,9 @@ describe("ProviderCard", () => {
       />,
     );
     expect(screen.getByText(en.services.card.recentModel)).toBeInTheDocument();
-    expect(screen.queryByText(en.services.card.inUse)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: en.ds.action.inUse }),
+    ).not.toBeInTheDocument();
     expect(
       screen.getByText(en.services.effective.credential.configured),
     ).toBeInTheDocument();
@@ -110,7 +114,7 @@ describe("ProviderCard", () => {
         screen.getByText(en.services.effective.credential.unknown),
       ).toBeInTheDocument();
       expect(
-        screen.queryByText(en.services.card.inUse),
+        screen.queryByRole("button", { name: en.ds.action.inUse }),
       ).not.toBeInTheDocument();
     },
   );
@@ -164,6 +168,8 @@ describe("ProviderCard", () => {
         }),
       );
       expect(writeText).toHaveBeenLastCalledWith(subject.baseUrl);
+      // In effect without being the saved choice: Use stays offered, so the
+      // badge is what says it is in use.
       expect(screen.getByText(en.services.card.inUse)).toBeVisible();
     },
   );

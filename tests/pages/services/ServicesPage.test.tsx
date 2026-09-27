@@ -276,7 +276,9 @@ describe("ServicesPage", () => {
       await screen.findByText(en.services.card.recentModel),
     ).toBeInTheDocument();
     expect(screen.getByRole("status")).toHaveTextContent("relay/openai/model");
-    expect(screen.queryByText(en.services.card.inUse)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: en.ds.action.inUse }),
+    ).not.toBeInTheDocument();
     expect(
       screen.getByText(en.services.effective.credential.configured),
     ).toBeInTheDocument();
@@ -338,6 +340,8 @@ describe("ServicesPage", () => {
     mount([relayA, relayB]);
     await screen.findByText("Relay A");
 
+    // In effect but not the saved choice: Use stays offered, so the badge
+    // is what says it is in use.
     const inUseCard = screen.getByRole("article", { name: "Relay B" });
     expect(
       within(inUseCard).getByText(en.services.card.inUse),
@@ -468,7 +472,7 @@ describe("ServicesPage", () => {
 
     const inUseCard = screen.getByRole("article", { name: "Relay A" });
     expect(
-      within(inUseCard).getByText(en.services.card.inUse),
+      within(inUseCard).getByRole("button", { name: en.ds.action.inUse }),
     ).toBeInTheDocument();
     expect(
       within(inUseCard).getByText(
@@ -530,7 +534,7 @@ describe("ServicesPage", () => {
       within(liveCard).getByText("From ~/.codex/config.toml"),
     ).toBeInTheDocument();
     expect(
-      within(liveCard).getByText(en.services.card.inUse),
+      within(liveCard).getByRole("button", { name: en.ds.action.inUse }),
     ).toBeInTheDocument();
     // Every tool must share the same layout: no separate block above the list saying the same thing.
     expect(
@@ -576,7 +580,9 @@ describe("ServicesPage", () => {
       ),
     );
     const { client } = mount([service({ active: true })]);
-    expect(await screen.findByText(en.services.card.inUse)).toBeInTheDocument();
+    expect(
+      await screen.findByRole("button", { name: en.ds.action.inUse }),
+    ).toBeInTheDocument();
     failed = true;
     await act(async () => {
       await client.invalidateQueries({
@@ -586,7 +592,9 @@ describe("ServicesPage", () => {
     expect(
       await screen.findByText(en.services.card.unknown),
     ).toBeInTheDocument();
-    expect(screen.queryByText(en.services.card.inUse)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: en.ds.action.inUse }),
+    ).not.toBeInTheDocument();
     expect(screen.getByText("My Relay")).toBeInTheDocument();
   });
 
@@ -1189,8 +1197,9 @@ describe("ServicesPage", () => {
         .map((id) => document.getElementById(id ?? "")?.textContent);
     await waitFor(() =>
       expect(
-        within(screen.getByRole("article", { name: "Relay A" })).getByText(
-          en.services.card.inUse,
+        within(screen.getByRole("article", { name: "Relay A" })).getByRole(
+          "button",
+          { name: en.ds.action.inUse },
         ),
       ).toBeInTheDocument(),
     );
@@ -1204,8 +1213,9 @@ describe("ServicesPage", () => {
 
     await waitFor(() =>
       expect(
-        within(screen.getByRole("article", { name: "Relay B" })).getByText(
-          en.services.card.inUse,
+        within(screen.getByRole("article", { name: "Relay B" })).getByRole(
+          "button",
+          { name: en.ds.action.inUse },
         ),
       ).toBeInTheDocument(),
     );

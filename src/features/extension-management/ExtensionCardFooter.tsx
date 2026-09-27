@@ -1,8 +1,6 @@
 import {
   ArrowRight,
   Check,
-  CheckCircle2,
-  Circle,
   FilePenLine,
   FolderOpen,
   HardDrive,
@@ -13,7 +11,6 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { Extension } from "@/entities/extension";
-import { Badge } from "@/shared/ui/Badge";
 import { Button } from "@/shared/ui/Button";
 import { Switch } from "@/shared/ui/Switch";
 import type { ExtensionCardLabels } from "./useExtensionCardLabels";
@@ -38,7 +35,11 @@ export interface ExtensionCardFooterProps {
   onToggle: (enabled: boolean) => void;
 }
 
-/** The card's bottom row: a status line on the left, every action on the right. */
+/**
+ * The card's trailing row. The switch, or the Use / In use button, is the one
+ * place the state shows; a status line beside it would only repeat it. Text
+ * appears only for what the control cannot say: found on disk, or updating.
+ */
 export function ExtensionCardFooter({
   extension,
   detected,
@@ -80,18 +81,7 @@ export function ExtensionCardFooter({
           />
           {pendingLabel ?? t("extensions.card.updating")}
         </p>
-      ) : (
-        <p className="flex items-center gap-2 text-caption text-content-muted">
-          {extension.enabled ? (
-            <CheckCircle2 className="h-4 w-4 text-success" aria-hidden="true" />
-          ) : (
-            <Circle className="h-4 w-4 text-content-muted" aria-hidden="true" />
-          )}
-          {extension.enabled
-            ? t("extensions.card.on")
-            : t("extensions.card.off")}
-        </p>
-      )}
+      ) : null}
 
       <div className="flex flex-wrap items-center justify-end gap-2">
         {detected && extension.kind === "skill" && onOpenLocation ? (
@@ -170,9 +160,10 @@ export function ExtensionCardFooter({
             onCheckedChange={onToggle}
           />
         ) : extension.enabled && !failed ? (
-          <Badge tone="success" icon={Check}>
-            {t("ds.service.nowActive")}
-          </Badge>
+          <Button variant="secondary" size="sm" disabled>
+            <Check className="h-4 w-4" aria-hidden="true" />
+            {t("ds.action.inUse")}
+          </Button>
         ) : (
           <Button
             variant="secondary"

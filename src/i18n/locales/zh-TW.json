@@ -1497,7 +1497,6 @@
     },
     "card": {
       "custom": "自訂端點",
-      "saved": "已儲存",
       "defaultModel": "預設模型",
       "recentModel": "最近使用",
       "unknown": "使用狀態待確認",
@@ -1924,8 +1923,6 @@
       "locationOpened": "已開啟 {{name}} 的所在位置。",
       "documentOpened": "已使用系統預設編輯器開啟 {{name}} 的 SKILL.md。",
       "resourceOpenErrorNamed": "無法開啟「{{name}}」",
-      "on": "已開啟",
-      "off": "已關閉",
       "noDescription": "還沒有說明。",
       "expandDescription": "展開",
       "collapseDescription": "收合",
@@ -2534,7 +2531,6 @@
       "proxy": {
         "title": "本機下載代理",
         "description": "下載工具或更新失敗時，讓下載經過這台電腦上正在執行的代理。",
-        "active": "已啟用",
         "protected": "受保護設定",
         "protectedHint": "現有代理含有憑證或遠端位址，AI 管家會繼續使用，但不會在這裡顯示。你可以換成本機位址，或清除它。",
         "label": "本機代理位址",

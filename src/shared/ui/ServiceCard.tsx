@@ -16,7 +16,7 @@ export interface ServiceCardProps {
   usedBy: string[];
   connected?: boolean;
   active?: boolean;
-  /** Whether the Use action should show even though the card is not the active badge holder. Defaults to `!active`; a card can be in effect without holding the DB selection, so callers may need to offer Use regardless of `active`. */
+  /** Whether the Use action should show even though the card is the active one. Defaults to `!active`; a card can be in effect without holding the DB selection, so callers may need to offer Use regardless of `active`. */
   useAvailable?: boolean;
   activeLabelKey?: string;
   useLabelKey?: "ds.action.use" | "ds.action.configure";
@@ -95,8 +95,8 @@ function UseActionLabel({
 /**
  * One saved service as a row of a `ListGroup` (ADR-0052): identity, badges and
  * actions on the first line, the endpoint detail underneath. The tools that
- * point at it are announced to screen readers only; the "in use" badge and the
- * accent bar already say it on screen.
+ * point at it are announced to screen readers only; the greyed "In use" button
+ * and the accent bar already say it on screen.
  */
 export function ServiceCard({
   name,
@@ -130,6 +130,7 @@ export function ServiceCard({
       : useIsAvailable
         ? useLabelKey
         : unavailableLabelKey;
+  const buttonSaysInUse = connected && useActionLabelKey === "ds.action.inUse";
 
   return (
     <ListGroupRow
@@ -143,7 +144,7 @@ export function ServiceCard({
         className,
       )}
     >
-      {/* Which one is in use is already stated by the badge; the bar only
+      {/* Which one is in use is already stated by the button; the bar only
           makes it the first thing the eye finds scanning down the list, so it
           is decorative and stays out of the a11y tree. */}
       {active ? (
@@ -168,7 +169,9 @@ export function ServiceCard({
           {name}
         </h3>
         {meta}
-        {active ? (
+        {/* Said once: while the greyed button reads "In use" the badge would
+            repeat it, so it only shows when the button says something else. */}
+        {active && !buttonSaysInUse ? (
           <Badge tone="success" className="shrink-0">
             {t(activeLabelKey)}
           </Badge>

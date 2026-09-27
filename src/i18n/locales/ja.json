@@ -1497,7 +1497,6 @@
     },
     "card": {
       "custom": "カスタムエンドポイント",
-      "saved": "保存済み",
       "defaultModel": "既定のモデル",
       "recentModel": "最近使用",
       "unknown": "使用状況は未確認",
@@ -1924,8 +1923,6 @@
       "locationOpened": "{{name}} の保存場所を開きました。",
       "documentOpened": "{{name}} の SKILL.md を既定のエディターで開きました。",
       "resourceOpenErrorNamed": "{{name}} を開けませんでした",
-      "on": "オン",
-      "off": "オフ",
       "noDescription": "説明はまだありません。",
       "expandDescription": "もっと見る",
       "collapseDescription": "折りたたむ",
@@ -2534,7 +2531,6 @@
       "proxy": {
         "title": "ローカルダウンロードプロキシ",
         "description": "ツールやアプリのダウンロードに失敗するときは、このパソコンで動作中のプロキシを経由させます。",
-        "active": "有効",
         "protected": "保護された設定",
         "protectedHint": "既存のプロキシに認証情報またはリモートアドレスが含まれるため、引き続き使用しますがここには表示しません。ローカルアドレスへ置き換えるか、消去できます。",
         "label": "ローカルプロキシアドレス",

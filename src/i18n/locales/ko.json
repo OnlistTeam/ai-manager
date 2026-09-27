@@ -1498,7 +1498,6 @@
     },
     "card": {
       "custom": "사용자 지정 엔드포인트",
-      "saved": "저장됨",
       "defaultModel": "기본 모델",
       "recentModel": "최근 사용",
       "unknown": "사용 여부 확인 안 됨",
@@ -1925,8 +1924,6 @@
       "locationOpened": "{{name}}의 위치를 열었습니다.",
       "documentOpened": "{{name}}의 SKILL.md를 기본 편집기에서 열었습니다.",
       "resourceOpenErrorNamed": "{{name}}을(를) 열 수 없습니다",
-      "on": "켜짐",
-      "off": "꺼짐",
       "noDescription": "아직 설명이 없습니다.",
       "expandDescription": "더 보기",
       "collapseDescription": "간략히 보기",
@@ -2535,7 +2532,6 @@
       "proxy": {
         "title": "로컬 다운로드 프록시",
         "description": "도구나 앱 다운로드가 실패하면 이 컴퓨터에서 실행 중인 프록시를 거치게 합니다.",
-        "active": "사용 중",
         "protected": "보호된 설정",
         "protectedHint": "기존 프록시에 자격 증명이나 원격 주소가 포함되어 있어 AI Manager는 이를 사용하지만 여기에는 표시하지 않습니다. 로컬 주소로 교체하거나 비워 두세요.",
         "label": "로컬 프록시 주소",

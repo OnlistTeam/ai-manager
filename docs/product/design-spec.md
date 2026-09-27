@@ -1403,11 +1403,17 @@ Switch button:
 Use
 ```
 
-After success:
+After success the same button greys out and reads:
 
 ```text
-Now active
+In use
 ```
+
+A state is said once. Where the primary button already reads "In use", or a
+switch already shows on or off, no badge or status word beside it repeats
+it; a badge appears only for what the control cannot say (in effect but not
+the saved choice, overridden, protected, found on disk). Every row in a saved
+list is saved, so rows carry no "Saved" tag.
 
 Do not use developer wording such as:
 

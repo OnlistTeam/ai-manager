@@ -1498,7 +1498,6 @@
     },
     "card": {
       "custom": "Point d'accès personnalisé",
-      "saved": "Enregistré",
       "defaultModel": "Modèle par défaut",
       "recentModel": "Utilisé récemment",
       "unknown": "Utilisation non confirmée",
@@ -1925,8 +1924,6 @@
       "locationOpened": "L'emplacement de {{name}} est ouvert.",
       "documentOpened": "Le SKILL.md de {{name}} est ouvert dans votre éditeur par défaut.",
       "resourceOpenErrorNamed": "Impossible d'ouvrir {{name}}",
-      "on": "Activé",
-      "off": "Désactivé",
       "noDescription": "Aucune description pour l'instant.",
       "expandDescription": "Afficher plus",
       "collapseDescription": "Afficher moins",
@@ -2536,7 +2533,6 @@
       "proxy": {
         "title": "Proxy de téléchargement local",
         "description": "Lorsque les téléchargements d'outils ou d'applications échouent, faites-les passer par un proxy déjà en cours d'exécution sur cet ordinateur.",
-        "active": "Actif",
         "protected": "Paramètre protégé",
         "protectedHint": "Un proxy préexistant contient des identifiants ou une adresse distante ; AI Manager l'utilisera mais ne l'affichera pas ici. Remplacez-le par une adresse locale ou effacez-le.",
         "label": "Adresse du proxy local",

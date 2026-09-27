@@ -234,7 +234,10 @@ export function ProviderCard({
                 : t("services.card.notInEffect")}
             </Badge>
           ) : null}
-          {effectiveState !== "inUse" && effectiveState !== "overridden" ? (
+          {/* Every row here is saved, so "Saved" would tell nothing. */}
+          {effectiveState !== "inUse" &&
+          effectiveState !== "overridden" &&
+          effectiveState !== "saved" ? (
             <Badge tone="neutral">{t(`services.card.${effectiveState}`)}</Badge>
           ) : null}
         </>

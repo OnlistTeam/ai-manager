@@ -518,7 +518,8 @@ function galleryExtension(
     description,
     management: detected ? "detected" : "managed",
     enabled: detected || enabledIn.includes(scope.id),
-    canDisable: !detected,
+    // A prompt is picked, never switched off (one is always in use).
+    canDisable: !detected && kind !== "prompt",
   };
 }
 

@@ -1497,7 +1497,6 @@
     },
     "card": {
       "custom": "自定义端点",
-      "saved": "已保存",
       "defaultModel": "默认模型",
       "recentModel": "最近使用",
       "unknown": "使用状态待确认",
@@ -1924,8 +1923,6 @@
       "locationOpened": "已打开 {{name}} 的所在位置。",
       "documentOpened": "已用系统默认编辑器打开 {{name}} 的 SKILL.md。",
       "resourceOpenErrorNamed": "没能打开“{{name}}”",
-      "on": "已开启",
-      "off": "已关闭",
       "noDescription": "还没有说明。",
       "expandDescription": "展开",
       "collapseDescription": "收起",
@@ -2534,7 +2531,6 @@
       "proxy": {
         "title": "本机下载代理",
         "description": "下载工具或更新失败时，让下载经过这台电脑上正在运行的代理。",
-        "active": "已启用",
         "protected": "受保护设置",
         "protectedHint": "已有代理包含凭据或远程地址，AI 管家会继续使用，但不会在这里显示。你可以换成本机地址，或清除它。",
         "label": "本机代理地址",

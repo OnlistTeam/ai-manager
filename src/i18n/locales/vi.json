@@ -1498,7 +1498,6 @@
     },
     "card": {
       "custom": "Điểm cuối tùy chỉnh",
-      "saved": "Đã lưu",
       "defaultModel": "Model mặc định",
       "recentModel": "Dùng gần đây",
       "unknown": "Chưa xác nhận sử dụng",
@@ -1925,8 +1924,6 @@
       "locationOpened": "Vị trí của {{name}} đã được mở.",
       "documentOpened": "SKILL.md cho {{name}} đã được mở trong trình chỉnh sửa mặc định của bạn.",
       "resourceOpenErrorNamed": "Không thể mở {{name}}",
-      "on": "Bật",
-      "off": "Tắt",
       "noDescription": "Chưa có mô tả.",
       "expandDescription": "Xem thêm",
       "collapseDescription": "Thu gọn",
@@ -2535,7 +2532,6 @@
       "proxy": {
         "title": "Proxy tải xuống cục bộ",
         "description": "Khi tải xuống công cụ hoặc ứng dụng thất bại, hãy cho chúng đi qua một proxy đã chạy sẵn trên máy này.",
-        "active": "Đang hoạt động",
         "protected": "Cài đặt được bảo vệ",
         "protectedHint": "Một proxy có sẵn từ trước chứa thông tin xác thực hoặc địa chỉ từ xa, vì vậy AI Manager sẽ dùng nó nhưng sẽ không hiển thị ở đây. Hãy thay bằng một địa chỉ cục bộ hoặc xóa nó.",
         "label": "Địa chỉ proxy cục bộ",

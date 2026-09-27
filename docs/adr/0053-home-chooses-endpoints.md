@@ -47,7 +47,9 @@ shared flow, so they cannot disagree.
    edit, check and probe, reorder (the order is the failover order) and
    remove, and every card keeps its Use button (for tools that pick the model
    themselves, "Add to tool"), exactly as before this decision. The card a
-   tool is using carries the "In use" badge and the accent bar. Both places
+   tool is using has its Use button greyed to "In use" and the accent bar;
+   the "In use" badge appears only when the card is in effect while Use is
+   still offered (it is not the saved choice). Both places
    switch through the same hook, so a switch started on either page shows
    the same preflight, reopen hint and recovery, and the other page reflects
    it from the shared query cache. The contextual recovery after a failed

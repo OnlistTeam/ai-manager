@@ -1498,7 +1498,6 @@
     },
     "card": {
       "custom": "Endpoint kustom",
-      "saved": "Tersimpan",
       "defaultModel": "Model default",
       "recentModel": "Terakhir digunakan",
       "unknown": "Penggunaan tidak terkonfirmasi",
@@ -1925,8 +1924,6 @@
       "locationOpened": "Lokasi {{name}} sudah terbuka.",
       "documentOpened": "SKILL.md untuk {{name}} terbuka di editor default Anda.",
       "resourceOpenErrorNamed": "Tidak dapat membuka {{name}}",
-      "on": "Aktif",
-      "off": "Nonaktif",
       "noDescription": "Belum ada deskripsi.",
       "expandDescription": "Tampilkan selengkapnya",
       "collapseDescription": "Tampilkan lebih sedikit",
@@ -2535,7 +2532,6 @@
       "proxy": {
         "title": "Proxy unduhan lokal",
         "description": "Saat unduhan alat atau aplikasi gagal, alihkan melalui proxy yang sudah berjalan di komputer ini.",
-        "active": "Aktif",
         "protected": "Pengaturan terlindungi",
         "protectedHint": "Proxy yang sudah ada berisi kredensial atau alamat jarak jauh, sehingga AI Manager akan menggunakannya tetapi tidak akan menampilkannya di sini. Ganti dengan alamat lokal atau kosongkan.",
         "label": "Alamat proxy lokal",

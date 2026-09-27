@@ -59,8 +59,8 @@ describe("ExtensionCard", () => {
       }),
     });
     expect(control).not.toBeChecked();
-    // State isn't conveyed by color alone (spec §98): there's a word next to the toggle.
-    expect(screen.getByText(en.extensions.card.off)).toBeInTheDocument();
+    // The switch is the one place the state shows; no status line repeats it.
+    expect(control.parentElement?.parentElement?.querySelector("p")).toBeNull();
     // The page already names the kind; the row does not repeat it.
     expect(screen.queryByText(en.extensions.mcp.title)).toBeNull();
     expect(screen.getByRole("article", { name: "Filesystem" })).toHaveAttribute(
@@ -112,7 +112,6 @@ describe("ExtensionCard", () => {
         onToggle={onToggle}
       />,
     );
-    expect(screen.getByText(en.extensions.card.on)).toBeInTheDocument();
     await userEvent.click(
       screen.getByRole("switch", {
         name: i18n.t("extensions.card.itemLabel", {
@@ -287,7 +286,7 @@ describe("ExtensionCard", () => {
     expect(container.querySelector("textarea")).toBeNull();
   });
 
-  it("shows the one in use as active, with nothing to click", () => {
+  it("says In use once, on a greyed button, for the one in use", () => {
     render(
       <ExtensionCard
         extension={extension({
@@ -298,7 +297,11 @@ describe("ExtensionCard", () => {
         onToggle={vi.fn()}
       />,
     );
-    expect(screen.getByText(en.ds.service.nowActive)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: en.ds.action.inUse }),
+    ).toBeDisabled();
+    expect(screen.getAllByText(en.ds.action.inUse)).toHaveLength(1);
+    expect(screen.queryByText(en.ds.service.nowActive)).toBeNull();
     expect(screen.queryByRole("switch")).toBeNull();
     expect(screen.queryByRole("button", { name: en.ds.action.use })).toBeNull();
   });

@@ -1,4 +1,4 @@
-import { AlertCircle, CheckCircle2, Network, ShieldCheck } from "lucide-react";
+import { AlertCircle, Network, ShieldCheck } from "lucide-react";
 import { useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNetworkProxy, useSaveNetworkProxy } from "@/entities/network-proxy";
@@ -64,16 +64,11 @@ export function DownloadProxyCard() {
               >
                 {t("preferences.network.proxy.title")}
               </h3>
-              {query.data?.configured ? (
-                <Badge
-                  tone={query.data.protected ? "warning" : "success"}
-                  icon={query.data.protected ? ShieldCheck : CheckCircle2}
-                >
-                  {t(
-                    query.data.protected
-                      ? "preferences.network.proxy.protected"
-                      : "preferences.network.proxy.active",
-                  )}
+              {/* On or off is the switch's to say; only the protected case
+                  adds something it cannot. */}
+              {query.data?.configured && query.data.protected ? (
+                <Badge tone="warning" icon={ShieldCheck}>
+                  {t("preferences.network.proxy.protected")}
                 </Badge>
               ) : null}
             </div>

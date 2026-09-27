@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { ServiceCard } from "@/shared/ui/ServiceCard";
@@ -55,7 +55,7 @@ describe("ServiceCard", () => {
     );
   });
 
-  it("replaces the Use button with a Now active badge once active", () => {
+  it("says In use once, on the greyed button, rather than with a badge too", () => {
     render(
       <ServiceCard
         name="Claude"
@@ -66,7 +66,7 @@ describe("ServiceCard", () => {
       />,
     );
     expect(screen.queryByRole("button", { name: "ds.action.use" })).toBeNull();
-    expect(screen.getByText("ds.service.nowActive")).toBeInTheDocument();
+    expect(screen.queryByText("ds.service.nowActive")).toBeNull();
     // `.ds-card` lives outside any `@layer`, so the green fill for the
     // in-use state has to key off this attribute, not a `bg-*` class the
     // unlayered rule would silently beat (see src/index.css `.ds-card`).
@@ -74,6 +74,21 @@ describe("ServiceCard", () => {
     expect(row).toHaveAttribute("data-state", "in-use");
     // A decorative accent bar lets the eye find the row in effect first.
     expect(row.querySelector('[aria-hidden="true"].bg-success')).not.toBeNull();
+  });
+
+  it("keeps the badge when the row is in effect but still offers Use", () => {
+    render(
+      <ServiceCard
+        name="Claude"
+        connected
+        active
+        useAvailable
+        usedBy={["Claude Code"]}
+        onUse={vi.fn()}
+      />,
+    );
+    expect(screen.getByText("ds.service.nowActive")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "ds.action.use" })).toBeEnabled();
   });
 
   it("keeps a user-supplied long name readable beside its identity badges", async () => {
@@ -93,9 +108,6 @@ describe("ServiceCard", () => {
     const heading = screen.getByRole("heading", { name });
     expect(heading).toHaveClass("break-words");
     expect(heading).not.toHaveClass("truncate");
-    expect(
-      within(heading.parentElement!).getByText("ds.service.nowActive"),
-    ).toBeInTheDocument();
 
     await userEvent.tab();
     expect(screen.getByRole("button", { name: "Check address" })).toHaveFocus();

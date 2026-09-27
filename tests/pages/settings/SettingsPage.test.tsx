@@ -599,8 +599,13 @@ describe("SettingsPage", () => {
       expect(received).toEqual({ url: "http://127.0.0.1:7890" }),
     );
     expect(
-      await screen.findByText(en.preferences.network.proxy.active),
-    ).toBeInTheDocument();
+      await screen.findByRole("switch", {
+        name: en.preferences.network.proxy.title,
+      }),
+    ).toBeChecked();
+    expect(
+      screen.queryByText(en.preferences.network.proxy.protected),
+    ).toBeNull();
   });
 
   it("does not reveal a protected legacy proxy", async () => {
