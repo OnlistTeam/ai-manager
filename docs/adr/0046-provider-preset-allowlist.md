@@ -9,10 +9,10 @@
 The inherited catalogue shipped 521 presets across 95 services. Auditing them
 by who actually runs the address:
 
-| | services | presets |
-|---|---:|---:|
-| labs, clouds, and OpenRouter | 56 | 263 |
-| third-party key resellers | **39** | **258** |
+|                              | services | presets |
+| ---------------------------- | -------: | ------: |
+| labs, clouds, and OpenRouter |       56 |     263 |
+| third-party key resellers    |   **39** | **258** |
 
 Half the list was relays: services that buy capacity somewhere and sell access
 under their own name. `9527CODE`, `AiHubMix`, `PackyCode`, `SubRouter`,
@@ -24,7 +24,7 @@ platform is bailian.console.aliyun.com.
 
 None of the 521 carried a referral or affiliate parameter; every `websiteUrl`
 and `apiKeyUrl` was checked. So this is not about monetisation. It is about
-what a preset *is*: the user pastes their key into an address this application
+what a preset _is_: the user pastes their key into an address this application
 put in front of them. That is an endorsement, and for 39 hosts nobody here has
 audited it is one this project cannot make. The picker was even telling them
 the list was "reviewed".
@@ -50,6 +50,15 @@ Gemini CLI). Leading the list costs nobody the default they expect. The entries
 live with the other non-upstream presets in the generator rather than in the
 upstream sources, for the same conflict reason, and every model id in them was
 checked against `https://onlist.io/v1/models`.
+
+Claude Code's onList entry names no model (amended 2026-09-27). onList, like
+OpenRouter a catalogue of some four hundred models, also answers to Claude
+Code's own model ids, so the tool keeps its own default and its opus, sonnet
+and haiku tiers. The first entry named `anthropic/claude-sonnet-5`, and the
+connect dialog wrote that one model into `ANTHROPIC_MODEL` and all three tier
+variables, which read as "onList has one model" and put Claude Code's
+background work on the strongest model. A model is picked on Home instead,
+from onList's own catalogue (ADR-0055).
 
 The address is `https://onlist.io/v1`, or the origin for the two tools that
 append their own version segment (Claude Code sends `/v1/messages`, Gemini CLI

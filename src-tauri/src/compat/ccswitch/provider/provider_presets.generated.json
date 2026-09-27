@@ -6,7 +6,7 @@
       "id": "onlist",
       "serviceName": "onList",
       "defaultName": "onList",
-      "defaultModel": "anthropic/claude-sonnet-5",
+      "defaultModel": null,
       "websiteUrl": "https://onlist.io",
       "apiKeyUrl": "https://onlist.io",
       "official": false,
@@ -14,11 +14,7 @@
       "settingsConfig": {
         "env": {
           "ANTHROPIC_BASE_URL": "https://onlist.io",
-          "ANTHROPIC_AUTH_TOKEN": "",
-          "ANTHROPIC_MODEL": "anthropic/claude-sonnet-5",
-          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "anthropic/claude-haiku-4.5",
-          "ANTHROPIC_DEFAULT_SONNET_MODEL": "anthropic/claude-sonnet-5",
-          "ANTHROPIC_DEFAULT_OPUS_MODEL": "anthropic/claude-opus-5"
+          "ANTHROPIC_AUTH_TOKEN": ""
         }
       }
     },

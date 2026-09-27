@@ -95,7 +95,9 @@ pub struct ProviderConnectionPreset {
     pub id: String,
     pub service_name: String,
     pub default_name: String,
-    pub default_model: String,
+    /// `None` leaves the model to the tool, for a service that answers to the
+    /// tool's own model ids.
+    pub default_model: Option<String>,
     pub base_url: String,
     pub website_url: String,
     pub api_key_url: String,
@@ -591,7 +593,7 @@ mod tests {
                 id: "official".to_string(),
                 service_name: "Anthropic API".to_string(),
                 default_name: "Anthropic".to_string(),
-                default_model: "claude-sonnet-5".to_string(),
+                default_model: Some("claude-sonnet-5".to_string()),
                 base_url: "https://api.anthropic.com".to_string(),
                 website_url: "https://www.anthropic.com".to_string(),
                 api_key_url: "https://console.anthropic.com".to_string(),

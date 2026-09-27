@@ -41,7 +41,7 @@ pub(super) struct CatalogPreset {
     id: String,
     service_name: String,
     default_name: String,
-    default_model: String,
+    default_model: Option<String>,
     website_url: String,
     api_key_url: String,
     official: bool,
@@ -265,10 +265,14 @@ fn validate_preset(preset: &CatalogPreset) -> Result<(), String> {
             preset.tool.as_str()
         ));
     }
+    let model_valid = match &preset.default_model {
+        Some(model) => valid_text(model, 256),
+        None => !model_required(preset.tool),
+    };
     if !valid_id(&preset.id)
         || !valid_text(&preset.service_name, 100)
         || !valid_text(&preset.default_name, 100)
-        || !valid_text(&preset.default_model, 256)
+        || !model_valid
     {
         return Err(format!(
             "{} contains invalid provider preset text",
@@ -295,20 +299,23 @@ fn validate_preset(preset: &CatalogPreset) -> Result<(), String> {
     if !key.is_empty() {
         return Err("provider preset contains a credential".to_string());
     }
+    let models: Vec<String> = preset.default_model.iter().cloned().collect();
     let draft = ProviderDraft {
         name: preset.default_name.clone(),
         api_key: Some(VALIDATION_KEY.to_string()),
-        models: Some(vec![preset.default_model.clone()]),
+        models: Some(models.clone()),
         advanced: None,
     };
     apply_draft(preset.tool, &mut raw, &draft)
         .map_err(|_| "provider preset cannot accept the safe connection draft".to_string())?;
     let (_, key) = raw.resolve_usage_credentials(&app_type_for(preset.tool));
-    if key != VALIDATION_KEY
-        || !advanced::profile(preset.tool, &raw)
-            .models
-            .contains(&preset.default_model)
-    {
+    let saved = advanced::profile(preset.tool, &raw).models;
+    let round_trips = match &preset.default_model {
+        Some(model) => saved.contains(model),
+        // A blank model leaves the tool's own default, so no key may remain.
+        None => saved.is_empty(),
+    };
+    if key != VALIDATION_KEY || !round_trips {
         return Err("provider preset failed its credential/model round trip".to_string());
     }
     Ok(())
@@ -430,6 +437,30 @@ mod tests {
         for tool in [ToolId::OpenCode, ToolId::GrokBuild, ToolId::Hermes] {
             assert!(model_required(tool), "{tool:?} should require a model");
             assert!(profile_for(tool).expect("valid catalog").model_required);
+        }
+    }
+
+    /// onList takes Claude Code's own model ids, so its preset leaves every
+    /// model slot to the tool instead of pinning them all to one model.
+    #[test]
+    fn onlist_leaves_claude_code_its_own_models() {
+        let profile = profile_for(ToolId::ClaudeCode).expect("valid catalog");
+        let onlist = profile
+            .presets
+            .iter()
+            .find(|preset| preset.id == "onlist")
+            .expect("onList preset");
+        assert_eq!(onlist.default_model, None);
+        let env = &preset_for(ToolId::ClaudeCode, "onlist")
+            .expect("onList template")
+            .settings_config["env"];
+        for key in [
+            "ANTHROPIC_MODEL",
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL",
+            "ANTHROPIC_DEFAULT_SONNET_MODEL",
+            "ANTHROPIC_DEFAULT_OPUS_MODEL",
+        ] {
+            assert!(env.get(key).is_none(), "onList pins {key}");
         }
     }
 

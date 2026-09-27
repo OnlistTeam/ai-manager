@@ -285,6 +285,63 @@ describe("ProviderConnectModal", () => {
     });
   });
 
+  it("opens a preset that names no model with the model left to the tool", async () => {
+    const onSubmit = vi.fn();
+    render(
+      <ProviderConnectModal
+        profile={{
+          ...optionalModelProfile,
+          defaultPresetId: "onlist",
+          presets: [
+            {
+              id: "onlist",
+              serviceName: "onList",
+              defaultName: "onList",
+              defaultModel: null,
+              baseUrl: "https://onlist.io",
+              websiteUrl: "https://onlist.io",
+              apiKeyUrl: "https://onlist.io",
+              official: false,
+            },
+            ...profile.presets,
+          ],
+        }}
+        tool="claude-code"
+        toolName="Claude Code"
+        onOpenChange={vi.fn()}
+        onSubmit={onSubmit}
+      />,
+    );
+    const dialog = screen.getByRole("dialog");
+    expect(
+      within(dialog).getByLabelText(en.services.connect.model),
+    ).toHaveValue("");
+    // Its address stands under its name where other presets show a model.
+    await userEvent.click(
+      within(dialog).getByRole("combobox", {
+        name: en.services.connect.preset,
+      }),
+    );
+    expect(
+      await screen.findByRole("option", { name: /onList\s*onlist\.io/ }),
+    ).toBeVisible();
+    await userEvent.keyboard("{Escape}");
+
+    await userEvent.type(
+      within(dialog).getByLabelText(en.services.connect.key),
+      "sk-secret",
+    );
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: en.ds.action.connect }),
+    );
+    expect(onSubmit).toHaveBeenCalledWith({
+      presetId: "onlist",
+      name: "onList",
+      apiKey: "sk-secret",
+      model: "",
+    });
+  });
+
   it("submits a blank model when the tool supplies its own default", async () => {
     const onSubmit = vi.fn();
     render(

@@ -17,6 +17,7 @@ import type {
 } from "@/entities/provider";
 import { FOCUS_RING } from "@/shared/ui/focusRing";
 import { cn } from "@/shared/ui/cn";
+import { hostOf } from "./effectiveConnectionCopy";
 
 interface ProviderPresetPickerProps {
   id: string;
@@ -92,7 +93,7 @@ function PresetGroup({
           <Command.Item
             key={preset.id}
             value={preset.id}
-            keywords={[preset.serviceName, preset.defaultModel]}
+            keywords={[preset.serviceName, preset.defaultModel ?? ""]}
             onSelect={() => onSelect(preset.id)}
             className="flex cursor-default select-none items-center gap-2.5 rounded-lg px-2.5 py-2 text-body outline-none data-[selected=true]:bg-brand/[0.11] data-[selected=true]:text-content"
           >
@@ -111,7 +112,7 @@ function PresetGroup({
                 {preset.serviceName}
               </span>
               <span className="block truncate text-caption text-content-muted">
-                {preset.defaultModel}
+                {preset.defaultModel ?? hostOf(preset.baseUrl)}
               </span>
             </span>
             {measurement ? (

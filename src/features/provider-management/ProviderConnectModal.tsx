@@ -191,7 +191,7 @@ export function ProviderConnectModal({
           setPresetId(next.id);
           setName(next.defaultName);
           setBaseUrl(next.baseUrl);
-          setModel(next.defaultModel);
+          setModel(next.defaultModel ?? "");
           setKey("");
           setAttempted(false);
           onErrorReset?.();

@@ -72,12 +72,17 @@ const ONLIST_SITE = "https://onlist.io";
  * rather than inventing one. Every model id below was checked against
  * https://onlist.io/v1/models.
  *
+ * Claude Code's preset names no model. onList also answers to Claude Code's
+ * own model ids, so the tool keeps its own default and its opus, sonnet and
+ * haiku tiers, and the catalogue of some four hundred models stays one pick
+ * away on Home. A model named here would have been written into all four
+ * slots, putting every tier, background work included, on that one model.
+ *
  * Two tools take the origin rather than `/v1`, because they append the version
  * themselves: Claude Code sends `/v1/messages` and Gemini CLI `/v1beta/…`.
  */
 const OPUS = "anthropic/claude-opus-5";
 const SONNET = "anthropic/claude-sonnet-5";
-const HAIKU = "anthropic/claude-haiku-4.5";
 
 export const HOUSE_PRESETS = [
   {
@@ -85,7 +90,7 @@ export const HOUSE_PRESETS = [
     id: "onlist",
     serviceName: "onList",
     defaultName: "onList",
-    defaultModel: SONNET,
+    defaultModel: null,
     websiteUrl: ONLIST_SITE,
     apiKeyUrl: ONLIST_SITE,
     official: false,
@@ -95,10 +100,6 @@ export const HOUSE_PRESETS = [
         // Claude Code appends `/v1/messages`, so it gets the origin.
         ANTHROPIC_BASE_URL: ONLIST_ORIGIN,
         ANTHROPIC_AUTH_TOKEN: "",
-        ANTHROPIC_MODEL: SONNET,
-        ANTHROPIC_DEFAULT_HAIKU_MODEL: HAIKU,
-        ANTHROPIC_DEFAULT_SONNET_MODEL: SONNET,
-        ANTHROPIC_DEFAULT_OPUS_MODEL: OPUS,
       },
     },
   },

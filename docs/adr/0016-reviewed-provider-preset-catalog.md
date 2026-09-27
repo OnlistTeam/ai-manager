@@ -2,6 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-08-26
+- Amended: 2026-09-27, decisions 4 and 5 (a preset may name no default model)
 
 ## Context
 
@@ -45,6 +46,12 @@ continue to be reused.
    `ProviderService`. When the catalog is loaded, templates are re-validated for endpoint, absence of
    plaintext secrets, key slot, and full round-trip capability of the default model; on failure the
    whole catalog fails closed.
+
+   The default model is optional, but only for Claude Code, Codex and Gemini CLI, which run their
+   own default when the configuration names none. A preset without one opens the connect dialog
+   with the model field empty, lists its address instead of a model under its name, and its round
+   trip checks that a blank model leaves no model key behind. It is for a service that answers to
+   the tool's own model ids, where naming one model would pin every model slot to it (ADR-0046).
 
 ## Consequences
 

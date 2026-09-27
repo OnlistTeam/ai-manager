@@ -130,7 +130,8 @@ export const providerConnectionPresetSchema = z
     id: z.string().min(1).max(64),
     serviceName: z.string().min(1).max(100),
     defaultName: z.string().min(1).max(100),
-    defaultModel: z.string().min(1).max(256),
+    /** `null` leaves the model to the tool, whose own ids the service takes. */
+    defaultModel: z.string().min(1).max(256).nullable(),
     /**
      * The endpoint this preset configures, shown in the connect dialog so a
      * connection is never saved against an address the user could not see.

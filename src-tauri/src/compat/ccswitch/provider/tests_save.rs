@@ -276,7 +276,7 @@ fn default_create_draft(tool: ToolId, name: &str) -> ProviderCreateDraft {
         preset_id: preset.id.clone(),
         name: name.to_string(),
         api_key: KEY.to_string(),
-        model: preset.default_model.clone(),
+        model: preset.default_model.clone().unwrap_or_default(),
     }
 }
 
