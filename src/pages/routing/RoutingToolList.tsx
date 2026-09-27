@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next";
-import type { RoutingTarget } from "@/entities/routing";
+import { restartNoteKey, type RoutingTarget } from "@/entities/routing";
 import { ListGroup } from "@/shared/ui/ListGroup";
 import { RoutingFailover } from "./RoutingFailover";
 import { RoutingToolRow } from "./RoutingToolRow";
-import { restartNoteKey } from "./routingNotes";
 import type { RoutingActions } from "./useRoutingActions";
 
 export interface RoutingToolListProps {

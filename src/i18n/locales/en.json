@@ -2296,6 +2296,7 @@
       "offLive": "Open {{name}} sessions switch back right away, but keep any setting routing added until you restart them.",
       "offAtStart": "Open {{name}} sessions keep going through AI Manager until you restart them. It keeps forwarding for them while it runs."
     },
+    "ended": "Routing for {{name}} is off: {{endpoint}} can't go through AI Manager.",
     "quit": {
       "title": "Quit AI Manager?",
       "description": "Routed through AI Manager: {{tools}}. Quitting puts each one back on its own settings.",
@@ -2763,6 +2764,7 @@
       "ready": "Ready after restart",
       "readyTitle": "Version {{version}} is ready",
       "readyNote": "The update package is downloaded and its signature is verified. Restart when you are ready to finish updating.",
+      "routedNote": "Tools routed through AI Manager go back to direct connections when it restarts.",
       "restart": "Restart to update",
       "available": "Update available",
       "upToDate": "Up to date",

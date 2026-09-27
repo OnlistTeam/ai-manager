@@ -2,6 +2,7 @@ use std::sync::Arc;
 use tauri::State;
 use tauri_plugin_dialog::DialogExt;
 
+use crate::application::endpoint_change::EndpointChange;
 use crate::application::extension_directory::ExtensionDirectory;
 use crate::application::mcp_installation::{McpInstallRequest, McpInstallationService};
 use crate::application::mcp_removal::{McpRemovalRequest, McpRemovalService};
@@ -31,9 +32,10 @@ use crate::domain::{
     ProviderCreateDraft, ProviderCreateResult, ProviderCustomCreateDraft, ProviderDraft,
     ProviderEditProfile, ProviderEndpointCandidate, ProviderEndpointTestResult,
     ProviderPreflightOutcome, ProviderPreflightStatus, ProviderRuntimeContext,
-    ProviderRuntimeResourceOpenOutcome, ProviderTestResult, ShellVariableLocation,
-    ShellVariableUpdate, ShellVariableWritten, SkillCatalogItem, Tool, ToolId, ToolLaunchOutcome,
-    ToolModelChoice, ToolUninstallPreview, ToolUpdatePreview, ToolVersionCatalog, UninstallOptions,
+    ProviderRuntimeResourceOpenOutcome, ProviderSaveOutcome, ProviderTestResult,
+    ShellVariableLocation, ShellVariableUpdate, ShellVariableWritten, SkillCatalogItem, Tool,
+    ToolId, ToolLaunchOutcome, ToolModelChoice, ToolUninstallPreview, ToolUpdatePreview,
+    ToolVersionCatalog, UninstallOptions,
 };
 use crate::infrastructure::OperationManager;
 use crate::repositories::tool_version_events::SqliteToolVersionEventRepository;
@@ -364,11 +366,9 @@ pub async fn app_provider_switch(
     provider: String,
 ) -> Result<Vec<Provider>, AppError> {
     let tool = parse_tool(&tool)?;
-    let worker_handle = app_handle.clone();
-    let result =
-        blocking(move || ProviderDirectory::switch(&worker_handle, tool, &provider)).await?;
+    let (providers, _) = EndpointChange::switch(&app_handle, tool, &provider).await?;
     crate::tray::provider_changed(&app_handle, tool);
-    Ok(result)
+    Ok(providers)
 }
 
 #[tauri::command]
@@ -377,13 +377,15 @@ pub async fn app_provider_save(
     tool: String,
     provider: String,
     draft: ProviderDraft,
-) -> Result<Vec<Provider>, AppError> {
+) -> Result<ProviderSaveOutcome, AppError> {
     let tool = parse_tool(&tool)?;
-    let worker_handle = app_handle.clone();
-    let result =
-        blocking(move || ProviderDirectory::save(&worker_handle, tool, &provider, &draft)).await?;
+    let (providers, routing_ended) =
+        EndpointChange::save(&app_handle, tool, &provider, draft).await?;
     crate::tray::provider_changed(&app_handle, tool);
-    Ok(result)
+    Ok(ProviderSaveOutcome {
+        providers,
+        routing_ended,
+    })
 }
 
 #[tauri::command]

@@ -2296,6 +2296,7 @@
       "offLive": "Sesi {{name}} yang terbuka langsung kembali, tetapi menyimpan pengaturan tambahan dari perutean sampai Anda memulai ulang.",
       "offAtStart": "Sesi {{name}} yang terbuka tetap melalui AI Manager sampai Anda memulai ulang. AI Manager terus meneruskan untuknya selama berjalan."
     },
+    "ended": "Perutean untuk {{name}} dimatikan: {{endpoint}} tidak dapat melalui AI Manager.",
     "quit": {
       "title": "Keluar dari AI Manager?",
       "description": "Dirutekan melalui AI Manager: {{tools}}. Saat keluar, setiap alat kembali ke pengaturannya sendiri.",
@@ -2762,6 +2763,7 @@
       "ready": "Siap setelah mulai ulang",
       "readyTitle": "Versi {{version}} sudah siap",
       "readyNote": "Paket pembaruan telah diunduh dan tanda tangannya diverifikasi. Mulai ulang saat Anda siap menyelesaikan pembaruan.",
+      "routedNote": "Saat dimulai ulang, alat yang dirutekan melalui AI Manager kembali ke koneksi langsung.",
       "restart": "Mulai ulang untuk memperbarui",
       "available": "Pembaruan tersedia",
       "upToDate": "Sudah terbaru",

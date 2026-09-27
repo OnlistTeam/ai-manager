@@ -1294,8 +1294,8 @@ pub fn run() {
                 //   - window state: saved by the plugin Exit hook on the main thread (same
                 //     thread reads the geometry, no deadlock)
                 //   - tray icon: cleaned up by Tauri's internal cleanup_before_exit via Drop
-                //   - proxy/live config: no restore needed; the new instance takes over and
-                //     restores the proxy state right after the restart
+                //   - routed tools: put back when the event loop ends (RunEvent::Exit
+                //     below), on the main thread and after the plugin hooks
                 //   - the 100ms flush wait: DB writes before a restart are command-driven
                 //     and already finished, matching the default restart path of every
                 //     Tauri app, so no extra wait is required
@@ -1339,6 +1339,14 @@ pub fn run() {
                 std::process::exit(0);
             });
             return;
+        }
+
+        // macOS ends the app through NSApplication `terminate:` for a logout, restart
+        // or shutdown, the app menu's Quit and the Dock's Quit. That path never raises
+        // ExitRequested, so neither the question nor the clean-up above ran; the end
+        // of the event loop is the last point to put the routed tools back (ADR-0054).
+        if let RunEvent::Exit = &event {
+            crate::application::quit_guard::QuitGuard::clean_up_as_the_app_ends(app_handle);
         }
 
         #[cfg(target_os = "macos")]

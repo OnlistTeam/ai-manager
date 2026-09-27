@@ -1,6 +1,8 @@
+import type { TFunction } from "i18next";
 import { ExternalLink, RefreshCw, RotateCw } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { useAnyToolRouted } from "@/entities/routing";
 import {
   useCheckForUpdate,
   useInstallAppUpdate,
@@ -31,6 +33,7 @@ export function UpdateSection() {
   const check = useCheckForUpdate();
   const install = useInstallAppUpdate();
   const openDownloadPage = useOpenAppDownloadPage();
+  const anyRouted = useAnyToolRouted();
   const available = status.data?.availableVersion ?? null;
   const channelReady = status.data?.channelReady ?? false;
   const phase = status.data?.phase;
@@ -75,7 +78,7 @@ export function UpdateSection() {
         : downloading
           ? t("preferences.updates.downloadingNote")
           : ready
-            ? t("preferences.updates.readyNote")
+            ? readyNote(t("preferences.updates.readyNote"), anyRouted, t)
             : devBuild
               ? t("preferences.updates.devBuildNote")
               : available
@@ -179,6 +182,14 @@ export function UpdateSection() {
       </Card>
     </section>
   );
+}
+
+/**
+ * The restart puts every routed tool back on its own settings, as quitting
+ * does (ADR-0054); the note says so only while any tool is routed.
+ */
+function readyNote(note: string, anyRouted: boolean, t: TFunction) {
+  return anyRouted ? `${note} ${t("preferences.updates.routedNote")}` : note;
 }
 
 function downloadProgress(status: UpdateStatus | undefined) {

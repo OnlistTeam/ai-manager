@@ -4,11 +4,13 @@
 //! addresses and, only after an explicit Use/Open/Try Next action, delegates one configuration
 //! switch to the inherited provider transaction.
 
+use crate::application::endpoint_change::EndpointChange;
 use crate::application::provider_directory::ProviderDirectory;
 use crate::compat::ccswitch::routing::supports_local_routing;
 use crate::domain::{
     AppError, ErrorCode, Provider, ProviderKind, ProviderPreflightOutcome, ProviderPreflightStatus,
-    ProviderReachability, ProviderTestResult, ToolId, MAX_PROVIDER_ENDPOINT_CANDIDATES,
+    ProviderReachability, ProviderTestResult, RoutingPickup, ToolId,
+    MAX_PROVIDER_ENDPOINT_CANDIDATES,
 };
 
 pub struct ProviderPreflightService;
@@ -22,25 +24,29 @@ impl ProviderPreflightService {
         let providers = snapshot(&app_handle, tool).await?;
         let target = provider(&providers, tool, &provider_id)?;
         if !target.testable {
-            let switched = switch_provider(&app_handle, tool, provider_id.clone()).await?;
+            let (switched, routing_ended) =
+                switch_provider(&app_handle, tool, provider_id.clone()).await?;
             return Ok(outcome(
                 ProviderPreflightStatus::NotChecked,
                 Some(provider_id),
                 switched,
                 vec![],
-            ));
+            )
+            .with_routing_ended(routing_ended));
         }
 
         let checked =
             ProviderDirectory::test_for_preflight(&app_handle, tool, &provider_id).await?;
         if healthy(&checked) {
-            let switched = switch_provider(&app_handle, tool, provider_id.clone()).await?;
+            let (switched, routing_ended) =
+                switch_provider(&app_handle, tool, provider_id.clone()).await?;
             return Ok(outcome(
                 ProviderPreflightStatus::Ready,
                 Some(provider_id),
                 switched,
                 vec![checked],
-            ));
+            )
+            .with_routing_ended(routing_ended));
         }
         Ok(outcome(
             ProviderPreflightStatus::Unreachable,
@@ -106,13 +112,14 @@ async fn snapshot(app_handle: &tauri::AppHandle, tool: ToolId) -> Result<Vec<Pro
     worker_task(move || ProviderDirectory::list(&worker, tool)).await
 }
 
+/// The switch that ends a routed tool's route first when the new endpoint
+/// cannot go through AI Manager (ADR-0054).
 async fn switch_provider(
     app_handle: &tauri::AppHandle,
     tool: ToolId,
     provider_id: String,
-) -> Result<Vec<Provider>, AppError> {
-    let worker = app_handle.clone();
-    worker_task(move || ProviderDirectory::switch(&worker, tool, &provider_id)).await
+) -> Result<(Vec<Provider>, Option<RoutingPickup>), AppError> {
+    EndpointChange::switch(app_handle, tool, &provider_id).await
 }
 
 async fn try_next_from(
@@ -142,13 +149,14 @@ async fn try_next_from(
             .map(|result| result.provider_id.clone());
         checks.append(&mut measured);
         if let Some(next) = next {
-            let switched = switch_provider(app_handle, tool, next).await?;
+            let (switched, routing_ended) = switch_provider(app_handle, tool, next).await?;
             return Ok(outcome(
                 ProviderPreflightStatus::FailedOver,
                 Some(origin),
                 switched,
                 checks,
-            ));
+            )
+            .with_routing_ended(routing_ended));
         }
     }
 
@@ -216,6 +224,7 @@ fn outcome(
         active_provider_id,
         providers,
         checks,
+        routing_ended: None,
     }
 }
 

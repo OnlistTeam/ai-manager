@@ -10,6 +10,7 @@ import {
   writeProviderConnectivity,
 } from "@/entities/health";
 import { providerKeys, type Provider } from "@/entities/provider";
+import { routingKeys } from "@/entities/routing";
 import { native, type ProviderPreflightOutcome, type ToolId } from "@/native";
 
 export interface ProviderActivationPreflightVariables {
@@ -56,6 +57,9 @@ function writeOutcome(
       queryKey: providerKeys.runtimeContext(tool),
     });
     void queryClient.invalidateQueries({ queryKey: healthKeys.snapshots });
+    // The routing list names each tool's endpoint, and a switch may have
+    // ended the tool's route (ADR-0054).
+    void queryClient.invalidateQueries({ queryKey: routingKeys.all });
   }
 }
 
@@ -69,6 +73,7 @@ function refreshAfterUncertainFailure(
       queryKey: providerKeys.runtimeContext(tool),
     }),
     queryClient.invalidateQueries({ queryKey: healthKeys.snapshots }),
+    queryClient.invalidateQueries({ queryKey: routingKeys.all }),
   ]);
 }
 

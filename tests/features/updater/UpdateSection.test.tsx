@@ -30,6 +30,39 @@ function wire(
   };
 }
 
+function target(tool: string, routed: boolean) {
+  return {
+    tool,
+    takeoverEnabled: routed,
+    autoFailoverEnabled: false,
+    currentProvider: null,
+    queue: [],
+    available: [],
+    unavailable: null,
+    pickup: "atStart",
+  };
+}
+
+/** Claude Code routed or direct, the other tools direct (ADR-0054). */
+function routingOverview(routed: boolean) {
+  return {
+    running: routed,
+    address: routed ? "127.0.0.1" : null,
+    port: routed ? 15_721 : null,
+    activeConnections: 0,
+    totalRequests: 0,
+    successRequests: 0,
+    failedRequests: 0,
+    failoverCount: 0,
+    targets: [
+      target("claude-code", routed),
+      target("codex", false),
+      target("gemini-cli", false),
+      target("grok-build", false),
+    ],
+  };
+}
+
 function mount() {
   return render(<UpdateSection />, {
     wrapper: withQueryClient(createTestQueryClient()),
@@ -135,6 +168,35 @@ describe("UpdateSection", () => {
     ).toBeInTheDocument();
     await userEvent.click(restart);
     await waitFor(() => expect(installs).toBe(1));
+  });
+
+  it("says routed tools go back to direct only while any tool is routed", async () => {
+    let routed = true;
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_update_start`, () =>
+        HttpResponse.json(wire("ready")),
+      ),
+      http.post(`${TAURI_ENDPOINT}/app_routing_overview`, () =>
+        HttpResponse.json(routingOverview(routed)),
+      ),
+    );
+    const first = mount();
+
+    expect(
+      await screen.findByText(
+        `${en.preferences.updates.readyNote} ${en.preferences.updates.routedNote}`,
+      ),
+    ).toBeInTheDocument();
+    first.unmount();
+
+    routed = false;
+    mount();
+    expect(
+      await screen.findByText(en.preferences.updates.readyNote),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(en.preferences.updates.routedNote, { exact: false }),
+    ).toBeNull();
   });
 
   it("keeps a native status failure visible and lets the user retry", async () => {

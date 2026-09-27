@@ -2295,6 +2295,7 @@
       "offLive": "已開啟的 {{name}} 工作階段會立即切回，但轉發時加入的設定要重新啟動後才會清除。",
       "offAtStart": "已開啟的 {{name}} 工作階段在重新啟動前仍經 AI 管家轉發，AI 管家執行期間會繼續為它們轉發。"
     },
+    "ended": "已關閉 {{name}} 的轉發：{{endpoint}} 無法經 AI 管家轉發。",
     "quit": {
       "title": "結束 AI 管家？",
       "description": "正經 AI 管家轉發的軟體：{{tools}}。結束後它們會各自恢復原來的設定。",
@@ -2761,6 +2762,7 @@
       "ready": "重新啟動後更新",
       "readyTitle": "{{version}} 已準備好",
       "readyNote": "更新套件已下載並通過簽章驗證。準備好時重新啟動即可完成更新。",
+      "routedNote": "重新啟動時，經 AI 管家轉發的軟體會恢復直連。",
       "restart": "重新啟動並更新",
       "available": "有新版本",
       "upToDate": "已是最新",

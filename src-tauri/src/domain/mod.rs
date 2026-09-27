@@ -83,8 +83,8 @@ pub use provider::{
     Provider, ProviderAdvancedDraft, ProviderConnectionPreset, ProviderConnectionProfile,
     ProviderCreateDraft, ProviderCreateResult, ProviderCustomCreateDraft, ProviderDraft,
     ProviderEditCapabilities, ProviderEditProfile, ProviderHeaderDraft, ProviderKind,
-    ProviderPreflightOutcome, ProviderPreflightStatus, ProviderReachability, ProviderTestResult,
-    MAX_PROVIDER_TEST_ALL_RESULTS, PROVIDER_TEST_ALL_CONCURRENCY,
+    ProviderPreflightOutcome, ProviderPreflightStatus, ProviderReachability, ProviderSaveOutcome,
+    ProviderTestResult, MAX_PROVIDER_TEST_ALL_RESULTS, PROVIDER_TEST_ALL_CONCURRENCY,
 };
 pub use provider_endpoint::{
     ProviderEndpointCandidate, ProviderEndpointFailure, ProviderEndpointTestResult,

@@ -1,9 +1,16 @@
 import { RotateCw } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { useAnyToolRouted } from "@/entities/routing";
 import { useInstallAppUpdate, useUpdateStatus } from "@/entities/update";
 import { toErrorCopy } from "@/shared/lib/nativeError";
 import { Button } from "@/shared/ui/Button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/shared/ui/Tooltip";
 
 /**
  * A deliberately quiet global update affordance.
@@ -19,13 +26,22 @@ import { Button } from "@/shared/ui/Button";
  * where the question was asked.
  */
 export function GlobalUpdateAction() {
-  const { t } = useTranslation();
   const status = useUpdateStatus();
-  const install = useInstallAppUpdate();
-
   if (status.data?.phase !== "ready") return null;
+  return <RestartToUpdateButton />;
+}
 
-  return (
+/**
+ * The restart puts every routed tool back on its own settings, as quitting
+ * does (ADR-0054). While any tool is routed the button says so before it is
+ * pressed; there is no second question after it.
+ */
+function RestartToUpdateButton() {
+  const { t } = useTranslation();
+  const install = useInstallAppUpdate();
+  const anyRouted = useAnyToolRouted();
+
+  const button = (
     <Button
       size="sm"
       variant="secondary"
@@ -47,5 +63,17 @@ export function GlobalUpdateAction() {
       <RotateCw className="h-3.5 w-3.5 text-success" aria-hidden="true" />
       {t("preferences.updates.restart")}
     </Button>
+  );
+
+  if (!anyRouted) return button;
+  return (
+    <TooltipProvider delayDuration={200}>
+      <Tooltip>
+        <TooltipTrigger asChild>{button}</TooltipTrigger>
+        <TooltipContent side="bottom">
+          {t("preferences.updates.routedNote")}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

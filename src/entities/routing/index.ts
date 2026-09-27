@@ -1,6 +1,7 @@
 export {
   routingKeys,
   useAddRoutingProvider,
+  useAnyToolRouted,
   useRemoveRoutingProvider,
   useRoutingOverview,
   useSetRoutingFailover,
@@ -9,6 +10,11 @@ export {
   useSwitchRoutingProvider,
 } from "./queries";
 export { useRoutingTrace } from "./liveRouting";
+export {
+  restartNoteKey,
+  routingEndedMessage,
+  type RoutingEndedCopy,
+} from "./notes";
 export { useConfirmQuit, useQuitRequest } from "./quit";
 export {
   EMPTY_ROUTING_TRACE,

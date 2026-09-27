@@ -2296,6 +2296,7 @@
       "offLive": "Las sesiones abiertas de {{name}} vuelven de inmediato, pero conservan los ajustes que añadió el enrutamiento hasta que las reinicies.",
       "offAtStart": "Las sesiones abiertas de {{name}} siguen pasando por AI Manager hasta que las reinicies. AI Manager sigue reenviando para ellas mientras esté abierto."
     },
+    "ended": "El enrutamiento de {{name}} está desactivado: {{endpoint}} no puede pasar por AI Manager.",
     "quit": {
       "title": "¿Salir de AI Manager?",
       "description": "Enrutadas por AI Manager: {{tools}}. Al salir, cada una vuelve a sus propios ajustes.",
@@ -2763,6 +2764,7 @@
       "ready": "Listo tras reiniciar",
       "readyTitle": "La versión {{version}} está lista",
       "readyNote": "El paquete de actualización está descargado y su firma verificada. Reinicia cuando estés listo para terminar de actualizar.",
+      "routedNote": "Al reiniciar, las herramientas enrutadas por AI Manager vuelven a conectarse directamente.",
       "restart": "Reiniciar para actualizar",
       "available": "Actualización disponible",
       "upToDate": "Actualizado",

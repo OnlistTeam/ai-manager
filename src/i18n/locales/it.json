@@ -2296,6 +2296,7 @@
       "offLive": "Le sessioni aperte di {{name}} tornano subito indietro, ma mantengono le impostazioni aggiunte dall'instradamento finché non le riavvii.",
       "offAtStart": "Le sessioni aperte di {{name}} continuano a passare da AI Manager finché non le riavvii. AI Manager continua a inoltrare per loro finché è attivo."
     },
+    "ended": "L'instradamento di {{name}} è disattivato: {{endpoint}} non può passare da AI Manager.",
     "quit": {
       "title": "Uscire da AI Manager?",
       "description": "Instradati tramite AI Manager: {{tools}}. Uscendo, ognuno torna alle proprie impostazioni.",
@@ -2763,6 +2764,7 @@
       "ready": "Pronto dopo il riavvio",
       "readyTitle": "La versione {{version}} è pronta",
       "readyNote": "Il pacchetto di aggiornamento è stato scaricato e la sua firma è verificata. Riavvia quando sei pronto per completare l'aggiornamento.",
+      "routedNote": "Al riavvio, gli strumenti instradati tramite AI Manager tornano alla connessione diretta.",
       "restart": "Riavvia per aggiornare",
       "available": "Aggiornamento disponibile",
       "upToDate": "Aggiornato",

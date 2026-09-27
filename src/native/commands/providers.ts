@@ -22,6 +22,7 @@ import {
   providerPreflightOutcomeSchema,
   providerRuntimeContextSchema,
   providerRuntimeResourceOpenOutcomeSchema,
+  providerSaveOutcomeSchema,
   providerTestResultSchema,
   type Provider,
   type ProviderConnectionProfile,
@@ -33,6 +34,7 @@ import {
   type ProviderEndpointCandidate,
   type ProviderEndpointTestResult,
   type ProviderPreflightOutcome,
+  type ProviderSaveOutcome,
   type ProviderTestResult,
   type ProviderRuntimeContext,
   type ProviderRuntimeResourceOpenOutcome,
@@ -173,12 +175,13 @@ export const providers = {
     );
   },
 
+  /** Saving returns the refreshed list and whether the tool's route ended. */
   save(
     tool: ToolId,
     provider: string,
     draft: ProviderDraft,
-  ): Promise<Provider[]> {
-    return invokeNative("app_provider_save", providerListSchema, {
+  ): Promise<ProviderSaveOutcome> {
+    return invokeNative("app_provider_save", providerSaveOutcomeSchema, {
       tool,
       provider,
       draft: providerDraftSchema.parse(draft),

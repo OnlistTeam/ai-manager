@@ -549,6 +549,7 @@ impl RoutingStore {
     }
 }
 
+mod endpoint_change;
 mod forwarding;
 pub(crate) mod owned_settings;
 mod release;

@@ -2296,6 +2296,7 @@
       "offLive": "열려 있는 {{name}} 세션은 곧바로 돌아가지만, 경유 중 추가된 설정은 다시 시작할 때까지 남습니다.",
       "offAtStart": "열려 있는 {{name}} 세션은 다시 시작할 때까지 AI Manager를 거칩니다. AI Manager는 실행되는 동안 계속 전달합니다."
     },
+    "ended": "{{name}}의 AI Manager 경유를 껐습니다: {{endpoint}}은(는) AI Manager를 거쳐 전달할 수 없습니다.",
     "quit": {
       "title": "AI Manager를 종료할까요?",
       "description": "AI Manager를 거치는 도구: {{tools}}. 종료하면 각 도구가 원래 설정으로 돌아갑니다.",
@@ -2762,6 +2763,7 @@
       "ready": "다시 시작하면 적용됩니다",
       "readyTitle": "버전 {{version}} 준비 완료",
       "readyNote": "업데이트 패키지를 다운로드하고 서명을 확인했습니다. 준비되면 다시 시작해 업데이트를 마치세요.",
+      "routedNote": "다시 시작하면 AI Manager를 경유하던 도구는 직접 연결로 돌아갑니다.",
       "restart": "다시 시작해 업데이트",
       "available": "업데이트 있음",
       "upToDate": "최신 상태",

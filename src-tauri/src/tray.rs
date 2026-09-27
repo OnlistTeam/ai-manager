@@ -10,6 +10,7 @@ use sha2::{Digest, Sha256};
 use tauri::menu::{CheckMenuItem, Menu, MenuBuilder, MenuItem, Submenu, SubmenuBuilder};
 use tauri::{Emitter, Manager};
 
+use crate::application::endpoint_change::EndpointChange;
 use crate::application::product_settings::ProductSettingsService;
 use crate::application::provider_directory::ProviderDirectory;
 use crate::compat::ccswitch::tools::capabilities_for;
@@ -323,7 +324,10 @@ fn switch_provider_from_tray(app: &tauri::AppHandle, event_id: &str) -> Result<(
         schedule_tray_refresh(app);
         return Ok(());
     }
-    ProviderDirectory::switch(app, tool, &id).map_err(|error| error.to_string())?;
+    // The same switch as Home and the endpoint list: a routed tool whose new
+    // endpoint cannot go through AI Manager has its route ended first.
+    tauri::async_runtime::block_on(EndpointChange::switch(app, tool, &id))
+        .map_err(|error| error.to_string())?;
     provider_changed(app, tool);
     Ok(())
 }
