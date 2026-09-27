@@ -5,6 +5,31 @@ License, version 3 or later (see [LICENSE](./LICENSE)). It is built on the
 following open-source work, whose own licenses and copyright notices are
 preserved in full.
 
+## Open-source projects
+
+AI Manager is built with these projects, among many others:
+
+| Project              | Repository                                                          | License                      |
+| -------------------- | ------------------------------------------------------------------- | ---------------------------- |
+| Tauri                | https://github.com/tauri-apps/tauri                                 | MIT or Apache-2.0            |
+| React                | https://github.com/facebook/react                                   | MIT                          |
+| Radix UI             | https://github.com/radix-ui/primitives                              | MIT                          |
+| TanStack Query       | https://github.com/TanStack/query                                   | MIT                          |
+| Zod                  | https://github.com/colinhacks/zod                                   | MIT                          |
+| i18next              | https://github.com/i18next/i18next                                  | MIT                          |
+| CodeMirror           | https://github.com/codemirror/dev                                   | MIT                          |
+| dnd kit              | https://github.com/clauderic/dnd-kit                                | MIT                          |
+| cmdk                 | https://github.com/pacocoursey/cmdk                                 | MIT                          |
+| Recharts             | https://github.com/recharts/recharts                                | MIT                          |
+| Lucide               | https://github.com/lucide-icons/lucide                              | ISC                          |
+| Tokio                | https://github.com/tokio-rs/tokio                                   | MIT                          |
+| Hyper and Axum       | https://github.com/hyperium/hyper, https://github.com/tokio-rs/axum | MIT                          |
+| reqwest              | https://github.com/seanmonstar/reqwest                              | MIT or Apache-2.0            |
+| Rustls               | https://github.com/rustls/rustls                                    | Apache-2.0, ISC, or MIT      |
+| Serde                | https://github.com/serde-rs/serde                                   | MIT or Apache-2.0            |
+| rusqlite and SQLite  | https://github.com/rusqlite/rusqlite, https://sqlite.org            | MIT; SQLite is public domain |
+| rquickjs and QuickJS | https://github.com/DelSkayn/rquickjs                                | MIT                          |
+
 ## CC Switch
 
 - Repository: https://github.com/farion1231/cc-switch
@@ -28,6 +53,15 @@ this repository cannot be contributed upstream to CC Switch as-is.
 
 The AI Manager product name, icons, branding, and user interface are original
 to this project and are not part of the upstream work.
+
+## magpie
+
+- Repository: https://github.com/yetone/magpie
+- Copyright (c) 2026 yetone
+- License: MIT License, the same text as in
+  [LICENSE-MIT](./licenses/LICENSE-MIT) with this copyright line
+
+Parts of the in-app subscription sign-in are adapted from magpie.
 
 ## Lobe Icons
 
