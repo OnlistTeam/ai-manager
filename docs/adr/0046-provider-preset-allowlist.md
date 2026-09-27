@@ -1,6 +1,7 @@
 # ADR-0046: Which services ship a preset
 
-- Status: accepted
+- Status: accepted; the allowlist and the one-form amendment are revised by
+  ADR-0057
 - Date: 2026-09-22
 - Extends: ADR-0001 (upstream is cherry-picked, never merged wholesale)
 
@@ -128,3 +129,21 @@ joins the input's accessible description.
 default slot was held by OpenRouter, and a dialog opened for Pi printed
 "OpenRouter" five times. Every other tool keeps the company that made the
 model.
+
+## Amendment 2026-09-27: the allowlist, and the address stops being editable
+
+Revised by ADR-0057, which turns adding an endpoint into a page of cards.
+
+**The allowlist takes Chinese labs and two more international ones.** The
+"international recognition" line kept StepFun and Alibaba's own Qwen platform
+out while Kimi, Zhipu and MiniMax were in, which the add page made visible as
+a gap rather than a rule. The criterion is now the one in the first sentence of
+the decision: the company that built the model or the cloud that hosts it,
+answerable for itself. StepFun, Qwen (Model Studio, not QwenCloud or
+qianwenai.com), Mistral and Groq join. Together AI, Novita and Nvidia leave:
+they resell other labs' models, which makes them relays, and the relay group is
+kept to onList, OpenRouter and OpenCode.
+
+**Editing a preset's address no longer makes it custom.** The address is still
+on screen, read-only; a different one goes through the Custom card and its own
+dialog. The submit rule this amendment relied on is unchanged.

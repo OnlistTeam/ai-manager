@@ -1430,16 +1430,34 @@ carry:
 
 # 34. Provider Parameter Hierarchy
 
-Adding an API endpoint shows directly by default:
+"Add endpoint" opens a page in place of the tabs and tool picker, with a
+breadcrumb back to the list (ADR-0057). It shows the services this tool can
+use, as compact cards with each service's address:
 
 ```text
+Custom                (first; any address the tool can use)
+Subscription          (the tool's own sign-in, where it has one)
+Model makers
+Relays                (onList first)
+Local                 (Ollama, LM Studio)
+```
+
+A tool lists only services that speak its protocol; one it cannot use is left
+out, not shown disabled. Search filters by name or address, and the speed test
+tags each card with its latency.
+
+A card opens a dialog with:
+
+```text
+Base URL   (read-only for a preset; editable for Custom)
 Name
-Base URL
-API Key
+API Key    (optional for a server on this computer)
 Model
 ```
 
-Vetted provider presets remain as an optional quick-fill entry point, not a prerequisite step for adding an endpoint. Low-frequency parameters are collapsed in place within the current form:
+A different address for a listed service goes through Custom, never by editing
+a preset's. Low-frequency parameters are collapsed in place within the edit
+form:
 
 ```text
 Headers
