@@ -116,7 +116,7 @@ pub(super) fn provider_from_upstream(
         additive: app_type.is_additive_mode(),
         id: raw.id.clone(),
         tool,
-        name: raw.name.clone(),
+        name: display_name(raw, base_url.as_deref()),
         kind,
         active,
         // Official targets come from the audited preset catalog and custom targets from
@@ -128,6 +128,21 @@ pub(super) fn provider_from_upstream(
         website_url: raw.website_url.clone(),
         can_remove: removal::can_remove(raw, active),
     }
+}
+
+/// The first-launch import names the entry it makes from the tool's own file
+/// "default", which reads as a setting rather than a service. Where that entry
+/// holds an address, its host names it instead; a name the user typed is kept.
+fn display_name(raw: &UpstreamProvider, base_url: Option<&str>) -> String {
+    if raw.id == "default" && raw.name == "default" {
+        if let Some(host) = base_url
+            .and_then(|url| url::Url::parse(url).ok())
+            .and_then(|url| url.host_str().map(str::to_string))
+        {
+            return host;
+        }
+    }
+    raw.name.clone()
 }
 
 /// The empty placeholder created by the first-launch import (ADR-0035 decision 5): no

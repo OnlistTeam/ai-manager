@@ -596,3 +596,41 @@ fn a_custom_default_with_a_key_is_not_a_placeholder() {
     expected.sort();
     assert_eq!(ids, expected);
 }
+
+#[test]
+#[serial_test::serial]
+fn an_imported_default_is_named_by_its_host_until_renamed() {
+    use crate::database::Database;
+    use crate::store::AppState;
+    use std::sync::Arc;
+
+    let state = AppState::new(Arc::new(Database::memory().expect("db")));
+    let settings = serde_json::json!({"env": {
+        "ANTHROPIC_BASE_URL": "https://relay.example.test/api",
+        "ANTHROPIC_AUTH_TOKEN": "sk-default-0123456789ABCDEF"
+    }});
+    let imported =
+        UpstreamProvider::with_id("default".into(), "default".into(), settings.clone(), None);
+    state
+        .db
+        .save_provider(AppType::Claude.as_str(), &imported)
+        .expect("save");
+    let store = ProviderStore { state };
+    let name = |store: &ProviderStore| {
+        store
+            .list(ToolId::ClaudeCode)
+            .expect("list")
+            .into_iter()
+            .find(|provider| provider.id == "default")
+            .map(|provider| provider.name)
+    };
+    assert_eq!(name(&store).as_deref(), Some("relay.example.test"));
+
+    let renamed = UpstreamProvider::with_id("default".into(), "Team relay".into(), settings, None);
+    store
+        .state
+        .db
+        .save_provider(AppType::Claude.as_str(), &renamed)
+        .expect("save");
+    assert_eq!(name(&store).as_deref(), Some("Team relay"));
+}
