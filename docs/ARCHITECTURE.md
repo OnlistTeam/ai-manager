@@ -216,6 +216,13 @@ and Global Prompts are independent destinations reusing `ExtensionsPage` with a 
 Sessions keeps the stable `data` route ID. Per-tool configuration, memory, storage, and the
 OpenClaw workspace live in Software details (`ToolDetailsModal`, ADR-0038).
 
+Each job has one page (ADR-0053). Home chooses which endpoint each tool uses: one row per
+installed tool with an `OptionPicker` (`shared/ui`, Radix Popover plus cmdk) that switches through
+`useRecoverableProviderSwitch` and links to that tool's endpoints. API Endpoints manages the
+per-tool endpoint lists (add, edit, check, order, remove) and marks the one in use read-only; it
+has no Use action. Updates live on the Software page and the live routing switch on the Local
+Routing tab; Home only links to them.
+
 Tab selection is page-local state and never enters `ProductSettings`. Cross-page hand-offs use
 `useRouteIntents` (`openServices(tool?, tab?)`, `openExtensions(tab?, kind?)`, `openRoute`);
 intents are consumed on mount and cleared by any ordinary navigation. See ADR-0034, ADR-0036,
@@ -526,7 +533,7 @@ not. The product configures it through `compat/ccswitch/proxy_privacy.rs` from
 `application/privacy_protection.rs` (the `aimgr.privacy.maskSecrets`, `aimgr.privacy.maskPersonal`
 and `aimgr.privacy.words` KV keys, install key in `privacy-protection.key` under the product data
 directory); only `{ maskSecrets, maskPersonal, words }` and a partial patch of it cross IPC. The
-choices live in the Privacy section of the settings page; the live routing card shows one status
+choices live in the Privacy section of the settings page; the Local Routing tab shows one status
 line linking there.
 
 ### 6.4 Native supply and restricted networks (ADR-0033)

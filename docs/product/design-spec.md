@@ -1049,8 +1049,14 @@ Technical terms appear together only when the user expands the corresponding det
 # 26. Home Page Design
 
 The home page is the most important page of the product. It answers the
-user's first question — "what is each of my AI tools connected to right
-now?" — and shows what needs attention, on one screen (ADR-0051).
+user's first question — "which endpoint does each of my AI tools use right
+now?" — lets the user change it right there, and shows what needs attention,
+on one screen (ADR-0051, ADR-0053).
+
+One place per job: Home chooses which endpoint each tool uses; API Endpoints
+adds, checks, orders and removes them; the Software page installs and
+updates; the Local Routing tab turns live routing on. Home has no second copy
+of any of those actions.
 
 Overall goal:
 
@@ -1075,9 +1081,8 @@ There is no spatial model, orb, or hero on Home.
 Top to bottom:
 
 ```text
-Status line          one row: verdict, last checked, Recheck, next step
-(Live routing slot)  reserved; the live routing switch and panel mount here
-Findings             only when something has a next step
+Status line          one quiet line: verdict, updates, last checked, Recheck, next step
+Findings             only when something has a next step not shown elsewhere
 My tools             one row per installed tool that can use an endpoint
 ```
 
@@ -1103,61 +1108,68 @@ Do not manufacture pseudo-precise health scores such as 83 or 92 points.
 
 # 28. Status Line and Findings
 
-The status line is one row: the status icon and one sentence, the last-checked
-time, a Recheck button, and the primary action.
+The status line is one quiet line without a card frame: the status icon and
+one sentence, the update count, the last-checked time, and small Recheck and
+next-step buttons.
 
 ```text
-⚠ 2 items need attention · 1 update available · Last checked 10:42   [Recheck] [Open Software →]
-✓ Everything is up to date · Last checked 10:42                        [Recheck] [Start with Claude Code]
+⚠ 2 items need attention · ↻ 1 update available · Last checked 10:42   Recheck  [Open Software →]
+✓ Everything is up to date · Last checked 10:42                         Recheck  [Start with Claude Code]
 ```
 
 - Sentence: all good / N items need attention / no tools installed yet.
-- Primary action: the recommended next step, "Start <tool>" when ready, or
+- Update count: a link to the Software page, where updates are reviewed. Home
+  has no update action.
+- Next step: the recommended destination, "Start <tool>" when ready, or
   "Install AI Tool" when nothing is installed.
 - The same line carries the checking state, "checking endpoint connections",
   a connection check that could not start, and the initial "could not check"
   error with its retry. A failed refresh keeps the last result under a notice.
 
 Findings list each problem as one row with its own action, most urgent first,
-and appear only when there is at least one. A finding that a tool row already
-shows (an available update, a tool with no endpoint) is left to that row.
+and appear only when there is at least one. A finding Home already states
+elsewhere is left out: a tool without an endpoint reads as its row's picker,
+and an available update is counted in the status line.
 
 ---
 
-# 29. My Tools and Small Actions
+# 29. My Tools and the Endpoint Picker
 
-One compact row per installed tool whose capabilities allow endpoint
-management; tools that are not installed are not listed.
-
-```text
-[icon] Claude Code   Official sign-in                 [Switch to… ▾]      ›
-[icon] Codex         Team Relay  gpt-5-codex          [Switch to… ▾]      ›
-[icon] Gemini CLI    Official sign-in                           [Update]  ›
-[icon] OpenCode      2 endpoints added  Model chosen in OpenCode          ›
-```
-
-- Connection: the saved endpoint selected for the tool; "Official sign-in"
-  when the official entry or the tool's own login is in effect; "Not
-  connected" (with a Connect button) when a tool that needs an endpoint has
-  none; for tools that pick the model themselves, the number of endpoints
-  added. The model is shown when the selected endpoint pins exactly one.
-- Home reads only the saved inventory, never the terminal environment
-  (ADR-0035, ADR-0039). The API Endpoints page carries the precise answer.
-- The dropdown switches through the same flow as the API Endpoints page,
-  including the reopen hint and its recovery state. A target that does not
-  respond changes nothing and says so.
-- The row (and its chevron) opens API Endpoints for that tool.
-- An available update is a small Update button on the row, using the same
-  update review as Update All.
-
-Small actions in the list header:
+One row (about 40px) per installed tool whose capabilities allow endpoint
+management; tools that are not installed are not listed. "Install AI Tool" is
+a small text button in the list header.
 
 ```text
-Update All        only while some installed tool has an update
-Install AI Tool   always
+[icon] Claude Code ..................................... [Official sign-in       ▾]
+[icon] Codex ........................................... [Team Relay  gpt-5-codex ▾]
+[icon] Gemini CLI ...................................... [Official sign-in       ▾]
+[icon] OpenCode ........................................ [2 endpoints added      ▾]
 ```
 
-There are no quick-action cards.
+- The picker at the trailing edge shows the saved endpoint selected for the
+  tool, and its model when it pins exactly one; "Official sign-in" when the
+  official entry or the tool's own login is in effect; "Not connected" when a
+  tool that needs an endpoint has none; for tools that pick the model
+  themselves, the number of endpoints added. Every picker has the same width,
+  so they line up.
+- Opening it lists the tool's endpoints: the one in use first and checked, the
+  rest in the order set on the API Endpoints page; a filter field appears when
+  there are more than seven. After a separator, "Manage API endpoints…" opens
+  that tool's API Endpoints tab. With no endpoints the list says so and offers
+  "Add an endpoint…" instead. For tools that pick the model themselves it only
+  says so and offers the way to manage them.
+- Picking an endpoint switches through the shared recoverable flow: the
+  preflight check, the reopen hint with "Open now", and its recovery state.
+  A target that does not respond changes nothing, and a small line under the
+  row says so and links to the API Endpoints page. Picking the one in use
+  writes it again.
+- While the list loads the picker is a placeholder; when the list cannot be
+  read it is plain text. Home reads only the saved inventory, never the
+  terminal environment (ADR-0035, ADR-0039); the API Endpoints page carries
+  the precise answer.
+
+There are no quick-action cards, no update buttons and no live routing panel
+on Home.
 
 ---
 
@@ -1359,26 +1371,24 @@ Proxy
 
 # 35. Current Service Switching
 
-The card clearly shows:
+Which endpoint a tool uses is chosen in one place: the picker on that tool's
+Home row (§29, ADR-0053). The API Endpoints page manages the endpoints (add,
+edit, check, order, remove) and never switches; its cards carry no Use
+button. The card a tool uses shows a small read-only badge:
 
 ```text
-Currently Used by
-
-Claude Code
-OpenCode
+In use
 ```
 
-Switch button:
+A quiet line under the page title says where the choice is made:
 
 ```text
-Use
+Choose which endpoint each tool uses on Home.   [Go to Home →]
 ```
 
-After success:
-
-```text
-Now active
-```
+The only switches the endpoints page still starts are contextual: "try the
+next endpoint" on a card whose check failed, and "use it now" on the toast
+after adding an endpoint.
 
 Do not use developer wording such as:
 
