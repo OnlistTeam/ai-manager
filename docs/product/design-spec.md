@@ -1404,9 +1404,30 @@ carry:
   requests stay under the list while the gateway runs. The gateway keeps
   running while AI Manager runs in the tray, so closing the window never
   breaks a routed tool.
+- Switching a routed tool (from Home, the endpoint list or the tray) to an
+  endpoint that cannot be forwarded, or saving its endpoint so that it no
+  longer can, turns that tool's routing off first. The result on Home and
+  the endpoint list says so in one line, then gives the same open-session
+  note as turning it off (the tray has no place to say it; the row here
+  shows the tool direct):
+
+  ```text
+  Switched to Claude sign-in
+  Routing for Claude Code is off: Claude sign-in can't go through AI Manager.
+  Open Claude Code sessions switch back right away, but keep any setting
+  routing added until you restart them.
+  ```
+
+  Switching to another endpoint that can be forwarded keeps routing on and
+  only changes where it forwards to.
 - Quitting while tools are routed asks first, naming them and saying which
   open sessions will need a restart. Turning a tool off or quitting puts
   back only the settings routing wrote; other edits made meanwhile stay.
+- An update restart puts routed tools back without asking again; while any
+  tool is routed, the ready-to-restart note adds "Tools routed through AI
+  Manager go back to direct connections when it restarts." A quit the
+  system starts (logging out, shutting down) or macOS's own Quit command
+  never asks; the tools are put back as the app ends.
 
 ---
 
