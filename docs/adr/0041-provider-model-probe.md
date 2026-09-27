@@ -3,6 +3,7 @@
 - Status: Accepted
 - Date: 2026-09-21
 - Extends: ADR-0039
+- Amended by: ADR-0055 (the catalogue is also read when a Home model picker opens).
 
 ## Context
 

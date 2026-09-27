@@ -807,6 +807,11 @@
     "details": {
       "show": "查看详情",
       "code": "错误代码"
+    },
+    "modelChoice": {
+      "invalid": "这个模型名或强度不能写进该软件的设置。",
+      "readFailed": "读取不到该软件的设置文件，没有做任何改动。",
+      "writeFailed": "该软件的设置文件写入失败，原文件没有改动。"
     }
   },
   "nav": {
@@ -1390,6 +1395,33 @@
     "refreshing": {
       "title": "正在重新检查首页",
       "description": "检查完成后，开始工具会自动恢复。"
+    },
+    "model": {
+      "toolDefault": "软件默认",
+      "loading": "正在读取模型…",
+      "pickerLabel": "{{tool}} 的端点和模型",
+      "pickNamed": "{{tool}} 使用的端点和模型：{{current}}",
+      "filter": "筛选，或输入模型名",
+      "noMatch": "没有匹配的端点或模型。",
+      "useTyped": "使用“{{model}}”",
+      "more_one": "还有 {{count}} 个，输入可筛选",
+      "more_other": "还有 {{count}} 个，输入可筛选"
+    },
+    "effort": {
+      "pickerLabel": "{{tool}} 的思考强度",
+      "pickNamed": "{{tool}} 的思考强度：{{current}}",
+      "newSessions": "新开的 {{tool}} 会话生效。",
+      "overrides": "{{tool}} 为这些模型单独保存了强度，优先于这里：{{list}}",
+      "unavailable": "读取不到",
+      "level": {
+        "none": "关闭",
+        "minimal": "最低",
+        "low": "低",
+        "medium": "中",
+        "high": "高",
+        "xhigh": "超高",
+        "max": "最高"
+      }
     }
   },
   "taskCenter": {

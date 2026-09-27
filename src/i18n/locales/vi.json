@@ -807,6 +807,11 @@
     "details": {
       "show": "Xem chi tiết",
       "code": "Mã lỗi"
+    },
+    "modelChoice": {
+      "invalid": "Không thể ghi tên mô hình hoặc mức này vào cài đặt của công cụ.",
+      "readFailed": "Không đọc được tệp cài đặt của công cụ nên không có gì thay đổi.",
+      "writeFailed": "Không ghi được tệp cài đặt của công cụ. Tệp gốc vẫn giữ nguyên."
     }
   },
   "nav": {
@@ -1391,6 +1396,33 @@
     "refreshing": {
       "title": "Đang kiểm tra lại Trang chủ",
       "description": "Việc khởi động công cụ sẽ tiếp tục khi lần kiểm tra này hoàn tất."
+    },
+    "model": {
+      "toolDefault": "Mặc định của công cụ",
+      "loading": "Đang tải mô hình…",
+      "pickerLabel": "Endpoint và mô hình của {{tool}}",
+      "pickNamed": "Endpoint và mô hình {{tool}} đang dùng: {{current}}",
+      "filter": "Lọc hoặc nhập tên mô hình",
+      "noMatch": "Không có endpoint hay mô hình nào khớp.",
+      "useTyped": "Dùng “{{model}}”",
+      "more_one": "Còn {{count}} mục, gõ để lọc",
+      "more_other": "Còn {{count}} mục, gõ để lọc"
+    },
+    "effort": {
+      "pickerLabel": "Mức suy nghĩ của {{tool}}",
+      "pickNamed": "Mức suy nghĩ của {{tool}}: {{current}}",
+      "newSessions": "Áp dụng cho các phiên {{tool}} mới.",
+      "overrides": "{{tool}} lưu mức riêng cho các mô hình này và mức đó được ưu tiên hơn: {{list}}",
+      "unavailable": "Không đọc được",
+      "level": {
+        "none": "Tắt",
+        "minimal": "Tối thiểu",
+        "low": "Thấp",
+        "medium": "Vừa",
+        "high": "Cao",
+        "xhigh": "Rất cao",
+        "max": "Tối đa"
+      }
     }
   },
   "taskCenter": {

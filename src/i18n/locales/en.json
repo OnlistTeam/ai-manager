@@ -807,6 +807,11 @@
     "details": {
       "show": "View details",
       "code": "Error code"
+    },
+    "modelChoice": {
+      "invalid": "That model name or level cannot be written to this tool's settings.",
+      "readFailed": "The tool's settings file could not be read, so nothing was changed.",
+      "writeFailed": "The tool's settings file could not be written. The original is unchanged."
     }
   },
   "nav": {
@@ -1391,6 +1396,33 @@
     "refreshing": {
       "title": "Checking Home again",
       "description": "Starting tools will resume when this check finishes."
+    },
+    "model": {
+      "toolDefault": "Tool default",
+      "loading": "Loading models…",
+      "pickerLabel": "Endpoints and models for {{tool}}",
+      "pickNamed": "Endpoint and model {{tool}} uses: {{current}}",
+      "filter": "Filter, or type a model name",
+      "noMatch": "No matching endpoints or models.",
+      "useTyped": "Use “{{model}}”",
+      "more_one": "{{count}} more, type to filter",
+      "more_other": "{{count}} more, type to filter"
+    },
+    "effort": {
+      "pickerLabel": "Thinking effort for {{tool}}",
+      "pickNamed": "Thinking effort {{tool}} uses: {{current}}",
+      "newSessions": "Applies to new {{tool}} sessions.",
+      "overrides": "{{tool}} keeps its own level for these models, and it wins over this one: {{list}}",
+      "unavailable": "Unreadable",
+      "level": {
+        "none": "Off",
+        "minimal": "Minimal",
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "xhigh": "Extra high",
+        "max": "Max"
+      }
     }
   },
   "taskCenter": {

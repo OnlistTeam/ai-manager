@@ -7,6 +7,7 @@ import { extensions } from "./commands/extensions";
 import { health } from "./commands/health";
 import { importExisting } from "./commands/import";
 import { mcp } from "./commands/mcp";
+import { modelChoice } from "./commands/modelChoice";
 import { networkProxy } from "./commands/networkProxy";
 import { openClawWorkspace } from "./commands/openclawWorkspace";
 import { operations } from "./commands/operations";
@@ -37,6 +38,7 @@ export const native = {
   health,
   importExisting,
   mcp,
+  modelChoice,
   networkProxy,
   openClawWorkspace,
   privacyProtection,
@@ -326,6 +328,13 @@ export {
   providerSchema,
   providerTestResultSchema,
 } from "./schemas/provider";
+export {
+  effortOverrideSchema,
+  MAX_MODEL_NAME_CHARS,
+  modelNameSchema,
+  toolModelChoiceSchema,
+} from "./schemas/modelChoice";
+export type { EffortOverride, ToolModelChoice } from "./schemas/modelChoice";
 export {
   MAX_PROBE_MODELS,
   MAX_PROBE_PROMPT_CHARS,

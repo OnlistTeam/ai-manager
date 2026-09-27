@@ -9,6 +9,7 @@ pub mod health_check;
 pub mod import_existing;
 pub mod mcp_installation;
 pub mod mcp_removal;
+pub mod model_choice;
 pub mod model_probe;
 pub mod network_proxy;
 pub mod openclaw_workspace;

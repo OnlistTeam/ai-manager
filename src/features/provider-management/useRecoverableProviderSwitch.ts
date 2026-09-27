@@ -100,10 +100,15 @@ export function useRecoverableProviderSwitch(
     });
   }
 
-  function runActivation(variables: { tool: ToolId; providerId: string }) {
+  function runActivation(
+    variables: { tool: ToolId; providerId: string },
+    onSwitched?: () => void,
+  ) {
     activation.mutate(variables, {
       onSuccess: (outcome) => {
         if (outcome.status === "unreachable") return;
+        // Only the endpoint that was asked for; a failover landed elsewhere.
+        if (outcome.activeProviderId === variables.providerId) onSwitched?.();
         const provider = outcome.providers.find(
           (item) => item.id === variables.providerId,
         );
@@ -139,14 +144,19 @@ export function useRecoverableProviderSwitch(
     });
   }
 
-  function switchProvider(providerId: string) {
+  /**
+   * `onSwitched` runs once the tool really uses `providerId`, e.g. to set the
+   * model picked under it; a silent target or a failover to another endpoint
+   * never runs it.
+   */
+  function switchProvider(providerId: string, onSwitched?: () => void) {
     if (switchFailure?.providerId === providerId && scopedVariables) {
-      runActivation(scopedVariables);
+      runActivation(scopedVariables, onSwitched);
       return;
     }
     if (tool !== null) {
       recovery.reset();
-      runActivation({ tool, providerId });
+      runActivation({ tool, providerId }, onSwitched);
     }
   }
 

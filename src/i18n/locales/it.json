@@ -807,6 +807,11 @@
     "details": {
       "show": "Mostra dettagli",
       "code": "Codice errore"
+    },
+    "modelChoice": {
+      "invalid": "Questo nome di modello o livello non può essere scritto nelle impostazioni dello strumento.",
+      "readFailed": "Impossibile leggere il file di impostazioni dello strumento, quindi non è stato cambiato nulla.",
+      "writeFailed": "Impossibile scrivere il file di impostazioni dello strumento. L’originale è invariato."
     }
   },
   "nav": {
@@ -1391,6 +1396,33 @@
     "refreshing": {
       "title": "Nuovo controllo di Home in corso",
       "description": "L'avvio degli strumenti riprenderà al termine di questo controllo."
+    },
+    "model": {
+      "toolDefault": "Predefinito dello strumento",
+      "loading": "Caricamento dei modelli…",
+      "pickerLabel": "Endpoint e modelli di {{tool}}",
+      "pickNamed": "Endpoint e modello usati da {{tool}}: {{current}}",
+      "filter": "Filtra o digita il nome di un modello",
+      "noMatch": "Nessun endpoint o modello corrispondente.",
+      "useTyped": "Usa “{{model}}”",
+      "more_one": "Altri {{count}}: digita per filtrare",
+      "more_other": "Altri {{count}}: digita per filtrare"
+    },
+    "effort": {
+      "pickerLabel": "Livello di ragionamento di {{tool}}",
+      "pickNamed": "Livello di ragionamento di {{tool}}: {{current}}",
+      "newSessions": "Vale per le nuove sessioni di {{tool}}.",
+      "overrides": "{{tool}} conserva un livello proprio per questi modelli, che prevale su questo: {{list}}",
+      "unavailable": "Illeggibile",
+      "level": {
+        "none": "Disattivato",
+        "minimal": "Minimo",
+        "low": "Basso",
+        "medium": "Medio",
+        "high": "Alto",
+        "xhigh": "Molto alto",
+        "max": "Massimo"
+      }
     }
   },
   "taskCenter": {

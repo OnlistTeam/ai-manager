@@ -1133,17 +1133,18 @@ and an available update is counted in the status line.
 
 ---
 
-# 29. My Tools and the Endpoint Picker
+# 29. My Tools, the Endpoint and Model Picker, and the Effort Picker
 
 One row (about 40px) per installed tool whose capabilities allow endpoint
 management; tools that are not installed are not listed. "Install AI Tool" is
-a small text button in the list header.
+a small text button in the list header. Each row is the tool, the endpoint
+with its model, and the thinking effort (ADR-0055).
 
 ```text
-[icon] Claude Code ..................................... [Official sign-in       ▾]
-[icon] Codex ........................................... [Team Relay  gpt-5-codex ▾]
-[icon] Gemini CLI ...................................... [Official sign-in       ▾]
-[icon] OpenCode ........................................ [2 endpoints added      ▾]
+[icon] Claude Code .................. [Official sign-in  Tool default ▾] [◎ Extra high ▾]
+[icon] Codex ........................ [Team Relay         gpt-5-codex ▾] [◎ Low        ▾]
+[icon] Gemini CLI ................... [Official sign-in   Tool default ▾]
+[icon] OpenCode ..................... [2 endpoints added               ▾]
 ```
 
 - The picker at the trailing edge shows the saved endpoint selected for the
@@ -1166,6 +1167,27 @@ a small text button in the list header.
   writes it again. The API Endpoints page switches through the same flow.
 - While the list loads the picker is a placeholder; when the list cannot be
   read it is plain text.
+- Where the tool's capabilities allow choosing the model (`canChooseModel`),
+  the picker also names the model in the tool's own file, or "Tool default"
+  when the file names none, and each endpoint in its list carries its models
+  indented under it: the endpoint's saved model first, then the built-in list
+  for an official service or the endpoint's model catalogue for a custom one,
+  read only while the list is open; eight per endpoint until the filter is
+  used. Under the endpoint in use the first entry is "Tool default". Picking
+  a model under the endpoint in use sets it; under another endpoint it
+  switches there first and sets the model once the switch succeeded. A model
+  typed into the filter that no list holds is offered as "Use “name”". The
+  model belongs to its endpoint: a later switch writes the target's own
+  model, and switching back restores the one picked for it.
+- Where the tool has an effort setting (`canChooseEffort`), a second, narrower
+  picker names it with "Tool default" and the levels the tool's own setting
+  accepts. Its list says the level applies to new sessions and names any
+  model for which the tool keeps its own level, which wins over this one.
+  The effort belongs to the tool and survives every switch. A tool without
+  an effort setting keeps an empty slot, so the columns line up.
+- Only the tool's own keys are written (Claude Code `env.ANTHROPIC_MODEL` and
+  `effortLevel`, Codex `model` and `model_reasoning_effort`, Gemini CLI
+  `GEMINI_MODEL`), with a backup, an atomic replace and a read-back.
 - The picker first answers from the saved inventory, then follows the
   effective connection read in the background through the endpoints page's
   own query (ADR-0035, ADR-0051, ADR-0053). A saved endpoint the tool really

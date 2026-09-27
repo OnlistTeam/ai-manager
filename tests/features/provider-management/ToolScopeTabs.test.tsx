@@ -24,6 +24,8 @@ function tool(id: Tool["id"], name: string, canManage = true): Tool {
       canManageSkills: false,
       canManagePrompts: false,
       canManageVersion: false,
+      canChooseModel: false,
+      canChooseEffort: false,
       canLaunch: true,
     },
   };

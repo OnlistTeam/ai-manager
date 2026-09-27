@@ -86,6 +86,10 @@ pub struct ToolCapabilities {
     pub can_manage_skills: bool,
     pub can_manage_prompts: bool,
     pub can_manage_version: bool,
+    /// Home can choose the model the tool runs (ADR-0055).
+    pub can_choose_model: bool,
+    /// Home can choose how hard the tool thinks (ADR-0055).
+    pub can_choose_effort: bool,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
@@ -312,7 +316,7 @@ mod tests {
             serde_json::to_string(&ToolCapabilities::default()).expect("serialize capabilities");
         assert_eq!(
             json,
-            r#"{"canInstall":false,"canUpdate":false,"canUninstall":false,"canRepair":false,"canLaunch":false,"canManageProvider":false,"canManageMcp":false,"canManageSkills":false,"canManagePrompts":false,"canManageVersion":false}"#
+            r#"{"canInstall":false,"canUpdate":false,"canUninstall":false,"canRepair":false,"canLaunch":false,"canManageProvider":false,"canManageMcp":false,"canManageSkills":false,"canManagePrompts":false,"canManageVersion":false,"canChooseModel":false,"canChooseEffort":false}"#
         );
     }
 

@@ -1,5 +1,6 @@
 export {
   providerConnectionProfileQueryOptions,
+  providerEditProfileQueryOptions,
   providerKeys,
   providerRuntimeContextQueryOptions,
   providersQueryOptions,
@@ -8,6 +9,7 @@ export {
   useOpenProviderRuntimeResource,
   useProviderRuntimeContext,
   useProviders,
+  useToolModelChoice,
 } from "./queries";
 export { useProviderEvents } from "./useProviderEvents";
 export type { ProviderEffectiveState } from "./effectiveState";
@@ -42,5 +44,6 @@ export type {
   ProviderRuntimeStorage,
   ProviderTestResult,
   ToolId,
+  ToolModelChoice,
 } from "@/native";
 export type { OpenProviderRuntimeResourceVariables } from "./queries";

@@ -9,6 +9,7 @@ pub mod health;
 pub mod import;
 pub mod mcp;
 pub mod message_keys;
+pub mod model_choice;
 pub mod model_probe;
 pub mod network_proxy;
 pub mod openclaw_workspace;
@@ -56,6 +57,10 @@ pub use health::{
 };
 pub use import::{ImportOutcome, ImportPreview, ImportSummary};
 pub use mcp::{McpConnectionDraft, McpInstallDraft, McpVariableDraft};
+pub use model_choice::{
+    normalize_model_name, validate_effort, EffortOverride, ModelChoiceSpec, ToolModelChoice,
+    MAX_MODEL_NAME_CHARS,
+};
 pub use model_probe::{
     ModelCatalog, ModelCatalogRejection, ModelProbeOutcome, ModelProbeReply, ModelProbeRequest,
     ProbeModel, ProbeModelKind, ProviderWireProtocol, MAX_PROBE_IMAGE_BASE64_BYTES,

@@ -2,6 +2,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { backupKeys } from "@/entities/backup";
 import { desktopAppKeys } from "@/entities/desktop-app";
 import { extensionKeys } from "@/entities/extension";
+import { modelCatalogQueryOptions } from "@/features/provider-management";
 import { healthKeys, type ProviderConnectivity } from "@/entities/health";
 import { importKeys } from "@/entities/import";
 import { networkProxyKeys } from "@/entities/network-proxy";
@@ -36,6 +37,7 @@ import type {
   SessionList,
   Tool,
   ToolCapabilities,
+  ToolModelChoice,
   UpdateStatus,
   UsageMetrics,
   UsageOverview,
@@ -52,6 +54,15 @@ const CAPABILITIES: ToolCapabilities = {
   canManageSkills: true,
   canManagePrompts: true,
   canManageVersion: true,
+  canChooseModel: false,
+  canChooseEffort: false,
+};
+
+/** Home chooses the model and, where the tool has one, the effort (ADR-0055). */
+const MODEL_CAPABILITIES: ToolCapabilities = {
+  ...CAPABILITIES,
+  canChooseModel: true,
+  canChooseEffort: true,
 };
 
 export const GALLERY_TOOLS: Tool[] = [
@@ -62,7 +73,7 @@ export const GALLERY_TOOLS: Tool[] = [
     status: "installed",
     version: "2.1.3",
     latestVersion: null,
-    capabilities: CAPABILITIES,
+    capabilities: MODEL_CAPABILITIES,
     sessionsInsideSettings: false,
     environment: "npm",
   },
@@ -73,7 +84,7 @@ export const GALLERY_TOOLS: Tool[] = [
     status: "installed",
     version: "0.42.0",
     latestVersion: null,
-    capabilities: CAPABILITIES,
+    capabilities: MODEL_CAPABILITIES,
     sessionsInsideSettings: false,
     environment: "npm",
   },
@@ -89,7 +100,7 @@ export const GALLERY_TOOLS: Tool[] = [
     status: "updateAvailable",
     version: "0.8.1",
     latestVersion: "0.9.0",
-    capabilities: CAPABILITIES,
+    capabilities: { ...MODEL_CAPABILITIES, canChooseEffort: false },
     sessionsInsideSettings: false,
     environment: "npm",
   },
@@ -250,6 +261,43 @@ const CODEX_EDIT_PROFILE: ProviderEditProfile = {
     supportsMultipleModels: false,
   },
   baseUrlTakesNoVersion: false,
+};
+
+/**
+ * Claude Code as a real settings file often stands: an effort, no model, and a
+ * level Claude Code saved for one model itself.
+ */
+const MODEL_CHOICES: ToolModelChoice[] = [
+  {
+    tool: "claude-code",
+    model: null,
+    effort: "xhigh",
+    effortLevels: ["low", "medium", "high", "xhigh"],
+    officialModels: ["fable", "opus", "opus[1m]", "sonnet", "haiku"],
+    effortOverrides: [{ model: "claude-opus-5-5", effort: "medium" }],
+  },
+  {
+    tool: "codex",
+    model: "gpt-5-codex",
+    effort: "low",
+    effortLevels: ["low", "medium", "high", "xhigh"],
+    officialModels: ["gpt-6-sol", "gpt-6-astra", "gpt-6-luna", "gpt-5.5"],
+    effortOverrides: [],
+  },
+  {
+    tool: "gemini-cli",
+    model: null,
+    effort: null,
+    effortLevels: [],
+    officialModels: ["auto", "pro", "flash", "flash-lite"],
+    effortOverrides: [],
+  },
+];
+
+/** What each custom endpoint's model catalogue answers. */
+const CATALOG_MODELS: Record<string, string[]> = {
+  "team-gateway": ["glm-5", "glm-5-air", "kimi-k2", "qwen3-coder"],
+  "team-relay": ["gpt-5-codex", "gpt-5.5", "deepseek-v4", "qwen3-coder"],
 };
 
 const CONNECTION_PROFILE: ProviderConnectionProfile = {
@@ -817,6 +865,34 @@ export function seedAppShellGallery(client: QueryClient): void {
     providerKeys.editProfile("codex", "team-relay"),
     CODEX_EDIT_PROFILE,
   );
+  // The model each other endpoint keeps, shown beside its name in the list.
+  for (const [tool, providerId, models] of [
+    ["codex", "openai-official", ["gpt-6-sol"]],
+    ["claude-code", "anthropic-official", []],
+    ["claude-code", "team-gateway", ["glm-5"]],
+  ] as const) {
+    client.setQueryData(providerKeys.editProfile(tool, providerId), {
+      ...CODEX_EDIT_PROFILE,
+      providerId,
+      models: [...models],
+    });
+  }
+  for (const choice of MODEL_CHOICES) {
+    client.setQueryData(providerKeys.modelChoice(choice.tool), choice);
+  }
+  for (const provider of [...PROVIDERS, ...CODEX_PROVIDERS]) {
+    const models = CATALOG_MODELS[provider.id];
+    if (!models) continue;
+    client.setQueryData(
+      modelCatalogQueryOptions({ kind: "provider", provider }).queryKey,
+      {
+        protocol: "anthropic",
+        models: models.map((id) => ({ id, kind: "text" as const })),
+        truncated: false,
+        rejection: null,
+      },
+    );
+  }
   client.setQueryData(
     providerKeys.connectionProfile("claude-code"),
     CONNECTION_PROFILE,

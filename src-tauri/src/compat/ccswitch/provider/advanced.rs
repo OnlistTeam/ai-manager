@@ -388,7 +388,7 @@ fn validate_models(
     Ok(models)
 }
 
-fn write_models(
+pub(super) fn write_models(
     tool: ToolId,
     raw: &mut UpstreamProvider,
     models: &[String],

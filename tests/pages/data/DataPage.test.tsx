@@ -25,6 +25,8 @@ const capabilities = {
   canManageSkills: true,
   canManagePrompts: true,
   canManageVersion: true,
+  canChooseModel: false,
+  canChooseEffort: false,
   canLaunch: true,
 };
 function tool(overrides: Partial<Tool> = {}): Tool {

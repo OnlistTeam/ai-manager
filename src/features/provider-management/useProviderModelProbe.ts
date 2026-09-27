@@ -1,4 +1,5 @@
 import {
+  queryOptions,
   useMutation,
   useQuery,
   useQueryClient,
@@ -62,12 +63,11 @@ const modelCatalogKey = (subject: ProbeSubject | null) =>
 /**
  * Reads the service's model list. Not retried: a service that does not publish
  * a catalogue would be asked three times for the same missing page, and the
- * dialog degrades to a typed model name anyway.
+ * dialog degrades to a typed model name anyway. Shared with Home's model
+ * picker (ADR-0055), so both read one cached answer.
  */
-export function useModelCatalog(
-  subject: ProbeSubject | null,
-): UseQueryResult<ModelCatalog, Error> {
-  return useQuery({
+export function modelCatalogQueryOptions(subject: ProbeSubject | null) {
+  return queryOptions({
     queryKey: modelCatalogKey(subject),
     queryFn: () => {
       if (subject === null) {
@@ -88,6 +88,12 @@ export function useModelCatalog(
     gcTime: 5 * 60_000,
     refetchOnWindowFocus: false,
   });
+}
+
+export function useModelCatalog(
+  subject: ProbeSubject | null,
+): UseQueryResult<ModelCatalog, Error> {
+  return useQuery(modelCatalogQueryOptions(subject));
 }
 
 export interface ModelProbeVariables {

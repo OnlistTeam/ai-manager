@@ -225,6 +225,16 @@ the effective connection from `useProviderRuntimeContext`, the query the endpoin
 the session warm-up fills, so both pages share one login-shell probe per tool. Updates live on the
 Software page and the per-tool routing switches on the Local Routing tab; Home only links to them.
 
+Home rows also choose the model and the thinking effort (ADR-0055) where `ToolCapabilities`
+declares `canChooseModel` / `canChooseEffort`. The per-tool facts (effort levels, a short official
+model list) live in `domain/model_choice.rs`; the keys and files live only in
+`compat/ccswitch/provider/model_choice.rs`, which writes one key at a time through `live_key.rs`
+(backup, atomic replace, read-back). `live_preservation.rs` keeps the effort in force across a
+switch. The renderer reads `useToolModelChoice` (`entities/provider`, keyed under the runtime
+context so every switch re-reads it) and writes through `useSetToolModel` / `useSetToolEffort`
+(`features/provider-management`); custom endpoints' model lists reuse the model-probe catalogue
+query.
+
 Tab selection is page-local state and never enters `ProductSettings`. Cross-page hand-offs use
 `useRouteIntents` (`openServices(tool?, tab?)`, `openExtensions(tab?, kind?)`, `openRoute`);
 intents are consumed on mount and cleared by any ordinary navigation. See ADR-0034, ADR-0036,

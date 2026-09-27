@@ -807,6 +807,11 @@
     "details": {
       "show": "查看詳情",
       "code": "錯誤代碼"
+    },
+    "modelChoice": {
+      "invalid": "這個模型名稱或強度無法寫入該軟體的設定。",
+      "readFailed": "讀取不到該軟體的設定檔，沒有做任何變更。",
+      "writeFailed": "該軟體的設定檔寫入失敗，原檔案沒有變更。"
     }
   },
   "nav": {
@@ -1390,6 +1395,33 @@
     "refreshing": {
       "title": "正在重新檢查首頁",
       "description": "檢查完成後，啟動工具會自動恢復。"
+    },
+    "model": {
+      "toolDefault": "軟體預設",
+      "loading": "正在讀取模型…",
+      "pickerLabel": "{{tool}} 的端點和模型",
+      "pickNamed": "{{tool}} 使用的端點和模型：{{current}}",
+      "filter": "篩選，或輸入模型名稱",
+      "noMatch": "沒有符合的端點或模型。",
+      "useTyped": "使用「{{model}}」",
+      "more_one": "還有 {{count}} 個，輸入可篩選",
+      "more_other": "還有 {{count}} 個，輸入可篩選"
+    },
+    "effort": {
+      "pickerLabel": "{{tool}} 的思考強度",
+      "pickNamed": "{{tool}} 的思考強度：{{current}}",
+      "newSessions": "新開的 {{tool}} 工作階段生效。",
+      "overrides": "{{tool}} 為這些模型另外儲存了強度，優先於這裡：{{list}}",
+      "unavailable": "讀取不到",
+      "level": {
+        "none": "關閉",
+        "minimal": "最低",
+        "low": "低",
+        "medium": "中",
+        "high": "高",
+        "xhigh": "超高",
+        "max": "最高"
+      }
     }
   },
   "taskCenter": {

@@ -31,6 +31,8 @@ const TOOL: Tool = {
     canManageSkills: true,
     canManagePrompts: false,
     canManageVersion: true,
+    canChooseModel: false,
+    canChooseEffort: false,
     canLaunch: true,
   },
   sessionsInsideSettings: false,

@@ -4,6 +4,7 @@
 - Date: 2026-09-27
 - Amends: ADR-0051 (decisions 2, 5 and 6), ADR-0050 decision 6 (where the
   live routing switch is shown), design-spec §26–§29, §33 and §35.
+- Amended by: ADR-0055 (a row also chooses the model and the thinking effort).
 
 ## Context
 

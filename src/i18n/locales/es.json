@@ -807,6 +807,11 @@
     "details": {
       "show": "Ver detalles",
       "code": "Código de error"
+    },
+    "modelChoice": {
+      "invalid": "Ese nombre de modelo o nivel no se puede escribir en la configuración de esta herramienta.",
+      "readFailed": "No se pudo leer el archivo de configuración de la herramienta, así que no se cambió nada.",
+      "writeFailed": "No se pudo escribir el archivo de configuración de la herramienta. El original no ha cambiado."
     }
   },
   "nav": {
@@ -1391,6 +1396,33 @@
     "refreshing": {
       "title": "Comprobando Inicio de nuevo",
       "description": "Iniciar herramientas se reanudará cuando termine esta comprobación."
+    },
+    "model": {
+      "toolDefault": "Predeterminado de la herramienta",
+      "loading": "Cargando modelos…",
+      "pickerLabel": "Endpoints y modelos de {{tool}}",
+      "pickNamed": "Endpoint y modelo que usa {{tool}}: {{current}}",
+      "filter": "Filtra o escribe un nombre de modelo",
+      "noMatch": "No hay endpoints ni modelos que coincidan.",
+      "useTyped": "Usar “{{model}}”",
+      "more_one": "{{count}} más: escribe para filtrar",
+      "more_other": "{{count}} más: escribe para filtrar"
+    },
+    "effort": {
+      "pickerLabel": "Nivel de razonamiento de {{tool}}",
+      "pickNamed": "Nivel de razonamiento de {{tool}}: {{current}}",
+      "newSessions": "Se aplica a las nuevas sesiones de {{tool}}.",
+      "overrides": "{{tool}} guarda un nivel propio para estos modelos, que tiene prioridad sobre este: {{list}}",
+      "unavailable": "Ilegible",
+      "level": {
+        "none": "Desactivado",
+        "minimal": "Mínimo",
+        "low": "Bajo",
+        "medium": "Medio",
+        "high": "Alto",
+        "xhigh": "Muy alto",
+        "max": "Máximo"
+      }
     }
   },
   "taskCenter": {

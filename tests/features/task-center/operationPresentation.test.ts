@@ -48,6 +48,8 @@ function makeTool(overrides: Partial<Tool> = {}): Tool {
       canManageSkills: true,
       canManagePrompts: true,
       canManageVersion: false,
+      canChooseModel: false,
+      canChooseEffort: false,
     },
     sessionsInsideSettings: false,
     environment: null,

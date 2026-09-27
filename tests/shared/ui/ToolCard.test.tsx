@@ -27,6 +27,8 @@ const ALL_CAPABILITIES: ToolCapabilities = {
   canManageSkills: true,
   canManagePrompts: true,
   canManageVersion: false,
+  canChooseModel: false,
+  canChooseEffort: false,
   canLaunch: true,
 };
 

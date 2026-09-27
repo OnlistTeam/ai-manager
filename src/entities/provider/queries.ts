@@ -15,6 +15,7 @@ import {
   type ProviderRuntimeContext,
   type ProviderRuntimeResourceOpenOutcome,
   type ToolId,
+  type ToolModelChoice,
 } from "@/native";
 import { providerKeys } from "./keys";
 
@@ -113,12 +114,33 @@ export function useOpenProviderRuntimeResource(
   });
 }
 
+/**
+ * The model and thinking effort in the tool's own files (ADR-0055). A local
+ * file read, and the tool rewrites these keys itself (`/model`, `/effort`),
+ * so the answer is read again when the window regains focus.
+ */
+export function useToolModelChoice(
+  tool: ToolId | null,
+): UseQueryResult<ToolModelChoice, Error> {
+  return useQuery({
+    queryKey: providerKeys.modelChoice(tool ?? ""),
+    queryFn: () =>
+      tool === null
+        ? Promise.reject(new Error("A tool is required"))
+        : native.modelChoice.get(tool),
+    enabled: tool !== null,
+    staleTime: 30_000,
+    refetchOnWindowFocus: true,
+    retry: false,
+  });
+}
+
 /** Reads only the safe, redacted detail needed by the edit dialog. */
-export function useProviderEditProfile(
+export function providerEditProfileQueryOptions(
   tool: ToolId | null,
   provider: string | null,
-): UseQueryResult<ProviderEditProfile, Error> {
-  return useQuery({
+) {
+  return queryOptions({
     queryKey: providerKeys.editProfile(tool ?? "", provider ?? ""),
     queryFn: () =>
       tool === null || provider === null
@@ -127,4 +149,11 @@ export function useProviderEditProfile(
     enabled: tool !== null && provider !== null,
     staleTime: 5_000,
   });
+}
+
+export function useProviderEditProfile(
+  tool: ToolId | null,
+  provider: string | null,
+): UseQueryResult<ProviderEditProfile, Error> {
+  return useQuery(providerEditProfileQueryOptions(tool, provider));
 }

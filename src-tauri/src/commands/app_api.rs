@@ -5,6 +5,7 @@ use tauri_plugin_dialog::DialogExt;
 use crate::application::extension_directory::ExtensionDirectory;
 use crate::application::mcp_installation::{McpInstallRequest, McpInstallationService};
 use crate::application::mcp_removal::{McpRemovalRequest, McpRemovalService};
+use crate::application::model_choice::ModelChoiceService;
 use crate::application::model_probe::ModelProbeService;
 use crate::application::product_settings::ProductSettingsService;
 use crate::application::prompt_directory::PromptDirectory;
@@ -32,7 +33,7 @@ use crate::domain::{
     ProviderPreflightOutcome, ProviderPreflightStatus, ProviderRuntimeContext,
     ProviderRuntimeResourceOpenOutcome, ProviderTestResult, ShellVariableLocation,
     ShellVariableUpdate, ShellVariableWritten, SkillCatalogItem, Tool, ToolId, ToolLaunchOutcome,
-    ToolUninstallPreview, ToolUpdatePreview, ToolVersionCatalog, UninstallOptions,
+    ToolModelChoice, ToolUninstallPreview, ToolUpdatePreview, ToolVersionCatalog, UninstallOptions,
 };
 use crate::infrastructure::OperationManager;
 use crate::repositories::tool_version_events::SqliteToolVersionEventRepository;
@@ -509,6 +510,44 @@ pub async fn app_provider_effective_model_probe(
     request: ModelProbeRequest,
 ) -> Result<ModelProbeOutcome, AppError> {
     ModelProbeService::probe_effective(parse_tool(&tool)?, request).await
+}
+
+/// The model and thinking effort the tool runs, with what Home may choose
+/// (ADR-0055). Read from the tool's own files.
+#[tauri::command]
+pub async fn app_tool_model_choice(
+    app_handle: tauri::AppHandle,
+    tool: String,
+) -> Result<ToolModelChoice, AppError> {
+    let tool = parse_tool(&tool)?;
+    blocking(move || ModelChoiceService::read(&app_handle, tool)).await
+}
+
+/// Sets the model of one saved endpoint, or of the connection in force when no
+/// endpoint is named; `None` removes it so the tool decides.
+#[tauri::command]
+pub async fn app_tool_model_set(
+    app_handle: tauri::AppHandle,
+    tool: String,
+    provider: Option<String>,
+    model: Option<String>,
+) -> Result<ToolModelChoice, AppError> {
+    let tool = parse_tool(&tool)?;
+    blocking(move || {
+        ModelChoiceService::set_model(&app_handle, tool, provider.as_deref(), model.as_deref())
+    })
+    .await
+}
+
+/// Sets how hard the tool thinks; `None` removes the setting so the tool decides.
+#[tauri::command]
+pub async fn app_tool_effort_set(
+    app_handle: tauri::AppHandle,
+    tool: String,
+    effort: Option<String>,
+) -> Result<ToolModelChoice, AppError> {
+    let tool = parse_tool(&tool)?;
+    blocking(move || ModelChoiceService::set_effort(&app_handle, tool, effort.as_deref())).await
 }
 
 /// The start-up lines behind this tool's connection variables (ADR-0042).

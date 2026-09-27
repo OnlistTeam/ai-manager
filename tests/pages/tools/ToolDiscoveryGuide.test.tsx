@@ -17,6 +17,8 @@ const CAPABILITIES: Tool["capabilities"] = {
   canManageSkills: true,
   canManagePrompts: true,
   canManageVersion: true,
+  canChooseModel: false,
+  canChooseEffort: false,
 };
 
 const TOOLS: Tool[] = [

@@ -12,7 +12,7 @@ use crate::app_config::AppType;
 use crate::domain::{
     AppError, ErrorCode, Provider, ProviderCreateDraft, ProviderCreateResult,
     ProviderCustomCreateDraft, ProviderDraft, ProviderEditProfile, ProviderEndpointCandidate,
-    ProviderKind, ProviderReachability, ProviderTestResult, ToolId,
+    ProviderKind, ProviderReachability, ProviderTestResult, ToolId, ToolModelChoice,
 };
 use crate::platform::redact::{redact_secrets, truncate_tail};
 use crate::provider::Provider as UpstreamProvider;
@@ -27,8 +27,10 @@ mod advanced;
 mod codex_identity;
 mod create;
 pub mod deep_link;
+mod live_key;
 mod live_preservation;
 mod long_tail;
+mod model_choice;
 mod ordering;
 mod presets;
 mod removal;
@@ -551,6 +553,33 @@ impl ProviderStore {
     pub fn switch(&self, tool: ToolId, id: &str) -> Result<Vec<Provider>, AppError> {
         let _mutation = self.lock_mutation();
         switching::switch(self, tool, id)
+    }
+
+    /// The model and effort the tool runs, with what Home may choose (ADR-0055).
+    pub fn model_choice(&self, tool: ToolId) -> Result<ToolModelChoice, AppError> {
+        model_choice::read(tool)
+    }
+
+    /// Sets the model of one saved endpoint, or of the connection in force when
+    /// `provider` is `None`; the live file changes only for the endpoint in use.
+    pub fn set_model(
+        &self,
+        tool: ToolId,
+        provider: Option<&str>,
+        model: Option<&str>,
+    ) -> Result<ToolModelChoice, AppError> {
+        let _mutation = self.lock_mutation();
+        model_choice::set_model(self, tool, provider, model)
+    }
+
+    /// Sets how hard the tool thinks; a later switch keeps it.
+    pub fn set_effort(
+        &self,
+        tool: ToolId,
+        effort: Option<&str>,
+    ) -> Result<ToolModelChoice, AppError> {
+        let _mutation = self.lock_mutation();
+        model_choice::set_effort(self, tool, effort)
     }
 
     /// Save the user's order of this tool's services and return the reordered

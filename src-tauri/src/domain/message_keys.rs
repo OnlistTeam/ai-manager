@@ -117,6 +117,9 @@ pub const USER_FACING_MESSAGE_KEYS: &[&str] = &[
     "error.mcp.urlInvalid",
     "error.mcp.urlRequired",
     "error.mcp.verifyFailed",
+    "error.modelChoice.invalid",
+    "error.modelChoice.readFailed",
+    "error.modelChoice.writeFailed",
     "error.networkProxy.invalid",
     "error.networkProxy.readFailed",
     "error.networkProxy.saveFailed",
@@ -484,6 +487,6 @@ mod tests {
         sorted.sort_unstable();
         sorted.dedup();
         assert_eq!(sorted.as_slice(), USER_FACING_MESSAGE_KEYS);
-        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 334);
+        assert_eq!(USER_FACING_MESSAGE_KEYS.len(), 337);
     }
 }
