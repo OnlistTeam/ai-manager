@@ -97,4 +97,50 @@ describe("GlobalUpdateAction", () => {
     );
     await waitFor(() => expect(installs).toBe(1));
   });
+
+  it("says routed tools go back to direct before the restart is pressed", async () => {
+    const target = (tool: string, routed: boolean) => ({
+      tool,
+      takeoverEnabled: routed,
+      autoFailoverEnabled: false,
+      currentProvider: null,
+      queue: [],
+      available: [],
+      unavailable: null,
+      pickup: "live",
+    });
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_update_start`, () =>
+        HttpResponse.json(wire("ready")),
+      ),
+      http.post(`${TAURI_ENDPOINT}/app_routing_overview`, () =>
+        HttpResponse.json({
+          running: true,
+          address: "127.0.0.1",
+          port: 15_721,
+          activeConnections: 0,
+          totalRequests: 0,
+          successRequests: 0,
+          failedRequests: 0,
+          failoverCount: 0,
+          targets: [
+            target("claude-code", true),
+            target("codex", false),
+            target("gemini-cli", false),
+            target("grok-build", false),
+          ],
+        }),
+      ),
+    );
+    mount();
+
+    const restart = () =>
+      screen.getByRole("button", { name: en.preferences.updates.restart });
+    // The tooltip trigger wraps the button once the routing state is known.
+    await waitFor(() => expect(restart()).toHaveAttribute("data-state"));
+    await userEvent.hover(restart());
+    expect(await screen.findByRole("tooltip")).toHaveTextContent(
+      en.preferences.updates.routedNote,
+    );
+  });
 });

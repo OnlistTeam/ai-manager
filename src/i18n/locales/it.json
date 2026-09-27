@@ -2758,6 +2758,7 @@
       "ready": "Pronto dopo il riavvio",
       "readyTitle": "La versione {{version}} è pronta",
       "readyNote": "Il pacchetto di aggiornamento è stato scaricato e la sua firma è verificata. Riavvia quando sei pronto per completare l'aggiornamento.",
+      "routedNote": "Al riavvio, gli strumenti instradati tramite AI Manager tornano alla connessione diretta.",
       "restart": "Riavvia per aggiornare",
       "available": "Aggiornamento disponibile",
       "upToDate": "Aggiornato",

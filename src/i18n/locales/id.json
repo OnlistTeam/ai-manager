@@ -2757,6 +2757,7 @@
       "ready": "Siap setelah mulai ulang",
       "readyTitle": "Versi {{version}} sudah siap",
       "readyNote": "Paket pembaruan telah diunduh dan tanda tangannya diverifikasi. Mulai ulang saat Anda siap menyelesaikan pembaruan.",
+      "routedNote": "Saat dimulai ulang, alat yang dirutekan melalui AI Manager kembali ke koneksi langsung.",
       "restart": "Mulai ulang untuk memperbarui",
       "available": "Pembaruan tersedia",
       "upToDate": "Sudah terbaru",

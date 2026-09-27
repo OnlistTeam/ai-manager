@@ -2758,6 +2758,7 @@
       "ready": "Prêt après redémarrage",
       "readyTitle": "La version {{version}} est prête",
       "readyNote": "Le paquet de mise à jour est téléchargé et sa signature est vérifiée. Redémarrez quand vous êtes prêt à terminer la mise à jour.",
+      "routedNote": "Au redémarrage, les outils routés via AI Manager repassent en connexion directe.",
       "restart": "Redémarrer pour mettre à jour",
       "available": "Mise à jour disponible",
       "upToDate": "À jour",

@@ -2757,6 +2757,7 @@
       "ready": "Sẵn sàng sau khi khởi động lại",
       "readyTitle": "Phiên bản {{version}} đã sẵn sàng",
       "readyNote": "Gói cập nhật đã được tải và chữ ký đã được xác minh. Khởi động lại khi bạn sẵn sàng hoàn tất cập nhật.",
+      "routedNote": "Khi khởi động lại, các công cụ định tuyến qua AI Manager sẽ trở về kết nối trực tiếp.",
       "restart": "Khởi động lại để cập nhật",
       "available": "Có bản cập nhật",
       "upToDate": "Đã là bản mới nhất",

@@ -2757,6 +2757,7 @@
       "ready": "다시 시작하면 적용됩니다",
       "readyTitle": "버전 {{version}} 준비 완료",
       "readyNote": "업데이트 패키지를 다운로드하고 서명을 확인했습니다. 준비되면 다시 시작해 업데이트를 마치세요.",
+      "routedNote": "다시 시작하면 AI Manager를 경유하던 도구는 직접 연결로 돌아갑니다.",
       "restart": "다시 시작해 업데이트",
       "available": "업데이트 있음",
       "upToDate": "최신 상태",

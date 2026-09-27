@@ -80,3 +80,11 @@ export function useSwitchRoutingProvider() {
 export function useStopAllRouting() {
   return useOverviewMutation(() => native.routing.stopAll());
 }
+
+/** Whether any tool goes through AI Manager right now. */
+export function useAnyToolRouted(): boolean {
+  const overview = useRoutingOverview();
+  return (
+    overview.data?.targets.some((target) => target.takeoverEnabled) ?? false
+  );
+}

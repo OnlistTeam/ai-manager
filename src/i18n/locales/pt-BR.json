@@ -2758,6 +2758,7 @@
       "ready": "Pronto após reiniciar",
       "readyTitle": "A versão {{version}} está pronta",
       "readyNote": "O pacote de atualização foi baixado e sua assinatura foi verificada. Reinicie quando estiver pronto para concluir a atualização.",
+      "routedNote": "Ao reiniciar, as ferramentas roteadas pelo AI Manager voltam à conexão direta.",
       "restart": "Reiniciar para atualizar",
       "available": "Atualização disponível",
       "upToDate": "Atualizado",

@@ -2758,6 +2758,7 @@
       "ready": "Ready after restart",
       "readyTitle": "Version {{version}} is ready",
       "readyNote": "The update package is downloaded and its signature is verified. Restart when you are ready to finish updating.",
+      "routedNote": "Tools routed through AI Manager go back to direct connections when it restarts.",
       "restart": "Restart to update",
       "available": "Update available",
       "upToDate": "Up to date",

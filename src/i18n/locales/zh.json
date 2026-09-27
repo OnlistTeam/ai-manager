@@ -2756,6 +2756,7 @@
       "ready": "重启后更新",
       "readyTitle": "{{version}} 已准备好",
       "readyNote": "更新包已下载并通过签名验证。点击重启即可完成更新。",
+      "routedNote": "重启时，经 AI 管家转发的软件会恢复直连。",
       "restart": "重启并更新",
       "available": "有新版本",
       "upToDate": "已是最新",

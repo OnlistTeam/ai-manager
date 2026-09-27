@@ -1,6 +1,7 @@
 export {
   routingKeys,
   useAddRoutingProvider,
+  useAnyToolRouted,
   useRemoveRoutingProvider,
   useRoutingOverview,
   useSetRoutingFailover,

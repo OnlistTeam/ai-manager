@@ -2756,6 +2756,7 @@
       "ready": "重新啟動後更新",
       "readyTitle": "{{version}} 已準備好",
       "readyNote": "更新套件已下載並通過簽章驗證。準備好時重新啟動即可完成更新。",
+      "routedNote": "重新啟動時，經 AI 管家轉發的軟體會恢復直連。",
       "restart": "重新啟動並更新",
       "available": "有新版本",
       "upToDate": "已是最新",

@@ -2758,6 +2758,7 @@
       "ready": "Bereit nach Neustart",
       "readyTitle": "Version {{version}} ist bereit",
       "readyNote": "Das Update-Paket wurde heruntergeladen und seine Signatur geprüft. Starten Sie neu, wenn Sie bereit sind, das Update abzuschließen.",
+      "routedNote": "Beim Neustart gehen Tools, die über AI Manager laufen, zurück auf direkte Verbindungen.",
       "restart": "Neu starten zum Aktualisieren",
       "available": "Update verfügbar",
       "upToDate": "Auf dem neuesten Stand",
