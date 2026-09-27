@@ -186,10 +186,32 @@ pub fn get_current_proxy_url() -> Option<String> {
         .and_then(|url| url.clone())
 }
 
+/// AI Manager: a client for latency probes. A probe times one round trip, so
+/// it never follows a redirect: any answer, a 3xx included, shows the server is
+/// there, and a server whose `/v1` and `/v1/` redirect to each other otherwise
+/// read as unreachable. A server on this machine is always reached directly,
+/// whatever proxy is set: a proxy cannot see this machine's localhost, and its
+/// error page made a stopped local server look reachable.
+pub fn probe_client(loopback: bool) -> Result<Client, String> {
+    let builder = base_client_builder().redirect(reqwest::redirect::Policy::none());
+    if loopback {
+        return builder
+            .no_proxy()
+            .build()
+            .map_err(|e| format!("Failed to build HTTP client: {e}"));
+    }
+    build_client_from(builder, get_current_proxy_url().as_deref())
+}
+
 /// Builds an HTTP client
 fn build_client(proxy_url: Option<&str>) -> Result<Client, String> {
-    let mut builder = base_client_builder();
+    build_client_from(base_client_builder(), proxy_url)
+}
 
+fn build_client_from(
+    mut builder: reqwest::ClientBuilder,
+    proxy_url: Option<&str>,
+) -> Result<Client, String> {
     // Use the proxy when an address is given, otherwise follow the system proxy
     if let Some(url) = proxy_url {
         // Validate the URL format and scheme first
@@ -244,7 +266,7 @@ fn base_client_builder() -> reqwest::ClientBuilder {
         .no_zstd()
 }
 
-fn target_url_is_loopback(target_url: &str) -> bool {
+pub(crate) fn target_url_is_loopback(target_url: &str) -> bool {
     let Ok(parsed) = url::Url::parse(target_url) else {
         return false;
     };

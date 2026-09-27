@@ -45,6 +45,22 @@ impl fmt::Debug for EndpointLatency {
     }
 }
 
+/// AI Manager: probe clients per destination, see `http_client::probe_client`.
+struct ProbeClients {
+    remote: Client,
+    loopback: Client,
+}
+
+impl ProbeClients {
+    fn for_url(&self, url: &str) -> &Client {
+        if crate::proxy::http_client::target_url_is_loopback(url) {
+            &self.loopback
+        } else {
+            &self.remote
+        }
+    }
+}
+
 /// Network speed-test business logic
 pub struct SpeedtestService;
 
@@ -55,13 +71,13 @@ impl SpeedtestService {
         timeout_secs: Option<u64>,
     ) -> Result<Vec<EndpointLatency>, AppError> {
         let timeout = Self::sanitize_timeout(timeout_secs);
-        let (client, request_timeout) = Self::build_client(timeout)?;
-        Ok(Self::test_endpoints_with_client(urls, client, request_timeout).await)
+        let (clients, request_timeout) = Self::build_clients(timeout)?;
+        Ok(Self::test_endpoints_with_clients(urls, clients, request_timeout).await)
     }
 
-    async fn test_endpoints_with_client(
+    async fn test_endpoints_with_clients(
         urls: Vec<String>,
-        client: Client,
+        clients: ProbeClients,
         request_timeout: Duration,
     ) -> Vec<EndpointLatency> {
         if urls.is_empty() {
@@ -92,7 +108,7 @@ impl SpeedtestService {
         }
 
         let tasks = valid_targets.into_iter().map(|(idx, trimmed, parsed_url)| {
-            let client = client.clone();
+            let client = clients.for_url(&trimmed).clone();
             async move {
                 // Warm-up request first; the result is ignored, it only reuses the connection / avoids the first-packet penalty.
                 let _ = client
@@ -184,11 +200,16 @@ impl SpeedtestService {
         }
     }
 
-    fn build_client(timeout_secs: u64) -> Result<(Client, Duration), AppError> {
-        // Use the global HTTP client (proxy configuration already applied)
+    fn build_clients(timeout_secs: u64) -> Result<(ProbeClients, Duration), AppError> {
         // Return the timeout Duration for per-request use
         let timeout = Duration::from_secs(timeout_secs);
-        Ok((crate::proxy::http_client::get(), timeout))
+        let build =
+            |loopback| crate::proxy::http_client::probe_client(loopback).map_err(AppError::Message);
+        let clients = ProbeClients {
+            remote: build(false)?,
+            loopback: build(true)?,
+        };
+        Ok((clients, timeout))
     }
 
     fn sanitize_timeout(timeout_secs: Option<u64>) -> u64 {
@@ -204,7 +225,16 @@ mod tests {
     use std::net::TcpListener;
     use std::thread;
 
+    const NO_CONTENT: &[u8] =
+        b"HTTP/1.1 204 No Content\r\nConnection: close\r\nContent-Length: 0\r\n\r\n";
+
     fn local_endpoint() -> (String, thread::JoinHandle<Vec<String>>) {
+        local_endpoint_answering(NO_CONTENT)
+    }
+
+    fn local_endpoint_answering(
+        response: &'static [u8],
+    ) -> (String, thread::JoinHandle<Vec<String>>) {
         let listener = TcpListener::bind("127.0.0.1:0").expect("bind local endpoint");
         listener
             .set_nonblocking(true)
@@ -250,9 +280,7 @@ mod tests {
                             }
                         }
                         requests.push(String::from_utf8_lossy(&request).to_string());
-                        let _ = stream.write_all(
-                            b"HTTP/1.1 204 No Content\r\nConnection: close\r\nContent-Length: 0\r\n\r\n",
-                        );
+                        let _ = stream.write_all(response);
                         let _ = stream.flush();
                     }
                     Err(error) if error.kind() == ErrorKind::WouldBlock => {
@@ -326,10 +354,14 @@ mod tests {
         let (first_url, first_server) = local_endpoint();
         let (second_url, second_server) = local_endpoint();
         let client = Client::builder().no_proxy().build().expect("test client");
+        let clients = ProbeClients {
+            remote: client.clone(),
+            loopback: client,
+        };
 
-        let result = tauri::async_runtime::block_on(SpeedtestService::test_endpoints_with_client(
+        let result = tauri::async_runtime::block_on(SpeedtestService::test_endpoints_with_clients(
             vec![first_url.clone(), second_url.clone()],
-            client,
+            clients,
             Duration::from_secs(2),
         ));
 
@@ -351,6 +383,55 @@ mod tests {
             assert!(!lower.contains("x-api-key:"));
             assert!(!lower.contains("api-key:"));
         }
+    }
+
+    #[test]
+    fn a_redirect_is_an_answer_and_is_not_followed() {
+        // Points back at itself, like a server whose `/v1` and `/v1/`
+        // redirect to each other: following it never ends.
+        let (url, server) = local_endpoint_answering(
+            b"HTTP/1.1 301 Moved Permanently\r\nLocation: /health\r\nConnection: close\r\nContent-Length: 0\r\n\r\n",
+        );
+        let loopback = crate::proxy::http_client::probe_client(true).expect("probe client");
+        let clients = ProbeClients {
+            remote: loopback.clone(),
+            loopback,
+        };
+
+        let result = tauri::async_runtime::block_on(SpeedtestService::test_endpoints_with_clients(
+            vec![url],
+            clients,
+            Duration::from_secs(2),
+        ));
+
+        assert_eq!(result[0].status, Some(301));
+        assert!(result[0].latency.is_some() && result[0].error.is_none());
+        assert_eq!(server.join().expect("server").len(), 2);
+    }
+
+    #[test]
+    fn a_server_on_this_machine_is_never_measured_through_a_proxy() {
+        let (url, server) = local_endpoint();
+        // A proxy that answers nothing: a request sent through it fails.
+        let dead_proxy = TcpListener::bind("127.0.0.1:0").expect("bind dead proxy");
+        let proxy_url = format!("http://{}", dead_proxy.local_addr().expect("address"));
+        drop(dead_proxy);
+        let clients = ProbeClients {
+            remote: Client::builder()
+                .proxy(reqwest::Proxy::all(proxy_url).expect("proxy"))
+                .build()
+                .expect("proxied client"),
+            loopback: Client::builder().no_proxy().build().expect("direct client"),
+        };
+
+        let result = tauri::async_runtime::block_on(SpeedtestService::test_endpoints_with_clients(
+            vec![url],
+            clients,
+            Duration::from_secs(2),
+        ));
+
+        assert_eq!(result[0].status, Some(204));
+        assert_eq!(server.join().expect("server").len(), 2);
     }
 
     #[test]
