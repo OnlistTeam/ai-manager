@@ -25,6 +25,8 @@ function overview(running = false, takeoverEnabled = running): RoutingOverview {
         currentProvider: null,
         queue: [],
         available: [],
+        unavailable: null,
+        pickup: "live",
       },
     ],
   };
@@ -52,11 +54,9 @@ describe.each(["en", "zh"] as const)("RoutingSummary (%s)", (locale) => {
       copy.routing.summary.inactive,
     );
     expect(screen.queryByRole("button")).toBeNull();
-    expect(screen.queryByText(copy.routing.hero.title)).toBeNull();
-    expect(screen.queryByText(copy.routing.hero.description)).toBeNull();
   });
 
-  it("leaves stopping to the live routing switch while tools are routed", async () => {
+  it("leaves stopping to each tool's switch while tools are routed", async () => {
     await setup();
     render(
       <RoutingSummary
@@ -70,39 +70,43 @@ describe.each(["en", "zh"] as const)("RoutingSummary (%s)", (locale) => {
     expect(screen.queryByRole("button")).toBeNull();
   });
 
-  it("offers the stop action for a route running with no tool", async () => {
+  it("keeps a gateway with no routed tool running without a stop action", async () => {
     await setup();
-    const user = userEvent.setup();
-    const onStop = vi.fn();
-    const data = overview(true, false);
-    const view = render(
-      <RoutingSummary overview={data} busy={false} onStop={onStop} />,
+    render(
+      <RoutingSummary
+        overview={overview(true, false)}
+        busy={false}
+        onStop={vi.fn()}
+      />,
     );
-    await user.click(
-      screen.getByRole("button", { name: copy.routing.stop.action }),
-    );
-    expect(onStop).toHaveBeenCalledOnce();
-    view.rerender(<RoutingSummary overview={data} busy onStop={onStop} />);
-    expect(
-      screen.getByRole("button", { name: copy.routing.stop.action }),
-    ).toBeDisabled();
+    expect(screen.getByText("127.0.0.1:15721")).toBeInTheDocument();
+    expect(screen.queryByRole("button")).toBeNull();
   });
 
   it("does not hide restoration when the gateway stopped but a tool is still taken over", async () => {
     await setup();
-    render(
+    const onStop = vi.fn();
+    const view = render(
       <RoutingSummary
         overview={overview(false, true)}
         busy={false}
-        onStop={vi.fn()}
+        onStop={onStop}
       />,
     );
     expect(screen.getByRole("status")).toHaveTextContent(
       copy.routing.summary.needsRestore,
     );
+    expect(screen.queryByText(copy.routing.summary.inactive)).toBeNull();
+    const user = userEvent.setup();
+    await user.click(
+      screen.getByRole("button", { name: copy.routing.stop.action }),
+    );
+    expect(onStop).toHaveBeenCalledOnce();
+    view.rerender(
+      <RoutingSummary overview={overview(false, true)} busy onStop={onStop} />,
+    );
     expect(
       screen.getByRole("button", { name: copy.routing.stop.action }),
-    ).toBeEnabled();
-    expect(screen.queryByText(copy.routing.summary.inactive)).toBeNull();
+    ).toBeDisabled();
   });
 });

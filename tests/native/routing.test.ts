@@ -22,6 +22,8 @@ const overview = {
       currentProvider: null,
       queue: [],
       available: [],
+      unavailable: index === 0 ? null : ("ownLogin" as const),
+      pickup: "atStart" as const,
     }),
   ),
 };

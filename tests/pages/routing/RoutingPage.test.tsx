@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { http, HttpResponse } from "msw";
 import i18n from "i18next";
@@ -29,11 +29,15 @@ function provider(
   };
 }
 
-function overview(takeoverEnabled = false) {
+/** Claude Code (rereads its settings) can be routed; Codex (reads them at
+ * start) too; Gemini CLI signs in with its own account; Grok Build has no
+ * endpoint. */
+function overview(routed: { claude?: boolean; codex?: boolean } = {}) {
+  const running = Boolean(routed.claude || routed.codex);
   return {
-    running: takeoverEnabled,
-    address: takeoverEnabled ? "127.0.0.1" : null,
-    port: takeoverEnabled ? 15_721 : null,
+    running,
+    address: running ? "127.0.0.1" : null,
+    port: running ? 15_721 : null,
     activeConnections: 0,
     totalRequests: 12,
     successRequests: 11,
@@ -42,23 +46,47 @@ function overview(takeoverEnabled = false) {
     targets: [
       {
         tool: "claude-code",
-        takeoverEnabled,
-        autoFailoverEnabled: false,
+        takeoverEnabled: Boolean(routed.claude),
+        autoFailoverEnabled: Boolean(routed.claude),
         currentProvider: provider("provider-a", "Primary API", 1, true),
         queue: [
           provider("provider-a", "Primary API", 1, true),
           provider("provider-b", "Backup API", 2),
         ],
         available: [provider("provider-c", "Third API", null)],
+        unavailable: null,
+        pickup: "live",
       },
-      ...["codex", "gemini-cli", "grok-build"].map((tool) => ({
-        tool,
+      {
+        tool: "codex",
+        takeoverEnabled: Boolean(routed.codex),
+        autoFailoverEnabled: false,
+        currentProvider: provider("relay", "Team Relay", null, true),
+        queue: [],
+        available: [],
+        unavailable: null,
+        pickup: "atStart",
+      },
+      {
+        tool: "gemini-cli",
+        takeoverEnabled: false,
+        autoFailoverEnabled: false,
+        currentProvider: provider("google", "Google Login", null, true),
+        queue: [],
+        available: [],
+        unavailable: "ownLogin",
+        pickup: "atStart",
+      },
+      {
+        tool: "grok-build",
         takeoverEnabled: false,
         autoFailoverEnabled: false,
         currentProvider: null,
         queue: [],
         available: [],
-      })),
+        unavailable: "noService",
+        pickup: "atStart",
+      },
     ],
   };
 }
@@ -69,7 +97,7 @@ const EMPTY_TRACE = {
   entries: [],
 };
 
-function mount(response = overview()) {
+function mount(response: object = overview()) {
   server.use(
     http.post(`${TAURI_ENDPOINT}/app_routing_overview`, () =>
       HttpResponse.json(response),
@@ -80,6 +108,16 @@ function mount(response = overview()) {
   );
   return render(<RoutingPage />, {
     wrapper: withQueryClient(createTestQueryClient()),
+  });
+}
+
+function row(name: string): HTMLElement {
+  return screen.getByRole("article", { name });
+}
+
+function routeSwitch(name: string): HTMLElement {
+  return screen.getByRole("switch", {
+    name: `Route ${name} through AI Manager`,
   });
 }
 
@@ -95,45 +133,41 @@ describe("RoutingPage", () => {
     await i18n.changeLanguage("en");
   });
 
-  it("shows four supported targets, aggregate status and ordered failover services", async () => {
+  it("lists every tool on one line with its endpoint, switch or reason", async () => {
     mount();
 
     expect(
       await screen.findByText(en.routing.summary.inactive),
     ).toBeInTheDocument();
-    expect(screen.getByText("Primary API")).toBeInTheDocument();
-    expect(screen.getByText("Backup API")).toBeInTheDocument();
-    expect(screen.getByText("P1")).toBeInTheDocument();
-    expect(screen.getByText("P2")).toBeInTheDocument();
-    expect(screen.getAllByRole("tab")).toHaveLength(4);
-    expect(document.querySelectorAll("[data-routing-target]")).toHaveLength(1);
-    expect(screen.getByRole("tab", { name: "Claude Code" })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
-    await userEvent.click(screen.getByRole("tab", { name: "Codex" }));
-    expect(screen.getByRole("tabpanel", { name: "Codex" })).toBeInTheDocument();
-    expect(screen.queryByText("Primary API")).toBeNull();
-    expect(document.querySelector("[data-routing-target]")).toHaveAttribute(
-      "data-routing-target",
-      "codex",
-    );
-    await userEvent.keyboard("{ArrowRight}");
+    expect(screen.getAllByRole("article")).toHaveLength(4);
+    expect(within(row("Claude Code")).getByText("Primary API")).toBeVisible();
+    expect(routeSwitch("Claude Code")).not.toBeChecked();
+    expect(routeSwitch("Codex")).not.toBeChecked();
+    // Nothing is taken over by default, and a connection that cannot be
+    // forwarded shows why instead of a switch.
     expect(
-      screen.getByRole("tabpanel", { name: "Gemini CLI" }),
-    ).toBeInTheDocument();
+      within(row("Gemini CLI")).getByText(en.routing.unavailable.ownLogin),
+    ).toBeVisible();
+    expect(within(row("Gemini CLI")).queryByRole("switch")).toBeNull();
+    expect(
+      within(row("Grok Build")).getByText(en.routing.unavailable.noService),
+    ).toBeVisible();
+    expect(within(row("Grok Build")).queryByRole("switch")).toBeNull();
+    // No failover controls and no live panel while nothing is routed.
+    expect(screen.queryByText(en.routing.failover.title)).toBeNull();
+    expect(
+      screen.queryByRole("region", { name: en.routing.live.panelLabel }),
+    ).toBeNull();
   });
 
-  it("turns takeover on straight from the switch, like any other toggle", async () => {
-    let calls = 0;
-    let body: unknown;
+  it("routes one tool from its own switch and says what open sessions do", async () => {
+    const bodies: unknown[] = [];
     server.use(
       http.post(
         `${TAURI_ENDPOINT}/app_routing_set_takeover`,
         async ({ request }) => {
-          calls += 1;
-          body = await request.json();
-          return HttpResponse.json(overview(true));
+          bodies.push(await request.json());
+          return HttpResponse.json(overview({ codex: true }));
         },
       ),
     );
@@ -141,18 +175,52 @@ describe("RoutingPage", () => {
 
     await userEvent.click(
       await screen.findByRole("switch", {
-        name: "Routing takeover for Claude Code",
+        name: "Route Codex through AI Manager",
       }),
     );
 
     expect(screen.queryByRole("dialog")).toBeNull();
-    await waitFor(() => expect(calls).toBe(1));
-    expect(body).toEqual({ tool: "claude-code", enabled: true });
+    await waitFor(() =>
+      expect(bodies).toEqual([{ tool: "codex", enabled: true }]),
+    );
+    expect(await within(row("Codex")).findByRole("status")).toHaveTextContent(
+      "Open Codex sessions keep their direct connection until you restart them.",
+    );
+    expect(routeSwitch("Codex")).toBeChecked();
+    expect(routeSwitch("Claude Code")).not.toBeChecked();
     expect(
+      await screen.findByRole("region", { name: en.routing.live.panelLabel }),
+    ).toBeInTheDocument();
+  });
+
+  it("turns a tool that rereads its settings off with the honest note", async () => {
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_routing_set_takeover`, () =>
+        HttpResponse.json({
+          ...overview(),
+          running: true,
+          address: "127.0.0.1",
+          port: 15_721,
+        }),
+      ),
+    );
+    mount(overview({ claude: true }));
+
+    await userEvent.click(
       await screen.findByRole("switch", {
-        name: "Routing takeover for Claude Code",
+        name: "Route Claude Code through AI Manager",
       }),
-    ).toBeChecked();
+    );
+
+    expect(
+      await within(row("Claude Code")).findByRole("status"),
+    ).toHaveTextContent(
+      "Open Claude Code sessions switch back right away, but keep any setting routing added until you restart them.",
+    );
+    // The gateway keeps running for sessions that still hold its address.
+    expect(
+      screen.getByRole("region", { name: en.routing.live.panelLabel }),
+    ).toBeInTheDocument();
   });
 
   it("hot-switches through the product API and can add another failover service", async () => {
@@ -162,23 +230,26 @@ describe("RoutingPage", () => {
         `${TAURI_ENDPOINT}/app_routing_switch_provider`,
         async ({ request }) => {
           requests.push(await request.json());
-          return HttpResponse.json(overview(true));
+          return HttpResponse.json(overview({ claude: true }));
         },
       ),
       http.post(
         `${TAURI_ENDPOINT}/app_routing_queue_add`,
         async ({ request }) => {
           requests.push(await request.json());
-          return HttpResponse.json(overview(true));
+          return HttpResponse.json(overview({ claude: true }));
         },
       ),
     );
-    mount(overview(true));
+    mount(overview({ claude: true }));
 
-    await userEvent.click(
-      await screen.findByRole("button", {
-        name: "Switch routing to Backup API",
+    expect(
+      await screen.findByRole("switch", {
+        name: "Automatic failover for Claude Code",
       }),
+    ).toBeChecked();
+    await userEvent.click(
+      screen.getByRole("button", { name: "Switch routing to Backup API" }),
     );
     await userEvent.selectOptions(
       screen.getByRole("combobox", {
@@ -199,78 +270,21 @@ describe("RoutingPage", () => {
     ]);
   });
 
-  it("turns live routing on after naming the tools it takes over", async () => {
-    const bodies: unknown[] = [];
-    server.use(
-      http.post(
-        `${TAURI_ENDPOINT}/app_routing_set_live_mode`,
-        async ({ request }) => {
-          bodies.push(await request.json());
-          return HttpResponse.json({ overview: overview(true), failures: [] });
-        },
-      ),
-    );
-    mount();
-
-    expect(
-      screen.queryByRole("region", { name: en.routing.live.panelLabel }),
-    ).toBeNull();
-    await userEvent.click(
-      await screen.findByRole("switch", { name: en.routing.live.title }),
-    );
-    const dialog = screen.getByRole("dialog", {
-      name: en.routing.live.confirm.title,
+  it("shows why a routed tool's new endpoint cannot be forwarded", async () => {
+    const base = overview({ claude: true });
+    mount({
+      ...base,
+      targets: [
+        { ...base.targets[0], unavailable: "ownLogin" },
+        ...base.targets.slice(1),
+      ],
     });
-    expect(dialog).toHaveTextContent(
-      "Claude Code will send requests through AI Manager.",
-    );
-    expect(bodies).toEqual([]);
-    await userEvent.click(
-      screen.getByRole("button", { name: en.routing.live.confirm.action }),
-    );
 
-    await waitFor(() => expect(bodies).toEqual([{ enabled: true }]));
-    expect(
-      await screen.findByRole("region", { name: en.routing.live.panelLabel }),
-    ).toBeInTheDocument();
-    expect(await screen.findByText(en.routing.live.empty)).toBeInTheDocument();
-    expect(
-      screen.getByRole("switch", { name: en.routing.live.title }),
-    ).toBeChecked();
-  });
-
-  it("turns live routing off behind the stop-and-restore confirmation", async () => {
-    const bodies: unknown[] = [];
-    server.use(
-      http.post(
-        `${TAURI_ENDPOINT}/app_routing_set_live_mode`,
-        async ({ request }) => {
-          bodies.push(await request.json());
-          return HttpResponse.json({ overview: overview(), failures: [] });
-        },
-      ),
+    const claude = await screen.findByRole("article", { name: "Claude Code" });
+    expect(within(claude).getByRole("alert")).toHaveTextContent(
+      en.routing.row.routedButUnavailable,
     );
-    mount(overview(true));
-    // The switch is the stop control while tools are routed.
-    expect(
-      screen.queryByRole("button", { name: en.routing.stop.action }),
-    ).toBeNull();
-    await userEvent.click(
-      await screen.findByRole("switch", { name: en.routing.live.title }),
-    );
-    expect(
-      screen.getByRole("dialog", { name: en.routing.stop.title }),
-    ).toHaveTextContent(en.routing.stop.description);
-    await userEvent.click(
-      screen.getByRole("button", { name: en.routing.stop.confirm }),
-    );
-    await waitFor(() => expect(bodies).toEqual([{ enabled: false }]));
-    expect(
-      await screen.findByText(en.routing.summary.inactive),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("region", { name: en.routing.live.panelLabel }),
-    ).toBeNull();
+    expect(routeSwitch("Claude Code")).toBeChecked();
   });
 
   it("keeps backend details out of a retryable read error", async () => {

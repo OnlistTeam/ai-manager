@@ -2225,21 +2225,16 @@
     }
   },
   "routing": {
-    "toolScope": "Phần mềm AI",
     "title": "Định tuyến cục bộ",
-    "description": "Chuyển tiếp yêu cầu ngay trên máy, có tùy chọn tự động chuyển sang các điểm cuối dự phòng.",
+    "description": "Chọn công cụ nào gửi yêu cầu qua AI Manager. Mỗi yêu cầu hiện ở bên dưới ngay khi diễn ra.",
     "summary": {
-      "inactive": "Định tuyến cục bộ đang tắt. Các công cụ vẫn giữ kết nối hiện có.",
+      "inactive": "Không có công cụ nào đi qua AI Manager. Mỗi công cụ giữ kết nối riêng.",
       "needsRestore": "Định tuyến đã dừng, nhưng các công cụ vẫn trỏ đến đó. Hãy khôi phục cấu hình của chúng."
     },
     "refresh": "Làm mới trạng thái",
     "loading": "Đang tải định tuyến cục bộ",
     "hero": {
-      "title": "Một tuyến cục bộ, ít gián đoạn hơn",
-      "description": "Công cụ gửi yêu cầu qua tuyến cục bộ trên máy này; dừng tuyến sẽ khôi phục cài đặt ban đầu.",
       "running": "Định tuyến đang chạy",
-      "stopped": "Sẵn sàng khi bạn cần",
-      "localOnly": "Chỉ loopback cục bộ",
       "takeovers_one": "Đã định tuyến {{count}} công cụ",
       "takeovers_other": "Đã định tuyến {{count}} công cụ"
     },
@@ -2249,16 +2244,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "Đã định tuyến",
-      "direct": "Trực tiếp",
-      "current": "Điểm cuối hiện tại: {{name}}",
-      "noProvider": "Trước tiên hãy chọn một điểm cuối hiện tại trong API Endpoints."
+    "row": {
+      "through": "Qua AI Manager",
+      "noEndpoint": "Chưa chọn điểm cuối",
+      "switchLabel": "Định tuyến {{name}} qua AI Manager",
+      "routedButUnavailable": "Điểm cuối đang dùng không thể chuyển tiếp. Hãy tắt định tuyến cho công cụ này."
     },
-    "takeover": {
-      "title": "Tiếp quản định tuyến",
-      "description": "Khi bật, yêu cầu của công cụ này đi qua tuyến cục bộ. Tắt sẽ khôi phục cài đặt ban đầu.",
-      "label": "Tiếp quản định tuyến cho {{name}}"
+    "unavailable": {
+      "noService": "Hãy chọn điểm cuối trước",
+      "ownLogin": "Đăng nhập bằng tài khoản riêng, không thể chuyển tiếp",
+      "incomplete": "Điểm cuối thiếu địa chỉ hoặc khóa để chuyển tiếp"
+    },
+    "note": {
+      "onLive": "Các phiên {{name}} đang mở bắt đầu đi qua AI Manager ngay.",
+      "onAtStart": "Các phiên {{name}} đang mở vẫn kết nối trực tiếp cho đến khi bạn khởi động lại.",
+      "offLive": "Các phiên {{name}} đang mở chuyển lại ngay, nhưng giữ các thiết lập do định tuyến thêm vào cho đến khi khởi động lại.",
+      "offAtStart": "Các phiên {{name}} đang mở vẫn đi qua AI Manager cho đến khi bạn khởi động lại. AI Manager vẫn chuyển tiếp cho chúng khi còn chạy."
+    },
+    "quit": {
+      "title": "Thoát AI Manager?",
+      "description": "Đang định tuyến qua AI Manager: {{tools}}. Khi thoát, mỗi công cụ trở về thiết lập riêng.",
+      "live": "Các phiên {{tools}} đang mở tự chuyển lại; khởi động lại để bỏ các thiết lập do định tuyến thêm vào.",
+      "atStart": "Hãy khởi động lại các phiên {{tools}} đang mở sau khi thoát: trước đó chúng vẫn dùng địa chỉ của AI Manager và yêu cầu sẽ lỗi.",
+      "confirm": "Thoát"
     },
     "failover": {
       "title": "Tự động chuyển dự phòng",
@@ -2266,10 +2274,7 @@
       "label": "Tự động chuyển dự phòng cho {{name}}"
     },
     "queue": {
-      "title": "Thứ tự chuyển dự phòng",
-      "description": "P1 được chọn khi chuyển dự phòng bắt đầu.",
-      "count_one": "{{count}} điểm cuối",
-      "count_other": "{{count}} điểm cuối",
+      "title": "Thứ tự chuyển dự phòng của {{name}}",
       "empty": "Thêm một điểm cuối, hoặc bật chuyển dự phòng để dùng điểm cuối hiện tại làm P1.",
       "selectLabel": "Điểm cuối để thêm vào chuyển dự phòng",
       "selectLabelNamed": "Điểm cuối để thêm vào chuyển dự phòng của {{name}}",
@@ -2301,9 +2306,6 @@
       "title": "Thay đổi định tuyến chưa hoàn tất"
     },
     "live": {
-      "title": "Định tuyến trực tiếp",
-      "description": "Khi bật, các công cụ gửi yêu cầu qua AI Manager và trang này hiển thị trực tiếp dịch vụ nào đã trả lời; tắt đi để quay lại kết nối trực tiếp.",
-      "noTargets": "Hãy chọn dịch vụ cho một công cụ trong \"{{page}}\" trước.",
       "listSeparator": ", ",
       "panelLabel": "Yêu cầu trực tiếp",
       "listLabel": "Yêu cầu gần đây",
@@ -2334,16 +2336,6 @@
         "unavailable": "Không có dịch vụ khả dụng",
         "cancelled": "Đã hủy",
         "other": "Lỗi"
-      },
-      "confirm": {
-        "title": "Bật định tuyến trực tiếp?",
-        "description": "{{tools}} sẽ gửi yêu cầu qua AI Manager. Cài đặt của chúng được sao lưu trước và khôi phục khi bạn tắt định tuyến trực tiếp.",
-        "action": "Bật"
-      },
-      "partial": {
-        "title": "Một số công cụ không định tuyến được; các công cụ còn lại giờ đi qua AI Manager.",
-        "noneTitle": "Không công cụ nào định tuyến được; mọi thứ vẫn kết nối trực tiếp.",
-        "item": "{{name}}: {{reason}}"
       },
       "header": {
         "title": "Định tuyến",

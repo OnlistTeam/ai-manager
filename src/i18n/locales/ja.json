@@ -2224,21 +2224,16 @@
     }
   },
   "routing": {
-    "toolScope": "AI ソフトウェア",
     "title": "ローカルルーティング",
-    "description": "リクエストをローカル転送し、障害時に予備のエンドポイントへ自動で切り替えるよう設定できます。",
+    "description": "どのツールのリクエストを AI Manager 経由にするかを選びます。各リクエストは下にリアルタイムで表示されます。",
     "summary": {
-      "inactive": "ローカルルーティングはオフです。各ツールは元の接続を使用します。",
+      "inactive": "AI Manager を経由しているツールはありません。各ツールは元の接続を使います。",
       "needsRestore": "ルーティングは停止しましたが、ツールの接続先は変更されたままです。設定を復元してください。"
     },
     "refresh": "状態を更新",
     "loading": "ローカルルーティングを読み込み中",
     "hero": {
-      "title": "ひとつのローカル経路で、中断を減らす",
-      "description": "ツールのリクエストはこのコンピューター上のローカルルートを通ります。停止すると元の設定に戻ります。",
       "running": "ルーティング実行中",
-      "stopped": "必要なときに開始できます",
-      "localOnly": "ローカルループバックのみ",
       "takeovers_one": "{{count}} 個のツールを引き継ぎ中",
       "takeovers_other": "{{count}} 個のツールを引き継ぎ中"
     },
@@ -2248,16 +2243,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "ルーティング中",
-      "direct": "直接接続",
-      "current": "現在のエンドポイント：{{name}}",
-      "noProvider": "先に「API エンドポイント」で現在のエンドポイントを選択してください。"
+    "row": {
+      "through": "AI Manager 経由",
+      "noEndpoint": "エンドポイント未選択",
+      "switchLabel": "{{name}} を AI Manager 経由にする",
+      "routedButUnavailable": "使用中のエンドポイントは転送できません。このツールの経由をオフにしてください。"
     },
-    "takeover": {
-      "title": "ルーティング引き継ぎ",
-      "description": "オンにすると、このツールのリクエストはローカルルートを通ります。オフにすると元の設定に戻ります。",
-      "label": "{{name}} のルーティング引き継ぎ"
+    "unavailable": {
+      "noService": "先にエンドポイントを選んでください",
+      "ownLogin": "ツール自身のアカウントでサインインしているため転送できません",
+      "incomplete": "エンドポイントに転送先のアドレスまたはキーがありません"
+    },
+    "note": {
+      "onLive": "開いている {{name}} のセッションはすぐに AI Manager 経由になります。",
+      "onAtStart": "開いている {{name}} のセッションは再起動するまで直接接続のままです。",
+      "offLive": "開いている {{name}} のセッションはすぐに元に戻りますが、経由中に追加された設定は再起動するまで残ります。",
+      "offAtStart": "開いている {{name}} のセッションは再起動するまで AI Manager を経由します。AI Manager は起動中ずっと転送を続けます。"
+    },
+    "quit": {
+      "title": "AI Manager を終了しますか？",
+      "description": "AI Manager 経由のツール：{{tools}}。終了すると、それぞれ元の設定に戻ります。",
+      "live": "開いている {{tools}} のセッションは自動で元に戻ります。経由中に追加された設定を消すには再起動してください。",
+      "atStart": "終了後、開いている {{tools}} のセッションを再起動してください。それまでは AI Manager のアドレスを使い続け、リクエストは失敗します。",
+      "confirm": "終了"
     },
     "failover": {
       "title": "自動フェイルオーバー",
@@ -2265,10 +2273,7 @@
       "label": "{{name}} の自動フェイルオーバー"
     },
     "queue": {
-      "title": "フェイルオーバー順序",
-      "description": "開始時に P1 が選択されます。",
-      "count_one": "{{count}} エンドポイント",
-      "count_other": "{{count}} エンドポイント",
+      "title": "{{name}} のフェイルオーバー順序",
       "empty": "エンドポイントを追加するか、フェイルオーバーを有効にして現在のエンドポイントを P1 にします。",
       "selectLabel": "フェイルオーバーへ追加するエンドポイント",
       "selectLabelNamed": "{{name}} のフェイルオーバーへ追加するエンドポイント",
@@ -2300,9 +2305,6 @@
       "title": "ルーティング変更は完了しませんでした"
     },
     "live": {
-      "title": "ライブルーティング",
-      "description": "オンにすると各ツールのリクエストが AI Manager を経由し、どのサービスが応答したかをここにリアルタイムで表示します。オフにすると直接接続に戻ります。",
-      "noTargets": "先に「{{page}}」でツールのサービスを選んでください。",
       "listSeparator": "、",
       "panelLabel": "ライブリクエスト",
       "listLabel": "最近のリクエスト",
@@ -2333,16 +2335,6 @@
         "unavailable": "利用可能なサービスなし",
         "cancelled": "キャンセル",
         "other": "エラー"
-      },
-      "confirm": {
-        "title": "ライブルーティングをオンにしますか？",
-        "description": "{{tools}} のリクエストが AI Manager を経由するようになります。設定は先にバックアップされ、ライブルーティングをオフにすると復元されます。",
-        "action": "オンにする"
-      },
-      "partial": {
-        "title": "一部のツールは経由できませんでした。ほかのツールは AI Manager を経由しています。",
-        "noneTitle": "経由できたツールはありません。すべて直接接続のままです。",
-        "item": "{{name}}：{{reason}}"
       },
       "header": {
         "title": "ルーティング",

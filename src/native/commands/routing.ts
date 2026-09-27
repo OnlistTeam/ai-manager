@@ -4,10 +4,9 @@ import {
   routingOverviewSchema,
   type RoutingOverview,
 } from "../schemas/routing";
+import { z } from "zod";
 import {
-  routingLiveModeOutcomeSchema,
   routingTraceSnapshotSchema,
-  type RoutingLiveModeOutcome,
   type RoutingTraceSnapshot,
 } from "../schemas/routingTrace";
 
@@ -55,17 +54,16 @@ export const routing = {
     return invokeNative("app_routing_stop_all", routingOverviewSchema);
   },
 
-  /** Live routing on or off (ADR-0050). The caller confirms first. */
-  setLiveMode(enabled: boolean): Promise<RoutingLiveModeOutcome> {
-    return invokeNative(
-      "app_routing_set_live_mode",
-      routingLiveModeOutcomeSchema,
-      { enabled },
-    );
-  },
-
   /** The in-memory trace of recent requests, newest first. */
   trace(): Promise<RoutingTraceSnapshot> {
     return invokeNative("app_routing_trace", routingTraceSnapshotSchema);
+  },
+
+  /**
+   * Quits after the user confirmed putting the routed tools back
+   * (ADR-0054). Resolves only if quitting is somehow refused.
+   */
+  confirmQuit(): Promise<null> {
+    return invokeNative("app_quit_confirmed", z.null());
   },
 };

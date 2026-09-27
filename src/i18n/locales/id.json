@@ -2225,21 +2225,16 @@
     }
   },
   "routing": {
-    "toolScope": "Perangkat lunak AI",
     "title": "Perutean Lokal",
-    "description": "Teruskan permintaan secara lokal, dengan failover otomatis opsional ke endpoint cadangan.",
+    "description": "Pilih alat mana yang mengirim permintaan melalui AI Manager. Setiap permintaan muncul di bawah saat terjadi.",
     "summary": {
-      "inactive": "Perutean lokal nonaktif. Alat tetap menggunakan koneksi yang ada.",
+      "inactive": "Tidak ada alat yang melalui AI Manager. Setiap alat tetap memakai koneksinya sendiri.",
       "needsRestore": "Perutean berhenti, tetapi alat masih mengarah ke sana. Pulihkan pengaturannya."
     },
     "refresh": "Segarkan status",
     "loading": "Memuat perutean lokal",
     "hero": {
-      "title": "Satu rute lokal, lebih sedikit gangguan",
-      "description": "Alat mengirim permintaan lewat rute lokal di komputer ini; menghentikannya memulihkan pengaturan aslinya.",
       "running": "Perutean sedang berjalan",
-      "stopped": "Siap saat Anda membutuhkannya",
-      "localOnly": "Hanya loopback lokal",
       "takeovers_one": "{{count}} alat dialihkan",
       "takeovers_other": "{{count}} alat dialihkan"
     },
@@ -2249,16 +2244,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "Dialihkan",
-      "direct": "Langsung",
-      "current": "Endpoint saat ini: {{name}}",
-      "noProvider": "Pilih endpoint saat ini di Endpoint API terlebih dahulu."
+    "row": {
+      "through": "Melalui AI Manager",
+      "noEndpoint": "Belum ada endpoint dipilih",
+      "switchLabel": "Rutekan {{name}} melalui AI Manager",
+      "routedButUnavailable": "Endpoint yang dipakai tidak dapat dirutekan. Matikan perutean untuk alat ini."
     },
-    "takeover": {
-      "title": "Pengambilalihan perutean",
-      "description": "Saat aktif, permintaan alat ini melewati rute lokal. Mematikannya memulihkan pengaturan asli.",
-      "label": "Pengambilalihan perutean untuk {{name}}"
+    "unavailable": {
+      "noService": "Pilih endpoint terlebih dahulu",
+      "ownLogin": "Masuk dengan akunnya sendiri, yang tidak dapat dirutekan",
+      "incomplete": "Endpoint tidak punya alamat atau kunci untuk dirutekan"
+    },
+    "note": {
+      "onLive": "Sesi {{name}} yang terbuka langsung mulai melalui AI Manager.",
+      "onAtStart": "Sesi {{name}} yang terbuka tetap terhubung langsung sampai Anda memulai ulang.",
+      "offLive": "Sesi {{name}} yang terbuka langsung kembali, tetapi menyimpan pengaturan tambahan dari perutean sampai Anda memulai ulang.",
+      "offAtStart": "Sesi {{name}} yang terbuka tetap melalui AI Manager sampai Anda memulai ulang. AI Manager terus meneruskan untuknya selama berjalan."
+    },
+    "quit": {
+      "title": "Keluar dari AI Manager?",
+      "description": "Dirutekan melalui AI Manager: {{tools}}. Saat keluar, setiap alat kembali ke pengaturannya sendiri.",
+      "live": "Sesi {{tools}} yang terbuka kembali dengan sendirinya; mulai ulang untuk menghapus pengaturan tambahan dari perutean.",
+      "atStart": "Mulai ulang sesi {{tools}} yang terbuka setelah keluar: sampai saat itu sesi tetap memakai alamat AI Manager dan permintaannya gagal.",
+      "confirm": "Keluar"
     },
     "failover": {
       "title": "Failover otomatis",
@@ -2266,10 +2274,7 @@
       "label": "Failover otomatis untuk {{name}}"
     },
     "queue": {
-      "title": "Urutan failover",
-      "description": "P1 dipilih saat failover dimulai.",
-      "count_one": "{{count}} endpoint",
-      "count_other": "{{count}} endpoint",
+      "title": "Urutan failover {{name}}",
       "empty": "Tambahkan endpoint, atau aktifkan failover untuk menggunakan endpoint saat ini sebagai P1.",
       "selectLabel": "Endpoint untuk ditambahkan ke failover",
       "selectLabelNamed": "Endpoint untuk ditambahkan ke failover {{name}}",
@@ -2301,9 +2306,6 @@
       "title": "Perubahan perutean tidak selesai"
     },
     "live": {
-      "title": "Perutean langsung",
-      "description": "Saat aktif, alat Anda mengirim permintaan melalui AI Manager dan halaman ini menampilkan secara langsung layanan mana yang menjawab; matikan untuk kembali ke koneksi langsung.",
-      "noTargets": "Pilih dulu layanan untuk sebuah alat di \"{{page}}\".",
       "listSeparator": ", ",
       "panelLabel": "Permintaan langsung",
       "listLabel": "Permintaan terbaru",
@@ -2334,16 +2336,6 @@
         "unavailable": "Tidak ada layanan tersedia",
         "cancelled": "Dibatalkan",
         "other": "Galat"
-      },
-      "confirm": {
-        "title": "Aktifkan perutean langsung?",
-        "description": "{{tools}} akan mengirim permintaan melalui AI Manager. Pengaturannya dicadangkan dulu dan dipulihkan saat perutean langsung dimatikan.",
-        "action": "Aktifkan"
-      },
-      "partial": {
-        "title": "Beberapa alat tidak dapat dirutekan; sisanya kini melalui AI Manager.",
-        "noneTitle": "Tidak ada alat yang dapat dirutekan; semuanya tetap terhubung langsung.",
-        "item": "{{name}}: {{reason}}"
       },
       "header": {
         "title": "Perutean",

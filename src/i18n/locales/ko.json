@@ -2225,21 +2225,16 @@
     }
   },
   "routing": {
-    "toolScope": "AI 소프트웨어",
     "title": "로컬 라우팅",
-    "description": "요청을 로컬에서 전달하고, 필요하면 백업 엔드포인트로 자동 장애 조치합니다.",
+    "description": "어떤 도구의 요청을 AI Manager를 거쳐 보낼지 고릅니다. 각 요청은 아래에 실시간으로 표시됩니다.",
     "summary": {
-      "inactive": "로컬 라우팅이 꺼져 있습니다. 도구는 기존 연결을 그대로 사용합니다.",
+      "inactive": "AI Manager를 거치는 도구가 없습니다. 각 도구는 기존 연결을 그대로 씁니다.",
       "needsRestore": "라우팅이 중지되었지만 도구는 여전히 라우팅을 가리키고 있습니다. 도구 설정을 복원하세요."
     },
     "refresh": "상태 새로고침",
     "loading": "로컬 라우팅을 불러오는 중",
     "hero": {
-      "title": "하나의 로컬 경로로, 끊김을 줄입니다",
-      "description": "도구의 요청이 이 컴퓨터의 로컬 경로를 거칩니다. 중지하면 원래 설정으로 돌아갑니다.",
       "running": "라우팅 실행 중",
-      "stopped": "필요할 때 바로 사용 가능",
-      "localOnly": "로컬 루프백 전용",
       "takeovers_one": "도구 {{count}}개가 라우팅 중",
       "takeovers_other": "도구 {{count}}개가 라우팅 중"
     },
@@ -2249,16 +2244,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "라우팅됨",
-      "direct": "직접 연결",
-      "current": "현재 엔드포인트: {{name}}",
-      "noProvider": "먼저 API 엔드포인트에서 현재 엔드포인트를 선택하세요."
+    "row": {
+      "through": "AI Manager 경유",
+      "noEndpoint": "선택한 엔드포인트 없음",
+      "switchLabel": "{{name}}을(를) AI Manager를 거쳐 보내기",
+      "routedButUnavailable": "사용 중인 엔드포인트는 전달할 수 없습니다. 이 도구의 경유를 끄세요."
     },
-    "takeover": {
-      "title": "라우팅 전환",
-      "description": "켜면 이 도구의 요청이 로컬 경로를 거칩니다. 끄면 원래 설정으로 돌아갑니다.",
-      "label": "{{name}} 라우팅 전환"
+    "unavailable": {
+      "noService": "먼저 엔드포인트를 고르세요",
+      "ownLogin": "도구 자체 계정으로 로그인되어 있어 전달할 수 없습니다",
+      "incomplete": "엔드포인트에 전달할 주소나 키가 없습니다"
+    },
+    "note": {
+      "onLive": "열려 있는 {{name}} 세션은 곧바로 AI Manager를 거치기 시작합니다.",
+      "onAtStart": "열려 있는 {{name}} 세션은 다시 시작할 때까지 직접 연결을 유지합니다.",
+      "offLive": "열려 있는 {{name}} 세션은 곧바로 돌아가지만, 경유 중 추가된 설정은 다시 시작할 때까지 남습니다.",
+      "offAtStart": "열려 있는 {{name}} 세션은 다시 시작할 때까지 AI Manager를 거칩니다. AI Manager는 실행되는 동안 계속 전달합니다."
+    },
+    "quit": {
+      "title": "AI Manager를 종료할까요?",
+      "description": "AI Manager를 거치는 도구: {{tools}}. 종료하면 각 도구가 원래 설정으로 돌아갑니다.",
+      "live": "열려 있는 {{tools}} 세션은 스스로 돌아갑니다. 경유 중 추가된 설정을 지우려면 다시 시작하세요.",
+      "atStart": "종료한 뒤 열려 있는 {{tools}} 세션을 다시 시작하세요. 그때까지는 AI Manager 주소를 계속 써서 요청이 실패합니다.",
+      "confirm": "종료"
     },
     "failover": {
       "title": "자동 장애 조치",
@@ -2266,10 +2274,7 @@
       "label": "{{name}} 자동 장애 조치"
     },
     "queue": {
-      "title": "장애 조치 순서",
-      "description": "장애 조치가 시작되면 P1이 선택됩니다.",
-      "count_one": "엔드포인트 {{count}}개",
-      "count_other": "엔드포인트 {{count}}개",
+      "title": "{{name}} 장애 조치 순서",
       "empty": "엔드포인트를 추가하거나, 장애 조치를 켜서 현재 엔드포인트를 P1으로 사용하세요.",
       "selectLabel": "장애 조치에 추가할 엔드포인트",
       "selectLabelNamed": "{{name}} 장애 조치에 추가할 엔드포인트",
@@ -2301,9 +2306,6 @@
       "title": "라우팅 변경이 완료되지 않았습니다"
     },
     "live": {
-      "title": "실시간 라우팅",
-      "description": "켜면 각 도구의 요청이 AI Manager를 거쳐 전달되고, 어떤 서비스가 응답했는지 여기에 실시간으로 표시됩니다. 끄면 직접 연결로 돌아갑니다.",
-      "noTargets": "먼저 '{{page}}'에서 도구의 서비스를 선택하세요.",
       "listSeparator": ", ",
       "panelLabel": "실시간 요청",
       "listLabel": "최근 요청",
@@ -2334,16 +2336,6 @@
         "unavailable": "사용 가능한 서비스 없음",
         "cancelled": "취소됨",
         "other": "오류"
-      },
-      "confirm": {
-        "title": "실시간 라우팅을 켤까요?",
-        "description": "{{tools}}의 요청이 AI Manager를 거쳐 전달됩니다. 설정은 먼저 백업되며 실시간 라우팅을 끄면 복원됩니다.",
-        "action": "켜기"
-      },
-      "partial": {
-        "title": "일부 도구는 연결하지 못했습니다. 나머지는 이제 AI Manager를 거칩니다.",
-        "noneTitle": "연결된 도구가 없습니다. 모두 직접 연결을 유지합니다.",
-        "item": "{{name}}: {{reason}}"
       },
       "header": {
         "title": "라우팅",

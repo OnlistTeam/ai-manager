@@ -8,11 +8,8 @@ export {
   useStopAllRouting,
   useSwitchRoutingProvider,
 } from "./queries";
-export {
-  isLiveRoutingOn,
-  useRoutingTrace,
-  useSetLiveRoutingMode,
-} from "./liveRouting";
+export { useRoutingTrace } from "./liveRouting";
+export { useConfirmQuit, useQuitRequest } from "./quit";
 export {
   EMPTY_ROUTING_TRACE,
   mergeRoutingTraceSnapshot,
@@ -20,13 +17,15 @@ export {
 } from "./trace";
 export type {
   RoutingErrorCategory,
-  RoutingLiveModeOutcome,
   RoutingOverview,
+  RoutingPickup,
   RoutingProvider,
   RoutingTarget,
   RoutingTraceAttempt,
   RoutingTraceCounts,
   RoutingTraceEntry,
   RoutingTraceSnapshot,
+  RoutingUnavailable,
+  RoutedTool,
   ToolId,
 } from "@/native";

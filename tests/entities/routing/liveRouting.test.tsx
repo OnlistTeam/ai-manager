@@ -6,12 +6,17 @@ import {
   mergeRoutingTraceSnapshot,
   mergeRoutingTraceUpdate,
   routingKeys,
+  useConfirmQuit,
+  useQuitRequest,
   useRoutingTrace,
-  useSetLiveRoutingMode,
   type RoutingTraceEntry,
   type RoutingTraceSnapshot,
 } from "@/entities/routing";
-import { MAX_ROUTING_TRACE_ENTRIES, ROUTING_TRACE_EVENT } from "@/native";
+import {
+  MAX_ROUTING_TRACE_ENTRIES,
+  QUIT_REQUESTED_EVENT,
+  ROUTING_TRACE_EVENT,
+} from "@/native";
 import { emitTauriEvent } from "../../msw/tauriMocks";
 import { server } from "../../msw/server";
 import { createTestQueryClient, withQueryClient } from "../queryWrapper";
@@ -143,40 +148,33 @@ describe("useRoutingTrace while the seed read is in flight", () => {
   });
 });
 
-describe("useSetLiveRoutingMode", () => {
-  it("commits the returned overview", async () => {
-    const overview = {
-      running: false,
-      address: null,
-      port: null,
-      activeConnections: 0,
-      totalRequests: 0,
-      successRequests: 0,
-      failedRequests: 0,
-      failoverCount: 0,
-      targets: ["claude-code", "codex", "gemini-cli", "grok-build"].map(
-        (tool) => ({
-          tool,
-          takeoverEnabled: false,
-          autoFailoverEnabled: false,
-          currentProvider: null,
-          queue: [],
-          available: [],
-        }),
-      ),
-    };
+describe("useQuitRequest and useConfirmQuit", () => {
+  it("holds the routed tools until dismissed and confirms through native", async () => {
+    let confirmed = 0;
     server.use(
-      http.post(`${TAURI_ENDPOINT}/app_routing_set_live_mode`, () =>
-        HttpResponse.json({ overview, failures: [] }),
-      ),
+      http.post(`${TAURI_ENDPOINT}/app_quit_confirmed`, () => {
+        confirmed += 1;
+        return HttpResponse.json(null);
+      }),
     );
-    const client = createTestQueryClient();
-    const { result } = renderHook(() => useSetLiveRoutingMode(), {
-      wrapper: withQueryClient(client),
+    const { result } = renderHook(
+      () => ({ request: useQuitRequest(), confirm: useConfirmQuit() }),
+      { wrapper: withQueryClient(createTestQueryClient()) },
+    );
+    expect(result.current.request.tools).toBeNull();
+
+    const tools = [{ tool: "codex", pickup: "atStart" }] as const;
+    await waitFor(() => {
+      act(() => emitTauriEvent(QUIT_REQUESTED_EVENT, { tools }));
+      expect(result.current.request.tools).toEqual(tools);
     });
+
+    act(() => result.current.request.dismiss());
+    expect(result.current.request.tools).toBeNull();
+
     await act(async () => {
-      await result.current.mutateAsync(false);
+      await result.current.confirm.mutateAsync();
     });
-    expect(client.getQueryData(routingKeys.overview())).toEqual(overview);
+    expect(confirmed).toBe(1);
   });
 });

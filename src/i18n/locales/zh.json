@@ -2224,21 +2224,16 @@
     }
   },
   "routing": {
-    "toolScope": "AI 软件",
     "title": "本地路由",
-    "description": "将请求经本机转发，可配置故障时自动切换备用端点。",
+    "description": "选择哪些软件经 AI 管家转发请求，每次请求都会在下方实时显示。",
     "summary": {
-      "inactive": "未开启本地路由，软件沿用原有连接。",
+      "inactive": "没有软件经过 AI 管家，各自保持原来的连接。",
       "needsRestore": "路由已停止，仍有软件被接管，请恢复原配置。"
     },
     "refresh": "刷新状态",
     "loading": "正在读取本地路由",
     "hero": {
-      "title": "一条本地通道，少一些中断",
-      "description": "工具的请求先经过这台电脑上的本地路由；停止路由时恢复原来的设置。",
       "running": "路由正在运行",
-      "stopped": "需要时再开启",
-      "localOnly": "仅本机回环地址",
       "takeovers_one": "已接管 {{count}} 个工具",
       "takeovers_other": "已接管 {{count}} 个工具"
     },
@@ -2248,16 +2243,29 @@
       "gemini-cli": "Gemini CLI",
       "grok-build": "Grok Build"
     },
-    "target": {
-      "routed": "已路由",
-      "direct": "直连",
-      "current": "当前端点：{{name}}",
-      "noProvider": "请先在“API 端点”里选择当前端点。"
+    "row": {
+      "through": "经 AI 管家转发",
+      "noEndpoint": "未选择端点",
+      "switchLabel": "让 {{name}} 经 AI 管家转发",
+      "routedButUnavailable": "当前使用的端点无法转发，请关闭这个软件的转发。"
     },
-    "takeover": {
-      "title": "路由接管",
-      "description": "打开后这个工具的请求会经过本地路由，关闭时恢复原来的设置。",
-      "label": "{{name}} 的路由接管"
+    "unavailable": {
+      "noService": "请先选择端点",
+      "ownLogin": "使用自带账号登录，无法转发",
+      "incomplete": "端点缺少地址或密钥，无法转发"
+    },
+    "note": {
+      "onLive": "已打开的 {{name}} 会话会立即改经 AI 管家转发。",
+      "onAtStart": "已打开的 {{name}} 会话仍保持直连，重启后才会经 AI 管家转发。",
+      "offLive": "已打开的 {{name}} 会话会立即切回，但转发时加入的设置要重启后才会清除。",
+      "offAtStart": "已打开的 {{name}} 会话在重启前仍经 AI 管家转发，AI 管家运行期间会继续为它们转发。"
+    },
+    "quit": {
+      "title": "退出 AI 管家？",
+      "description": "正经 AI 管家转发的软件：{{tools}}。退出后它们会各自恢复原来的设置。",
+      "live": "已打开的 {{tools}} 会话会自动切回；重启它们可清除转发时加入的设置。",
+      "atStart": "退出后请重启已打开的 {{tools}} 会话：重启前它们仍指向 AI 管家的地址，请求会失败。",
+      "confirm": "退出"
     },
     "failover": {
       "title": "自动故障转移",
@@ -2265,10 +2273,7 @@
       "label": "{{name}} 的自动故障转移"
     },
     "queue": {
-      "title": "故障转移顺序",
-      "description": "开启故障转移时会先切到 P1。",
-      "count_one": "{{count}} 个端点",
-      "count_other": "{{count}} 个端点",
+      "title": "{{name}} 的故障转移顺序",
       "empty": "添加端点；也可以直接开启故障转移，把当前端点作为 P1。",
       "selectLabel": "要加入故障转移的端点",
       "selectLabelNamed": "要加入 {{name}} 故障转移的端点",
@@ -2300,9 +2305,6 @@
       "title": "路由变更没有完成"
     },
     "live": {
-      "title": "实时路由",
-      "description": "开启后，各软件的请求经 AI 管家转发，这里实时显示走了哪家服务；关闭即恢复直连。",
-      "noTargets": "先在「{{page}}」里给软件选好服务，才能开启。",
       "listSeparator": "、",
       "panelLabel": "实时请求",
       "listLabel": "最近的请求",
@@ -2333,16 +2335,6 @@
         "unavailable": "无可用服务",
         "cancelled": "已取消",
         "other": "出错"
-      },
-      "confirm": {
-        "title": "开启实时路由？",
-        "description": "{{tools}} 的请求将经 AI 管家转发。它们的设置会先备份，关闭实时路由时恢复。",
-        "action": "开启"
-      },
-      "partial": {
-        "title": "部分软件未能接入，其余已经过 AI 管家。",
-        "noneTitle": "没有软件接入成功，一切保持直连。",
-        "item": "{{name}}：{{reason}}"
       },
       "header": {
         "title": "路由",

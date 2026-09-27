@@ -1,29 +1,12 @@
 import { useEffect } from "react";
 import {
-  useMutation,
   useQuery,
   useQueryClient,
-  type UseMutationResult,
   type UseQueryResult,
 } from "@tanstack/react-query";
-import { providerKeys } from "@/entities/provider";
-import {
-  native,
-  onRoutingTrace,
-  type RoutingLiveModeOutcome,
-  type RoutingOverview,
-  type RoutingTraceSnapshot,
-} from "@/native";
+import { native, onRoutingTrace, type RoutingTraceSnapshot } from "@/native";
 import { routingKeys } from "./queries";
 import { mergeRoutingTraceSnapshot, mergeRoutingTraceUpdate } from "./trace";
-
-/** Live routing is on while the route runs and at least one tool is taken over. */
-export function isLiveRoutingOn(overview: RoutingOverview): boolean {
-  return (
-    overview.running &&
-    overview.targets.some((target) => target.takeoverEnabled)
-  );
-}
 
 /**
  * The recent requests the local route handled, newest first (ADR-0050).
@@ -75,21 +58,5 @@ export function useRoutingTrace(): UseQueryResult<RoutingTraceSnapshot, Error> {
     },
     staleTime: Number.POSITIVE_INFINITY,
     refetchOnWindowFocus: false,
-  });
-}
-
-export function useSetLiveRoutingMode(): UseMutationResult<
-  RoutingLiveModeOutcome,
-  Error,
-  boolean
-> {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationKey: routingKeys.liveMode(),
-    mutationFn: (enabled: boolean) => native.routing.setLiveMode(enabled),
-    onSuccess: ({ overview }) => {
-      queryClient.setQueryData(routingKeys.overview(), overview);
-      void queryClient.invalidateQueries({ queryKey: providerKeys.all });
-    },
   });
 }

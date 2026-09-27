@@ -49,6 +49,8 @@ const overview = {
         provider("backup", "Backup API", false),
       ],
       available: [],
+      unavailable: null,
+      pickup: "live",
     },
     ...["codex", "gemini-cli", "grok-build"].map((tool) => ({
       tool,
@@ -57,6 +59,8 @@ const overview = {
       currentProvider: null,
       queue: [],
       available: [],
+      unavailable: "noService",
+      pickup: "atStart",
     })),
   ],
 };

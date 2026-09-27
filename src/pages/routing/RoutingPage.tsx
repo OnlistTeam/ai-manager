@@ -1,19 +1,8 @@
-import { useIsMutating } from "@tanstack/react-query";
 import { AlertCircle, RefreshCw, Route } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  isLiveRoutingOn,
-  routingKeys,
-  useAddRoutingProvider,
-  useRemoveRoutingProvider,
-  useRoutingOverview,
-  useSetRoutingFailover,
-  useSetRoutingTakeover,
-  useStopAllRouting,
-  useSwitchRoutingProvider,
-} from "@/entities/routing";
-import { LiveRoutingPanel, LiveRoutingSwitch } from "@/features/live-routing";
+import { useRoutingOverview } from "@/entities/routing";
+import { LiveRoutingPanel } from "@/features/live-routing";
 import { PrivacyStatusLine } from "@/features/routing-privacy";
 import { ConfirmActionModal } from "@/features/tool-management";
 import { toErrorCopy } from "@/shared/lib/nativeError";
@@ -23,43 +12,27 @@ import { DetectionStatus } from "@/shared/ui/DetectionStatus";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { SectionHeader } from "@/shared/ui/SectionHeader";
 import { RoutingSummary } from "./RoutingSummary";
-import { RoutingTargetCard } from "./RoutingTargetCard";
-import { RoutingTargetTabs } from "./RoutingTargetTabs";
+import { RoutingToolList } from "./RoutingToolList";
+import { useRoutingActions } from "./useRoutingActions";
 
 export interface RoutingPageProps {
   /** Opens the privacy section of the settings page. */
   onOpenPrivacySettings?: () => void;
 }
 
+/**
+ * Local routing (ADR-0054): each tool is routed through AI Manager only when
+ * the user turns it on, one row per tool, with the live requests below.
+ */
 export function RoutingPage({ onOpenPrivacySettings }: RoutingPageProps) {
   const { t } = useTranslation();
   const overview = useRoutingOverview();
-  const takeover = useSetRoutingTakeover();
-  const failover = useSetRoutingFailover();
-  const add = useAddRoutingProvider();
-  const remove = useRemoveRoutingProvider();
-  const switchProvider = useSwitchRoutingProvider();
-  const stop = useStopAllRouting();
+  const actions = useRoutingActions();
   const [confirmingStop, setConfirmingStop] = useState(false);
-  const liveModeChanging =
-    useIsMutating({ mutationKey: routingKeys.liveMode() }) > 0;
-  const mutations = [takeover, failover, add, remove, switchProvider, stop];
-  const ownBusy = mutations.some((mutation) => mutation.isPending);
-  const busy = ownBusy || liveModeChanging;
-  const mutationError = mutations.find((mutation) => mutation.error)?.error;
-  const errorCopy = mutationError ? toErrorCopy(mutationError) : null;
+  const errorCopy = actions.error ? toErrorCopy(actions.error) : null;
   const initiallyLoading = overview.isPending && !overview.isFetched;
   const unavailable = overview.isFetched && overview.data === undefined;
   const stale = overview.isError && overview.data !== undefined;
-
-  function resetMutationErrors(): void {
-    for (const mutation of mutations) mutation.reset();
-  }
-
-  function confirmStop(): void {
-    resetMutationErrors();
-    stop.mutate(undefined, { onSuccess: () => setConfirmingStop(false) });
-  }
 
   return (
     <div
@@ -77,7 +50,7 @@ export function RoutingPage({ onOpenPrivacySettings }: RoutingPageProps) {
               size="sm"
               variant="secondary"
               loading={overview.isFetching}
-              disabled={busy}
+              disabled={actions.busy}
               onClick={() => void overview.refetch()}
             >
               <RefreshCw className="h-4 w-4" aria-hidden="true" />
@@ -154,61 +127,33 @@ export function RoutingPage({ onOpenPrivacySettings }: RoutingPageProps) {
       {overview.data ? (
         <>
           <Card className="flex flex-col gap-2">
-            <LiveRoutingSwitch disabled={ownBusy || confirmingStop} />
+            <RoutingSummary
+              overview={overview.data}
+              busy={actions.busy}
+              onStop={() => {
+                actions.reset();
+                setConfirmingStop(true);
+              }}
+            />
             <PrivacyStatusLine
               onOpenSettings={onOpenPrivacySettings}
               className="border-t border-hairline pt-2"
             />
-            <RoutingSummary
-              overview={overview.data}
-              busy={busy}
-              onStop={() => {
-                resetMutationErrors();
-                setConfirmingStop(true);
-              }}
-            />
           </Card>
-          {isLiveRoutingOn(overview.data) ? <LiveRoutingPanel /> : null}
-          <RoutingTargetTabs
+          <RoutingToolList
             targets={overview.data.targets}
-            disabled={busy || confirmingStop}
-          >
-            {(target) => (
-              <RoutingTargetCard
-                key={target.tool}
-                target={target}
-                busy={busy}
-                onTakeoverChange={(enabled) => {
-                  resetMutationErrors();
-                  takeover.mutate({ tool: target.tool, enabled });
-                }}
-                onFailoverChange={(enabled) => {
-                  resetMutationErrors();
-                  failover.mutate({ tool: target.tool, enabled });
-                }}
-                onAdd={(providerId) => {
-                  resetMutationErrors();
-                  add.mutate({ tool: target.tool, providerId });
-                }}
-                onRemove={(providerId) => {
-                  resetMutationErrors();
-                  remove.mutate({ tool: target.tool, providerId });
-                }}
-                onSwitch={(providerId) => {
-                  resetMutationErrors();
-                  switchProvider.mutate({ tool: target.tool, providerId });
-                }}
-              />
-            )}
-          </RoutingTargetTabs>
+            actions={actions}
+            disabled={actions.busy || confirmingStop}
+          />
+          {overview.data.running ? <LiveRoutingPanel /> : null}
         </>
       ) : null}
 
       <ConfirmActionModal
         open={confirmingStop}
         onOpenChange={(open) => {
-          if (!open && !busy) {
-            resetMutationErrors();
+          if (!open && !actions.busy) {
+            actions.reset();
             setConfirmingStop(false);
           }
         }}
@@ -216,9 +161,9 @@ export function RoutingPage({ onOpenPrivacySettings }: RoutingPageProps) {
         description={t("routing.stop.description")}
         confirmLabel={t("routing.stop.confirm")}
         confirmTone="danger"
-        busy={busy}
-        error={mutationError ?? null}
-        onConfirm={confirmStop}
+        busy={actions.busy}
+        error={actions.error}
+        onConfirm={() => actions.stopAll(() => setConfirmingStop(false))}
       />
     </div>
   );

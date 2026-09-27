@@ -1,6 +1,4 @@
 import { z } from "zod";
-import { nativeErrorPayloadSchema } from "./error";
-import { routingOverviewSchema } from "./routing";
 import { toolIdSchema } from "./tool";
 
 /** Mirrors `MAX_ROUTING_TRACE_ENTRIES` in `domain/routing_trace.rs`. */
@@ -74,25 +72,9 @@ export const routingTraceUpdateSchema = z
   })
   .strict();
 
-export const routingLiveModeOutcomeSchema = z
-  .object({
-    overview: routingOverviewSchema,
-    failures: z
-      .array(
-        z
-          .object({ tool: toolIdSchema, error: nativeErrorPayloadSchema })
-          .strict(),
-      )
-      .max(4),
-  })
-  .strict();
-
 export type RoutingErrorCategory = z.infer<typeof routingErrorCategorySchema>;
 export type RoutingTraceAttempt = z.infer<typeof routingTraceAttemptSchema>;
 export type RoutingTraceEntry = z.infer<typeof routingTraceEntrySchema>;
 export type RoutingTraceCounts = z.infer<typeof routingTraceCountsSchema>;
 export type RoutingTraceSnapshot = z.infer<typeof routingTraceSnapshotSchema>;
 export type RoutingTraceUpdate = z.infer<typeof routingTraceUpdateSchema>;
-export type RoutingLiveModeOutcome = z.infer<
-  typeof routingLiveModeOutcomeSchema
->;

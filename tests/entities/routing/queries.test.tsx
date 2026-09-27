@@ -30,6 +30,8 @@ function overview(takeoverEnabled = false) {
         currentProvider: null,
         queue: [],
         available: [],
+        unavailable: null,
+        pickup: "atStart",
       }),
     ),
   };
