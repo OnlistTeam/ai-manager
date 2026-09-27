@@ -6,7 +6,9 @@
   Code's own resolution); 2026-09-27, decisions 1, 2 and 9 (the row names
   the model, not the endpoint; the effort is a slider without notes);
   2026-09-27, decisions 1, 2, 8 and 9 (the model list holds only the
-  endpoint in use; Max is not offered; the slider writes on release)
+  endpoint in use; Max is not offered; the slider writes on release);
+  2026-09-27, decisions 2 and 3 (the saved model is not listed; catalogues
+  are kept for the session)
 - Amends: ADR-0053 decision 1 (what a Home row chooses), ADR-0041
   decision 1 (when a model catalogue is read), design-spec §29.
 
@@ -37,9 +39,9 @@ screen, one row per tool.
    "Use" button (ADR-0053) is the one place an endpoint is switched.
 2. **The model list holds the endpoint in use.** A filter field sits on top,
    the endpoint's name heads the list, and the list starts with "Default",
-   which removes this product's model key so the tool decides, noted "what
-   the tool ships with". The model in use, the endpoint's saved model and its
-   catalogue follow. An address set outside this app is headed with where it
+   which removes this product's model key so the tool decides, noted "let the
+   tool choose": what the row does, not a setting's name. The model in use
+   and the endpoint's catalogue follow. An address set outside this app is headed with where it
    comes from ("terminal variable"), with the full source on the tooltip
    (ADR-0053 decision 8). Whether a switch would replace that address matters
    only where endpoints are switched, so the model pill has no warning state:
@@ -62,11 +64,16 @@ screen, one row per tool.
    levels and reaches the renderer with the current choice, so no screen holds
    a model name. A saved custom endpoint lists what its own model catalogue
    returns (ADR-0041), and an address set outside this app lists what the
-   effective catalogue returns. The endpoint's saved model, which is the model
-   last used with it, comes before the catalogue. Catalogues are read only while the
-   picker is open, cached with TanStack Query for five minutes, and never
-   retried; a catalogue that cannot be read leaves the saved model and the
-   free-text entry.
+   effective catalogue returns. The copy saved with the entry is not listed:
+   for the endpoint in use the tool's file is the truth, and the saved copy
+   can be a model picked long ago, such as an image model tried once.
+   Catalogues are read the first time the picker opens and kept for the
+   session, like the other inventories (through a slow proxy one read took
+   8 to 16 seconds where a direct read took under one). Saving an endpoint
+   re-reads its tool's catalogues; one that could not be read is read again
+   on the next open, never retried in between, and leaves the free-text
+   entry meanwhile. The catalogue is not fetched ahead of the click: that
+   request carries the key, and decision 4 allows it only from one.
 4. **Catalogues are read when the picker opens.** ADR-0041 allowed the
    credential-bearing catalogue request only from an explicit click on one
    named service. Opening a tool's model picker is an explicit click that

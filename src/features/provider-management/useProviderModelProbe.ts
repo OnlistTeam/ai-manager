@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 
 import { providerKeys } from "@/entities/provider";
+import { sessionCacheOptions } from "@/lib/query/sessionCache";
 import {
   native,
   type ModelCatalog,
@@ -54,10 +55,8 @@ export function subjectId(subject: ProbeSubject): string {
 
 const modelCatalogKey = (subject: ProbeSubject | null) =>
   [
-    ...providerKeys.all,
-    "model-catalog",
+    ...providerKeys.modelCatalogs(subject === null ? "" : subjectTool(subject)),
     subject === null ? "" : subject.kind,
-    subject === null ? "" : subjectTool(subject),
     subject?.kind === "provider" ? subject.provider.id : "",
   ] as const;
 
@@ -83,11 +82,11 @@ export function modelCatalogQueryOptions(subject: ProbeSubject | null) {
     },
     enabled: subject !== null,
     retry: false,
-    // A catalogue is worth keeping while the user experiments in the dialog,
-    // but not worth carrying into a later session.
-    staleTime: 5 * 60_000,
-    gcTime: 5 * 60_000,
-    refetchOnWindowFocus: false,
+    // A catalogue changes far less often than it is opened, and through a
+    // slow proxy one read can take seconds, so it is kept for the session
+    // like the other inventories. Saving an endpoint re-reads its tool's
+    // catalogues; a catalogue that failed is read again on the next open.
+    ...sessionCacheOptions,
   });
 }
 

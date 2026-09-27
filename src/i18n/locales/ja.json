@@ -1404,7 +1404,7 @@
       "filter": "絞り込み、または任意のモデル ID を入力…",
       "noMatch": "一致するモデルはありません。",
       "useTyped": "「{{model}}」を使う",
-      "toolDefaultNote": "{{tool}} 標準の既定値"
+      "toolDefaultNote": "{{tool}} に任せる"
     },
     "effort": {
       "pickerLabel": "{{tool}} の思考の深さ",

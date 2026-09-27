@@ -6,7 +6,7 @@ import {
   type ModelMenuItem,
 } from "@/pages/home/homeModelMenu";
 
-const COPY = { toolDefault: "Default", toolDefaultNote: "What it ships with" };
+const COPY = { toolDefault: "Default", toolDefaultNote: "Let it choose" };
 
 const RELAY: ModelMenuEndpoint = {
   provider: null,
@@ -14,7 +14,6 @@ const RELAY: ModelMenuEndpoint = {
   name: "Relay",
   detail: null,
   title: null,
-  savedModel: "glm-5",
   models: ["glm-5", "glm-5-air"],
   loading: false,
 };
@@ -23,7 +22,7 @@ const labels = (items: readonly ModelMenuItem[]) =>
   items.map((item) => item.label);
 
 describe("buildModelItems", () => {
-  it("starts with the default, then the model in use, the saved one and the catalogue", () => {
+  it("starts with the default, then the model in use and the catalogue", () => {
     const items = buildModelItems(RELAY, "glm-5-turbo", COPY);
 
     expect(labels(items)).toEqual([
@@ -34,7 +33,7 @@ describe("buildModelItems", () => {
     ]);
     expect(items[0]).toMatchObject({
       model: null,
-      note: "What it ships with",
+      note: "Let it choose",
       checked: false,
     });
     expect(items.filter((item) => item.checked).map((item) => item.id)).toEqual(
@@ -58,6 +57,6 @@ describe("filterModelItems", () => {
 
   it("matches the name or the note, ignoring case", () => {
     expect(labels(filterModelItems(items, "GLM-5-a"))).toEqual(["glm-5-air"]);
-    expect(labels(filterModelItems(items, "ships"))).toEqual(["Default"]);
+    expect(labels(filterModelItems(items, "choose"))).toEqual(["Default"]);
   });
 });

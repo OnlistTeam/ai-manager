@@ -1405,7 +1405,7 @@
       "filter": "필터 또는 모델 ID 입력…",
       "noMatch": "일치하는 모델이 없습니다.",
       "useTyped": "“{{model}}” 사용",
-      "toolDefaultNote": "{{tool}} 기본 제공 값"
+      "toolDefaultNote": "{{tool}}이(가) 알아서 선택"
     },
     "effort": {
       "pickerLabel": "{{tool}}의 사고 강도",

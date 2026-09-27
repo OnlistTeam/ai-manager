@@ -1404,7 +1404,7 @@
       "filter": "筛选，或输入任意模型 ID…",
       "noMatch": "没有匹配的模型。",
       "useTyped": "使用“{{model}}”",
-      "toolDefaultNote": "{{tool}} 自带的默认值"
+      "toolDefaultNote": "由 {{tool}} 自己选"
     },
     "effort": {
       "pickerLabel": "{{tool}} 的思考强度",

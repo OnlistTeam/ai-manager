@@ -1405,7 +1405,7 @@
       "filter": "Filtern oder beliebige Modell-ID eingeben…",
       "noMatch": "Keine passenden Modelle.",
       "useTyped": "„{{model}}“ verwenden",
-      "toolDefaultNote": "Was {{tool}} mitbringt"
+      "toolDefaultNote": "{{tool}} wählt selbst"
     },
     "effort": {
       "pickerLabel": "Denkaufwand für {{tool}}",

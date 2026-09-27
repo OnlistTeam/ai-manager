@@ -200,6 +200,9 @@ export function useSaveProvider(): UseMutationResult<
       void queryClient.invalidateQueries({
         queryKey: providerKeys.editProfile(tool, providerId),
       });
+      void queryClient.invalidateQueries({
+        queryKey: providerKeys.modelCatalogs(tool),
+      });
       clearProviderConnectivity(queryClient, tool, providerId);
       void queryClient.invalidateQueries({ queryKey: healthKeys.snapshots });
       void queryClient.invalidateQueries({

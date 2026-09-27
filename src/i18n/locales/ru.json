@@ -1419,7 +1419,7 @@
       "filter": "Фильтр или любой ID модели…",
       "noMatch": "Подходящих моделей нет.",
       "useTyped": "Использовать «{{model}}»",
-      "toolDefaultNote": "Встроенное значение {{tool}}"
+      "toolDefaultNote": "{{tool}} выберет сам"
     },
     "effort": {
       "pickerLabel": "Глубина размышлений {{tool}}",

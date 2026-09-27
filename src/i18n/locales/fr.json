@@ -1405,7 +1405,7 @@
       "filter": "Filtrer, ou saisir n’importe quel ID de modèle…",
       "noMatch": "Aucun modèle correspondant.",
       "useTyped": "Utiliser « {{model}} »",
-      "toolDefaultNote": "Ce que {{tool}} fournit"
+      "toolDefaultNote": "{{tool}} choisit lui-même"
     },
     "effort": {
       "pickerLabel": "Niveau de réflexion de {{tool}}",

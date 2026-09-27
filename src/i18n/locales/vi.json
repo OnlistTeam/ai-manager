@@ -1405,7 +1405,7 @@
       "filter": "Lọc, hoặc nhập ID mô hình bất kỳ…",
       "noMatch": "Không có mô hình phù hợp.",
       "useTyped": "Dùng “{{model}}”",
-      "toolDefaultNote": "Giá trị có sẵn của {{tool}}"
+      "toolDefaultNote": "Để {{tool}} tự chọn"
     },
     "effort": {
       "pickerLabel": "Mức suy nghĩ của {{tool}}",

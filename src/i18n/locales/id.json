@@ -1405,7 +1405,7 @@
       "filter": "Saring, atau ketik ID model apa pun…",
       "noMatch": "Tidak ada model yang cocok.",
       "useTyped": "Pakai “{{model}}”",
-      "toolDefaultNote": "Bawaan {{tool}}"
+      "toolDefaultNote": "Biarkan {{tool}} memilih"
     },
     "effort": {
       "pickerLabel": "Tingkat berpikir {{tool}}",

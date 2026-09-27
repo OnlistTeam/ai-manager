@@ -66,7 +66,6 @@ export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
     connection,
     inUseId,
     model: choice ? choice.model : savedModel,
-    savedModel,
     choice,
     choiceUnavailable: modelChoice.isError,
     choices: pickerProviders(providers.data, inUseId),

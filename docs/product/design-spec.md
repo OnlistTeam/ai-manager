@@ -1155,9 +1155,9 @@ its thinking effort (ADR-0055).
   Endpoints page's "Use" button.
 - The model list holds only the endpoint in use, headed by its name, under a
   filter field ("Filter, or type any model ID…"). It starts with "Default"
-  ("what the tool ships with"), then the model in use, the endpoint's saved
-  model, and the built-in list for an official service or the endpoint's
-  model catalogue for a custom one, read only while the list is open. The
+  ("let the tool choose"), then the model in use, and the built-in list for
+  an official service or the endpoint's model catalogue for a custom one,
+  read the first time the list opens and kept for the session. The
   model in use is checked. A name typed into the filter that the list does
   not hold is offered as "Use “name”". "Manage API endpoints…" is the last
   entry. Picking sets the model and nothing else. The model belongs to its

@@ -6,6 +6,12 @@ export const providerKeys = {
   editProfile: (tool: string, provider: string) =>
     ["providers", "edit-profile", tool, provider] as const,
   editProfiles: (tool: string) => ["providers", "edit-profile", tool] as const,
+  /**
+   * Every model catalogue read for one tool: saved entries and the address in
+   * force. A save refreshes them all, since it may change the address or key.
+   */
+  modelCatalogs: (tool: string) =>
+    ["providers", "model-catalog", tool] as const,
   runtimeContext: (tool: string) =>
     ["providers", "runtime-context", tool] as const,
   /**

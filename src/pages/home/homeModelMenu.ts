@@ -11,8 +11,6 @@ export interface ModelMenuEndpoint {
   detail: string | null;
   /** The name's tooltip: where an outside address is set. */
   title: string | null;
-  /** The model saved with the endpoint: the one last used with it. */
-  savedModel: string | null;
   /** The built-in list for an official service, else the endpoint's catalogue. */
   models: readonly string[];
   loading: boolean;
@@ -39,19 +37,17 @@ function unique(models: readonly (string | null)[]): string[] {
 
 /**
  * The model picker's rows (ADR-0055): the tool's default, then the model in
- * use, the endpoint's saved model and its catalogue. Only the endpoint in use
- * is listed; changing endpoint is the API Endpoints page's job.
+ * use and the endpoint's catalogue. Only the endpoint in use is listed;
+ * changing endpoint is the API Endpoints page's job. The copy saved with the
+ * entry is not listed: for the endpoint in use the tool's file is the truth,
+ * and the saved copy may be a model chosen long ago.
  */
 export function buildModelItems(
   endpoint: ModelMenuEndpoint,
   currentModel: string | null,
   copy: ModelMenuCopy,
 ): ModelMenuItem[] {
-  const listed = unique([
-    currentModel,
-    endpoint.savedModel,
-    ...endpoint.models,
-  ]);
+  const listed = unique([currentModel, ...endpoint.models]);
   return [
     {
       id: "\u001f",

@@ -335,7 +335,7 @@ describe("Home model and effort pickers", () => {
 
     const listbox = await openModels("Claude Code");
     expect(names(listbox)).toEqual([
-      "DefaultWhat Claude Code ships with",
+      "DefaultLet Claude Code choose",
       "fable",
       "opus",
       "sonnet",
@@ -344,7 +344,7 @@ describe("Home model and effort pickers", () => {
     // The official endpoint's list is built in; no other endpoint is read.
     expect(calls.catalogs).toEqual([]);
     const current = within(listbox).getByRole("option", {
-      name: "Default What Claude Code ships with",
+      name: "Default Let Claude Code choose",
     });
     expect(current).toHaveAttribute("aria-current", "true");
   });
@@ -381,7 +381,7 @@ describe("Home model and effort pickers", () => {
     const listbox = await openModels("Claude Code");
     await waitFor(() =>
       expect(names(listbox)).toEqual([
-        "DefaultWhat Claude Code ships with",
+        "DefaultLet Claude Code choose",
         "glm-5",
         "glm-5-air",
         en.home.tools.manageEndpoints,
@@ -400,6 +400,14 @@ describe("Home model and effort pickers", () => {
       ]),
     );
     expect(calls.activations).toEqual([]);
+
+    // The catalogue is kept, so opening the list again reads nothing.
+    await waitFor(async () =>
+      expect(await modelPill("Claude Code")).not.toBeDisabled(),
+    );
+    const again = await openModels("Claude Code");
+    expect(names(again)).toContain("glm-5");
+    expect(calls.catalogs).toHaveLength(1);
   });
 
   it("uses a model name typed into the filter", async () => {
@@ -568,7 +576,7 @@ describe("Home model and effort pickers", () => {
     ).toBeNull();
     const listbox = await openModels("Gemini CLI");
     expect(names(listbox)).toEqual([
-      "DefaultWhat Gemini CLI ships with",
+      "DefaultLet Gemini CLI choose",
       "auto",
       "pro",
       en.home.tools.manageEndpoints,

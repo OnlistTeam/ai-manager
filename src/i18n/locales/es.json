@@ -1405,7 +1405,7 @@
       "filter": "Filtra o escribe cualquier ID de modelo…",
       "noMatch": "No hay modelos que coincidan.",
       "useTyped": "Usar “{{model}}”",
-      "toolDefaultNote": "Lo que trae {{tool}}"
+      "toolDefaultNote": "{{tool}} elige por sí mismo"
     },
     "effort": {
       "pickerLabel": "Nivel de razonamiento de {{tool}}",

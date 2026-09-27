@@ -1405,7 +1405,7 @@
       "filter": "Filtre ou digite qualquer ID de modelo…",
       "noMatch": "Nenhum modelo corresponde.",
       "useTyped": "Usar “{{model}}”",
-      "toolDefaultNote": "O que vem com o {{tool}}"
+      "toolDefaultNote": "O {{tool}} escolhe"
     },
     "effort": {
       "pickerLabel": "Nível de raciocínio do {{tool}}",

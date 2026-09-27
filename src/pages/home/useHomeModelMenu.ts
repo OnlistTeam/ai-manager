@@ -52,7 +52,6 @@ export function useHomeModelMenu(
   });
 
   const shared = {
-    savedModel: connection.savedModel,
     models: subject
       ? (catalog.data?.models ?? [])
           .filter((model) => model.kind === "text")
