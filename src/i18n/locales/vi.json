@@ -516,6 +516,24 @@
       "readFailed": "AI Manager không thể đọc tùy chọn desktop trên máy tính này.",
       "saveFailed": "AI Manager không thể áp dụng tùy chọn desktop một cách an toàn."
     },
+    "discover": {
+      "alreadyAdded": "Máy chủ này đã được thiết lập ở đây.",
+      "enableFailed": "Đã thêm, nhưng chưa bật được trong mọi ứng dụng bạn chọn.",
+      "iconRefused": "Không thể tải hình này.",
+      "iconUnavailable": "Không tải được hình.",
+      "inputInvalid": "Biểu mẫu có giá trị mà máy chủ này không dùng. Hãy mở lại và thử lần nữa.",
+      "inputRequired": "Hãy điền tất cả các ô bắt buộc trước.",
+      "linkUnavailable": "Mục này không có trang nào để mở.",
+      "openLinkFailed": "Không mở được trang trong trình duyệt.",
+      "queryInvalid": "Hãy rút ngắn từ khóa và thử lại.",
+      "registryUnreachable": "Không kết nối được MCP Registry nên chỉ hiện các máy chủ được chọn lọc.",
+      "serverUnknown": "Máy chủ này không còn trong kết quả. Hãy tìm lại.",
+      "skillInvalid": "Địa chỉ của Skill này không hợp lệ.",
+      "skillMissing": "Skill này không còn trong kho mã của nó.",
+      "skillsUnreachable": "Không kết nối được skills.sh nên đang hiện danh sách lần trước.",
+      "targetsInvalid": "Hãy chọn ít nhất một ứng dụng dùng được nó.",
+      "transportUnsupported": "Một trong các ứng dụng đã chọn không kết nối được với loại máy chủ này."
+    },
     "extension": {
       "adoptFailed": "AI Manager không thể thêm các tiện ích đã tìm thấy một cách an toàn.",
       "adoptUnsupported": "Loại tiện ích này không thể được thêm từ một bản sao cục bộ có sẵn.",
@@ -3035,6 +3053,102 @@
     "toast": {
       "imported_one": "Đã thêm 1 mục.",
       "imported_other": "Đã thêm {{count}} mục."
+    }
+  },
+  "discover": {
+    "title": "Khám phá",
+    "source": {
+      "mcp": "Máy chủ được chọn lọc; khi tìm kiếm sẽ tra cả MCP Registry",
+      "skill": "Được cài nhiều nhất trên skills.sh"
+    },
+    "results_one": "{{count}} kết quả",
+    "results_other": "{{count}} kết quả",
+    "search": {
+      "mcp": "Tìm máy chủ MCP",
+      "mcpPlaceholder": "GitHub, Postgres, trình duyệt…",
+      "skill": "Tìm Skill",
+      "skillPlaceholder": "pdf, kiểm thử, React…"
+    },
+    "loading": "Đang tải gợi ý…",
+    "empty": "Hiện chưa có gì để gợi ý.",
+    "noMatch": "Không có kết quả cho “{{query}}”.",
+    "details": "Chi tiết về {{name}}",
+    "add": "Thêm",
+    "addWithDetails": "Thêm…",
+    "addNamed": "Thêm {{name}}",
+    "adding": "Đang thêm…",
+    "added": "Đã thêm",
+    "addedAs": "Đã có với tên {{name}}",
+    "addFailed": "Chưa thêm được {{name}}. {{reason}}",
+    "runs": {
+      "local": "Cục bộ",
+      "npx": "Cục bộ · npx",
+      "uvx": "Cục bộ · uvx",
+      "docker": "Cục bộ · Docker",
+      "remote": "Từ xa",
+      "signIn": "Từ xa · đăng nhập"
+    },
+    "needs": "Cần {{what, list}}",
+    "installs": "{{value}} lượt cài",
+    "official": "Chính thức",
+    "officialHint": "Do chính nhóm phát triển phát hành",
+    "homepage": "Trang chủ",
+    "skillsPage": "Trang trên skills.sh",
+    "repository": "Mã nguồn trên GitHub",
+    "signIn": "Lần đầu một ứng dụng dùng máy chủ này, trình duyệt sẽ mở ra để bạn đăng nhập.",
+    "describing": "Đang đọc mô tả…",
+    "noDescription": "Chưa có mô tả.",
+    "input": {
+      "apiKey": "Khóa API",
+      "accessToken": "Mã truy cập",
+      "folder": "Thư mục",
+      "folderHint": "Thư mục mà máy chủ này được đọc và sửa.",
+      "site": "Lấy tại {{site}}",
+      "env": "Lưu dưới tên {{key}}",
+      "header": "Gửi trong tiêu đề {{key}}",
+      "argument": "Truyền cho máy chủ khi khởi động",
+      "optional": "{{label}} (không bắt buộc)",
+      "missing": "Hãy điền {{label}} để tiếp tục."
+    },
+    "apps": {
+      "label": "Dùng trong",
+      "none": "Bật ít nhất một ứng dụng.",
+      "unreachable": "Không chạy được máy chủ này: {{tools, list}}"
+    },
+    "sheet": {
+      "cancel": "Hủy",
+      "close": "Đóng",
+      "confirm": "Thêm"
+    },
+    "mcp": {
+      "featured": {
+        "context7": "Tra tài liệu và ví dụ mới nhất của thư viện để câu trả lời khớp với phiên bản bạn dùng.",
+        "playwright": "Một trình duyệt thật do AI điều khiển: mở trang, điền biểu mẫu, đọc nội dung trên màn hình.",
+        "chrome-devtools": "Gỡ lỗi ngay trong Chrome của bạn: xem console, theo dõi yêu cầu mạng, đo hiệu năng, chụp màn hình.",
+        "github": "Làm việc với kho mã, issue, pull request và Actions mà không rời cuộc trò chuyện.",
+        "deepwiki": "Trả lời câu hỏi về các dự án GitHub công khai dựa trên tài liệu được tạo tự động.",
+        "exa": "Tìm trên web và trong mã, trả về văn bản sạch mà AI đọc được.",
+        "filesystem": "Đọc và sửa tệp, nhưng chỉ trong các thư mục bạn chọn.",
+        "fetch": "Chuyển một trang web thành Markdown để AI đọc.",
+        "memory": "Ghi chú dưới dạng đồ thị tri thức, giữ lại từ cuộc trò chuyện này sang cuộc khác.",
+        "sequential-thinking": "Giúp AI chia bài toán khó thành từng bước và sửa lại trong lúc làm.",
+        "git": "Xem lịch sử, thay đổi và nhánh, và tạo commit trong kho mã cục bộ.",
+        "time": "Cho biết giờ ở mọi múi giờ và quy đổi giữa các múi giờ.",
+        "sentry": "Lấy lỗi và trace từ Sentry, kèm phân tích của chúng.",
+        "linear": "Tìm và cập nhật issue, dự án và bình luận trên Linear.",
+        "notion": "Tìm và chỉnh sửa trang và cơ sở dữ liệu trong không gian Notion của bạn.",
+        "atlassian": "Đọc và cập nhật issue Jira và trang Confluence.",
+        "supabase": "Chạy SQL, sửa bảng và xem log trong các dự án Supabase của bạn.",
+        "stripe": "Tra cứu khách hàng, thanh toán và gói đăng ký, và tìm trong tài liệu Stripe.",
+        "vercel": "Kiểm tra dự án, bản triển khai và log trên Vercel.",
+        "neon": "Tạo nhánh và chạy SQL trên Postgres serverless của Neon.",
+        "cloudflare-docs": "Tìm trong tài liệu dành cho nhà phát triển của Cloudflare.",
+        "microsoft-learn": "Tìm trong tài liệu chính thức và mã mẫu của Microsoft và Azure.",
+        "huggingface": "Tìm mô hình, tập dữ liệu, Spaces và bài báo trên Hugging Face.",
+        "brave-search": "Tìm kiếm web, tin tức và hình ảnh từ chỉ mục riêng của Brave.",
+        "firecrawl": "Thu thập và duyệt trang web, biến chúng thành Markdown sạch.",
+        "tavily": "Tìm kiếm web và trích xuất nội dung dành cho công cụ AI."
+      }
     }
   }
 }

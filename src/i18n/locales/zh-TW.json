@@ -516,6 +516,24 @@
       "readFailed": "AI 管家無法讀取這台電腦上的桌面偏好。",
       "saveFailed": "AI 管家無法安全套用桌面偏好。"
     },
+    "discover": {
+      "alreadyAdded": "這個伺服器已經設定過了。",
+      "enableFailed": "已經新增，但沒能在你選的每個應用程式裡開啟。",
+      "iconRefused": "無法載入這張圖片。",
+      "iconUnavailable": "圖片沒能載入。",
+      "inputInvalid": "表單裡有這個伺服器用不到的內容，請重新開啟後再試。",
+      "inputRequired": "請先填寫所有必填欄位。",
+      "linkUnavailable": "這一項沒有可開啟的頁面。",
+      "openLinkFailed": "沒能在瀏覽器裡開啟這個頁面。",
+      "queryInvalid": "搜尋內容太長，請縮短後再試。",
+      "registryUnreachable": "連不上 MCP Registry，只顯示精選伺服器。",
+      "serverUnknown": "這個伺服器已不在結果裡，請重新搜尋。",
+      "skillInvalid": "這個 Skill 的位址無效。",
+      "skillMissing": "它的存放庫裡已經沒有這個 Skill 了。",
+      "skillsUnreachable": "連不上 skills.sh，顯示的是上次取得的清單。",
+      "targetsInvalid": "請至少選一個能用它的應用程式。",
+      "transportUnsupported": "所選的應用程式中有的連不上這類伺服器。"
+    },
     "extension": {
       "adoptFailed": "AI 管家沒能接管這個擴充功能。",
       "adoptUnsupported": "這種擴充功能不能從現有的本機副本中納管。",
@@ -3034,6 +3052,102 @@
     "toast": {
       "imported_one": "已新增 1 項。",
       "imported_other": "已新增 {{count}} 項。"
+    }
+  },
+  "discover": {
+    "title": "探索",
+    "source": {
+      "mcp": "精選伺服器；搜尋時也會查 MCP Registry",
+      "skill": "skills.sh 上安裝最多的"
+    },
+    "results_one": "{{count}} 個結果",
+    "results_other": "{{count}} 個結果",
+    "search": {
+      "mcp": "搜尋 MCP 伺服器",
+      "mcpPlaceholder": "GitHub、Postgres、瀏覽器…",
+      "skill": "搜尋 Skill",
+      "skillPlaceholder": "pdf、測試、React…"
+    },
+    "loading": "正在載入推薦…",
+    "empty": "目前沒有可推薦的。",
+    "noMatch": "沒有符合「{{query}}」的結果。",
+    "details": "{{name}} 的詳細資訊",
+    "add": "新增",
+    "addWithDetails": "新增…",
+    "addNamed": "新增 {{name}}",
+    "adding": "正在新增…",
+    "added": "已新增",
+    "addedAs": "已存在，名稱為 {{name}}",
+    "addFailed": "{{name}} 沒有新增。{{reason}}",
+    "runs": {
+      "local": "本機",
+      "npx": "本機 · npx",
+      "uvx": "本機 · uvx",
+      "docker": "本機 · Docker",
+      "remote": "遠端",
+      "signIn": "遠端 · 需登入"
+    },
+    "needs": "需要 {{what, list}}",
+    "installs": "{{value}} 次安裝",
+    "official": "官方",
+    "officialHint": "由開發它的團隊發布",
+    "homepage": "首頁",
+    "skillsPage": "skills.sh 頁面",
+    "repository": "GitHub 原始碼",
+    "signIn": "應用程式第一次使用這個伺服器時，會開啟瀏覽器讓你登入。",
+    "describing": "正在讀取簡介…",
+    "noDescription": "尚無簡介。",
+    "input": {
+      "apiKey": "API 金鑰",
+      "accessToken": "存取權杖",
+      "folder": "資料夾",
+      "folderHint": "這個伺服器可以讀取和修改的資料夾。",
+      "site": "在 {{site}} 取得",
+      "env": "儲存為 {{key}}",
+      "header": "以 {{key}} 標頭傳送",
+      "argument": "伺服器啟動時傳給它",
+      "optional": "{{label}}（選填）",
+      "missing": "請先填寫{{label}}。"
+    },
+    "apps": {
+      "label": "用於",
+      "none": "至少開啟一個應用程式。",
+      "unreachable": "無法執行這個伺服器：{{tools, list}}"
+    },
+    "sheet": {
+      "cancel": "取消",
+      "close": "關閉",
+      "confirm": "新增"
+    },
+    "mcp": {
+      "featured": {
+        "context7": "查閱最新的函式庫文件與範例，讓回答對得上你用的版本。",
+        "playwright": "一個由 AI 操控的真實瀏覽器：開啟網頁、填寫表單、讀取頁面內容。",
+        "chrome-devtools": "在你自己的 Chrome 裡除錯：看主控台、查網路請求、錄效能、截圖。",
+        "github": "不必離開對話就能處理存放庫、Issue、Pull Request 和 Actions。",
+        "deepwiki": "根據自動產生的文件，回答公開 GitHub 專案的相關問題。",
+        "exa": "搜尋網頁和程式碼，回傳 AI 能直接讀的乾淨內文。",
+        "filesystem": "讀取和編輯檔案，但只限你指定的資料夾。",
+        "fetch": "把網頁轉成 AI 能讀的 Markdown。",
+        "memory": "用知識圖譜記筆記，換一次對話也還在。",
+        "sequential-thinking": "幫 AI 把難題拆成步驟，邊做邊修正。",
+        "git": "查看本機存放庫的歷史、差異和分支，並提交變更。",
+        "time": "報出任何時區的時間，並在時區之間換算。",
+        "sentry": "調出 Sentry 的錯誤與追蹤記錄，以及對它們的分析。",
+        "linear": "查詢並更新 Linear 的 Issue、專案和留言。",
+        "notion": "搜尋和編輯你 Notion 工作區裡的頁面與資料庫。",
+        "atlassian": "讀取並更新 Jira Issue 和 Confluence 頁面。",
+        "supabase": "在你的 Supabase 專案裡執行 SQL、修改資料表、查看記錄。",
+        "stripe": "查詢客戶、付款和訂閱，並搜尋 Stripe 文件。",
+        "vercel": "查看 Vercel 上的專案、部署和記錄。",
+        "neon": "在 Neon 的無伺服器 Postgres 上建立分支、執行 SQL。",
+        "cloudflare-docs": "搜尋 Cloudflare 開發者文件。",
+        "microsoft-learn": "搜尋微軟和 Azure 的官方文件與程式碼範例。",
+        "huggingface": "在 Hugging Face 上找模型、資料集、Spaces 和論文。",
+        "brave-search": "來自 Brave 自有索引的網頁、新聞和圖片搜尋。",
+        "firecrawl": "把網站擷取、爬取成乾淨的 Markdown。",
+        "tavily": "為 AI 工具打造的網頁搜尋和內文擷取。"
+      }
     }
   }
 }

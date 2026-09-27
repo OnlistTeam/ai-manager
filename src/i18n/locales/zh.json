@@ -516,6 +516,24 @@
       "readFailed": "AI 管家无法读取这台电脑上的桌面偏好。",
       "saveFailed": "AI 管家无法安全应用桌面偏好。"
     },
+    "discover": {
+      "alreadyAdded": "这个服务器已经配置过了。",
+      "enableFailed": "已经添加，但没能在你选的每个应用里打开。",
+      "iconRefused": "无法加载这张图片。",
+      "iconUnavailable": "图片没能加载出来。",
+      "inputInvalid": "表单里有这个服务器用不到的内容，请重新打开后再试。",
+      "inputRequired": "请先填写所有必填项。",
+      "linkUnavailable": "这一项没有可打开的页面。",
+      "openLinkFailed": "没能在浏览器里打开这个页面。",
+      "queryInvalid": "搜索内容太长，请缩短后再试。",
+      "registryUnreachable": "连不上 MCP Registry，只显示精选服务器。",
+      "serverUnknown": "这个服务器已不在结果里，请重新搜索。",
+      "skillInvalid": "这个 Skill 的地址无效。",
+      "skillMissing": "它的仓库里已经没有这个 Skill 了。",
+      "skillsUnreachable": "连不上 skills.sh，显示的是上次获取的列表。",
+      "targetsInvalid": "请至少选一个能用它的应用。",
+      "transportUnsupported": "所选应用中有的连不上这类服务器。"
+    },
     "extension": {
       "adoptFailed": "AI 管家没能接管这个扩展。",
       "adoptUnsupported": "这种扩展不能从已有的本机副本中纳管。",
@@ -3034,6 +3052,102 @@
     "toast": {
       "imported_one": "已添加 1 项。",
       "imported_other": "已添加 {{count}} 项。"
+    }
+  },
+  "discover": {
+    "title": "发现",
+    "source": {
+      "mcp": "精选服务器；搜索时也会查 MCP Registry",
+      "skill": "skills.sh 上安装最多的"
+    },
+    "results_one": "{{count}} 个结果",
+    "results_other": "{{count}} 个结果",
+    "search": {
+      "mcp": "搜索 MCP 服务器",
+      "mcpPlaceholder": "GitHub、Postgres、浏览器…",
+      "skill": "搜索 Skill",
+      "skillPlaceholder": "pdf、测试、React…"
+    },
+    "loading": "正在加载推荐…",
+    "empty": "暂时没有可推荐的。",
+    "noMatch": "没有与“{{query}}”匹配的结果。",
+    "details": "{{name}} 的详情",
+    "add": "添加",
+    "addWithDetails": "添加…",
+    "addNamed": "添加 {{name}}",
+    "adding": "正在添加…",
+    "added": "已添加",
+    "addedAs": "已有，名为 {{name}}",
+    "addFailed": "{{name}} 没有添加。{{reason}}",
+    "runs": {
+      "local": "本地",
+      "npx": "本地 · npx",
+      "uvx": "本地 · uvx",
+      "docker": "本地 · Docker",
+      "remote": "远程",
+      "signIn": "远程 · 需登录"
+    },
+    "needs": "需要 {{what, list}}",
+    "installs": "{{value}} 次安装",
+    "official": "官方",
+    "officialHint": "由开发它的团队发布",
+    "homepage": "主页",
+    "skillsPage": "skills.sh 页面",
+    "repository": "GitHub 源码",
+    "signIn": "应用第一次用这个服务器时，会打开浏览器让你登录。",
+    "describing": "正在读取简介…",
+    "noDescription": "暂无简介。",
+    "input": {
+      "apiKey": "API 密钥",
+      "accessToken": "访问令牌",
+      "folder": "文件夹",
+      "folderHint": "这个服务器可以读取和修改的文件夹。",
+      "site": "在 {{site}} 获取",
+      "env": "保存为 {{key}}",
+      "header": "作为 {{key}} 请求头发送",
+      "argument": "服务器启动时传给它",
+      "optional": "{{label}}（可选）",
+      "missing": "请先填写{{label}}。"
+    },
+    "apps": {
+      "label": "用于",
+      "none": "至少打开一个应用。",
+      "unreachable": "无法运行这个服务器：{{tools, list}}"
+    },
+    "sheet": {
+      "cancel": "取消",
+      "close": "关闭",
+      "confirm": "添加"
+    },
+    "mcp": {
+      "featured": {
+        "context7": "查阅最新的库文档和示例，让回答对得上你用的版本。",
+        "playwright": "一个由 AI 操控的真实浏览器：打开网页、填写表单、读取页面内容。",
+        "chrome-devtools": "在你自己的 Chrome 里调试：看控制台、查网络请求、录性能、截图。",
+        "github": "不离开对话就能处理仓库、Issue、Pull Request 和 Actions。",
+        "deepwiki": "根据自动生成的文档，回答公开 GitHub 项目的相关问题。",
+        "exa": "搜索网页和代码，返回 AI 能直接读的干净正文。",
+        "filesystem": "读取和编辑文件，但只限你指定的文件夹。",
+        "fetch": "把网页转成 AI 能读的 Markdown。",
+        "memory": "用知识图谱记笔记，换一次对话也还在。",
+        "sequential-thinking": "帮 AI 把难题拆成步骤，边做边修正。",
+        "git": "查看本地仓库的历史、差异和分支，并提交改动。",
+        "time": "报出任意时区的时间，并在时区之间换算。",
+        "sentry": "调取 Sentry 的错误和链路追踪，以及对它们的分析。",
+        "linear": "查找并更新 Linear 的 Issue、项目和评论。",
+        "notion": "搜索和编辑你 Notion 工作区里的页面和数据库。",
+        "atlassian": "读取并更新 Jira Issue 和 Confluence 页面。",
+        "supabase": "在你的 Supabase 项目里执行 SQL、修改表、查看日志。",
+        "stripe": "查询客户、付款和订阅，并搜索 Stripe 文档。",
+        "vercel": "查看 Vercel 上的项目、部署和日志。",
+        "neon": "在 Neon 的无服务器 Postgres 上建分支、执行 SQL。",
+        "cloudflare-docs": "搜索 Cloudflare 开发者文档。",
+        "microsoft-learn": "搜索微软和 Azure 的官方文档与代码示例。",
+        "huggingface": "在 Hugging Face 上查找模型、数据集、Spaces 和论文。",
+        "brave-search": "来自 Brave 自有索引的网页、新闻和图片搜索。",
+        "firecrawl": "把网站抓取、爬取成干净的 Markdown。",
+        "tavily": "为 AI 工具打造的网页搜索和正文提取。"
+      }
     }
   }
 }

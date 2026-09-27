@@ -516,6 +516,24 @@
       "readFailed": "このコンピューターのデスクトップ設定を読み込めませんでした。",
       "saveFailed": "デスクトップ設定を安全に適用できませんでした。"
     },
+    "discover": {
+      "alreadyAdded": "このサーバーはすでに設定されています。",
+      "enableFailed": "追加はできましたが、選んだすべてのアプリでオンにできませんでした。",
+      "iconRefused": "この画像は読み込めません。",
+      "iconUnavailable": "画像を読み込めませんでした。",
+      "inputInvalid": "このサーバーが使わない値がフォームに含まれています。開き直してもう一度お試しください。",
+      "inputRequired": "必須の項目をすべて入力してください。",
+      "linkUnavailable": "この項目には開けるページがありません。",
+      "openLinkFailed": "ブラウザでページを開けませんでした。",
+      "queryInvalid": "検索語を短くしてもう一度お試しください。",
+      "registryUnreachable": "MCP Registry に接続できないため、厳選したサーバーだけを表示しています。",
+      "serverUnknown": "このサーバーは結果にもうありません。もう一度検索してください。",
+      "skillInvalid": "この Skill のアドレスが正しくありません。",
+      "skillMissing": "この Skill はリポジトリにもうありません。",
+      "skillsUnreachable": "skills.sh に接続できないため、前回取得した一覧を表示しています。",
+      "targetsInvalid": "これを使えるアプリを 1 つ以上選んでください。",
+      "transportUnsupported": "選んだアプリの中に、この種類のサーバーに接続できないものがあります。"
+    },
     "extension": {
       "adoptFailed": "検出した拡張機能を安全に AI Manager へ追加できませんでした。",
       "adoptUnsupported": "この種類の拡張機能は、既存のローカルコピーから追加できません。",
@@ -3034,6 +3052,102 @@
     "toast": {
       "imported_one": "1 件追加しました。",
       "imported_other": "{{count}} 件追加しました。"
+    }
+  },
+  "discover": {
+    "title": "見つける",
+    "source": {
+      "mcp": "厳選したサーバー。検索では MCP Registry も探します",
+      "skill": "skills.sh でインストール数の多いもの"
+    },
+    "results_one": "{{count}} 件",
+    "results_other": "{{count}} 件",
+    "search": {
+      "mcp": "MCP サーバーを検索",
+      "mcpPlaceholder": "GitHub、Postgres、ブラウザ…",
+      "skill": "Skill を検索",
+      "skillPlaceholder": "pdf、テスト、React…"
+    },
+    "loading": "おすすめを読み込み中…",
+    "empty": "いまおすすめできるものはありません。",
+    "noMatch": "「{{query}}」に一致するものはありません。",
+    "details": "{{name}} の詳細",
+    "add": "追加",
+    "addWithDetails": "追加…",
+    "addNamed": "{{name}} を追加",
+    "adding": "追加中…",
+    "added": "追加済み",
+    "addedAs": "{{name}} として追加済み",
+    "addFailed": "{{name}} は追加されませんでした。{{reason}}",
+    "runs": {
+      "local": "ローカル",
+      "npx": "ローカル · npx",
+      "uvx": "ローカル · uvx",
+      "docker": "ローカル · Docker",
+      "remote": "リモート",
+      "signIn": "リモート · サインイン"
+    },
+    "needs": "{{what, list}} が必要",
+    "installs": "{{value}} 回インストール",
+    "official": "公式",
+    "officialHint": "開発元のチームが公開しています",
+    "homepage": "ホームページ",
+    "skillsPage": "skills.sh のページ",
+    "repository": "GitHub のソース",
+    "signIn": "アプリがこのサーバーを初めて使うとき、サインインのためにブラウザが開きます。",
+    "describing": "説明を読み込み中…",
+    "noDescription": "説明はまだありません。",
+    "input": {
+      "apiKey": "API キー",
+      "accessToken": "アクセストークン",
+      "folder": "フォルダ",
+      "folderHint": "このサーバーが読み書きできるフォルダです。",
+      "site": "{{site}} で取得できます",
+      "env": "{{key}} として保存",
+      "header": "{{key}} ヘッダーとして送信",
+      "argument": "サーバーの起動時に渡されます",
+      "optional": "{{label}}（任意）",
+      "missing": "続けるには{{label}}を入力してください。"
+    },
+    "apps": {
+      "label": "使うアプリ",
+      "none": "アプリを 1 つ以上オンにしてください。",
+      "unreachable": "このサーバーを実行できません：{{tools, list}}"
+    },
+    "sheet": {
+      "cancel": "キャンセル",
+      "close": "閉じる",
+      "confirm": "追加"
+    },
+    "mcp": {
+      "featured": {
+        "context7": "最新のライブラリドキュメントと例を調べ、使っているバージョンに合った回答にします。",
+        "playwright": "AI が操作する本物のブラウザ。ページを開き、フォームに入力し、画面の内容を読み取ります。",
+        "chrome-devtools": "手元の Chrome でデバッグ。コンソール、通信、パフォーマンス記録、スクリーンショット。",
+        "github": "チャットを離れずにリポジトリ、Issue、Pull Request、Actions を扱えます。",
+        "deepwiki": "自動生成されたドキュメントをもとに、公開 GitHub プロジェクトの質問に答えます。",
+        "exa": "Web とコードを検索し、AI がそのまま読める本文を返します。",
+        "filesystem": "ファイルを読み書きします。ただし指定したフォルダの中だけです。",
+        "fetch": "Web ページを AI が読める Markdown に変換します。",
+        "memory": "知識グラフとしてメモを残し、次の会話でも使えます。",
+        "sequential-thinking": "難しい問題を AI が手順に分け、進めながら見直せるようにします。",
+        "git": "ローカルリポジトリの履歴、差分、ブランチを見て、コミットもできます。",
+        "time": "どのタイムゾーンの時刻も答え、ゾーン間で換算します。",
+        "sentry": "Sentry のエラーとトレース、その分析を取り込みます。",
+        "linear": "Linear の Issue、プロジェクト、コメントを検索・更新します。",
+        "notion": "Notion ワークスペースのページとデータベースを検索・編集します。",
+        "atlassian": "Jira の Issue と Confluence のページを読み取り・更新します。",
+        "supabase": "Supabase プロジェクトで SQL を実行し、テーブルを変更し、ログを読みます。",
+        "stripe": "顧客、支払い、サブスクリプションを調べ、Stripe のドキュメントも検索します。",
+        "vercel": "Vercel のプロジェクト、デプロイ、ログを確認します。",
+        "neon": "Neon のサーバーレス Postgres でブランチを作り、SQL を実行します。",
+        "cloudflare-docs": "Cloudflare の開発者ドキュメントを検索します。",
+        "microsoft-learn": "Microsoft と Azure の公式ドキュメントとコード例を検索します。",
+        "huggingface": "Hugging Face でモデル、データセット、Spaces、論文を探します。",
+        "brave-search": "Brave 独自のインデックスによる Web、ニュース、画像の検索。",
+        "firecrawl": "Web サイトを取得・クロールして、きれいな Markdown にします。",
+        "tavily": "AI ツール向けに作られた Web 検索と本文抽出。"
+      }
     }
   }
 }

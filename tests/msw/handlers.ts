@@ -224,4 +224,15 @@ export const handlers = [
   http.post(`${TAURI_ENDPOINT}/app_openclaw_workspace_open_directory`, () =>
     success(null),
   ),
+  // The Discover section at the bottom of the Skills and MCP pages loads on
+  // its own; by default it finds nothing, so page tests see only their list.
+  http.post(`${TAURI_ENDPOINT}/app_discover_mcp_list`, () =>
+    success({ items: [], reach: [], sourceError: null }),
+  ),
+  http.post(`${TAURI_ENDPOINT}/app_discover_skill_list`, () =>
+    success({ items: [], sourceError: null }),
+  ),
+  http.post(`${TAURI_ENDPOINT}/app_discover_skill_descriptions`, () =>
+    success({}),
+  ),
 ];
