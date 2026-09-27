@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "打开「系统设置 → 隐私与安全性 → 自动化」，为 AI 管家开启「终端」。"
     },
     "routing": {
+      "cannotForward": "这个软件当前的连接无法经 AI 管家转发。",
       "changeFailed": "AI 管家没能安全完成这次路由变更。",
-      "liveTakeoverFailed": "AI 管家没能接管这个软件，它继续保持直连。",
-      "noLiveTargets": "还没有软件选好服务，暂时无法开启实时路由。",
       "providerNotEligible": "这个端点不能加入自动故障转移。",
       "providerUnavailable": "这个端点已经无法用于路由。",
       "queueLocked": "请先关闭自动故障转移，再移除当前端点或最后一个端点。",

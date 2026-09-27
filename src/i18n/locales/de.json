@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "Öffnen Sie „Systemeinstellungen → Datenschutz & Sicherheit → Automation“ und aktivieren Sie dort „Terminal“ für AI Manager."
     },
     "routing": {
+      "cannotForward": "Die aktuelle Verbindung dieses Tools kann nicht über AI Manager geleitet werden.",
       "changeFailed": "AI Manager konnte diese Routing-Änderung nicht sicher abschließen.",
-      "liveTakeoverFailed": "AI Manager konnte dieses Tool nicht umleiten; es bleibt direkt verbunden.",
-      "noLiveTargets": "Noch kein Tool hat einen Dienst ausgewählt, daher kann Live-Routing nicht starten.",
       "providerNotEligible": "Dieser Endpunkt kann nicht am automatischen Failover teilnehmen.",
       "providerUnavailable": "Dieser Endpunkt steht für das Routing nicht mehr zur Verfügung.",
       "queueLocked": "Schalten Sie den automatischen Failover aus, bevor Sie diesen aktiven oder letzten Endpunkt entfernen.",

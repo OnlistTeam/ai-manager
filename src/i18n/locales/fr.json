@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "Ouvrez « Réglages Système → Confidentialité et sécurité → Automatisation » et activez « Terminal » pour AI Manager."
     },
     "routing": {
+      "cannotForward": "La connexion actuelle de cet outil ne peut pas passer par AI Manager.",
       "changeFailed": "AI Manager n'a pas pu terminer cette modification de routage en toute sécurité.",
-      "liveTakeoverFailed": "AI Manager n’a pas pu router cet outil ; il garde sa connexion directe.",
-      "noLiveTargets": "Aucun outil n’a encore de service choisi : le routage en direct ne peut pas démarrer.",
       "providerNotEligible": "Ce point d'accès ne peut pas participer au basculement automatique.",
       "providerUnavailable": "Ce point d'accès n'est plus disponible pour le routage.",
       "queueLocked": "Désactivez le basculement automatique avant de supprimer ce point d'accès actif ou final.",

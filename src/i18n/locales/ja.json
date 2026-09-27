@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "「システム設定 → プライバシーとセキュリティ → オートメーション」を開き、AI Manager の「ターミナル」をオンにしてください。"
     },
     "routing": {
+      "cannotForward": "このツールの現在の接続は AI Manager 経由で転送できません。",
       "changeFailed": "AI Manager はこのルーティング変更を安全に完了できませんでした。",
-      "liveTakeoverFailed": "AI Manager はこのツールを経由させられなかったため、直接接続のままです。",
-      "noLiveTargets": "サービスを選んだツールがまだないため、ライブルーティングを開始できません。",
       "providerNotEligible": "このエンドポイントは自動フェイルオーバーに参加できません。",
       "providerUnavailable": "このエンドポイントはルーティングに利用できなくなりました。",
       "queueLocked": "現在または最後のエンドポイントを外す前に、自動フェイルオーバーを無効にしてください。",

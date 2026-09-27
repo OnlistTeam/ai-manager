@@ -1,4 +1,4 @@
-//! Advanced Mode local-routing projection (ADR-0007).
+//! Local-routing projection (ADR-0007, ADR-0054).
 //!
 //! The inherited proxy engine contains credentials, raw request errors and live
 //! configuration backups. None of those belong on the product wire. This file
@@ -6,7 +6,7 @@
 
 use serde::{Deserialize, Serialize};
 
-use super::{AppError, ToolId};
+use super::ToolId;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -21,6 +21,37 @@ pub struct RoutingProvider {
     pub consecutive_failures: u32,
 }
 
+/// Why a tool cannot be routed through AI Manager right now (ADR-0054).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum RoutingUnavailable {
+    /// The tool has no endpoint chosen.
+    NoService,
+    /// The tool signs in with its own account: there is no address and key
+    /// the local route could forward to.
+    OwnLogin,
+    /// The chosen endpoint lacks the address or key the local route needs.
+    Incomplete,
+}
+
+/// When an already open session of the tool sees a change to its settings.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum RoutingPickup {
+    /// The tool rereads its settings file while it runs.
+    Live,
+    /// The tool reads its settings once, when it starts.
+    AtStart,
+}
+
+/// A tool routed through AI Manager, as the quit confirmation names it.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RoutedTool {
+    pub tool: ToolId,
+    pub pickup: RoutingPickup,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RoutingTarget {
@@ -30,6 +61,9 @@ pub struct RoutingTarget {
     pub current_provider: Option<RoutingProvider>,
     pub queue: Vec<RoutingProvider>,
     pub available: Vec<RoutingProvider>,
+    /// `None` when the tool can be routed; otherwise the one reason it cannot.
+    pub unavailable: Option<RoutingUnavailable>,
+    pub pickup: RoutingPickup,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -47,28 +81,9 @@ pub struct RoutingOverview {
     pub targets: Vec<RoutingTarget>,
 }
 
-/// One tool live routing could not take over (ADR-0050). The other tools
-/// stay taken over; the error is the product error for that tool alone.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct RoutingLiveFailure {
-    pub tool: ToolId,
-    pub error: AppError,
-}
-
-/// Result of switching live routing on or off. Live routing counts as on when
-/// the local route is running and at least one tool is taken over; there is
-/// no separate stored flag.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct RoutingLiveModeOutcome {
-    pub overview: RoutingOverview,
-    pub failures: Vec<RoutingLiveFailure>,
-}
-
 #[cfg(test)]
 mod tests {
-    use super::{RoutingOverview, RoutingProvider, RoutingTarget};
+    use super::{RoutingOverview, RoutingPickup, RoutingProvider, RoutingTarget};
     use crate::domain::ToolId;
 
     #[test]
@@ -96,6 +111,8 @@ mod tests {
                 }),
                 queue: vec![],
                 available: vec![],
+                unavailable: None,
+                pickup: RoutingPickup::Live,
             }],
         };
 

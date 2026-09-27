@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "In System Settings, open Privacy & Security, then Automation, and switch Terminal on for AI Manager."
     },
     "routing": {
+      "cannotForward": "This tool's current connection can't be routed through AI Manager.",
       "changeFailed": "AI Manager could not complete that routing change safely.",
-      "liveTakeoverFailed": "AI Manager could not route this tool, so it keeps its direct connection.",
-      "noLiveTargets": "No tool has a service chosen yet, so live routing cannot start.",
       "providerNotEligible": "That endpoint cannot participate in automatic failover.",
       "providerUnavailable": "That endpoint is no longer available for routing.",
       "queueLocked": "Turn off automatic failover before removing this active or final endpoint.",

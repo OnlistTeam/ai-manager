@@ -1,10 +1,10 @@
-//! Thin Advanced Routing product commands (ADR-0007, ADR-0049, ADR-0050).
+//! Thin local routing product commands (ADR-0007, ADR-0049, ADR-0050, ADR-0054).
 
 use crate::application::privacy_protection::PrivacyProtectionService;
+use crate::application::quit_guard::QuitGuard;
 use crate::application::routing_control::RoutingControl;
 use crate::domain::{
-    AppError, PrivacyProtection, PrivacyProtectionPatch, RoutingLiveModeOutcome, RoutingOverview,
-    RoutingTraceSnapshot,
+    AppError, PrivacyProtection, PrivacyProtectionPatch, RoutingOverview, RoutingTraceSnapshot,
 };
 
 use super::app_api::{blocking, parse_tool};
@@ -71,12 +71,10 @@ pub async fn app_routing_stop_all(
     RoutingControl::stop_all(&app_handle).await
 }
 
+/// The user confirmed quitting while tools are routed (ADR-0054).
 #[tauri::command]
-pub async fn app_routing_set_live_mode(
-    app_handle: tauri::AppHandle,
-    enabled: bool,
-) -> Result<RoutingLiveModeOutcome, AppError> {
-    RoutingControl::set_live_mode(&app_handle, enabled).await
+pub fn app_quit_confirmed(app_handle: tauri::AppHandle) {
+    QuitGuard::confirm_and_quit(&app_handle);
 }
 
 #[tauri::command]

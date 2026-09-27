@@ -1,10 +1,10 @@
-//! Local routing orchestration (ADR-0007).
+//! Local routing orchestration (ADR-0007, ADR-0054).
 
 use std::sync::Arc;
 
 use crate::compat::ccswitch::routing::RoutingStore;
 use crate::domain::{
-    AppError, ErrorCode, RoutingLiveModeOutcome, RoutingOverview, RoutingTraceSnapshot, ToolId,
+    AppError, ErrorCode, RoutedTool, RoutingOverview, RoutingTraceSnapshot, ToolId,
 };
 use crate::infrastructure::RoutingTraceLog;
 
@@ -69,12 +69,25 @@ impl RoutingControl {
         Self::store(app_handle)?.stop_all().await
     }
 
-    /// Live routing on or off (ADR-0050); the renderer confirms first.
-    pub async fn set_live_mode(
-        app_handle: &tauri::AppHandle,
-        enabled: bool,
-    ) -> Result<RoutingLiveModeOutcome, AppError> {
-        Self::store(app_handle)?.set_live_mode(enabled).await
+    /// The tools routed through AI Manager right now.
+    pub async fn routed_tools(app_handle: &tauri::AppHandle) -> Result<Vec<RoutedTool>, AppError> {
+        Self::store(app_handle)?.routed_tools().await
+    }
+
+    /// Every launch starts with every tool direct (ADR-0054).
+    pub async fn recover_at_launch(app_handle: &tauri::AppHandle) {
+        match Self::store(app_handle) {
+            Ok(store) => store.recover_at_launch().await,
+            Err(error) => log::error!("Routing recovery skipped: {error:?}"),
+        }
+    }
+
+    /// Stops the gateway and puts every routed tool back before quitting.
+    pub async fn release_before_exit(app_handle: &tauri::AppHandle) {
+        match Self::store(app_handle) {
+            Ok(store) => store.release_before_exit().await,
+            Err(error) => log::error!("Routing release skipped: {error:?}"),
+        }
     }
 
     /// The in-memory trace of recent requests (ADR-0050).

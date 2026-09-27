@@ -692,9 +692,8 @@
       "allowTerminalAutomation": "Buka «Pengaturan Sistem → Privasi & Keamanan → Otomatisasi», lalu aktifkan «Terminal» untuk AI Manager."
     },
     "routing": {
+      "cannotForward": "Koneksi alat ini saat ini tidak dapat dirutekan melalui AI Manager.",
       "changeFailed": "AI Manager tidak dapat menyelesaikan perubahan perutean tersebut dengan aman.",
-      "liveTakeoverFailed": "AI Manager tidak dapat merutekan alat ini, jadi alat ini tetap terhubung langsung.",
-      "noLiveTargets": "Belum ada alat yang memilih layanan, jadi perutean langsung belum bisa dimulai.",
       "providerNotEligible": "Endpoint tersebut tidak dapat berpartisipasi dalam failover otomatis.",
       "providerUnavailable": "Endpoint tersebut tidak lagi tersedia untuk perutean.",
       "queueLocked": "Nonaktifkan failover otomatis sebelum menghapus endpoint aktif atau terakhir ini.",
