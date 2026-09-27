@@ -7,6 +7,10 @@
 - Supersedes, for Skills and MCP only: the "software selector" in ADR-0038
   (one tab per installed tool or desktop app) and ADR-0045's shared-file row
   above the MCP list. Global Prompts keep both.
+- Partly superseded by ADR-0062: decision 5 (row actions: every Skill row now
+  has Open location and Edit SKILL.md, every MCP row has Edit) and the part of
+  decision 6 that left rows with no location (each row now carries one detail
+  line). ADR-0062 also adds a column header above the switches.
 
 ## Context
 
