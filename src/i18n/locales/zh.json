@@ -2567,24 +2567,24 @@
     },
     "privacy": {
       "title": "隐私保护",
-      "description": "只对经过 AI 管家的请求生效（实时路由或本地路由），工具直连服务商时不经过这里。",
+      "description": "服务商只看到占位符，真实内容留在本机，回复交给工具前会换回原文。只对经过 AI 管家的请求生效（实时路由或本地路由）。",
       "loading": "正在读取隐私设置…",
       "error": {
         "title": "暂时读不到隐私设置",
         "description": "稍后再试一次。"
       },
       "secrets": {
-        "label": "隐藏密钥和密码",
-        "description": "API Key、私钥、Token 和密码以占位符发给服务商，回复里再换回来"
+        "label": "密钥和密码",
+        "description": "API Key、Token、私钥，以及配置和网址里的密码"
       },
       "personal": {
-        "label": "隐藏个人信息",
-        "description": "邮箱、手机号、身份证号和银行卡号也一并替换"
+        "label": "个人信息",
+        "description": "手机号、邮箱、身份证号、银行卡号"
       },
       "words": {
-        "label": "隐藏这些词",
-        "description": "不想让服务商看到的词，用逗号分隔",
-        "placeholder": "人名、代号、主机名"
+        "label": "自定义词",
+        "description": "区分大小写，多个词用逗号隔开",
+        "placeholder": "例如：客户名、项目代号、服务器名"
       }
     },
     "check": {

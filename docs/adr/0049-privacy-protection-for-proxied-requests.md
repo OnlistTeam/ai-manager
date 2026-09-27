@@ -41,9 +41,9 @@ Constraints that shape the design:
 
    | Setting | KV key | Default |
    | --- | --- | --- |
-   | Hide keys and passwords | `aimgr.privacy.maskSecrets` (`"true"`/`"false"`) | on |
-   | Hide personal information | `aimgr.privacy.maskPersonal` (`"true"`/`"false"`) | off |
-   | Hide these words | `aimgr.privacy.words` (JSON array of strings) | empty |
+   | Keys and passwords | `aimgr.privacy.maskSecrets` (`"true"`/`"false"`) | on |
+   | Personal details | `aimgr.privacy.maskPersonal` (`"true"`/`"false"`) | off |
+   | Custom words | `aimgr.privacy.words` (JSON array of strings) | empty |
 
    A missing, empty or unrecognised value reads as its default. Personal
    information is off by default because test data (sample emails, card

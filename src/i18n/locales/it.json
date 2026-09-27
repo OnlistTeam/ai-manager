@@ -2569,24 +2569,24 @@
     },
     "privacy": {
       "title": "Protezione della privacy",
-      "description": "Vale per le richieste che passano da AI Manager (routing dal vivo o instradamento locale), non per gli strumenti collegati direttamente a un servizio.",
+      "description": "Il servizio vede solo segnaposto: il testo vero resta su questo computer e torna al suo posto prima che la risposta arrivi allo strumento. Solo per le richieste che passano da AI Manager (routing dal vivo o instradamento locale).",
       "loading": "Lettura delle impostazioni della privacy…",
       "error": {
         "title": "Impossibile leggere le impostazioni della privacy",
         "description": "Riprova tra un momento."
       },
       "secrets": {
-        "label": "Nascondi chiavi e password",
-        "description": "Chiavi API, chiavi private, token e password arrivano al servizio come segnaposto e vengono ripristinati nella risposta."
+        "label": "Chiavi e password",
+        "description": "Chiavi API, token, chiavi private e password scritte in configurazioni o URL"
       },
       "personal": {
-        "label": "Nascondi i dati personali",
-        "description": "Sostituisci anche email, numeri di telefono, di documento e di carta bancaria."
+        "label": "Dati personali",
+        "description": "Email, numeri di cellulare e di documento cinesi, carte bancarie"
       },
       "words": {
-        "label": "Nascondi queste parole",
-        "description": "Parole che il servizio non deve vedere, separate da virgole.",
-        "placeholder": "Nomi, nomi in codice, nomi host"
+        "label": "Parole personali",
+        "description": "Parole intere, maiuscole e minuscole contano, separate da virgole",
+        "placeholder": "es. clienti, nomi in codice, server"
       }
     },
     "check": {

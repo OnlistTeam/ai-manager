@@ -2569,24 +2569,24 @@
     },
     "privacy": {
       "title": "Proteção de privacidade",
-      "description": "Vale para as requisições que passam pelo AI Manager (roteamento ao vivo ou local), não para ferramentas conectadas diretamente a um serviço.",
+      "description": "O serviço só vê marcadores; o conteúdo real fica neste computador e volta ao lugar antes que a resposta chegue à sua ferramenta. Só para requisições que passam pelo AI Manager (roteamento ao vivo ou local).",
       "loading": "Lendo as configurações de privacidade…",
       "error": {
         "title": "Não foi possível ler as configurações de privacidade",
         "description": "Tente novamente em instantes."
       },
       "secrets": {
-        "label": "Ocultar chaves e senhas",
-        "description": "Chaves de API, chaves privadas, tokens e senhas vão ao serviço como marcadores e são restaurados na resposta."
+        "label": "Chaves e senhas",
+        "description": "Chaves de API, tokens, chaves privadas e senhas escritas em configurações ou URLs"
       },
       "personal": {
-        "label": "Ocultar dados pessoais",
-        "description": "Trocar também e-mails, números de telefone, de documento e de cartão bancário."
+        "label": "Dados pessoais",
+        "description": "E-mails, celulares e documentos de identidade chineses, cartões bancários"
       },
       "words": {
-        "label": "Ocultar estas palavras",
-        "description": "Palavras que o serviço não deve ver, separadas por vírgulas.",
-        "placeholder": "Nomes, codinomes, nomes de host"
+        "label": "Palavras próprias",
+        "description": "Palavras inteiras, diferencia maiúsculas; separe com vírgulas",
+        "placeholder": "ex.: clientes, codinomes, servidores"
       }
     },
     "check": {
