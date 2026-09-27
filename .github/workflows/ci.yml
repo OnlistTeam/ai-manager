@@ -78,7 +78,7 @@ jobs:
           set -euo pipefail
           archive="$RUNNER_TEMP/$ACTIONLINT_ARCHIVE"
           binary="$RUNNER_TEMP/actionlint"
-          curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location \
+          curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location --retry 3 \
             "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/${ACTIONLINT_ARCHIVE}" \
             --output "$archive"
           printf '%s  %s\n' "$ACTIONLINT_SHA256" "$archive" | sha256sum -c -
