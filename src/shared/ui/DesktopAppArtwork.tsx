@@ -3,6 +3,8 @@ import CherryStudioPng from "@/assets/icons/cherry-studio.png";
 import CursorSvg from "@/assets/icons/cursor.svg?url";
 import ZCodePng from "@/assets/icons/zcode.png";
 import ClaudeSvg from "@/icons/extracted/claude.svg?url";
+import LmStudioSvg from "@/icons/extracted/lmstudio.svg?url";
+import OllamaSvg from "@/icons/extracted/ollama.svg?url";
 import OpenAISvg from "@/icons/extracted/openai.svg?url";
 import { cn } from "./cn";
 
@@ -31,6 +33,15 @@ const DESKTOP_APP_ARTWORK: Record<DesktopAppId, ArtworkMeta> = {
   "cherry-studio": {
     src: CherryStudioPng,
     imageClassName: "h-9 w-9 rounded-lg",
+  },
+  // Both marks are single-colour, drawn like the OpenAI one.
+  "lm-studio": {
+    src: LmStudioSvg,
+    imageClassName: "h-7 w-7 dark:invert",
+  },
+  ollama: {
+    src: OllamaSvg,
+    imageClassName: "h-7 w-7 dark:invert",
   },
 };
 

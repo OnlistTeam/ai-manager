@@ -36,6 +36,49 @@ $start = Get-StartApps | Where-Object { $_.AppID -like ($package.PackageFamilyNa
 const WINDOWS_LAUNCH_SCRIPT: &str = r#"$ErrorActionPreference = 'Stop'
 Start-Process -FilePath 'explorer.exe' -ArgumentList ('shell:AppsFolder\' + $env:AI_MANAGER_APP_ID)"#;
 
+/// Finds an app its vendor's setup program installed: the fixed uninstall entry
+/// (per-user first, then machine-wide), the fixed executable under the install
+/// root it records, and that executable's valid signature by the fixed signer.
+/// Nothing is searched for by name, and a path never leaves the script.
+macro_rules! windows_installer_lookup {
+    () => {
+        r#"$ErrorActionPreference = 'Stop'
+function Find-InstalledApp {
+  foreach ($root in 'HKCU:', 'HKLM:') {
+    foreach ($branch in 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall', 'SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall') {
+      $entry = Get-ItemProperty -LiteralPath ($root + '\' + $branch + '\' + $env:AI_MANAGER_UNINSTALL_KEY) -ErrorAction SilentlyContinue
+      if ($null -eq $entry -or [string]::IsNullOrWhiteSpace($entry.InstallLocation)) { continue }
+      $executable = Join-Path $entry.InstallLocation.Trim('"') $env:AI_MANAGER_EXECUTABLE
+      if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) { continue }
+      $signature = Get-AuthenticodeSignature -LiteralPath $executable
+      if ($signature.Status -ne 'Valid' -or $null -eq $signature.SignerCertificate) { continue }
+      if ($signature.SignerCertificate.GetNameInfo('SimpleName', $false) -cne $env:AI_MANAGER_SIGNER) { continue }
+      return [pscustomobject]@{ executable = $executable; version = $entry.DisplayVersion }
+    }
+  }
+  return $null
+}
+"#
+    };
+}
+
+const WINDOWS_INSTALLER_INSPECT_SCRIPT: &str = concat!(
+    windows_installer_lookup!(),
+    r#"$app = Find-InstalledApp
+[pscustomobject]@{
+  installed = $null -ne $app
+  version = if ($null -eq $app) { $null } else { [string]$app.version }
+  appId = $null
+} | ConvertTo-Json -Compress"#
+);
+
+const WINDOWS_INSTALLER_LAUNCH_SCRIPT: &str = concat!(
+    windows_installer_lookup!(),
+    r#"$app = Find-InstalledApp
+if ($null -eq $app) { throw 'the audited installation is no longer present' }
+Start-Process -FilePath $app.executable"#
+);
+
 const WINDOWS_UNINSTALL_SETTINGS_SCRIPT: &str = r#"$ErrorActionPreference = 'Stop'
 Start-Process -FilePath 'ms-settings:appsfeatures'"#;
 
@@ -44,6 +87,8 @@ const CLAUDE_DOWNLOAD_PAGE: &str = "https://claude.com/download";
 const CURSOR_DOWNLOAD_PAGE: &str = "https://www.cursor.com/downloads";
 const ZCODE_DOWNLOAD_PAGE: &str = "https://zcode.z.ai/cn";
 const CHERRY_STUDIO_DOWNLOAD_PAGE: &str = "https://cherryai.com.cn/download";
+const LM_STUDIO_DOWNLOAD_PAGE: &str = "https://lmstudio.ai/download";
+const OLLAMA_DOWNLOAD_PAGE: &str = "https://ollama.com/download";
 const OPENAI_MACOS_APPCAST: &str = "https://persistent.oaistatic.com/codex-app-prod/appcast.xml";
 const OPENAI_WINDOWS_VERSION: &str =
     "https://persistent.oaistatic.com/codex-app-prod/windows-store-update.json";
@@ -189,18 +234,28 @@ impl DesktopAppPlatform for SystemDesktopAppPlatform {
                     .await
                 }
                 Platform::Windows => {
-                    if windows_package_name(id).is_none() {
-                        return Err(launch_unsupported(id));
-                    }
+                    let identity = windows_identity(id).ok_or_else(|| launch_unsupported(id))?;
                     let probe = windows_probe(executor.as_ref(), id).await?;
                     if !probe.installed {
                         return Err(not_installed(id));
                     }
-                    let app_id = probe
-                        .app_id
-                        .filter(|value| valid_windows_app_id(value))
-                        .ok_or_else(|| launch_failed("registered Windows app id is unavailable"))?;
-                    run_waited(executor.as_ref(), windows_launch_spec(&app_id)?).await
+                    let spec = match identity {
+                        WindowsIdentity::Package(_) => {
+                            let app_id = probe
+                                .app_id
+                                .filter(|value| valid_windows_app_id(value))
+                                .ok_or_else(|| {
+                                launch_failed("registered Windows app id is unavailable")
+                            })?;
+                            windows_launch_spec(&app_id)?
+                        }
+                        // The script finds and checks the installation again
+                        // before it starts anything.
+                        WindowsIdentity::Installer(installer) => {
+                            windows_installer_spec(WINDOWS_INSTALLER_LAUNCH_SCRIPT, installer)
+                        }
+                    };
+                    run_waited(executor.as_ref(), spec).await
                 }
                 Platform::Linux => {
                     let program = linux_program(id).ok_or_else(|| launch_unsupported(id))?;
@@ -243,7 +298,7 @@ impl DesktopAppPlatform for SystemDesktopAppPlatform {
                     .await
                 }
                 Platform::Windows => {
-                    if windows_package_name(id).is_none() {
+                    if windows_identity(id).is_none() {
                         return Err(uninstall_unsupported(id));
                     }
                     let probe = windows_probe(executor.as_ref(), id).await?;
@@ -365,6 +420,17 @@ const CHERRY_STUDIO_MACOS_IDENTITIES: &[MacOsIdentity] = &[MacOsIdentity {
     bundle_identifiers: &["com.kangfenmao.CherryStudio"],
 }];
 
+const LM_STUDIO_MACOS_IDENTITIES: &[MacOsIdentity] = &[MacOsIdentity {
+    bundle_name: "LM Studio.app",
+    executable_name: "LM Studio",
+    bundle_identifiers: &["ai.elementlabs.lmstudio"],
+}];
+const OLLAMA_MACOS_IDENTITIES: &[MacOsIdentity] = &[MacOsIdentity {
+    bundle_name: "Ollama.app",
+    executable_name: "Ollama",
+    bundle_identifiers: &["com.electron.ollama"],
+}];
+
 fn macos_identities(id: DesktopAppId) -> &'static [MacOsIdentity] {
     match id {
         DesktopAppId::CodexApp => OPENAI_MACOS_IDENTITIES,
@@ -372,6 +438,8 @@ fn macos_identities(id: DesktopAppId) -> &'static [MacOsIdentity] {
         DesktopAppId::Cursor => CURSOR_MACOS_IDENTITIES,
         DesktopAppId::ZCode => ZCODE_MACOS_IDENTITIES,
         DesktopAppId::CherryStudio => CHERRY_STUDIO_MACOS_IDENTITIES,
+        DesktopAppId::LmStudio => LM_STUDIO_MACOS_IDENTITIES,
+        DesktopAppId::Ollama => OLLAMA_MACOS_IDENTITIES,
     }
 }
 
@@ -452,7 +520,11 @@ fn linux_program(id: DesktopAppId) -> Option<AllowedProgram> {
     match id {
         DesktopAppId::CodexApp => Some(AllowedProgram::ChatGptDesktop),
         DesktopAppId::ClaudeDesktop => Some(AllowedProgram::ClaudeDesktop),
-        DesktopAppId::Cursor | DesktopAppId::ZCode | DesktopAppId::CherryStudio => None,
+        DesktopAppId::Cursor
+        | DesktopAppId::ZCode
+        | DesktopAppId::CherryStudio
+        | DesktopAppId::LmStudio
+        | DesktopAppId::Ollama => None,
     }
 }
 
@@ -460,10 +532,14 @@ async fn inspect_windows(
     executor: &dyn CommandExecutor,
     id: DesktopAppId,
 ) -> Result<DesktopAppPlatformState, AppError> {
-    if windows_package_name(id).is_none() {
+    let Some(identity) = windows_identity(id) else {
         return Ok(unsupported_state(id, Platform::Windows));
-    }
+    };
     let probe = windows_probe(executor, id).await?;
+    let can_launch = match identity {
+        WindowsIdentity::Package(_) => probe.app_id.as_deref().is_some_and(valid_windows_app_id),
+        WindowsIdentity::Installer(_) => probe.installed,
+    };
     Ok(DesktopAppPlatformState {
         status: if probe.installed {
             DesktopAppStatus::Installed
@@ -472,7 +548,7 @@ async fn inspect_windows(
         },
         version: probe.version.filter(|value| valid_version(value)),
         latest_version: None,
-        can_launch: probe.app_id.as_deref().is_some_and(valid_windows_app_id),
+        can_launch,
         environment: Platform::Windows.as_str().to_string(),
         installer_handoff: official_download_target(id, Platform::Windows, std::env::consts::ARCH)
             .handoff,
@@ -519,6 +595,8 @@ fn official_download_target(
                 DesktopAppId::Cursor => CURSOR_DOWNLOAD_PAGE,
                 DesktopAppId::ZCode => ZCODE_DOWNLOAD_PAGE,
                 DesktopAppId::CherryStudio => CHERRY_STUDIO_DOWNLOAD_PAGE,
+                DesktopAppId::LmStudio => LM_STUDIO_DOWNLOAD_PAGE,
+                DesktopAppId::Ollama => OLLAMA_DOWNLOAD_PAGE,
             },
             handoff: if platform == Platform::Unknown {
                 DesktopAppInstallerHandoff::Unsupported
@@ -694,12 +772,29 @@ async fn windows_probe(
 }
 
 fn windows_inspect_spec(id: DesktopAppId) -> Option<CommandSpec> {
-    Some(
-        CommandSpec::powershell_script(WINDOWS_INSPECT_SCRIPT)
-            .with_env("AI_MANAGER_PACKAGE_NAME", windows_package_name(id)?)
-            .with_sensitive_args(vec![4])
-            .with_timeout(DESKTOP_LAUNCH_TIMEOUT),
-    )
+    Some(match windows_identity(id)? {
+        WindowsIdentity::Package(package_name) => {
+            CommandSpec::powershell_script(WINDOWS_INSPECT_SCRIPT)
+                .with_env("AI_MANAGER_PACKAGE_NAME", package_name)
+                .with_sensitive_args(vec![4])
+                .with_timeout(DESKTOP_LAUNCH_TIMEOUT)
+        }
+        WindowsIdentity::Installer(installer) => {
+            windows_installer_spec(WINDOWS_INSTALLER_INSPECT_SCRIPT, installer)
+        }
+    })
+}
+
+fn windows_installer_spec(
+    script: &'static str,
+    installer: &WindowsInstallerIdentity,
+) -> CommandSpec {
+    CommandSpec::powershell_script(script)
+        .with_env("AI_MANAGER_UNINSTALL_KEY", installer.uninstall_key)
+        .with_env("AI_MANAGER_EXECUTABLE", installer.executable)
+        .with_env("AI_MANAGER_SIGNER", installer.signer)
+        .with_sensitive_args(vec![4])
+        .with_timeout(DESKTOP_LAUNCH_TIMEOUT)
 }
 
 fn windows_launch_spec(app_id: &str) -> Result<CommandSpec, AppError> {
@@ -718,10 +813,43 @@ fn windows_uninstall_settings_spec() -> CommandSpec {
         .with_timeout(DESKTOP_LAUNCH_TIMEOUT)
 }
 
-fn windows_package_name(id: DesktopAppId) -> Option<&'static str> {
+/// How an app is found on Windows. An app with no entry here was never
+/// verified on a real install and shows as undetectable.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum WindowsIdentity {
+    /// An MSIX package, found by package name and opened from its Start entry.
+    Package(&'static str),
+    /// Installed by the vendor's own setup program (ADR-0058).
+    Installer(&'static WindowsInstallerIdentity),
+}
+
+#[derive(Debug, PartialEq, Eq)]
+struct WindowsInstallerIdentity {
+    /// Subkey name under `...\CurrentVersion\Uninstall`.
+    uninstall_key: &'static str,
+    /// Relative to the install root the uninstall entry records.
+    executable: &'static str,
+    /// Common name on the executable's Authenticode certificate.
+    signer: &'static str,
+}
+
+const LM_STUDIO_WINDOWS_IDENTITY: WindowsInstallerIdentity = WindowsInstallerIdentity {
+    uninstall_key: "TODO",
+    executable: "LM Studio.exe",
+    signer: "TODO",
+};
+const OLLAMA_WINDOWS_IDENTITY: WindowsInstallerIdentity = WindowsInstallerIdentity {
+    uninstall_key: "{44E83376-CE68-45EB-8FC1-393500EB558C}_is1",
+    executable: "ollama app.exe",
+    signer: "TODO",
+};
+
+fn windows_identity(id: DesktopAppId) -> Option<WindowsIdentity> {
     match id {
-        DesktopAppId::CodexApp => Some("OpenAI.Codex"),
-        DesktopAppId::ClaudeDesktop => Some("Claude"),
+        DesktopAppId::CodexApp => Some(WindowsIdentity::Package("OpenAI.Codex")),
+        DesktopAppId::ClaudeDesktop => Some(WindowsIdentity::Package("Claude")),
+        DesktopAppId::LmStudio => Some(WindowsIdentity::Installer(&LM_STUDIO_WINDOWS_IDENTITY)),
+        DesktopAppId::Ollama => Some(WindowsIdentity::Installer(&OLLAMA_WINDOWS_IDENTITY)),
         DesktopAppId::Cursor | DesktopAppId::ZCode | DesktopAppId::CherryStudio => None,
     }
 }

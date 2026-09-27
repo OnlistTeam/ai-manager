@@ -1096,6 +1096,14 @@
         "cherry-studio": {
           "surface": "App de escritorio Cherry Studio",
           "description": "Un cliente de escritorio para muchos modelos."
+        },
+        "lm-studio": {
+          "surface": "App de escritorio LM Studio",
+          "description": "Descarga y ejecuta modelos locales en una app gráfica."
+        },
+        "ollama": {
+          "surface": "Servidor de modelos locales Ollama",
+          "description": "Ejecuta modelos locales en segundo plano para que otras herramientas los usen."
         }
       },
       "status": {

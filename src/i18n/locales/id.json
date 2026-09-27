@@ -1096,6 +1096,14 @@
         "cherry-studio": {
           "surface": "Aplikasi desktop Cherry Studio",
           "description": "Klien desktop untuk banyak model."
+        },
+        "lm-studio": {
+          "surface": "Aplikasi desktop LM Studio",
+          "description": "Unduh dan jalankan model lokal di aplikasi grafis."
+        },
+        "ollama": {
+          "surface": "Server model lokal Ollama",
+          "description": "Menjalankan model lokal di latar belakang untuk dipakai alat lain."
         }
       },
       "status": {

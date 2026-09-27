@@ -1095,6 +1095,14 @@
         "cherry-studio": {
           "surface": "Cherry Studio デスクトップアプリ",
           "description": "多くのモデルに対応したデスクトップクライアント。"
+        },
+        "lm-studio": {
+          "surface": "LM Studio デスクトップアプリ",
+          "description": "ローカルモデルを画面操作でダウンロードして実行します。"
+        },
+        "ollama": {
+          "surface": "Ollama ローカルモデルサーバー",
+          "description": "ローカルモデルをバックグラウンドで動かし、ほかのツールから使えるようにします。"
         }
       },
       "status": {

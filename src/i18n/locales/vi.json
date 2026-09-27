@@ -1096,6 +1096,14 @@
         "cherry-studio": {
           "surface": "Ứng dụng desktop Cherry Studio",
           "description": "Client desktop dùng được nhiều mô hình."
+        },
+        "lm-studio": {
+          "surface": "Ứng dụng desktop LM Studio",
+          "description": "Tải và chạy mô hình cục bộ bằng giao diện đồ họa."
+        },
+        "ollama": {
+          "surface": "Máy chủ mô hình cục bộ Ollama",
+          "description": "Chạy mô hình cục bộ ở chế độ nền cho các công cụ khác dùng."
         }
       },
       "status": {

@@ -16,15 +16,21 @@ pub enum DesktopAppId {
     ZCode,
     #[serde(rename = "cherry-studio")]
     CherryStudio,
+    #[serde(rename = "lm-studio")]
+    LmStudio,
+    #[serde(rename = "ollama")]
+    Ollama,
 }
 
 impl DesktopAppId {
-    pub const ALL: [Self; 5] = [
+    pub const ALL: [Self; 7] = [
         Self::CodexApp,
         Self::ClaudeDesktop,
         Self::Cursor,
         Self::ZCode,
         Self::CherryStudio,
+        Self::LmStudio,
+        Self::Ollama,
     ];
 
     pub fn as_str(&self) -> &'static str {
@@ -34,6 +40,8 @@ impl DesktopAppId {
             Self::Cursor => "cursor",
             Self::ZCode => "zcode",
             Self::CherryStudio => "cherry-studio",
+            Self::LmStudio => "lm-studio",
+            Self::Ollama => "ollama",
         }
     }
 
@@ -134,6 +142,8 @@ mod tests {
             (DesktopAppId::Cursor, "cursor"),
             (DesktopAppId::ZCode, "zcode"),
             (DesktopAppId::CherryStudio, "cherry-studio"),
+            (DesktopAppId::LmStudio, "lm-studio"),
+            (DesktopAppId::Ollama, "ollama"),
         ] {
             assert_eq!(id.as_str(), expected);
             assert_eq!(DesktopAppId::from_str_id(expected), Some(id));

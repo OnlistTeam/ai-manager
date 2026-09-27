@@ -1096,6 +1096,14 @@
         "cherry-studio": {
           "surface": "Cherry Studio 데스크톱 앱",
           "description": "여러 모델을 쓸 수 있는 데스크톱 클라이언트입니다."
+        },
+        "lm-studio": {
+          "surface": "LM Studio 데스크톱 앱",
+          "description": "로컬 모델을 화면에서 내려받고 실행합니다."
+        },
+        "ollama": {
+          "surface": "Ollama 로컬 모델 서버",
+          "description": "로컬 모델을 백그라운드에서 실행해 다른 도구가 쓸 수 있게 합니다."
         }
       },
       "status": {

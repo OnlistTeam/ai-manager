@@ -294,9 +294,9 @@ describe("DesktopAppsSection", () => {
     expect(screen.queryByText("Apps and CLIs, clearly separated")).toBeNull();
   });
 
-  it("uses dedicated artwork for Cursor, ZCode and Cherry Studio", async () => {
+  it("uses dedicated artwork for every standalone app", async () => {
     const standalone = (
-      id: "cursor" | "zcode" | "cherry-studio",
+      id: "cursor" | "zcode" | "cherry-studio" | "lm-studio" | "ollama",
       name: string,
     ) => ({
       id,
@@ -320,13 +320,21 @@ describe("DesktopAppsSection", () => {
           standalone("cursor", "Cursor"),
           standalone("zcode", "ZCode"),
           standalone("cherry-studio", "Cherry Studio"),
+          standalone("lm-studio", "LM Studio"),
+          standalone("ollama", "Ollama"),
         ]),
       ),
     );
     const { container } = mount();
 
     await screen.findByRole("article", { name: "Cursor" });
-    for (const id of ["cursor", "zcode", "cherry-studio"]) {
+    for (const id of [
+      "cursor",
+      "zcode",
+      "cherry-studio",
+      "lm-studio",
+      "ollama",
+    ]) {
       expect(
         container.querySelector(`[data-desktop-app-artwork="${id}"] img`),
       ).toBeInTheDocument();

@@ -142,6 +142,16 @@ fn product_identity(
             None,
             DesktopAppConfigurationRelationship::StandaloneApplication,
         ),
+        DesktopAppId::LmStudio => (
+            "LM Studio",
+            None,
+            DesktopAppConfigurationRelationship::StandaloneApplication,
+        ),
+        DesktopAppId::Ollama => (
+            "Ollama",
+            None,
+            DesktopAppConfigurationRelationship::StandaloneApplication,
+        ),
     }
 }
 
@@ -188,18 +198,20 @@ mod tests {
                         uninstall_handoff: DesktopAppUninstallHandoff::RevealApplication,
                         updates_managed_by_vendor: true,
                     },
-                    DesktopAppId::Cursor | DesktopAppId::ZCode | DesktopAppId::CherryStudio => {
-                        DesktopAppPlatformState {
-                            status: DesktopAppStatus::Unsupported,
-                            version: None,
-                            latest_version: None,
-                            can_launch: false,
-                            environment: "windows".to_string(),
-                            installer_handoff: DesktopAppInstallerHandoff::OfficialDownloadPage,
-                            uninstall_handoff: DesktopAppUninstallHandoff::Unsupported,
-                            updates_managed_by_vendor: true,
-                        }
-                    }
+                    DesktopAppId::Cursor
+                    | DesktopAppId::ZCode
+                    | DesktopAppId::CherryStudio
+                    | DesktopAppId::LmStudio
+                    | DesktopAppId::Ollama => DesktopAppPlatformState {
+                        status: DesktopAppStatus::Unsupported,
+                        version: None,
+                        latest_version: None,
+                        can_launch: false,
+                        environment: "windows".to_string(),
+                        installer_handoff: DesktopAppInstallerHandoff::OfficialDownloadPage,
+                        uninstall_handoff: DesktopAppUninstallHandoff::Unsupported,
+                        updates_managed_by_vendor: true,
+                    },
                 })
             })
         }
@@ -291,7 +303,7 @@ mod tests {
 
         let apps = directory.list().await.expect("a failed probe is not fatal");
 
-        assert_eq!(apps.len(), 5);
+        assert_eq!(apps.len(), DesktopAppId::ALL.len());
         assert_eq!(apps[0].id, DesktopAppId::CodexApp);
         assert_eq!(apps[0].status, DesktopAppStatus::Unknown);
         assert!(!apps[0].can_launch, "an unknown app offers no action");
@@ -305,7 +317,7 @@ mod tests {
     async fn list_keeps_apps_separate_from_cli_identity_and_in_stable_order() {
         let (directory, _, _) = directory();
         let apps = directory.list().await.expect("list");
-        assert_eq!(apps.len(), 5);
+        assert_eq!(apps.len(), 7);
         assert_eq!(apps[0].id, DesktopAppId::CodexApp);
         assert_eq!(apps[0].related_tool, Some(ToolId::Codex));
         assert_eq!(
@@ -344,6 +356,17 @@ mod tests {
         assert_eq!(apps[3].related_tool, None);
         assert_eq!(apps[4].id, DesktopAppId::CherryStudio);
         assert_eq!(apps[4].related_tool, None);
+        for (app, id) in apps[5..]
+            .iter()
+            .zip([DesktopAppId::LmStudio, DesktopAppId::Ollama])
+        {
+            assert_eq!(app.id, id);
+            assert_eq!(app.related_tool, None);
+            assert_eq!(
+                app.configuration_relationship,
+                DesktopAppConfigurationRelationship::StandaloneApplication
+            );
+        }
     }
 
     #[tokio::test]

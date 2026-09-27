@@ -1095,6 +1095,14 @@
         "cherry-studio": {
           "surface": "Cherry Studio 桌面應用程式",
           "description": "可接入多種模型的桌面客戶端。"
+        },
+        "lm-studio": {
+          "surface": "LM Studio 桌面應用程式",
+          "description": "用圖形介面下載並執行本機模型。"
+        },
+        "ollama": {
+          "surface": "Ollama 本機模型服務",
+          "description": "在背景執行本機模型，供其他工具連線。"
         }
       },
       "status": {

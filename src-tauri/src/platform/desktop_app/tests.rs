@@ -3,7 +3,9 @@ use super::{
     claude_desktop_mcp_config_path_for, compare_desktop_versions, inspect_macos,
     official_download_target, parse_codex_macos_appcast, parse_codex_windows_version,
     parse_windows_probe, plist_string, valid_windows_app_id, windows_inspect_spec,
-    windows_launch_spec, windows_uninstall_settings_spec,
+    windows_installer_spec, windows_launch_spec, windows_uninstall_settings_spec,
+    LM_STUDIO_WINDOWS_IDENTITY, OLLAMA_WINDOWS_IDENTITY, WINDOWS_INSTALLER_INSPECT_SCRIPT,
+    WINDOWS_INSTALLER_LAUNCH_SCRIPT,
 };
 use crate::domain::{
     DesktopAppId, DesktopAppInstallerHandoff, DesktopAppStatus, DesktopAppUninstallHandoff,
@@ -167,6 +169,20 @@ fn standalone_apps_require_the_audited_macos_bundle_identifiers() {
             "Cherry Studio",
             "com.kangfenmao.CherryStudio",
             "2.0.10",
+        ),
+        (
+            DesktopAppId::LmStudio,
+            "LM Studio.app",
+            "LM Studio",
+            "ai.elementlabs.lmstudio",
+            "0.4.25+1",
+        ),
+        (
+            DesktopAppId::Ollama,
+            "Ollama.app",
+            "Ollama",
+            "com.electron.ollama",
+            "0.34.4",
         ),
     ] {
         let bundle = applications.join(bundle_name);
@@ -341,6 +357,54 @@ fn windows_plans_keep_scripts_constant_and_values_out_of_argv() {
 }
 
 #[test]
+fn installer_apps_are_found_by_fixed_identity_passed_outside_argv() {
+    for (id, identity) in [
+        (DesktopAppId::LmStudio, &LM_STUDIO_WINDOWS_IDENTITY),
+        (DesktopAppId::Ollama, &OLLAMA_WINDOWS_IDENTITY),
+    ] {
+        let inspect = windows_inspect_spec(id).expect("audited installer identity");
+        assert_eq!(inspect.program, AllowedProgram::Powershell);
+        assert_eq!(
+            inspect.env,
+            vec![
+                (
+                    "AI_MANAGER_UNINSTALL_KEY".to_string(),
+                    identity.uninstall_key.to_string()
+                ),
+                (
+                    "AI_MANAGER_EXECUTABLE".to_string(),
+                    identity.executable.to_string()
+                ),
+                ("AI_MANAGER_SIGNER".to_string(), identity.signer.to_string()),
+            ]
+        );
+        let argv = inspect.args.join(" ");
+        assert!(!argv.contains(identity.uninstall_key));
+        assert!(!argv.contains(identity.signer));
+        assert!(inspect.validate().is_ok());
+
+        let launch = windows_installer_spec(WINDOWS_INSTALLER_LAUNCH_SCRIPT, identity);
+        assert_eq!(launch.env, inspect.env);
+        assert!(launch.validate().is_ok());
+    }
+}
+
+#[test]
+fn installer_scripts_check_the_signature_before_reporting_or_starting() {
+    for script in [
+        WINDOWS_INSTALLER_INSPECT_SCRIPT,
+        WINDOWS_INSTALLER_LAUNCH_SCRIPT,
+    ] {
+        assert!(script.contains("Get-AuthenticodeSignature"));
+        assert!(script.contains("-cne $env:AI_MANAGER_SIGNER"));
+        assert!(script.contains("-LiteralPath"));
+    }
+    // Only the launch script starts a process, and only what the lookup found.
+    assert!(!WINDOWS_INSTALLER_INSPECT_SCRIPT.contains("Start-Process"));
+    assert!(WINDOWS_INSTALLER_LAUNCH_SCRIPT.contains("Start-Process -FilePath $app.executable"));
+}
+
+#[test]
 fn official_package_targets_are_fixed_by_app_platform_and_architecture() {
     let cases = [
         (
@@ -419,6 +483,8 @@ fn unsupported_direct_package_targets_fall_back_to_vendor_pages() {
             DesktopAppId::CherryStudio,
             "https://cherryai.com.cn/download",
         ),
+        (DesktopAppId::LmStudio, "https://lmstudio.ai/download"),
+        (DesktopAppId::Ollama, "https://ollama.com/download"),
     ] {
         for platform in [Platform::MacOs, Platform::Windows, Platform::Linux] {
             let target = official_download_target(id, platform, "aarch64");

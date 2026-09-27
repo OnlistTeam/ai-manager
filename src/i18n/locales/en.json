@@ -1096,6 +1096,14 @@
         "cherry-studio": {
           "surface": "Cherry Studio desktop app",
           "description": "A desktop client for many models."
+        },
+        "lm-studio": {
+          "surface": "LM Studio desktop app",
+          "description": "Download and run local models in a graphical app."
+        },
+        "ollama": {
+          "surface": "Ollama local model server",
+          "description": "Runs local models in the background for other tools to use."
         }
       },
       "status": {

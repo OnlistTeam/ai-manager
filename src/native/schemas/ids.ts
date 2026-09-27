@@ -29,4 +29,6 @@ export const desktopAppIdSchema = z.enum([
   "cursor",
   "zcode",
   "cherry-studio",
+  "lm-studio",
+  "ollama",
 ]);

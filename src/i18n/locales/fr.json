@@ -1096,6 +1096,14 @@
         "cherry-studio": {
           "surface": "Application de bureau Cherry Studio",
           "description": "Un client de bureau pour de nombreux modèles."
+        },
+        "lm-studio": {
+          "surface": "Application de bureau LM Studio",
+          "description": "Téléchargez et exécutez des modèles locaux dans une application graphique."
+        },
+        "ollama": {
+          "surface": "Serveur de modèles locaux Ollama",
+          "description": "Exécute des modèles locaux en arrière-plan pour les autres outils."
         }
       },
       "status": {
