@@ -2576,24 +2576,24 @@
     },
     "privacy": {
       "title": "Bảo vệ quyền riêng tư",
-      "description": "Áp dụng cho các yêu cầu đi qua AI Manager (định tuyến trực tiếp hoặc định tuyến cục bộ), không áp dụng khi công cụ kết nối thẳng tới dịch vụ.",
+      "description": "Dịch vụ chỉ thấy ký hiệu giữ chỗ; nội dung thật ở lại máy này và được trả về đúng chỗ trước khi phản hồi tới công cụ. Chỉ áp dụng cho yêu cầu đi qua AI Manager (định tuyến trực tiếp hoặc cục bộ).",
       "loading": "Đang đọc cài đặt quyền riêng tư…",
       "error": {
         "title": "Chưa đọc được cài đặt quyền riêng tư",
         "description": "Hãy thử lại sau giây lát."
       },
       "secrets": {
-        "label": "Ẩn khóa và mật khẩu",
-        "description": "Khóa API, khóa riêng, token và mật khẩu được gửi tới dịch vụ dưới dạng ký hiệu giữ chỗ và được đặt lại trong phản hồi."
+        "label": "Khóa và mật khẩu",
+        "description": "Khóa API, token, khóa riêng và mật khẩu ghi trong cấu hình hoặc URL"
       },
       "personal": {
-        "label": "Ẩn thông tin cá nhân",
-        "description": "Thay cả email, số điện thoại, số căn cước và số thẻ ngân hàng."
+        "label": "Thông tin cá nhân",
+        "description": "Email, số di động và số căn cước Trung Quốc, số thẻ ngân hàng"
       },
       "words": {
-        "label": "Ẩn những từ này",
-        "description": "Những từ bạn không muốn dịch vụ nhìn thấy, cách nhau bằng dấu phẩy.",
-        "placeholder": "Tên người, mật danh, tên máy chủ"
+        "label": "Từ tự chọn",
+        "description": "Khớp nguyên từ, phân biệt hoa thường, cách nhau bằng dấu phẩy",
+        "placeholder": "vd: tên khách hàng, mật danh dự án, tên máy chủ"
       }
     },
     "check": {

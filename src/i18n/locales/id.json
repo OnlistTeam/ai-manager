@@ -2576,24 +2576,24 @@
     },
     "privacy": {
       "title": "Perlindungan privasi",
-      "description": "Berlaku untuk permintaan yang melewati AI Manager (perutean langsung atau perutean lokal), bukan untuk alat yang terhubung langsung ke layanan.",
+      "description": "Layanan hanya melihat placeholder; isi aslinya tetap di komputer ini dan dikembalikan sebelum balasan sampai ke alat Anda. Hanya untuk permintaan yang lewat AI Manager (perutean langsung atau lokal).",
       "loading": "Membaca pengaturan privasi…",
       "error": {
         "title": "Pengaturan privasi belum bisa dibaca",
         "description": "Coba lagi sebentar lagi."
       },
       "secrets": {
-        "label": "Sembunyikan kunci dan kata sandi",
-        "description": "Kunci API, kunci privat, token, dan kata sandi dikirim ke layanan sebagai placeholder dan dikembalikan di balasan."
+        "label": "Kunci dan kata sandi",
+        "description": "Kunci API, token, kunci privat, serta kata sandi di pengaturan atau URL"
       },
       "personal": {
-        "label": "Sembunyikan informasi pribadi",
-        "description": "Ganti juga email, nomor telepon, nomor identitas, dan nomor kartu bank."
+        "label": "Informasi pribadi",
+        "description": "Email, nomor ponsel dan identitas Tiongkok, nomor kartu bank"
       },
       "words": {
-        "label": "Sembunyikan kata-kata ini",
-        "description": "Kata yang tidak ingin dilihat layanan, pisahkan dengan koma.",
-        "placeholder": "Nama orang, nama sandi, nama host"
+        "label": "Kata sendiri",
+        "description": "Kata utuh, huruf besar-kecil dibedakan, pisahkan dengan koma",
+        "placeholder": "mis. nama klien, nama sandi proyek, nama server"
       }
     },
     "check": {

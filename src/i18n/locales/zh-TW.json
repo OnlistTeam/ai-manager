@@ -2575,24 +2575,24 @@
     },
     "privacy": {
       "title": "隱私保護",
-      "description": "只對經過 AI 管家的請求生效（即時路由或本機路由），工具直連服務商時不經過這裡。",
+      "description": "服務商只看到佔位符，真實內容留在本機，回覆交給工具前會換回原文。只對經過 AI 管家的請求生效（即時路由或本機路由）。",
       "loading": "正在讀取隱私設定…",
       "error": {
         "title": "暫時讀不到隱私設定",
         "description": "稍後再試一次。"
       },
       "secrets": {
-        "label": "隱藏金鑰和密碼",
-        "description": "API Key、私鑰、Token 和密碼以佔位符傳給服務商，回覆裡再換回來"
+        "label": "金鑰和密碼",
+        "description": "API Key、Token、私鑰，以及設定和網址裡的密碼"
       },
       "personal": {
-        "label": "隱藏個人資料",
-        "description": "電子郵件、手機號碼、身分證號和銀行卡號也一併替換"
+        "label": "個人資料",
+        "description": "電子郵件、中國大陸手機號碼與身分證號、銀行卡號"
       },
       "words": {
-        "label": "隱藏這些詞",
-        "description": "不想讓服務商看到的詞，用逗號分隔",
-        "placeholder": "人名、代號、主機名稱"
+        "label": "自訂詞",
+        "description": "區分大小寫，多個詞用逗號隔開",
+        "placeholder": "例如：客戶名、專案代號、伺服器名稱"
       }
     },
     "check": {

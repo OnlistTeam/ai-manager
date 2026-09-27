@@ -2577,24 +2577,24 @@
     },
     "privacy": {
       "title": "Protection de la vie privée",
-      "description": "S'applique aux requêtes qui passent par AI Manager (routage en direct ou routage local), pas aux outils connectés directement à un service.",
+      "description": "Le service ne voit que des espaces réservés : le contenu réel reste sur cet ordinateur et reprend sa place avant que la réponse n'arrive à votre outil. Uniquement pour les requêtes qui passent par AI Manager (routage en direct ou local).",
       "loading": "Lecture des réglages de confidentialité…",
       "error": {
         "title": "Impossible de lire les réglages de confidentialité",
         "description": "Réessayez dans un instant."
       },
       "secrets": {
-        "label": "Masquer les clés et mots de passe",
-        "description": "Les clés d'API, clés privées, jetons et mots de passe partent vers le service sous forme d'espaces réservés et sont rétablis dans la réponse."
+        "label": "Clés et mots de passe",
+        "description": "Clés d'API, jetons, clés privées et mots de passe écrits dans une configuration ou une URL"
       },
       "personal": {
-        "label": "Masquer les données personnelles",
-        "description": "Remplacer aussi les adresses e-mail, numéros de téléphone, d'identité et de carte bancaire."
+        "label": "Données personnelles",
+        "description": "E-mails, numéros de mobile et d'identité chinois, cartes bancaires"
       },
       "words": {
-        "label": "Masquer ces mots",
-        "description": "Les mots que le service ne doit pas voir, séparés par des virgules.",
-        "placeholder": "Noms, noms de code, noms d'hôte"
+        "label": "Mots personnalisés",
+        "description": "Mots entiers, sensibles à la casse, séparés par des virgules",
+        "placeholder": "ex. : noms de clients, noms de code, serveurs"
       }
     },
     "check": {

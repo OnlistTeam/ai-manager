@@ -2577,24 +2577,24 @@
     },
     "privacy": {
       "title": "Datenschutz",
-      "description": "Gilt für Anfragen, die über AI Manager laufen (Live-Routing oder lokales Routing), nicht für Werkzeuge, die sich direkt mit einem Dienst verbinden.",
+      "description": "Der Dienst bekommt nur Platzhalter zu sehen; die echten Inhalte bleiben auf diesem Rechner und stehen wieder in der Antwort, bevor dein Werkzeug sie liest. Gilt nur für Anfragen über AI Manager (Live- oder lokales Routing).",
       "loading": "Datenschutz-Einstellungen werden gelesen…",
       "error": {
         "title": "Datenschutz-Einstellungen nicht lesbar",
         "description": "Versuche es gleich noch einmal."
       },
       "secrets": {
-        "label": "Schlüssel und Passwörter verbergen",
-        "description": "API-Schlüssel, private Schlüssel, Tokens und Passwörter gehen als Platzhalter an den Dienst und werden in der Antwort wiederhergestellt."
+        "label": "Schlüssel und Passwörter",
+        "description": "API-Schlüssel, Tokens, private Schlüssel sowie Passwörter in Einstellungen oder URLs"
       },
       "personal": {
-        "label": "Persönliche Daten verbergen",
-        "description": "Auch E-Mail-Adressen, Telefonnummern, Ausweis- und Bankkartennummern ersetzen."
+        "label": "Persönliche Daten",
+        "description": "E-Mail-Adressen, chinesische Handy- und Ausweisnummern, Bankkartennummern"
       },
       "words": {
-        "label": "Diese Wörter verbergen",
-        "description": "Wörter, die der Dienst nicht sehen soll, durch Kommas getrennt.",
-        "placeholder": "Namen, Codenamen, Hostnamen"
+        "label": "Eigene Wörter",
+        "description": "Nur ganze Wörter, Groß- und Kleinschreibung zählt, durch Kommas getrennt",
+        "placeholder": "z. B. Kundennamen, Projektcodes, Servernamen"
       }
     },
     "check": {

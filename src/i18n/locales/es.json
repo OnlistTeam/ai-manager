@@ -2577,24 +2577,24 @@
     },
     "privacy": {
       "title": "Protección de la privacidad",
-      "description": "Se aplica a las solicitudes que pasan por AI Manager (enrutamiento en vivo o local), no a las herramientas que se conectan directamente a un servicio.",
+      "description": "El servicio solo ve marcadores; el contenido real no sale de este equipo y vuelve a su sitio antes de que la respuesta llegue a tu herramienta. Solo para solicitudes que pasan por AI Manager (enrutamiento en vivo o local).",
       "loading": "Leyendo los ajustes de privacidad…",
       "error": {
         "title": "No se pueden leer los ajustes de privacidad",
         "description": "Inténtalo de nuevo en un momento."
       },
       "secrets": {
-        "label": "Ocultar claves y contraseñas",
-        "description": "Las claves de API, claves privadas, tokens y contraseñas llegan al servicio como marcadores y se restauran en la respuesta."
+        "label": "Claves y contraseñas",
+        "description": "Claves de API, tokens, claves privadas y contraseñas escritas en configuraciones o URL"
       },
       "personal": {
-        "label": "Ocultar datos personales",
-        "description": "Sustituir también correos, números de teléfono, de identidad y de tarjeta bancaria."
+        "label": "Datos personales",
+        "description": "Correos, móviles y documentos de identidad chinos, tarjetas bancarias"
       },
       "words": {
-        "label": "Ocultar estas palabras",
-        "description": "Palabras que no quieres que vea el servicio, separadas por comas.",
-        "placeholder": "Nombres, nombres en clave, nombres de host"
+        "label": "Palabras propias",
+        "description": "Palabras completas, distingue mayúsculas; sepáralas con comas",
+        "placeholder": "p. ej., clientes, nombres en clave, servidores"
       }
     },
     "check": {

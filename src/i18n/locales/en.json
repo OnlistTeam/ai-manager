@@ -2577,24 +2577,24 @@
     },
     "privacy": {
       "title": "Privacy protection",
-      "description": "Applies to requests that go through AI Manager (live routing or local routing), not to tools that connect to a service directly.",
+      "description": "The service sees placeholders instead of the real text, which stays on this computer and is put back before replies reach your tool. Only for requests routed through AI Manager (live or local routing).",
       "loading": "Reading privacy settings…",
       "error": {
         "title": "Privacy settings can't be read",
         "description": "Try again in a moment."
       },
       "secrets": {
-        "label": "Hide keys and passwords",
-        "description": "API keys, private keys, tokens and passwords go to the service as placeholders and are put back in the reply."
+        "label": "Keys and passwords",
+        "description": "API keys, tokens, private keys, and passwords written in settings or URLs"
       },
       "personal": {
-        "label": "Hide personal information",
-        "description": "Also replace email addresses, phone numbers, ID numbers and bank card numbers."
+        "label": "Personal details",
+        "description": "Email addresses, Chinese mobile and ID numbers, bank card numbers"
       },
       "words": {
-        "label": "Hide these words",
-        "description": "Words you don't want the service to see, separated by commas.",
-        "placeholder": "Names, codenames, host names"
+        "label": "Custom words",
+        "description": "Whole words, case-sensitive, separated by commas",
+        "placeholder": "e.g. client names, project codenames, server names"
       }
     },
     "check": {
