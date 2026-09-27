@@ -188,6 +188,18 @@ export const providers = {
     });
   },
 
+  /**
+   * Puts back the entry that leaves the tool on its own sign-in, or returns
+   * the list as it is when that entry is already there (ADR-0057).
+   */
+  restoreToolLogin(tool: ToolId): Promise<ProviderCreateResult> {
+    return invokeNative(
+      "app_provider_restore_tool_login",
+      providerCreateResultSchema,
+      { tool },
+    );
+  },
+
   remove(tool: ToolId, provider: string): Promise<Provider[]> {
     return invokeNative("app_provider_remove", providerListSchema, {
       tool,

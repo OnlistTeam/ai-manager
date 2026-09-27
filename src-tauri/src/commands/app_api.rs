@@ -389,6 +389,19 @@ pub async fn app_provider_save(
 }
 
 #[tauri::command]
+pub async fn app_provider_restore_tool_login(
+    app_handle: tauri::AppHandle,
+    tool: String,
+) -> Result<ProviderCreateResult, AppError> {
+    let tool = parse_tool(&tool)?;
+    let worker_handle = app_handle.clone();
+    let result =
+        blocking(move || ProviderDirectory::restore_tool_login(&worker_handle, tool)).await?;
+    crate::tray::provider_changed(&app_handle, tool);
+    Ok(result)
+}
+
+#[tauri::command]
 pub async fn app_provider_remove(
     app_handle: tauri::AppHandle,
     tool: String,

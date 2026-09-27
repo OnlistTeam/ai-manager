@@ -424,6 +424,8 @@ export type {
   Provider,
   ProviderConnectionPreset,
   ProviderConnectionProfile,
+  ProviderPresetKind,
+  ToolLoginAccount,
   ProviderCreateDraft,
   ProviderCreateResult,
   ProviderCustomCreateDraft,

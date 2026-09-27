@@ -310,6 +310,7 @@ const CONNECTION_PROFILE: ProviderConnectionProfile = {
   defaultPresetId: "official",
   modelRequired: false,
   baseUrlTakesNoVersion: false,
+  toolLogin: "claude",
   presets: [
     {
       id: "official",

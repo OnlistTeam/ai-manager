@@ -137,6 +137,7 @@ describe("native.providers", () => {
             defaultPresetId: "official",
             modelRequired: false,
             baseUrlTakesNoVersion: false,
+            toolLogin: null,
             presets: [
               {
                 id: "official",
@@ -169,6 +170,7 @@ describe("native.providers", () => {
             defaultPresetId: "openrouter",
             modelRequired: true,
             baseUrlTakesNoVersion: false,
+            toolLogin: null,
             presets: [
               {
                 id: "openrouter",
@@ -382,6 +384,25 @@ describe("native.providers", () => {
       ).toThrow();
     }
     expect(seen).toEqual([]);
+  });
+
+  it("restores the tool's own sign-in entry by tool alone", async () => {
+    server.use(
+      http.post(
+        `${TAURI_ENDPOINT}/app_provider_restore_tool_login`,
+        async ({ request }) => {
+          seen.push(await request.json());
+          return HttpResponse.json({
+            providers: [{ ...wire, id: "claude-official", kind: "official" }],
+            createdProviderId: "claude-official",
+          });
+        },
+      ),
+    );
+    await expect(
+      native.providers.restoreToolLogin("claude-code"),
+    ).resolves.toMatchObject({ createdProviderId: "claude-official" });
+    expect(seen).toEqual([{ tool: "claude-code" }]);
   });
 
   it("switches and gets the refreshed list back", async () => {

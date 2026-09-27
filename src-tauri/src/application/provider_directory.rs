@@ -158,6 +158,14 @@ impl ProviderDirectory {
         gate(app_handle, tool)?.create_custom(tool, request_id, draft)
     }
 
+    /// The add page's subscription card: the tool's own sign-in entry.
+    pub fn restore_tool_login(
+        app_handle: &tauri::AppHandle,
+        tool: ToolId,
+    ) -> Result<ProviderCreateResult, AppError> {
+        gate(app_handle, tool)?.restore_tool_login(tool)
+    }
+
     pub fn switch(
         app_handle: &tauri::AppHandle,
         tool: ToolId,

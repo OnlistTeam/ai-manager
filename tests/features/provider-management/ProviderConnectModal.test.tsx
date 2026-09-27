@@ -15,6 +15,7 @@ const profile: ProviderConnectionProfile = {
   defaultPresetId: "official",
   modelRequired: true,
   baseUrlTakesNoVersion: false,
+  toolLogin: null,
   presets: [
     {
       id: "official",

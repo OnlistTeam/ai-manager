@@ -81,6 +81,7 @@ describe("AppShell", () => {
           defaultPresetId: "official",
           modelRequired: false,
           baseUrlTakesNoVersion: false,
+          toolLogin: null,
           presets: [
             {
               id: "official",

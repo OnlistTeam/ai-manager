@@ -1147,6 +1147,7 @@ pub fn run() {
             commands::app_provider_custom_create,
             commands::app_provider_switch,
             commands::app_provider_save,
+            commands::app_provider_restore_tool_login,
             commands::app_provider_remove,
             commands::app_providers_reorder,
             commands::app_provider_test,

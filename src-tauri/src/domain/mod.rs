@@ -84,7 +84,7 @@ pub use provider::{
     ProviderCreateDraft, ProviderCreateResult, ProviderCustomCreateDraft, ProviderDraft,
     ProviderEditCapabilities, ProviderEditProfile, ProviderHeaderDraft, ProviderKind,
     ProviderPreflightOutcome, ProviderPreflightStatus, ProviderPresetKind, ProviderReachability,
-    ProviderSaveOutcome, ProviderTestResult, MAX_PROVIDER_TEST_ALL_RESULTS,
+    ProviderSaveOutcome, ProviderTestResult, ToolLoginAccount, MAX_PROVIDER_TEST_ALL_RESULTS,
     PROVIDER_TEST_ALL_CONCURRENCY,
 };
 pub use provider_endpoint::{

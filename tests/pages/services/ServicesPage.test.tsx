@@ -142,6 +142,7 @@ describe("ServicesPage", () => {
           defaultPresetId: "official",
           modelRequired: false,
           baseUrlTakesNoVersion: false,
+          toolLogin: null,
           presets: [
             {
               id: "official",
@@ -810,6 +811,7 @@ describe("ServicesPage", () => {
             defaultPresetId: "official",
             modelRequired: false,
             baseUrlTakesNoVersion: false,
+            toolLogin: null,
             presets: [
               {
                 id: "official",
@@ -2789,6 +2791,7 @@ describe("ServicesPage", () => {
           defaultPresetId: "official",
           modelRequired: false,
           baseUrlTakesNoVersion: false,
+          toolLogin: null,
           presets: [
             {
               id: "official",
@@ -2888,6 +2891,7 @@ describe("ServicesPage tabs", () => {
           defaultPresetId: "official",
           modelRequired: false,
           baseUrlTakesNoVersion: false,
+          toolLogin: null,
           presets: [],
         }),
       ),

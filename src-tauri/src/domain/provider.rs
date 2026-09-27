@@ -121,6 +121,18 @@ pub struct ProviderConnectionPreset {
     pub kind: ProviderPresetKind,
 }
 
+/// The account a tool signs in with by itself, named on the add page's
+/// subscription card (ADR-0057). The card restores the tool's built-in login
+/// entry; signing in stays the tool's own business.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum ToolLoginAccount {
+    Claude,
+    ChatGpt,
+    Google,
+    SuperGrok,
+}
+
 /// The catalog of safe connections for a tool. The default preset must be one of `presets`.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -137,6 +149,8 @@ pub struct ProviderConnectionProfile {
     /// (`ProviderWireProtocol::route_carries_version`), so an address ending in
     /// `/v1` is requested as `/v1/v1/...` and fails.
     pub base_url_takes_no_version: bool,
+    /// The tool's own sign-in, when it has one an entry can leave it on.
+    pub tool_login: Option<ToolLoginAccount>,
 }
 
 /// Beginner Mode payload for creating a service (spec §34).
@@ -406,6 +420,7 @@ mod tests {
         ProviderCreateDraft, ProviderCreateResult, ProviderCustomCreateDraft, ProviderDraft,
         ProviderEditCapabilities, ProviderEditProfile, ProviderKind, ProviderPreflightOutcome,
         ProviderPreflightStatus, ProviderPresetKind, ProviderReachability, ProviderTestResult,
+        ToolLoginAccount,
     };
     use crate::domain::ToolId;
 
@@ -619,10 +634,11 @@ mod tests {
             }],
             model_required: false,
             base_url_takes_no_version: true,
+            tool_login: Some(ToolLoginAccount::Claude),
         };
         assert_eq!(
             serde_json::to_string(&profile).expect("serialize profile"),
-            r#"{"defaultPresetId":"official","presets":[{"id":"official","serviceName":"Anthropic API","defaultName":"Anthropic","defaultModel":"claude-sonnet-5","baseUrl":"https://api.anthropic.com","websiteUrl":"https://www.anthropic.com","apiKeyUrl":"https://console.anthropic.com","official":true,"kind":"vendor"}],"modelRequired":false,"baseUrlTakesNoVersion":true}"#
+            r#"{"defaultPresetId":"official","presets":[{"id":"official","serviceName":"Anthropic API","defaultName":"Anthropic","defaultModel":"claude-sonnet-5","baseUrl":"https://api.anthropic.com","websiteUrl":"https://www.anthropic.com","apiKeyUrl":"https://console.anthropic.com","official":true,"kind":"vendor"}],"modelRequired":false,"baseUrlTakesNoVersion":true,"toolLogin":"claude"}"#
         );
     }
 

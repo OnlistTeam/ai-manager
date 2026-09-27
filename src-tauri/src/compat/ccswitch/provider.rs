@@ -38,6 +38,7 @@ mod presets;
 mod removal;
 mod saving;
 mod switching;
+mod tool_login;
 pub use create::connection_profile_for;
 use create::{
     create_error, is_connection_attempt_provider, provider_for_create, provider_for_custom_create,
@@ -605,6 +606,13 @@ impl ProviderStore {
     ) -> Result<ToolModelChoice, AppError> {
         let _mutation = self.lock_mutation();
         model_choice::set_effort(self, tool, effort, terminal)
+    }
+
+    /// Put back the entry that leaves the tool on its own sign-in (ADR-0057).
+    /// Returns the list as it is when the entry is already there.
+    pub fn restore_tool_login(&self, tool: ToolId) -> Result<ProviderCreateResult, AppError> {
+        let _mutation = self.lock_mutation();
+        tool_login::restore(self, tool)
     }
 
     /// Save the user's order of this tool's services and return the reordered

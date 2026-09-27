@@ -18,7 +18,7 @@ use crate::domain::{
 };
 use crate::provider::Provider as UpstreamProvider;
 
-use super::{advanced, app_type_for, apply_draft, create::create_error};
+use super::{advanced, app_type_for, apply_draft, create::create_error, tool_login};
 
 const CATALOG_JSON: &str = include_str!("provider_presets.generated.json");
 const CATALOG_VERSION: u8 = 2;
@@ -195,6 +195,7 @@ pub(super) fn profile_for(tool: ToolId) -> Result<ProviderConnectionProfile, App
         presets: presets.iter().map(CatalogPreset::profile).collect(),
         model_required: model_required(tool),
         base_url_takes_no_version: ProviderWireProtocol::for_tool(tool).route_carries_version(),
+        tool_login: tool_login::account_for(tool),
     })
 }
 

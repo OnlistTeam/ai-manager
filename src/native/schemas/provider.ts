@@ -150,11 +150,20 @@ export const providerConnectionPresetSchema = z
   })
   .strict();
 
+/** The account a tool signs in with by itself (ADR-0057). */
+export const toolLoginAccountSchema = z.enum([
+  "claude",
+  "chatGpt",
+  "google",
+  "superGrok",
+]);
+
 export const providerConnectionProfileSchema = z
   .object({
     defaultPresetId: z.string().min(1).max(64),
     modelRequired: z.boolean(),
     baseUrlTakesNoVersion: z.boolean(),
+    toolLogin: toolLoginAccountSchema.nullable(),
     presets: z.array(providerConnectionPresetSchema).min(1).max(256),
   })
   .strict()
@@ -566,6 +575,7 @@ export type ProviderConnectionProfile = z.infer<
   typeof providerConnectionProfileSchema
 >;
 export type ProviderPresetKind = z.infer<typeof providerPresetKindSchema>;
+export type ToolLoginAccount = z.infer<typeof toolLoginAccountSchema>;
 export type ProviderConnectionPreset = z.infer<
   typeof providerConnectionPresetSchema
 >;
