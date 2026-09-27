@@ -156,7 +156,7 @@ describe("provider mutations", () => {
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_provider_save`, async ({ request }) => {
         seen.push(await request.json());
-        return HttpResponse.json([wire]);
+        return HttpResponse.json({ providers: [wire] });
       }),
     );
     const client = createTestQueryClient();

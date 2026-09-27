@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { routingPickupSchema } from "./routing";
 import { toolIdSchema, type ToolId } from "./tool";
 
 export const providerKindSchema = z.enum(["official", "custom"]);
@@ -243,6 +244,12 @@ export const providerPreflightOutcomeSchema = z
     activeProviderId: z.string().nullable(),
     providers: providerListSchema,
     checks: z.array(providerTestResultSchema).max(512),
+    /**
+     * Present when the switch ended the tool's local route because the new
+     * endpoint cannot go through AI Manager (ADR-0054): how an open session
+     * of the tool picks that up.
+     */
+    routingEnded: routingPickupSchema.optional(),
   })
   .strict()
   .superRefine((outcome, context) => {
@@ -482,6 +489,14 @@ export const providerCustomCreateDraftSchema = z
   .strict();
 
 /** Safe create response used to target the exact new service for a follow-up check. */
+/** A save, and whether it ended the tool's local route (ADR-0054). */
+export const providerSaveOutcomeSchema = z
+  .object({
+    providers: providerListSchema,
+    routingEnded: routingPickupSchema.optional(),
+  })
+  .strict();
+
 export const providerCreateResultSchema = z
   .object({
     providers: providerListSchema,
@@ -534,6 +549,7 @@ export type ProviderCustomCreateDraft = z.infer<
   typeof providerCustomCreateDraftSchema
 >;
 export type ProviderCreateResult = z.infer<typeof providerCreateResultSchema>;
+export type ProviderSaveOutcome = z.infer<typeof providerSaveOutcomeSchema>;
 export type ProviderReachability = z.infer<typeof providerReachabilitySchema>;
 export type ProviderTestResult = z.infer<typeof providerTestResultSchema>;
 export type ProviderPreflightStatus = z.infer<

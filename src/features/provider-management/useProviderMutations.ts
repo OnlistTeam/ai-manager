@@ -20,8 +20,10 @@ import {
   type ProviderCreateResult,
   type ProviderCustomCreateDraft,
   type ProviderDraft,
+  type ProviderSaveOutcome,
   type ProviderTestResult,
 } from "@/entities/provider";
+import { routingKeys } from "@/entities/routing";
 import { native, type ToolId } from "@/native";
 import { toErrorCopy } from "@/shared/lib/nativeError";
 
@@ -182,17 +184,19 @@ export function useSwitchProvider(): UseMutationResult<
   );
 }
 
+/** Saving may end the tool's local route; the outcome says so (ADR-0054). */
 export function useSaveProvider(): UseMutationResult<
-  Provider[],
+  ProviderSaveOutcome,
   Error,
   SaveProviderVariables
 > {
   const queryClient = useQueryClient();
-  return useProviderMutation<SaveProviderVariables, Provider[]>(
+  return useProviderMutation<SaveProviderVariables, ProviderSaveOutcome>(
     ({ tool, providerId, draft }) =>
       native.providers.save(tool, providerId, draft),
     (data, { tool, providerId }) => {
-      queryClient.setQueryData(providerKeys.list(tool), data);
+      queryClient.setQueryData(providerKeys.list(tool), data.providers);
+      void queryClient.invalidateQueries({ queryKey: routingKeys.all });
       void queryClient.invalidateQueries({
         queryKey: providerKeys.editProfile(tool, providerId),
       });

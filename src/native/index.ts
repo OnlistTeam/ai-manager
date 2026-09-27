@@ -435,6 +435,7 @@ export type {
   ProviderPreflightStatus,
   ProviderReachability,
   ProviderRuntimeContext,
+  ProviderSaveOutcome,
   ProviderRuntimeResource,
   ProviderRuntimeResourceAction,
   ProviderRuntimeResourceKind,

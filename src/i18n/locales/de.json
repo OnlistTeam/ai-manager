@@ -2290,6 +2290,7 @@
       "offLive": "Offene {{name}}-Sitzungen wechseln sofort zurück, behalten aber vom Routing hinzugefügte Einstellungen bis zum Neustart.",
       "offAtStart": "Offene {{name}}-Sitzungen laufen weiter über AI Manager, bis du sie neu startest. AI Manager leitet für sie weiter, solange es läuft."
     },
+    "ended": "Routing für {{name}} ist aus: {{endpoint}} kann nicht über AI Manager laufen.",
     "quit": {
       "title": "AI Manager beenden?",
       "description": "Über AI Manager geleitet: {{tools}}. Beim Beenden erhält jedes Tool seine eigenen Einstellungen zurück.",

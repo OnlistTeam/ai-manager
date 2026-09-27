@@ -2290,6 +2290,7 @@
       "offLive": "Các phiên {{name}} đang mở chuyển lại ngay, nhưng giữ các thiết lập do định tuyến thêm vào cho đến khi khởi động lại.",
       "offAtStart": "Các phiên {{name}} đang mở vẫn đi qua AI Manager cho đến khi bạn khởi động lại. AI Manager vẫn chuyển tiếp cho chúng khi còn chạy."
     },
+    "ended": "Đã tắt định tuyến cho {{name}}: {{endpoint}} không thể đi qua AI Manager.",
     "quit": {
       "title": "Thoát AI Manager?",
       "description": "Đang định tuyến qua AI Manager: {{tools}}. Khi thoát, mỗi công cụ trở về thiết lập riêng.",

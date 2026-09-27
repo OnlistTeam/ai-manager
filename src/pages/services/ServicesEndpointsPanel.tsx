@@ -98,7 +98,7 @@ export function ServicesEndpointsPanel({
   const connectionFlow = useProviderConnectionFlow({
     onActivate: switchFlow.switchProvider,
   });
-  const editFlow = useProviderEditFlow(managedActive);
+  const editFlow = useProviderEditFlow(managedActive, activeName);
   const remove = useRemoveProvider();
   const busy =
     switchFlow.busy ||

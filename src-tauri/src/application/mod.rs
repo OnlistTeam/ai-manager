@@ -4,6 +4,7 @@ pub mod backup_schedule;
 pub mod deep_link_import;
 pub mod desktop_app_directory;
 pub mod desktop_preferences;
+pub mod endpoint_change;
 pub mod extension_directory;
 pub mod health_check;
 pub mod import_existing;

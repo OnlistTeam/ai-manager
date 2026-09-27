@@ -2290,6 +2290,7 @@
       "offLive": "Les sessions ouvertes de {{name}} reviennent aussitôt, mais gardent les réglages ajoutés par le routage jusqu'à leur redémarrage.",
       "offAtStart": "Les sessions ouvertes de {{name}} passent encore par AI Manager jusqu'à leur redémarrage. AI Manager continue de relayer pour elles tant qu'il tourne."
     },
+    "ended": "Le routage de {{name}} est coupé : {{endpoint}} ne peut pas passer par AI Manager.",
     "quit": {
       "title": "Quitter AI Manager ?",
       "description": "Routés via AI Manager : {{tools}}. En quittant, chacun retrouve ses propres réglages.",

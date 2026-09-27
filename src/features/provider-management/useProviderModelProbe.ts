@@ -15,6 +15,7 @@ import {
   type ModelProbeRequest,
   type Provider,
   type ProviderEditProfile,
+  type ProviderSaveOutcome,
   type ToolId,
 } from "@/native";
 
@@ -133,20 +134,23 @@ export interface AdoptModelVariables {
  * draft is a patch, not a snapshot of the form.
  */
 export function useAdoptModel(): UseMutationResult<
-  Provider[],
+  ProviderSaveOutcome,
   Error,
   AdoptModelVariables
 > {
   const queryClient = useQueryClient();
-  return useMutation<Provider[], Error, AdoptModelVariables>({
+  return useMutation<ProviderSaveOutcome, Error, AdoptModelVariables>({
     mutationFn: ({ provider, profile, model }) =>
       native.providers.save(provider.tool, provider.id, {
         name: provider.name,
         apiKey: null,
         models: nextModels(profile, model),
       }),
-    onSuccess: (providers, { provider }) => {
-      queryClient.setQueryData(providerKeys.list(provider.tool), providers);
+    onSuccess: (saved, { provider }) => {
+      queryClient.setQueryData(
+        providerKeys.list(provider.tool),
+        saved.providers,
+      );
       void queryClient.invalidateQueries({
         queryKey: providerKeys.editProfile(provider.tool, provider.id),
       });
@@ -186,12 +190,12 @@ export interface AdoptBaseUrlVariables {
  * else about the service moves.
  */
 export function useAdoptBaseUrl(): UseMutationResult<
-  Provider[],
+  ProviderSaveOutcome,
   Error,
   AdoptBaseUrlVariables
 > {
   const queryClient = useQueryClient();
-  return useMutation<Provider[], Error, AdoptBaseUrlVariables>({
+  return useMutation<ProviderSaveOutcome, Error, AdoptBaseUrlVariables>({
     mutationFn: ({ provider, baseUrl }) =>
       native.providers.save(provider.tool, provider.id, {
         name: provider.name,
@@ -204,8 +208,11 @@ export function useAdoptBaseUrl(): UseMutationResult<
           headers: null,
         },
       }),
-    onSuccess: (providers, { provider }) => {
-      queryClient.setQueryData(providerKeys.list(provider.tool), providers);
+    onSuccess: (saved, { provider }) => {
+      queryClient.setQueryData(
+        providerKeys.list(provider.tool),
+        saved.providers,
+      );
       void queryClient.invalidateQueries({
         queryKey: providerKeys.editProfile(provider.tool, provider.id),
       });

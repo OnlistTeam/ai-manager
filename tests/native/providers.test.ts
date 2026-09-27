@@ -507,11 +507,55 @@ describe("native.providers", () => {
     ).rejects.toBeInstanceOf(NativeError);
   });
 
+  it("reads whether a switch or a save ended the tool's routing", async () => {
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_activation_prepare`, () =>
+        HttpResponse.json({
+          status: "notChecked",
+          originProviderId: "relay",
+          activeProviderId: "relay",
+          providers: [wire],
+          checks: [],
+          routingEnded: "atStart",
+        }),
+      ),
+      http.post(`${TAURI_ENDPOINT}/app_provider_save`, () =>
+        HttpResponse.json({ providers: [wire], routingEnded: "live" }),
+      ),
+    );
+
+    const switched = await native.providers.prepareActivation(
+      "claude-code",
+      "relay",
+    );
+    expect(switched.routingEnded).toBe("atStart");
+    const saved = await native.providers.save("claude-code", "relay", {
+      name: "Relay",
+      apiKey: null,
+    });
+    expect(saved).toEqual({
+      providers: [expect.anything()],
+      routingEnded: "live",
+    });
+
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_save`, () =>
+        HttpResponse.json({ providers: [wire], routingEnded: "sometimes" }),
+      ),
+    );
+    await expect(
+      native.providers.save("claude-code", "relay", {
+        name: "Relay",
+        apiKey: null,
+      }),
+    ).rejects.toBeInstanceOf(NativeError);
+  });
+
   it("sends a null key when the user did not change it", async () => {
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_provider_save`, async ({ request }) => {
         seen.push(await request.json());
-        return HttpResponse.json([wire]);
+        return HttpResponse.json({ providers: [wire] });
       }),
     );
     await native.providers.save("claude-code", "relay", {
@@ -531,7 +575,7 @@ describe("native.providers", () => {
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_provider_save`, async ({ request }) => {
         seen.push(await request.json());
-        return HttpResponse.json([wire]);
+        return HttpResponse.json({ providers: [wire] });
       }),
     );
     await native.providers.save("opencode", "relay", {
@@ -583,7 +627,7 @@ describe("native.providers", () => {
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_provider_save`, async ({ request }) => {
         seen.push(await request.json());
-        return HttpResponse.json([wire]);
+        return HttpResponse.json({ providers: [wire] });
       }),
     );
     expect(() =>

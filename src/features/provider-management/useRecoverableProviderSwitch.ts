@@ -1,11 +1,9 @@
-import type { Provider } from "@/entities/provider";
 import type { ToolId } from "@/entities/tool";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import {
   useNextHealthyProvider,
   useProviderActivationPreflight,
 } from "./useProviderPreflight";
+import { useSwitchAnnouncer } from "./useSwitchAnnouncer";
 
 export interface ProviderSwitchFailure {
   providerId: string;
@@ -26,7 +24,7 @@ export function useRecoverableProviderSwitch(
   tool: ToolId | null,
   { toolName, onOpenTool }: RecoverableProviderSwitchOptions,
 ) {
-  const { t } = useTranslation();
+  const announcer = useSwitchAnnouncer({ toolName, onOpenTool });
   const activation = useProviderActivationPreflight();
   const recovery = useNextHealthyProvider();
   const scopedVariables =
@@ -65,41 +63,6 @@ export function useRecoverableProviderSwitch(
       ? scopedRecoveryVariables.failedProviderId
       : undefined;
 
-  function providerName(
-    providers: readonly Provider[],
-    providerId: string | null,
-  ) {
-    return (
-      providers.find((provider) => provider.id === providerId)?.name ??
-      t("services.failover.unknownService")
-    );
-  }
-
-  function successNames(
-    providers: readonly Provider[],
-    originProviderId: string | null,
-    activeProviderId: string | null,
-  ) {
-    return {
-      from: providerName(providers, originProviderId),
-      to: providerName(providers, activeProviderId),
-    };
-  }
-
-  /**
-   * A switch writes the tool's live configuration; a process that is already
-   * running keeps the old endpoint until it is reopened (ADR-0032). Every
-   * successful switch or failover says so and offers to open the tool.
-   */
-  function announceSwitch(title: string) {
-    toast.success(title, {
-      description: t("services.switch.reopenHint", { tool: toolName }),
-      action: onOpenTool
-        ? { label: t("services.switch.openNow"), onClick: onOpenTool }
-        : undefined,
-    });
-  }
-
   function runActivation(
     variables: { tool: ToolId; providerId: string },
     onSwitched?: () => void,
@@ -109,37 +72,7 @@ export function useRecoverableProviderSwitch(
         if (outcome.status === "unreachable") return;
         // Only the endpoint that was asked for; a failover landed elsewhere.
         if (outcome.activeProviderId === variables.providerId) onSwitched?.();
-        const provider = outcome.providers.find(
-          (item) => item.id === variables.providerId,
-        );
-        if (provider?.additive) {
-          toast.success(
-            t("services.switch.configuredNamed", { name: provider.name }),
-            {
-              description: t("services.switch.chooseModelHint", {
-                tool: toolName,
-              }),
-              action: onOpenTool
-                ? { label: t("services.switch.openNow"), onClick: onOpenTool }
-                : undefined,
-            },
-          );
-          return;
-        }
-        announceSwitch(
-          outcome.status === "failedOver"
-            ? t(
-                "services.failover.automaticSuccess",
-                successNames(
-                  outcome.providers,
-                  outcome.originProviderId,
-                  outcome.activeProviderId,
-                ),
-              )
-            : t("services.switch.appliedNamed", {
-                name: providerName(outcome.providers, outcome.activeProviderId),
-              }),
-        );
+        announcer.activation(outcome, variables.providerId);
       },
     });
   }
@@ -167,16 +100,7 @@ export function useRecoverableProviderSwitch(
       {
         onSuccess: (outcome) => {
           if (outcome.status !== "failedOver") return;
-          announceSwitch(
-            t(
-              "services.failover.manualSuccess",
-              successNames(
-                outcome.providers,
-                outcome.originProviderId,
-                outcome.activeProviderId,
-              ),
-            ),
-          );
+          announcer.recovery(outcome);
         },
       },
     );

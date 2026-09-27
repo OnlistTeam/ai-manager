@@ -2290,6 +2290,7 @@
       "offLive": "Open {{name}} sessions switch back right away, but keep any setting routing added until you restart them.",
       "offAtStart": "Open {{name}} sessions keep going through AI Manager until you restart them. It keeps forwarding for them while it runs."
     },
+    "ended": "Routing for {{name}} is off: {{endpoint}} can't go through AI Manager.",
     "quit": {
       "title": "Quit AI Manager?",
       "description": "Routed through AI Manager: {{tools}}. Quitting puts each one back on its own settings.",

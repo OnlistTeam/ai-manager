@@ -179,6 +179,7 @@ describe("ServicesPage", () => {
         tool: en.tool,
         tools: en.tools,
         nav: en.nav,
+        routing: en.routing,
       },
       true,
       true,
@@ -1771,7 +1772,7 @@ describe("ServicesPage", () => {
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_provider_save`, async ({ request }) => {
         seen.push(await request.json());
-        return HttpResponse.json([service({ name: "Renamed" })]);
+        return HttpResponse.json({ providers: [service({ name: "Renamed" })] });
       }),
     );
     await userEvent.click(
@@ -1800,6 +1801,73 @@ describe("ServicesPage", () => {
     );
   });
 
+  it("says in the switch result when the switch ended the tool's routing", async () => {
+    mount([service()]);
+    await screen.findByText("My Relay");
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_activation_prepare`, () =>
+        HttpResponse.json({
+          status: "notChecked",
+          originProviderId: "relay",
+          activeProviderId: "relay",
+          providers: [service({ active: true, canRemove: false })],
+          checks: [],
+          routingEnded: "live",
+        }),
+      ),
+    );
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: en.services.action.useNamed.replace("{{name}}", "My Relay"),
+      }),
+    );
+    const ended = en.routing.ended
+      .replace("{{name}}", "Claude Code")
+      .replace("{{endpoint}}", "My Relay");
+    const note = en.routing.note.offLive.replace("{{name}}", "Claude Code");
+    await waitFor(() =>
+      expect(toastMocks.success).toHaveBeenCalledWith(
+        en.services.switch.appliedNamed.replace("{{name}}", "My Relay"),
+        expect.objectContaining({ description: `${ended} ${note}` }),
+      ),
+    );
+  });
+
+  it("says when saving an endpoint ended the tool's routing", async () => {
+    mount([service()]);
+    await screen.findByText("My Relay");
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_save`, () =>
+        HttpResponse.json({
+          providers: [service()],
+          routingEnded: "atStart",
+        }),
+      ),
+    );
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: en.services.action.editNamed.replace("{{name}}", "My Relay"),
+      }),
+    );
+    const dialog = await screen.findByRole("dialog");
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: en.services.form.save }),
+    );
+    await waitFor(() =>
+      expect(toastMocks.info).toHaveBeenCalledWith(
+        en.routing.ended
+          .replace("{{name}}", "Claude Code")
+          .replace("{{endpoint}}", "My Relay"),
+        {
+          description: en.routing.note.offAtStart.replace(
+            "{{name}}",
+            "Claude Code",
+          ),
+        },
+      ),
+    );
+  });
+
   it("shows and saves backend-supported endpoint settings directly", async () => {
     const seen: unknown[] = [];
     mount([service()], undefined, null, null, true);
@@ -1807,9 +1875,9 @@ describe("ServicesPage", () => {
     server.use(
       http.post(`${TAURI_ENDPOINT}/app_provider_save`, async ({ request }) => {
         seen.push(await request.json());
-        return HttpResponse.json([
-          service({ baseUrl: "https://new.example.com/v1" }),
-        ]);
+        return HttpResponse.json({
+          providers: [service({ baseUrl: "https://new.example.com/v1" })],
+        });
       }),
     );
     await userEvent.click(
@@ -1882,7 +1950,7 @@ describe("ServicesPage", () => {
             { status: 500 },
           );
         }
-        return HttpResponse.json([service()]);
+        return HttpResponse.json({ providers: [service()] });
       }),
     );
     await userEvent.click(
@@ -2336,7 +2404,7 @@ describe("ServicesPage", () => {
       ),
       http.post(`${TAURI_ENDPOINT}/app_provider_save`, async ({ request }) => {
         saves.push(await request.json());
-        return HttpResponse.json([service()]);
+        return HttpResponse.json({ providers: [service()] });
       }),
     );
 

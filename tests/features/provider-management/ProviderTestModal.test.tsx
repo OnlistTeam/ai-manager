@@ -375,7 +375,7 @@ describe("ProviderTestModal", () => {
       ),
       http.post(`${TAURI_ENDPOINT}/app_provider_save`, async ({ request }) => {
         saved(await request.json());
-        return HttpResponse.json([provider]);
+        return HttpResponse.json({ providers: [provider] });
       }),
     );
     mount();
@@ -468,7 +468,7 @@ describe("ProviderTestModal", () => {
       ),
       http.post(`${TAURI_ENDPOINT}/app_provider_save`, async ({ request }) => {
         saved.push(await request.json());
-        return HttpResponse.json([provider]);
+        return HttpResponse.json({ providers: [provider] });
       }),
     );
     mount();

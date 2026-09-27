@@ -2290,6 +2290,7 @@
       "offLive": "Le sessioni aperte di {{name}} tornano subito indietro, ma mantengono le impostazioni aggiunte dall'instradamento finché non le riavvii.",
       "offAtStart": "Le sessioni aperte di {{name}} continuano a passare da AI Manager finché non le riavvii. AI Manager continua a inoltrare per loro finché è attivo."
     },
+    "ended": "L'instradamento di {{name}} è disattivato: {{endpoint}} non può passare da AI Manager.",
     "quit": {
       "title": "Uscire da AI Manager?",
       "description": "Instradati tramite AI Manager: {{tools}}. Uscendo, ognuno torna alle proprie impostazioni.",

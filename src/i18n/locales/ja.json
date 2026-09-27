@@ -2289,6 +2289,7 @@
       "offLive": "開いている {{name}} のセッションはすぐに元に戻りますが、経由中に追加された設定は再起動するまで残ります。",
       "offAtStart": "開いている {{name}} のセッションは再起動するまで AI Manager を経由します。AI Manager は起動中ずっと転送を続けます。"
     },
+    "ended": "{{name}} の AI Manager 経由をオフにしました：{{endpoint}} は AI Manager 経由で転送できません。",
     "quit": {
       "title": "AI Manager を終了しますか？",
       "description": "AI Manager 経由のツール：{{tools}}。終了すると、それぞれ元の設定に戻ります。",

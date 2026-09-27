@@ -13,7 +13,7 @@
 
 use serde::{Deserialize, Serialize};
 
-use super::ToolId;
+use super::{RoutingPickup, ToolId};
 
 /// Official services (upstream `category == "official"`) and custom services.
 /// Whether a read-only reachability probe is possible is expressed separately by
@@ -356,6 +356,28 @@ pub struct ProviderPreflightOutcome {
     pub active_provider_id: Option<String>,
     pub providers: Vec<Provider>,
     pub checks: Vec<ProviderTestResult>,
+    /// Set when the switch ended the tool's local route because the new
+    /// endpoint cannot go through AI Manager (ADR-0054): how an open session
+    /// of the tool picks that up.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub routing_ended: Option<RoutingPickup>,
+}
+
+impl ProviderPreflightOutcome {
+    pub fn with_routing_ended(mut self, routing_ended: Option<RoutingPickup>) -> Self {
+        self.routing_ended = routing_ended;
+        self
+    }
+}
+
+/// The saved list, and whether the save ended the tool's local route because
+/// the edited endpoint can no longer go through AI Manager (ADR-0054).
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ProviderSaveOutcome {
+    pub providers: Vec<Provider>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub routing_ended: Option<RoutingPickup>,
 }
 
 #[cfg(test)]
@@ -531,9 +553,14 @@ mod tests {
                 response_time_ms: Some(42),
                 http_status: Some(200),
             }],
+            routing_ended: None,
         };
 
         let json = serde_json::to_string(&outcome).expect("serialize preflight outcome");
+        assert!(
+            !json.contains("routingEnded"),
+            "absent unless a route ended"
+        );
         assert!(json.contains(r#""status":"failedOver""#));
         assert!(json.contains(r#""originProviderId":"previous""#));
         assert!(json.contains(r#""activeProviderId":"anthropic""#));

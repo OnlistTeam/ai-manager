@@ -2290,6 +2290,7 @@
       "offLive": "As sessões abertas do {{name}} voltam na hora, mas mantêm as configurações que o roteamento adicionou até você reiniciá-las.",
       "offAtStart": "As sessões abertas do {{name}} continuam passando pelo AI Manager até você reiniciá-las. O AI Manager continua encaminhando para elas enquanto estiver aberto."
     },
+    "ended": "O roteamento do {{name}} foi desligado: {{endpoint}} não pode passar pelo AI Manager.",
     "quit": {
       "title": "Sair do AI Manager?",
       "description": "Roteadas pelo AI Manager: {{tools}}. Ao sair, cada uma volta às próprias configurações.",
