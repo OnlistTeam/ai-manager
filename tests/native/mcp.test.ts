@@ -128,4 +128,70 @@ describe("native.mcp", () => {
     expect(error).toBeInstanceOf(NativeError);
     expect((error as NativeError).code).toBe("CONFIG_WRITE_FAILED");
   });
+
+  it("reads a saved connection for editing and saves it under the same id", async () => {
+    const form = {
+      id: "files-a1b2c3d4",
+      name: "Files",
+      description: null,
+      connection: {
+        transport: "sse",
+        url: "https://mcp.example.test/sse",
+        headers: [{ name: "Authorization", value: "Bearer t" }],
+      },
+    };
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_mcp_get`, async ({ request }) => {
+        seen.push(await request.json());
+        return HttpResponse.json(form);
+      }),
+      http.post(`${TAURI_ENDPOINT}/app_mcp_update`, async ({ request }) => {
+        seen.push(await request.json());
+        return HttpResponse.json([]);
+      }),
+    );
+
+    await expect(
+      native.mcp.get(CLAUDE_SCOPE, "files-a1b2c3d4"),
+    ).resolves.toEqual(form);
+    const draft: McpInstallDraft = {
+      name: form.name,
+      description: null,
+      connection: {
+        transport: "sse",
+        url: form.connection.url,
+        headers: form.connection.headers,
+      },
+    };
+    await expect(
+      native.mcp.update(CLAUDE_SCOPE, "files-a1b2c3d4", draft),
+    ).resolves.toEqual([]);
+    expect(seen).toEqual([
+      { scope: CLAUDE_SCOPE, mcp: "files-a1b2c3d4" },
+      { scope: CLAUDE_SCOPE, mcp: "files-a1b2c3d4", draft },
+    ]);
+  });
+
+  it("refuses an edit form with a field the draft does not know", async () => {
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_mcp_get`, () =>
+        HttpResponse.json({
+          id: "x",
+          name: "X",
+          description: null,
+          connection: {
+            transport: "stdio",
+            command: "npx",
+            arguments: [],
+            env: [],
+          },
+          server: { command: "npx" },
+        }),
+      ),
+    );
+    const error = await native.mcp
+      .get(CLAUDE_SCOPE, "x")
+      .catch((thrown: unknown) => thrown);
+    expect(error).toBeInstanceOf(NativeError);
+  });
 });

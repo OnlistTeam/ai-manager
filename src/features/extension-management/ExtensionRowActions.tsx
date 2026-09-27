@@ -1,6 +1,7 @@
 import {
   FilePenLine,
   FolderOpen,
+  Pencil,
   RefreshCw,
   Trash2,
   type LucideIcon,
@@ -12,14 +13,14 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import type { ExtensionCardLabels } from "./useExtensionCardLabels";
 
 export interface ExtensionRowActionsProps {
-  detected: boolean;
   busy: boolean;
   resourceAction?: "browse" | "edit";
   labels: ExtensionCardLabels;
-  onUpdate?: () => void;
-  onRemove?: () => void;
   onOpenLocation?: () => void;
   onEditDocument?: () => void;
+  onEdit?: () => void;
+  onUpdate?: () => void;
+  onRemove?: () => void;
 }
 
 function IconAction({
@@ -63,25 +64,26 @@ function IconAction({
 }
 
 /**
- * A found item offers the read-only file actions it always had; a managed one
- * offers Update when one is known and Remove. Rarely used actions are icons
- * with a tooltip so the switches stay the row's focus.
+ * The row's few actions, each offered only when the list passes a handler for
+ * it: a Skill's folder and SKILL.md, an MCP connection's edit form, Update
+ * when one is known, and Remove for what AI Manager keeps. Rarely used actions
+ * are icons with a tooltip so the switches stay the row's focus.
  */
 export function ExtensionRowActions({
-  detected,
   busy,
   resourceAction,
   labels,
-  onUpdate,
-  onRemove,
   onOpenLocation,
   onEditDocument,
+  onEdit,
+  onUpdate,
+  onRemove,
 }: ExtensionRowActionsProps) {
   const { t } = useTranslation();
 
   return (
     <div className="flex shrink-0 items-center gap-1">
-      {detected && onOpenLocation ? (
+      {onOpenLocation ? (
         <IconAction
           icon={FolderOpen}
           label={labels.openLocation}
@@ -91,7 +93,7 @@ export function ExtensionRowActions({
           onClick={onOpenLocation}
         />
       ) : null}
-      {detected && onEditDocument ? (
+      {onEditDocument ? (
         <IconAction
           icon={FilePenLine}
           label={labels.editDetected}
@@ -101,7 +103,16 @@ export function ExtensionRowActions({
           onClick={onEditDocument}
         />
       ) : null}
-      {!detected && onUpdate ? (
+      {onEdit ? (
+        <IconAction
+          icon={Pencil}
+          label={labels.edit}
+          tooltip={t("extensions.card.edit")}
+          disabled={busy}
+          onClick={onEdit}
+        />
+      ) : null}
+      {onUpdate ? (
         <Button
           size="xs"
           variant="secondary"
@@ -113,7 +124,7 @@ export function ExtensionRowActions({
           {t("extensions.card.update")}
         </Button>
       ) : null}
-      {!detected && onRemove ? (
+      {onRemove ? (
         <IconAction
           icon={Trash2}
           label={labels.remove}

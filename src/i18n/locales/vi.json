@@ -547,6 +547,7 @@
       "commandInvalid": "Không thể thêm lệnh đó một cách an toàn.",
       "commandRequired": "Nhập chương trình mà kết nối này sẽ chạy.",
       "descriptionTooLong": "Giữ mô tả trong giới hạn 240 ký tự trở xuống.",
+      "editUnavailable": "Không thể hiển thị thiết lập đã lưu của kết nối này trong biểu mẫu.",
       "envInvalid": "Hãy kiểm tra biến môi trường: tên chỉ gồm chữ cái, chữ số và dấu gạch dưới, không bắt đầu bằng chữ số và không trùng nhau.",
       "headersInvalid": "Hãy kiểm tra header yêu cầu: tên chỉ gồm chữ cái, chữ số và dấu gạch nối, không trùng nhau, và giá trị nằm trên một dòng.",
       "installCleanupFailed": "Không thể thêm kết nối này, và AI Manager không thể dọn dẹp hoàn toàn thay đổi vừa thử.",
@@ -560,6 +561,8 @@
       "removeRestoreFailed": "Không thể xóa kết nối này, và AI Manager không thể xác nhận rằng thiết lập trước đó đã được khôi phục đầy đủ.",
       "removeVerifyFailed": "AI Manager không thể xác nhận rằng kết nối MCP đã được xóa.",
       "unsupportedScope": "AI Manager chưa tích hợp kết nối MCP cho mục tiêu đã chọn.",
+      "updateFailed": "Không thể lưu thay đổi cho kết nối MCP này.",
+      "updateRestoreFailed": "Không thể lưu thay đổi, và AI Manager không thể xác nhận rằng thiết lập trước đó đã được khôi phục đầy đủ.",
       "urlCredentials": "Không đặt tên đăng nhập hoặc mật khẩu trong địa chỉ máy chủ.",
       "urlInsecure": "Dùng HTTPS cho máy chủ từ xa. HTTP chỉ được phép cho máy tính này.",
       "urlInvalid": "Nhập một địa chỉ máy chủ HTTP hoặc HTTPS đầy đủ, không có fragment.",
@@ -2267,6 +2270,14 @@
       "empty": {
         "title": "Chưa có kết nối nào",
         "description": "Chọn Thêm MCP để kết nối công cụ này với một chương trình cục bộ hoặc dịch vụ bảo mật."
+      },
+      "edit": {
+        "title": "Sửa {{name}}",
+        "description": "Thay đổi áp dụng cho mọi ứng dụng đang bật kết nối này.",
+        "descriptionFound": "Khi lưu, AI Manager sẽ quản lý kết nối này và áp dụng thay đổi cho mọi ứng dụng đang bật nó.",
+        "confirm": "Lưu thay đổi",
+        "loading": "Đang đọc kết nối đã lưu…",
+        "saved": "Đã lưu {{name}}"
       }
     },
     "prompt": {
@@ -2315,6 +2326,12 @@
         "title": "Chưa có hướng dẫn nào",
         "description": "Tạo hướng dẫn có thể dùng lại, hoặc nhập tệp mà công cụ này đang dùng."
       }
+    },
+    "portability": {
+      "relativePath": "Chạy một tệp bằng đường dẫn tương đối so với thư mục nơi nó được thiết lập, nên {{tools, list}} có thể không khởi động được nó từ dự án khác. Hãy sửa để dùng đường dẫn đầy đủ.",
+      "envReference": "Dùng chỗ giữ chỗ ${…} mà {{tools, list}} có thể không điền, nên máy chủ có thể nhận chữ giữ chỗ thay vì giá trị của bạn. Hãy sửa và nhập trực tiếp giá trị.",
+      "toolHome": "SKILL.md trỏ vào thư mục của một ứng dụng khác, nên có thể không hoạt động đúng như viết trong {{tools, list}}. Hãy mở SKILL.md và kiểm tra các đường dẫn đó.",
+      "switchCaution": "Với thiết lập hiện tại, có thể không hoạt động ở đây."
     }
   },
   "routing": {

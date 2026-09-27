@@ -7,6 +7,7 @@ import { Badge } from "@/shared/ui/Badge";
 import { ListGroupRow } from "@/shared/ui/ListGroup";
 import type { ExtensionToggleFailure } from "./ExtensionCard";
 import { ExtensionRowActions } from "./ExtensionRowActions";
+import { PortabilityHint, usePortabilityCaution } from "./PortabilityHint";
 import { ScopeToggleGroup, type ScopeToggleTarget } from "./ScopeToggleGroup";
 import {
   representativeEntry,
@@ -34,6 +35,7 @@ export interface ExtensionRowProps {
   onToggle: (target: ScopeToggleTarget, enabled: boolean) => void;
   onUpdate?: () => void;
   onRemove?: () => void;
+  onEdit?: () => void;
   onOpenLocation?: () => void;
   onEditDocument?: () => void;
 }
@@ -44,9 +46,11 @@ function isOnIn(row: UnifiedExtensionRow, target: ScopeToggleTarget): boolean {
 }
 
 /**
- * One Skill or MCP connection: what it is on the left, its few actions, and
- * one switch per app at the right edge, where the columns line up row to row. Like the card it replaces,
- * the row has no field that could show a command, argument or path.
+ * One Skill or MCP connection: what it is on the left (name, description and
+ * one detail line saying what it runs or where it lives), its few actions,
+ * and one switch per app at the right edge, where the columns line up row to
+ * row. The detail is display text from native with secrets already masked;
+ * it never shows environment or header values (ADR-0062).
  */
 export function ExtensionRow({
   row,
@@ -64,6 +68,7 @@ export function ExtensionRow({
   onToggle,
   onUpdate,
   onRemove,
+  onEdit,
   onOpenLocation,
   onEditDocument,
 }: ExtensionRowProps) {
@@ -77,7 +82,7 @@ export function ExtensionRow({
     resourceError,
     undefined,
   );
-  const detected = row.management === "detected";
+  const cautionFor = usePortabilityCaution(row);
   const shownError = failure?.error ?? resourceError;
   const errorCopy = shownError ? toErrorCopy(shownError) : null;
   const errorTitle = labels.failureTitle;
@@ -93,13 +98,14 @@ export function ExtensionRow({
     >
       <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2">
         <div className="min-w-0 flex-1 basis-48">
-          <div className="flex min-w-0 items-center gap-2">
+          <div className="flex min-w-0 items-center gap-1.5">
             <h3
               id={headingId}
               className="truncate text-body font-medium text-content"
             >
               {row.name}
             </h3>
+            <PortabilityHint row={row} targets={targets} />
             {updateAvailable ? (
               <Badge tone="warning">
                 {t("extensions.card.updateAvailable")}
@@ -125,17 +131,25 @@ export function ExtensionRow({
               {row.description}
             </p>
           ) : null}
+          {row.detail ? (
+            <p
+              className="mt-0.5 truncate font-mono text-mono-sm text-content-muted"
+              title={row.detail}
+            >
+              {row.detail}
+            </p>
+          ) : null}
         </div>
 
         <ExtensionRowActions
-          detected={detected}
           busy={busy}
           resourceAction={resourceAction}
           labels={labels}
-          onUpdate={updateAvailable ? onUpdate : undefined}
-          onRemove={onRemove}
           onOpenLocation={onOpenLocation}
           onEditDocument={onEditDocument}
+          onEdit={onEdit}
+          onUpdate={updateAvailable ? onUpdate : undefined}
+          onRemove={onRemove}
         />
 
         <ScopeToggleGroup
@@ -145,6 +159,7 @@ export function ExtensionRow({
           pendingKey={pendingKey}
           failedKey={failedKey}
           retryLabel={labels.retry}
+          cautionFor={cautionFor}
           disabled={busy}
           onToggle={onToggle}
         />

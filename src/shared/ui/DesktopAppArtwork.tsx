@@ -11,37 +11,46 @@ import { cn } from "./cn";
 interface ArtworkMeta {
   src: string;
   imageClassName: string;
+  /** A word or two that fits a narrow column header, e.g. above a switch. */
+  shortName: string;
 }
 
 const DESKTOP_APP_ARTWORK: Record<DesktopAppId, ArtworkMeta> = {
   "codex-app": {
     src: OpenAISvg,
     imageClassName: "h-7 w-7 dark:invert",
+    shortName: "Codex",
   },
   "claude-desktop": {
     src: ClaudeSvg,
     imageClassName: "h-7 w-7",
+    shortName: "Claude",
   },
   cursor: {
     src: CursorSvg,
     imageClassName: "h-9 w-9 rounded-lg",
+    shortName: "Cursor",
   },
   zcode: {
     src: ZCodePng,
     imageClassName: "h-9 w-9 rounded-lg",
+    shortName: "ZCode",
   },
   "cherry-studio": {
     src: CherryStudioPng,
     imageClassName: "h-9 w-9 rounded-lg",
+    shortName: "Cherry",
   },
   // Both marks are single-colour, drawn like the OpenAI one.
   "lm-studio": {
     src: LmStudioSvg,
     imageClassName: "h-7 w-7 dark:invert",
+    shortName: "LM Studio",
   },
   ollama: {
     src: OllamaSvg,
     imageClassName: "h-7 w-7 dark:invert",
+    shortName: "Ollama",
   },
 };
 
@@ -93,4 +102,9 @@ export function DesktopAppGlyph({ appId, className }: DesktopAppArtworkProps) {
       )}
     />
   );
+}
+
+/** The short name for a narrow column; the glyph carries the desktop badge. */
+export function desktopAppShortName(id: DesktopAppId): string {
+  return DESKTOP_APP_ARTWORK[id].shortName;
 }

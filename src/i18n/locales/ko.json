@@ -547,6 +547,7 @@
       "commandInvalid": "그 명령을 안전하게 추가할 수 없습니다.",
       "commandRequired": "이 연결이 실행할 프로그램을 입력하세요.",
       "descriptionTooLong": "설명을 240자 이하로 입력하세요.",
+      "editUnavailable": "이 연결의 저장된 설정은 양식에 표시할 수 없습니다.",
       "envInvalid": "환경 변수를 확인하세요. 이름은 영문자, 숫자, 밑줄만 쓰고 숫자로 시작하거나 중복될 수 없습니다.",
       "headersInvalid": "요청 헤더를 확인하세요. 이름은 영문자, 숫자, 하이픈만 쓰고 중복될 수 없으며 값은 한 줄이어야 합니다.",
       "installCleanupFailed": "연결을 추가하지 못했고, AI Manager가 시도한 변경 사항을 완전히 정리하지도 못했습니다.",
@@ -560,6 +561,8 @@
       "removeRestoreFailed": "연결을 제거하지 못했고, AI Manager가 이전 설정이 완전히 복원되었는지 확인하지도 못했습니다.",
       "removeVerifyFailed": "AI Manager가 MCP 연결이 제거되었는지 확인할 수 없습니다.",
       "unsupportedScope": "AI Manager가 이 대상에 대해 MCP 연결을 아직 연동하지 않았습니다.",
+      "updateFailed": "이 MCP 연결의 변경 사항을 저장하지 못했습니다.",
+      "updateRestoreFailed": "변경 사항을 저장하지 못했고, AI Manager가 이전 설정이 완전히 복원되었는지 확인하지도 못했습니다.",
       "urlCredentials": "서버 주소에 사용자 이름이나 비밀번호를 넣지 마세요.",
       "urlInsecure": "원격 서버에는 HTTPS를 사용하세요. HTTP는 이 컴퓨터에 대해서만 허용됩니다.",
       "urlInvalid": "프래그먼트가 없는 완전한 HTTP 또는 HTTPS 서버 주소를 입력하세요.",
@@ -2267,6 +2270,14 @@
       "empty": {
         "title": "아직 연결이 없습니다",
         "description": "MCP 추가를 선택해 이 도구를 로컬 프로그램이나 안전한 서비스에 연결하세요."
+      },
+      "edit": {
+        "title": "{{name}} 편집",
+        "description": "변경 사항은 이 연결이 켜져 있는 모든 앱에 적용됩니다.",
+        "descriptionFound": "저장하면 AI Manager가 이 연결을 관리하고, 켜져 있는 모든 앱에 변경 사항을 적용합니다.",
+        "confirm": "변경 사항 저장",
+        "loading": "저장된 연결을 읽는 중…",
+        "saved": "{{name}} 저장됨"
       }
     },
     "prompt": {
@@ -2315,6 +2326,12 @@
         "title": "아직 지침이 없습니다",
         "description": "재사용 가능한 지침을 만들거나, 이 도구가 이미 사용 중인 파일을 가져오세요."
       }
+    },
+    "portability": {
+      "relativePath": "설정한 폴더를 기준으로 한 상대 경로로 파일을 실행하므로, {{tools, list}}에서는 다른 프로젝트에서 시작하지 못할 수 있습니다. 전체 경로로 수정하세요.",
+      "envReference": "${…} 자리 표시자를 사용하지만 {{tools, list}}는 이를 채우지 않을 수 있어, 서버가 값 대신 자리 표시자 텍스트를 받을 수 있습니다. 수정해서 값을 직접 입력하세요.",
+      "toolHome": "SKILL.md가 다른 앱의 폴더를 가리키고 있어 {{tools, list}}에서는 그대로 작동하지 않을 수 있습니다. SKILL.md를 열어 해당 경로를 확인하세요.",
+      "switchCaution": "지금 설정대로라면 여기서는 작동하지 않을 수 있습니다."
     }
   },
   "routing": {

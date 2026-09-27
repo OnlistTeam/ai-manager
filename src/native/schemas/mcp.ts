@@ -60,3 +60,49 @@ export const mcpInstallDraftSchema = z
 
 export type McpConnectionDraft = z.infer<typeof mcpConnectionDraftSchema>;
 export type McpInstallDraft = z.infer<typeof mcpInstallDraftSchema>;
+
+/**
+ * What the edit form is prefilled with (ADR-0062): the saved connection in
+ * the draft's own shape, values included, plus its fixed id. Outbound, so the
+ * bounds are looser than the draft's: a connection written by hand may exceed
+ * what the form accepts, and the form's own validation says so on save rather
+ * than the read failing.
+ */
+const mcpEditVariableSchema = z
+  .object({ name: z.string().max(1_024), value: z.string().max(65_536) })
+  .strict();
+const mcpEditVariablesSchema = z.array(mcpEditVariableSchema).max(512);
+
+export const mcpEditFormSchema = z
+  .object({
+    id: z.string().min(1).max(512),
+    name: z.string().max(1_024),
+    description: z.string().max(4_096).nullable(),
+    connection: z.discriminatedUnion("transport", [
+      z
+        .object({
+          transport: z.literal("stdio"),
+          command: z.string().max(4_096),
+          arguments: z.array(z.string().max(65_536)).max(512),
+          env: mcpEditVariablesSchema,
+        })
+        .strict(),
+      z
+        .object({
+          transport: z.literal("http"),
+          url: z.string().max(8_192),
+          headers: mcpEditVariablesSchema,
+        })
+        .strict(),
+      z
+        .object({
+          transport: z.literal("sse"),
+          url: z.string().max(8_192),
+          headers: mcpEditVariablesSchema,
+        })
+        .strict(),
+    ]),
+  })
+  .strict();
+
+export type McpEditForm = z.infer<typeof mcpEditFormSchema>;

@@ -9,10 +9,12 @@ import type { Operation } from "@/entities/operation";
 import {
   ExtensionRow,
   representativeEntry,
+  ScopeColumnHeader,
   useAdoptDetected,
-  useOpenDetectedSkillResource,
+  useOpenSkillResource,
   useSetExtensionEnabled,
   type ExtensionScopeOption,
+  type McpEditTarget,
   type UnifiedExtensionRow,
 } from "@/features/extension-management";
 import { ListGroup } from "@/shared/ui/ListGroup";
@@ -28,6 +30,8 @@ export interface ExtensionsUnifiedListProps {
   skillUpdateIds: ReadonlySet<string>;
   onRemove: (extension: Extension) => void;
   onUpdate: (extension: Extension) => void;
+  /** Open the MCP form on a saved connection (ADR-0062). */
+  onEdit?: (target: McpEditTarget) => void;
 }
 
 /** Owns the row-level writes so each row only reports what the user asked for. */
@@ -40,11 +44,12 @@ export function ExtensionsUnifiedList({
   skillUpdateIds,
   onRemove,
   onUpdate,
+  onEdit,
 }: ExtensionsUnifiedListProps) {
   const { t } = useTranslation();
   const setEnabled = useSetExtensionEnabled();
   const adopt = useAdoptDetected();
-  const openResource = useOpenDetectedSkillResource();
+  const openResource = useOpenSkillResource();
   const busy =
     actionsBlocked ||
     setEnabled.isPending ||
@@ -55,14 +60,16 @@ export function ExtensionsUnifiedList({
       .filter((target) => row.entries.has(target.key))
       .map((target) => target.scope);
 
-  const openDetected = (
-    row: UnifiedExtensionRow,
-    action: "browse" | "edit",
-  ) => {
+  const openSkill = (row: UnifiedExtensionRow, action: "browse" | "edit") => {
     const source = representativeEntry(row);
     openResource.reset();
     openResource.mutate(
-      { scope: source.scope, skillId: row.id, action },
+      {
+        scope: source.scope,
+        skillId: row.id,
+        action,
+        management: row.management,
+      },
       {
         onSuccess: () =>
           toast.success(
@@ -77,9 +84,18 @@ export function ExtensionsUnifiedList({
     );
   };
 
+  const editTarget = (row: UnifiedExtensionRow): McpEditTarget => ({
+    id: row.id,
+    name: row.name,
+    scope: representativeEntry(row).scope,
+    // A found connection is taken over on save, from every app it is in.
+    found: row.management === "managed" ? [] : foundIn(row),
+  });
+
   return (
     <TooltipProvider delayDuration={200} skipDelayDuration={100}>
       <ListGroup>
+        <ScopeColumnHeader targets={targets} />
         {rows.map((row, index) => {
           const managed = row.management === "managed";
           const toggle = setEnabled.variables;
@@ -107,11 +123,12 @@ export function ExtensionsUnifiedList({
           const writtenKey = written ? extensionScopeKey(written.scope) : null;
           const writeError = toggleTargeted ? setEnabled.error : adopt.error;
           const resourceTargeted =
-            !managed && openResource.variables?.skillId === row.id;
+            openResource.variables?.skillId === row.id &&
+            openResource.variables.management === row.management;
           const operation = operations.find(
             (candidate) => candidate.extension?.id === row.id,
           );
-          const skillFound = !managed && kind === "skill";
+          const isSkill = kind === "skill";
 
           return (
             <ExtensionRow
@@ -142,7 +159,7 @@ export function ExtensionsUnifiedList({
               failedKey={toggleFailed ? writtenKey : null}
               resourceAction={
                 resourceTargeted && openResource.isPending
-                  ? openResource.variables.action
+                  ? openResource.variables?.action
                   : undefined
               }
               resourceError={
@@ -150,9 +167,7 @@ export function ExtensionsUnifiedList({
                   ? openResource.error
                   : undefined
               }
-              updateAvailable={
-                managed && kind === "skill" && skillUpdateIds.has(row.id)
-              }
+              updateAvailable={managed && isSkill && skillUpdateIds.has(row.id)}
               onToggle={(target, enabled) => {
                 // A failed write may have landed part-way, so the retry
                 // repeats what the user asked for, not the opposite of what
@@ -189,11 +204,14 @@ export function ExtensionsUnifiedList({
               onRemove={
                 managed ? () => onRemove(representativeEntry(row)) : undefined
               }
+              onEdit={
+                !isSkill && onEdit ? () => onEdit(editTarget(row)) : undefined
+              }
               onOpenLocation={
-                skillFound ? () => openDetected(row, "browse") : undefined
+                isSkill ? () => openSkill(row, "browse") : undefined
               }
               onEditDocument={
-                skillFound ? () => openDetected(row, "edit") : undefined
+                isSkill ? () => openSkill(row, "edit") : undefined
               }
             />
           );

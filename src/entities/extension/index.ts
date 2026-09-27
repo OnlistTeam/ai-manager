@@ -18,8 +18,10 @@ export type {
   ExtensionKind,
   ExtensionLocation,
   ExtensionLocationAction,
+  ExtensionPortability,
   ExtensionScope,
   LocalExtensionInventory,
   LocalExtensionScope,
+  PortabilityReason,
   ToolId,
 } from "@/native";
