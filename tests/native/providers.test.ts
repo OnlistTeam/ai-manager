@@ -345,6 +345,18 @@ describe("native.providers", () => {
     ]);
     expect(JSON.stringify(seen)).not.toContain("settingsConfig");
     expect(JSON.stringify(seen)).not.toContain("headers");
+
+    // A server on this machine: plain HTTP, and no key to paste.
+    seen.length = 0;
+    await native.providers.createCustom("codex", CONNECTION_REQUEST_ID, {
+      name: "Ollama",
+      apiKey: "",
+      model: "",
+      baseUrl: "http://localhost:11434/v1",
+    });
+    expect(seen).toMatchObject([
+      { draft: { apiKey: "", baseUrl: "http://localhost:11434/v1" } },
+    ]);
   });
 
   it("rejects unsafe or raw custom configuration before native invocation", () => {
@@ -358,6 +370,8 @@ describe("native.providers", () => {
       { ...valid, baseUrl: "http://relay.example.com/v1" },
       { ...valid, baseUrl: "https://relay.example.com/v1?token=secret" },
       { ...valid, settingsConfig: { auth: "sk-secret" } },
+      // Only a server on this machine may go without a key.
+      { ...valid, apiKey: "" },
     ]) {
       expect(() =>
         native.providers.createCustom(

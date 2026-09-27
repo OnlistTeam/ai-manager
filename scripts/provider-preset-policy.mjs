@@ -541,6 +541,47 @@ const ADDED_SERVICES = [
     codexModel: "gpt-6-luna",
     models: OPENCODE_CHAT_MODELS,
   },
+  // Servers on this machine (ADR-0057): plain HTTP to localhost, and no key;
+  // native writes a placeholder, which a local server ignores. The model is
+  // only a starting value, since what is installed is the user's own choice.
+  // Ollama speaks Anthropic's protocol from v0.14 and Responses from v0.13.3.
+  {
+    id: "ollama",
+    name: "Ollama",
+    kind: "local",
+    website: "https://ollama.com",
+    keys: "https://ollama.com",
+    anthropic: "http://localhost:11434",
+    responses: "http://localhost:11434/v1",
+    chat: "http://localhost:11434/v1",
+    claudeModel: "qwen3-coder",
+    codexModel: "gpt-oss:20b",
+    models: [
+      { id: "qwen3-coder", name: "Qwen3 Coder", context: 262144, input: ["text"] },
+      { id: "gpt-oss:20b", name: "gpt-oss 20B", context: 131072, input: ["text"] },
+    ],
+  },
+  // LM Studio's server: Responses from 0.3.29, Anthropic's protocol from 0.4.1.
+  {
+    id: "lmstudio",
+    name: "LM Studio",
+    kind: "local",
+    website: "https://lmstudio.ai",
+    keys: "https://lmstudio.ai",
+    anthropic: "http://localhost:1234",
+    responses: "http://localhost:1234/v1",
+    chat: "http://localhost:1234/v1",
+    claudeModel: "openai/gpt-oss-20b",
+    codexModel: "openai/gpt-oss-20b",
+    models: [
+      {
+        id: "openai/gpt-oss-20b",
+        name: "gpt-oss 20B",
+        context: 131072,
+        input: ["text"],
+      },
+    ],
+  },
 ];
 
 function claudeEnv(service) {

@@ -151,6 +151,28 @@
     },
     {
       "tool": "claude-code",
+      "id": "lmstudio",
+      "serviceName": "LM Studio",
+      "defaultName": "LM Studio",
+      "defaultModel": "openai/gpt-oss-20b",
+      "websiteUrl": "https://lmstudio.ai",
+      "apiKeyUrl": "https://lmstudio.ai",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "http://localhost:1234",
+          "ANTHROPIC_AUTH_TOKEN": "",
+          "ANTHROPIC_MODEL": "openai/gpt-oss-20b",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "openai/gpt-oss-20b",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "openai/gpt-oss-20b",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "openai/gpt-oss-20b"
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
       "id": "minimax-c8bab6ed33",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
@@ -196,6 +218,28 @@
           "ANTHROPIC_DEFAULT_SONNET_MODEL": "MiniMax-M3[1M]",
           "ANTHROPIC_DEFAULT_OPUS_MODEL": "MiniMax-M3[1M]",
           "ANTHROPIC_DEFAULT_HAIKU_MODEL": "MiniMax-M3[1M]"
+        }
+      }
+    },
+    {
+      "tool": "claude-code",
+      "id": "ollama",
+      "serviceName": "Ollama",
+      "defaultName": "Ollama",
+      "defaultModel": "qwen3-coder",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "env": {
+          "ANTHROPIC_BASE_URL": "http://localhost:11434",
+          "ANTHROPIC_AUTH_TOKEN": "",
+          "ANTHROPIC_MODEL": "qwen3-coder",
+          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "qwen3-coder",
+          "ANTHROPIC_DEFAULT_SONNET_MODEL": "qwen3-coder",
+          "ANTHROPIC_DEFAULT_OPUS_MODEL": "qwen3-coder"
         }
       }
     },
@@ -561,6 +605,24 @@
     },
     {
       "tool": "codex",
+      "id": "lmstudio",
+      "serviceName": "LM Studio",
+      "defaultName": "LM Studio",
+      "defaultModel": "openai/gpt-oss-20b",
+      "websiteUrl": "https://lmstudio.ai",
+      "apiKeyUrl": "https://lmstudio.ai",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"openai/gpt-oss-20b\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"LM Studio\"\nbase_url = \"http://localhost:1234/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
+      }
+    },
+    {
+      "tool": "codex",
       "id": "minimax-b5d467a861",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
@@ -593,6 +655,24 @@
           "OPENAI_API_KEY": ""
         },
         "config": "model_provider = \"custom\"\nmodel = \"MiniMax-M3\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"minimax\"\nbase_url = \"https://api.minimaxi.com/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true"
+      }
+    },
+    {
+      "tool": "codex",
+      "id": "ollama",
+      "serviceName": "Ollama",
+      "defaultName": "Ollama",
+      "defaultModel": "gpt-oss:20b",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "auth": {
+          "OPENAI_API_KEY": ""
+        },
+        "config": "model_provider = \"custom\"\nmodel = \"gpt-oss:20b\"\nmodel_reasoning_effort = \"high\"\ndisable_response_storage = true\n\n[model_providers.custom]\nname = \"Ollama\"\nbase_url = \"http://localhost:11434/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = true\n"
       }
     },
     {
@@ -1093,6 +1173,31 @@
     },
     {
       "tool": "hermes",
+      "id": "lmstudio",
+      "serviceName": "LM Studio",
+      "defaultName": "LM Studio",
+      "defaultModel": "openai/gpt-oss-20b",
+      "websiteUrl": "https://lmstudio.ai",
+      "apiKeyUrl": "https://lmstudio.ai",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "name": "lmstudio",
+        "base_url": "http://localhost:1234/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "openai/gpt-oss-20b",
+            "name": "gpt-oss 20B",
+            "context_length": 131072
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
       "id": "minimax-22e3ba1239",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
@@ -1165,6 +1270,36 @@
             "id": "mistral-small-2603",
             "name": "Mistral Small 4",
             "context_length": 262144
+          }
+        ]
+      }
+    },
+    {
+      "tool": "hermes",
+      "id": "ollama",
+      "serviceName": "Ollama",
+      "defaultName": "Ollama",
+      "defaultModel": "qwen3-coder",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "name": "ollama",
+        "base_url": "http://localhost:11434/v1",
+        "api_key": "",
+        "api_mode": "chat_completions",
+        "models": [
+          {
+            "id": "qwen3-coder",
+            "name": "Qwen3 Coder",
+            "context_length": 262144
+          },
+          {
+            "id": "gpt-oss:20b",
+            "name": "gpt-oss 20B",
+            "context_length": 131072
           }
         ]
       }
@@ -1779,6 +1914,30 @@
     },
     {
       "tool": "openclaw",
+      "id": "lmstudio",
+      "serviceName": "LM Studio",
+      "defaultName": "LM Studio",
+      "defaultModel": "openai/gpt-oss-20b",
+      "websiteUrl": "https://lmstudio.ai",
+      "apiKeyUrl": "https://lmstudio.ai",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "baseUrl": "http://localhost:1234/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "openai/gpt-oss-20b",
+            "name": "gpt-oss 20B",
+            "contextWindow": 131072
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
       "id": "minimax-bdad66b73b",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
@@ -1862,6 +2021,35 @@
             "id": "mistral-small-2603",
             "name": "Mistral Small 4",
             "contextWindow": 262144
+          }
+        ]
+      }
+    },
+    {
+      "tool": "openclaw",
+      "id": "ollama",
+      "serviceName": "Ollama",
+      "defaultName": "Ollama",
+      "defaultModel": "qwen3-coder",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "baseUrl": "http://localhost:11434/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3-coder",
+            "name": "Qwen3 Coder",
+            "contextWindow": 262144
+          },
+          {
+            "id": "gpt-oss:20b",
+            "name": "gpt-oss 20B",
+            "contextWindow": 131072
           }
         ]
       }
@@ -2416,6 +2604,31 @@
     },
     {
       "tool": "opencode",
+      "id": "lmstudio",
+      "serviceName": "LM Studio",
+      "defaultName": "LM Studio",
+      "defaultModel": "openai/gpt-oss-20b",
+      "websiteUrl": "https://lmstudio.ai",
+      "apiKeyUrl": "https://lmstudio.ai",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "LM Studio",
+        "options": {
+          "baseURL": "http://localhost:1234/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "openai/gpt-oss-20b": {
+            "name": "gpt-oss 20B"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
       "id": "minimax-a7a50b1cce",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
@@ -2518,6 +2731,34 @@
           },
           "mistral-small-2603": {
             "name": "Mistral Small 4"
+          }
+        }
+      }
+    },
+    {
+      "tool": "opencode",
+      "id": "ollama",
+      "serviceName": "Ollama",
+      "defaultName": "Ollama",
+      "defaultModel": "qwen3-coder",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "Ollama",
+        "options": {
+          "baseURL": "http://localhost:11434/v1",
+          "apiKey": ""
+        },
+        "models": {
+          "qwen3-coder": {
+            "name": "Qwen3 Coder"
+          },
+          "gpt-oss:20b": {
+            "name": "gpt-oss 20B"
           }
         }
       }
@@ -3240,6 +3481,36 @@
     },
     {
       "tool": "pi",
+      "id": "lmstudio",
+      "serviceName": "LM Studio",
+      "defaultName": "LM Studio",
+      "defaultModel": "openai/gpt-oss-20b",
+      "websiteUrl": "https://lmstudio.ai",
+      "apiKeyUrl": "https://lmstudio.ai",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "name": "LM Studio",
+        "baseUrl": "http://localhost:1234/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "openai/gpt-oss-20b",
+            "name": "gpt-oss 20B",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "contextWindow": 131072,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
       "id": "minimax-246212d80d",
       "serviceName": "MiniMax",
       "defaultName": "MiniMax",
@@ -3339,6 +3610,46 @@
               "image"
             ],
             "contextWindow": 262144,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    },
+    {
+      "tool": "pi",
+      "id": "ollama",
+      "serviceName": "Ollama",
+      "defaultName": "Ollama",
+      "defaultModel": "qwen3-coder",
+      "websiteUrl": "https://ollama.com",
+      "apiKeyUrl": "https://ollama.com",
+      "official": false,
+      "default": false,
+      "kind": "local",
+      "settingsConfig": {
+        "name": "Ollama",
+        "baseUrl": "http://localhost:11434/v1",
+        "api": "openai-completions",
+        "apiKey": "",
+        "models": [
+          {
+            "id": "qwen3-coder",
+            "name": "Qwen3 Coder",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "contextWindow": 262144,
+            "maxTokens": 32768
+          },
+          {
+            "id": "gpt-oss:20b",
+            "name": "gpt-oss 20B",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "contextWindow": 131072,
             "maxTokens": 32768
           }
         ]

@@ -216,7 +216,13 @@ mod tests {
             );
             for candidate in candidates {
                 let parsed = url::Url::parse(&candidate.url).expect("validated endpoint URL");
-                assert_eq!(parsed.scheme(), "https");
+                // Plain HTTP only for a server on this machine (ADR-0057).
+                assert!(
+                    parsed.scheme() == "https"
+                        || (parsed.scheme() == "http" && parsed.host_str() == Some("localhost")),
+                    "{tool:?} measures {}",
+                    candidate.url
+                );
                 assert!(parsed.username().is_empty());
                 assert!(parsed.password().is_none());
                 assert!(parsed.query().is_none());

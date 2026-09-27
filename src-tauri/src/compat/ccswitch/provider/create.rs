@@ -19,6 +19,9 @@ const MAX_CUSTOM_NAME_CHARS: usize = 100;
 const MAX_CUSTOM_KEY_BYTES: usize = 32 * 1024;
 const MAX_CUSTOM_MODEL_CHARS: usize = 256;
 const MAX_CUSTOM_BASE_URL_BYTES: usize = 2 * 1024;
+/// Written in place of a key for a server on this machine (ADR-0057): the
+/// tools refuse an empty key field, and a local server ignores what is there.
+const LOCAL_PLACEHOLDER_KEY: &str = "local";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(super) enum ConnectionCreateMode {
@@ -65,9 +68,12 @@ pub(super) fn is_connection_attempt_provider(provider: &UpstreamProvider) -> boo
     )
 }
 
+/// `key_optional` is true only for a server on this machine, whose blank key
+/// becomes the placeholder.
 fn validated_fields(
     tool: ToolId,
     draft: &ProviderCreateDraft,
+    key_optional: bool,
 ) -> Result<(&str, &str, &str), AppError> {
     let name = draft.name.trim();
     if name.is_empty() {
@@ -78,9 +84,14 @@ fn validated_fields(
     }
     let api_key = draft.api_key.trim();
     let model = draft.model.trim();
-    if draft.preset_id.is_empty() || api_key.is_empty() {
+    if draft.preset_id.is_empty() || (api_key.is_empty() && !key_optional) {
         return Err(create_error());
     }
+    let api_key = if api_key.is_empty() {
+        LOCAL_PLACEHOLDER_KEY
+    } else {
+        api_key
+    };
     // Tools with a built-in default model (Claude Code / Codex / Gemini CLI) may leave it empty;
     // for the others the native config is itself a model table, so an empty model means no usable
     // connection.
@@ -95,7 +106,8 @@ pub(super) fn provider_for_create(
     id: &str,
     draft: &ProviderCreateDraft,
 ) -> Result<UpstreamProvider, AppError> {
-    let (name, api_key, model) = validated_fields(tool, draft)?;
+    let local = presets::preset_for(tool, &draft.preset_id).is_ok_and(|preset| preset.is_local());
+    let (name, api_key, model) = validated_fields(tool, draft, local)?;
     let preset = presets::preset_for(tool, &draft.preset_id)?;
     let mut provider = preset.raw_provider(id);
     let models = if model.is_empty() {
@@ -139,13 +151,21 @@ fn valid_custom_text(value: &str, max_chars: usize) -> bool {
         && !trimmed.chars().any(char::is_control)
 }
 
-fn normalize_custom_https_base_url(value: &str) -> Result<String, AppError> {
+/// HTTPS, or plain `http://` to this machine, the same rule a saved endpoint's
+/// edit follows. Returns the address and whether it is on this machine.
+fn normalize_custom_base_url(value: &str) -> Result<(String, bool), AppError> {
     let value = value.trim();
     if value.is_empty() || value.len() > MAX_CUSTOM_BASE_URL_BYTES {
         return Err(create_error());
     }
     let url = Url::parse(value).map_err(|_| create_error())?;
-    if url.scheme() != "https"
+    let loopback = url.host().is_some_and(super::advanced::is_loopback);
+    let scheme_ok = match url.scheme() {
+        "https" => true,
+        "http" => loopback,
+        _ => false,
+    };
+    if !scheme_ok
         || url.cannot_be_a_base()
         || url.host().is_none()
         || !url.username().is_empty()
@@ -160,7 +180,7 @@ fn normalize_custom_https_base_url(value: &str) -> Result<String, AppError> {
         normalized.pop();
     }
     (!normalized.is_empty())
-        .then_some(normalized)
+        .then_some((normalized, loopback))
         .ok_or_else(create_error)
 }
 
@@ -181,15 +201,20 @@ pub(super) fn provider_for_custom_create(
     } else {
         valid_custom_text(model, MAX_CUSTOM_MODEL_CHARS)
     };
+    let (base_url, loopback) = normalize_custom_base_url(&draft.base_url)?;
     if !valid_custom_text(name, MAX_CUSTOM_NAME_CHARS)
-        || api_key.is_empty()
+        || (api_key.is_empty() && !loopback)
         || api_key.len() > MAX_CUSTOM_KEY_BYTES
         || api_key.chars().any(char::is_control)
         || !model_ok
     {
         return Err(create_error());
     }
-    let base_url = normalize_custom_https_base_url(&draft.base_url)?;
+    let api_key = if api_key.is_empty() {
+        LOCAL_PLACEHOLDER_KEY
+    } else {
+        api_key
+    };
     let profile = connection_profile_for(tool)?;
     let mut provider = provider_for_create(
         tool,
@@ -281,11 +306,62 @@ mod tests {
         }
     }
 
+    /// Ollama and LM Studio have no account to issue a key, so their presets
+    /// save without one and native writes the placeholder the tools require.
+    #[test]
+    fn a_local_preset_saves_without_a_key_and_a_remote_one_does_not() {
+        for tool in [
+            ToolId::ClaudeCode,
+            ToolId::Codex,
+            ToolId::OpenCode,
+            ToolId::Pi,
+        ] {
+            for preset in ["ollama", "lmstudio"] {
+                let mut draft = draft();
+                draft.preset_id = preset.to_string();
+                draft.api_key = "   ".to_string();
+                let raw = provider_for_create(tool, "local", &draft)
+                    .unwrap_or_else(|_| panic!("{tool:?}/{preset}"));
+                let (base_url, api_key) =
+                    raw.resolve_usage_credentials(&super::super::app_type_for(tool));
+                assert!(
+                    base_url.starts_with("http://localhost:"),
+                    "{tool:?}/{preset}"
+                );
+                assert_eq!(api_key, super::LOCAL_PLACEHOLDER_KEY, "{tool:?}/{preset}");
+            }
+            let mut remote = default_draft(tool);
+            remote.api_key = String::new();
+            assert!(
+                provider_for_create(tool, "remote", &remote).is_err(),
+                "{tool:?}"
+            );
+        }
+    }
+
+    /// A server on this machine is the one plain-HTTP address a custom entry
+    /// takes, and the one that may go without a key (ADR-0057).
+    #[test]
+    fn custom_create_takes_a_keyless_server_on_this_machine() {
+        let mut draft = custom_draft("http://localhost:11434/v1");
+        draft.api_key = "  ".to_string();
+        let raw = provider_for_custom_create(ToolId::Codex, "local", &draft)
+            .expect("loopback custom provider");
+        let (base_url, api_key) =
+            raw.resolve_usage_credentials(&super::super::app_type_for(ToolId::Codex));
+        assert_eq!(base_url, "http://localhost:11434/v1");
+        assert_eq!(api_key, super::LOCAL_PLACEHOLDER_KEY);
+
+        let mut remote = custom_draft("https://relay.example.test/v1");
+        remote.api_key = String::new();
+        assert!(provider_for_custom_create(ToolId::Codex, "remote", &remote).is_err());
+    }
+
     #[test]
     fn custom_create_rejects_non_https_and_secret_bearing_urls() {
         for base_url in [
             "http://relay.example.test/v1",
-            "http://localhost:11434/v1",
+            "http://192.168.1.20:11434/v1",
             "https://user:pass@relay.example.test/v1",
             "https://relay.example.test/v1?token=secret",
             "https://relay.example.test/v1#secret",

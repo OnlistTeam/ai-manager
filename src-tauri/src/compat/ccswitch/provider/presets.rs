@@ -61,16 +61,21 @@ impl CatalogPreset {
         )
     }
 
+    /// A server on this machine, which takes no key (ADR-0057).
+    pub(super) fn is_local(&self) -> bool {
+        self.kind == ProviderPresetKind::Local
+    }
+
     /// The endpoint this preset configures, read back out of its own template.
     ///
-    /// Empty when the template has no usable HTTPS endpoint or the extraction
-    /// turns up a credential, because a half-read address shown as fact is
-    /// worse than none; `validate_preset` already rejects both at load, so an
-    /// empty string here means a template shape nobody has taught this to read.
+    /// Empty when the template has no usable endpoint or the extraction turns
+    /// up a credential, because a half-read address shown as fact is worse
+    /// than none; `validate_preset` already rejects both at load, so an empty
+    /// string here means a template shape nobody has taught this to read.
     fn base_url(&self) -> String {
         let raw = self.raw_provider("preset-address");
         let (endpoint, key) = raw.resolve_usage_credentials(&app_type_for(self.tool));
-        if key.is_empty() && validate_https_endpoint(&endpoint).is_ok() {
+        if key.is_empty() && validate_endpoint(self.kind, &endpoint).is_ok() {
             endpoint
         } else {
             String::new()
@@ -246,7 +251,7 @@ pub(super) fn endpoint_candidates_for(
         .map(|preset| {
             let raw = preset.raw_provider("reviewed-preset-speed-test");
             let (endpoint, key) = raw.resolve_usage_credentials(&app_type_for(tool));
-            validate_https_endpoint(&endpoint)
+            validate_endpoint(preset.kind, &endpoint)
                 .map_err(|detail| create_error().with_technical(detail))?;
             if !key.is_empty() {
                 return Err(create_error()
@@ -297,7 +302,7 @@ fn validate_preset(preset: &CatalogPreset) -> Result<(), String> {
 
     let mut raw = preset.raw_provider("catalog-validation");
     let (endpoint, key) = raw.resolve_usage_credentials(&app_type_for(preset.tool));
-    validate_https_endpoint(&endpoint)?;
+    validate_endpoint(preset.kind, &endpoint)?;
     if !key.is_empty() {
         return Err("provider preset contains a credential".to_string());
     }
@@ -368,6 +373,27 @@ fn validate_https_endpoint(value: &str) -> Result<(), String> {
     Ok(())
 }
 
+/// Where a preset may point: HTTPS, except that a `Local` preset must point at
+/// this machine and may do so over plain `http://` (ADR-0057). A local server
+/// has no certificate to offer, and a loopback address never leaves the
+/// machine, so the one exception cannot carry a key anywhere else.
+fn validate_endpoint(kind: ProviderPresetKind, value: &str) -> Result<(), String> {
+    if kind != ProviderPresetKind::Local {
+        return validate_https_endpoint(value);
+    }
+    let url = Url::parse(value).map_err(|_| "provider endpoint is invalid".to_string())?;
+    if !matches!(url.scheme(), "http" | "https")
+        || !url.host().is_some_and(advanced::is_loopback)
+        || !url.username().is_empty()
+        || url.password().is_some()
+        || url.query().is_some()
+        || url.fragment().is_some()
+    {
+        return Err("local provider endpoint is not on this machine".to_string());
+    }
+    Ok(())
+}
+
 fn secret_field(name: &str) -> bool {
     let normalized: String = name
         .chars()
@@ -406,9 +432,51 @@ fn contains_plain_secret(value: &Value, parent: &str) -> bool {
 mod tests {
     use super::{
         key_page_for, model_required, official_endpoint_for, preset_for, profile_for,
-        provider_tools,
+        provider_tools, validate_endpoint,
     };
-    use crate::domain::ToolId;
+    use crate::domain::{ProviderPresetKind, ToolId};
+
+    /// The loopback exception is the `Local` kind's alone, and it is an
+    /// exception to the scheme, not to where the address may go.
+    #[test]
+    fn only_a_local_preset_may_use_plain_http_and_only_to_this_machine() {
+        for url in [
+            "http://localhost:11434",
+            "http://127.0.0.1:1234/v1",
+            "http://[::1]:11434/v1",
+        ] {
+            assert!(
+                validate_endpoint(ProviderPresetKind::Local, url).is_ok(),
+                "{url}"
+            );
+            assert!(
+                validate_endpoint(ProviderPresetKind::Vendor, url).is_err(),
+                "{url}"
+            );
+            assert!(
+                validate_endpoint(ProviderPresetKind::Relay, url).is_err(),
+                "{url}"
+            );
+        }
+        for url in [
+            "http://api.example.test/v1",
+            "https://api.example.test/v1",
+            "http://192.168.1.20:11434",
+            "http://localhost:11434/v1?token=secret",
+            "http://user:pass@localhost:11434",
+        ] {
+            assert!(
+                validate_endpoint(ProviderPresetKind::Local, url).is_err(),
+                "{url}"
+            );
+        }
+        assert!(
+            validate_endpoint(ProviderPresetKind::Vendor, "https://api.example.test/v1").is_ok()
+        );
+        assert!(
+            validate_endpoint(ProviderPresetKind::Vendor, "http://api.example.test/v1").is_err()
+        );
+    }
 
     /// The renderer may only name a preset, so the only addresses this can ever
     /// open are the audited ones — and an id it made up opens nothing.
@@ -514,8 +582,10 @@ mod tests {
     fn every_projected_preset_carries_a_readable_https_address() {
         for tool in provider_tools() {
             for preset in profile_for(tool).expect("valid catalog").presets {
+                let local = preset.kind == ProviderPresetKind::Local;
                 assert!(
-                    preset.base_url.starts_with("https://"),
+                    preset.base_url.starts_with("https://")
+                        || (local && preset.base_url.starts_with("http://localhost:")),
                     "{tool:?} / {} projected {:?}",
                     preset.service_name,
                     preset.base_url

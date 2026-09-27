@@ -459,6 +459,21 @@ export const providerCreateDraftSchema = z
   })
   .strict();
 
+/** Mirrors native `advanced::is_loopback`: `localhost` or a loopback IP. */
+function isLoopbackUrl(value: string): boolean {
+  try {
+    const host = new URL(value).hostname.replace(/^\[|\]$/gu, "").toLowerCase();
+    return (
+      host === "localhost" ||
+      host.endsWith(".localhost") ||
+      host === "::1" ||
+      /^127(?:\.\d{1,3}){3}$/u.test(host)
+    );
+  } catch {
+    return false;
+  }
+}
+
 const providerCustomBaseUrlSchema = z
   .string()
   .min(1)
@@ -468,7 +483,8 @@ const providerCustomBaseUrlSchema = z
     try {
       const parsed = new URL(value);
       return (
-        parsed.protocol === "https:" &&
+        (parsed.protocol === "https:" ||
+          (parsed.protocol === "http:" && isLoopbackUrl(value))) &&
         parsed.hostname.length > 0 &&
         parsed.username.length === 0 &&
         parsed.password.length === 0 &&
@@ -480,21 +496,27 @@ const providerCustomBaseUrlSchema = z
     } catch {
       return false;
     }
-  }, "Custom Base URL must be credential-free HTTPS");
+  }, "Custom Base URL must be credential-free HTTPS, or HTTP to this machine");
 
-/** Advanced-only custom service payload; native still owns every tool shape. */
+/**
+ * Custom service payload; native still owns every tool shape. The key may be
+ * blank only for a server on this machine, where native writes a placeholder.
+ */
 export const providerCustomCreateDraftSchema = z
   .object({
     name: z.string().trim().min(1).max(100),
     apiKey: z
       .string()
       .trim()
-      .min(1)
       .max(32 * 1_024),
     model: z.string().trim().max(256),
     baseUrl: providerCustomBaseUrlSchema,
   })
-  .strict();
+  .strict()
+  .refine((draft) => draft.apiKey !== "" || isLoopbackUrl(draft.baseUrl), {
+    message: "An API key is required for an address off this machine",
+    path: ["apiKey"],
+  });
 
 /** Safe create response used to target the exact new service for a follow-up check. */
 /** A save, and whether it ended the tool's local route (ADR-0054). */

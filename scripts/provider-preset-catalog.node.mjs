@@ -234,6 +234,22 @@ test("each tool lists only services that speak its protocol", async () => {
 test("the relay group is onList, OpenRouter and OpenCode, with onList first", async () => {
   const generated = await catalog();
   for (const tool of ["claude-code", "codex", "opencode", "pi"]) {
+    const local = generated.presets.filter(
+      (preset) => preset.tool === tool && preset.kind === "local",
+    );
+    assert.deepEqual(
+      local.map((preset) => preset.serviceName).sort(),
+      ["LM Studio", "Ollama"],
+      tool,
+    );
+    // The loopback exception is for this machine only.
+    for (const preset of local) {
+      assert.match(
+        JSON.stringify(preset.settingsConfig),
+        /http:\/\/localhost:(11434|1234)/,
+        `${tool}:${preset.serviceName}`,
+      );
+    }
     const relays = generated.presets
       .filter((preset) => preset.tool === tool && preset.kind === "relay")
       .map((preset) => preset.serviceName);

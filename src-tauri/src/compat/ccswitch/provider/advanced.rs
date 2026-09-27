@@ -525,7 +525,8 @@ fn validate_base_url(raw: &str) -> Result<(), AppError> {
     Ok(())
 }
 
-fn is_loopback(host: Host<&str>) -> bool {
+/// A host on this machine: `localhost` (and its subdomains) or a loopback IP.
+pub(super) fn is_loopback(host: Host<&str>) -> bool {
     match host {
         Host::Domain(domain) => {
             let domain = domain.to_ascii_lowercase();
