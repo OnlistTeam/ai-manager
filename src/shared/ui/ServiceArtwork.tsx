@@ -244,8 +244,44 @@ function resolveArtwork(provider: Provider): BrandedArtwork | null {
   return null;
 }
 
+/** Second-level labels under a two-letter country code, as in `example.co.uk`. */
+const COUNTRY_SECOND_LEVEL = new Set([
+  "co",
+  "com",
+  "net",
+  "org",
+  "gov",
+  "edu",
+  "ac",
+]);
+
+/**
+ * The part of an address a person calls the site: `api.onlist.net` gives
+ * `onlist`. An address set outside the app is named by its host, and the
+ * initials of a whole host are mostly `AP` or `WW`, which name nothing and
+ * make one service look like two (ADR-0059). Anything that is not a dotted
+ * host name (a plain name, `localhost`, an IP address) is returned as given.
+ */
+function siteLabel(name: string): string {
+  const host = name.replace(/:\d+$/, "");
+  if (/\s/.test(host) || !host.includes(".") || /^[\d.]+$/.test(host)) {
+    return name;
+  }
+  const labels = host.split(".").filter(Boolean);
+  if (labels.length < 2) return name;
+  const tld = labels.pop() ?? "";
+  if (
+    labels.length >= 2 &&
+    tld.length === 2 &&
+    COUNTRY_SECOND_LEVEL.has(labels[labels.length - 1])
+  ) {
+    labels.pop();
+  }
+  return labels[labels.length - 1];
+}
+
 function initials(name: string): string {
-  const words = name.trim().split(/\s+/).filter(Boolean);
+  const words = siteLabel(name.trim()).split(/\s+/).filter(Boolean);
   if (words.length === 0) return "AI";
   if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
   return `${words[0][0]}${words[1][0]}`.toUpperCase();

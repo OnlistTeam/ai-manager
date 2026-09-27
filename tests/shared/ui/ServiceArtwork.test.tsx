@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import type { Provider } from "@/entities/provider";
-import { ServiceArtwork } from "@/shared/ui/ServiceArtwork";
+import { ServiceArtwork, ServiceMark } from "@/shared/ui/ServiceArtwork";
 
 function provider(overrides: Partial<Provider> = {}): Provider {
   return {
@@ -52,5 +52,24 @@ describe("ServiceArtwork", () => {
     const artwork = container.querySelector('[data-service-artwork="generic"]');
     expect(artwork).toHaveTextContent("TR");
     expect(artwork).toHaveAttribute("aria-hidden", "true");
+  });
+});
+
+describe("ServiceMark", () => {
+  // ADR-0059: an address set outside the app is named by its host; the mark
+  // takes the site's name, so `api.onlist.net` is not a different "AP" service.
+  it.each([
+    ["api.onlist.net", "ON"],
+    ["api.onlist.net:8443", "ON"],
+    ["www.example.co.uk", "EX"],
+    ["openrouter.ai", "OP"],
+    ["localhost:11434", "LO"],
+    ["127.0.0.1:18765", "12"],
+    ["Team Relay", "TR"],
+  ])("marks %s as %s", (name, expected) => {
+    const { container } = render(<ServiceMark provider={null} name={name} />);
+    expect(
+      container.querySelector('[data-service-artwork="generic"]'),
+    ).toHaveTextContent(expected);
   });
 });
