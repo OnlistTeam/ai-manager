@@ -88,7 +88,8 @@ Constraints that shape the design:
      test domains, no-reply senders, `git@` remotes or `@2x` image names);
      Chinese mainland ID numbers with a valid checksum; Chinese mobile
      numbers with optional `+86`; bank card numbers that pass the Luhn check.
-   - Words: the user's list. The field accepts commas (`,`, `，`, `、`) and
+   - Words: the user's list. The field accepts commas (ASCII `,`, full-width
+     U+FF0C and ideographic U+3001) and
      line breaks between words; each word is trimmed, words under two
      characters and repeats are dropped, and more than 100 words or a word
      over 128 characters is refused with `error.privacy.tooManyWords` /
@@ -96,8 +97,9 @@ Constraints that shape the design:
      where a word starts or ends with a letter, digit or `_`, the neighbouring
      character must not be one too, so `acme` is not found in `acmeish` or
      `my_acme` but is in `acme-db`. Chinese, Japanese and Korean characters
-     have no word boundaries, so they never block a match: `张三` is found in
-     `张三丰`, `acme` in `acme公司`.
+     have no word boundaries, so they never block a match: a two-character
+     Chinese name is found inside a three-character name that starts with it,
+     and `acme` is found when Chinese characters follow it directly.
    - On overlap the first detector wins, in this order: keys and passwords,
      remembered values, personal information, words. Remembered values and
      words are tried longest first, then in byte order, so overlapping

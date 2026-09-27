@@ -185,6 +185,7 @@ test("Open Tool keeps project paths in the native safe-launch chain", async () =
     nativeTools,
     toolsPage,
     homePage,
+    homeDialogs,
     launchFlow,
     servicesStartAction,
     servicesPage,
@@ -197,6 +198,7 @@ test("Open Tool keeps project paths in the native safe-launch chain", async () =
     source("src/native/commands/tools.ts"),
     source("src/pages/tools/ToolsPage.tsx"),
     source("src/pages/home/HomePage.tsx"),
+    source("src/pages/home/HomeDialogs.tsx"),
     source("src/features/tool-management/useToolLaunchFlow.ts"),
     source("src/pages/services/ServicesStartAction.tsx"),
     source("src/pages/services/ServicesEndpointsPanel.tsx"),
@@ -260,7 +262,8 @@ test("Open Tool keeps project paths in the native safe-launch chain", async () =
   assert.match(servicesStartAction, /launch\.openTool\(tool\)/);
   assert.match(homePage, /useToolLaunchFlow\(\)/);
   assert.match(homePage, /firstLaunchableTool\(list\)/);
-  assert.match(homePage, /<OpenToolModal/);
+  assert.match(homePage, /<HomeDialogs[\s\S]*launch=\{launch\}/);
+  assert.match(homeDialogs, /<OpenToolModal/);
   assert.match(homePage, /onStart=\{launch\.openTool\}/);
   assert.doesNotMatch(
     homePage,

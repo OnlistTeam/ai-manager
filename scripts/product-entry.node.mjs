@@ -93,8 +93,9 @@ test("the product shell loads route families on demand", async () => {
   assert.match(routeTransition, /data-route-content-layer="outgoing"/);
   assert.match(routeTransition, /data-route-content-layer="incoming"/);
   assert.match(routeLoading, /aria-label=\{t\("nav\.loadingPage"\)\}/);
-  assert.match(routeLoading, /ROUTE_LOADING_SHAPE\[route\]/);
-  assert.match(routeLoading, /\sloading\s/);
+  // The placeholder names the destination from the route table itself.
+  assert.match(routeLoading, /NAV_ITEMS\.find\(/);
+  assert.match(routeLoading, /title=\{t\(item\.labelKey\)\}/);
   assert.doesNotMatch(barrel, /export \{ AppShell \}/);
 });
 
