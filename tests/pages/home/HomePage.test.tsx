@@ -839,22 +839,20 @@ describe("HomePage", () => {
         expect(options[0]).toHaveAttribute("aria-current", "true");
         expect(options[0]).toHaveAttribute("aria-disabled", "true");
         expect(options[1]).not.toHaveAttribute("aria-current");
-        // Where it comes from, and what choosing here does by this tool's rules.
-        expect(
-          screen.getByText(
+        // Where it comes from, and what choosing here does by this tool's
+        // rules, on the pill's tooltip rather than in the list.
+        expect(pill).toHaveAttribute(
+          "title",
+          [
             en.services.effective.source.shellFile
               .replace("{{variable}}", "ANTHROPIC_BASE_URL")
               .replace("{{path}}", "~/.config/zsh/relay.zsh"),
-          ),
-        ).toBeVisible();
-        expect(
-          screen.getByText(
             en.services.external.replacedByChoice.replace(
               "{{name}}",
               "Claude Code",
             ),
-          ),
-        ).toBeVisible();
+          ].join("\n"),
+        );
 
         // The saved endpoints stay choosable.
         await userEvent.click(options[1]);
@@ -882,15 +880,11 @@ describe("HomePage", () => {
         mount([tool({ id: "gemini-cli", name: "Gemini CLI" })]);
 
         const row = await findRow("Gemini CLI");
-        await within(await pickerFor(row, "Gemini CLI")).findByText(
-          "api.onlist.net",
+        const pill = await pickerFor(row, "Gemini CLI");
+        await within(pill).findByText("api.onlist.net");
+        expect(pill.getAttribute("title")).toContain(
+          en.services.external.overrides.replace("{{name}}", "Gemini CLI"),
         );
-        await openPicker(row, "Gemini CLI");
-        expect(
-          screen.getByText(
-            en.services.external.overrides.replace("{{name}}", "Gemini CLI"),
-          ),
-        ).toBeVisible();
       });
 
       it("names the saved endpoint the tool really uses over the one selected", async () => {

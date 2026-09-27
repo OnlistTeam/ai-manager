@@ -17,34 +17,27 @@ const LABEL_KEYS: Record<
  * What the pill says: the saved entry by the name its list uses (official
  * sign-in included), an address set outside this app by its host and where it
  * comes from, the endpoints page's own naming (ADR-0035); only a tool with no
- * entry falls back to a description. Beside a connection stands the model:
- * the one in the tool's file where Home chooses it (its default when the file
- * names none, ADR-0055), else the one the entry pins.
+ * entry falls back to a description. Beside a saved entry stands the model it
+ * pins.
  */
 export function pillCopy(
   state: Exclude<ToolConnection, { kind: "loading" }>,
   connection: HomeToolConnection,
-  canChooseModel: boolean,
   t: TFunction,
 ): { label: string; detail: string | null } {
-  const model =
-    canChooseModel && connection.modelKnown
-      ? (connection.model ?? t("home.model.toolDefault"))
-      : connection.model;
+  const model = connection.model;
   switch (state.kind) {
     case "service":
       return { label: state.provider.name, detail: model };
     case "external":
       return {
         label: hostOf(state.connection.endpoint),
-        // Where it comes from matters more here than the model, which the
-        // list shows.
         detail: shortSourceCopy(state.connection.endpointSource, t),
       };
     case "official":
       return {
         label: state.provider?.name ?? t(LABEL_KEYS.official),
-        detail: state.provider || canChooseModel ? model : null,
+        detail: state.provider ? model : null,
       };
     case "added":
       return {

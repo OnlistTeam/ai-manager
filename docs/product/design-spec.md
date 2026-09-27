@@ -1133,64 +1133,62 @@ and an available update is counted in the status line.
 
 ---
 
-# 29. My Tools, the Endpoint and Model Picker, and the Effort Picker
+# 29. My Tools, the Model Picker, and the Effort Picker
 
 One row (about 40px) per installed tool whose capabilities allow endpoint
 management; tools that are not installed are not listed. "Install AI Tool" is
-a small text button in the list header. Each row is the tool, the endpoint
-with its model, and the thinking effort (ADR-0055).
+a small text button in the list header. Each row is the tool, its model, and
+its thinking effort (ADR-0055).
 
 ```text
-[icon] Claude Code .................. [Official sign-in  Tool default ▾] [◎ Extra high ▾]
-[icon] Codex ........................ [Team Relay         gpt-5-codex ▾] [◎ Low        ▾]
-[icon] Gemini CLI ................... [Official sign-in   Tool default ▾]
-[icon] OpenCode ..................... [2 endpoints added               ▾]
+[icon] Claude Code ..................... [A\ Default        ▾] [▂▄▆█ Extra high ▾]
+[icon] Codex ........................... [TR gpt-5-codex    ▾] [▂▄   Low        ▾]
+[icon] Gemini CLI ...................... [✦  Default        ▾]
+[icon] OpenCode ........................ [2 endpoints added ▾]
 ```
 
-- The picker at the trailing edge shows the saved endpoint selected for the
-  tool by the same name its list uses, the official entry included, and its
-  model when it pins exactly one; "Official sign-in" when nothing is selected
-  and the tool's own login is in effect; "Not connected" when a
-  tool that needs an endpoint has none; for tools that pick the model
-  themselves, the number of endpoints added. Every picker has the same width,
-  so they line up.
-- Opening it lists the tool's endpoints: the one in use first and checked, the
-  rest in the order set on the API Endpoints page; a filter field appears when
-  there are more than seven. After a separator, "Manage API endpoints…" opens
-  that tool's API Endpoints tab. With no endpoints the list says so and offers
-  "Add an endpoint…" instead. For tools that pick the model themselves it only
-  says so and offers the way to manage them.
-- Picking an endpoint switches through the shared recoverable flow: the
-  preflight check, the reopen hint with "Open now", and its recovery state.
-  A target that does not respond changes nothing, and a small line under the
-  row says so and links to the API Endpoints page. Picking the one in use
-  writes it again. The API Endpoints page switches through the same flow.
-- While the list loads the picker is a placeholder; when the list cannot be
-  read it is plain text.
 - Where the tool's capabilities allow choosing the model (`canChooseModel`),
-  the picker also names the model in the tool's own file, or "Tool default"
-  when the file names none, and each endpoint in its list carries its models
-  indented under it: the endpoint's saved model first, then the built-in list
-  for an official service or the endpoint's model catalogue for a custom one,
-  read only while the list is open; eight per endpoint until the filter is
-  used. Under the endpoint in use the first entry is "Tool default". Picking
-  a model under the endpoint in use sets it; under another endpoint it
-  switches there first and sets the model once the switch succeeded. A model
-  typed into the filter that no list holds is offered as "Use “name”". The
+  the first picker names the model in the tool's own file, or "Default" when
+  the file names none, led by the mark of the endpoint it runs on (its logo
+  or initials; the tool's own mark for its sign-in). The endpoint's name is
+  on the tooltip. There is no separate endpoint picker on these rows: an
+  endpoint is where a model comes from, so it is chosen in the model list.
+- The model list has a filter field ("Filter, or type any model ID…") and a
+  rail: all models, starred models, then one mark per endpoint. Each endpoint
+  is a section headed by its name, the one in use first, the rest in the
+  order set on the API Endpoints page. A section starts with "Default"
+  ("what the tool ships with", said once at the top), then the model in use,
+  the endpoint's saved model, and the built-in list for an official service or
+  the endpoint's model catalogue for a custom one, read only while the list is
+  open. The model in use is checked. A star beside a model keeps it under
+  "Favorites" on this device. A name typed into the filter that no list holds
+  is offered as "Use “name”". "Manage API endpoints…" is the last entry.
+- Picking under the endpoint in use sets the model; under another endpoint it
+  switches there first through the shared recoverable flow (preflight check,
+  reopen hint with "Open now", recovery state) and sets the model once the
+  switch succeeded. A target that does not respond changes nothing, and a
+  small line under the row says so and links to the API Endpoints page. The
   model belongs to its endpoint: a later switch writes the target's own
   model, and switching back restores the one picked for it.
+- Tools that do not choose the model here keep an endpoint picker of the same
+  width: the saved endpoint in use by the name its list uses, and the model it
+  pins; "Official sign-in", "Not connected", or for tools that pick the model
+  themselves the number of endpoints added. Its list is the endpoints, the one
+  in use checked, with a filter above seven, then "Manage API endpoints…" (or
+  "Add an endpoint…" when there are none).
+- While the list loads the picker is a placeholder; when the list cannot be
+  read it is plain text.
 - Where the tool has an effort setting (`canChooseEffort`), a second, narrower
-  picker names the level a new session will actually run at, as the tool
-  itself resolves it, with "Tool default" and the levels the tool accepts.
-  When no model is named and the models run at different levels, it says
-  "Per model" and its list names each model's level. Choosing a level
-  sets it for every model; a level the tool keeps only through its own
-  environment variable (Claude Code's "Max") says it then holds for every
-  session and the tool's `/effort` cannot change it until another level is
-  chosen here. A level held by a terminal variable is shown with where it
-  comes from and cannot be chosen. The effort belongs to the tool and
-  survives every switch. A tool without an effort setting keeps an empty
-  slot, so the columns line up.
+  pill shows four bars lit up to the level and names the level a new session
+  will actually run at, as the tool itself resolves it. It opens a slider from
+  "Default" to the tool's strongest level; each stop it settles on is written
+  at once and the slider stays open. When no model is named and the models run
+  at different levels, the pill says "Per model" and its tooltip names each
+  model's level; choosing a level sets it for every model. A level held by a
+  terminal variable shows a lock; the slider cannot move and one line says
+  where the variable is set. There are no other notes. The effort belongs to
+  the tool and survives every switch. A tool without an effort setting keeps
+  an empty slot, so the columns line up.
 - Only the tool's own keys are written (Claude Code `env.ANTHROPIC_MODEL`,
   and for the effort `effortLevel`, every model's `modelSettings` entry and
   `env.CLAUDE_CODE_EFFORT_LEVEL`; Codex `model` and `model_reasoning_effort`;
@@ -1199,16 +1197,10 @@ with its model, and the thinking effort (ADR-0055).
   effective connection read in the background through the endpoints page's
   own query (ADR-0035, ADR-0051, ADR-0053). A saved endpoint the tool really
   uses is named instead of the selected one. An address set outside this app
-  is named by its host and a short source, with a warning tint:
-
-  ```text
-  [icon] Claude Code ............. [⚠ relay.example.test  Terminal variable ▾]
-  ```
-
-  Its list starts with that address, checked and not choosable, under one
-  note: where it comes from, and whether choosing a saved endpoint replaces
-  it or the variable keeps winning, by the tool's own precedence. The saved
-  endpoints follow and stay choosable. Until the answer arrives the saved
+  is named by its host and a short source ("Terminal variable"); the full
+  source and whether choosing a saved endpoint replaces it are on the
+  tooltip. The pill turns amber only when the variable keeps winning over a
+  switch by the tool's own precedence. Until the answer arrives the saved
   label stays, with no spinner.
 
 There are no quick-action cards, no update buttons and no live routing panel

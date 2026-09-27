@@ -18,34 +18,42 @@ type ArtworkId =
 interface BrandedArtwork {
   id: Exclude<ArtworkId, "generic">;
   src: string;
+  /** Size at full scale. */
   imageClassName: string;
+  /** A one-colour logo, inverted in dark mode. */
+  mono: boolean;
 }
 
 const ARTWORK: Record<BrandedArtwork["id"], BrandedArtwork> = {
   anthropic: {
     id: "anthropic",
+    mono: true,
     src: AnthropicSvg,
-    imageClassName: "h-7 w-7 dark:invert",
+    imageClassName: "h-7 w-7",
   },
   openai: {
     id: "openai",
+    mono: true,
     src: OpenAISvg,
-    imageClassName: "h-7 w-7 dark:invert",
+    imageClassName: "h-7 w-7",
   },
   openrouter: {
     id: "openrouter",
+    mono: true,
     src: OpenRouterSvg,
-    imageClassName: "h-7 w-7 dark:invert",
+    imageClassName: "h-7 w-7",
   },
   gemini: {
     id: "gemini",
+    mono: false,
     src: GeminiSvg,
     imageClassName: "h-7 w-7",
   },
   opencode: {
     id: "opencode",
+    mono: true,
     src: OpenCodeSvg,
-    imageClassName: "h-8 w-7 dark:invert",
+    imageClassName: "h-8 w-7",
   },
 };
 
@@ -151,11 +159,58 @@ export function ServiceArtwork({ provider, className }: ServiceArtworkProps) {
           src={artwork.src}
           alt=""
           draggable={false}
-          className={cn("relative object-contain", artwork.imageClassName)}
+          className={cn(
+            "relative object-contain",
+            artwork.imageClassName,
+            artwork.mono && "dark:invert",
+          )}
         />
       ) : (
         <span className="relative text-caption font-semibold tracking-wide text-brand">
           {initials(provider.name)}
+        </span>
+      )}
+    </span>
+  );
+}
+
+export interface ServiceMarkProps {
+  /** The saved entry; without one, the name's initials stand in. */
+  provider: Provider | null;
+  name: string;
+  className?: string;
+}
+
+/**
+ * The same identity at text size, for a list row or a compact button: the
+ * recognised logo, else the initials.
+ */
+export function ServiceMark({ provider, name, className }: ServiceMarkProps) {
+  const artwork = provider ? resolveArtwork(provider) : null;
+
+  return (
+    <span
+      aria-hidden="true"
+      data-service-artwork={artwork?.id ?? "generic"}
+      className={cn(
+        "flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden rounded-[4px]",
+        !artwork && "bg-brand/10",
+        className,
+      )}
+    >
+      {artwork ? (
+        <img
+          src={artwork.src}
+          alt=""
+          draggable={false}
+          className={cn(
+            "h-full w-full object-contain",
+            artwork.mono && "dark:invert",
+          )}
+        />
+      ) : (
+        <span className="text-[8px] font-semibold leading-none text-brand">
+          {initials(name)}
         </span>
       )}
     </span>

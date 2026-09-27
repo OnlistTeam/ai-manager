@@ -1,16 +1,22 @@
 import { describe, expect, it } from "vitest";
 import {
-  buildModelMenu,
+  buildModelSections,
+  viewModelSections,
   type ModelMenuEndpoint,
+  type ModelMenuItem,
 } from "@/pages/home/homeModelMenu";
 
-const COPY = { toolDefault: "Tool default", loading: "Loading models…" };
+const COPY = { toolDefault: "Default", toolDefaultNote: "What it ships with" };
 
 function endpoint(overrides: Partial<ModelMenuEndpoint>): ModelMenuEndpoint {
   return {
+    key: "relay",
     providerId: "relay",
+    provider: null,
+    signIn: false,
     name: "Relay",
     detail: null,
+    title: null,
     inUse: false,
     savedModel: null,
     models: [],
@@ -19,95 +25,67 @@ function endpoint(overrides: Partial<ModelMenuEndpoint>): ModelMenuEndpoint {
   };
 }
 
-describe("buildModelMenu", () => {
-  it("offers the tool default only under the endpoint in use, and checks the model in force", () => {
-    const menu = buildModelMenu(
-      [
-        endpoint({
-          providerId: "official",
-          name: "Official",
-          inUse: true,
-          savedModel: "opus",
-          models: ["fable", "opus"],
-        }),
-        endpoint({ savedModel: "glm-5", models: ["glm-5", "glm-5-air"] }),
-      ],
-      "opus",
-      true,
-      COPY,
-    );
+const OFFICIAL = endpoint({
+  key: "official",
+  providerId: "official",
+  name: "Official",
+  inUse: true,
+  savedModel: "opus",
+  models: ["fable", "opus"],
+});
+const RELAY = endpoint({ savedModel: "glm-5", models: ["glm-5", "glm-5-air"] });
 
-    const [inUse, other] = menu.groups;
-    expect(inUse?.header).toMatchObject({ label: "Official", checked: true });
-    expect(inUse?.options.map((option) => option.label)).toEqual([
-      "Tool default",
-      "opus",
-      "fable",
+const labels = (items: readonly ModelMenuItem[]) =>
+  items.map((item) => item.label);
+
+describe("buildModelSections", () => {
+  it("puts the endpoint in use first and starts each with the default", () => {
+    const sections = buildModelSections([RELAY, OFFICIAL], "opus", COPY);
+
+    expect(sections.map((section) => section.endpoint.key)).toEqual([
+      "official",
+      "relay",
     ]);
-    expect(inUse?.options.find((option) => option.checked)?.label).toBe("opus");
-    // Another endpoint names the model saved with it, and lists it first.
-    expect(other?.header).toMatchObject({ label: "Relay", detail: "glm-5" });
-    expect(other?.options.map((option) => option.label)).toEqual([
-      "glm-5",
-      "glm-5-air",
-    ]);
-    expect(menu.choices.get(other?.options[1]?.id ?? "")).toEqual({
-      kind: "model",
-      providerId: "relay",
-      model: "glm-5-air",
-    });
-    expect(menu.choices.get(inUse?.options[0]?.id ?? "")).toEqual({
-      kind: "model",
-      providerId: "official",
-      model: null,
-    });
-    expect(menu.choices.get(other?.header.id ?? "")).toEqual({
-      kind: "endpoint",
-      providerId: "relay",
-    });
+    const [inUse, other] = sections;
+    expect(labels(inUse.items)).toEqual(["Default", "opus", "fable"]);
+    expect(labels(other.items)).toEqual(["Default", "glm-5", "glm-5-air"]);
+    // The note is said once, on the first section's default.
+    expect(inUse.items[0].note).toBe("What it ships with");
+    expect(other.items[0].note).toBeNull();
+    expect(
+      sections.flatMap((section) =>
+        section.items.filter((item) => item.checked).map((item) => item.id),
+      ),
+    ).toEqual(["official\u001fopus"]);
   });
 
-  it("lists what a tool without a saved entry uses as current and not switchable", () => {
-    const menu = buildModelMenu(
-      [
-        endpoint({
-          providerId: null,
-          name: "relay.example.test",
-          detail: "Terminal variable",
-          inUse: true,
-          models: [],
-          loading: true,
-        }),
-      ],
-      null,
-      true,
-      COPY,
-    );
-    const [group] = menu.groups;
-    expect(group?.header).toMatchObject({
-      checked: true,
-      disabled: true,
-      detail: "Terminal variable",
-    });
-    expect(menu.choices.has(group?.header.id ?? "")).toBe(false);
-    expect(group?.options.map((option) => option.label)).toEqual([
-      "Tool default",
-    ]);
-    expect(group?.note).toBe("Loading models…");
-    expect(menu.choices.get(group?.options[0]?.id ?? "")).toEqual({
-      kind: "model",
-      providerId: null,
-      model: null,
-    });
+  it("checks the default when the tool names no model", () => {
+    const [inUse] = buildModelSections([OFFICIAL], null, COPY);
+    expect(inUse.items[0]).toMatchObject({ model: null, checked: true });
+  });
+});
+
+describe("viewModelSections", () => {
+  const sections = buildModelSections([OFFICIAL, RELAY], "opus", COPY);
+  const none = () => false;
+
+  it("narrows to one endpoint", () => {
+    const shown = viewModelSections(sections, { endpoint: "relay" }, "", none);
+    expect(shown.map((section) => section.endpoint.key)).toEqual(["relay"]);
   });
 
-  it("lists only the endpoints where the model is not chosen here", () => {
-    const menu = buildModelMenu(
-      [endpoint({ inUse: true, models: ["glm-5"] })],
-      "glm-5",
-      false,
-      COPY,
-    );
-    expect(menu.groups[0]?.options).toEqual([]);
+  it("keeps only the starred models", () => {
+    const starred = (item: ModelMenuItem) => item.model === "glm-5-air";
+    const shown = viewModelSections(sections, "favorites", "", starred);
+    expect(shown.map((section) => labels(section.items))).toEqual([
+      ["glm-5-air"],
+    ]);
+  });
+
+  it("filters by name and drops an endpoint left empty", () => {
+    const shown = viewModelSections(sections, "all", "GLM-5-a", none);
+    expect(shown.map((section) => labels(section.items))).toEqual([
+      ["glm-5-air"],
+    ]);
   });
 });

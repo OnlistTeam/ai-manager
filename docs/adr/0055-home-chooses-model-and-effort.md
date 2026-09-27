@@ -3,7 +3,8 @@
 - Status: accepted
 - Date: 2026-09-27
 - Amended: 2026-09-27, decision 8 (Claude Code's effort follows Claude
-  Code's own resolution)
+  Code's own resolution); 2026-09-27, decisions 1, 2 and 9 (the row names
+  the model, not the endpoint; the effort is a slider without notes)
 - Amends: ADR-0053 decision 1 (what a Home row chooses), ADR-0041
   decision 1 (when a model catalogue is read), design-spec §29.
 
@@ -23,23 +24,36 @@ screen, one row per tool.
 
 ## Decision
 
-1. **A row is the tool, its endpoint and model, and its effort.** The first
-   picker names the endpoint in use and its model; the second names the
-   effort. Every picker in a column has one width, so both columns line up
-   down the list. A tool without an effort setting keeps an empty slot of the
-   same width, so its model picker stays in the column.
-2. **The model picker is grouped by endpoint.** Each of the tool's saved
-   endpoints is a row, the one in use first, then the rest in the user's
-   order, with its models indented under it. An address set outside this app
-   keeps its place at the top, checked and not choosable, with its note
-   (ADR-0053 decision 8). Under the endpoint in use the first entry is
-   "Tool default", which removes this product's model key so the tool decides
-   again. A model typed into the filter field that is in no list can be used
-   as typed. Picking a model under the endpoint in use sets it; picking one
-   under another endpoint runs the shared switch flow to that endpoint first
-   and sets the model once the switch has succeeded, so a target that does not
-   answer still changes nothing. Picking an endpoint row switches without
-   touching its model. "Manage API endpoints…" stays the last entry.
+1. **A row is the tool, its model, and its effort.** The first picker names
+   the model in use, led by the mark of the endpoint it runs on (the
+   endpoint's logo or initials, the tool's own mark for its sign-in), with
+   the endpoint's name on its tooltip; "Default" when this product's model key
+   is absent. The second names the effort. Every picker in a column has one
+   width, so both columns line up down the list. A tool without an effort
+   setting keeps an empty slot of the same width, so its model picker stays in
+   the column. The endpoint has no picker of its own on these rows: choosing
+   an endpoint is choosing where a model comes from, so it happens in the
+   model list, and the API Endpoints page keeps its own "Use" button
+   (ADR-0053).
+2. **The model list is grouped by endpoint.** A filter field sits on top; a
+   rail beside the list shows all models, only the starred ones, or one
+   endpoint's. Each endpoint is a section headed by its name, the one in use
+   first, then the rest in the user's order. An address set outside this app
+   heads its section with where it comes from ("terminal variable"), the full
+   source and what a choice here does on the tooltip (ADR-0053 decision 8);
+   the pill turns amber only when that address outranks a switch, the one
+   case where a choice here would not take effect. Each section starts with
+   "Default", which removes this product's model key so the tool decides; its
+   note, "what the tool ships with", is said once at the top. A model can be
+   starred; stars are a view preference kept per tool and endpoint in this
+   device's local storage, like the live panel's email masking. A model name
+   typed into the filter that is in no list can be used as typed, under the
+   endpoint the rail shows or else the one in use. Picking under the endpoint
+   in use sets the model; picking under another endpoint, "Default" included,
+   runs the shared switch flow to that endpoint first and sets the model once
+   the switch has succeeded, so a target that does not answer still changes
+   nothing. "Manage API endpoints…" stays the last entry. Tools whose model is
+   not chosen here keep the plain endpoint list (decision 7).
 3. **Where the models come from.** An official entry, and the tool's own
    sign-in when nothing is selected, list a short built-in set per tool; the
    set lives in one domain table (`domain/model_choice.rs`) next to the effort
@@ -127,9 +141,8 @@ screen, one row per tool.
      is removed, so the choice takes effect and a later `/effort` still works;
      it changes only its own model's entry.
    - **Max** is written as `env.CLAUDE_CODE_EFFORT_LEVEL=max`, the one place it
-     persists. The list says in plain words that it then holds for every
-     session and `/effort` cannot change it until another level is chosen
-     here, which removes the variable.
+     persists. It then holds for every session and `/effort` cannot change it
+     until another level is chosen here, which removes the variable.
    - **Tool default** removes the top-level key, the variable and the
      `effortLevel` of every `modelSettings` entry, dropping an entry left
      empty; each model then runs at its own default.
@@ -143,13 +156,24 @@ screen, one row per tool.
    the table is taken to read the top-level key, as every model before
    Opus 5.5 does. When no model is named (or it is `default`, `best` or
    `opusplan`), the pill shows one level only if every model in the table and
-   in `modelSettings` runs at it, and otherwise says the models differ and
-   lists each model's level, marking the ones that run at their default. The
+   in `modelSettings` runs at it, and otherwise says the models differ, with
+   each model's level on its tooltip. The
    terminal is read through the same cached login-shell probe as the
    effective connection, and only for the variables the tool reads for these
    two settings. A switch keeps `modelSettings` and the variable from the
    file in force, like the top-level key; a route puts back only the keys it
    wrote (ADR-0054), which these are not.
+
+9. **The effort is a slider.** The pill shows four bars lit up to the level
+   and the level's name. It opens a slider from "Default" to the tool's
+   strongest level, with the two ends named under it. Each stop the slider
+   settles on (300 ms after the last keyboard step, or on release) is written
+   at once and the slider stays open, so neighbouring levels can be tried in
+   turn; closing it mid-step still writes the stop it was left on. The
+   slider carries no notes: the rules of decision 8 decide what is written,
+   and the pill already names what a new session runs at. The one exception
+   is a level a terminal variable holds, where the slider cannot move and
+   one line says which variable, in which file, holds it.
 
 ## Consequences
 

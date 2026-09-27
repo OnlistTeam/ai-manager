@@ -14,12 +14,7 @@ const CLAUDE: ToolModelChoice = {
 };
 
 const menu = (effort: ToolModelChoice["effort"], choice = CLAUDE) =>
-  buildEffortMenu({ ...choice, effort }, "Claude Code", i18n.t.bind(i18n));
-
-const checked = (effort: ToolModelChoice["effort"]) =>
-  menu(effort)
-    .options.filter((option) => option.checked)
-    .map((option) => option.id);
+  buildEffortMenu({ ...choice, effort }, i18n.t.bind(i18n));
 
 describe("buildEffortMenu", () => {
   beforeAll(async () => {
@@ -33,78 +28,81 @@ describe("buildEffortMenu", () => {
     await i18n.changeLanguage("en");
   });
 
-  it("names the tool default and checks it", () => {
+  it("puts the default first, then the levels weakest first", () => {
     const shown = menu({ kind: "toolDefault" });
-    expect(shown.label).toBe("Tool default");
+    expect(shown.stops.map((stop) => stop.label)).toEqual([
+      "Default",
+      "Low",
+      "Medium",
+      "High",
+      "Extra high",
+      "Max",
+    ]);
+    expect(shown.label).toBe("Default");
     expect(shown.muted).toBe(true);
-    expect(checked({ kind: "toolDefault" })).toEqual(["tool-default"]);
-    expect(shown.notes).toContain(en.home.effort.toolDefaultNote);
+    expect(shown.index).toBe(0);
+    expect(shown.bars).toBe(0);
+    expect(shown.title).toBeNull();
   });
 
-  it("names a level the settings give and checks it", () => {
+  it("names a level the settings give and lights bars up to it", () => {
     const shown = menu({ kind: "level", level: "xhigh" });
     expect(shown.label).toBe("Extra high");
     expect(shown.muted).toBe(false);
-    expect(checked({ kind: "level", level: "xhigh" })).toEqual(["xhigh"]);
+    expect(shown.index).toBe(4);
+    expect(shown.bars).toBe(3);
+    expect(menu({ kind: "level", level: "low" }).bars).toBe(1);
+    expect(menu({ kind: "fixed", level: "max" }).bars).toBe(4);
   });
 
-  it("says the models differ, checks nothing, and lists each level", () => {
-    const effort = {
-      kind: "mixed" as const,
+  it("says the models differ, stands on no stop, and names each in the tooltip", () => {
+    const shown = menu({
+      kind: "mixed",
       perModel: [
         { model: "claude-opus-5-5", effort: "medium", modelDefault: true },
         { model: "claude-opus-5", effort: "high", modelDefault: false },
       ],
-    };
-    const shown = menu(effort);
+    });
     expect(shown.label).toBe("Per model");
-    expect(shown.muted).toBe(true);
-    expect(checked(effort)).toEqual([]);
-    expect(shown.notes).toContain(
-      "Each model runs at its own level now: claude-opus-5-5 Medium (its default) · claude-opus-5 High. Choosing one here sets it for every model.",
-    );
+    expect(shown.index).toBeNull();
+    expect(shown.bars).toBe(0);
+    expect(shown.title).toBe("claude-opus-5-5 Medium\nclaude-opus-5 High");
   });
 
-  it("names a level the variable fixes and explains that it holds", () => {
-    const shown = menu({ kind: "fixed", level: "max" });
-    expect(shown.label).toBe("Max");
-    expect(checked({ kind: "fixed", level: "max" })).toEqual(["max"]);
-    expect(shown.notes).toContain(
-      "Max holds for every session, and /effort in Claude Code cannot change it until you choose another level here.",
-    );
-  });
-
-  it("keeps an unknown level in the list and leaves out the variable note where there is none", () => {
-    const shown = menu(
-      { kind: "level", level: "minimal" },
-      {
-        ...CLAUDE,
-        tool: "codex",
-        effortLevels: ["low", "medium", "high", "xhigh"],
-        variableOnlyLevels: [],
+  it("locks a level a terminal variable holds and says where it is set", () => {
+    const shown = menu({
+      kind: "terminal",
+      level: "high",
+      source: {
+        kind: "shellFile",
+        variable: "CLAUDE_CODE_EFFORT_LEVEL",
+        path: "~/.zshrc:12",
       },
+    });
+    expect(shown.locked).toBe(true);
+    expect(shown.label).toBe("High");
+    expect(shown.title).toBe(
+      "Set by the terminal variable CLAUDE_CODE_EFFORT_LEVEL in ~/.zshrc:12; it cannot be changed here.",
     );
-    expect(shown.options.map((option) => option.id)).toEqual([
-      "tool-default",
+  });
+
+  it("adds a level in the file that is not offered as the strongest stop", () => {
+    const codex = {
+      ...CLAUDE,
+      tool: "codex" as const,
+      effortLevels: ["low", "medium", "high", "xhigh"],
+      variableOnlyLevels: [],
+    };
+    const shown = menu({ kind: "level", level: "minimal" }, codex);
+    expect(shown.stops.map((stop) => stop.level)).toEqual([
+      null,
       "low",
       "medium",
       "high",
       "xhigh",
       "minimal",
     ]);
-    expect(shown.notes.some((note) => note.includes("/effort"))).toBe(false);
-  });
-
-  it("offers nothing when a terminal variable holds the level", () => {
-    const shown = menu({
-      kind: "terminal",
-      level: "high",
-      source: { kind: "environment", variable: "CLAUDE_CODE_EFFORT_LEVEL" },
-    });
-    expect(shown.label).toBe("High");
-    expect(shown.options.every((option) => option.disabled)).toBe(true);
-    expect(shown.notes).toEqual([
-      "Set by the terminal variable CLAUDE_CODE_EFFORT_LEVEL; it cannot be changed here.",
-    ]);
+    expect(shown.index).toBe(5);
+    expect(shown.label).toBe("Minimal");
   });
 });

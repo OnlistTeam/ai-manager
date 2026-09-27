@@ -3,6 +3,7 @@ import type { Tool, ToolId } from "@/entities/tool";
 import { ListGroupRow } from "@/shared/ui/ListGroup";
 import { ToolGlyph } from "@/shared/ui/ToolArtwork";
 import { HomeEffortPicker } from "./HomeEffortPicker";
+import { HomeModelPicker } from "./HomeModelPicker";
 import { HomeServicePicker } from "./HomeServicePicker";
 import { HomeToolRowNotice } from "./HomeToolRowNotice";
 import { useHomeToolConnection } from "./useHomeToolConnection";
@@ -16,8 +17,9 @@ export interface HomeToolRowProps {
 
 /**
  * One installed tool on one line: which tool, then two pickers at the
- * trailing edge, the endpoint with its model and the thinking effort
- * (ADR-0055). A line under it appears only when the last switch from this
+ * trailing edge, the model (its endpoint's models grouped by endpoint) and
+ * the thinking effort (ADR-0055). A tool whose model is chosen inside the
+ * tool keeps the endpoint picker. A line under it appears only when the last switch from this
  * row left something to say.
  */
 export function HomeToolRow({
@@ -28,6 +30,14 @@ export function HomeToolRow({
   const headingId = useId();
   const connection = useHomeToolConnection(tool, onOpenTool);
   const openServices = () => onOpenServices(tool.id);
+  const state = connection.connection.kind;
+  const ServicePicker =
+    tool.capabilities.canChooseModel &&
+    state !== "loading" &&
+    state !== "unavailable" &&
+    state !== "added"
+      ? HomeModelPicker
+      : HomeServicePicker;
 
   return (
     <ListGroupRow
@@ -54,7 +64,7 @@ export function HomeToolRow({
           {tool.name}
         </h3>
         <div className="flex shrink-0 items-center gap-2">
-          <HomeServicePicker
+          <ServicePicker
             tool={tool}
             connection={connection}
             onOpenServices={openServices}

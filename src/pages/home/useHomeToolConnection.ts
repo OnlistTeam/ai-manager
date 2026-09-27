@@ -78,8 +78,6 @@ export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
     connection,
     inUseId,
     model: choice ? choice.model : inUseId ? pinnedModel(profile.data) : null,
-    /** The tool's own files have been read, so a missing model means its default. */
-    modelKnown: choice !== undefined,
     choice,
     choiceUnavailable: modelChoice.isError,
     choices: pickerProviders(providers.data, inUseId),

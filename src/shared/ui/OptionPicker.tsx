@@ -3,58 +3,38 @@ import { Command } from "cmdk";
 import { Search } from "lucide-react";
 import * as React from "react";
 import { cn } from "./cn";
-import { filterGroups, matches } from "./optionPickerFilter";
+import { matches } from "./optionPickerFilter";
 import {
   OptionPickerActionItem,
-  OptionPickerFreeEntry,
   OptionPickerItem,
-  OptionPickerNote,
   type OptionPickerAction,
-  type OptionPickerGroup,
   type OptionPickerOption,
 } from "./OptionPickerItem";
 
 export type {
   OptionPickerAction,
-  OptionPickerGroup,
   OptionPickerOption,
 } from "./OptionPickerItem";
-
-export interface OptionPickerFreeEntryConfig {
-  /** The row's text for what was typed, e.g. `Use "gpt-5"`. */
-  label: (text: string) => string;
-  onSelect: (text: string) => void;
-}
 
 export interface OptionPickerProps {
   /** Accessible name of the list. */
   label: string;
   /** The control that opens the list; it receives the trigger props. */
   children: React.ReactElement;
-  /** A plain list. */
-  options?: readonly OptionPickerOption[];
-  /** A list under headings; header and option ids share one space. */
-  groups?: readonly OptionPickerGroup[];
+  options: readonly OptionPickerOption[];
   /** Shown in place of the options when there are none. */
   empty?: React.ReactNode;
   /** One muted line above the options. */
   note?: React.ReactNode;
   /** Always listed after the options, under a separator. */
   actions?: readonly OptionPickerAction[];
-  /** Offers what was typed into the filter when no option carries it. */
-  freeEntry?: OptionPickerFreeEntryConfig;
   filterPlaceholder: string;
   noMatch: string;
   /** A filter field appears once the list is longer than this. */
   filterAbove?: number;
-  /** Unfiltered, a group lists at most this many options; the filter reaches all. */
-  groupLimit?: number;
-  /** The line under a shortened group, given how many it holds back. */
-  moreLabel?: (hidden: number) => string;
   align?: "start" | "center" | "end";
   /** Width of the open list; it is never narrower than the trigger. */
   contentClassName?: string;
-  onOpenChange?: (open: boolean) => void;
   onSelect: (id: string) => void;
 }
 
@@ -62,34 +42,26 @@ export interface OptionPickerProps {
  * A short list that opens from a compact button: pick one option, or one of
  * the actions under it. The option in effect is checked and announced as
  * current. Long lists gain a filter field; short ones stay a plain list that
- * the arrow keys walk through. Options can sit under choosable headings, and
- * the filter can offer exactly what was typed.
+ * the arrow keys walk through.
  */
 export function OptionPicker({
   label,
   children,
-  options = [],
-  groups = [],
+  options,
   empty,
   note,
   actions = [],
-  freeEntry,
   filterPlaceholder,
   noMatch,
   filterAbove = 7,
-  groupLimit = Number.POSITIVE_INFINITY,
-  moreLabel,
   align = "end",
   contentClassName = "w-72",
-  onOpenChange,
   onSelect,
 }: OptionPickerProps) {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const listRef = React.useRef<HTMLDivElement>(null);
-  const total =
-    options.length +
-    groups.reduce((count, group) => count + 1 + group.options.length, 0);
+  const total = options.length;
   const filterable = total > filterAbove;
   const needle = query.trim().toLocaleLowerCase();
   // Filtered here rather than by the list itself, which would also reorder
@@ -98,31 +70,12 @@ export function OptionPicker({
     filterable && needle
       ? options.filter((option) => matches(option, needle))
       : options;
-  const shownGroups = filterGroups(
-    groups,
-    filterable ? needle : "",
-    groupLimit,
-    moreLabel,
-  );
-  const shownCount =
-    shown.length +
-    shownGroups.reduce((count, group) => count + 1 + group.options.length, 0);
-  const typed = query.trim();
-  const offerTyped =
-    freeEntry !== undefined &&
-    filterable &&
-    typed.length > 0 &&
-    ![...options, ...groups.flatMap((group) => group.options)].some(
-      (option) => option.label === typed,
-    );
   // Kept outside the listbox, which may only hold options.
   const message =
-    note ??
-    (total === 0 ? empty : shownCount === 0 && !offerTyped ? noMatch : null);
+    note ?? (total === 0 ? empty : shown.length === 0 ? noMatch : null);
   const openChange = (next: boolean) => {
     setOpen(next);
     if (!next) setQuery("");
-    onOpenChange?.(next);
   };
   const choose = (select: () => void) => {
     openChange(false);
@@ -188,33 +141,7 @@ export function OptionPicker({
                   onSelect={() => choose(() => onSelect(option.id))}
                 />
               ))}
-              {shownGroups.map((group) => (
-                <React.Fragment key={group.id}>
-                  <OptionPickerItem
-                    option={group.header}
-                    heading
-                    onSelect={() => choose(() => onSelect(group.header.id))}
-                  />
-                  {group.options.map((option) => (
-                    <OptionPickerItem
-                      key={option.id}
-                      option={option}
-                      nested
-                      onSelect={() => choose(() => onSelect(option.id))}
-                    />
-                  ))}
-                  {group.note ? (
-                    <OptionPickerNote id={group.id} text={group.note} />
-                  ) : null}
-                </React.Fragment>
-              ))}
-              {offerTyped ? (
-                <OptionPickerFreeEntry
-                  label={freeEntry.label(typed)}
-                  onSelect={() => choose(() => freeEntry.onSelect(typed))}
-                />
-              ) : null}
-              {(shownCount > 0 || offerTyped) && actions.length > 0 ? (
+              {shown.length > 0 && actions.length > 0 ? (
                 <Command.Separator className="my-1 h-px bg-hairline" />
               ) : null}
               {actions.map((action) => (

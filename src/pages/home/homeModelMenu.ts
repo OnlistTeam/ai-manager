@@ -1,21 +1,24 @@
-import type { OptionPickerGroup } from "@/shared/ui/OptionPicker";
-
-/** What picking an entry in a row's model picker does (ADR-0055). */
-export type ModelMenuChoice =
-  | { kind: "endpoint"; providerId: string }
-  | { kind: "model"; providerId: string | null; model: string | null };
+import type { Provider } from "@/entities/provider";
 
 /** One endpoint of the tool, with the models listed under it. */
 export interface ModelMenuEndpoint {
+  /** Unique within the row: the saved entry's id, or `outside` / `signIn`. */
+  key: string;
   /**
    * The saved entry. `null` for what the tool uses without one: its own
    * sign-in, or an address set outside this app. Neither can be switched to,
    * but a model can still be set for it.
    */
   providerId: string | null;
+  /** The saved entry, for its logo. */
+  provider: Provider | null;
+  /** The tool's own sign-in, shown with the tool's own mark. */
+  signIn: boolean;
   name: string;
   /** Beside the name, e.g. where an outside address comes from. */
   detail: string | null;
+  /** The name's tooltip, e.g. the file and line an outside address is set in. */
+  title: string | null;
   inUse: boolean;
   /** The model saved with the endpoint: the one last used with it. */
   savedModel: string | null;
@@ -24,89 +27,105 @@ export interface ModelMenuEndpoint {
   loading: boolean;
 }
 
-export interface ModelMenuCopy {
-  toolDefault: string;
-  loading: string;
+/** One choosable row: a model under an endpoint, or that endpoint's default. */
+export interface ModelMenuItem {
+  id: string;
+  endpoint: ModelMenuEndpoint;
+  /** `null` removes this product's model key so the tool decides. */
+  model: string | null;
+  label: string;
+  note: string | null;
+  checked: boolean;
 }
 
-export interface ModelMenu {
-  groups: OptionPickerGroup[];
-  choices: ReadonlyMap<string, ModelMenuChoice>;
+export interface ModelMenuSection {
+  endpoint: ModelMenuEndpoint;
+  items: ModelMenuItem[];
 }
+
+export interface ModelMenuCopy {
+  toolDefault: string;
+  toolDefaultNote: string;
+}
+
+/** Everything, the starred models, or one endpoint's models. */
+export type ModelMenuView = "all" | "favorites" | { endpoint: string };
 
 function unique(models: readonly (string | null)[]): string[] {
   return [...new Set(models.filter((model): model is string => !!model))];
 }
 
 /**
- * The model picker's list: each endpoint as a heading, the one in use first,
- * with its models under it. Only under the endpoint in use can the model be
- * reset to the tool's own default; any other endpoint is switched to with
- * the model saved for it, or with the model picked under it.
+ * The model picker's sections (ADR-0055): the endpoint in use first, then the
+ * rest in the user's order. Each starts with the tool's default, then the
+ * model in use, the endpoint's saved model and its catalogue. Picking under
+ * another endpoint switches to it first.
  */
-export function buildModelMenu(
+export function buildModelSections(
   endpoints: readonly ModelMenuEndpoint[],
   currentModel: string | null,
-  canChooseModel: boolean,
   copy: ModelMenuCopy,
-): ModelMenu {
-  const choices = new Map<string, ModelMenuChoice>();
-  const groups = endpoints.map((endpoint, index): OptionPickerGroup => {
-    const headerId = `endpoint:${index}`;
-    if (endpoint.providerId !== null) {
-      choices.set(headerId, {
-        kind: "endpoint",
-        providerId: endpoint.providerId,
-      });
-    }
-    const header = {
-      id: headerId,
-      label: endpoint.name,
-      detail: endpoint.inUse
-        ? endpoint.detail
-        : (endpoint.savedModel ?? endpoint.detail),
-      checked: endpoint.inUse,
-      disabled: endpoint.providerId === null,
-    };
-    if (!canChooseModel) return { id: headerId, header, options: [] };
-
+): ModelMenuSection[] {
+  const ordered = [
+    ...endpoints.filter((endpoint) => endpoint.inUse),
+    ...endpoints.filter((endpoint) => !endpoint.inUse),
+  ];
+  return ordered.map((endpoint, index) => {
     const listed = unique([
       endpoint.inUse ? currentModel : null,
       endpoint.savedModel,
       ...endpoint.models,
     ]);
-    const options = listed.map((model, position) => {
-      const id = `model:${index}:${position}`;
-      choices.set(id, {
-        kind: "model",
-        providerId: endpoint.providerId,
-        model,
-      });
-      return {
-        id,
-        label: model,
-        checked: endpoint.inUse && model === currentModel,
-      };
-    });
-    if (endpoint.inUse) {
-      const id = `default:${index}`;
-      choices.set(id, {
-        kind: "model",
-        providerId: endpoint.providerId,
+    const items: ModelMenuItem[] = [
+      {
+        id: `${endpoint.key}\u001f`,
+        endpoint,
         model: null,
-      });
-      options.unshift({
-        id,
         label: copy.toolDefault,
-        checked: currentModel === null,
-      });
-    }
-    return {
-      id: headerId,
-      header,
-      options,
-      note: endpoint.loading && listed.length === 0 ? copy.loading : null,
-    };
+        // Said once, at the top; the other sections' defaults are the same.
+        note: index === 0 ? copy.toolDefaultNote : null,
+        checked: endpoint.inUse && currentModel === null,
+      },
+      ...listed.map((model) => ({
+        id: `${endpoint.key}\u001f${model}`,
+        endpoint,
+        model,
+        label: model,
+        note: null,
+        checked: endpoint.inUse && model === currentModel,
+      })),
+    ];
+    return { endpoint, items };
   });
-  return { groups, choices };
+}
+
+/**
+ * What the list shows for a view and a filter. A filter keeps the rows whose
+ * name or note contains it, in every endpoint the view covers; an endpoint
+ * left with no row is dropped.
+ */
+export function viewModelSections(
+  sections: readonly ModelMenuSection[],
+  view: ModelMenuView,
+  query: string,
+  isFavorite: (item: ModelMenuItem) => boolean,
+): ModelMenuSection[] {
+  const needle = query.trim().toLocaleLowerCase();
+  return sections
+    .filter(
+      (section) =>
+        typeof view === "string" || section.endpoint.key === view.endpoint,
+    )
+    .map((section) => ({
+      endpoint: section.endpoint,
+      items: section.items.filter(
+        (item) =>
+          (view !== "favorites" || isFavorite(item)) &&
+          (!needle ||
+            [item.label, item.note].some((text) =>
+              text?.toLocaleLowerCase().includes(needle),
+            )),
+      ),
+    }))
+    .filter((section) => section.items.length > 0);
 }

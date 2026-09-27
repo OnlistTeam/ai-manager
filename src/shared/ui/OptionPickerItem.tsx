@@ -1,5 +1,5 @@
 import { Command } from "cmdk";
-import { Check, CornerDownLeft, type LucideIcon } from "lucide-react";
+import { Check, type LucideIcon } from "lucide-react";
 import { cn } from "./cn";
 
 export interface OptionPickerOption {
@@ -16,15 +16,6 @@ export interface OptionPickerOption {
   disabled?: boolean;
 }
 
-/** A choosable heading with the options that belong under it. */
-export interface OptionPickerGroup {
-  id: string;
-  header: OptionPickerOption;
-  options: readonly OptionPickerOption[];
-  /** A muted line after the group's options, e.g. while they load. */
-  note?: string | null;
-}
-
 export interface OptionPickerAction {
   id: string;
   label: string;
@@ -39,20 +30,11 @@ const ITEM_CLASS = cn(
 
 export interface OptionPickerItemProps {
   option: OptionPickerOption;
-  /** A group's heading row: the same row, set in medium weight. */
-  heading?: boolean;
-  /** An option under a heading, indented beneath it. */
-  nested?: boolean;
   onSelect: () => void;
 }
 
 /** One choosable row; the option in effect is checked and announced as current. */
-export function OptionPickerItem({
-  option,
-  heading = false,
-  nested = false,
-  onSelect,
-}: OptionPickerItemProps) {
+export function OptionPickerItem({ option, onSelect }: OptionPickerItemProps) {
   return (
     <Command.Item
       value={option.id}
@@ -61,8 +43,6 @@ export function OptionPickerItem({
       onSelect={onSelect}
       className={cn(
         ITEM_CLASS,
-        heading && "font-medium",
-        nested && "pl-7",
         option.disabled && !option.checked && "opacity-50",
       )}
     >
@@ -75,24 +55,10 @@ export function OptionPickerItem({
       />
       <span className="min-w-0 flex-1 truncate">{option.label}</span>
       {option.detail ? (
-        <span className="max-w-[45%] shrink-0 truncate font-normal text-content-muted">
+        <span className="max-w-[45%] shrink-0 truncate text-content-muted">
           {option.detail}
         </span>
       ) : null}
-    </Command.Item>
-  );
-}
-
-/** A muted line inside a group, e.g. while its entries load; never choosable. */
-export function OptionPickerNote({ id, text }: { id: string; text: string }) {
-  return (
-    <Command.Item
-      value={`note:${id}`}
-      disabled
-      className={cn(ITEM_CLASS, "pl-7 text-content-muted")}
-    >
-      <span className="w-3.5 shrink-0" aria-hidden="true" />
-      <span className="min-w-0 flex-1 truncate">{text}</span>
     </Command.Item>
   );
 }
@@ -120,25 +86,6 @@ export function OptionPickerActionItem({
         <span className="w-3.5 shrink-0" aria-hidden="true" />
       )}
       <span className="min-w-0 flex-1 truncate">{action.label}</span>
-    </Command.Item>
-  );
-}
-
-/** Uses exactly what was typed into the filter field. */
-export function OptionPickerFreeEntry({
-  label,
-  onSelect,
-}: {
-  label: string;
-  onSelect: () => void;
-}) {
-  return (
-    <Command.Item value="free-entry" onSelect={onSelect} className={ITEM_CLASS}>
-      <CornerDownLeft
-        className="h-3.5 w-3.5 shrink-0 text-content-muted"
-        aria-hidden="true"
-      />
-      <span className="min-w-0 flex-1 truncate">{label}</span>
     </Command.Item>
   );
 }
