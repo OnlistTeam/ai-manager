@@ -234,8 +234,6 @@
       "runningHint": "Lokale Sitzungen werden gescannt. Sie können diese Seite verlassen, die Synchronisierung läuft weiter.",
       "largeHistory": "Eine erste Synchronisierung oder ein großer Verlauf kann mehrere Minuten dauern.",
       "elapsed": "Verstrichen: {{seconds}} Sekunden",
-      "action": "Lokale Nutzung synchronisieren",
-      "success": "{{filesScanned}} lokale Dateien gescannt, {{recordsImported}} neue Einträge hinzugefügt.",
       "partial": "{{filesScanned}} lokale Dateien gescannt, {{recordsImported}} Einträge hinzugefügt. {{sourceIssues}} Quellenprüfungen konnten nicht abgeschlossen werden, vorhandene Daten werden weiterhin angezeigt.",
       "errorTitle": "Lokale Nutzung konnte nicht synchronisiert werden",
       "errorHint": "Die gespeicherte Übersicht wurde nicht entfernt. Versuchen Sie es erneut."
@@ -246,7 +244,7 @@
     },
     "empty": {
       "title": "Noch keine lokalen Nutzungsdaten",
-      "description": "Synchronisieren Sie lokale Sitzungen, um hier die Nutzung zu sehen."
+      "description": "Sobald Sie auf diesem Computer ein KI-Programmiertool nutzen, erscheint die Nutzung hier."
     },
     "error": {
       "title": "Lokale Nutzung konnte nicht gelesen werden",

@@ -234,8 +234,6 @@
       "runningHint": "Scanning local sessions. You can leave this page; the sync will continue.",
       "largeHistory": "A first sync or a large history can take several minutes.",
       "elapsed": "Elapsed: {{seconds}} seconds",
-      "action": "Sync local usage",
-      "success": "Scanned {{filesScanned}} local files and added {{recordsImported}} new records.",
       "partial": "Scanned {{filesScanned}} local files and added {{recordsImported}} records. {{sourceIssues}} source checks could not finish; existing data is still shown.",
       "errorTitle": "Could not sync local usage",
       "errorHint": "The saved summary was not removed. Try again."
@@ -246,7 +244,7 @@
     },
     "empty": {
       "title": "No local usage records yet",
-      "description": "Sync local sessions to see usage here."
+      "description": "Usage shows up here once you use an AI coding tool on this computer."
     },
     "error": {
       "title": "Could not read local usage",

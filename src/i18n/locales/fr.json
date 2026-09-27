@@ -234,8 +234,6 @@
       "runningHint": "Analyse des sessions locales en cours. Vous pouvez quitter cette page ; la synchronisation continuera.",
       "largeHistory": "Une première synchronisation ou un historique volumineux peuvent prendre plusieurs minutes.",
       "elapsed": "Écoulé : {{seconds}} secondes",
-      "action": "Synchroniser l'utilisation locale",
-      "success": "{{filesScanned}} fichiers locaux analysés et {{recordsImported}} nouveaux enregistrements ajoutés.",
       "partial": "{{filesScanned}} fichiers locaux analysés et {{recordsImported}} enregistrements ajoutés. {{sourceIssues}} vérifications de source n'ont pas pu se terminer ; les données existantes restent affichées.",
       "errorTitle": "Impossible de synchroniser l'utilisation locale",
       "errorHint": "Le résumé enregistré n'a pas été supprimé. Réessayez."
@@ -246,7 +244,7 @@
     },
     "empty": {
       "title": "Aucun enregistrement d'utilisation locale pour l'instant",
-      "description": "Synchronisez les sessions locales pour voir l'utilisation ici."
+      "description": "L'utilisation apparaîtra ici dès que vous utiliserez un outil de codage IA sur cet ordinateur."
     },
     "error": {
       "title": "Impossible de lire l'utilisation locale",

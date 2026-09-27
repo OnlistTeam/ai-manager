@@ -1,10 +1,4 @@
-import {
-  AlertCircle,
-  CheckCircle2,
-  Database,
-  RefreshCw,
-  ShieldCheck,
-} from "lucide-react";
+import { AlertCircle, Database, ShieldCheck } from "lucide-react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useRefreshUsage, useUsageOverview } from "@/entities/usage";
@@ -17,7 +11,8 @@ import { SectionHeader } from "@/shared/ui/SectionHeader";
 import { UsageHero } from "./UsageHero";
 import { UsageToolBreakdown } from "./UsageToolBreakdown";
 import { UsageTrendChart } from "./UsageTrendChart";
-import { UsageSyncStatus } from "./UsageSyncStatus";
+import { UsageSyncIndicator, UsageSyncStatus } from "./UsageSyncStatus";
+import { useUsageAutoSync } from "./useUsageAutoSync";
 
 export function UsagePage() {
   const { t } = useTranslation();
@@ -28,11 +23,10 @@ export function UsagePage() {
   const initiallyLoading = usage.isPending && !usage.isFetched;
   const unavailable = usage.isFetched && !dataAvailable;
   const stale = usage.isError && dataAvailable;
+  const hasRecords = dataAvailable && usage.data.summary.requests > 0;
   const syncError = refresh.error ? toErrorCopy(refresh.error) : null;
-
-  function syncLocal(): void {
-    refresh.mutate();
-  }
+  const sourceIssues = refresh.data?.sync.sourceIssues ?? 0;
+  useUsageAutoSync(refresh.syncIfDue);
 
   return (
     <div
@@ -46,18 +40,11 @@ export function UsagePage() {
         as="h2"
         title={t("usage.title")}
         description={t("usage.description")}
-        action={
-          dataAvailable && usage.data.summary.requests > 0 ? (
-            <Button loading={refresh.isPending} onClick={syncLocal}>
-              <RefreshCw className="h-4 w-4" aria-hidden="true" />
-              {t("usage.sync.action")}
-            </Button>
-          ) : null
-        }
+        action={refresh.isPending && hasRecords ? <UsageSyncIndicator /> : null}
       />
 
       {initiallyLoading ? <DetectionStatus label={t("usage.loading")} /> : null}
-      {refresh.isPending ? (
+      {refresh.isPending && !hasRecords && !initiallyLoading ? (
         <UsageSyncStatus startedAt={refresh.submittedAt} />
       ) : null}
 
@@ -116,7 +103,7 @@ export function UsagePage() {
             className="mt-0.5 h-4 w-4 shrink-0 text-danger"
             aria-hidden="true"
           />
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <p className="text-body font-medium text-content">
               {t("usage.sync.errorTitle")}
             </p>
@@ -124,49 +111,41 @@ export function UsagePage() {
               {t(syncError.messageKey)} {t("usage.sync.errorHint")}
             </p>
           </div>
+          <Button
+            size="sm"
+            variant="secondary"
+            loading={refresh.isPending}
+            onClick={refresh.mutate}
+          >
+            {t("usage.error.retry")}
+          </Button>
         </Card>
       ) : null}
 
-      {refresh.isSuccess && refresh.data ? (
+      {refresh.isSuccess && refresh.data && sourceIssues > 0 ? (
         <Card
           role="status"
-          className="flex items-start gap-3 border-success/20 bg-success/5"
+          className="flex items-start gap-3 border-warning/25 bg-warning/5"
         >
-          {refresh.data.sync.sourceIssues > 0 ? (
-            <AlertCircle
-              className="mt-0.5 h-4 w-4 shrink-0 text-warning"
-              aria-hidden="true"
-            />
-          ) : (
-            <CheckCircle2
-              className="mt-0.5 h-4 w-4 shrink-0 text-success"
-              aria-hidden="true"
-            />
-          )}
+          <AlertCircle
+            className="mt-0.5 h-4 w-4 shrink-0 text-warning"
+            aria-hidden="true"
+          />
           <p className="text-caption leading-5 text-content-muted">
-            {t(
-              refresh.data.sync.sourceIssues > 0
-                ? "usage.sync.partial"
-                : "usage.sync.success",
-              refresh.data.sync,
-            )}
+            {t("usage.sync.partial", refresh.data.sync)}
           </p>
         </Card>
       ) : null}
 
       {usage.data ? (
         usage.data.summary.requests === 0 ? (
-          <EmptyState
-            icon={Database}
-            title={t("usage.empty.title")}
-            description={t("usage.empty.description")}
-            action={
-              <Button loading={refresh.isPending} onClick={syncLocal}>
-                <RefreshCw className="h-4 w-4" aria-hidden="true" />
-                {t("usage.sync.action")}
-              </Button>
-            }
-          />
+          refresh.isPending ? null : (
+            <EmptyState
+              icon={Database}
+              title={t("usage.empty.title")}
+              description={t("usage.empty.description")}
+            />
+          )
         ) : (
           <>
             <UsageHero overview={usage.data} />

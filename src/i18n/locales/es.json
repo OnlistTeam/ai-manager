@@ -234,8 +234,6 @@
       "runningHint": "Escaneando sesiones locales. Puedes salir de esta página; la sincronización continuará.",
       "largeHistory": "Una primera sincronización o un historial grande puede tardar varios minutos.",
       "elapsed": "Transcurrido: {{seconds}} segundos",
-      "action": "Sincronizar uso local",
-      "success": "Se escanearon {{filesScanned}} archivos locales y se añadieron {{recordsImported}} registros nuevos.",
       "partial": "Se escanearon {{filesScanned}} archivos locales y se añadieron {{recordsImported}} registros. No se pudieron completar {{sourceIssues}} comprobaciones de origen; los datos existentes se siguen mostrando.",
       "errorTitle": "No se pudo sincronizar el uso local",
       "errorHint": "El resumen guardado no se eliminó. Inténtalo de nuevo."
@@ -246,7 +244,7 @@
     },
     "empty": {
       "title": "Aún no hay registros de uso local",
-      "description": "Sincroniza las sesiones locales para ver el uso aquí."
+      "description": "El uso aparecerá aquí cuando utilices una herramienta de programación con IA en este equipo."
     },
     "error": {
       "title": "No se pudo leer el uso local",

@@ -234,8 +234,6 @@
       "runningHint": "正在掃描本機工作階段；可以切換到其他頁面，同步會繼續。",
       "largeHistory": "首次同步或歷史記錄較多時可能需要幾分鐘。",
       "elapsed": "已用時 {{seconds}} 秒",
-      "action": "同步本機用量",
-      "success": "已掃描 {{filesScanned}} 個本機檔案，新增 {{recordsImported}} 筆記錄。",
       "partial": "已掃描 {{filesScanned}} 個本機檔案，新增 {{recordsImported}} 筆記錄；有 {{sourceIssues}} 個來源未能檢查完，現有資料仍會保留顯示。",
       "errorTitle": "未能同步本機用量",
       "errorHint": "已儲存的摘要沒有被刪除，可以再試一次。"
@@ -246,7 +244,7 @@
     },
     "empty": {
       "title": "還沒有本機用量記錄",
-      "description": "同步本機工作階段後，這裡會顯示用量。"
+      "description": "在這台電腦上用過 AI 程式設計工具後，這裡會顯示用量。"
     },
     "error": {
       "title": "未能讀取本機用量",
