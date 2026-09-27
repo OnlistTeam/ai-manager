@@ -123,7 +123,6 @@ pub(super) fn read(tool: ToolId, terminal: &ToolTerminal) -> Result<ToolModelCho
         model: live_key::get(&text, slots.model)?,
         effort,
         effort_levels: strings(spec.effort_levels),
-        variable_only_levels: strings(spec.variable_only_levels),
         official_models: strings(spec.official_models),
     })
 }

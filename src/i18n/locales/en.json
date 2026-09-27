@@ -1405,13 +1405,7 @@
       "filter": "Filter, or type any model ID…",
       "noMatch": "No matching models.",
       "useTyped": "Use “{{model}}”",
-      "toolDefaultNote": "What {{tool}} ships with",
-      "all": "All models",
-      "favorites": "Favorites",
-      "views": "Show models",
-      "favorite": "Add {{model}} to favorites",
-      "unfavorite": "Remove {{model}} from favorites",
-      "noFavorites": "No favorites yet."
+      "toolDefaultNote": "What {{tool}} ships with"
     },
     "effort": {
       "pickerLabel": "Thinking effort for {{tool}}",

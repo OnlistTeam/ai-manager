@@ -1,25 +1,20 @@
 import * as Popover from "@radix-ui/react-popover";
 import { Command } from "cmdk";
-import { AlertTriangle, ChevronDown, LoaderCircle, Search } from "lucide-react";
+import { ChevronDown, LoaderCircle, Search } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Tool } from "@/entities/tool";
 import { Button } from "@/shared/ui/Button";
 import { cn } from "@/shared/ui/cn";
 import {
+  EndpointMark,
   HomeModelManage,
   HomeModelRows,
   HomeModelTyped,
 } from "./HomeModelList";
-import { EndpointMark, HomeModelRail } from "./HomeModelRail";
-import {
-  viewModelSections,
-  type ModelMenuItem,
-  type ModelMenuView,
-} from "./homeModelMenu";
+import { filterModelItems } from "./homeModelMenu";
 import { useHomeModelMenu } from "./useHomeModelMenu";
 import type { HomeToolConnection } from "./useHomeToolConnection";
-import { useModelFavorites } from "./useModelFavorites";
 
 export interface HomeModelPickerProps {
   tool: Tool;
@@ -33,10 +28,9 @@ export const MODEL_PILL_CLASS =
 
 /**
  * The model a tool runs (ADR-0055), as a compact button led by its
- * endpoint's mark. The list is every endpoint's models under the endpoint's
- * name, the one in use first, with a rail to narrow it to the starred models
- * or one endpoint. Picking a model under another endpoint switches to that
- * endpoint first; a name typed into the filter can be used as typed.
+ * endpoint's mark. The list holds only the models of the endpoint in use;
+ * a name typed into the filter can be used as typed. Changing endpoint is
+ * left to the API Endpoints page, which the list's last row opens.
  */
 export function HomeModelPicker({
   tool,
@@ -46,49 +40,33 @@ export function HomeModelPicker({
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [view, setView] = useState<ModelMenuView>("all");
-  const favorites = useModelFavorites(tool.id);
-  const { sections, inUse } = useHomeModelMenu(
+  const { endpoint, items } = useHomeModelMenu(
     tool,
     connection,
     connection.choice,
     open,
   );
 
-  const shown = viewModelSections(sections, view, query, favorites.isFavorite);
+  const shown = filterModelItems(items, query);
   const typed = query.trim();
-  const target =
-    typeof view === "object"
-      ? (sections.find((section) => section.endpoint.key === view.endpoint)
-          ?.endpoint ?? null)
-      : inUse;
   const offerTyped =
     typed.length > 0 &&
-    target !== null &&
-    !sections.some((section) =>
-      section.items.some((item) => item.model === typed),
-    );
+    endpoint !== null &&
+    !items.some((item) => item.model === typed);
   const message =
-    sections.length === 0
+    endpoint === null
       ? t("home.tools.noEndpoints")
       : shown.length === 0 && !offerTyped
-        ? t(
-            view === "favorites" && !typed
-              ? "home.model.noFavorites"
-              : "home.model.noMatch",
-          )
+        ? t("home.model.noMatch")
         : null;
 
   const openChange = (next: boolean) => {
     setOpen(next);
-    if (!next) {
-      setQuery("");
-      setView("all");
-    }
+    if (!next) setQuery("");
   };
-  const choose = (item: Pick<ModelMenuItem, "endpoint" | "model">) => {
+  const choose = (model: string | null) => {
     openChange(false);
-    connection.chooseModel(item.endpoint.providerId, item.model);
+    connection.chooseModel(model);
   };
 
   const switching = connection.switchingName;
@@ -97,11 +75,8 @@ export function HomeModelPicker({
   const label = switching
     ? t("services.switch.switchingNamed", { name: switching })
     : (model ?? t("home.model.toolDefault"));
-  const outranked =
-    connection.connection.kind === "external" &&
-    connection.connection.connection.outranksSwitch;
-  const where = inUse
-    ? [inUse.name, inUse.detail].filter(Boolean).join(" · ")
+  const where = endpoint
+    ? [endpoint.name, endpoint.detail].filter(Boolean).join(" · ")
     : t("home.tools.notConnected");
 
   return (
@@ -110,30 +85,21 @@ export function HomeModelPicker({
         <Button
           variant="secondary"
           size="xs"
-          disabled={connection.switchDisabled || connection.settingModel}
-          title={inUse?.title ?? where}
+          disabled={busy}
+          title={endpoint?.title ?? where}
           aria-label={t("home.model.pickNamed", {
             tool: tool.name,
             current: `${label}, ${where}`,
           })}
-          className={cn(
-            MODEL_PILL_CLASS,
-            "justify-between",
-            outranked && "border-warning/40 bg-warning/10 hover:bg-warning/15",
-          )}
+          className={cn(MODEL_PILL_CLASS, "justify-between")}
         >
           {busy ? (
             <LoaderCircle
               className="h-3.5 w-3.5 shrink-0 motion-safe:animate-spin"
               aria-hidden="true"
             />
-          ) : outranked ? (
-            <AlertTriangle
-              className="h-3.5 w-3.5 shrink-0 text-warning"
-              aria-hidden="true"
-            />
-          ) : inUse ? (
-            <EndpointMark endpoint={inUse} tool={tool.id} />
+          ) : endpoint ? (
+            <EndpointMark endpoint={endpoint} tool={tool.id} />
           ) : null}
           <span
             className={cn(
@@ -157,8 +123,8 @@ export function HomeModelPicker({
           sideOffset={6}
           collisionPadding={16}
           className={cn(
-            "app-floating-menu z-[70] flex w-[30rem] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-lg border outline-none animate-ds-overlay-in",
-            "h-[min(26rem,var(--radix-popover-content-available-height))]",
+            "app-floating-menu z-[70] flex w-80 max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-lg border outline-none animate-ds-overlay-in",
+            "max-h-[min(24rem,var(--radix-popover-content-available-height))]",
           )}
         >
           <Command
@@ -179,54 +145,42 @@ export function HomeModelPicker({
                 className="h-10 min-w-0 flex-1 bg-transparent text-caption text-content outline-none placeholder:text-content-muted"
               />
             </div>
-            <div className="flex min-h-0 flex-1">
-              {sections.length > 0 ? (
-                <HomeModelRail
-                  tool={tool.id}
-                  sections={sections}
-                  view={view}
-                  onView={setView}
+            {message ? (
+              <p className="px-4 pb-1 pt-2 text-caption text-content-muted">
+                {message}
+              </p>
+            ) : null}
+            <Command.List
+              label={t("home.model.pickerLabel", { tool: tool.name })}
+              className="scrollbar-subtle min-h-0 flex-1 overflow-y-auto overscroll-contain py-1"
+            >
+              {endpoint && shown.length > 0 ? (
+                <HomeModelRows
+                  endpoint={endpoint}
+                  items={shown}
+                  loadingLabel={t("home.model.loading")}
+                  onChoose={choose}
                 />
               ) : null}
-              <div className="flex min-w-0 flex-1 flex-col">
-                {message ? (
-                  <p className="px-4 pb-1 pt-2 text-caption text-content-muted">
-                    {message}
-                  </p>
-                ) : null}
-                <Command.List
-                  label={t("home.model.pickerLabel", { tool: tool.name })}
-                  className="scrollbar-subtle min-h-0 flex-1 overflow-y-auto overscroll-contain py-1"
-                >
-                  <HomeModelRows
-                    sections={shown}
-                    favorites={favorites}
-                    loadingLabel={t("home.model.loading")}
-                    onChoose={choose}
-                  />
-                  {offerTyped && target ? (
-                    <HomeModelTyped
-                      label={t("home.model.useTyped", { model: typed })}
-                      onSelect={() =>
-                        choose({ endpoint: target, model: typed })
-                      }
-                    />
-                  ) : null}
-                  <Command.Separator className="my-1 h-px bg-hairline" />
-                  <HomeModelManage
-                    label={t(
-                      sections.length === 0
-                        ? "home.tools.addEndpoint"
-                        : "home.tools.manageEndpoints",
-                    )}
-                    onSelect={() => {
-                      openChange(false);
-                      onOpenServices();
-                    }}
-                  />
-                </Command.List>
-              </div>
-            </div>
+              {offerTyped ? (
+                <HomeModelTyped
+                  label={t("home.model.useTyped", { model: typed })}
+                  onSelect={() => choose(typed)}
+                />
+              ) : null}
+              <Command.Separator className="my-1 h-px bg-hairline" />
+              <HomeModelManage
+                label={t(
+                  endpoint === null
+                    ? "home.tools.addEndpoint"
+                    : "home.tools.manageEndpoints",
+                )}
+                onSelect={() => {
+                  openChange(false);
+                  onOpenServices();
+                }}
+              />
+            </Command.List>
           </Command>
         </Popover.Content>
       </Popover.Portal>

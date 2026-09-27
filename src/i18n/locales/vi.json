@@ -1405,13 +1405,7 @@
       "filter": "Lọc, hoặc nhập ID mô hình bất kỳ…",
       "noMatch": "Không có mô hình phù hợp.",
       "useTyped": "Dùng “{{model}}”",
-      "toolDefaultNote": "Giá trị có sẵn của {{tool}}",
-      "all": "Tất cả mô hình",
-      "favorites": "Yêu thích",
-      "views": "Mô hình hiển thị",
-      "favorite": "Thêm {{model}} vào yêu thích",
-      "unfavorite": "Bỏ {{model}} khỏi yêu thích",
-      "noFavorites": "Chưa có mô hình yêu thích."
+      "toolDefaultNote": "Giá trị có sẵn của {{tool}}"
     },
     "effort": {
       "pickerLabel": "Mức suy nghĩ của {{tool}}",

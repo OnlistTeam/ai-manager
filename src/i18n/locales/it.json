@@ -1405,13 +1405,7 @@
       "filter": "Filtra o digita qualsiasi ID modello…",
       "noMatch": "Nessun modello corrispondente.",
       "useTyped": "Usa “{{model}}”",
-      "toolDefaultNote": "Quello fornito da {{tool}}",
-      "all": "Tutti i modelli",
-      "favorites": "Preferiti",
-      "views": "Modelli mostrati",
-      "favorite": "Aggiungi {{model}} ai preferiti",
-      "unfavorite": "Rimuovi {{model}} dai preferiti",
-      "noFavorites": "Nessun preferito per ora."
+      "toolDefaultNote": "Quello fornito da {{tool}}"
     },
     "effort": {
       "pickerLabel": "Livello di ragionamento di {{tool}}",

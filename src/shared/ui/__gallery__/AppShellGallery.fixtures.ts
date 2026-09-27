@@ -281,8 +281,7 @@ const MODEL_CHOICES: ToolModelChoice[] = [
         { model: "claude-sonnet-5", effort: "xhigh", modelDefault: false },
       ],
     },
-    effortLevels: ["low", "medium", "high", "xhigh", "max"],
-    variableOnlyLevels: ["max"],
+    effortLevels: ["low", "medium", "high", "xhigh"],
     officialModels: ["fable", "opus", "opus[1m]", "sonnet", "haiku"],
   },
   {
@@ -290,7 +289,6 @@ const MODEL_CHOICES: ToolModelChoice[] = [
     model: "gpt-5-codex",
     effort: { kind: "level", level: "low" },
     effortLevels: ["low", "medium", "high", "xhigh"],
-    variableOnlyLevels: [],
     officialModels: ["gpt-6-sol", "gpt-6-astra", "gpt-6-luna", "gpt-5.5"],
   },
   {
@@ -298,7 +296,6 @@ const MODEL_CHOICES: ToolModelChoice[] = [
     model: null,
     effort: { kind: "toolDefault" },
     effortLevels: [],
-    variableOnlyLevels: [],
     officialModels: ["auto", "pro", "flash", "flash-lite"],
   },
 ];

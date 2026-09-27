@@ -1419,13 +1419,7 @@
       "filter": "Фильтр или любой ID модели…",
       "noMatch": "Подходящих моделей нет.",
       "useTyped": "Использовать «{{model}}»",
-      "toolDefaultNote": "Встроенное значение {{tool}}",
-      "all": "Все модели",
-      "favorites": "Избранное",
-      "views": "Какие модели показать",
-      "favorite": "Добавить {{model}} в избранное",
-      "unfavorite": "Убрать {{model}} из избранного",
-      "noFavorites": "В избранном пока пусто."
+      "toolDefaultNote": "Встроенное значение {{tool}}"
     },
     "effort": {
       "pickerLabel": "Глубина размышлений {{tool}}",

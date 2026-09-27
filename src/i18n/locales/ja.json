@@ -1404,13 +1404,7 @@
       "filter": "絞り込み、または任意のモデル ID を入力…",
       "noMatch": "一致するモデルはありません。",
       "useTyped": "「{{model}}」を使う",
-      "toolDefaultNote": "{{tool}} 標準の既定値",
-      "all": "すべてのモデル",
-      "favorites": "お気に入り",
-      "views": "表示するモデル",
-      "favorite": "{{model}} をお気に入りに追加",
-      "unfavorite": "{{model}} をお気に入りから外す",
-      "noFavorites": "お気に入りのモデルはまだありません。"
+      "toolDefaultNote": "{{tool}} 標準の既定値"
     },
     "effort": {
       "pickerLabel": "{{tool}} の思考の深さ",

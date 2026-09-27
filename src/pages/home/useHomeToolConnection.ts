@@ -30,7 +30,8 @@ import {
  * failed read never promotes stale evidence (ADR-0039).
  *
  * Where the tool allows it, the row also chooses the model and the thinking
- * effort (ADR-0055); the model shown is the one in the tool's file.
+ * effort (ADR-0055); the model shown is the one in the tool's file. Choosing
+ * a model never changes the endpoint.
  */
 export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
   const providers = useProviders(tool.id);
@@ -59,25 +60,13 @@ export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
   const providerName = (id: string | undefined) =>
     providers.data?.find((provider) => provider.id === id)?.name ?? null;
   const choice = modelChoice.data;
-
-  /**
-   * A model picked under another endpoint switches to that endpoint first and
-   * is set only once the switch has succeeded, so a silent target still
-   * changes nothing.
-   */
-  function chooseModel(providerId: string | null, model: string | null) {
-    const set = () => setModel.mutate({ tool: tool.id, providerId, model });
-    if (providerId !== null && providerId !== inUseId) {
-      switchFlow.switchProvider(providerId, set);
-      return;
-    }
-    set();
-  }
+  const savedModel = inUseId ? pinnedModel(profile.data) : null;
 
   return {
     connection,
     inUseId,
-    model: choice ? choice.model : inUseId ? pinnedModel(profile.data) : null,
+    model: choice ? choice.model : savedModel,
+    savedModel,
     choice,
     choiceUnavailable: modelChoice.isError,
     choices: pickerProviders(providers.data, inUseId),
@@ -95,7 +84,8 @@ export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
       : null,
     switchProvider: (providerId: string) =>
       switchFlow.switchProvider(providerId),
-    chooseModel,
+    chooseModel: (model: string | null) =>
+      setModel.mutate({ tool: tool.id, providerId: inUseId, model }),
     settingModel: setModel.isPending,
     chooseEffort: (effort: string | null) =>
       setEffort.mutate({ tool: tool.id, effort }),

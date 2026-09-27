@@ -4,7 +4,9 @@
 - Date: 2026-09-27
 - Amended: 2026-09-27, decision 8 (Claude Code's effort follows Claude
   Code's own resolution); 2026-09-27, decisions 1, 2 and 9 (the row names
-  the model, not the endpoint; the effort is a slider without notes)
+  the model, not the endpoint; the effort is a slider without notes);
+  2026-09-27, decisions 1, 2, 8 and 9 (the model list holds only the
+  endpoint in use; Max is not offered; the slider writes on release)
 - Amends: ADR-0053 decision 1 (what a Home row chooses), ADR-0041
   decision 1 (when a model catalogue is read), design-spec §29.
 
@@ -31,37 +33,37 @@ screen, one row per tool.
    is absent. The second names the effort. Every picker in a column has one
    width, so both columns line up down the list. A tool without an effort
    setting keeps an empty slot of the same width, so its model picker stays in
-   the column. The endpoint has no picker of its own on these rows: choosing
-   an endpoint is choosing where a model comes from, so it happens in the
-   model list, and the API Endpoints page keeps its own "Use" button
-   (ADR-0053).
-2. **The model list is grouped by endpoint.** A filter field sits on top; a
-   rail beside the list shows all models, only the starred ones, or one
-   endpoint's. Each endpoint is a section headed by its name, the one in use
-   first, then the rest in the user's order. An address set outside this app
-   heads its section with where it comes from ("terminal variable"), the full
-   source and what a choice here does on the tooltip (ADR-0053 decision 8);
-   the pill turns amber only when that address outranks a switch, the one
-   case where a choice here would not take effect. Each section starts with
-   "Default", which removes this product's model key so the tool decides; its
-   note, "what the tool ships with", is said once at the top. A model can be
-   starred; stars are a view preference kept per tool and endpoint in this
-   device's local storage, like the live panel's email masking. A model name
-   typed into the filter that is in no list can be used as typed, under the
-   endpoint the rail shows or else the one in use. Picking under the endpoint
-   in use sets the model; picking under another endpoint, "Default" included,
-   runs the shared switch flow to that endpoint first and sets the model once
-   the switch has succeeded, so a target that does not answer still changes
-   nothing. "Manage API endpoints…" stays the last entry. Tools whose model is
-   not chosen here keep the plain endpoint list (decision 7).
+   the column. These rows never change the endpoint: the API Endpoints page's
+   "Use" button (ADR-0053) is the one place an endpoint is switched.
+2. **The model list holds the endpoint in use.** A filter field sits on top,
+   the endpoint's name heads the list, and the list starts with "Default",
+   which removes this product's model key so the tool decides, noted "what
+   the tool ships with". The model in use, the endpoint's saved model and its
+   catalogue follow. An address set outside this app is headed with where it
+   comes from ("terminal variable"), with the full source on the tooltip
+   (ADR-0053 decision 8). Whether a switch would replace that address matters
+   only where endpoints are switched, so the model pill has no warning state:
+   the model is written to its own key and takes effect either way. A model name typed into the filter that is not listed can be
+   used as typed. Picking sets the model and nothing else. "Manage API
+   endpoints…" stays the last entry. Tools whose model is not chosen here keep
+   the plain endpoint list (decision 7).
+
+   The first version listed every endpoint's models, each endpoint a section
+   with a rail and stars, and picking under another endpoint switched to it
+   first. In use the sections read as one list of models: a user picked a
+   model under the official section to change the model and switched
+   endpoint without meaning to. Their endpoint was an address exported in a
+   terminal profile, which this product lists only while it is in force, so
+   after the switch it was nowhere to be found and looked deleted.
+
 3. **Where the models come from.** An official entry, and the tool's own
    sign-in when nothing is selected, list a short built-in set per tool; the
    set lives in one domain table (`domain/model_choice.rs`) next to the effort
    levels and reaches the renderer with the current choice, so no screen holds
    a model name. A saved custom endpoint lists what its own model catalogue
    returns (ADR-0041), and an address set outside this app lists what the
-   effective catalogue returns. Each endpoint's saved model, which is the model
-   last used with it, comes first under it. Catalogues are read only while the
+   effective catalogue returns. The endpoint's saved model, which is the model
+   last used with it, comes before the catalogue. Catalogues are read only while the
    picker is open, cached with TanStack Query for five minutes, and never
    retried; a catalogue that cannot be read leaves the saved model and the
    free-text entry.
@@ -69,8 +71,8 @@ screen, one row per tool.
    credential-bearing catalogue request only from an explicit click on one
    named service. Opening a tool's model picker is an explicit click that
    names the tool, and the request it makes is the same free `GET …/models`,
-   sent with each saved endpoint's own key to that endpoint's own address: the
-   address the tool itself sends the key to. No model is ever called, nothing
+   sent with the endpoint's own key to its own address: the address the tool
+   itself sends the key to. No model is ever called, nothing
    is generated, and the log boundary of ADR-0041 decision 3 is unchanged.
 5. **Only the tool's own keys are written.**
 
@@ -91,6 +93,7 @@ screen, one row per tool.
    replaces the original atomically, reads it back to verify, and restores the
    backup if the read-back disagrees. JSON keeps its key order, TOML its
    comments and layout (`toml_edit`), `.env` every other line as it was.
+
 6. **Precedence against a later switch.** A model belongs to the endpoint it
    was picked under, because model names are endpoint-specific: a relay's
    `glm-5` means nothing to the official service. A switch therefore writes the
@@ -114,7 +117,6 @@ screen, one row per tool.
    a new session would not run at, and a choice made here could change
    nothing. The facts, from Claude Code's model configuration and settings
    reference:
-
    - A session takes the first of: an explicit choice
      (`CLAUDE_CODE_EFFORT_LEVEL`, from the settings file's `env` block or the
      terminal, `--effort`, or `/effort` in the session); the level saved for
@@ -131,21 +133,28 @@ screen, one row per tool.
      outranks `/effort`.
 
    So the product now does what `/effort` does, for every model at once:
-
    - **A level from `low` to `xhigh`** is written to the top-level
      `effortLevel` (for the older models), to the `effortLevel` of every entry
      already in `modelSettings`, and to an entry for each current
      effort-capable model in the domain table (`claude-fable-5-1`,
      `claude-opus-5-5`, `claude-opus-5`, `claude-sonnet-5`). Other fields of an
-     entry, such as a `maxEffortLevel` cap, stay. `env.CLAUDE_CODE_EFFORT_LEVEL`
-     is removed, so the choice takes effect and a later `/effort` still works;
-     it changes only its own model's entry.
-   - **Max** is written as `env.CLAUDE_CODE_EFFORT_LEVEL=max`, the one place it
-     persists. It then holds for every session and `/effort` cannot change it
-     until another level is chosen here, which removes the variable.
-   - **Tool default** removes the top-level key, the variable and the
-     `effortLevel` of every `modelSettings` entry, dropping an entry left
-     empty; each model then runs at its own default.
+     entry, such as a `maxEffortLevel` cap, stay. A level held in
+     `env.CLAUDE_CODE_EFFORT_LEVEL` is cleared, so the choice takes effect and
+     a later `/effort` still works; it changes only its own model's entry.
+   - **Max** is not offered. It persists only through the variable, and Claude
+     Code applies a change to the settings file's `env` block to every session
+     already running, but never the removal of a key. Checked on Claude Code
+     2.1.280 by watching a running session's `effort.level` in its status line
+     input: writing `max` moved every open session to Max at once, removing it
+     left them there, and `/effort` then answered that the variable overrides
+     the session. `effortLevel` and `modelSettings`, by contrast, are read only
+     when a session starts. A `max` already in the variable, put there by hand
+     or by another tool, is shown as the strongest stop, and moving off it
+     sets the variable to an empty value instead of removing it: running
+     sessions take the empty value up and treat it as unset.
+   - **Tool default** removes the top-level key and the `effortLevel` of every
+     `modelSettings` entry, dropping an entry left empty, and clears the
+     variable as above; each model then runs at its own default.
 
    The pill resolves the level in the same order: the variable in the
    settings file (an empty value there cancels the terminal's), else the
@@ -166,10 +175,12 @@ screen, one row per tool.
 
 9. **The effort is a slider.** The pill shows four bars lit up to the level
    and the level's name. It opens a slider from "Default" to the tool's
-   strongest level, with the two ends named under it. Each stop the slider
-   settles on (300 ms after the last keyboard step, or on release) is written
-   at once and the slider stays open, so neighbouring levels can be tried in
-   turn; closing it mid-step still writes the stop it was left on. The
+   strongest level, with the two ends named under it. Dragging only moves the
+   slider; the stop it is let go on is written, a keyboard step counting as
+   letting go and quick steps settling 300 ms into one write. The slider stays
+   open, so neighbouring levels can be tried in turn, and closing it mid-step
+   still writes the stop it was left on. What is written reaches the sessions
+   started after it. The
    slider carries no notes: the rules of decision 8 decide what is written,
    and the pill already names what a new session runs at. The one exception
    is a level a terminal variable holds, where the slider cannot move and

@@ -1405,13 +1405,7 @@
       "filter": "Saring, atau ketik ID model apa pun…",
       "noMatch": "Tidak ada model yang cocok.",
       "useTyped": "Pakai “{{model}}”",
-      "toolDefaultNote": "Bawaan {{tool}}",
-      "all": "Semua model",
-      "favorites": "Favorit",
-      "views": "Model yang ditampilkan",
-      "favorite": "Tambahkan {{model}} ke favorit",
-      "unfavorite": "Hapus {{model}} dari favorit",
-      "noFavorites": "Belum ada favorit."
+      "toolDefaultNote": "Bawaan {{tool}}"
     },
     "effort": {
       "pickerLabel": "Tingkat berpikir {{tool}}",

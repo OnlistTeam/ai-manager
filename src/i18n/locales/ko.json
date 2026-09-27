@@ -1405,13 +1405,7 @@
       "filter": "필터 또는 모델 ID 입력…",
       "noMatch": "일치하는 모델이 없습니다.",
       "useTyped": "“{{model}}” 사용",
-      "toolDefaultNote": "{{tool}} 기본 제공 값",
-      "all": "모든 모델",
-      "favorites": "즐겨찾기",
-      "views": "표시할 모델",
-      "favorite": "{{model}} 즐겨찾기에 추가",
-      "unfavorite": "{{model}} 즐겨찾기에서 제거",
-      "noFavorites": "아직 즐겨찾기한 모델이 없습니다."
+      "toolDefaultNote": "{{tool}} 기본 제공 값"
     },
     "effort": {
       "pickerLabel": "{{tool}}의 사고 강도",

@@ -99,7 +99,10 @@ fn choosing_a_level_keeps_other_fields_and_models_outside_the_table() {
         }),
         Some("high"),
     );
-    assert_eq!(settings["env"], json!({"OTHER": "1"}));
+    assert_eq!(
+        settings["env"],
+        json!({"CLAUDE_CODE_EFFORT_LEVEL": "", "OTHER": "1"})
+    );
     assert_eq!(
         settings["modelSettings"]["claude-opus-4-6"],
         json!({"maxEffortLevel": "high", "effortLevel": "high"})
@@ -122,10 +125,9 @@ fn a_later_effort_command_changes_only_its_own_model() {
 }
 
 #[test]
-fn max_goes_to_the_variable_and_holds_every_session() {
-    let settings = applied(real_example(), Some("max"));
-    assert_eq!(settings["env"]["CLAUDE_CODE_EFFORT_LEVEL"], "max");
-    assert_eq!(settings["modelSettings"], real_example()["modelSettings"]);
+fn a_level_the_variable_holds_is_cleared_rather_than_removed() {
+    let mut settings = real_example();
+    settings["env"] = json!({"CLAUDE_CODE_EFFORT_LEVEL": "max"});
     assert_eq!(
         resolved(&settings),
         EffortInForce::Fixed {
@@ -133,9 +135,14 @@ fn max_goes_to_the_variable_and_holds_every_session() {
         }
     );
 
+    // A running session keeps a removed variable, but takes up an empty one.
     let settings = applied(settings, Some("xhigh"));
-    assert!(settings["env"].get("CLAUDE_CODE_EFFORT_LEVEL").is_none());
+    assert_eq!(settings["env"]["CLAUDE_CODE_EFFORT_LEVEL"], "");
     assert_eq!(resolved(&settings), level("xhigh"));
+
+    // Nothing is added to a file that never set the variable.
+    let settings = applied(real_example(), Some("xhigh"));
+    assert!(settings.get("env").is_none());
 }
 
 #[test]
@@ -155,7 +162,7 @@ fn the_tool_default_removes_every_level_and_keeps_caps() {
     assert_eq!(
         settings,
         json!({
-            "env": {},
+            "env": {"CLAUDE_CODE_EFFORT_LEVEL": ""},
             "modelSettings": {"claude-opus-5-5": {"maxEffortLevel": "high"}},
             "hooks": {}
         })

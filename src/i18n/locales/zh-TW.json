@@ -1404,13 +1404,7 @@
       "filter": "篩選，或輸入任意模型 ID…",
       "noMatch": "沒有符合的模型。",
       "useTyped": "使用「{{model}}」",
-      "toolDefaultNote": "{{tool}} 內建的預設值",
-      "all": "全部模型",
-      "favorites": "收藏",
-      "views": "顯示哪些模型",
-      "favorite": "收藏 {{model}}",
-      "unfavorite": "取消收藏 {{model}}",
-      "noFavorites": "還沒有收藏的模型。"
+      "toolDefaultNote": "{{tool}} 內建的預設值"
     },
     "effort": {
       "pickerLabel": "{{tool}} 的思考強度",

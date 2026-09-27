@@ -6,7 +6,9 @@
 //! under `modelSettings`, the top-level `effortLevel` (which the user settings
 //! file no longer applies to Opus 5.5 and later), and the model's own default.
 //! The settings keys hold `low` to `xhigh`; `max` persists only through the
-//! variable.
+//! variable, which this product never writes. A running session takes up a
+//! new value of that variable at once but never its removal, so one found in
+//! the file is cleared to an empty value, which counts as unset.
 
 use serde_json::{Map, Value};
 
@@ -181,12 +183,12 @@ fn not_an_object(what: &'static str) -> AppError {
 /// Sets the effort for every model, or hands it back to each model's default
 /// when `effort` is `None`.
 ///
-/// A level the settings keys hold goes where `/effort` puts it, the entry of
-/// every model already in `modelSettings` and of every model in the table, and
-/// into the top-level key that older models read; the variable is removed so
-/// the choice, and a later `/effort`, take effect. A variable-only level
-/// (`max`) is written to the variable alone. The tool default removes all
-/// three, keeping any other field of a model's entry.
+/// A level goes where `/effort` puts it, the entry of every model already in
+/// `modelSettings` and of every model in the table, and into the top-level
+/// key that older models read. A level the variable holds is cleared so the
+/// choice, and a later `/effort`, take effect, in the sessions already running
+/// too. The tool default removes both keys, keeping any other field of a
+/// model's entry.
 pub(super) fn apply(
     settings: &mut Value,
     spec: &ModelChoiceSpec,
@@ -195,10 +197,9 @@ pub(super) fn apply(
     if !settings.is_object() {
         return Err(not_an_object("the settings root is not an object"));
     }
-    if let Some(level) = effort.filter(|level| spec.variable_only_levels.contains(level)) {
-        return live_key::json_set(settings, &["env", EFFORT_VARIABLE], Some(level));
+    if let Some(Some(_)) = env_value(settings, EFFORT_VARIABLE) {
+        live_key::json_set(settings, &["env", EFFORT_VARIABLE], Some(""))?;
     }
-    live_key::json_set(settings, &["env", EFFORT_VARIABLE], None)?;
     let root = settings
         .as_object_mut()
         .ok_or_else(|| not_an_object("the settings root is not an object"))?;

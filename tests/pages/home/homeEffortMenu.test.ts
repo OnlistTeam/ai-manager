@@ -8,8 +8,7 @@ const CLAUDE: ToolModelChoice = {
   tool: "claude-code",
   model: null,
   effort: { kind: "toolDefault" },
-  effortLevels: ["low", "medium", "high", "xhigh", "max"],
-  variableOnlyLevels: ["max"],
+  effortLevels: ["low", "medium", "high", "xhigh"],
   officialModels: ["opus"],
 };
 
@@ -30,13 +29,13 @@ describe("buildEffortMenu", () => {
 
   it("puts the default first, then the levels weakest first", () => {
     const shown = menu({ kind: "toolDefault" });
+    // Max persists only through a variable, which reaches running sessions.
     expect(shown.stops.map((stop) => stop.label)).toEqual([
       "Default",
       "Low",
       "Medium",
       "High",
       "Extra high",
-      "Max",
     ]);
     expect(shown.label).toBe("Default");
     expect(shown.muted).toBe(true);
@@ -46,13 +45,28 @@ describe("buildEffortMenu", () => {
   });
 
   it("names a level the settings give and lights bars up to it", () => {
-    const shown = menu({ kind: "level", level: "xhigh" });
-    expect(shown.label).toBe("Extra high");
+    const shown = menu({ kind: "level", level: "high" });
+    expect(shown.label).toBe("High");
     expect(shown.muted).toBe(false);
-    expect(shown.index).toBe(4);
+    expect(shown.index).toBe(3);
     expect(shown.bars).toBe(3);
     expect(menu({ kind: "level", level: "low" }).bars).toBe(1);
-    expect(menu({ kind: "fixed", level: "max" }).bars).toBe(4);
+    expect(menu({ kind: "level", level: "xhigh" }).bars).toBe(4);
+  });
+
+  it("keeps a level the file holds but Home does not offer as the strongest stop", () => {
+    const shown = menu({ kind: "fixed", level: "max" });
+    expect(shown.stops.map((stop) => stop.level)).toEqual([
+      null,
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max",
+    ]);
+    expect(shown.index).toBe(5);
+    expect(shown.label).toBe("Max");
+    expect(shown.bars).toBe(4);
   });
 
   it("says the models differ, stands on no stop, and names each in the tooltip", () => {
@@ -91,7 +105,6 @@ describe("buildEffortMenu", () => {
       ...CLAUDE,
       tool: "codex" as const,
       effortLevels: ["low", "medium", "high", "xhigh"],
-      variableOnlyLevels: [],
     };
     const shown = menu({ kind: "level", level: "minimal" }, codex);
     expect(shown.stops.map((stop) => stop.level)).toEqual([

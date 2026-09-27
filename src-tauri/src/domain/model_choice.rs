@@ -19,9 +19,6 @@ pub struct ModelChoiceSpec {
     /// The levels Home offers for the tool's effort, weakest first. Empty when
     /// the tool has no such setting.
     pub effort_levels: &'static [&'static str],
-    /// Levels the tool keeps only through its environment variable, which then
-    /// holds them for every session and outranks the tool's own command.
-    pub variable_only_levels: &'static [&'static str],
     /// A short starting set for the tool's official service. Anything else can
     /// be typed.
     pub official_models: &'static [&'static str],
@@ -76,11 +73,12 @@ const CLAUDE_EFFORT_MODELS: &[EffortModel] = &[
 ];
 
 /// Claude Code's aliases follow the newest model of each family, so the list
-/// does not age with every release. Its settings keys accept `low` to `xhigh`;
-/// `max` persists only through `CLAUDE_CODE_EFFORT_LEVEL`.
+/// does not age with every release. Its settings keys accept `low` to `xhigh`.
+/// `max` is not offered: it persists only through `CLAUDE_CODE_EFFORT_LEVEL`,
+/// which every running session takes up at once and keeps after the file
+/// drops it, so `/effort` can no longer change them (ADR-0055).
 const CLAUDE_CODE: ModelChoiceSpec = ModelChoiceSpec {
-    effort_levels: &["low", "medium", "high", "xhigh", "max"],
-    variable_only_levels: &["max"],
+    effort_levels: &["low", "medium", "high", "xhigh"],
     official_models: &["fable", "opus", "opus[1m]", "sonnet", "haiku"],
     effort_models: CLAUDE_EFFORT_MODELS,
 };
@@ -89,7 +87,6 @@ const CLAUDE_CODE: ModelChoiceSpec = ModelChoiceSpec {
 /// exist only on some models.
 const CODEX: ModelChoiceSpec = ModelChoiceSpec {
     effort_levels: &["low", "medium", "high", "xhigh"],
-    variable_only_levels: &[],
     official_models: &[
         "gpt-6-sol",
         "gpt-6-astra",
@@ -103,7 +100,6 @@ const CODEX: ModelChoiceSpec = ModelChoiceSpec {
 /// Gemini CLI resolves these aliases itself; it has no effort setting.
 const GEMINI_CLI: ModelChoiceSpec = ModelChoiceSpec {
     effort_levels: &[],
-    variable_only_levels: &[],
     official_models: &["auto", "pro", "flash", "flash-lite"],
     effort_models: &[],
 };
@@ -215,7 +211,6 @@ pub struct ToolModelChoice {
     pub model: Option<String>,
     pub effort: EffortInForce,
     pub effort_levels: Vec<String>,
-    pub variable_only_levels: Vec<String>,
     pub official_models: Vec<String>,
 }
 
@@ -275,11 +270,10 @@ mod tests {
     }
 
     #[test]
-    fn claude_code_offers_max_only_through_its_variable() {
+    fn claude_code_offers_the_levels_its_settings_keys_hold() {
         let spec = ModelChoiceSpec::for_tool(ToolId::ClaudeCode).expect("claude code");
-        assert_eq!(spec.effort_levels.last(), Some(&"max"));
-        assert_eq!(spec.variable_only_levels, ["max"]);
-        assert!(validate_effort(&spec, Some("max")).is_ok());
+        assert_eq!(spec.effort_levels.last(), Some(&"xhigh"));
+        assert!(validate_effort(&spec, Some("max")).is_err());
         assert!(validate_effort(&spec, Some("ultracode")).is_err());
         assert!(validate_effort(&spec, None).is_ok());
         let codex = ModelChoiceSpec::for_tool(ToolId::Codex).expect("codex");

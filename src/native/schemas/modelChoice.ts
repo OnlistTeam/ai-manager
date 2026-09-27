@@ -47,7 +47,6 @@ export const toolModelChoiceSchema = z
     model: settingValueSchema.nullable(),
     effort: effortInForceSchema,
     effortLevels: z.array(settingValueSchema).max(16),
-    variableOnlyLevels: z.array(settingValueSchema).max(16),
     officialModels: z.array(settingValueSchema).max(32),
   })
   .strict();

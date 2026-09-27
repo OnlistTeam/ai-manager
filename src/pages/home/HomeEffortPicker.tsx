@@ -20,7 +20,7 @@ export interface HomeEffortPickerProps {
 /** Every effort pill shares one width; a tool without one keeps the slot. */
 const PILL_CLASS = "h-7 w-32 shrink-0 rounded-full px-3 text-caption";
 
-/** Keyboard steps settle this long before the level is written. */
+/** A level is written once the slider has rested this long. */
 const SETTLE_MS = 300;
 
 /** Four rising bars, lit up to the level: none for the default or a mix. */
@@ -57,6 +57,7 @@ function EffortSlider({
   const { t } = useTranslation();
   const [position, setPosition] = useState(menu.index ?? 0);
   const [moved, setMoved] = useState(false);
+  const range = useRef<HTMLInputElement>(null);
   const pending = useRef<{
     stop: number;
     timer: ReturnType<typeof setTimeout>;
@@ -68,27 +69,36 @@ function EffortSlider({
     pending.current = undefined;
     if (stop !== menu.index) onChoose(menu.stops[stop].level);
   };
-  // Closing the slider mid-step still writes the stop it was left on.
   const flush = useRef(write);
   flush.current = write;
-  useEffect(
-    () => () => {
+  // Dragging only shows the level. The native `change` event, which fires
+  // when the thumb is let go or a key moves it, schedules the write, and
+  // quick key presses settle into one; closing the slider still writes the
+  // stop it was left on.
+  useEffect(() => {
+    const input = range.current;
+    const settle = () => {
+      if (!input) return;
+      const stop = Number(input.value);
+      if (pending.current) clearTimeout(pending.current.timer);
+      pending.current = {
+        stop,
+        timer: setTimeout(() => flush.current(stop), SETTLE_MS),
+      };
+    };
+    input?.addEventListener("change", settle);
+    return () => {
+      input?.removeEventListener("change", settle);
       const left = pending.current;
       if (!left) return;
       clearTimeout(left.timer);
       flush.current(left.stop);
-    },
-    [],
-  );
+    };
+  }, []);
 
   const move = (next: number) => {
     setPosition(next);
     setMoved(true);
-    if (pending.current) clearTimeout(pending.current.timer);
-    pending.current = {
-      stop: next,
-      timer: setTimeout(() => flush.current(next), SETTLE_MS),
-    };
   };
 
   return (
@@ -119,6 +129,7 @@ function EffortSlider({
           ))}
         </div>
         <input
+          ref={range}
           type="range"
           min={0}
           max={last}
@@ -149,8 +160,9 @@ function EffortSlider({
 /**
  * How hard the tool thinks, where the tool has such a setting (ADR-0055):
  * a pill with four bars and the level, opening a slider from the tool's
- * default to its strongest level. Each settled stop is written at once and
- * the slider stays open, so neighbouring levels can be tried in turn.
+ * default to its strongest level. The stop the slider is let go on is
+ * written, for sessions started after it, and the slider stays open so
+ * neighbouring levels can be tried in turn.
  */
 export function HomeEffortPicker({
   tool,

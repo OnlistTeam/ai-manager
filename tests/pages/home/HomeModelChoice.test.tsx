@@ -117,16 +117,15 @@ const CHOICE = {
       { model: "claude-sonnet-5", effort: "medium", modelDefault: true },
     ],
   },
-  effortLevels: ["low", "medium", "high", "xhigh", "max"],
-  variableOnlyLevels: ["max"],
+  effortLevels: ["low", "medium", "high", "xhigh"],
   officialModels: ["fable", "opus", "sonnet"],
 };
 
 /** What the backend answers after a write, as Claude Code will resolve it. */
 function effortAfter(effort: string | null) {
-  if (effort === null) return { kind: "toolDefault" };
-  if (effort === "max") return { kind: "fixed", level: effort };
-  return { kind: "level", level: effort };
+  return effort === null
+    ? { kind: "toolDefault" }
+    : { kind: "level", level: effort };
 }
 
 interface Calls {
@@ -205,7 +204,6 @@ function serve(
             ...CHOICE,
             tool,
             effortLevels: [],
-            variableOnlyLevels: [],
             effort: { kind: "toolDefault" },
           },
         );
@@ -296,7 +294,6 @@ describe("Home model and effort pickers", () => {
       configurable: true,
       value: vi.fn(),
     });
-    window.localStorage.clear();
     toastMocks.error.mockClear();
     toastMocks.success.mockClear();
     i18n.addResourceBundle(
@@ -332,27 +329,20 @@ describe("Home model and effort pickers", () => {
     ).toBeVisible();
   });
 
-  it("groups models under their endpoint, the one in use first", async () => {
-    const calls = serve({ "claude-code": [provider(), OFFICIAL] });
+  it("lists only the models of the endpoint in use", async () => {
+    const calls = serve({ "claude-code": [OFFICIAL, provider()] });
     mount();
 
     const listbox = await openModels("Claude Code");
-    await waitFor(() =>
-      expect(names(listbox)).toEqual([
-        "DefaultWhat Claude Code ships with",
-        "fable",
-        "opus",
-        "sonnet",
-        "Default",
-        "glm-5",
-        "glm-5-air",
-        en.home.tools.manageEndpoints,
-      ]),
-    );
-    // Only the custom endpoint's catalogue is read; the official one is built in.
-    expect(calls.catalogs).toEqual([
-      { tool: "claude-code", provider: "relay" },
+    expect(names(listbox)).toEqual([
+      "DefaultWhat Claude Code ships with",
+      "fable",
+      "opus",
+      "sonnet",
+      en.home.tools.manageEndpoints,
     ]);
+    // The official endpoint's list is built in; no other endpoint is read.
+    expect(calls.catalogs).toEqual([]);
     const current = within(listbox).getByRole("option", {
       name: "Default What Claude Code ships with",
     });
@@ -379,52 +369,37 @@ describe("Home model and effort pickers", () => {
     ).toBeVisible();
   });
 
-  it("stars a model and lists the starred ones on their own", async () => {
-    serve({ "claude-code": [OFFICIAL, provider()] });
+  it("lists a custom endpoint's own catalogue and sets a model from it", async () => {
+    const calls = serve({
+      "claude-code": [
+        { ...OFFICIAL, active: false },
+        provider({ active: true }),
+      ],
+    });
     mount();
 
     const listbox = await openModels("Claude Code");
-    const user = userEvent.setup();
-    await user.click(
-      await within(listbox).findByRole("button", {
-        name: "Add glm-5-air to favorites",
-      }),
-    );
-    await user.click(screen.getByRole("button", { name: "Favorites" }));
     await waitFor(() =>
       expect(names(listbox)).toEqual([
+        "DefaultWhat Claude Code ships with",
+        "glm-5",
         "glm-5-air",
         en.home.tools.manageEndpoints,
       ]),
     );
-    await user.click(screen.getByRole("button", { name: "Claude Official" }));
-    expect(names(listbox)).toEqual([
-      "DefaultWhat Claude Code ships with",
-      "fable",
-      "opus",
-      "sonnet",
-      en.home.tools.manageEndpoints,
+    expect(calls.catalogs).toEqual([
+      { tool: "claude-code", provider: "relay" },
     ]);
-  });
-
-  it("switches first, then sets the model picked under another endpoint", async () => {
-    const calls = serve({ "claude-code": [OFFICIAL, provider()] });
-    mount();
-
-    const listbox = await openModels("Claude Code");
-    const option = await within(listbox).findByRole("option", {
-      name: "glm-5-air",
-    });
-    await userEvent.click(option);
+    await userEvent.click(
+      within(listbox).getByRole("option", { name: "glm-5-air" }),
+    );
 
     await waitFor(() =>
       expect(calls.models).toEqual([
         { tool: "claude-code", provider: "relay", model: "glm-5-air" },
       ]),
     );
-    expect(calls.activations).toEqual([
-      { tool: "claude-code", provider: "relay" },
-    ]);
+    expect(calls.activations).toEqual([]);
   });
 
   it("uses a model name typed into the filter", async () => {
@@ -452,7 +427,7 @@ describe("Home model and effort pickers", () => {
     );
   });
 
-  it("moves the effort slider to set a level for every model, max, and back to the default", async () => {
+  it("moves the effort slider to set a level for every model and back to the default", async () => {
     const calls = serve({ "claude-code": [OFFICIAL] });
     mount();
 
@@ -469,24 +444,18 @@ describe("Home model and effort pickers", () => {
     const slider = await screen.findByRole("slider", {
       name: "Thinking effort",
     });
-    expect(slider).toHaveAttribute("max", "5");
+    // Max only persists through a variable, which reaches running sessions.
+    expect(slider).toHaveAttribute("max", "4");
+    expect(screen.getByText("Extra high")).toBeVisible();
 
     fireEvent.change(slider, { target: { value: "3" } });
     await waitFor(() =>
       expect(calls.efforts).toEqual([{ tool: "claude-code", effort: "high" }]),
     );
-    fireEvent.change(slider, { target: { value: "5" } });
-    await waitFor(() =>
-      expect(calls.efforts).toEqual([
-        { tool: "claude-code", effort: "high" },
-        { tool: "claude-code", effort: "max" },
-      ]),
-    );
     fireEvent.change(slider, { target: { value: "0" } });
     await waitFor(() =>
       expect(calls.efforts).toEqual([
         { tool: "claude-code", effort: "high" },
-        { tool: "claude-code", effort: "max" },
         { tool: "claude-code", effort: null },
       ]),
     );
@@ -497,7 +466,33 @@ describe("Home model and effort pickers", () => {
     ).toBeVisible();
   });
 
-  it("writes only the stop the slider settles on", async () => {
+  it("writes nothing while the slider is dragged, then the stop it is let go on", async () => {
+    const calls = serve({ "claude-code": [OFFICIAL] });
+    mount();
+
+    const row = await screen.findByRole("article", { name: "Claude Code" });
+    await userEvent.click(
+      await within(row).findByRole("button", {
+        name: /^Thinking effort Claude Code uses: /,
+      }),
+    );
+    const slider = await screen.findByRole("slider");
+    for (const stop of ["1", "2", "3"]) {
+      fireEvent.input(slider, { target: { value: stop } });
+    }
+    expect(slider).toHaveAttribute("aria-valuetext", "High");
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    expect(calls.efforts).toEqual([]);
+
+    fireEvent.change(slider, { target: { value: "2" } });
+    await waitFor(() =>
+      expect(calls.efforts).toEqual([
+        { tool: "claude-code", effort: "medium" },
+      ]),
+    );
+  });
+
+  it("writes only the stop quick key presses settle on", async () => {
     const calls = serve({ "claude-code": [OFFICIAL] });
     mount();
 
@@ -560,7 +555,6 @@ describe("Home model and effort pickers", () => {
           tool: "gemini-cli",
           effort: { kind: "toolDefault" },
           effortLevels: [],
-          variableOnlyLevels: [],
           officialModels: ["auto", "pro"],
         },
       },

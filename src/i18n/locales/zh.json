@@ -1404,13 +1404,7 @@
       "filter": "筛选，或输入任意模型 ID…",
       "noMatch": "没有匹配的模型。",
       "useTyped": "使用“{{model}}”",
-      "toolDefaultNote": "{{tool}} 自带的默认值",
-      "all": "全部模型",
-      "favorites": "收藏",
-      "views": "显示哪些模型",
-      "favorite": "收藏 {{model}}",
-      "unfavorite": "取消收藏 {{model}}",
-      "noFavorites": "还没有收藏的模型。"
+      "toolDefaultNote": "{{tool}} 自带的默认值"
     },
     "effort": {
       "pickerLabel": "{{tool}} 的思考强度",

@@ -10,7 +10,6 @@ const CHOICE = {
   model: "gpt-5.5",
   effort: { kind: "level", level: "low" },
   effortLevels: ["low", "medium", "high", "xhigh"],
-  variableOnlyLevels: [],
   officialModels: ["gpt-5.5"],
 };
 

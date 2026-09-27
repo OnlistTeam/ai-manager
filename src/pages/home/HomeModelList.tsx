@@ -1,34 +1,47 @@
 import { Command } from "cmdk";
-import { Check, CornerDownLeft, Settings2, Star } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { Check, CornerDownLeft, Settings2 } from "lucide-react";
+import type { ToolId } from "@/entities/tool";
 import { cn } from "@/shared/ui/cn";
-import type { ModelMenuItem, ModelMenuSection } from "./homeModelMenu";
-import type { ModelFavorites } from "./useModelFavorites";
+import { ServiceMark } from "@/shared/ui/ServiceArtwork";
+import { ToolGlyph } from "@/shared/ui/ToolArtwork";
+import type { ModelMenuEndpoint, ModelMenuItem } from "./homeModelMenu";
 
 const ROW_CLASS = cn(
-  "group mx-1 flex min-w-0 cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5 text-caption text-content outline-none",
+  "mx-1 flex min-w-0 cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5 text-caption text-content outline-none",
   "data-[selected=true]:bg-layer-2",
 );
 
-export interface HomeModelRowsProps {
-  sections: readonly ModelMenuSection[];
-  favorites: ModelFavorites;
-  loadingLabel: string;
-  onChoose: (item: ModelMenuItem) => void;
+/** The endpoint's logo or initials; the tool's own mark for its sign-in. */
+export function EndpointMark({
+  endpoint,
+  tool,
+}: {
+  endpoint: ModelMenuEndpoint;
+  tool: ToolId;
+}) {
+  return endpoint.signIn ? (
+    <ToolGlyph toolId={tool} className="h-4 w-4 shrink-0" />
+  ) : (
+    <ServiceMark provider={endpoint.provider} name={endpoint.name} />
+  );
 }
 
-/** Each endpoint's name over its models; the model in use is checked. */
+export interface HomeModelRowsProps {
+  endpoint: ModelMenuEndpoint;
+  items: readonly ModelMenuItem[];
+  loadingLabel: string;
+  onChoose: (model: string | null) => void;
+}
+
+/** The endpoint's name over its models; the model in use is checked. */
 export function HomeModelRows({
-  sections,
-  favorites,
+  endpoint,
+  items,
   loadingLabel,
   onChoose,
 }: HomeModelRowsProps) {
-  const { t } = useTranslation();
-
-  return sections.map(({ endpoint, items }) => (
+  return (
     <Command.Group
-      key={endpoint.key}
       heading={
         <span
           title={endpoint.title ?? undefined}
@@ -42,70 +55,38 @@ export function HomeModelRows({
       }
       className="[&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:pb-1 [&_[cmdk-group-heading]]:pt-2 [&_[cmdk-group-heading]]:text-caption [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-content-muted"
     >
-      {items.map((item) => {
-        const starred = favorites.isFavorite(item);
-        return (
-          <Command.Item
-            key={item.id}
-            value={item.id}
-            aria-current={item.checked ? "true" : undefined}
-            onSelect={() => onChoose(item)}
-            className={ROW_CLASS}
-          >
-            <span className="min-w-0 truncate">{item.label}</span>
-            {item.note ? (
-              <span className="min-w-0 flex-1 truncate text-content-muted">
-                {item.note}
-              </span>
-            ) : (
-              <span className="flex-1" />
+      {items.map((item) => (
+        <Command.Item
+          key={item.id}
+          value={item.id}
+          aria-current={item.checked ? "true" : undefined}
+          onSelect={() => onChoose(item.model)}
+          className={ROW_CLASS}
+        >
+          <span className="min-w-0 truncate">{item.label}</span>
+          {item.note ? (
+            <span className="min-w-0 flex-1 truncate text-content-muted">
+              {item.note}
+            </span>
+          ) : (
+            <span className="flex-1" />
+          )}
+          <Check
+            className={cn(
+              "h-3.5 w-3.5 shrink-0 text-brand",
+              !item.checked && "invisible",
             )}
-            {item.model !== null ? (
-              <button
-                type="button"
-                tabIndex={-1}
-                aria-label={t(
-                  starred ? "home.model.unfavorite" : "home.model.favorite",
-                  { model: item.model },
-                )}
-                aria-pressed={starred}
-                onPointerDown={(event) => event.preventDefault()}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  favorites.toggle(item);
-                }}
-                className={cn(
-                  "flex h-5 w-5 shrink-0 items-center justify-center rounded text-content-muted hover:text-content",
-                  !starred &&
-                    "invisible group-hover:visible group-data-[selected=true]:visible",
-                )}
-              >
-                <Star
-                  className={cn(
-                    "h-3.5 w-3.5",
-                    starred && "fill-current text-warning",
-                  )}
-                  aria-hidden="true"
-                />
-              </button>
-            ) : null}
-            <Check
-              className={cn(
-                "h-3.5 w-3.5 shrink-0 text-brand",
-                !item.checked && "invisible",
-              )}
-              aria-hidden="true"
-            />
-          </Command.Item>
-        );
-      })}
-      {endpoint.loading && items.length === 1 ? (
+            aria-hidden="true"
+          />
+        </Command.Item>
+      ))}
+      {endpoint.loading && endpoint.models.length === 0 ? (
         <p className="px-3 py-1.5 text-caption text-content-muted">
           {loadingLabel}
         </p>
       ) : null}
     </Command.Group>
-  ));
+  );
 }
 
 /** Exactly what was typed, used as the model name. */

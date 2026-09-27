@@ -1,91 +1,63 @@
 import { describe, expect, it } from "vitest";
 import {
-  buildModelSections,
-  viewModelSections,
+  buildModelItems,
+  filterModelItems,
   type ModelMenuEndpoint,
   type ModelMenuItem,
 } from "@/pages/home/homeModelMenu";
 
 const COPY = { toolDefault: "Default", toolDefaultNote: "What it ships with" };
 
-function endpoint(overrides: Partial<ModelMenuEndpoint>): ModelMenuEndpoint {
-  return {
-    key: "relay",
-    providerId: "relay",
-    provider: null,
-    signIn: false,
-    name: "Relay",
-    detail: null,
-    title: null,
-    inUse: false,
-    savedModel: null,
-    models: [],
-    loading: false,
-    ...overrides,
-  };
-}
-
-const OFFICIAL = endpoint({
-  key: "official",
-  providerId: "official",
-  name: "Official",
-  inUse: true,
-  savedModel: "opus",
-  models: ["fable", "opus"],
-});
-const RELAY = endpoint({ savedModel: "glm-5", models: ["glm-5", "glm-5-air"] });
+const RELAY: ModelMenuEndpoint = {
+  provider: null,
+  signIn: false,
+  name: "Relay",
+  detail: null,
+  title: null,
+  savedModel: "glm-5",
+  models: ["glm-5", "glm-5-air"],
+  loading: false,
+};
 
 const labels = (items: readonly ModelMenuItem[]) =>
   items.map((item) => item.label);
 
-describe("buildModelSections", () => {
-  it("puts the endpoint in use first and starts each with the default", () => {
-    const sections = buildModelSections([RELAY, OFFICIAL], "opus", COPY);
+describe("buildModelItems", () => {
+  it("starts with the default, then the model in use, the saved one and the catalogue", () => {
+    const items = buildModelItems(RELAY, "glm-5-turbo", COPY);
 
-    expect(sections.map((section) => section.endpoint.key)).toEqual([
-      "official",
-      "relay",
+    expect(labels(items)).toEqual([
+      "Default",
+      "glm-5-turbo",
+      "glm-5",
+      "glm-5-air",
     ]);
-    const [inUse, other] = sections;
-    expect(labels(inUse.items)).toEqual(["Default", "opus", "fable"]);
-    expect(labels(other.items)).toEqual(["Default", "glm-5", "glm-5-air"]);
-    // The note is said once, on the first section's default.
-    expect(inUse.items[0].note).toBe("What it ships with");
-    expect(other.items[0].note).toBeNull();
-    expect(
-      sections.flatMap((section) =>
-        section.items.filter((item) => item.checked).map((item) => item.id),
-      ),
-    ).toEqual(["official\u001fopus"]);
+    expect(items[0]).toMatchObject({
+      model: null,
+      note: "What it ships with",
+      checked: false,
+    });
+    expect(items.filter((item) => item.checked).map((item) => item.id)).toEqual(
+      ["glm-5-turbo"],
+    );
   });
 
   it("checks the default when the tool names no model", () => {
-    const [inUse] = buildModelSections([OFFICIAL], null, COPY);
-    expect(inUse.items[0]).toMatchObject({ model: null, checked: true });
+    const [first, ...rest] = buildModelItems(RELAY, null, COPY);
+    expect(first).toMatchObject({ model: null, checked: true });
+    expect(labels(rest)).toEqual(["glm-5", "glm-5-air"]);
   });
 });
 
-describe("viewModelSections", () => {
-  const sections = buildModelSections([OFFICIAL, RELAY], "opus", COPY);
-  const none = () => false;
+describe("filterModelItems", () => {
+  const items = buildModelItems(RELAY, null, COPY);
 
-  it("narrows to one endpoint", () => {
-    const shown = viewModelSections(sections, { endpoint: "relay" }, "", none);
-    expect(shown.map((section) => section.endpoint.key)).toEqual(["relay"]);
+  it("keeps every row without a filter", () => {
+    expect(filterModelItems(items, "  ")).toEqual(items);
   });
 
-  it("keeps only the starred models", () => {
-    const starred = (item: ModelMenuItem) => item.model === "glm-5-air";
-    const shown = viewModelSections(sections, "favorites", "", starred);
-    expect(shown.map((section) => labels(section.items))).toEqual([
-      ["glm-5-air"],
-    ]);
-  });
-
-  it("filters by name and drops an endpoint left empty", () => {
-    const shown = viewModelSections(sections, "all", "GLM-5-a", none);
-    expect(shown.map((section) => labels(section.items))).toEqual([
-      ["glm-5-air"],
-    ]);
+  it("matches the name or the note, ignoring case", () => {
+    expect(labels(filterModelItems(items, "GLM-5-a"))).toEqual(["glm-5-air"]);
+    expect(labels(filterModelItems(items, "ships"))).toEqual(["Default"]);
   });
 });

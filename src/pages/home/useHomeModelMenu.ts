@@ -1,38 +1,32 @@
-import { useQueries } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import {
-  providerEditProfileQueryOptions,
-  type Provider,
-  type ToolModelChoice,
-} from "@/entities/provider";
+import type { ToolModelChoice } from "@/entities/provider";
 import type { Tool } from "@/entities/tool";
 import {
   describeSource,
-  externalPrecedenceCopy,
   hostOf,
   modelCatalogQueryOptions,
   shortSourceCopy,
 } from "@/features/provider-management";
 import {
-  buildModelSections,
+  buildModelItems,
   type ModelMenuEndpoint,
-  type ModelMenuSection,
+  type ModelMenuItem,
 } from "./homeModelMenu";
-import { pinnedModel } from "./homeToolConnection";
 import type { HomeToolConnection } from "./useHomeToolConnection";
 
 export interface HomeModelMenu {
-  sections: ModelMenuSection[];
   /** The endpoint the tool uses now, if any: what the button shows. */
-  inUse: ModelMenuEndpoint | null;
+  endpoint: ModelMenuEndpoint | null;
+  items: ModelMenuItem[];
 }
 
 /**
- * The model picker's sections for one row (ADR-0055). Each saved endpoint's
- * own model and, for a custom endpoint, its model catalogue are read only
- * while the picker is open, through the same cached queries the endpoints
- * page and the model test use; an official endpoint lists the tool's
- * built-in set.
+ * The model picker's rows for one row (ADR-0055): the models of the endpoint
+ * in use. A custom endpoint's catalogue, or the one behind an outside
+ * address, is read only while the picker is open, through the same cached
+ * query the endpoints page and the model test use; an official endpoint
+ * lists the tool's built-in set.
  */
 export function useHomeModelMenu(
   tool: Tool,
@@ -43,97 +37,68 @@ export function useHomeModelMenu(
   const { t } = useTranslation();
   const state = connection.connection;
   const external = state.kind === "external" ? state.connection : null;
-  const catalogued = (provider: Provider) => provider.kind !== "official";
-
-  const profiles = useQueries({
-    queries: connection.choices.map((provider) => ({
-      ...providerEditProfileQueryOptions(tool.id, provider.id),
-      enabled: open,
-    })),
-  });
-  const catalogs = useQueries({
-    queries: connection.choices.map((provider) => ({
-      ...modelCatalogQueryOptions({ kind: "provider", provider }),
-      enabled: open && catalogued(provider),
-    })),
-  });
-  const [effectiveCatalog] = useQueries({
-    queries: [
-      {
-        ...modelCatalogQueryOptions({
-          kind: "effective",
-          tool: tool.id,
-          name: tool.name,
-        }),
-        enabled: open && external !== null,
-      },
-    ],
+  const provider =
+    state.kind === "service" || state.kind === "official"
+      ? state.provider
+      : null;
+  const subject = external
+    ? { kind: "effective" as const, tool: tool.id, name: tool.name }
+    : provider && provider.kind !== "official"
+      ? { kind: "provider" as const, provider }
+      : null;
+  const catalog = useQuery({
+    ...modelCatalogQueryOptions(subject),
+    enabled: open && subject !== null,
   });
 
-  const textModels = (models: { id: string; kind: string }[] | undefined) =>
-    (models ?? []).filter((model) => model.kind === "text").map((m) => m.id);
-  const official = choice?.officialModels ?? [];
-  const unsaved = {
-    providerId: null,
-    provider: null,
-    inUse: true,
-    savedModel: null,
+  const shared = {
+    savedModel: connection.savedModel,
+    models: subject
+      ? (catalog.data?.models ?? [])
+          .filter((model) => model.kind === "text")
+          .map((model) => model.id)
+      : (choice?.officialModels ?? []),
+    loading: subject !== null && catalog.isFetching,
   };
-
-  const endpoints: ModelMenuEndpoint[] = [];
+  let endpoint: ModelMenuEndpoint | null = null;
   if (external) {
-    endpoints.push({
-      ...unsaved,
-      key: "outside",
+    endpoint = {
+      ...shared,
+      provider: null,
       signIn: false,
       name: hostOf(external.endpoint),
       detail: shortSourceCopy(external.endpointSource, t),
-      title: [
-        describeSource(external.endpointSource, t),
-        externalPrecedenceCopy(external, tool.name, t),
-      ].join("\n"),
-      models: textModels(effectiveCatalog?.data?.models),
-      loading: effectiveCatalog?.isFetching ?? false,
-    });
-  } else if (state.kind === "official" && state.provider === null) {
-    // The tool's own sign-in has no saved entry, but its models can still be
-    // chosen.
-    endpoints.push({
-      ...unsaved,
-      key: "signIn",
-      signIn: true,
-      name: t("home.tools.official"),
-      detail: null,
-      title: null,
-      models: official,
-      loading: false,
-    });
-  }
-  connection.choices.forEach((provider, index) => {
-    const catalog = catalogs[index];
-    endpoints.push({
-      key: provider.id,
-      providerId: provider.id,
+      title: describeSource(external.endpointSource, t),
+    };
+  } else if (provider) {
+    endpoint = {
+      ...shared,
       provider,
       signIn: false,
       name: provider.name,
       detail: null,
       title: null,
-      inUse: provider.id === connection.inUseId,
-      savedModel: pinnedModel(profiles[index]?.data),
-      models: catalogued(provider)
-        ? textModels(catalog?.data?.models)
-        : official,
-      loading: catalogued(provider) && (catalog?.isFetching ?? false),
-    });
-  });
+    };
+  } else if (state.kind === "official") {
+    // The tool's own sign-in has no saved entry, but its models can still be
+    // chosen.
+    endpoint = {
+      ...shared,
+      provider: null,
+      signIn: true,
+      name: t("home.tools.official"),
+      detail: null,
+      title: null,
+    };
+  }
 
-  const sections = buildModelSections(endpoints, choice?.model ?? null, {
-    toolDefault: t("home.model.toolDefault"),
-    toolDefaultNote: t("home.model.toolDefaultNote", { tool: tool.name }),
-  });
   return {
-    sections,
-    inUse: endpoints.find((endpoint) => endpoint.inUse) ?? null,
+    endpoint,
+    items: endpoint
+      ? buildModelItems(endpoint, choice?.model ?? null, {
+          toolDefault: t("home.model.toolDefault"),
+          toolDefaultNote: t("home.model.toolDefaultNote", { tool: tool.name }),
+        })
+      : [],
   };
 }

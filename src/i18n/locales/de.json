@@ -1405,13 +1405,7 @@
       "filter": "Filtern oder beliebige Modell-ID eingeben…",
       "noMatch": "Keine passenden Modelle.",
       "useTyped": "„{{model}}“ verwenden",
-      "toolDefaultNote": "Was {{tool}} mitbringt",
-      "all": "Alle Modelle",
-      "favorites": "Favoriten",
-      "views": "Angezeigte Modelle",
-      "favorite": "{{model}} zu Favoriten hinzufügen",
-      "unfavorite": "{{model}} aus Favoriten entfernen",
-      "noFavorites": "Noch keine Favoriten."
+      "toolDefaultNote": "Was {{tool}} mitbringt"
     },
     "effort": {
       "pickerLabel": "Denkaufwand für {{tool}}",

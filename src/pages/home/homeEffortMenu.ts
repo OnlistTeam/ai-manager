@@ -27,7 +27,8 @@ export interface EffortMenu {
 /**
  * The effort pill and its slider for one tool (ADR-0055), from the effort the
  * tool itself will use in a new session. A level already in the file that is
- * not offered is added as the strongest stop and kept until changed.
+ * not offered, such as Claude Code's `max`, is added as the strongest stop and
+ * kept until changed.
  */
 export function buildEffortMenu(
   choice: ToolModelChoice,

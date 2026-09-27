@@ -1151,25 +1151,18 @@ its thinking effort (ADR-0055).
   the first picker names the model in the tool's own file, or "Default" when
   the file names none, led by the mark of the endpoint it runs on (its logo
   or initials; the tool's own mark for its sign-in). The endpoint's name is
-  on the tooltip. There is no separate endpoint picker on these rows: an
-  endpoint is where a model comes from, so it is chosen in the model list.
-- The model list has a filter field ("Filter, or type any model ID…") and a
-  rail: all models, starred models, then one mark per endpoint. Each endpoint
-  is a section headed by its name, the one in use first, the rest in the
-  order set on the API Endpoints page. A section starts with "Default"
-  ("what the tool ships with", said once at the top), then the model in use,
-  the endpoint's saved model, and the built-in list for an official service or
-  the endpoint's model catalogue for a custom one, read only while the list is
-  open. The model in use is checked. A star beside a model keeps it under
-  "Favorites" on this device. A name typed into the filter that no list holds
-  is offered as "Use “name”". "Manage API endpoints…" is the last entry.
-- Picking under the endpoint in use sets the model; under another endpoint it
-  switches there first through the shared recoverable flow (preflight check,
-  reopen hint with "Open now", recovery state) and sets the model once the
-  switch succeeded. A target that does not respond changes nothing, and a
-  small line under the row says so and links to the API Endpoints page. The
-  model belongs to its endpoint: a later switch writes the target's own
-  model, and switching back restores the one picked for it.
+  on the tooltip. These rows never change the endpoint; that is the API
+  Endpoints page's "Use" button.
+- The model list holds only the endpoint in use, headed by its name, under a
+  filter field ("Filter, or type any model ID…"). It starts with "Default"
+  ("what the tool ships with"), then the model in use, the endpoint's saved
+  model, and the built-in list for an official service or the endpoint's
+  model catalogue for a custom one, read only while the list is open. The
+  model in use is checked. A name typed into the filter that the list does
+  not hold is offered as "Use “name”". "Manage API endpoints…" is the last
+  entry. Picking sets the model and nothing else. The model belongs to its
+  endpoint: a later switch writes the target's own model, and switching back
+  restores the one picked for it.
 - Tools that do not choose the model here keep an endpoint picker of the same
   width: the saved endpoint in use by the name its list uses, and the model it
   pins; "Official sign-in", "Not connected", or for tools that pick the model
@@ -1181,8 +1174,10 @@ its thinking effort (ADR-0055).
 - Where the tool has an effort setting (`canChooseEffort`), a second, narrower
   pill shows four bars lit up to the level and names the level a new session
   will actually run at, as the tool itself resolves it. It opens a slider from
-  "Default" to the tool's strongest level; each stop it settles on is written
-  at once and the slider stays open. When no model is named and the models run
+  "Default" to the strongest level the tool keeps in its settings (Claude
+  Code's Max, which only a variable holds and which would reach every running
+  session, is not offered). The stop the slider is let go on is written, for
+  sessions started after it, and the slider stays open. When no model is named and the models run
   at different levels, the pill says "Per model" and its tooltip names each
   model's level; choosing a level sets it for every model. A level held by a
   terminal variable shows a lock; the slider cannot move and one line says
@@ -1190,17 +1185,19 @@ its thinking effort (ADR-0055).
   the tool and survives every switch. A tool without an effort setting keeps
   an empty slot, so the columns line up.
 - Only the tool's own keys are written (Claude Code `env.ANTHROPIC_MODEL`,
-  and for the effort `effortLevel`, every model's `modelSettings` entry and
-  `env.CLAUDE_CODE_EFFORT_LEVEL`; Codex `model` and `model_reasoning_effort`;
+  and for the effort `effortLevel` and every model's `modelSettings` entry,
+  clearing a level held in `env.CLAUDE_CODE_EFFORT_LEVEL` to an empty value;
+  Codex `model` and `model_reasoning_effort`;
   Gemini CLI `GEMINI_MODEL`), with a backup, an atomic replace and a read-back.
 - The picker first answers from the saved inventory, then follows the
   effective connection read in the background through the endpoints page's
   own query (ADR-0035, ADR-0051, ADR-0053). A saved endpoint the tool really
   uses is named instead of the selected one. An address set outside this app
-  is named by its host and a short source ("Terminal variable"); the full
-  source and whether choosing a saved endpoint replaces it are on the
-  tooltip. The pill turns amber only when the variable keeps winning over a
-  switch by the tool's own precedence. Until the answer arrives the saved
+  is named by its host and a short source ("Terminal variable"), with the
+  full source on the tooltip. The endpoint picker also says there whether
+  choosing a saved endpoint replaces it, and turns amber only when the
+  variable keeps winning over a switch by the tool's own precedence; the model
+  picker, which never switches, has no such state. Until the answer arrives the saved
   label stays, with no spinner.
 
 There are no quick-action cards, no update buttons and no live routing panel
@@ -1419,6 +1416,7 @@ carry:
 
   Switching to another endpoint that can be forwarded keeps routing on and
   only changes where it forwards to.
+
 - Quitting while tools are routed asks first, naming them and saying which
   open sessions will need a restart. Turning a tool off or quitting puts
   back only the settings routing wrote; other edits made meanwhile stay.

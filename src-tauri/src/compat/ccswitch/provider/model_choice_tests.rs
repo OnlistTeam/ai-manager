@@ -73,11 +73,7 @@ fn reads_the_effort_a_new_session_of_the_model_in_use_runs_at() {
     let choice = read(ToolId::ClaudeCode, &none()).expect("read");
     assert_eq!(choice.model.as_deref(), Some("opus"));
     assert_eq!(choice.effort, level("medium"));
-    assert_eq!(
-        choice.effort_levels,
-        ["low", "medium", "high", "xhigh", "max"]
-    );
-    assert_eq!(choice.variable_only_levels, ["max"]);
+    assert_eq!(choice.effort_levels, ["low", "medium", "high", "xhigh"]);
 }
 
 #[test]
@@ -188,9 +184,10 @@ fn the_effort_survives_a_switch_to_an_endpoint_with_an_older_copy() {
         "https://relay.example.test"
     );
 
-    store
-        .set_effort(ToolId::ClaudeCode, Some("max"), &none())
-        .expect("max");
+    // Another tool leaves `max` in the variable, which Home never writes.
+    let mut live = claude_live();
+    live["env"]["CLAUDE_CODE_EFFORT_LEVEL"] = json!("max");
+    write_claude_live(&live);
     store
         .switch(ToolId::ClaudeCode, &official.id)
         .expect("back to official");
@@ -211,7 +208,7 @@ fn the_effort_survives_a_switch_to_an_endpoint_with_an_older_copy() {
     let live = claude_live();
     assert!(live.get("effortLevel").is_none());
     assert!(live.get("modelSettings").is_none());
-    assert!(live["env"].get("CLAUDE_CODE_EFFORT_LEVEL").is_none());
+    assert_eq!(live["env"]["CLAUDE_CODE_EFFORT_LEVEL"], "");
     assert_eq!(
         read(ToolId::ClaudeCode, &none()).unwrap().effort,
         EffortInForce::ToolDefault
