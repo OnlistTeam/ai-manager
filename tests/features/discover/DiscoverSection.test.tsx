@@ -290,9 +290,7 @@ describe("DiscoverSection", () => {
     );
     mount("mcp", [CLAUDE]);
 
-    expect(
-      await screen.findByLabelText("Already here as my-wiki"),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("Added")).toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: "Add DeepWiki" }),
     ).not.toBeInTheDocument();

@@ -34,16 +34,12 @@ export function DiscoverAddControl({
         {label}
       </span>
     );
+    // The card's details say the same for keyboard and screen readers.
     if (!addedAs) return content;
     return (
       <Tooltip>
         <TooltipTrigger asChild>
-          <span
-            tabIndex={0}
-            aria-label={t("discover.addedAs", { name: addedAs })}
-          >
-            {content}
-          </span>
+          <span>{content}</span>
         </TooltipTrigger>
         <TooltipContent side="bottom">
           {t("discover.addedAs", { name: addedAs })}
