@@ -2,9 +2,14 @@ import {
   useProviderEditProfile,
   useProviderRuntimeContext,
   useProviders,
+  useToolModelChoice,
 } from "@/entities/provider";
 import type { Tool } from "@/entities/tool";
-import { useRecoverableProviderSwitch } from "@/features/provider-management";
+import {
+  useRecoverableProviderSwitch,
+  useSetToolEffort,
+  useSetToolModel,
+} from "@/features/provider-management";
 import {
   inUseProviderId,
   pickerProviders,
@@ -23,6 +28,9 @@ import {
  * slow login-shell probe runs once for both pages; until a fresh answer is in
  * (first load, or a re-read after a switch) the saved answer stands, and a
  * failed read never promotes stale evidence (ADR-0039).
+ *
+ * Where the tool allows it, the row also chooses the model and the thinking
+ * effort (ADR-0054); the model shown is the one in the tool's file.
  */
 export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
   const providers = useProviders(tool.id);
@@ -39,17 +47,41 @@ export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
   );
   const inUseId = inUseProviderId(connection);
   const profile = useProviderEditProfile(inUseId ? tool.id : null, inUseId);
+  const modelChoice = useToolModelChoice(
+    tool.capabilities.canChooseModel ? tool.id : null,
+  );
   const switchFlow = useRecoverableProviderSwitch(tool.id, {
     toolName: tool.name,
     onOpenTool,
   });
+  const setModel = useSetToolModel();
+  const setEffort = useSetToolEffort();
   const providerName = (id: string | undefined) =>
     providers.data?.find((provider) => provider.id === id)?.name ?? null;
+  const choice = modelChoice.data;
+
+  /**
+   * A model picked under another endpoint switches to that endpoint first and
+   * is set only once the switch has succeeded, so a silent target still
+   * changes nothing.
+   */
+  function chooseModel(providerId: string | null, model: string | null) {
+    const set = () => setModel.mutate({ tool: tool.id, providerId, model });
+    if (providerId !== null && providerId !== inUseId) {
+      switchFlow.switchProvider(providerId, set);
+      return;
+    }
+    set();
+  }
 
   return {
     connection,
     inUseId,
-    model: inUseId ? pinnedModel(profile.data) : null,
+    model: choice ? choice.model : inUseId ? pinnedModel(profile.data) : null,
+    /** The tool's own files have been read, so a missing model means its default. */
+    modelKnown: choice !== undefined,
+    choice,
+    choiceUnavailable: modelChoice.isError,
     choices: pickerProviders(providers.data, inUseId),
     // A list being re-read, or one that failed to refresh, is not a safe base
     // for choosing what to switch to.
@@ -63,7 +95,13 @@ export function useHomeToolConnection(tool: Tool, onOpenTool?: () => void) {
           error: switchFlow.switchFailure.error,
         }
       : null,
-    switchProvider: switchFlow.switchProvider,
+    switchProvider: (providerId: string) =>
+      switchFlow.switchProvider(providerId),
+    chooseModel,
+    settingModel: setModel.isPending,
+    chooseEffort: (effort: string | null) =>
+      setEffort.mutate({ tool: tool.id, effort }),
+    settingEffort: setEffort.isPending,
   };
 }
 

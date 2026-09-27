@@ -808,6 +808,11 @@
     "details": {
       "show": "자세히 보기",
       "code": "오류 코드"
+    },
+    "modelChoice": {
+      "invalid": "이 모델 이름이나 강도는 이 도구의 설정에 쓸 수 없습니다.",
+      "readFailed": "도구의 설정 파일을 읽지 못해 아무것도 바꾸지 않았습니다.",
+      "writeFailed": "도구의 설정 파일을 쓰지 못했습니다. 원본은 그대로입니다."
     }
   },
   "nav": {
@@ -1392,6 +1397,33 @@
     "refreshing": {
       "title": "홈 화면을 다시 확인하는 중",
       "description": "이 확인이 끝나면 도구 시작을 다시 사용할 수 있습니다."
+    },
+    "model": {
+      "toolDefault": "도구 기본값",
+      "loading": "모델을 불러오는 중…",
+      "pickerLabel": "{{tool}}의 엔드포인트와 모델",
+      "pickNamed": "{{tool}}이(가) 쓰는 엔드포인트와 모델: {{current}}",
+      "filter": "필터 또는 모델 이름 입력",
+      "noMatch": "일치하는 엔드포인트나 모델이 없습니다.",
+      "useTyped": "“{{model}}” 사용",
+      "more_one": "{{count}}개 더 있음, 입력해서 찾기",
+      "more_other": "{{count}}개 더 있음, 입력해서 찾기"
+    },
+    "effort": {
+      "pickerLabel": "{{tool}}의 사고 강도",
+      "pickNamed": "{{tool}}의 사고 강도: {{current}}",
+      "newSessions": "새로 여는 {{tool}} 세션부터 적용됩니다.",
+      "overrides": "{{tool}}은(는) 이 모델들에 대해 따로 저장한 강도가 있어 이 설정보다 우선합니다: {{list}}",
+      "unavailable": "읽을 수 없음",
+      "level": {
+        "none": "끔",
+        "minimal": "최소",
+        "low": "낮음",
+        "medium": "보통",
+        "high": "높음",
+        "xhigh": "매우 높음",
+        "max": "최대"
+      }
     }
   },
   "taskCenter": {

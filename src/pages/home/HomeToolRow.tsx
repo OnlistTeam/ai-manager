@@ -2,6 +2,7 @@ import { useId } from "react";
 import type { Tool, ToolId } from "@/entities/tool";
 import { ListGroupRow } from "@/shared/ui/ListGroup";
 import { ToolGlyph } from "@/shared/ui/ToolArtwork";
+import { HomeEffortPicker } from "./HomeEffortPicker";
 import { HomeServicePicker } from "./HomeServicePicker";
 import { HomeToolRowNotice } from "./HomeToolRowNotice";
 import { useHomeToolConnection } from "./useHomeToolConnection";
@@ -14,9 +15,10 @@ export interface HomeToolRowProps {
 }
 
 /**
- * One installed tool on one line: which tool, and the endpoint it uses as a
- * picker at the trailing edge. A line under it appears only when the last
- * switch from this row left something to say.
+ * One installed tool on one line: which tool, then two pickers at the
+ * trailing edge, the endpoint with its model and the thinking effort
+ * (ADR-0054). A line under it appears only when the last switch from this
+ * row left something to say.
  */
 export function HomeToolRow({
   tool,
@@ -33,7 +35,9 @@ export function HomeToolRow({
       aria-labelledby={headingId}
       aria-busy={
         connection.connection.kind === "loading" ||
-        connection.switchingName !== null
+        connection.switchingName !== null ||
+        connection.settingModel ||
+        connection.settingEffort
           ? true
           : undefined
       }
@@ -49,11 +53,20 @@ export function HomeToolRow({
         >
           {tool.name}
         </h3>
-        <HomeServicePicker
-          tool={tool}
-          connection={connection}
-          onOpenServices={openServices}
-        />
+        <div className="flex shrink-0 items-center gap-2">
+          <HomeServicePicker
+            tool={tool}
+            connection={connection}
+            onOpenServices={openServices}
+          />
+          <HomeEffortPicker
+            tool={tool}
+            choice={connection.choice}
+            unavailable={connection.choiceUnavailable}
+            busy={connection.settingEffort}
+            onChoose={connection.chooseEffort}
+          />
+        </div>
       </div>
       <HomeToolRowNotice
         connection={connection}

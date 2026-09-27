@@ -808,6 +808,11 @@
     "details": {
       "show": "Details anzeigen",
       "code": "Fehlercode"
+    },
+    "modelChoice": {
+      "invalid": "Dieser Modellname oder diese Stufe kann nicht in die Einstellungen des Tools geschrieben werden.",
+      "readFailed": "Die Einstellungsdatei des Tools konnte nicht gelesen werden, daher wurde nichts geändert.",
+      "writeFailed": "Die Einstellungsdatei des Tools konnte nicht geschrieben werden. Das Original ist unverändert."
     }
   },
   "nav": {
@@ -1392,6 +1397,33 @@
     "refreshing": {
       "title": "Startseite wird erneut geprüft",
       "description": "Das Starten von Tools wird fortgesetzt, sobald diese Prüfung abgeschlossen ist."
+    },
+    "model": {
+      "toolDefault": "Standard des Tools",
+      "loading": "Modelle werden geladen…",
+      "pickerLabel": "Endpunkte und Modelle für {{tool}}",
+      "pickNamed": "Endpunkt und Modell von {{tool}}: {{current}}",
+      "filter": "Filtern oder Modellnamen eingeben",
+      "noMatch": "Keine passenden Endpunkte oder Modelle.",
+      "useTyped": "„{{model}}“ verwenden",
+      "more_one": "{{count}} weiteres, zum Filtern tippen",
+      "more_other": "{{count}} weitere, zum Filtern tippen"
+    },
+    "effort": {
+      "pickerLabel": "Denkaufwand für {{tool}}",
+      "pickNamed": "Denkaufwand von {{tool}}: {{current}}",
+      "newSessions": "Gilt für neue {{tool}}-Sitzungen.",
+      "overrides": "{{tool}} speichert für diese Modelle eine eigene Stufe, die Vorrang hat: {{list}}",
+      "unavailable": "Nicht lesbar",
+      "level": {
+        "none": "Aus",
+        "minimal": "Minimal",
+        "low": "Niedrig",
+        "medium": "Mittel",
+        "high": "Hoch",
+        "xhigh": "Sehr hoch",
+        "max": "Maximal"
+      }
     }
   },
   "taskCenter": {

@@ -808,6 +808,11 @@
     "details": {
       "show": "Voir les détails",
       "code": "Code d'erreur"
+    },
+    "modelChoice": {
+      "invalid": "Ce nom de modèle ou ce niveau ne peut pas être écrit dans les réglages de cet outil.",
+      "readFailed": "Le fichier de réglages de l’outil n’a pas pu être lu ; rien n’a été modifié.",
+      "writeFailed": "Le fichier de réglages de l’outil n’a pas pu être écrit. L’original est inchangé."
     }
   },
   "nav": {
@@ -1392,6 +1397,33 @@
     "refreshing": {
       "title": "Nouvelle vérification de l'accueil",
       "description": "Le démarrage des outils reprendra une fois cette vérification terminée."
+    },
+    "model": {
+      "toolDefault": "Par défaut de l’outil",
+      "loading": "Chargement des modèles…",
+      "pickerLabel": "Points de terminaison et modèles de {{tool}}",
+      "pickNamed": "Point de terminaison et modèle utilisés par {{tool}} : {{current}}",
+      "filter": "Filtrer ou saisir un nom de modèle",
+      "noMatch": "Aucun point de terminaison ni modèle correspondant.",
+      "useTyped": "Utiliser « {{model}} »",
+      "more_one": "{{count}} de plus, tapez pour filtrer",
+      "more_other": "{{count}} de plus, tapez pour filtrer"
+    },
+    "effort": {
+      "pickerLabel": "Niveau de réflexion de {{tool}}",
+      "pickNamed": "Niveau de réflexion de {{tool}} : {{current}}",
+      "newSessions": "S’applique aux nouvelles sessions de {{tool}}.",
+      "overrides": "{{tool}} garde un niveau propre pour ces modèles, qui l’emporte sur celui-ci : {{list}}",
+      "unavailable": "Illisible",
+      "level": {
+        "none": "Désactivé",
+        "minimal": "Minimal",
+        "low": "Faible",
+        "medium": "Moyen",
+        "high": "Élevé",
+        "xhigh": "Très élevé",
+        "max": "Maximal"
+      }
     }
   },
   "taskCenter": {

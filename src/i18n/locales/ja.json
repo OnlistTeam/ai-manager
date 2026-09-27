@@ -808,6 +808,11 @@
     "details": {
       "show": "詳細を表示",
       "code": "エラーコード"
+    },
+    "modelChoice": {
+      "invalid": "このモデル名または深さは、このツールの設定に書き込めません。",
+      "readFailed": "ツールの設定ファイルを読み取れなかったため、何も変更していません。",
+      "writeFailed": "ツールの設定ファイルに書き込めませんでした。元のファイルは変わっていません。"
     }
   },
   "nav": {
@@ -1391,6 +1396,33 @@
     "refreshing": {
       "title": "ホームを再確認しています",
       "description": "確認が終わると、ツールの開始を再開できます。"
+    },
+    "model": {
+      "toolDefault": "ツールの既定",
+      "loading": "モデルを読み込み中…",
+      "pickerLabel": "{{tool}} のエンドポイントとモデル",
+      "pickNamed": "{{tool}} が使うエンドポイントとモデル：{{current}}",
+      "filter": "絞り込み、またはモデル名を入力",
+      "noMatch": "一致するエンドポイントやモデルはありません。",
+      "useTyped": "「{{model}}」を使う",
+      "more_one": "ほか {{count}} 件（入力で絞り込み）",
+      "more_other": "ほか {{count}} 件（入力で絞り込み）"
+    },
+    "effort": {
+      "pickerLabel": "{{tool}} の思考の深さ",
+      "pickNamed": "{{tool}} の思考の深さ：{{current}}",
+      "newSessions": "新しく開く {{tool}} のセッションから反映されます。",
+      "overrides": "{{tool}} はこれらのモデルに個別の設定を保存しており、こちらより優先されます：{{list}}",
+      "unavailable": "読み取れません",
+      "level": {
+        "none": "オフ",
+        "minimal": "最小",
+        "low": "低",
+        "medium": "中",
+        "high": "高",
+        "xhigh": "最高",
+        "max": "最大"
+      }
     }
   },
   "taskCenter": {

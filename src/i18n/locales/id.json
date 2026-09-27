@@ -808,6 +808,11 @@
     "details": {
       "show": "Lihat detail",
       "code": "Kode galat"
+    },
+    "modelChoice": {
+      "invalid": "Nama model atau tingkat ini tidak bisa ditulis ke pengaturan alat.",
+      "readFailed": "Berkas pengaturan alat tidak terbaca, jadi tidak ada yang diubah.",
+      "writeFailed": "Berkas pengaturan alat tidak bisa ditulis. Berkas aslinya tidak berubah."
     }
   },
   "nav": {
@@ -1392,6 +1397,33 @@
     "refreshing": {
       "title": "Memeriksa Beranda lagi",
       "description": "Memulai alat akan dilanjutkan setelah pemeriksaan ini selesai."
+    },
+    "model": {
+      "toolDefault": "Bawaan alat",
+      "loading": "Memuat model…",
+      "pickerLabel": "Endpoint dan model untuk {{tool}}",
+      "pickNamed": "Endpoint dan model yang dipakai {{tool}}: {{current}}",
+      "filter": "Saring, atau ketik nama model",
+      "noMatch": "Tidak ada endpoint atau model yang cocok.",
+      "useTyped": "Pakai “{{model}}”",
+      "more_one": "{{count}} lagi, ketik untuk menyaring",
+      "more_other": "{{count}} lagi, ketik untuk menyaring"
+    },
+    "effort": {
+      "pickerLabel": "Tingkat berpikir {{tool}}",
+      "pickNamed": "Tingkat berpikir {{tool}}: {{current}}",
+      "newSessions": "Berlaku untuk sesi {{tool}} yang baru.",
+      "overrides": "{{tool}} menyimpan tingkat sendiri untuk model-model ini, dan itu lebih diutamakan: {{list}}",
+      "unavailable": "Tidak terbaca",
+      "level": {
+        "none": "Mati",
+        "minimal": "Minimal",
+        "low": "Rendah",
+        "medium": "Sedang",
+        "high": "Tinggi",
+        "xhigh": "Sangat tinggi",
+        "max": "Maksimal"
+      }
     }
   },
   "taskCenter": {
