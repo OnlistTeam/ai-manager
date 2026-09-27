@@ -77,3 +77,5 @@ export type {
   OpenSkillResourceVariables,
   SetExtensionEnabledVariables,
 } from "./useExtensionMutations";
+export { ScopeToggleGroup } from "./ScopeToggleGroup";
+export type { ScopeToggleTarget } from "./ScopeToggleGroup";

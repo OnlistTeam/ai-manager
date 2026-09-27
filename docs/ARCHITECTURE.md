@@ -75,14 +75,14 @@ src/
                            settings; plus routing, usage, sessions, workspace which render only
                            inside their parent page's tabs
   features/                Product behaviors: tool-management, provider-management,
-                           extension-management, health, task-center, backup, updater,
-                           import-existing, deep-link-import, scope-memory. Each exports an
-                           index.ts
+                           extension-management, discover, health, task-center, backup,
+                           updater, import-existing, deep-link-import, scope-memory. Each
+                           exports an index.ts
   entities/                One TanStack Query module per native resource (tool, operation,
                            provider, extension, settings, backup, update, health, import, session,
                            usage, routing, prompt, skill-*, desktop-app, desktop-preferences,
-                           network-proxy, openclaw-workspace, deeplink). Query keys, options,
-                           mutations
+                           network-proxy, openclaw-workspace, deeplink, discover). Query keys,
+                           options, mutations
   native/                  The only Tauri boundary: client.ts (invokeNative), events.ts,
                            updater.ts, commands/*.ts (one file per command family), schemas/*.ts
                            (Zod wire schemas; the TypeScript twins of the Rust domain types)
@@ -113,7 +113,7 @@ src-tauri/src/
                            migration, Database::init, OperationManager, tray, updater manager) and
                            the invoke_handler registration list
   commands/                app_api.rs, app_deeplink_api.rs, app_desktop_api.rs,
-                           app_extension_edit_api.rs,
+                           app_discover_api.rs, app_extension_edit_api.rs,
                            app_network_api.rs, app_routing_api.rs,
                            app_session_api.rs, app_skill_api.rs, app_system_api.rs,
                            app_update_api.rs, app_usage_api.rs, app_workspace_api.rs: the product
@@ -124,13 +124,13 @@ src-tauri/src/
   application/             One service per use case: tool_lifecycle, tool_launch, tool_*_preview,
                            deep_link_import,
                            tool_version_*, provider_directory, provider_preflight,
-                           provider_batch_test, model_probe, extension_directory, mcp_*, skill_*,
-                           prompt_directory, product_settings, backup_*, import_existing,
+                           provider_batch_test, model_probe, extension_directory, discover/,
+                           mcp_*, skill_*, prompt_directory, product_settings, backup_*, import_existing,
                            health_check, app_update, network_proxy, desktop_*, session_directory,
                            usage_overview, routing_control, privacy_protection,
                            openclaw_workspace, reveal
   domain/                  tool, provider, provider_endpoint, provider_runtime, model_probe,
-                           extension, extension_detail, mcp, mcp_edit, prompt, skill,
+                           extension, extension_detail, discover, mcp, mcp_edit, prompt, skill,
                            operation, health, import, backup,
                            settings, session, usage, routing, desktop_app, app_update, deep_link,
                            error, message_keys
@@ -152,8 +152,8 @@ src-tauri/src/
                            live_preservation, removal, advanced, long_tail, presets),
                            provider/deep_link (link config evidence),
                            provider_endpoints, provider_runtime/ (effective), extension/ (mcp,
-                           skill, prompt), skill_catalog, health, import, settings, backup/
-                           (transfer, post_restore), backup_schedule, session, usage, routing,
+                           skill, prompt), skill_catalog, discover, health, import, settings,
+                           backup/ (transfer, post_restore), backup_schedule, session, usage, routing,
                            workspace, network_proxy, proxy_privacy, desktop_preferences, app_update,
                            tool_version_storage, paths
   (inherited)              app_config.rs, config.rs, *_config.rs, provider.rs, prompt*.rs,
@@ -284,7 +284,7 @@ Four locales (`en`, `zh`, `zh-TW`, `ja`) are loaded lazily by `src/i18n/index.ts
 default, `en` the fallback. Product copy lives in the namespaces listed in
 `tests/i18n/messageKeys.test.ts` (`PRODUCT_NAMESPACES`: `error`, `operation`, `nav`, `tool`,
 `tools`, `home`, `taskCenter`, `services`, `extensions`, `routing`, `usage`,
-`sessions`, `preferences`, `data`). Inherited namespaces are not held to the same guarantees.
+`sessions`, `preferences`, `data`, `discover`). Inherited namespaces are not held to the same guarantees.
 
 Guards:
 
@@ -583,7 +583,7 @@ references; bodies are read only after explicit selection and under byte limits;
 argv on the backend and hands it to the terminal launcher. Local context items report path and
 size; the prompt item defers to the extensions page when `canManagePrompts` is true (ADR-0037).
 
-### 6.6 Extensions (ADR-0014, ADR-0022, ADR-0037, ADR-0047, ADR-0062)
+### 6.6 Extensions (ADR-0014, ADR-0022, ADR-0037, ADR-0047, ADR-0062, ADR-0063)
 
 `ExtensionStore` projects MCP servers, Skills, and Prompts into one `Extension` shape per
 `(tool, kind)` scope without configuration payloads. Guided MCP installation accepts a strict
@@ -599,6 +599,14 @@ the facade (relative paths, `${…}` references a tool does not expand, a SKILL.
 tool's home folder). A saved MCP connection is edited in place: `app_mcp_get` returns an outbound
 `McpEditForm` (not `Debug`), `app_mcp_update` validates the ordinary draft, merges it into the
 stored spec, keeps every app flag, and rewrites the enabled apps through `upsert_server`.
+
+The Discover section below the Skills and MCP lists (`features/discover`,
+`application/discover/`, ADR-0063) reads a featured server list kept in the product, the MCP
+Registry and skills.sh through the product's outbound client, and decides natively what is already
+added. The renderer sends an item id, typed values and the chosen apps; native builds the guided MCP
+draft or resolves the Skill's folder in its repository and runs the same installation services,
+then switches the item on for the other apps in the same task. Pictures come back as `data:` URLs
+and only for addresses the section itself handed out.
 
 ### 6.7 Backups, transfer, and import (ADR-0002, ADR-0030)
 
@@ -690,7 +698,7 @@ upstream, and reqwest would otherwise route those requests through the system pr
 Assertions that must be updated deliberately when the surface changes:
 
 - `src-tauri/src/domain/message_keys.rs`: `USER_FACING_MESSAGE_KEYS` is sorted, duplicate-free,
-  and its length is asserted (currently 316). Adding a key means adding it in all four locales.
+  and its length is asserted (currently 357). Adding a key means adding it in all four locales.
 - `scripts/product-native-shell.node.mjs`: the registered command set must equal the set of
   commands the renderer invokes; the window, CSP, and capability contracts are asserted there too.
 - `scripts/product-entry.node.mjs`: the six lazily loaded page chunks and the absence of merged

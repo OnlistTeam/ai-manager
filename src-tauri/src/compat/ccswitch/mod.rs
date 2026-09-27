@@ -2,6 +2,7 @@ pub mod app_update;
 pub mod backup;
 pub mod backup_schedule;
 pub mod desktop_preferences;
+pub mod discover;
 pub mod extension;
 pub mod health;
 pub mod import;

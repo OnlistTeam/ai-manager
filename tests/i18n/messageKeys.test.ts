@@ -40,6 +40,7 @@ const PRODUCT_NAMESPACES = [
   "about",
   "data",
   "deeplink",
+  "discover",
 ] as const;
 
 /** Keys produced by src/native itself — invisible to the Rust registry, but still visible to the user. */

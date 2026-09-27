@@ -516,6 +516,24 @@
       "readFailed": "AI Manager could not read the desktop preferences on this computer.",
       "saveFailed": "AI Manager could not apply the desktop preferences safely."
     },
+    "discover": {
+      "alreadyAdded": "This server is already set up here.",
+      "enableFailed": "It was added, but couldn't be turned on for every app you chose.",
+      "iconRefused": "That picture can't be loaded.",
+      "iconUnavailable": "The picture couldn't be loaded.",
+      "inputInvalid": "The form holds a value this server doesn't use. Open it again and retry.",
+      "inputRequired": "Fill in every required field first.",
+      "linkUnavailable": "There's no page to open for this item.",
+      "openLinkFailed": "The page couldn't be opened in your browser.",
+      "queryInvalid": "Shorten the search and try again.",
+      "registryUnreachable": "Couldn't reach the MCP Registry, so only hand-picked servers are shown.",
+      "serverUnknown": "This server is no longer in the results. Search for it again.",
+      "skillInvalid": "This Skill's address isn't valid.",
+      "skillMissing": "The Skill is no longer in its repository.",
+      "skillsUnreachable": "Couldn't reach skills.sh, so the last list we have is shown.",
+      "targetsInvalid": "Choose at least one app that can use it.",
+      "transportUnsupported": "One of the chosen apps can't connect to this kind of server."
+    },
     "extension": {
       "adoptFailed": "AI Manager could not take this extension over.",
       "adoptUnsupported": "This kind of extension cannot be added from an existing local copy.",
@@ -3053,6 +3071,102 @@
     "toast": {
       "imported_one": "Added 1 item.",
       "imported_other": "Added {{count}} items."
+    }
+  },
+  "discover": {
+    "title": "Discover",
+    "source": {
+      "mcp": "Hand-picked servers; searches also cover the MCP Registry",
+      "skill": "Most installed on skills.sh"
+    },
+    "results_one": "{{count}} result",
+    "results_other": "{{count}} results",
+    "search": {
+      "mcp": "Search MCP servers",
+      "mcpPlaceholder": "GitHub, Postgres, browser…",
+      "skill": "Search Skills",
+      "skillPlaceholder": "pdf, testing, React…"
+    },
+    "loading": "Loading suggestions…",
+    "empty": "Nothing to suggest right now.",
+    "noMatch": "Nothing matches “{{query}}”.",
+    "details": "Details for {{name}}",
+    "add": "Add",
+    "addWithDetails": "Add…",
+    "addNamed": "Add {{name}}",
+    "adding": "Adding…",
+    "added": "Added",
+    "addedAs": "Already here as {{name}}",
+    "addFailed": "{{name}} wasn't added. {{reason}}",
+    "runs": {
+      "local": "Local",
+      "npx": "Local · npx",
+      "uvx": "Local · uvx",
+      "docker": "Local · Docker",
+      "remote": "Remote",
+      "signIn": "Remote · sign-in"
+    },
+    "needs": "Needs {{what, list}}",
+    "installs": "{{value}} installs",
+    "official": "Official",
+    "officialHint": "Published by the team that makes it",
+    "homepage": "Homepage",
+    "skillsPage": "skills.sh page",
+    "repository": "Source on GitHub",
+    "signIn": "The first time an app uses this server, it opens your browser so you can sign in.",
+    "describing": "Reading the description…",
+    "noDescription": "No description yet.",
+    "input": {
+      "apiKey": "API key",
+      "accessToken": "Access token",
+      "folder": "Folder",
+      "folderHint": "The folder this server may read and change.",
+      "site": "Get one at {{site}}",
+      "env": "Saved as {{key}}",
+      "header": "Sent as the {{key}} header",
+      "argument": "Passed to the server when it starts",
+      "optional": "{{label}} (optional)",
+      "missing": "Fill in {{label}} to continue."
+    },
+    "apps": {
+      "label": "Use in",
+      "none": "Turn on at least one app.",
+      "unreachable": "Can't run this server: {{tools, list}}"
+    },
+    "sheet": {
+      "cancel": "Cancel",
+      "close": "Close",
+      "confirm": "Add"
+    },
+    "mcp": {
+      "featured": {
+        "context7": "Looks up current library docs and examples, so answers match the version you use.",
+        "playwright": "A real browser your AI can steer: open pages, fill in forms, read what's on screen.",
+        "chrome-devtools": "Debug in your own Chrome: read the console, watch requests, record performance, take screenshots.",
+        "github": "Work with repositories, issues, pull requests and Actions without leaving the chat.",
+        "deepwiki": "Answers questions about public GitHub projects from their generated documentation.",
+        "exa": "Searches the web and code, and returns clean page text your AI can read.",
+        "filesystem": "Reads and edits files, but only inside the folders you choose.",
+        "fetch": "Turns a web page into Markdown your AI can read.",
+        "memory": "Keeps notes as a knowledge graph that lasts from one chat to the next.",
+        "sequential-thinking": "Helps your AI split a hard problem into steps and revise them as it goes.",
+        "git": "Browse history, diffs and branches, and make commits in local repositories.",
+        "time": "Tells the time in any time zone and converts between zones.",
+        "sentry": "Brings in Sentry errors and traces, with the analysis behind them.",
+        "linear": "Look up and update Linear issues, projects and comments.",
+        "notion": "Search and edit the pages and databases in your Notion workspace.",
+        "atlassian": "Reads and updates Jira issues and Confluence pages.",
+        "supabase": "Run SQL, change tables and read logs in your Supabase projects.",
+        "stripe": "Look up customers, payments and subscriptions, and search Stripe's docs.",
+        "vercel": "Check projects, deployments and logs on Vercel.",
+        "neon": "Create branches and run SQL on Neon's serverless Postgres.",
+        "cloudflare-docs": "Searches Cloudflare's developer documentation.",
+        "microsoft-learn": "Searches official Microsoft and Azure docs and code samples.",
+        "huggingface": "Find models, datasets, Spaces and papers on Hugging Face.",
+        "brave-search": "Web, news and image search from Brave's own index.",
+        "firecrawl": "Scrapes and crawls websites into clean Markdown.",
+        "tavily": "Web search and page extraction built for AI tools."
+      }
     }
   }
 }

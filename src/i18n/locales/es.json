@@ -516,6 +516,24 @@
       "readFailed": "AI Manager no pudo leer las preferencias de escritorio de este equipo.",
       "saveFailed": "AI Manager no pudo aplicar las preferencias de escritorio de forma segura."
     },
+    "discover": {
+      "alreadyAdded": "Este servidor ya está configurado aquí.",
+      "enableFailed": "Se añadió, pero no se pudo activar en todas las apps elegidas.",
+      "iconRefused": "Esa imagen no se puede cargar.",
+      "iconUnavailable": "No se pudo cargar la imagen.",
+      "inputInvalid": "El formulario tiene un valor que este servidor no usa. Ábrelo de nuevo y vuelve a intentarlo.",
+      "inputRequired": "Rellena primero todos los campos obligatorios.",
+      "linkUnavailable": "Este elemento no tiene ninguna página que abrir.",
+      "openLinkFailed": "No se pudo abrir la página en el navegador.",
+      "queryInvalid": "Acorta la búsqueda y vuelve a intentarlo.",
+      "registryUnreachable": "No se pudo conectar con el MCP Registry; solo se muestran los servidores seleccionados.",
+      "serverUnknown": "Este servidor ya no está en los resultados. Vuelve a buscarlo.",
+      "skillInvalid": "La dirección de este Skill no es válida.",
+      "skillMissing": "El Skill ya no está en su repositorio.",
+      "skillsUnreachable": "No se pudo conectar con skills.sh; se muestra la última lista disponible.",
+      "targetsInvalid": "Elige al menos una app que pueda usarlo.",
+      "transportUnsupported": "Una de las apps elegidas no puede conectarse a este tipo de servidor."
+    },
     "extension": {
       "adoptFailed": "AI Manager no pudo añadir las extensiones encontradas de forma segura.",
       "adoptUnsupported": "Este tipo de extensión no se puede añadir desde una copia local existente.",
@@ -3053,6 +3071,102 @@
     "toast": {
       "imported_one": "Se añadió 1 elemento.",
       "imported_other": "Se añadieron {{count}} elementos."
+    }
+  },
+  "discover": {
+    "title": "Descubrir",
+    "source": {
+      "mcp": "Servidores seleccionados; al buscar, también el MCP Registry",
+      "skill": "Los más instalados en skills.sh"
+    },
+    "results_one": "{{count}} resultado",
+    "results_other": "{{count}} resultados",
+    "search": {
+      "mcp": "Buscar servidores MCP",
+      "mcpPlaceholder": "GitHub, Postgres, navegador…",
+      "skill": "Buscar Skills",
+      "skillPlaceholder": "pdf, pruebas, React…"
+    },
+    "loading": "Cargando sugerencias…",
+    "empty": "Ahora mismo no hay nada que sugerir.",
+    "noMatch": "Nada coincide con «{{query}}».",
+    "details": "Detalles de {{name}}",
+    "add": "Añadir",
+    "addWithDetails": "Añadir…",
+    "addNamed": "Añadir {{name}}",
+    "adding": "Añadiendo…",
+    "added": "Añadido",
+    "addedAs": "Ya está aquí como {{name}}",
+    "addFailed": "{{name}} no se añadió. {{reason}}",
+    "runs": {
+      "local": "Local",
+      "npx": "Local · npx",
+      "uvx": "Local · uvx",
+      "docker": "Local · Docker",
+      "remote": "Remoto",
+      "signIn": "Remoto · inicio de sesión"
+    },
+    "needs": "Necesita {{what, list}}",
+    "installs": "{{value}} instalaciones",
+    "official": "Oficial",
+    "officialHint": "Publicado por el equipo que lo desarrolla",
+    "homepage": "Sitio web",
+    "skillsPage": "Página en skills.sh",
+    "repository": "Código en GitHub",
+    "signIn": "La primera vez que una app use este servidor, se abrirá el navegador para iniciar sesión.",
+    "describing": "Leyendo la descripción…",
+    "noDescription": "Todavía no hay descripción.",
+    "input": {
+      "apiKey": "Clave de API",
+      "accessToken": "Token de acceso",
+      "folder": "Carpeta",
+      "folderHint": "La carpeta que este servidor puede leer y modificar.",
+      "site": "Consíguela en {{site}}",
+      "env": "Se guarda como {{key}}",
+      "header": "Se envía como la cabecera {{key}}",
+      "argument": "Se le pasa al servidor al arrancar",
+      "optional": "{{label}} (opcional)",
+      "missing": "Rellena {{label}} para continuar."
+    },
+    "apps": {
+      "label": "Usar en",
+      "none": "Activa al menos una app.",
+      "unreachable": "No pueden ejecutar este servidor: {{tools, list}}"
+    },
+    "sheet": {
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "confirm": "Añadir"
+    },
+    "mcp": {
+      "featured": {
+        "context7": "Consulta documentación y ejemplos actuales de bibliotecas para que las respuestas encajen con tu versión.",
+        "playwright": "Un navegador real que tu IA maneja: abre páginas, rellena formularios y lee lo que hay en pantalla.",
+        "chrome-devtools": "Depura en tu propio Chrome: consola, peticiones de red, rendimiento y capturas.",
+        "github": "Trabaja con repositorios, issues, pull requests y Actions sin salir del chat.",
+        "deepwiki": "Responde preguntas sobre proyectos públicos de GitHub a partir de su documentación generada.",
+        "exa": "Busca en la web y en código, y devuelve texto limpio que tu IA puede leer.",
+        "filesystem": "Lee y edita archivos, pero solo dentro de las carpetas que elijas.",
+        "fetch": "Convierte una página web en Markdown que tu IA puede leer.",
+        "memory": "Guarda notas en un grafo de conocimiento que se mantiene de un chat a otro.",
+        "sequential-thinking": "Ayuda a tu IA a dividir un problema difícil en pasos y corregirlos sobre la marcha.",
+        "git": "Revisa historial, diferencias y ramas, y haz commits en repositorios locales.",
+        "time": "Da la hora en cualquier zona horaria y convierte entre zonas.",
+        "sentry": "Trae errores y trazas de Sentry, junto con su análisis.",
+        "linear": "Busca y actualiza issues, proyectos y comentarios de Linear.",
+        "notion": "Busca y edita las páginas y bases de datos de tu espacio de Notion.",
+        "atlassian": "Lee y actualiza issues de Jira y páginas de Confluence.",
+        "supabase": "Ejecuta SQL, cambia tablas y lee registros en tus proyectos de Supabase.",
+        "stripe": "Consulta clientes, pagos y suscripciones, y busca en la documentación de Stripe.",
+        "vercel": "Revisa proyectos, despliegues y registros en Vercel.",
+        "neon": "Crea ramas y ejecuta SQL en el Postgres sin servidor de Neon.",
+        "cloudflare-docs": "Busca en la documentación para desarrolladores de Cloudflare.",
+        "microsoft-learn": "Busca en la documentación oficial y ejemplos de Microsoft y Azure.",
+        "huggingface": "Encuentra modelos, conjuntos de datos, Spaces y artículos en Hugging Face.",
+        "brave-search": "Búsqueda web, de noticias e imágenes con el índice propio de Brave.",
+        "firecrawl": "Extrae y rastrea sitios web y los convierte en Markdown limpio.",
+        "tavily": "Búsqueda web y extracción de texto pensadas para herramientas de IA."
+      }
     }
   }
 }

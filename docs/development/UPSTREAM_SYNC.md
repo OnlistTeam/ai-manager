@@ -33,6 +33,15 @@ the file comes back from `upstream/main` as a new product-owned module.
 
 ## This round: upstream sync audit (db41d701..06082e18)
 
+### Product follow-up: Discover matches found Skills by source (2026-09-27)
+
+ADR-0063 widens visibility only, in `services/skill.rs`: `parse_agents_lock`,
+`LockRepoInfo` and its `owner` / `repo` fields are `pub(crate)`, so
+`compat/ccswitch/discover.rs` can tell which repository a found Skill came
+from. `download_repo`, `scan_dir_recursive` and `SkillRepoDelivery` were
+already `pub(crate)`. When syncing `services/skill.rs`, keep the four
+prefixes; no behaviour changed.
+
 ### Product follow-up: per-tool routing (2026-09-27)
 
 ADR-0054 changes no inherited proxy file. `lib.rs` startup recovery and exit

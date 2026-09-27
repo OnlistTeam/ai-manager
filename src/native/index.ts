@@ -3,6 +3,7 @@ import { backup, backupSchedule } from "./commands/backup";
 import { deepLink } from "./commands/deeplink";
 import { desktopApps } from "./commands/desktopApps";
 import { desktopPreferences } from "./commands/desktopPreferences";
+import { discover } from "./commands/discover";
 import { extensions } from "./commands/extensions";
 import { health } from "./commands/health";
 import { importExisting } from "./commands/import";
@@ -28,6 +29,7 @@ export const native = {
   deepLink,
   desktopApps,
   desktopPreferences,
+  discover,
   tools,
   operations,
   providers,
@@ -538,3 +540,21 @@ export type {
   UsageSyncSummary,
   UsageToolBreakdown,
 } from "./schemas/usage";
+export type { DiscoverMcpInstall } from "./commands/discover";
+export {
+  discoverMcpListSchema,
+  discoverSkillListSchema,
+} from "./schemas/discover";
+export type {
+  DiscoverInput,
+  DiscoverInputKind,
+  DiscoverInputValue,
+  DiscoverLink,
+  DiscoverMcpList,
+  DiscoverMcpReach,
+  DiscoverMcpServer,
+  DiscoverRunner,
+  DiscoverSkill,
+  DiscoverSkillList,
+  DiscoverTransport,
+} from "./schemas/discover";

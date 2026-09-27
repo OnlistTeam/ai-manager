@@ -516,6 +516,24 @@
       "readFailed": "AI Manager tidak dapat membaca preferensi desktop di komputer ini.",
       "saveFailed": "AI Manager tidak dapat menerapkan preferensi desktop dengan aman."
     },
+    "discover": {
+      "alreadyAdded": "Server ini sudah diatur di sini.",
+      "enableFailed": "Sudah ditambahkan, tetapi tidak bisa diaktifkan di semua aplikasi yang dipilih.",
+      "iconRefused": "Gambar itu tidak bisa dimuat.",
+      "iconUnavailable": "Gambar tidak dapat dimuat.",
+      "inputInvalid": "Formulir berisi nilai yang tidak dipakai server ini. Buka lagi dan coba ulang.",
+      "inputRequired": "Isi dulu semua kolom wajib.",
+      "linkUnavailable": "Tidak ada halaman yang bisa dibuka untuk item ini.",
+      "openLinkFailed": "Halaman tidak bisa dibuka di browser.",
+      "queryInvalid": "Persingkat pencarian lalu coba lagi.",
+      "registryUnreachable": "MCP Registry tidak dapat dijangkau, jadi hanya server pilihan yang ditampilkan.",
+      "serverUnknown": "Server ini tidak ada lagi di hasil. Cari lagi.",
+      "skillInvalid": "Alamat Skill ini tidak valid.",
+      "skillMissing": "Skill ini sudah tidak ada di repositorinya.",
+      "skillsUnreachable": "skills.sh tidak dapat dijangkau, jadi daftar terakhir yang tersimpan ditampilkan.",
+      "targetsInvalid": "Pilih setidaknya satu aplikasi yang bisa memakainya.",
+      "transportUnsupported": "Salah satu aplikasi yang dipilih tidak bisa terhubung ke jenis server ini."
+    },
     "extension": {
       "adoptFailed": "AI Manager tidak dapat menambahkan ekstensi yang ditemukan dengan aman.",
       "adoptUnsupported": "Jenis ekstensi ini tidak dapat ditambahkan dari salinan lokal yang sudah ada.",
@@ -3052,6 +3070,102 @@
     "toast": {
       "imported_one": "1 item ditambahkan.",
       "imported_other": "{{count}} item ditambahkan."
+    }
+  },
+  "discover": {
+    "title": "Jelajahi",
+    "source": {
+      "mcp": "Server pilihan; pencarian juga mencakup MCP Registry",
+      "skill": "Paling banyak dipasang di skills.sh"
+    },
+    "results_one": "{{count}} hasil",
+    "results_other": "{{count}} hasil",
+    "search": {
+      "mcp": "Cari server MCP",
+      "mcpPlaceholder": "GitHub, Postgres, browser…",
+      "skill": "Cari Skill",
+      "skillPlaceholder": "pdf, pengujian, React…"
+    },
+    "loading": "Memuat saran…",
+    "empty": "Belum ada yang bisa disarankan.",
+    "noMatch": "Tidak ada yang cocok dengan “{{query}}”.",
+    "details": "Detail {{name}}",
+    "add": "Tambah",
+    "addWithDetails": "Tambah…",
+    "addNamed": "Tambah {{name}}",
+    "adding": "Menambahkan…",
+    "added": "Ditambahkan",
+    "addedAs": "Sudah ada dengan nama {{name}}",
+    "addFailed": "{{name}} tidak ditambahkan. {{reason}}",
+    "runs": {
+      "local": "Lokal",
+      "npx": "Lokal · npx",
+      "uvx": "Lokal · uvx",
+      "docker": "Lokal · Docker",
+      "remote": "Jarak jauh",
+      "signIn": "Jarak jauh · masuk"
+    },
+    "needs": "Perlu {{what, list}}",
+    "installs": "{{value}} pemasangan",
+    "official": "Resmi",
+    "officialHint": "Diterbitkan oleh tim yang membuatnya",
+    "homepage": "Situs web",
+    "skillsPage": "Halaman skills.sh",
+    "repository": "Kode sumber di GitHub",
+    "signIn": "Saat sebuah aplikasi pertama kali memakai server ini, browser akan terbuka agar Anda bisa masuk.",
+    "describing": "Membaca deskripsi…",
+    "noDescription": "Belum ada deskripsi.",
+    "input": {
+      "apiKey": "Kunci API",
+      "accessToken": "Token akses",
+      "folder": "Folder",
+      "folderHint": "Folder yang boleh dibaca dan diubah oleh server ini.",
+      "site": "Dapatkan di {{site}}",
+      "env": "Disimpan sebagai {{key}}",
+      "header": "Dikirim sebagai header {{key}}",
+      "argument": "Diberikan ke server saat dijalankan",
+      "optional": "{{label}} (opsional)",
+      "missing": "Isi {{label}} untuk melanjutkan."
+    },
+    "apps": {
+      "label": "Gunakan di",
+      "none": "Aktifkan setidaknya satu aplikasi.",
+      "unreachable": "Tidak bisa menjalankan server ini: {{tools, list}}"
+    },
+    "sheet": {
+      "cancel": "Batal",
+      "close": "Tutup",
+      "confirm": "Tambah"
+    },
+    "mcp": {
+      "featured": {
+        "context7": "Mencari dokumentasi dan contoh pustaka terbaru agar jawaban sesuai versi yang Anda pakai.",
+        "playwright": "Browser sungguhan yang dikendalikan AI Anda: membuka halaman, mengisi formulir, membaca layar.",
+        "chrome-devtools": "Debug di Chrome Anda sendiri: konsol, permintaan jaringan, performa, tangkapan layar.",
+        "github": "Kelola repositori, issue, pull request, dan Actions tanpa meninggalkan obrolan.",
+        "deepwiki": "Menjawab pertanyaan tentang proyek GitHub publik dari dokumentasi yang dibuat otomatis.",
+        "exa": "Mencari di web dan kode, lalu mengembalikan teks bersih yang bisa dibaca AI Anda.",
+        "filesystem": "Membaca dan mengedit file, tetapi hanya di folder yang Anda pilih.",
+        "fetch": "Mengubah halaman web menjadi Markdown yang bisa dibaca AI Anda.",
+        "memory": "Menyimpan catatan sebagai graf pengetahuan yang bertahan dari satu obrolan ke obrolan lain.",
+        "sequential-thinking": "Membantu AI Anda memecah masalah sulit menjadi langkah dan merevisinya sambil jalan.",
+        "git": "Lihat riwayat, perbedaan, dan branch, serta buat commit di repositori lokal.",
+        "time": "Memberi tahu waktu di zona waktu mana pun dan mengonversi antarzona.",
+        "sentry": "Mengambil error dan trace dari Sentry beserta analisisnya.",
+        "linear": "Cari dan perbarui issue, proyek, dan komentar di Linear.",
+        "notion": "Cari dan edit halaman serta database di workspace Notion Anda.",
+        "atlassian": "Membaca dan memperbarui issue Jira dan halaman Confluence.",
+        "supabase": "Jalankan SQL, ubah tabel, dan baca log di proyek Supabase Anda.",
+        "stripe": "Cari pelanggan, pembayaran, dan langganan, serta telusuri dokumentasi Stripe.",
+        "vercel": "Periksa proyek, deployment, dan log di Vercel.",
+        "neon": "Buat branch dan jalankan SQL di Postgres serverless milik Neon.",
+        "cloudflare-docs": "Menelusuri dokumentasi pengembang Cloudflare.",
+        "microsoft-learn": "Menelusuri dokumentasi resmi dan contoh kode Microsoft dan Azure.",
+        "huggingface": "Temukan model, dataset, Spaces, dan makalah di Hugging Face.",
+        "brave-search": "Pencarian web, berita, dan gambar dari indeks milik Brave sendiri.",
+        "firecrawl": "Mengambil dan menjelajahi situs web menjadi Markdown yang bersih.",
+        "tavily": "Pencarian web dan ekstraksi konten yang dibuat untuk alat AI."
+      }
     }
   }
 }

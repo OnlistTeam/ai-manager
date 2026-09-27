@@ -6,6 +6,7 @@ import type { ExtensionKind } from "@/entities/extension";
 import { scopeTabId } from "@/shared/ui/ScopeTabs";
 import { SectionHeader } from "@/shared/ui/SectionHeader";
 import { OpenClawWorkspacePage } from "@/pages/workspace";
+import { DiscoverSection } from "@/features/discover";
 import { ExtensionsDialogs } from "./ExtensionsDialogs";
 import { ExtensionsHeaderActions } from "./ExtensionsHeaderActions";
 import {
@@ -87,6 +88,15 @@ export function ExtensionsPage({
     skillUpdates,
     mutationsBlocked,
   } = useExtensionsInventory(scope, preferredScope, toolActionsBlocked);
+  // Discover sits below the one-list kinds; each app that takes the kind can
+  // be given what it finds (ADR-0063).
+  const discoverKind =
+    unifiedLayout && (activeKind === "skill" || activeKind === "mcp")
+      ? activeKind
+      : null;
+  const discoverTargets = scope.scopedTargets.filter(
+    (target) => target.supported,
+  );
 
   return (
     <div
@@ -176,6 +186,17 @@ export function ExtensionsPage({
               skillUpdates={skillUpdates}
               actionsBlocked={toolActionsBlocked}
               dialogs={dialogs}
+            />
+          ) : null}
+
+          {toolDataAvailable &&
+          discoverKind !== null &&
+          discoverTargets.length > 0 ? (
+            <DiscoverSection
+              key={discoverKind}
+              kind={discoverKind}
+              targets={discoverTargets}
+              blocked={mutationsBlocked}
             />
           ) : null}
 

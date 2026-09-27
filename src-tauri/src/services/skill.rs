@@ -462,9 +462,9 @@ struct AgentsLockSkill {
 }
 
 #[derive(Debug, Clone)]
-struct LockRepoInfo {
-    owner: String,
-    repo: String,
+pub(crate) struct LockRepoInfo {
+    pub(crate) owner: String,
+    pub(crate) repo: String,
     skill_path: Option<String>,
     branch: Option<String>,
 }
@@ -532,7 +532,7 @@ fn get_agents_skills_dir() -> Option<PathBuf> {
 }
 
 /// Parse `~/.agents/.skill-lock.json` and return skill_name -> repository info
-fn parse_agents_lock() -> HashMap<String, LockRepoInfo> {
+pub(crate) fn parse_agents_lock() -> HashMap<String, LockRepoInfo> {
     let path = crate::config::get_home_dir()
         .join(".agents")
         .join(".skill-lock.json");

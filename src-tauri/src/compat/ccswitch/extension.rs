@@ -16,7 +16,7 @@
 //! and the submodules only call the constructors here.
 
 mod location;
-mod mcp;
+pub(super) mod mcp;
 pub use location::{describe_location, location_path};
 mod prompt;
 mod skill;
