@@ -2254,12 +2254,11 @@
   },
   "routing": {
     "title": "Routage local",
-    "description": "Choisissez quels outils envoient leurs requêtes via AI Manager. Chaque requête s'affiche ci-dessous au moment où elle passe.",
+    "description": "Une fois activé, les requêtes d'un outil passent par AI Manager avant d'atteindre son point de terminaison actuel. S'il échoue, le suivant prend le relais, et chaque requête s'affiche ci-dessous.",
     "summary": {
       "inactive": "Aucun outil ne passe par AI Manager. Chacun garde sa propre connexion.",
       "needsRestore": "Le routage est arrêté, mais les outils pointent encore vers lui. Restaurez leurs paramètres."
     },
-    "refresh": "Actualiser l'état",
     "loading": "Chargement du routage local",
     "hero": {
       "running": "Le routage est en cours",

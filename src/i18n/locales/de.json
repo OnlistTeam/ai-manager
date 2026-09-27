@@ -2254,12 +2254,11 @@
   },
   "routing": {
     "title": "Lokales Routing",
-    "description": "Wähle, welche Tools ihre Anfragen über AI Manager senden. Jede Anfrage erscheint unten, sobald sie passiert.",
+    "description": "Wenn eingeschaltet, laufen die Anfragen eines Tools über AI Manager zu seinem aktuellen Endpunkt. Fällt dieser aus, übernimmt der nächste, und jede Anfrage erscheint unten.",
     "summary": {
       "inactive": "Kein Tool läuft über AI Manager. Jedes behält seine eigene Verbindung.",
       "needsRestore": "Routing wurde gestoppt, Tools zeigen aber noch darauf. Stellen Sie ihre Einstellungen wieder her."
     },
-    "refresh": "Status aktualisieren",
     "loading": "Lokales Routing wird geladen",
     "hero": {
       "running": "Routing läuft",

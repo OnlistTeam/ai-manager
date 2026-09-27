@@ -2254,12 +2254,11 @@
   },
   "routing": {
     "title": "Định tuyến cục bộ",
-    "description": "Chọn công cụ nào gửi yêu cầu qua AI Manager. Mỗi yêu cầu hiện ở bên dưới ngay khi diễn ra.",
+    "description": "Khi bật, yêu cầu của công cụ đi qua AI Manager trước khi tới endpoint hiện tại. Nếu endpoint đó lỗi, endpoint tiếp theo sẽ thay thế, và mỗi yêu cầu hiện ở bên dưới.",
     "summary": {
       "inactive": "Không có công cụ nào đi qua AI Manager. Mỗi công cụ giữ kết nối riêng.",
       "needsRestore": "Định tuyến đã dừng, nhưng các công cụ vẫn trỏ đến đó. Hãy khôi phục cấu hình của chúng."
     },
-    "refresh": "Làm mới trạng thái",
     "loading": "Đang tải định tuyến cục bộ",
     "hero": {
       "running": "Định tuyến đang chạy",

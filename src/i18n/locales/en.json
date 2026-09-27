@@ -2254,12 +2254,11 @@
   },
   "routing": {
     "title": "Local Routing",
-    "description": "Choose which tools send their requests through AI Manager. Each request shows up below as it happens.",
+    "description": "When on, a tool's requests pass through AI Manager on the way to its current endpoint. If that endpoint fails, the next one takes over, and each request shows up below.",
     "summary": {
       "inactive": "No tool goes through AI Manager. Each keeps its own connection.",
       "needsRestore": "Routing stopped, but tools still point to it. Restore their settings."
     },
-    "refresh": "Refresh status",
     "loading": "Loading local routing",
     "hero": {
       "running": "Routing is running",

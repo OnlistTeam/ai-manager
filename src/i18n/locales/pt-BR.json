@@ -2254,12 +2254,11 @@
   },
   "routing": {
     "title": "Roteamento local",
-    "description": "Escolha quais ferramentas enviam as solicitações pelo AI Manager. Cada solicitação aparece abaixo assim que acontece.",
+    "description": "Quando ativado, as solicitações da ferramenta passam pelo AI Manager a caminho do endpoint atual. Se esse endpoint falhar, o próximo assume, e cada solicitação aparece abaixo.",
     "summary": {
       "inactive": "Nenhuma ferramenta passa pelo AI Manager. Cada uma mantém a própria conexão.",
       "needsRestore": "O roteamento parou, mas as ferramentas ainda apontam para ele. Restaure suas configurações."
     },
-    "refresh": "Atualizar status",
     "loading": "Carregando roteamento local",
     "hero": {
       "running": "O roteamento está em execução",

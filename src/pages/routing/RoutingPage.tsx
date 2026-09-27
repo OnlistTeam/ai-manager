@@ -1,4 +1,4 @@
-import { AlertCircle, RefreshCw, Route } from "lucide-react";
+import { AlertCircle, Route } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useRoutingOverview } from "@/entities/routing";
@@ -44,20 +44,6 @@ export function RoutingPage({ onOpenPrivacySettings }: RoutingPageProps) {
         as="h2"
         title={t("routing.title")}
         description={t("routing.description")}
-        action={
-          overview.data ? (
-            <Button
-              size="sm"
-              variant="secondary"
-              loading={overview.isFetching}
-              disabled={actions.busy}
-              onClick={() => void overview.refetch()}
-            >
-              <RefreshCw className="h-4 w-4" aria-hidden="true" />
-              {t("routing.refresh")}
-            </Button>
-          ) : null
-        }
       />
 
       {initiallyLoading ? (

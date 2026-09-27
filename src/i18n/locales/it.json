@@ -2254,12 +2254,11 @@
   },
   "routing": {
     "title": "Instradamento locale",
-    "description": "Scegli quali strumenti inviano le richieste tramite AI Manager. Ogni richiesta compare qui sotto mentre avviene.",
+    "description": "Se attivo, le richieste di uno strumento passano da AI Manager prima di arrivare al suo endpoint attuale. Se l'endpoint non risponde subentra il successivo, e ogni richiesta compare qui sotto.",
     "summary": {
       "inactive": "Nessuno strumento passa da AI Manager. Ognuno mantiene la propria connessione.",
       "needsRestore": "L'instradamento è stato interrotto, ma gli strumenti puntano ancora a esso. Ripristina le loro impostazioni."
     },
-    "refresh": "Aggiorna stato",
     "loading": "Caricamento dell'instradamento locale",
     "hero": {
       "running": "L'instradamento è in esecuzione",

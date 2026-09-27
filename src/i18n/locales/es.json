@@ -2254,12 +2254,11 @@
   },
   "routing": {
     "title": "Enrutamiento local",
-    "description": "Elige qué herramientas envían sus solicitudes a través de AI Manager. Cada solicitud aparece abajo en cuanto ocurre.",
+    "description": "Al activarlo, las solicitudes de la herramienta pasan por AI Manager camino de su endpoint actual. Si ese endpoint falla, el siguiente toma el relevo, y cada solicitud aparece abajo.",
     "summary": {
       "inactive": "Ninguna herramienta pasa por AI Manager. Cada una mantiene su propia conexión.",
       "needsRestore": "El enrutamiento se detuvo, pero las herramientas aún apuntan a él. Restaura su configuración."
     },
-    "refresh": "Actualizar estado",
     "loading": "Cargando enrutamiento local",
     "hero": {
       "running": "El enrutamiento está en ejecución",

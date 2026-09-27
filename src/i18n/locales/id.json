@@ -2254,12 +2254,11 @@
   },
   "routing": {
     "title": "Perutean Lokal",
-    "description": "Pilih alat mana yang mengirim permintaan melalui AI Manager. Setiap permintaan muncul di bawah saat terjadi.",
+    "description": "Saat aktif, permintaan alat melewati AI Manager menuju endpoint yang sedang dipakai. Jika endpoint itu gagal, endpoint berikutnya mengambil alih, dan setiap permintaan muncul di bawah.",
     "summary": {
       "inactive": "Tidak ada alat yang melalui AI Manager. Setiap alat tetap memakai koneksinya sendiri.",
       "needsRestore": "Perutean berhenti, tetapi alat masih mengarah ke sana. Pulihkan pengaturannya."
     },
-    "refresh": "Segarkan status",
     "loading": "Memuat perutean lokal",
     "hero": {
       "running": "Perutean sedang berjalan",
