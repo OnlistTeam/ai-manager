@@ -1,7 +1,6 @@
-import { ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { cn } from "@/shared/ui/cn";
-import { FOCUS_RING } from "@/shared/ui/focusRing";
+import { Button } from "@/shared/ui/Button";
 
 export interface ServicesAddBreadcrumbProps {
   toolName: string;
@@ -18,16 +17,16 @@ export function ServicesAddBreadcrumb({
     <nav aria-label={t("services.add.breadcrumb")}>
       <ol className="flex min-w-0 flex-wrap items-center gap-1.5 text-body">
         <li>
-          <button
-            type="button"
+          {/* A button, not a muted word: it is the only way back on this page. */}
+          <Button
+            variant="secondary"
+            size="sm"
+            className="pl-2"
             onClick={onBack}
-            className={cn(
-              "rounded-sm text-content-muted transition-colors hover:text-content",
-              FOCUS_RING,
-            )}
           >
+            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
             {t("services.add.back")}
-          </button>
+          </Button>
         </li>
         <li aria-hidden="true" className="text-content-muted">
           <ChevronRight className="h-4 w-4" />

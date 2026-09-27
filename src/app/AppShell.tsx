@@ -5,6 +5,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
   type CSSProperties,
   type ReactNode,
 } from "react";
@@ -96,6 +97,10 @@ export function AppShell() {
   );
   const { intents, openRoute, openServices, openExtensions, openSettings } =
     useRouteIntents(navigateFromTop);
+  // Clicks on the sidebar item of the page already open. A page with a page of
+  // its own behind a button (the add page of API Endpoints) goes back to its
+  // first page on the next one.
+  const [reselected, setReselected] = useState(0);
 
   const toSidebarItem = (item: (typeof NAV_ITEMS)[number]): SidebarItem => ({
     id: item.id,
@@ -141,6 +146,7 @@ export function AppShell() {
           preferredToolId={intents.serviceTool}
           preferredTab={intents.servicesTab}
           onOpenPrivacySettings={() => openSettings("privacy")}
+          reselected={reselected}
         />
       ),
       extensions: () => (
@@ -173,7 +179,14 @@ export function AppShell() {
         />
       ),
     }),
-    [intents, openRoute, openExtensions, openServices, openSettings],
+    [
+      intents,
+      openRoute,
+      openExtensions,
+      openServices,
+      openSettings,
+      reselected,
+    ],
   );
 
   const renderRoute = useCallback(
@@ -212,7 +225,9 @@ export function AppShell() {
         footerItems={footerItems}
         activeId={activeRoute}
         onSelect={(id) => {
-          if (isAppRoute(id)) openRoute(id);
+          if (!isAppRoute(id)) return;
+          if (id === activeRoute) setReselected((count) => count + 1);
+          openRoute(id);
         }}
         className={
           mac ? "app-sidebar relative z-10 pt-10" : "app-sidebar relative z-10"

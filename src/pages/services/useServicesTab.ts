@@ -24,12 +24,20 @@ export type ServicesEndpointsView = "endpoints" | "add";
 export function useServicesTab(
   preferredTab: ServicesTab | null,
   preferredToolId: ToolId | null,
+  reselected = 0,
 ) {
   const [tab, setTab] = useState<ServicesTab>(
     preferredTab ?? DEFAULT_SERVICES_TAB,
   );
   const [toolIntent, setToolIntent] = useState<ToolId | null>(preferredToolId);
   const [view, setView] = useState<ServicesEndpointsView>("endpoints");
+  // Clicking this page in the sidebar again leaves the add page for the list,
+  // the way the breadcrumb does.
+  const [seenReselect, setSeenReselect] = useState(reselected);
+  if (reselected !== seenReselect) {
+    setSeenReselect(reselected);
+    setView("endpoints");
+  }
 
   const select = (next: ServicesTab) => {
     if (next === tab) return;

@@ -23,7 +23,7 @@ into the tool's own config, and nothing translates.
 1. **A page, not a dialog.** "Add endpoint" swaps the tab strip and the tool
    picker for a breadcrumb ("Endpoints › Add an endpoint for Claude Code").
    It is page state, not a route, and leaving the tab or switching tool lands
-   back on the list. Custom comes first, then Subscription, Model makers,
+   back on the list, as does clicking API Endpoints in the sidebar again. Custom comes first, then Subscription, Model makers,
    Relays and Local, as compact one-line cards showing each service's address,
    never a model. Search filters by name or address and falls back to Custom.
    The speed test moved here and tags each card with its latency.

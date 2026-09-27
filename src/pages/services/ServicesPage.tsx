@@ -25,6 +25,8 @@ export interface ServicesPageProps {
   preferredTab?: ServicesTab | null;
   /** Opens the privacy section of the settings page. */
   onOpenPrivacySettings?: () => void;
+  /** Counts clicks on this page's sidebar item while it is already open. */
+  reselected?: number;
 }
 
 /** One page heading; endpoints, local routing and usage are its inner tabs. */
@@ -32,11 +34,13 @@ export function ServicesPage({
   preferredToolId = null,
   preferredTab = null,
   onOpenPrivacySettings,
+  reselected = 0,
 }: ServicesPageProps) {
   const { t } = useTranslation();
   const { tab, toolIntent, view, setView, select } = useServicesTab(
     preferredTab,
     preferredToolId,
+    reselected,
   );
   // The add page puts a breadcrumb where the tabs were, so the way back is the
   // one thing above the cards.

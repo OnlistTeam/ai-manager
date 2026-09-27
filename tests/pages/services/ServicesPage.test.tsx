@@ -779,6 +779,20 @@ describe("ServicesPage", () => {
     expect(screen.getAllByRole("tablist").length).toBeGreaterThan(0);
   });
 
+  it("goes back to the list when its sidebar item is clicked again", async () => {
+    const { rerender } = mount([service()]);
+    await screen.findByText("My Relay");
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.action.add }),
+    );
+    const title = en.services.add.title.replace("{{tool}}", "Claude Code");
+    await screen.findByRole("heading", { name: title });
+
+    rerender(<ServicesPage reselected={1} />);
+    expect(await screen.findByText("My Relay")).toBeVisible();
+    expect(screen.queryByRole("heading", { name: title })).toBeNull();
+  });
+
   it("puts the tool's own sign-in entry back from the subscription card", async () => {
     const restored: unknown[] = [];
     server.use(
