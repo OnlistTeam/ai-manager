@@ -1559,35 +1559,27 @@
       "keyRequired": "Collez une clé API.",
       "model": "Modèle",
       "modelRequired": "Saisissez un modèle.",
-      "measuredServices": "Mesuré sur cet ordinateur",
       "name": "Nom",
       "baseUrl": "URL de base",
-      "baseUrlHint": "La modifier enregistre un point d'accès personnalisé.",
-      "baseUrlEdited": "Modifiée, elle sera donc enregistrée comme point d'accès personnalisé.",
-      "baseUrlInvalid": "Saisissez une adresse HTTPS sans identifiants.",
+      "baseUrlInvalid": "Saisissez une adresse HTTPS sans identifiants, ou une adresse HTTP sur cet ordinateur.",
       "nameRequired": "Saisissez un nom.",
-      "noPresetMatch": "Aucun fournisseur correspondant.",
-      "openProvider": "Ouvrir le fournisseur",
-      "preset": "Fournisseur",
-      "presetHint": "Choisissez un fournisseur pour remplir l'adresse et le modèle ; pour tout autre, modifiez simplement l'adresse.",
       "profileError": "AI Manager n'a pas pu charger son modèle de connexion. Vos points d'accès enregistrés restent inchangés.",
       "profileErrorTitle": "Impossible de préparer un nouveau point d'accès",
       "profileRetry": "Recharger la configuration de connexion",
       "retryConnect": "Réessayer d'ajouter ce point d'accès",
       "retryHint": "Vos informations sont toujours là. Vérifiez-les et réessayez.",
       "responseTime": "{{latency}} ms",
-      "searchPresets": "Rechercher des fournisseurs…",
       "saved": "{{name}} a été enregistré",
-      "speedSorted": "Trié selon la dernière mesure de cet ordinateur.",
       "speedTest": "Tester lequel répond le plus vite",
       "speedTestAgain": "Tester à nouveau",
       "speedTestFailed": "Impossible de mesurer ces fournisseurs. Vérifiez votre réseau et réessayez.",
       "speedTesting": "Test des adresses en cours…",
       "title": "Connecter {{service}}",
       "unreachable": "Injoignable",
-      "toolDefault": "Par défaut pour {{tool}}",
-      "toolDefaultGroup": "Connexion par défaut de {{tool}}",
-      "otherServices": "Autres fournisseurs"
+      "customTitle": "Point d'accès personnalisé",
+      "customDescription": "Ajoutez votre propre adresse. {{tool}} s'y connecte comme à n'importe quel point d'accès.",
+      "customBaseUrlHint": "HTTPS, ou HTTP pour un service sur cet ordinateur.",
+      "keyOptionalHint": "Les services sur cet ordinateur en demandent rarement une ; laissez vide si le vôtre n'en a pas besoin."
     },
     "description": "Choisissez un outil, puis ajoutez, changez et vérifiez ses points d'accès API.",
     "effective": {
@@ -1903,6 +1895,49 @@
     },
     "tab": {
       "endpoints": "Points d'accès"
+    },
+    "add": {
+      "breadcrumb": "Chemin de la page",
+      "back": "Points d'accès",
+      "title": "Ajouter un point d'accès pour {{tool}}",
+      "search": "Rechercher par nom ou adresse",
+      "custom": "Personnalisé",
+      "customDetail": "Saisir votre propre adresse",
+      "group": {
+        "login": "Abonnement",
+        "vendor": "Créateurs de modèles",
+        "relay": "Relais",
+        "local": "Local"
+      },
+      "groupHint": {
+        "login": "Connexion propre à {{tool}}, sans clé API",
+        "vendor": "Directement auprès de l'entreprise qui crée le modèle",
+        "relay": "Un seul compte pour les modèles de plusieurs entreprises",
+        "local": "Modèles qui tournent sur cet ordinateur"
+      },
+      "login": {
+        "claude": "Abonnement Claude",
+        "chatGpt": "Abonnement ChatGPT",
+        "google": "Compte Google",
+        "superGrok": "Abonnement SuperGrok"
+      },
+      "loginDetail": "Se connecter dans {{tool}}",
+      "added": "Ajouté",
+      "noMatch": "Aucun résultat pour « {{query}} ».",
+      "addAsCustom": "Le configurer comme point d'accès personnalisé"
+    },
+    "login": {
+      "description": "Un point d'accès qui utilise le compte avec lequel vous êtes connecté à {{tool}}.",
+      "signInThere": "Aucune clé API nécessaire. La connexion se fait dans {{tool}} ; AI Manager ne voit jamais votre compte.",
+      "how": {
+        "claude": "Dans Claude Code, lancez /login.",
+        "chatGpt": "Dans Codex, choisissez « Sign in with ChatGPT ».",
+        "google": "Dans Gemini CLI, choisissez « Login with Google ».",
+        "superGrok": "Dans Grok Build, connectez-vous avec votre compte xAI."
+      },
+      "alreadySaved": "Il figure déjà dans votre liste de points d'accès.",
+      "add": "Ajouter le point d'accès",
+      "showList": "Retour aux points d'accès"
     }
   },
   "extensions": {

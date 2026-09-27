@@ -1559,35 +1559,27 @@
       "keyRequired": "Tempelkan kunci API.",
       "model": "Model",
       "modelRequired": "Masukkan sebuah model.",
-      "measuredServices": "Diukur di komputer ini",
       "name": "Nama",
       "baseUrl": "Base URL",
-      "baseUrlHint": "Jika diubah, akan disimpan sebagai endpoint kustom.",
-      "baseUrlEdited": "Diubah, jadi akan disimpan sebagai endpoint kustom.",
-      "baseUrlInvalid": "Masukkan alamat HTTPS tanpa kredensial.",
+      "baseUrlInvalid": "Masukkan alamat HTTPS tanpa kredensial, atau alamat HTTP di komputer ini.",
       "nameRequired": "Masukkan sebuah nama.",
-      "noPresetMatch": "Tidak ada penyedia yang cocok.",
-      "openProvider": "Buka penyedia",
-      "preset": "Penyedia",
-      "presetHint": "Pilih penyedia untuk mengisi alamat dan model; untuk yang tidak tercantum, cukup ubah alamatnya.",
       "profileError": "AI Manager tidak dapat memuat templat koneksinya. Endpoint tersimpan Anda tidak berubah.",
       "profileErrorTitle": "Tidak dapat menyiapkan endpoint baru",
       "profileRetry": "Muat pengaturan koneksi lagi",
       "retryConnect": "Coba tambahkan endpoint ini lagi",
       "retryHint": "Detail Anda masih di sini. Tinjau, lalu coba lagi.",
       "responseTime": "{{latency}} md",
-      "searchPresets": "Cari penyedia…",
       "saved": "{{name}} tersimpan",
-      "speedSorted": "Diurutkan berdasarkan pengukuran terbaru komputer ini.",
       "speedTest": "Uji mana yang merespons tercepat",
       "speedTestAgain": "Uji lagi",
       "speedTestFailed": "Tidak dapat mengukur penyedia ini. Periksa jaringan Anda dan coba lagi.",
       "speedTesting": "Menguji alamat…",
       "title": "Hubungkan {{service}}",
       "unreachable": "Tidak terjangkau",
-      "toolDefault": "Bawaan {{tool}}",
-      "toolDefaultGroup": "Koneksi bawaan {{tool}}",
-      "otherServices": "Penyedia lain"
+      "customTitle": "Endpoint kustom",
+      "customDescription": "Tambahkan alamat Anda sendiri. {{tool}} terhubung ke sana seperti ke endpoint lainnya.",
+      "customBaseUrlHint": "HTTPS, atau HTTP untuk layanan di komputer ini.",
+      "keyOptionalHint": "Layanan di komputer ini jarang memerlukannya; kosongkan jika layanan Anda tidak butuh."
     },
     "description": "Pilih alat, lalu tambahkan, alihkan, dan periksa endpoint API-nya.",
     "effective": {
@@ -1903,6 +1895,49 @@
     },
     "tab": {
       "endpoints": "Daftar Endpoint"
+    },
+    "add": {
+      "breadcrumb": "Jalur halaman",
+      "back": "Endpoint",
+      "title": "Tambah endpoint untuk {{tool}}",
+      "search": "Cari berdasarkan nama atau alamat",
+      "custom": "Kustom",
+      "customDetail": "Masukkan alamat Anda sendiri",
+      "group": {
+        "login": "Langganan",
+        "vendor": "Pembuat model",
+        "relay": "Perantara",
+        "local": "Lokal"
+      },
+      "groupHint": {
+        "login": "Login bawaan {{tool}}, tanpa kunci API",
+        "vendor": "Langsung dari perusahaan pembuat model",
+        "relay": "Satu akun untuk model dari banyak perusahaan",
+        "local": "Model yang berjalan di komputer ini"
+      },
+      "login": {
+        "claude": "Langganan Claude",
+        "chatGpt": "Langganan ChatGPT",
+        "google": "Akun Google",
+        "superGrok": "Langganan SuperGrok"
+      },
+      "loginDetail": "Masuk di {{tool}}",
+      "added": "Ditambahkan",
+      "noMatch": "Tidak ada yang cocok dengan “{{query}}”.",
+      "addAsCustom": "Atur sebagai endpoint kustom"
+    },
+    "login": {
+      "description": "Endpoint yang memakai akun yang Anda gunakan untuk masuk ke {{tool}}.",
+      "signInThere": "Tidak perlu kunci API. Proses masuk berlangsung di {{tool}}; AI Manager tidak pernah melihat akun Anda.",
+      "how": {
+        "claude": "Di Claude Code, jalankan /login.",
+        "chatGpt": "Di Codex, pilih “Sign in with ChatGPT”.",
+        "google": "Di Gemini CLI, pilih “Login with Google”.",
+        "superGrok": "Di Grok Build, masuk dengan akun xAI Anda."
+      },
+      "alreadySaved": "Endpoint ini sudah ada di daftar Anda.",
+      "add": "Tambah endpoint",
+      "showList": "Kembali ke daftar endpoint"
     }
   },
   "extensions": {

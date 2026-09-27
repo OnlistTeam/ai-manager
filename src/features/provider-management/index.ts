@@ -1,7 +1,14 @@
 export { ProviderCard } from "./ProviderCard";
 export type { ProviderCardProps } from "./ProviderCard";
+export { ProviderAddPage } from "./ProviderAddPage";
+export type { ProviderAddPageProps } from "./ProviderAddPage";
 export { ProviderConnectModal } from "./ProviderConnectModal";
-export type { ProviderConnectModalProps } from "./ProviderConnectModal";
+export type {
+  ProviderConnectModalProps,
+  ProviderConnectTarget,
+} from "./ProviderConnectModal";
+export { ProviderToolLoginModal } from "./ProviderToolLoginModal";
+export type { ProviderToolLoginModalProps } from "./ProviderToolLoginModal";
 export { ProviderFormModal } from "./ProviderFormModal";
 export type { ProviderFormModalProps } from "./ProviderFormModal";
 export { ProviderRemovalModal } from "./ProviderRemovalModal";

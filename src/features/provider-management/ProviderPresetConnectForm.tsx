@@ -21,15 +21,20 @@ interface ProviderPresetConnectFormProps {
   modelRequired: boolean;
   /** `ProviderConnectionProfile.baseUrlTakesNoVersion`. */
   baseUrlTakesNoVersion: boolean;
-  /** True once the address no longer matches the preset it came from. */
-  addressEdited: boolean;
-  keyUrlLabel: string;
-  /** Opens the selected service's key page; the address stays native-side. */
-  onOpenKeyPage: () => void;
+  /**
+   * A preset's address is shown but not editable: it is what the backend
+   * writes, and a different address belongs to the custom entry instead.
+   */
+  baseUrlReadOnly: boolean;
+  /** A server on this machine usually takes no key. */
+  keyOptional: boolean;
+  /** Opens the selected service's key page; absent for a custom address. */
+  onOpenKeyPage?: () => void;
   invalid: { name: boolean; baseUrl: boolean; key: boolean; model: boolean };
   busy: boolean;
   error: Error | null;
   keyRef: RefObject<HTMLInputElement>;
+  baseUrlRef?: RefObject<HTMLInputElement>;
   onNameChange: (value: string) => void;
   onBaseUrlChange: (value: string) => void;
   onKeyChange: (value: string) => void;
@@ -50,13 +55,14 @@ export function ProviderPresetConnectForm({
   model,
   modelRequired,
   baseUrlTakesNoVersion,
-  addressEdited,
-  keyUrlLabel,
+  baseUrlReadOnly,
+  keyOptional,
   onOpenKeyPage,
   invalid,
   busy,
   error,
   keyRef,
+  baseUrlRef,
   onNameChange,
   onBaseUrlChange,
   onKeyChange,
@@ -65,9 +71,10 @@ export function ProviderPresetConnectForm({
   onKeyDown,
 }: ProviderPresetConnectFormProps) {
   const { t } = useTranslation();
-  const versionSegment = baseUrlTakesNoVersion
-    ? trailingVersionSegment(baseUrl)
-    : null;
+  const versionSegment =
+    baseUrlTakesNoVersion && !baseUrlReadOnly
+      ? trailingVersionSegment(baseUrl)
+      : null;
   const baseUrlWarning =
     versionSegment === null
       ? undefined
@@ -80,6 +87,39 @@ export function ProviderPresetConnectForm({
       onKeyDown={onKeyDown}
     >
       {error ? <ProviderConnectFailure error={error} /> : null}
+
+      <Field
+        id={baseUrlId}
+        label={t("services.connect.baseUrl")}
+        hint={
+          baseUrlWarning || baseUrlReadOnly
+            ? undefined
+            : t("services.connect.customBaseUrlHint")
+        }
+        warning={baseUrlWarning}
+        error={
+          invalid.baseUrl ? t("services.connect.baseUrlInvalid") : undefined
+        }
+      >
+        <Input
+          ref={baseUrlRef}
+          id={baseUrlId}
+          type="url"
+          value={baseUrl}
+          readOnly={baseUrlReadOnly}
+          invalid={invalid.baseUrl}
+          disabled={busy}
+          spellCheck={false}
+          placeholder={
+            baseUrlReadOnly ? undefined : "https://api.example.com/v1"
+          }
+          className={cn(
+            "font-mono",
+            baseUrlReadOnly && "bg-layer-2 text-content-muted",
+          )}
+          onChange={(event) => onBaseUrlChange(event.target.value)}
+        />
+      </Field>
 
       <Field
         id={nameId}
@@ -96,36 +136,13 @@ export function ProviderPresetConnectForm({
       </Field>
 
       <Field
-        id={baseUrlId}
-        label={t("services.connect.baseUrl")}
-        hint={
-          baseUrlWarning
-            ? undefined
-            : addressEdited
-              ? t("services.connect.baseUrlEdited")
-              : t("services.connect.baseUrlHint")
-        }
-        warning={baseUrlWarning}
-        error={
-          invalid.baseUrl ? t("services.connect.baseUrlInvalid") : undefined
-        }
-      >
-        <Input
-          id={baseUrlId}
-          type="url"
-          value={baseUrl}
-          invalid={invalid.baseUrl}
-          disabled={busy}
-          spellCheck={false}
-          className="font-mono"
-          onChange={(event) => onBaseUrlChange(event.target.value)}
-        />
-      </Field>
-
-      <Field
         id={keyId}
         label={t("services.connect.key")}
-        hint={t("services.connect.keyHint")}
+        hint={t(
+          keyOptional
+            ? "services.connect.keyOptionalHint"
+            : "services.connect.keyHint",
+        )}
         error={invalid.key ? t("services.connect.keyRequired") : undefined}
       >
         <Input
@@ -142,19 +159,21 @@ export function ProviderPresetConnectForm({
       </Field>
 
       {/* Outside the Field: inside it, this label joins the input's accessible
-          description and a screen reader reads the label, the hint and "Open
-          provider" as one sentence. */}
-      <button
-        type="button"
-        onClick={onOpenKeyPage}
-        className={cn(
-          "-mt-1 inline-flex w-fit items-center gap-1 rounded-sm text-caption font-medium text-brand hover:text-brand-hover",
-          FOCUS_RING,
-        )}
-      >
-        {keyUrlLabel}
-        <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-      </button>
+          description and a screen reader reads the label, the hint and "Get
+          API key" as one sentence. */}
+      {onOpenKeyPage ? (
+        <button
+          type="button"
+          onClick={onOpenKeyPage}
+          className={cn(
+            "-mt-1 inline-flex w-fit items-center gap-1 rounded-sm text-caption font-medium text-brand hover:text-brand-hover",
+            FOCUS_RING,
+          )}
+        >
+          {t("services.connect.getKey")}
+          <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+        </button>
+      ) : null}
 
       <Field
         id={modelId}

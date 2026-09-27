@@ -9,9 +9,11 @@ import type {
   ToolId,
 } from "@/entities/provider";
 import { generateUUID } from "@/utils/uuid";
+import type { ProviderConnectTarget } from "./ProviderConnectModal";
 import {
   useCreateCustomProvider,
   useCreateProvider,
+  useRestoreToolLogin,
   useTestProvider,
 } from "./useProviderMutations";
 
@@ -51,34 +53,30 @@ export function useProviderConnectionFlow({
   const { t } = useTranslation();
   const create = useCreateProvider();
   const createCustom = useCreateCustomProvider();
+  const restoreLogin = useRestoreToolLogin();
   const test = useTestProvider({ notifyOnError: false });
-  const [connecting, setConnecting] = useState(false);
-  const [preferCompatible, setPreferCompatible] = useState(false);
+  const [target, setTarget] = useState<ProviderConnectTarget | null>(null);
+  const [loginOpen, setLoginOpen] = useState(false);
   const [checkFailure, setCheckFailure] = useState<ProviderCheckFailure | null>(
     null,
   );
   const requestIds = useRef(new Map<ToolId, string>());
 
-  const openConnection = () => {
+  const openConnection = (next: ProviderConnectTarget) => {
     create.reset();
     createCustom.reset();
-    setPreferCompatible(false);
-    setConnecting(true);
-  };
-  const openCompatibleConnection = () => {
-    create.reset();
-    createCustom.reset();
-    setPreferCompatible(true);
-    setConnecting(true);
+    setTarget(next);
   };
   const closeConnection = () => {
     create.reset();
     createCustom.reset();
-    setConnecting(false);
+    restoreLogin.reset();
+    setTarget(null);
+    setLoginOpen(false);
   };
-  const setConnectionOpen = (open: boolean) => {
-    if (open) openConnection();
-    else closeConnection();
+  const openToolLogin = () => {
+    restoreLogin.reset();
+    setLoginOpen(true);
   };
 
   const checkProvider = (
@@ -96,7 +94,8 @@ export function useProviderConnectionFlow({
     (tool: ToolId, toolName: string, draftName: string, onSaved?: () => void) =>
     (result: ProviderCreateResult) => {
       requestIds.current.delete(tool);
-      setConnecting(false);
+      setTarget(null);
+      setLoginOpen(false);
       onSaved?.();
       const created = result.providers.find(
         (provider) => provider.id === result.createdProviderId,
@@ -182,25 +181,41 @@ export function useProviderConnectionFlow({
     );
   };
 
+  /**
+   * Adding the tool's own sign-in entry saves no key, so it takes the same
+   * after-save path as any endpoint: a toast, and the offer to use it now.
+   */
+  const restoreToolLogin = (
+    { tool, toolName }: { tool: ToolId; toolName: string },
+    onSaved?: () => void,
+  ) => {
+    restoreLogin.mutate(
+      { tool },
+      { onSuccess: afterCreated(tool, toolName, toolName, onSaved) },
+    );
+  };
+
   const resetCreateError = () => {
     create.reset();
     createCustom.reset();
+    restoreLogin.reset();
   };
 
   return {
-    connecting,
-    preferCompatible,
+    target,
+    loginOpen,
     connectProvider,
     connectCustomProvider,
+    restoreToolLogin,
     checkProvider,
     checkFailure,
     checkBusy: test.isPending,
-    createBusy: create.isPending || createCustom.isPending,
-    createError: create.error ?? createCustom.error,
+    createBusy:
+      create.isPending || createCustom.isPending || restoreLogin.isPending,
+    createError: create.error ?? createCustom.error ?? restoreLogin.error,
     openConnection,
-    openCompatibleConnection,
+    openToolLogin,
     closeConnection,
-    setConnectionOpen,
     resetCreateError,
     testingProviderId: test.isPending ? test.variables?.providerId : undefined,
   };

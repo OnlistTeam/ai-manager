@@ -747,20 +747,106 @@ describe("ServicesPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("offers backend-owned presets as an optional fast-fill flow", async () => {
+  it("opens Add as a page of cards with a way back, and a card opens its dialog", async () => {
     mount([service()]);
     await screen.findByText("My Relay");
     await userEvent.click(
       screen.getByRole("button", { name: en.services.action.add }),
     );
-    await screen.findByRole("dialog");
-    const preset = await screen.findByRole("combobox", {
-      name: en.services.connect.preset,
-    });
-    expect(preset).toHaveTextContent("Anthropic API");
-    expect(screen.getByLabelText(en.services.connect.model)).toHaveValue(
-      "claude-sonnet-5",
+    // The breadcrumb stands where the tabs and the tool picker were.
+    const title = en.services.add.title.replace("{{tool}}", "Claude Code");
+    expect(
+      await screen.findByRole("heading", { name: title }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("tablist")).toBeNull();
+    expect(screen.queryByText("My Relay")).toBeNull();
+
+    await userEvent.click(
+      screen.getByRole("button", { name: /Anthropic API/ }),
     );
+    const dialog = await screen.findByRole("dialog");
+    expect(
+      within(dialog).getByLabelText(en.services.connect.model),
+    ).toHaveValue("claude-sonnet-5");
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: en.ds.action.cancel }),
+    );
+
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.add.back }),
+    );
+    expect(await screen.findByText("My Relay")).toBeVisible();
+    expect(screen.getAllByRole("tablist").length).toBeGreaterThan(0);
+  });
+
+  it("puts the tool's own sign-in entry back from the subscription card", async () => {
+    const restored: unknown[] = [];
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/app_provider_connection_profile`, () =>
+        HttpResponse.json({
+          defaultPresetId: "official",
+          modelRequired: false,
+          baseUrlTakesNoVersion: true,
+          toolLogin: "claude",
+          presets: [
+            {
+              id: "official",
+              serviceName: "Anthropic API",
+              defaultName: "Anthropic",
+              defaultModel: "claude-sonnet-5",
+              baseUrl: "https://api.anthropic.com",
+              websiteUrl: "https://www.anthropic.com",
+              apiKeyUrl: "https://console.anthropic.com",
+              official: true,
+              kind: "vendor",
+            },
+          ],
+        }),
+      ),
+      http.post(
+        `${TAURI_ENDPOINT}/app_provider_restore_tool_login`,
+        async ({ request }) => {
+          restored.push(await request.json());
+          return HttpResponse.json({
+            providers: [
+              service(),
+              service({
+                id: "claude-official",
+                name: "Claude Official",
+                kind: "official",
+                baseUrl: null,
+                apiKey: null,
+                canRemove: true,
+              }),
+            ],
+            createdProviderId: "claude-official",
+          });
+        },
+      ),
+    );
+    mount([service()]);
+    await screen.findByText("My Relay");
+    await userEvent.click(
+      screen.getByRole("button", { name: en.services.action.add }),
+    );
+    await userEvent.click(
+      await screen.findByRole("button", {
+        name: new RegExp(en.services.add.login.claude),
+      }),
+    );
+    const dialog = await screen.findByRole("dialog", {
+      name: en.services.add.login.claude,
+    });
+    // The card adds an endpoint; signing in stays inside the tool.
+    expect(dialog).toHaveTextContent(en.services.login.how.claude);
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: en.services.login.add }),
+    );
+    await waitFor(() => expect(restored).toEqual([{ tool: "claude-code" }]));
+    expect(
+      await screen.findByRole("article", { name: "Claude Official" }),
+    ).toBeVisible();
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 
   it("shows connection setup loading without calling it a failure", async () => {
@@ -855,7 +941,11 @@ describe("ServicesPage", () => {
     });
     expect(connect).toBeEnabled();
     await userEvent.click(connect);
-    expect(await screen.findByRole("dialog")).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", {
+        name: en.services.add.title.replace("{{tool}}", "Claude Code"),
+      }),
+    ).toBeInTheDocument();
   });
 
   it("connects a service from the empty state without exposing raw config", async () => {
@@ -895,10 +985,10 @@ describe("ServicesPage", () => {
     await userEvent.click(
       screen.getByRole("button", { name: en.services.action.add }),
     );
+    await userEvent.click(
+      await screen.findByRole("button", { name: /Anthropic API/ }),
+    );
     await screen.findByRole("dialog");
-    await screen.findByRole("combobox", {
-      name: en.services.connect.preset,
-    });
     await userEvent.type(
       screen.getByLabelText(en.services.connect.key),
       "sk-secret",
@@ -976,22 +1066,30 @@ describe("ServicesPage", () => {
     await userEvent.click(
       screen.getByRole("button", { name: en.services.action.add }),
     );
-    const dialog = await screen.findByRole("dialog");
-    // Name, address and model all arrive prefilled from the preset now, so a
-    // typed value has to replace rather than append.
-    const name = within(dialog).getByLabelText(en.services.connect.name);
-    await userEvent.clear(name);
-    await userEvent.type(name, "Private relay");
-    const address = within(dialog).getByLabelText(en.services.connect.baseUrl);
-    await userEvent.clear(address);
-    await userEvent.type(address, "https://relay.example.test/v1");
+    await userEvent.click(
+      await screen.findByRole("button", {
+        name: new RegExp(en.services.add.custom),
+      }),
+    );
+    const dialog = await screen.findByRole("dialog", {
+      name: en.services.connect.customTitle,
+    });
+    await userEvent.type(
+      within(dialog).getByLabelText(en.services.connect.name),
+      "Private relay",
+    );
+    await userEvent.type(
+      within(dialog).getByLabelText(en.services.connect.baseUrl),
+      "https://relay.example.test/v1",
+    );
     await userEvent.type(
       within(dialog).getByLabelText(en.services.connect.key),
       "sk-private",
     );
-    const model = within(dialog).getByLabelText(en.services.connect.model);
-    await userEvent.clear(model);
-    await userEvent.type(model, "model-a");
+    await userEvent.type(
+      within(dialog).getByLabelText(en.services.connect.model),
+      "model-a",
+    );
     await userEvent.click(
       within(dialog).getByRole("button", { name: en.ds.action.connect }),
     );
@@ -1082,11 +1180,10 @@ describe("ServicesPage", () => {
     await userEvent.click(
       screen.getByRole("button", { name: en.services.action.add }),
     );
-    await screen.findByRole("dialog");
-    await screen.findByRole("combobox", {
-      name: en.services.connect.preset,
-    });
-    const presetDialog = screen.getByRole("dialog");
+    await userEvent.click(
+      await screen.findByRole("button", { name: /Anthropic API/ }),
+    );
+    const presetDialog = await screen.findByRole("dialog");
     const key = within(presetDialog).getByLabelText(en.services.connect.key);
     await userEvent.type(key, "sk-typed-but-not-saved");
     const control = within(presetDialog).getByRole("button", {
@@ -2874,12 +2971,14 @@ describe("ServicesPage", () => {
       }),
     );
 
-    const dialog = await screen.findByRole("dialog");
+    // The way out of an unreachable official address is the add page, where
+    // every other service this tool can use is one card away.
     expect(
-      within(dialog).getByRole("combobox", {
-        name: en.services.connect.preset,
+      await screen.findByRole("heading", {
+        name: en.services.add.title.replace("{{tool}}", "Claude Code"),
       }),
-    ).toHaveTextContent("DeepSeek");
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /DeepSeek/ })).toBeVisible();
   });
 });
 

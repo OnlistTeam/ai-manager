@@ -79,22 +79,6 @@ async function bootstrap() {
     reportFrontendError("config_load_error_listener", e);
   }
 
-  if (
-    import.meta.env.DEV &&
-    new URLSearchParams(window.location.search).get("gallery") ===
-      "provider-presets"
-  ) {
-    const { ProviderPresetGallery } = await import(
-      "./features/provider-management/__gallery__/ProviderPresetGallery"
-    );
-    ReactDOM.createRoot(document.getElementById("root")!).render(
-      <React.StrictMode>
-        <ProviderPresetGallery />
-      </React.StrictMode>,
-    );
-    return;
-  }
-
   // Dev-only design system gallery: `pnpm dev:renderer` then open
   // http://localhost:3000/?gallery. The dynamic import keeps the whole
   // gallery out of production bundles.

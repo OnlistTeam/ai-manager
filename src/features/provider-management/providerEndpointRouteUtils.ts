@@ -16,15 +16,32 @@ export type ProviderEndpointValidation =
   | "limit"
   | "empty";
 
+function isLoopbackHost(hostname: string): boolean {
+  const host = hostname.replace(/^\[|\]$/gu, "").toLowerCase();
+  return (
+    host === "localhost" ||
+    host.endsWith(".localhost") ||
+    host === "::1" ||
+    /^127(?:\.\d{1,3}){3}$/u.test(host)
+  );
+}
+
+/**
+ * A server on this machine. Mirrors the native loopback rule: such an address
+ * may be plain `http://` and may go without a key.
+ */
+export function isLoopbackEndpoint(raw: string): boolean {
+  try {
+    return isLoopbackHost(new URL(raw.trim()).hostname);
+  } catch {
+    return false;
+  }
+}
+
 export function normalizeProviderEndpoint(raw: string): string | null {
   try {
     const parsed = new URL(raw.trim());
-    const host = parsed.hostname.replace(/^\[|\]$/gu, "").toLowerCase();
-    const loopback =
-      host === "localhost" ||
-      host.endsWith(".localhost") ||
-      host === "::1" ||
-      /^127(?:\.\d{1,3}){3}$/u.test(host);
+    const loopback = isLoopbackHost(parsed.hostname);
     if (
       (parsed.protocol !== "https:" &&
         !(parsed.protocol === "http:" && loopback)) ||

@@ -1558,35 +1558,27 @@
       "keyRequired": "請貼上 API 金鑰。",
       "model": "模型",
       "modelRequired": "請輸入模型。",
-      "measuredServices": "這台電腦實測",
       "name": "名稱",
       "baseUrl": "Base URL",
-      "baseUrlHint": "改動後會以自訂端點儲存。",
-      "baseUrlEdited": "已改動，會以自訂端點儲存。",
-      "baseUrlInvalid": "請輸入不含憑證的 HTTPS 位址。",
+      "baseUrlInvalid": "請輸入不含憑證的 HTTPS 位址，本機服務可以用 HTTP。",
       "nameRequired": "請輸入名稱。",
-      "noPresetMatch": "沒有相符的服務商。",
-      "openProvider": "開啟服務商",
-      "preset": "服務商",
-      "presetHint": "選一家服務商會自動填好位址和模型；不在清單裡的，直接改位址。",
       "profileError": "AI 管家沒能讀取連線範本，已儲存的端點不受影響。",
       "profileErrorTitle": "暫時不能新增端點",
       "profileRetry": "重新讀取連線範本",
       "retryConnect": "重新新增這個端點",
       "retryHint": "你填寫的內容還在，請檢查後再試一次。",
       "responseTime": "{{latency}} 毫秒",
-      "searchPresets": "搜尋服務商…",
       "saved": "{{name}} 已儲存",
-      "speedSorted": "已依這台電腦的最新實測結果排序。",
       "speedTest": "測試哪個回應最快",
       "speedTestAgain": "重新測速",
       "speedTestFailed": "無法測速，請檢查網路後再試。",
       "speedTesting": "正在測速…",
       "title": "連線 {{service}}",
       "unreachable": "不可達",
-      "toolDefault": "{{tool}} 預設",
-      "toolDefaultGroup": "{{tool}} 預設連接",
-      "otherServices": "其他服務商"
+      "customTitle": "自訂端點",
+      "customDescription": "填寫你自己的位址，{{tool}} 會像連線其他端點一樣連線它。",
+      "customBaseUrlHint": "HTTPS 位址；本機服務可以用 HTTP。",
+      "keyOptionalHint": "本機服務通常不需要金鑰，沒有就留空。"
     },
     "description": "選擇軟體，新增、切換與檢查它使用的 API 端點。",
     "effective": {
@@ -1902,6 +1894,49 @@
     },
     "tab": {
       "endpoints": "端點清單"
+    },
+    "add": {
+      "breadcrumb": "頁面路徑",
+      "back": "端點列表",
+      "title": "為 {{tool}} 新增端點",
+      "search": "依名稱或位址搜尋",
+      "custom": "自訂",
+      "customDetail": "填寫自己的位址",
+      "group": {
+        "login": "訂閱",
+        "vendor": "供應商",
+        "relay": "中轉",
+        "local": "本機"
+      },
+      "groupHint": {
+        "login": "用 {{tool}} 自己的登入，不用 API 金鑰",
+        "vendor": "直接使用模型廠商的服務",
+        "relay": "一個帳號呼叫多家的模型",
+        "local": "在這台電腦上執行的模型"
+      },
+      "login": {
+        "claude": "Claude 訂閱",
+        "chatGpt": "ChatGPT 訂閱",
+        "google": "Google 帳號",
+        "superGrok": "SuperGrok 訂閱"
+      },
+      "loginDetail": "在 {{tool}} 裡登入",
+      "added": "已新增",
+      "noMatch": "找不到「{{query}}」。",
+      "addAsCustom": "新增為自訂端點"
+    },
+    "login": {
+      "description": "這個端點使用你在 {{tool}} 裡登入的帳號。",
+      "signInThere": "不需要 API 金鑰。登入在 {{tool}} 裡完成，AI 管家不經手你的帳號。",
+      "how": {
+        "claude": "在 Claude Code 裡輸入 /login。",
+        "chatGpt": "在 Codex 裡選擇「Sign in with ChatGPT」。",
+        "google": "在 Gemini CLI 裡選擇「Login with Google」。",
+        "superGrok": "在 Grok Build 裡登入你的 xAI 帳號。"
+      },
+      "alreadySaved": "它已經在端點列表裡了。",
+      "add": "新增端點",
+      "showList": "回到端點列表"
     }
   },
   "extensions": {

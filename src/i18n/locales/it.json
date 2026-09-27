@@ -1559,35 +1559,27 @@
       "keyRequired": "Incolla una API Key.",
       "model": "Modello",
       "modelRequired": "Inserisci un modello.",
-      "measuredServices": "Misurato su questo computer",
       "name": "Nome",
       "baseUrl": "URL di base",
-      "baseUrlHint": "Se lo modifichi, viene salvato un endpoint personalizzato.",
-      "baseUrlEdited": "Modificato, quindi verrà salvato come endpoint personalizzato.",
-      "baseUrlInvalid": "Inserisci un indirizzo HTTPS senza credenziali.",
+      "baseUrlInvalid": "Inserisci un indirizzo HTTPS senza credenziali, oppure uno HTTP su questo computer.",
       "nameRequired": "Inserisci un nome.",
-      "noPresetMatch": "Nessun fornitore corrispondente.",
-      "openProvider": "Apri fornitore",
-      "preset": "Fornitore",
-      "presetHint": "Scegli un fornitore per compilare indirizzo e modello; per tutto il resto basta modificare l'indirizzo.",
       "profileError": "AI Manager non è riuscito a caricare il suo modello di connessione. I tuoi endpoint salvati restano invariati.",
       "profileErrorTitle": "Impossibile preparare un nuovo endpoint",
       "profileRetry": "Carica di nuovo la configurazione della connessione",
       "retryConnect": "Prova di nuovo ad aggiungere questo endpoint",
       "retryHint": "I tuoi dati sono ancora qui. Controllali e riprova.",
       "responseTime": "{{latency}} ms",
-      "searchPresets": "Cerca fornitori…",
       "saved": "{{name}} è stato salvato",
-      "speedSorted": "Ordinato in base all'ultima misurazione di questo computer.",
       "speedTest": "Verifica quale risponde più velocemente",
       "speedTestAgain": "Verifica di nuovo",
       "speedTestFailed": "Impossibile misurare questi fornitori. Controlla la rete e riprova.",
       "speedTesting": "Verifica degli indirizzi in corso…",
       "title": "Connetti {{service}}",
       "unreachable": "Non raggiungibile",
-      "toolDefault": "Predefinito per {{tool}}",
-      "toolDefaultGroup": "Connessione predefinita di {{tool}}",
-      "otherServices": "Altri fornitori"
+      "customTitle": "Endpoint personalizzato",
+      "customDescription": "Aggiungi un tuo indirizzo. {{tool}} si collega come a qualsiasi altro endpoint.",
+      "customBaseUrlHint": "HTTPS, oppure HTTP per un servizio su questo computer.",
+      "keyOptionalHint": "I servizi su questo computer raramente la richiedono; lascia vuoto se il tuo non ne ha bisogno."
     },
     "description": "Scegli uno strumento, poi aggiungi, cambia e controlla i suoi endpoint API.",
     "effective": {
@@ -1903,6 +1895,49 @@
     },
     "tab": {
       "endpoints": "Elenco endpoint"
+    },
+    "add": {
+      "breadcrumb": "Percorso della pagina",
+      "back": "Endpoint",
+      "title": "Aggiungi un endpoint per {{tool}}",
+      "search": "Cerca per nome o indirizzo",
+      "custom": "Personalizzato",
+      "customDetail": "Inserisci un tuo indirizzo",
+      "group": {
+        "login": "Abbonamento",
+        "vendor": "Produttori di modelli",
+        "relay": "Intermediari",
+        "local": "Locale"
+      },
+      "groupHint": {
+        "login": "Accesso proprio di {{tool}}, senza API Key",
+        "vendor": "Direttamente dall'azienda che crea il modello",
+        "relay": "Un solo account per i modelli di molte aziende",
+        "local": "Modelli in esecuzione su questo computer"
+      },
+      "login": {
+        "claude": "Abbonamento Claude",
+        "chatGpt": "Abbonamento ChatGPT",
+        "google": "Account Google",
+        "superGrok": "Abbonamento SuperGrok"
+      },
+      "loginDetail": "Accedi in {{tool}}",
+      "added": "Aggiunto",
+      "noMatch": "Nessun risultato per «{{query}}».",
+      "addAsCustom": "Configuralo come endpoint personalizzato"
+    },
+    "login": {
+      "description": "Un endpoint che usa l'account con cui accedi a {{tool}}.",
+      "signInThere": "Nessuna API Key necessaria. L'accesso avviene in {{tool}}; AI Manager non vede mai il tuo account.",
+      "how": {
+        "claude": "In Claude Code, esegui /login.",
+        "chatGpt": "In Codex, scegli «Sign in with ChatGPT».",
+        "google": "In Gemini CLI, scegli «Login with Google».",
+        "superGrok": "In Grok Build, accedi con il tuo account xAI."
+      },
+      "alreadySaved": "È già nel tuo elenco di endpoint.",
+      "add": "Aggiungi endpoint",
+      "showList": "Torna agli endpoint"
     }
   },
   "extensions": {

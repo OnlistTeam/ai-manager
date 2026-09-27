@@ -1559,35 +1559,27 @@
       "keyRequired": "Dán một khóa API.",
       "model": "Model",
       "modelRequired": "Nhập một model.",
-      "measuredServices": "Đo trên máy tính này",
       "name": "Tên",
       "baseUrl": "Base URL",
-      "baseUrlHint": "Nếu sửa, nó sẽ được lưu thành điểm cuối tùy chỉnh.",
-      "baseUrlEdited": "Đã sửa nên sẽ được lưu như điểm cuối tùy chỉnh.",
-      "baseUrlInvalid": "Hãy nhập địa chỉ HTTPS không chứa thông tin đăng nhập.",
+      "baseUrlInvalid": "Nhập địa chỉ HTTPS không kèm thông tin đăng nhập, hoặc địa chỉ HTTP trên máy tính này.",
       "nameRequired": "Nhập một tên.",
-      "noPresetMatch": "Không có nhà cung cấp nào khớp.",
-      "openProvider": "Mở nhà cung cấp",
-      "preset": "Nhà cung cấp",
-      "presetHint": "Chọn một nhà cung cấp để tự điền địa chỉ và model; nếu không có trong danh sách, chỉ cần sửa địa chỉ.",
       "profileError": "AI Manager không thể tải mẫu kết nối. Các điểm cuối đã lưu của bạn không bị thay đổi.",
       "profileErrorTitle": "Không thể chuẩn bị điểm cuối mới",
       "profileRetry": "Tải lại cấu hình kết nối",
       "retryConnect": "Thử thêm lại điểm cuối này",
       "retryHint": "Thông tin bạn nhập vẫn còn. Hãy xem lại và thử lại.",
       "responseTime": "{{latency}} ms",
-      "searchPresets": "Tìm nhà cung cấp…",
       "saved": "{{name}} đã được lưu",
-      "speedSorted": "Sắp xếp theo phép đo mới nhất của máy tính này.",
       "speedTest": "Kiểm tra xem cái nào phản hồi nhanh nhất",
       "speedTestAgain": "Kiểm tra lại",
       "speedTestFailed": "Không thể đo tốc độ các nhà cung cấp này. Kiểm tra mạng của bạn và thử lại.",
       "speedTesting": "Đang kiểm tra địa chỉ…",
       "title": "Kết nối {{service}}",
       "unreachable": "Không thể kết nối",
-      "toolDefault": "Mặc định của {{tool}}",
-      "toolDefaultGroup": "Kết nối mặc định của {{tool}}",
-      "otherServices": "Nhà cung cấp khác"
+      "customTitle": "Điểm cuối tùy chỉnh",
+      "customDescription": "Thêm địa chỉ của riêng bạn. {{tool}} sẽ kết nối với nó như với mọi điểm cuối khác.",
+      "customBaseUrlHint": "HTTPS, hoặc HTTP cho dịch vụ trên máy tính này.",
+      "keyOptionalHint": "Dịch vụ trên máy tính này hiếm khi cần khóa; để trống nếu dịch vụ của bạn không cần."
     },
     "description": "Chọn một công cụ, sau đó thêm, chuyển và kiểm tra các điểm cuối API của nó.",
     "effective": {
@@ -1903,6 +1895,49 @@
     },
     "tab": {
       "endpoints": "Danh sách điểm cuối"
+    },
+    "add": {
+      "breadcrumb": "Đường dẫn trang",
+      "back": "Điểm cuối",
+      "title": "Thêm điểm cuối cho {{tool}}",
+      "search": "Tìm theo tên hoặc địa chỉ",
+      "custom": "Tùy chỉnh",
+      "customDetail": "Nhập địa chỉ của riêng bạn",
+      "group": {
+        "login": "Gói đăng ký",
+        "vendor": "Hãng làm mô hình",
+        "relay": "Trung gian",
+        "local": "Cục bộ"
+      },
+      "groupHint": {
+        "login": "Dùng đăng nhập riêng của {{tool}}, không cần khóa API",
+        "vendor": "Dùng trực tiếp từ công ty làm ra mô hình",
+        "relay": "Một tài khoản dùng mô hình của nhiều hãng",
+        "local": "Mô hình chạy trên máy tính này"
+      },
+      "login": {
+        "claude": "Gói Claude",
+        "chatGpt": "Gói ChatGPT",
+        "google": "Tài khoản Google",
+        "superGrok": "Gói SuperGrok"
+      },
+      "loginDetail": "Đăng nhập trong {{tool}}",
+      "added": "Đã thêm",
+      "noMatch": "Không tìm thấy “{{query}}”.",
+      "addAsCustom": "Thiết lập làm điểm cuối tùy chỉnh"
+    },
+    "login": {
+      "description": "Điểm cuối dùng tài khoản bạn đã đăng nhập trong {{tool}}.",
+      "signInThere": "Không cần khóa API. Việc đăng nhập diễn ra trong {{tool}}; AI Manager không bao giờ thấy tài khoản của bạn.",
+      "how": {
+        "claude": "Trong Claude Code, chạy /login.",
+        "chatGpt": "Trong Codex, chọn “Sign in with ChatGPT”.",
+        "google": "Trong Gemini CLI, chọn “Login with Google”.",
+        "superGrok": "Trong Grok Build, đăng nhập bằng tài khoản xAI của bạn."
+      },
+      "alreadySaved": "Điểm cuối này đã có trong danh sách.",
+      "add": "Thêm điểm cuối",
+      "showList": "Quay lại danh sách điểm cuối"
     }
   },
   "extensions": {

@@ -34,10 +34,13 @@ export function ServicesPage({
   onOpenPrivacySettings,
 }: ServicesPageProps) {
   const { t } = useTranslation();
-  const { tab, toolIntent, select } = useServicesTab(
+  const { tab, toolIntent, view, setView, select } = useServicesTab(
     preferredTab,
     preferredToolId,
   );
+  // The add page puts a breadcrumb where the tabs were, so the way back is the
+  // one thing above the cards.
+  const adding = tab === "services" && view === "add";
 
   return (
     <div className="flex min-w-0 flex-col gap-4">
@@ -46,28 +49,34 @@ export function ServicesPage({
         title={t("services.title")}
         description={t("services.description")}
       />
-      <ScopeTabs
-        items={SERVICES_TABS.map((id) => ({
-          id,
-          label: t(TAB_LABEL_KEYS[id]),
-        }))}
-        active={tab}
-        label={t("services.title")}
-        idPrefix={TAB_PREFIX}
-        panelId={PANEL_ID}
-        onSelect={(id) => {
-          const picked = SERVICES_TABS.find((candidate) => candidate === id);
-          if (picked) select(picked);
-        }}
-      />
+      {adding ? null : (
+        <ScopeTabs
+          items={SERVICES_TABS.map((id) => ({
+            id,
+            label: t(TAB_LABEL_KEYS[id]),
+          }))}
+          active={tab}
+          label={t("services.title")}
+          idPrefix={TAB_PREFIX}
+          panelId={PANEL_ID}
+          onSelect={(id) => {
+            const picked = SERVICES_TABS.find((candidate) => candidate === id);
+            if (picked) select(picked);
+          }}
+        />
+      )}
       <section
         id={PANEL_ID}
-        role="tabpanel"
-        aria-labelledby={scopeTabId(TAB_PREFIX, tab)}
+        role={adding ? undefined : "tabpanel"}
+        aria-labelledby={adding ? undefined : scopeTabId(TAB_PREFIX, tab)}
         className="flex min-w-0 flex-col"
       >
         {tab === "services" ? (
-          <ServicesEndpointsPanel preferredToolId={toolIntent} />
+          <ServicesEndpointsPanel
+            preferredToolId={toolIntent}
+            view={view}
+            onViewChange={setView}
+          />
         ) : tab === "routing" ? (
           <RoutingPage onOpenPrivacySettings={onOpenPrivacySettings} />
         ) : (

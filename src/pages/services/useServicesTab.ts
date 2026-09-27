@@ -9,6 +9,13 @@ export type ServicesTab = (typeof SERVICES_TABS)[number];
 export const DEFAULT_SERVICES_TAB: ServicesTab = "services";
 
 /**
+ * The endpoints tab's own two pages: the saved list, and the page behind "Add
+ * endpoint" (ADR-0057). Page state, not a route: it lives only while the tab
+ * is open, and leaving the tab or switching tool lands back on the list.
+ */
+export type ServicesEndpointsView = "endpoints" | "add";
+
+/**
  * Which inner area is showing, plus the one-shot tool intent the shell handed
  * over. The intent survives tab switches until the endpoints tab has actually
  * been shown once; after the user leaves that tab the remembered scope rules,
@@ -22,12 +29,14 @@ export function useServicesTab(
     preferredTab ?? DEFAULT_SERVICES_TAB,
   );
   const [toolIntent, setToolIntent] = useState<ToolId | null>(preferredToolId);
+  const [view, setView] = useState<ServicesEndpointsView>("endpoints");
 
   const select = (next: ServicesTab) => {
     if (next === tab) return;
     if (tab === "services") setToolIntent(null);
+    setView("endpoints");
     setTab(next);
   };
 
-  return { tab, toolIntent, select };
+  return { tab, toolIntent, view, setView, select };
 }

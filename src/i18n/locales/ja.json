@@ -1558,35 +1558,27 @@
       "keyRequired": "API キーを貼り付けてください。",
       "model": "モデル",
       "modelRequired": "モデルを入力してください。",
-      "measuredServices": "このコンピューターでの測定",
       "name": "名前",
       "baseUrl": "Base URL",
-      "baseUrlHint": "変更するとカスタムエンドポイントとして保存されます。",
-      "baseUrlEdited": "変更されたため、カスタムエンドポイントとして保存されます。",
-      "baseUrlInvalid": "認証情報を含まない HTTPS アドレスを入力してください。",
+      "baseUrlInvalid": "認証情報を含まない HTTPS のアドレスを入力してください。このパソコン上のサービスなら HTTP も使えます。",
       "nameRequired": "名前を入力してください。",
-      "noPresetMatch": "一致する提供元がありません。",
-      "openProvider": "提供元を開く",
-      "preset": "提供元",
-      "presetHint": "提供元を選ぶとアドレスとモデルが自動で入ります。一覧にない場合は、アドレスを直接書き換えてください。",
       "profileError": "AI Manager は接続テンプレートを読み込めませんでした。保存済みのエンドポイントは変更されていません。",
       "profileErrorTitle": "新しいエンドポイントを準備できませんでした",
       "profileRetry": "接続テンプレートを再読み込み",
       "retryConnect": "このエンドポイントをもう一度追加",
       "retryHint": "入力内容は残っています。確認して、もう一度お試しください。",
       "responseTime": "応答 {{latency}} ms",
-      "searchPresets": "提供元を検索…",
       "saved": "{{name}}を保存しました",
-      "speedSorted": "このコンピューターでの最新の測定結果順です。",
       "speedTest": "どれが最も速く応答するか測定",
       "speedTestAgain": "再測定",
       "speedTestFailed": "提供元を測定できませんでした。ネットワークを確認して再試行してください。",
       "speedTesting": "アドレスを測定中…",
       "title": "{{service}} に接続",
       "unreachable": "到達不可",
-      "toolDefault": "{{tool}} の既定",
-      "toolDefaultGroup": "{{tool}} の既定の接続先",
-      "otherServices": "ほかの提供元"
+      "customTitle": "カスタムエンドポイント",
+      "customDescription": "自分で用意したアドレスを追加します。{{tool}} は他のエンドポイントと同じように接続します。",
+      "customBaseUrlHint": "HTTPS のアドレス。このパソコン上のサービスなら HTTP も使えます。",
+      "keyOptionalHint": "このパソコン上のサービスではキーはほとんど不要です。なければ空欄のままにしてください。"
     },
     "description": "ツールを選び、使用する API エンドポイントを追加・切り替え・確認します。",
     "effective": {
@@ -1902,6 +1894,49 @@
     },
     "tab": {
       "endpoints": "エンドポイント一覧"
+    },
+    "add": {
+      "breadcrumb": "ページの場所",
+      "back": "エンドポイント",
+      "title": "{{tool}} にエンドポイントを追加",
+      "search": "名前やアドレスで検索",
+      "custom": "カスタム",
+      "customDetail": "自分でアドレスを入力",
+      "group": {
+        "login": "サブスクリプション",
+        "vendor": "モデル提供元",
+        "relay": "中継サービス",
+        "local": "ローカル"
+      },
+      "groupHint": {
+        "login": "{{tool}} 自身のサインインを使い、API キーは不要",
+        "vendor": "モデルを開発した会社のサービスを直接使う",
+        "relay": "1 つのアカウントで複数社のモデルを使う",
+        "local": "このパソコンで動くモデル"
+      },
+      "login": {
+        "claude": "Claude サブスクリプション",
+        "chatGpt": "ChatGPT サブスクリプション",
+        "google": "Google アカウント",
+        "superGrok": "SuperGrok サブスクリプション"
+      },
+      "loginDetail": "{{tool}} 内でサインイン",
+      "added": "追加済み",
+      "noMatch": "「{{query}}」に一致するものはありません。",
+      "addAsCustom": "カスタムエンドポイントとして設定"
+    },
+    "login": {
+      "description": "{{tool}} にサインインしたアカウントを使うエンドポイントです。",
+      "signInThere": "API キーは不要です。サインインは {{tool}} の中で行われ、AI Manager があなたのアカウントに触れることはありません。",
+      "how": {
+        "claude": "Claude Code で /login を実行します。",
+        "chatGpt": "Codex で「Sign in with ChatGPT」を選びます。",
+        "google": "Gemini CLI で「Login with Google」を選びます。",
+        "superGrok": "Grok Build で xAI アカウントにサインインします。"
+      },
+      "alreadySaved": "すでにエンドポイント一覧にあります。",
+      "add": "エンドポイントを追加",
+      "showList": "エンドポイント一覧に戻る"
     }
   },
   "extensions": {

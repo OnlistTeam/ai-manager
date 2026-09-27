@@ -1558,35 +1558,27 @@
       "keyRequired": "请粘贴 API 密钥。",
       "model": "模型",
       "modelRequired": "请输入模型。",
-      "measuredServices": "本机实测",
       "name": "名称",
       "baseUrl": "Base URL",
-      "baseUrlHint": "改动后会存为自定义端点。",
-      "baseUrlEdited": "已改动，会存为自定义端点。",
-      "baseUrlInvalid": "请输入不含凭据的 HTTPS 地址。",
+      "baseUrlInvalid": "请输入不含凭据的 HTTPS 地址，本机服务可以用 HTTP。",
       "nameRequired": "请输入名称。",
-      "noPresetMatch": "没有匹配的服务商。",
-      "openProvider": "打开服务商",
-      "preset": "服务商",
-      "presetHint": "选一家服务商会自动填好地址和模型；不在列表里的，直接改地址。",
       "profileError": "AI 管家没能读取连接模板，已保存的端点不受影响。",
       "profileErrorTitle": "暂时不能添加新端点",
       "profileRetry": "重新读取连接模板",
       "retryConnect": "重新添加这个端点",
       "retryHint": "你填写的内容还在，请检查后再试一次。",
       "responseTime": "{{latency}} 毫秒",
-      "searchPresets": "搜索服务商…",
       "saved": "{{name}} 已保存",
-      "speedSorted": "已按这台电脑的最新实测结果排序。",
       "speedTest": "测一下哪个响应最快",
       "speedTestAgain": "重新测速",
       "speedTestFailed": "无法测速，请检查网络后重试。",
       "speedTesting": "正在测速…",
       "title": "连接 {{service}}",
       "unreachable": "不可达",
-      "toolDefault": "{{tool}} 默认",
-      "toolDefaultGroup": "{{tool}} 默认连接",
-      "otherServices": "其他服务商"
+      "customTitle": "自定义端点",
+      "customDescription": "填写你自己的地址，{{tool}} 会像连接其他端点一样连接它。",
+      "customBaseUrlHint": "HTTPS 地址；本机服务可以用 HTTP。",
+      "keyOptionalHint": "本机服务一般不需要密钥，没有就留空。"
     },
     "description": "选择软件，添加、切换和检查它使用的 API 端点。",
     "effective": {
@@ -1902,6 +1894,49 @@
     },
     "tab": {
       "endpoints": "端点列表"
+    },
+    "add": {
+      "breadcrumb": "页面路径",
+      "back": "端点列表",
+      "title": "为 {{tool}} 添加端点",
+      "search": "按名称或地址查找",
+      "custom": "自定义",
+      "customDetail": "填写自己的地址",
+      "group": {
+        "login": "订阅",
+        "vendor": "供应商",
+        "relay": "中转",
+        "local": "本机"
+      },
+      "groupHint": {
+        "login": "用 {{tool}} 自己的登录，不用 API 密钥",
+        "vendor": "直接用模型厂商的服务",
+        "relay": "一个账号调用多家的模型",
+        "local": "运行在这台电脑上的模型"
+      },
+      "login": {
+        "claude": "Claude 订阅",
+        "chatGpt": "ChatGPT 订阅",
+        "google": "Google 账号",
+        "superGrok": "SuperGrok 订阅"
+      },
+      "loginDetail": "在 {{tool}} 里登录",
+      "added": "已添加",
+      "noMatch": "没有找到“{{query}}”。",
+      "addAsCustom": "添加为自定义端点"
+    },
+    "login": {
+      "description": "这个端点使用你在 {{tool}} 里登录的账号。",
+      "signInThere": "不需要 API 密钥。登录在 {{tool}} 里完成，AI 管家不经手你的账号。",
+      "how": {
+        "claude": "在 Claude Code 里输入 /login。",
+        "chatGpt": "在 Codex 里选择“用 ChatGPT 登录”。",
+        "google": "在 Gemini CLI 里选择“用 Google 登录”。",
+        "superGrok": "在 Grok Build 里登录你的 xAI 账号。"
+      },
+      "alreadySaved": "它已经在端点列表里了。",
+      "add": "添加端点",
+      "showList": "回到端点列表"
     }
   },
   "extensions": {

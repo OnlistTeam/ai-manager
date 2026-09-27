@@ -165,6 +165,23 @@ export function useCreateCustomProvider(): UseMutationResult<
   );
 }
 
+/** Puts the tool's own sign-in entry back in its list (ADR-0057). */
+export function useRestoreToolLogin(): UseMutationResult<
+  ProviderCreateResult,
+  Error,
+  ProviderScope
+> {
+  const queryClient = useQueryClient();
+  return useProviderMutation<ProviderScope, ProviderCreateResult>(
+    ({ tool }) => native.providers.restoreToolLogin(tool),
+    (data, { tool }) => {
+      queryClient.setQueryData(providerKeys.list(tool), data.providers);
+      void queryClient.invalidateQueries({ queryKey: healthKeys.snapshots });
+    },
+    { inlineError: true },
+  );
+}
+
 export function useSwitchProvider(): UseMutationResult<
   Provider[],
   Error,

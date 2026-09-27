@@ -9,7 +9,10 @@ import {
 } from "@/entities/provider";
 import type { ToolId } from "@/entities/tool";
 import {
+  ProviderAddPage,
+  ProviderConnectModal,
   ProviderTestModal,
+  ProviderToolLoginModal,
   ShellVariableEditModal,
   useProviderConnectionFlow,
   useRecoverableProviderSwitch,
@@ -22,6 +25,7 @@ import {
   useToolLaunchFlow,
 } from "@/features/tool-management";
 import { EmptyState } from "@/shared/ui/EmptyState";
+import { ServicesAddBreadcrumb } from "./ServicesAddBreadcrumb";
 import { ServicesDialogs } from "./ServicesDialogs";
 import {
   ServicesEmptyInventory,
@@ -39,15 +43,21 @@ import { ServicesStartAction } from "./ServicesStartAction";
 import { useProviderEditFlow } from "./useProviderEditFlow";
 import { useProviderInventoryRecovery } from "./useProviderInventoryRecovery";
 import { useServiceScope } from "./useServiceScope";
+import type { ServicesEndpointsView } from "./useServicesTab";
 import { useServicesToolRecovery } from "./useServicesToolRecovery";
 
 export interface ServicesEndpointsPanelProps {
   preferredToolId?: ToolId | null;
+  /** The saved list, or the add page behind "Add endpoint" (ADR-0057). */
+  view: ServicesEndpointsView;
+  onViewChange: (view: ServicesEndpointsView) => void;
 }
 
 /** The endpoints tab of the AI Services page: pick a tool, then manage its endpoints. */
 export function ServicesEndpointsPanel({
   preferredToolId = null,
+  view,
+  onViewChange,
 }: ServicesEndpointsPanelProps) {
   const { t } = useTranslation();
   const {
@@ -142,6 +152,91 @@ export function ServicesEndpointsPanel({
   const shellNotInspected =
     runtime.data?.effectiveConnection?.shellInspected === false;
   const activeScopeUnsupported = activeTool !== null && !activeSupported;
+  const openAdd = () => onViewChange("add");
+  const showList = () => {
+    connectionFlow.closeConnection();
+    onViewChange("endpoints");
+  };
+  // The add page needs the tool's catalogue; until it is here (or if it cannot
+  // load) the list stays, with its own notice for the failure.
+  // The tool's own sign-in is an official entry; any one of them means the
+  // subscription card has nothing left to add.
+  const toolLoginSaved = (providerData ?? []).some(
+    (provider) => provider.kind === "official",
+  );
+  const addProfile =
+    view === "add" && managedActive !== null && providerData !== undefined
+      ? (connection.data ?? null)
+      : null;
+
+  if (addProfile !== null && managedActive !== null) {
+    return (
+      <div
+        ref={pageRef}
+        role="region"
+        aria-label={t("services.add.title", { tool: activeName })}
+        tabIndex={-1}
+        className="flex min-w-0 flex-col gap-4 outline-none"
+      >
+        <ServicesAddBreadcrumb toolName={activeName} onBack={showList} />
+        <ProviderAddPage
+          tool={managedActive}
+          toolName={activeName}
+          profile={addProfile}
+          toolLoginSaved={toolLoginSaved}
+          disabled={busy || authorityActionsBlocked}
+          onPickPreset={(preset) =>
+            connectionFlow.openConnection({ kind: "preset", preset })
+          }
+          onPickCustom={() => connectionFlow.openConnection({ kind: "custom" })}
+          onPickToolLogin={connectionFlow.openToolLogin}
+        />
+        <ProviderConnectModal
+          target={connectionFlow.target}
+          profile={addProfile}
+          tool={managedActive}
+          toolName={activeName}
+          busy={connectionFlow.createBusy}
+          error={connectionFlow.createError}
+          mutationsBlocked={authorityActionsBlocked && !busy}
+          onOpenChange={(open) => {
+            if (!open) connectionFlow.closeConnection();
+          }}
+          onErrorReset={connectionFlow.resetCreateError}
+          onSubmit={(draft) =>
+            connectionFlow.connectProvider(
+              { tool: managedActive, toolName: activeName, draft },
+              showList,
+            )
+          }
+          onCustomSubmit={(draft) =>
+            connectionFlow.connectCustomProvider(
+              { tool: managedActive, toolName: activeName, draft },
+              showList,
+            )
+          }
+        />
+        <ProviderToolLoginModal
+          account={connectionFlow.loginOpen ? addProfile.toolLogin : null}
+          toolName={activeName}
+          saved={toolLoginSaved}
+          busy={connectionFlow.createBusy}
+          error={connectionFlow.createError}
+          mutationsBlocked={authorityActionsBlocked && !busy}
+          onOpenChange={(open) => {
+            if (!open) connectionFlow.closeConnection();
+          }}
+          onRestore={() =>
+            connectionFlow.restoreToolLogin(
+              { tool: managedActive, toolName: activeName },
+              showList,
+            )
+          }
+          onShowList={showList}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -185,6 +280,7 @@ export function ServicesEndpointsPanel({
           saveFailed={scope.saveFailed}
           onSelect={(id) => {
             connectionFlow.closeConnection();
+            onViewChange("endpoints");
             editFlow.close();
             setRemoving(null);
             remove.reset();
@@ -231,7 +327,7 @@ export function ServicesEndpointsPanel({
           busy={busy}
           actionsBlocked={authorityActionsBlocked}
           connecting={connectionProfileLoading}
-          onConnect={connectionFlow.openConnection}
+          onConnect={openAdd}
         />
       ) : null}
 
@@ -262,7 +358,7 @@ export function ServicesEndpointsPanel({
                 busy={busy}
                 actionsBlocked={authorityActionsBlocked}
                 connecting={connectionProfileLoading}
-                onConnect={connectionFlow.openConnection}
+                onConnect={openAdd}
               />
             </div>
           </div>
@@ -304,9 +400,7 @@ export function ServicesEndpointsPanel({
             }
             onEditExternalVariable={setEditingVariable}
             externalEditableVariables={editableVariables}
-            onBrowseCompatible={
-              canConnect ? connectionFlow.openCompatibleConnection : undefined
-            }
+            onBrowseCompatible={canConnect ? openAdd : undefined}
             onEdit={editFlow.open}
             onRemove={(provider) => {
               remove.reset();
@@ -343,24 +437,15 @@ export function ServicesEndpointsPanel({
           editFlow.profile.isFetching && !editFlow.profile.isFetched
         }
         editingProfileError={editFlow.profile.error}
-        connectingProfile={
-          connectionFlow.connecting ? (connection.data ?? null) : null
-        }
-        tool={managedActive}
         removing={removing}
         toolName={activeName}
         saveBusy={editFlow.busy}
         saveError={editFlow.error}
-        createBusy={connectionFlow.createBusy}
-        createError={connectionFlow.createError}
         removeBusy={remove.isPending}
         removeError={remove.error}
         mutationsBlocked={authorityActionsBlocked && !busy}
-        preferCompatibleConnection={connectionFlow.preferCompatible}
         onEditingOpenChange={editFlow.setOpen}
         onEditingErrorReset={editFlow.resetError}
-        onConnectingOpenChange={connectionFlow.setConnectionOpen}
-        onConnectingErrorReset={connectionFlow.resetCreateError}
         onRemovalOpenChange={(open) => {
           if (!open) {
             setRemoving(null);
@@ -368,22 +453,6 @@ export function ServicesEndpointsPanel({
           }
         }}
         onSave={editFlow.submit}
-        onCreate={(draft) => {
-          if (managedActive === null) return;
-          connectionFlow.connectProvider({
-            tool: managedActive,
-            toolName: activeName,
-            draft,
-          });
-        }}
-        onCreateCustom={(draft) => {
-          if (managedActive === null) return;
-          connectionFlow.connectCustomProvider({
-            tool: managedActive,
-            toolName: activeName,
-            draft,
-          });
-        }}
         onRemove={() => {
           if (managedActive === null || removing === null) return;
           remove.mutate(

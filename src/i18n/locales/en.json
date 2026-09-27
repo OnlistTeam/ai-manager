@@ -1559,35 +1559,27 @@
       "keyRequired": "Paste an API key.",
       "model": "Model",
       "modelRequired": "Enter a model.",
-      "measuredServices": "Measured on this computer",
       "name": "Name",
       "baseUrl": "Base URL",
-      "baseUrlHint": "Editing it saves a custom endpoint.",
-      "baseUrlEdited": "Edited, so this will be saved as a custom endpoint.",
-      "baseUrlInvalid": "Enter a credential-free HTTPS address.",
+      "baseUrlInvalid": "Enter an HTTPS address without credentials, or an HTTP one on this computer.",
       "nameRequired": "Enter a name.",
-      "noPresetMatch": "No matching provider.",
-      "openProvider": "Open provider",
-      "preset": "Provider",
-      "presetHint": "Pick a provider to fill in the address and model; for anything not listed, just edit the address.",
       "profileError": "AI Manager could not load its connection template. Your saved endpoints are unchanged.",
       "profileErrorTitle": "Could not prepare a new endpoint",
       "profileRetry": "Load connection setup again",
       "retryConnect": "Try adding this endpoint again",
       "retryHint": "Your details are still here. Review them and try again.",
       "responseTime": "{{latency}} ms",
-      "searchPresets": "Search providers…",
       "saved": "{{name}} was saved",
-      "speedSorted": "Sorted by this computer's latest measurement.",
       "speedTest": "Test which responds fastest",
       "speedTestAgain": "Test again",
       "speedTestFailed": "Could not measure these providers. Check your network and try again.",
       "speedTesting": "Testing addresses…",
       "title": "Connect {{service}}",
       "unreachable": "Unreachable",
-      "toolDefault": "{{tool}} default",
-      "toolDefaultGroup": "{{tool}} connects here by default",
-      "otherServices": "Other providers"
+      "customTitle": "Custom endpoint",
+      "customDescription": "Add an address of your own. {{tool}} talks to it the way it talks to any endpoint.",
+      "customBaseUrlHint": "HTTPS, or HTTP for a service on this computer.",
+      "keyOptionalHint": "Services on this computer rarely ask for one; leave it blank if yours doesn't."
     },
     "description": "Choose a tool, then add, switch, and check its API endpoints.",
     "effective": {
@@ -1903,6 +1895,49 @@
     },
     "tab": {
       "endpoints": "Endpoints"
+    },
+    "add": {
+      "breadcrumb": "Page path",
+      "back": "Endpoints",
+      "title": "Add an endpoint for {{tool}}",
+      "search": "Find by name or address",
+      "custom": "Custom",
+      "customDetail": "Enter your own address",
+      "group": {
+        "login": "Subscription",
+        "vendor": "Model makers",
+        "relay": "Relays",
+        "local": "Local"
+      },
+      "groupHint": {
+        "login": "{{tool}}'s own sign-in, no API key",
+        "vendor": "Straight from the company behind the model",
+        "relay": "One account for models from many companies",
+        "local": "Models running on this computer"
+      },
+      "login": {
+        "claude": "Claude subscription",
+        "chatGpt": "ChatGPT subscription",
+        "google": "Google account",
+        "superGrok": "SuperGrok subscription"
+      },
+      "loginDetail": "Sign in inside {{tool}}",
+      "added": "Added",
+      "noMatch": "Nothing matches “{{query}}”.",
+      "addAsCustom": "Set it up as a custom endpoint"
+    },
+    "login": {
+      "description": "An endpoint that uses the account you sign in to {{tool}} with.",
+      "signInThere": "No API key needed. Signing in happens in {{tool}}, and AI Manager never sees your account.",
+      "how": {
+        "claude": "In Claude Code, run /login.",
+        "chatGpt": "In Codex, choose Sign in with ChatGPT.",
+        "google": "In Gemini CLI, choose Login with Google.",
+        "superGrok": "In Grok Build, sign in with your xAI account."
+      },
+      "alreadySaved": "It's already in your endpoint list.",
+      "add": "Add endpoint",
+      "showList": "Back to endpoints"
     }
   },
   "extensions": {

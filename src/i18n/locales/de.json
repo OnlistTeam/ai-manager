@@ -1559,35 +1559,27 @@
       "keyRequired": "Fügen Sie einen API-Schlüssel ein.",
       "model": "Modell",
       "modelRequired": "Geben Sie ein Modell ein.",
-      "measuredServices": "Auf diesem Computer gemessen",
       "name": "Name",
       "baseUrl": "Basis-URL",
-      "baseUrlHint": "Wenn Sie sie ändern, wird ein benutzerdefinierter Endpunkt gespeichert.",
-      "baseUrlEdited": "Geändert, wird daher als benutzerdefinierter Endpunkt gespeichert.",
-      "baseUrlInvalid": "Geben Sie eine HTTPS-Adresse ohne Zugangsdaten ein.",
+      "baseUrlInvalid": "Geben Sie eine HTTPS-Adresse ohne Zugangsdaten ein oder eine HTTP-Adresse auf diesem Computer.",
       "nameRequired": "Geben Sie einen Namen ein.",
-      "noPresetMatch": "Kein passender Anbieter.",
-      "openProvider": "Anbieter öffnen",
-      "preset": "Anbieter",
-      "presetHint": "Wählen Sie einen Anbieter, um Adresse und Modell auszufüllen; für alles andere passen Sie einfach die Adresse an.",
       "profileError": "AI Manager konnte seine Verbindungsvorlage nicht laden. Ihre gespeicherten Endpunkte sind unverändert.",
       "profileErrorTitle": "Ein neuer Endpunkt konnte nicht vorbereitet werden",
       "profileRetry": "Verbindungseinrichtung erneut laden",
       "retryConnect": "Diesen Endpunkt erneut hinzufügen",
       "retryHint": "Ihre Angaben sind noch da. Prüfen Sie sie und versuchen Sie es erneut.",
       "responseTime": "{{latency}} ms",
-      "searchPresets": "Anbieter suchen …",
       "saved": "{{name}} wurde gespeichert",
-      "speedSorted": "Sortiert nach der letzten Messung dieses Computers.",
       "speedTest": "Testen, welcher am schnellsten antwortet",
       "speedTestAgain": "Erneut testen",
       "speedTestFailed": "Diese Anbieter konnten nicht gemessen werden. Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
       "speedTesting": "Adressen werden getestet …",
       "title": "{{service}} verbinden",
       "unreachable": "Nicht erreichbar",
-      "toolDefault": "Standard für {{tool}}",
-      "toolDefaultGroup": "Standardverbindung von {{tool}}",
-      "otherServices": "Weitere Anbieter"
+      "customTitle": "Benutzerdefinierter Endpunkt",
+      "customDescription": "Fügen Sie eine eigene Adresse hinzu. {{tool}} verbindet sich damit wie mit jedem anderen Endpunkt.",
+      "customBaseUrlHint": "HTTPS, oder HTTP für einen Dienst auf diesem Computer.",
+      "keyOptionalHint": "Dienste auf diesem Computer brauchen selten einen. Lassen Sie das Feld leer, wenn Ihrer keinen braucht."
     },
     "description": "Wählen Sie ein Tool, fügen Sie dann seine API-Endpunkte hinzu, wechseln Sie sie und prüfen Sie sie.",
     "effective": {
@@ -1903,6 +1895,49 @@
     },
     "tab": {
       "endpoints": "Endpunkte"
+    },
+    "add": {
+      "breadcrumb": "Seitenpfad",
+      "back": "Endpunkte",
+      "title": "Endpunkt für {{tool}} hinzufügen",
+      "search": "Nach Name oder Adresse suchen",
+      "custom": "Benutzerdefiniert",
+      "customDetail": "Eigene Adresse eingeben",
+      "group": {
+        "login": "Abo",
+        "vendor": "Modellanbieter",
+        "relay": "Relays",
+        "local": "Lokal"
+      },
+      "groupHint": {
+        "login": "Eigene Anmeldung von {{tool}}, kein API-Schlüssel",
+        "vendor": "Direkt vom Unternehmen hinter dem Modell",
+        "relay": "Ein Konto für Modelle vieler Anbieter",
+        "local": "Modelle, die auf diesem Computer laufen"
+      },
+      "login": {
+        "claude": "Claude-Abo",
+        "chatGpt": "ChatGPT-Abo",
+        "google": "Google-Konto",
+        "superGrok": "SuperGrok-Abo"
+      },
+      "loginDetail": "In {{tool}} anmelden",
+      "added": "Hinzugefügt",
+      "noMatch": "Keine Treffer für „{{query}}“.",
+      "addAsCustom": "Als benutzerdefinierten Endpunkt einrichten"
+    },
+    "login": {
+      "description": "Ein Endpunkt, der das Konto nutzt, mit dem Sie in {{tool}} angemeldet sind.",
+      "signInThere": "Kein API-Schlüssel nötig. Die Anmeldung erfolgt in {{tool}}; AI Manager sieht Ihr Konto nie.",
+      "how": {
+        "claude": "Führen Sie in Claude Code /login aus.",
+        "chatGpt": "Wählen Sie in Codex „Sign in with ChatGPT“.",
+        "google": "Wählen Sie in Gemini CLI „Login with Google“.",
+        "superGrok": "Melden Sie sich in Grok Build mit Ihrem xAI-Konto an."
+      },
+      "alreadySaved": "Er ist bereits in Ihrer Endpunktliste.",
+      "add": "Endpunkt hinzufügen",
+      "showList": "Zurück zu den Endpunkten"
     }
   },
   "extensions": {

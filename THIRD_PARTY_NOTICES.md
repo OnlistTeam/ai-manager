@@ -29,6 +29,20 @@ this repository cannot be contributed upstream to CC Switch as-is.
 The AI Manager product name, icons, branding, and user interface are original
 to this project and are not part of the upstream work.
 
+## Lobe Icons
+
+- Repository: https://github.com/lobehub/lobe-icons
+- Copyright (c) LobeHub
+- License: MIT License
+
+The service logos under `src/icons/extracted/` that identify AI vendors and
+relays on the endpoint pages come from Lobe Icons, most of them by way of CC
+Switch and a few (`groq.svg`, `lmstudio.svg`, `zai.svg`) taken directly from
+its `@lobehub/icons-static-svg` package. The MIT License covers the drawings;
+the names and logos themselves are trademarks of their respective owners, and
+showing one here identifies that service and implies no endorsement or
+affiliation.
+
 ## Other dependencies
 
 Runtime dependencies are declared in `package.json` and `src-tauri/Cargo.toml`

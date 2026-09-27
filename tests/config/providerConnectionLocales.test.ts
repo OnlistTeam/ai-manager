@@ -15,8 +15,8 @@ describe("provider connection locale contract", () => {
     (_locale, services) => {
       expect(services.action.test.trim()).not.toBe("");
       expect(services.action.testNamed).toContain("{{name}}");
-      expect(services.connect.baseUrlHint.trim()).not.toBe("");
-      expect(services.connect.baseUrlEdited.trim()).not.toBe("");
+      expect(services.connect.customBaseUrlHint.trim()).not.toBe("");
+      expect(services.connect.keyOptionalHint.trim()).not.toBe("");
       expect(services.connect.afterSave).toContain("{{tool}}");
       expect(services.connect.firstUse).toContain("{{tool}}");
       expect(services.connect.saved).toContain("{{name}}");
@@ -28,17 +28,24 @@ describe("provider connection locale contract", () => {
       expect(services.connect.speedTesting.trim()).not.toBe("");
       expect(services.connect.speedTestAgain.trim()).not.toBe("");
       expect(services.connect.speedTestFailed.trim()).not.toBe("");
-      expect(services.connect.speedSorted.trim()).not.toBe("");
-      expect(services.connect.measuredServices.trim()).not.toBe("");
       expect(services.connect.responseTime).toContain("{{latency}}");
       expect(services.connect.unreachable.trim()).not.toBe("");
-      // The picker names the tool rather than ranking the services: "official"
-      // read as a verdict on the provider, and as a limit on what could be
-      // used, when it only ever meant "this is the vendor the tool ships with".
-      expect(services.connect.toolDefault).toContain("{{tool}}");
-      expect(services.connect.toolDefaultGroup).toContain("{{tool}}");
-      expect(services.connect.otherServices.trim()).not.toBe("");
-      expect(services.connect.presetHint.trim()).not.toBe("");
+      // The add page (ADR-0057): the breadcrumb and the subscription card
+      // name the tool, and every group has a heading and a hint.
+      expect(services.add.title).toContain("{{tool}}");
+      expect(services.add.loginDetail).toContain("{{tool}}");
+      expect(services.add.noMatch).toContain("{{query}}");
+      for (const kind of ["login", "vendor", "relay", "local"] as const) {
+        expect(services.add.group[kind].trim()).not.toBe("");
+        expect(services.add.groupHint[kind].trim()).not.toBe("");
+      }
+      expect(services.add.groupHint.login).toContain("{{tool}}");
+      for (const account of Object.keys(services.add.login)) {
+        expect(
+          services.login.how[account as keyof typeof services.login.how],
+        ).toBeTruthy();
+      }
+      expect(services.login.signInThere).toContain("{{tool}}");
       expect(services.test.operational.trim()).not.toBe("");
       expect(services.test.degraded.trim()).not.toBe("");
       expect(services.test.failed.trim()).not.toBe("");

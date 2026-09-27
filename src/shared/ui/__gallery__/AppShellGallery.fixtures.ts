@@ -15,6 +15,7 @@ import { settingsKeys } from "@/entities/settings";
 import { toolKeys } from "@/entities/tool";
 import { updateKeys } from "@/entities/update";
 import { usageKeys } from "@/entities/usage";
+import { galleryConnectionProfiles } from "./AppShellGallery.presets";
 import type {
   BackupList,
   DesktopApp,
@@ -26,7 +27,6 @@ import type {
   PrivacyProtection,
   ProductSettings,
   Provider,
-  ProviderConnectionProfile,
   ProviderEditProfile,
   ProviderRuntimeContext,
   RoutingOverview,
@@ -304,26 +304,6 @@ const MODEL_CHOICES: ToolModelChoice[] = [
 const CATALOG_MODELS: Record<string, string[]> = {
   "team-gateway": ["glm-5", "glm-5-air", "kimi-k2", "qwen3-coder"],
   "team-relay": ["gpt-5-codex", "gpt-5.5", "deepseek-v4", "qwen3-coder"],
-};
-
-const CONNECTION_PROFILE: ProviderConnectionProfile = {
-  defaultPresetId: "official",
-  modelRequired: false,
-  baseUrlTakesNoVersion: false,
-  toolLogin: "claude",
-  presets: [
-    {
-      id: "official",
-      serviceName: "Anthropic API",
-      defaultName: "Anthropic",
-      defaultModel: "claude-sonnet-5",
-      baseUrl: "https://api.anthropic.com",
-      websiteUrl: "https://www.anthropic.com",
-      apiKeyUrl: "https://console.anthropic.com",
-      official: true,
-      kind: "vendor",
-    },
-  ],
 };
 
 const RUNTIME_CONTEXT: ProviderRuntimeContext = {
@@ -903,10 +883,9 @@ export function seedAppShellGallery(client: QueryClient): void {
       },
     );
   }
-  client.setQueryData(
-    providerKeys.connectionProfile("claude-code"),
-    CONNECTION_PROFILE,
-  );
+  for (const [tool, profile] of galleryConnectionProfiles()) {
+    client.setQueryData(providerKeys.connectionProfile(tool), profile);
+  }
   client.setQueryData(
     providerKeys.runtimeContext("claude-code"),
     RUNTIME_CONTEXT,
