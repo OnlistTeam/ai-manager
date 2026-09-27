@@ -42,9 +42,10 @@ rows instead of big cards and whitespace.
 3. **Cheap evidence only.** The row reads the saved inventory and the saved
    entry's edit profile. It does not request the runtime context, whose login
    shell probe costs 0.3–2 s per tool (ADR-0035). So the row states what the
-   saved inventory says: the selected entry's name; "Official sign-in" when
-   the official entry is selected or nothing is selected and the tool has its
-   own login (`discovery.access`); "Not connected" when a tool that needs an
+   saved inventory says: the selected entry's name, the official entry
+   included, so the row and its picker name it alike (ADR-0053); "Official
+   sign-in" when nothing is selected and the tool has its own login
+   (`discovery.access`); "Not connected" when a tool that needs an
    endpoint has none; the count of added endpoints for tools that choose the
    model themselves (additive entries have no single selection, ADR-0039).
    A variable exported in a shell profile can still override this; the API

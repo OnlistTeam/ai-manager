@@ -1147,8 +1147,9 @@ a small text button in the list header.
 ```
 
 - The picker at the trailing edge shows the saved endpoint selected for the
-  tool, and its model when it pins exactly one; "Official sign-in" when the
-  official entry or the tool's own login is in effect; "Not connected" when a
+  tool by the same name its list uses, the official entry included, and its
+  model when it pins exactly one; "Official sign-in" when nothing is selected
+  and the tool's own login is in effect; "Not connected" when a
   tool that needs an endpoint has none; for tools that pick the model
   themselves, the number of endpoints added. Every picker has the same width,
   so they line up.

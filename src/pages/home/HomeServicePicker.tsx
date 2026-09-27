@@ -52,12 +52,16 @@ export function HomeServicePicker({
     );
   }
 
+  // A saved entry keeps the name the list below shows for it, official
+  // sign-in included; only a tool with no entry falls back to a description.
   const label =
     state.kind === "service"
       ? state.provider.name
-      : t(LABEL_KEYS[state.kind], {
-          count: state.kind === "added" ? state.count : undefined,
-        });
+      : state.kind === "official" && state.provider
+        ? state.provider.name
+        : t(LABEL_KEYS[state.kind], {
+            count: state.kind === "added" ? state.count : undefined,
+          });
 
   // Nothing to choose from until the list can be read again; the pill only
   // says so.

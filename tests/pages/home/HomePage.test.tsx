@@ -652,7 +652,7 @@ describe("HomePage", () => {
       expect(await within(pill).findByText("kimi-k2")).toBeVisible();
     });
 
-    it("says Official sign-in when the official entry or the tool's own login is in effect", async () => {
+    it("names the official entry as the list does, and says Official sign-in for the tool's own login", async () => {
       serveProviders({
         "claude-code": [
           provider({
@@ -677,10 +677,8 @@ describe("HomePage", () => {
       ]);
 
       const claude = await findRow("Claude Code");
-      expect(
-        await within(claude).findByText(en.home.tools.official),
-      ).toBeVisible();
-      expect(within(claude).queryByText("Claude Official")).toBeNull();
+      expect(await within(claude).findByText("Claude Official")).toBeVisible();
+      expect(within(claude).queryByText(en.home.tools.official)).toBeNull();
       const gemini = await findRow("Gemini CLI");
       expect(
         await within(gemini).findByText(en.home.tools.official),
