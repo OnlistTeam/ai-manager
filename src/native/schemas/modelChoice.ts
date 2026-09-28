@@ -13,24 +13,10 @@ export const MAX_MODEL_NAME_CHARS = 256;
 
 const settingValueSchema = z.string().min(1).max(MAX_MODEL_NAME_CHARS);
 
-export const modelEffortSchema = z
-  .object({
-    model: settingValueSchema,
-    effort: settingValueSchema,
-    modelDefault: z.boolean(),
-  })
-  .strict();
-
 /** The effort a new session runs at, as the tool itself resolves it. */
 export const effortInForceSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("toolDefault") }).strict(),
   z.object({ kind: z.literal("level"), level: settingValueSchema }).strict(),
-  z
-    .object({
-      kind: z.literal("mixed"),
-      perModel: z.array(modelEffortSchema).max(64),
-    })
-    .strict(),
   z.object({ kind: z.literal("fixed"), level: settingValueSchema }).strict(),
   z
     .object({
@@ -79,6 +65,5 @@ export const modelNameSchema = z
   );
 
 export type ContextMarker = z.infer<typeof contextMarkerSchema>;
-export type ModelEffort = z.infer<typeof modelEffortSchema>;
 export type EffortInForce = z.infer<typeof effortInForceSchema>;
 export type ToolModelChoice = z.infer<typeof toolModelChoiceSchema>;

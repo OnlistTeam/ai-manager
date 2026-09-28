@@ -22,14 +22,6 @@ fn applied(mut settings: Value, effort: Option<&str>) -> Value {
     settings
 }
 
-fn model_effort(model: &str, effort: &str, model_default: bool) -> ModelEffort {
-    ModelEffort {
-        model: model.to_string(),
-        effort: effort.to_string(),
-        model_default,
-    }
-}
-
 /// A settings file as `/effort` leaves it after a few models were used, with
 /// the older top-level key still there and no model chosen.
 fn real_example() -> Value {
@@ -44,18 +36,8 @@ fn real_example() -> Value {
 }
 
 #[test]
-fn the_real_example_shows_that_the_models_differ() {
-    assert_eq!(
-        resolved(&real_example()),
-        EffortInForce::Mixed {
-            per_model: vec![
-                model_effort("claude-fable-5-1", "xhigh", false),
-                model_effort("claude-opus-5-5", "xhigh", false),
-                model_effort("claude-opus-5", "high", false),
-                model_effort("claude-sonnet-5", "xhigh", false),
-            ]
-        }
-    );
+fn the_real_example_reads_as_the_level_of_the_default_model() {
+    assert_eq!(resolved(&real_example()), level("xhigh"));
 }
 
 #[test]
@@ -167,8 +149,8 @@ fn the_tool_default_removes_every_level_and_keeps_caps() {
             "hooks": {}
         })
     );
-    // Each model is back at its own default, and they differ.
-    assert!(matches!(resolved(&settings), EffortInForce::Mixed { .. }));
+    // Opus 5.5, which runs when no model is named, is back at its default.
+    assert_eq!(resolved(&settings), level("medium"));
 
     let settings = applied(real_example(), None);
     assert_eq!(settings, json!({}));
@@ -177,15 +159,7 @@ fn the_tool_default_removes_every_level_and_keeps_caps() {
 #[test]
 fn the_tool_wide_level_alone_does_not_reach_opus_5_5() {
     let settings = json!({"effortLevel": "xhigh"});
-    assert!(matches!(resolved(&settings), EffortInForce::Mixed { .. }));
-    let per_model = match resolved(&settings) {
-        EffortInForce::Mixed { per_model } => per_model,
-        other => panic!("{other:?}"),
-    };
-    assert_eq!(
-        per_model[1],
-        model_effort("claude-opus-5-5", "medium", true)
-    );
+    assert_eq!(resolved(&settings), level("medium"));
 
     let with_model = json!({"effortLevel": "xhigh", "model": "opus"});
     assert_eq!(resolved(&with_model), level("medium"));
@@ -196,10 +170,19 @@ fn the_tool_wide_level_alone_does_not_reach_opus_5_5() {
 }
 
 #[test]
-fn an_unnamed_model_reads_as_one_level_only_when_every_model_agrees() {
+fn an_unnamed_model_reads_as_the_default_model() {
     let settings = applied(json!({"model": "default"}), Some("low"));
     assert_eq!(resolved(&settings), level("low"));
-    assert!(matches!(resolved(&json!({})), EffortInForce::Mixed { .. }));
+    assert_eq!(resolved(&json!({})), level("medium"));
+    // Other models' levels do not matter while Opus 5.5 is the one that runs.
+    let differing = json!({
+        "model": "opusplan",
+        "modelSettings": {
+            "claude-fable-5-1": {"effortLevel": "xhigh"},
+            "claude-opus-5-5": {"effortLevel": "low"}
+        }
+    });
+    assert_eq!(resolved(&differing), level("low"));
 }
 
 #[test]

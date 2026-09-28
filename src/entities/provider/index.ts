@@ -51,6 +51,5 @@ export type {
   ToolId,
   ToolModelChoice,
   EffortInForce,
-  ModelEffort,
 } from "@/native";
 export type { OpenProviderRuntimeResourceVariables } from "./queries";

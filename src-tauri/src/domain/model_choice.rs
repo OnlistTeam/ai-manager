@@ -27,6 +27,9 @@ pub struct ModelChoiceSpec {
     /// Models whose default level is known, one entry each. Claude Code also
     /// keeps a saved effort for each of them.
     pub effort_models: &'static [EffortModel],
+    /// The model a new session runs when the settings name none, as a name
+    /// `effort_model` finds; `None` when that depends on the account.
+    pub default_model: Option<&'static str>,
     /// The suffix the tool reads on a model name to run it with a long
     /// context window; `None` when the tool takes the window from the model
     /// itself.
@@ -97,6 +100,12 @@ const CLAUDE_EFFORT_MODELS: &[EffortModel] = &[
     },
 ];
 
+/// What Claude Code runs when no model is named: Opus 5.5 on every account
+/// type and provider from 2.1.280, Microsoft Foundry aside, unless an
+/// organisation sets its own default. Reviewed with the model configuration
+/// page, like the table above.
+const CLAUDE_DEFAULT_MODEL: &str = "opus";
+
 /// Claude Code's aliases follow the newest model of each family, so the list
 /// does not age with every release. Its settings keys accept `low` to `xhigh`.
 /// `max` is not offered: it persists only through `CLAUDE_CODE_EFFORT_LEVEL`,
@@ -106,6 +115,7 @@ const CLAUDE_CODE: ModelChoiceSpec = ModelChoiceSpec {
     effort_levels: &["low", "medium", "high", "xhigh"],
     official_models: &["fable", "opus", "opus[1m]", "sonnet", "haiku"],
     effort_models: CLAUDE_EFFORT_MODELS,
+    default_model: Some(CLAUDE_DEFAULT_MODEL),
     context_marker: Some(CLAUDE_ONE_M_CONTEXT),
 };
 
@@ -146,6 +156,7 @@ const CODEX: ModelChoiceSpec = ModelChoiceSpec {
         "gpt-5.5",
     ],
     effort_models: CODEX_EFFORT_MODELS,
+    default_model: None,
     context_marker: None,
 };
 
@@ -154,6 +165,7 @@ const GEMINI_CLI: ModelChoiceSpec = ModelChoiceSpec {
     effort_levels: &[],
     official_models: &["auto", "pro", "flash", "flash-lite"],
     effort_models: &[],
+    default_model: None,
     context_marker: None,
 };
 
@@ -220,15 +232,6 @@ pub fn canonical_model_name(name: &str) -> String {
     name
 }
 
-/// The level one model runs at, and whether that is only the model's default.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ModelEffort {
-    pub model: String,
-    pub effort: String,
-    pub model_default: bool,
-}
-
 /// The effort a new session of the tool runs at, as the tool resolves it.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(
@@ -240,11 +243,9 @@ pub enum EffortInForce {
     /// Nothing sets a level and the model in use has no known default: the
     /// tool, or for Codex the endpoint, decides.
     ToolDefault,
-    /// The tool's settings give this level to the model in use, or to every
-    /// model when the model in use is not named.
+    /// The tool's settings, or the model's own default, give this level to
+    /// the model a new session runs.
     Level { level: String },
-    /// The model in use is not named and the models run at different levels.
-    Mixed { per_model: Vec<ModelEffort> },
     /// The tool's environment variable, set in its own settings file, holds
     /// this level for every session; the tool's own command cannot change it.
     Fixed { level: String },
@@ -380,6 +381,13 @@ mod tests {
         assert_eq!(default("openai/gpt-5.6-sol"), Some("low"));
         assert_eq!(default("gpt-5.5"), Some("medium"));
         assert_eq!(default("glm-5"), None);
+    }
+
+    #[test]
+    fn claude_code_runs_opus_5_5_when_no_model_is_named() {
+        let spec = ModelChoiceSpec::for_tool(ToolId::ClaudeCode).expect("claude code");
+        let default = spec.default_model.and_then(|name| spec.effort_model(name));
+        assert_eq!(default.map(|model| model.id), Some("claude-opus-5-5"));
     }
 
     #[test]

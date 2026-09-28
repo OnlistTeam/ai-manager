@@ -15,9 +15,7 @@ use serde_json::{Map, Value};
 use super::claude_model::{MODEL_KEY, MODEL_VARIABLE};
 use super::live_key;
 use crate::compat::ccswitch::provider_runtime::ToolTerminal;
-use crate::domain::{
-    canonical_model_name, AppError, EffortInForce, ErrorCode, ModelChoiceSpec, ModelEffort,
-};
+use crate::domain::{canonical_model_name, AppError, EffortInForce, ErrorCode, ModelChoiceSpec};
 
 /// The tool-wide level, the older form of `/effort`.
 pub(super) const EFFORT_KEY: &str = "effortLevel";
@@ -26,8 +24,8 @@ pub(super) const MODEL_SETTINGS_KEY: &str = "modelSettings";
 /// Outranks both keys and `/effort`, and is the only place `max` persists.
 pub(super) const EFFORT_VARIABLE: &str = "CLAUDE_CODE_EFFORT_LEVEL";
 
-/// Names that leave the model to the account or the mode, so the model a new
-/// session runs cannot be read from the file.
+/// Names that leave the model to the account or the mode, which read as the
+/// tool's default model, like no name at all.
 const UNNAMED_MODELS: [&str; 3] = ["default", "best", "opusplan"];
 
 fn text(value: Option<&Value>) -> Option<&str> {
@@ -94,9 +92,12 @@ pub(super) fn resolve(
             .map(|(model, _)| model)
             .or_else(from_file),
     };
-    match model.filter(|model| !UNNAMED_MODELS.contains(&canonical_model_name(model).as_str())) {
+    match model
+        .filter(|model| !UNNAMED_MODELS.contains(&canonical_model_name(model).as_str()))
+        .or(spec.default_model)
+    {
         Some(model) => for_model(spec, &saved, tool_wide, model),
-        None => across_models(spec, &saved, tool_wide),
+        None => EffortInForce::ToolDefault,
     }
 }
 
@@ -107,7 +108,7 @@ fn saved_for<'a>(saved: &[(&str, &'a str)], id: &str) -> Option<&'a str> {
         .map(|(_, level)| *level)
 }
 
-/// The model in use is named: its saved level, else the tool-wide one where
+/// The model a new session runs: its saved level, else the tool-wide one where
 /// it applies, else its own default. A model outside the table is assumed to
 /// read the tool-wide level, as every model before Opus 5.5 does, and has no
 /// default this product knows.
@@ -128,46 +129,6 @@ fn for_model(
             level: level.to_string(),
         },
         None => EffortInForce::ToolDefault,
-    }
-}
-
-/// The model in use is not named: one level when every model runs at it,
-/// else each model's level.
-fn across_models(
-    spec: &ModelChoiceSpec,
-    saved: &[(&str, &str)],
-    tool_wide: Option<&str>,
-) -> EffortInForce {
-    let mut per_model: Vec<ModelEffort> = spec
-        .effort_models
-        .iter()
-        .map(|model| {
-            let chosen =
-                saved_for(saved, model.id).or(tool_wide.filter(|_| model.reads_tool_wide_level));
-            ModelEffort {
-                model: model.id.to_string(),
-                effort: chosen.unwrap_or(model.default_level).to_string(),
-                model_default: chosen.is_none(),
-            }
-        })
-        .collect();
-    per_model.extend(
-        saved
-            .iter()
-            .filter(|(model, _)| spec.effort_model(model).is_none())
-            .map(|(model, level)| ModelEffort {
-                model: model.to_string(),
-                effort: level.to_string(),
-                model_default: false,
-            }),
-    );
-    match per_model.first() {
-        Some(first) if per_model.iter().all(|model| model.effort == first.effort) => {
-            EffortInForce::Level {
-                level: first.effort.clone(),
-            }
-        }
-        _ => EffortInForce::Mixed { per_model },
     }
 }
 

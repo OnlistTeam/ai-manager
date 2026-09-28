@@ -1443,7 +1443,6 @@
       "pickerLabel": "Thinking effort for {{tool}}",
       "pickNamed": "Thinking effort {{tool}} uses: {{current}}",
       "title": "Thinking effort",
-      "mixed": "Per model",
       "unset": "Not set",
       "terminal": "Set by the terminal variable {{variable}}; it cannot be changed here.",
       "terminalAt": "Set by the terminal variable {{variable}} in {{path}}; it cannot be changed here.",

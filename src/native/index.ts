@@ -346,14 +346,12 @@ export {
   contextMarkerSchema,
   effortInForceSchema,
   MAX_MODEL_NAME_CHARS,
-  modelEffortSchema,
   modelNameSchema,
   toolModelChoiceSchema,
 } from "./schemas/modelChoice";
 export type {
   ContextMarker,
   EffortInForce,
-  ModelEffort,
   ToolModelChoice,
 } from "./schemas/modelChoice";
 export {

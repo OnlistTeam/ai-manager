@@ -287,16 +287,16 @@ fn the_effort_survives_a_switch_to_an_endpoint_with_an_older_copy() {
     assert!(live.get("effortLevel").is_none());
     assert!(live.get("modelSettings").is_none());
     assert_eq!(live["env"]["CLAUDE_CODE_EFFORT_LEVEL"], "");
-    // No model is named, so each model runs at its own default.
-    assert!(matches!(
+    // No model is named, so Opus 5.5 runs, at its own default.
+    assert_eq!(
         read(ToolId::ClaudeCode, &none()).unwrap().effort,
-        EffortInForce::Mixed { .. }
-    ));
+        level("medium")
+    );
 }
 
 #[test]
 #[serial_test::serial]
-fn the_real_example_file_differs_by_model_until_a_level_is_chosen() {
+fn the_real_example_file_reads_as_the_level_of_the_default_model() {
     let temp = tempfile::tempdir().expect("temp home");
     let _home = TestHome::set(temp.path());
     write_claude_live(&json!({
@@ -308,22 +308,7 @@ fn the_real_example_file_differs_by_model_until_a_level_is_chosen() {
         }
     }));
     let choice = read(ToolId::ClaudeCode, &none()).expect("read");
-    let EffortInForce::Mixed { per_model } = choice.effort else {
-        panic!("expected mixed, got {:?}", choice.effort);
-    };
-    let shown: Vec<(&str, &str)> = per_model
-        .iter()
-        .map(|model| (model.model.as_str(), model.effort.as_str()))
-        .collect();
-    assert_eq!(
-        shown,
-        [
-            ("claude-fable-5-1", "xhigh"),
-            ("claude-opus-5-5", "xhigh"),
-            ("claude-opus-5", "high"),
-            ("claude-sonnet-5", "xhigh"),
-        ]
-    );
+    assert_eq!(choice.effort, level("xhigh"));
 
     let store = store();
     let choice = store

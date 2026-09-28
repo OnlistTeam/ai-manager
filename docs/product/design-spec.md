@@ -1180,9 +1180,10 @@ its thinking effort (ADR-0055).
   the tool keeps in its settings (Claude Code's Max, which only a variable
   holds and which would reach every running session, is not offered); with no
   single level known, the thumb stands on no stop until one is picked. The stop the slider is let go on is written, for
-  sessions started after it, and the slider stays open. When no model is named and the models run
-  at different levels, the pill says "Per model" and its tooltip names each
-  model's level; choosing a level sets it for every model. A level held by a
+  sessions started after it, and the slider stays open. When no model is
+  named, the pill names the level of the model the tool then runs (Opus 5.5
+  for Claude Code); it never says the models differ. Choosing a level sets it
+  for every model. A level held by a
   terminal variable shows a lock; the slider cannot move and one line says
   where the variable is set. There are no other notes. The effort belongs to
   the tool and survives every switch. A tool without an effort setting keeps

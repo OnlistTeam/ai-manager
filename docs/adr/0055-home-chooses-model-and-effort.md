@@ -10,7 +10,9 @@
   2026-09-27, decisions 2 and 3 (the saved model is not listed; catalogues
   are kept for the session); 2026-09-27, decisions 5 and 6 (Claude Code's
   model is the key its own `/model` saves); 2026-09-27, decisions 8 and 9
-  (the pill names the level in force; the slider has no "Default" stop)
+  (the pill names the level in force; the slider has no "Default" stop);
+  2026-09-28, decisions 8 and 9 (no model named reads as Opus 5.5; the pill
+  never says the models differ)
 - Amends: ADR-0053 decision 1 (what a Home row chooses), ADR-0041
   decision 1 (when a model catalogue is read), design-spec §29.
 
@@ -193,10 +195,11 @@ screen, one row per tool.
    `model` key, with aliases mapped through the domain table, else that
    model's own default from the table. A model outside the table is taken to
    read the top-level key, as every model before Opus 5.5 does, and with no
-   level set its default is not known. When no model is named (or it is `default`, `best` or
-   `opusplan`), the pill shows one level only if every model in the table and
-   in `modelSettings` runs at it, and otherwise says the models differ, with
-   each model's level on its tooltip. The
+   level set its default is not known. When no model is named (or it is
+   `default`, `best` or `opusplan`), the pill reads the model Claude Code then
+   runs, which the domain table names: Opus 5.5, the default on every account
+   type and provider from Claude Code 2.1.280 (Microsoft Foundry and an
+   organisation default aside). The
    terminal is read through the same cached login-shell probe as the
    effective connection, and only for the variables the tool reads for these
    two settings. A switch keeps `modelSettings` and the variable from the
@@ -214,8 +217,16 @@ screen, one row per tool.
    whichever endpoint serves it (so `gpt-5.6-sol` reads as Low). Only a model
    neither table lists, such as a relay's own model under Codex, where Codex
    sends no level and the endpoint decides, reads "Not set". The slider's
-   thumb then, and while the models differ, stands on no stop until one is
-   picked.
+   thumb then stands on no stop until one is picked.
+
+   The pill never says the models differ. The first version compared every
+   model when none was named and read "Per model", with each model's level
+   on its tooltip, because the model such a session ran depended on the
+   account. It was the one state on the row that named no level, and the
+   owner found it too much to take in; magpie shows one level only. Claude
+   Code's model configuration page now names one default for every account
+   type, so the pill reads that model, and a level chosen here still goes to
+   every model (decision 8).
 
    The first version put "Default" at the weak end of the slider, as magpie
    does. It read as weaker than Low, while it meant the model's default,
@@ -247,8 +258,8 @@ screen, one row per tool.
   file, a `--effort` flag, a `maxEffortLevel` cap, an organisation default,
   and the fallback of a level a model does not support (`xhigh` runs as
   `high` on Opus 4.6) can each make a session differ from what the pill
-  says. The model a session with no named model runs depends on the account,
-  which is why the pill then compares every model instead of guessing one.
+  says. So can an organisation default model, or Microsoft Foundry, where a
+  session with no named model runs something other than Opus 5.5.
 - Negative: the table of effort-capable models is a short current set, like
   the official model lists. A model released later gets an entry only once
   `/effort` saves one or the table is updated; until then the tool-wide key

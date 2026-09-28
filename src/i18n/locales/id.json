@@ -1443,7 +1443,6 @@
       "pickerLabel": "Tingkat berpikir {{tool}}",
       "pickNamed": "Tingkat berpikir {{tool}}: {{current}}",
       "title": "Tingkat berpikir",
-      "mixed": "Per model",
       "unset": "Belum diatur",
       "terminal": "Diatur oleh variabel terminal {{variable}}; tidak dapat diubah di sini.",
       "terminalAt": "Diatur oleh variabel terminal {{variable}} di {{path}}; tidak dapat diubah di sini.",

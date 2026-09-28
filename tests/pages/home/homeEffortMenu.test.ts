@@ -72,20 +72,6 @@ describe("buildEffortMenu", () => {
     expect(shown.bars).toBe(4);
   });
 
-  it("says the models differ, stands on no stop, and names each in the tooltip", () => {
-    const shown = menu({
-      kind: "mixed",
-      perModel: [
-        { model: "claude-opus-5-5", effort: "medium", modelDefault: true },
-        { model: "claude-opus-5", effort: "high", modelDefault: false },
-      ],
-    });
-    expect(shown.label).toBe("Per model");
-    expect(shown.index).toBeNull();
-    expect(shown.bars).toBe(0);
-    expect(shown.title).toBe("claude-opus-5-5 Medium\nclaude-opus-5 High");
-  });
-
   it("locks a level a terminal variable holds and says where it is set", () => {
     const shown = menu({
       kind: "terminal",

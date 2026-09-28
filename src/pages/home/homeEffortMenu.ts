@@ -10,18 +10,17 @@ export interface EffortStop {
 export interface EffortMenu {
   /** What the pill says. */
   label: string;
-  /** No single level is known: none is set and the model's default is not
-   * known, or the models differ. */
+  /** No level is known: none is set and the model's default is not known. */
   muted: boolean;
   /** The levels, weakest first. */
   stops: EffortStop[];
-  /** The stop in force; `null` when no single level is known. */
+  /** The stop in force; `null` when no level is known. */
   index: number | null;
-  /** How many of the four bars are lit; none when no single level is known. */
+  /** How many of the four bars are lit; none when no level is known. */
   bars: number;
   /** A terminal variable holds the level; the slider cannot move. */
   locked: boolean;
-  /** The pill's tooltip: where a held level comes from, or each model's level. */
+  /** The pill's tooltip: where a held level comes from. */
   title: string | null;
 }
 
@@ -65,19 +64,10 @@ export function buildEffortMenu(
                 ? effort.source.variable
                 : "",
           });
-  } else if (effort.kind === "mixed") {
-    title = effort.perModel
-      .map(({ model, effort: level }) => `${model} ${levelLabel(level)}`)
-      .join("\n");
   }
 
   return {
-    label:
-      effort.kind === "mixed"
-        ? t("home.effort.mixed")
-        : current === null
-          ? t("home.effort.unset")
-          : levelLabel(current),
+    label: current === null ? t("home.effort.unset") : levelLabel(current),
     muted: current === null,
     stops,
     index,

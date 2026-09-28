@@ -1442,7 +1442,6 @@
       "pickerLabel": "{{tool}} 的思考強度",
       "pickNamed": "{{tool}} 的思考強度：{{current}}",
       "title": "思考強度",
-      "mixed": "各模型不同",
       "unset": "未設定",
       "terminal": "由終端機變數 {{variable}} 設定，這裡改不了。",
       "terminalAt": "由終端機變數 {{variable}}（{{path}}）設定，這裡改不了。",

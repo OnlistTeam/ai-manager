@@ -265,23 +265,14 @@ const CODEX_EDIT_PROFILE: ProviderEditProfile = {
 };
 
 /**
- * Claude Code as a real settings file often stands: no model, the older
- * tool-wide level, and levels `/effort` saved per model that disagree, so the
- * pill says the models differ and the list names each one.
+ * Claude Code as a real settings file often stands: no model, so a new
+ * session runs Opus 5.5 at the level `/effort` saved for it.
  */
 const MODEL_CHOICES: ToolModelChoice[] = [
   {
     tool: "claude-code",
     model: null,
-    effort: {
-      kind: "mixed",
-      perModel: [
-        { model: "claude-fable-5-1", effort: "xhigh", modelDefault: false },
-        { model: "claude-opus-5-5", effort: "xhigh", modelDefault: false },
-        { model: "claude-opus-5", effort: "high", modelDefault: false },
-        { model: "claude-sonnet-5", effort: "xhigh", modelDefault: false },
-      ],
-    },
+    effort: { kind: "level", level: "xhigh" },
     effortLevels: ["low", "medium", "high", "xhigh"],
     officialModels: ["fable", "opus", "opus[1m]", "sonnet", "haiku"],
     contextMarker: { suffix: "[1m]", minTokens: 1_000_000 },

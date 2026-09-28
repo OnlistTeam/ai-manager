@@ -102,21 +102,13 @@ function editProfile(providerId: string, models: string[]) {
 }
 
 /**
- * A real Claude Code file: no model, the older tool-wide level, and levels
- * `/effort` saved per model that disagree.
+ * A real Claude Code file with no model: a new session runs Opus 5.5, at the
+ * level `/effort` saved for it.
  */
 const CHOICE = {
   tool: "claude-code",
   model: null,
-  effort: {
-    kind: "mixed",
-    perModel: [
-      { model: "claude-fable-5-1", effort: "xhigh", modelDefault: false },
-      { model: "claude-opus-5-5", effort: "xhigh", modelDefault: false },
-      { model: "claude-opus-5", effort: "high", modelDefault: false },
-      { model: "claude-sonnet-5", effort: "medium", modelDefault: true },
-    ],
-  },
+  effort: { kind: "level", level: "xhigh" },
   effortLevels: ["low", "medium", "high", "xhigh"],
   officialModels: ["fable", "opus", "sonnet"],
   contextMarker: { suffix: "[1m]", minTokens: 1_000_000 },
@@ -314,7 +306,7 @@ describe("Home model and effort pickers", () => {
     await i18n.changeLanguage("en");
   });
 
-  it("says the models differ when no model is set and their levels disagree", async () => {
+  it("names the level of the model a new session runs when no model is set", async () => {
     serve({ "claude-code": [OFFICIAL] });
     mount();
 
@@ -325,7 +317,7 @@ describe("Home model and effort pickers", () => {
     const row = await screen.findByRole("article", { name: "Claude Code" });
     expect(
       await within(row).findByRole("button", {
-        name: "Thinking effort Claude Code uses: Per model",
+        name: "Thinking effort Claude Code uses: Extra high",
       }),
     ).toBeVisible();
   });
@@ -445,12 +437,9 @@ describe("Home model and effort pickers", () => {
     const row = await screen.findByRole("article", { name: "Claude Code" });
     const user = userEvent.setup();
     const pill = await within(row).findByRole("button", {
-      name: "Thinking effort Claude Code uses: Per model",
+      name: "Thinking effort Claude Code uses: Extra high",
     });
-    expect(pill).toHaveAttribute(
-      "title",
-      "claude-fable-5-1 Extra high\nclaude-opus-5-5 Extra high\nclaude-opus-5 High\nclaude-sonnet-5 Medium",
-    );
+    expect(pill).not.toHaveAttribute("title");
     await user.click(pill);
     const slider = await screen.findByRole("slider", {
       name: "Thinking effort",
@@ -459,9 +448,7 @@ describe("Home model and effort pickers", () => {
     // which reaches running sessions.
     expect(slider).toHaveAttribute("max", "3");
     expect(screen.getByText("Low")).toBeVisible();
-    expect(screen.getByText("Extra high")).toBeVisible();
-    // The models differ, so the thumb stands on no level.
-    expect(slider).toHaveAttribute("aria-valuetext", "Per model");
+    expect(slider).toHaveAttribute("aria-valuetext", "Extra high");
 
     fireEvent.change(slider, { target: { value: "2" } });
     await waitFor(() =>
@@ -482,13 +469,23 @@ describe("Home model and effort pickers", () => {
   });
 
   it("writes the weakest level when it is clicked while no level is placed", async () => {
-    const calls = serve({ "claude-code": [OFFICIAL] });
+    // A relay's own model: nothing sets a level and its default is not known.
+    const calls = serve(
+      { "claude-code": [OFFICIAL] },
+      {
+        "claude-code": {
+          ...CHOICE,
+          model: "glm-5",
+          effort: { kind: "toolDefault" },
+        },
+      },
+    );
     mount();
 
     const row = await screen.findByRole("article", { name: "Claude Code" });
     await userEvent.click(
       await within(row).findByRole("button", {
-        name: "Thinking effort Claude Code uses: Per model",
+        name: "Thinking effort Claude Code uses: Not set",
       }),
     );
     const slider = await screen.findByRole("slider");
@@ -536,11 +533,11 @@ describe("Home model and effort pickers", () => {
       }),
     );
     const slider = await screen.findByRole("slider");
-    for (const stop of ["0", "1", "2", "3"]) {
+    for (const stop of ["0", "1", "2"]) {
       fireEvent.change(slider, { target: { value: stop } });
     }
     await waitFor(() =>
-      expect(calls.efforts).toEqual([{ tool: "claude-code", effort: "xhigh" }]),
+      expect(calls.efforts).toEqual([{ tool: "claude-code", effort: "high" }]),
     );
   });
 
