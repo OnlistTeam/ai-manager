@@ -1,6 +1,6 @@
 # AI Manager desktop release runbook
 
-> Status: `v1.2.0` is the current stable release, built for all four targets.
+> Status: `v1.5.0` is the current stable release, built for all four targets.
 > Installed updater round trip proven on Windows only (owner machine); macOS,
 > Linux, and clean-machine evidence still pending; see the invariant 12
 > exceptions in section 1 ·
@@ -24,9 +24,26 @@ use are recorded outside the repository.
 
 ## 1. Current release state
 
-`v1.2.0` is the current stable release. What is still missing is evidence that
+`v1.5.0` is the current stable release. What is still missing is evidence that
 an _installed_ build updates itself on macOS and Linux, and clean-machine
 validation on native Windows and Linux hardware:
+
+> **Invariant 12 exception, 2026-09-28 (`v1.5.0`).** The `v1.2.0` exception
+> below said that publishing `v1.2.1` as stable requires the updater test on
+> macOS and Linux, or recording that exception a sixth time. Neither test has
+> been run, and this records it a sixth time for `v1.5.0`.
+>
+> Windows keeps the evidence recorded for `v1.2.0` on `tiger-pc`. `v1.5.0`
+> skips `1.3` and `1.4` by owner choice; it collects the work since `v1.2.0`:
+> per-tool routing with privacy masking, model and effort choice on Home,
+> subscription sign-in from the app, the Add endpoint page, local model
+> servers, Skill and MCP rows that show and edit, and Discover (ADR-0052 to
+> ADR-0063). One change touches the updater path: the app's outbound requests
+> now follow a system, direct, or custom proxy mode (ADR-0056). The owner asked
+> for `v1.5.0` as a stable release on 2026-09-28.
+>
+> Publishing `v1.5.1` as stable requires the updater test on macOS and Linux,
+> or recording that exception a seventh time.
 
 > **Invariant 12 exception, 2026-09-24 (`v1.2.0`).** The `v1.1.0` exception
 > below said that publishing a further stable release requires running the
@@ -297,8 +314,9 @@ Obtain a new explicit decision before:
   requires a new ADR for;
 - promoting any build to a stable, non-prerelease release. The owner
   authorized `v0.1.0` and then `v0.2.0` as stable releases on 2026-09-21,
-  `v0.3.0` and `v1.0.0` on 2026-09-22, `v1.1.0` on 2026-09-23, and `v1.2.0`
-  on 2026-09-24; each decision covers one version only.
+  `v0.3.0` and `v1.0.0` on 2026-09-22, `v1.1.0` on 2026-09-23, `v1.2.0` on
+  2026-09-24, and `v1.5.0` on 2026-09-28; each decision covers one version
+  only.
 
 The identifier migration is implemented in the same commit as the stable
 identity. It never changes or deletes the inherited source directory.
