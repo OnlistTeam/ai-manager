@@ -11,6 +11,7 @@ const CHOICE = {
   effort: { kind: "level", level: "low" },
   effortLevels: ["low", "medium", "high", "xhigh"],
   officialModels: ["gpt-5.5"],
+  contextMarker: null,
 };
 
 /** Home's model and effort choice (ADR-0055): only names cross IPC, never a path. */

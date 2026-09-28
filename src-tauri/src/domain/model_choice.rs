@@ -2,8 +2,9 @@
 //!
 //! The per-tool facts live in one table: whether the model can be chosen, the
 //! effort levels the tool accepts, the models whose default level is known
-//! (and, for Claude Code, keep a saved effort each), and a short list of models
-//! its official service offers. The renderer receives
+//! (and, for Claude Code, keep a saved effort each), a short list of models
+//! its official service offers, and the marker that gives a model its long
+//! context window. The renderer receives
 //! them with the current choice, so no screen holds a model name or checks a
 //! tool's name.
 
@@ -26,7 +27,29 @@ pub struct ModelChoiceSpec {
     /// Models whose default level is known, one entry each. Claude Code also
     /// keeps a saved effort for each of them.
     pub effort_models: &'static [EffortModel],
+    /// The suffix the tool reads on a model name to run it with a long
+    /// context window; `None` when the tool takes the window from the model
+    /// itself.
+    pub context_marker: Option<ContextMarker>,
 }
+
+/// A suffix a tool reads on a model name as the size of its context window.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ContextMarker {
+    pub suffix: &'static str,
+    /// The smallest window, in tokens, the suffix stands for. A catalogue
+    /// model with at least this many is written with it.
+    pub min_tokens: u64,
+}
+
+/// Claude Code runs any model without `[1m]` with a 200K window and compacts
+/// long before a 1M model needs it. It drops the suffix before the request
+/// and asks for the long window instead, so the endpoint sees the plain id.
+const CLAUDE_ONE_M_CONTEXT: ContextMarker = ContextMarker {
+    suffix: "[1m]",
+    min_tokens: 1_000_000,
+};
 
 /// A model that takes an effort level, under the name the tool saves it by.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -83,6 +106,7 @@ const CLAUDE_CODE: ModelChoiceSpec = ModelChoiceSpec {
     effort_levels: &["low", "medium", "high", "xhigh"],
     official_models: &["fable", "opus", "opus[1m]", "sonnet", "haiku"],
     effort_models: CLAUDE_EFFORT_MODELS,
+    context_marker: Some(CLAUDE_ONE_M_CONTEXT),
 };
 
 /// The level each model in Codex's bundled catalogue runs at when
@@ -122,6 +146,7 @@ const CODEX: ModelChoiceSpec = ModelChoiceSpec {
         "gpt-5.5",
     ],
     effort_models: CODEX_EFFORT_MODELS,
+    context_marker: None,
 };
 
 /// Gemini CLI resolves these aliases itself; it has no effort setting.
@@ -129,6 +154,7 @@ const GEMINI_CLI: ModelChoiceSpec = ModelChoiceSpec {
     effort_levels: &[],
     official_models: &["auto", "pro", "flash", "flash-lite"],
     effort_models: &[],
+    context_marker: None,
 };
 
 impl ModelChoiceSpec {
@@ -232,7 +258,7 @@ pub enum EffortInForce {
 /// The model and effort in the tool's live files, with what may be chosen.
 ///
 /// `model: None` means this product's key is absent and the tool decides.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ToolModelChoice {
     pub tool: ToolId,
@@ -240,6 +266,9 @@ pub struct ToolModelChoice {
     pub effort: EffortInForce,
     pub effort_levels: Vec<String>,
     pub official_models: Vec<String>,
+    /// Added to a catalogue model's id when the catalogue gives it a window
+    /// at least this long.
+    pub context_marker: Option<ContextMarker>,
 }
 
 fn invalid(technical: &'static str) -> AppError {
@@ -351,6 +380,18 @@ mod tests {
         assert_eq!(default("openai/gpt-5.6-sol"), Some("low"));
         assert_eq!(default("gpt-5.5"), Some("medium"));
         assert_eq!(default("glm-5"), None);
+    }
+
+    #[test]
+    fn only_claude_code_reads_a_context_marker() {
+        let marked: Vec<(ToolId, &str)> = ToolId::ALL
+            .into_iter()
+            .filter_map(|tool| {
+                let marker = ModelChoiceSpec::for_tool(tool)?.context_marker?;
+                Some((tool, marker.suffix))
+            })
+            .collect();
+        assert_eq!(marked, vec![(ToolId::ClaudeCode, "[1m]")]);
     }
 
     #[test]

@@ -10,6 +10,7 @@ import {
 } from "@/features/provider-management";
 import {
   buildModelItems,
+  catalogModelIds,
   type ModelMenuEndpoint,
   type ModelMenuItem,
 } from "./homeModelMenu";
@@ -53,9 +54,10 @@ export function useHomeModelMenu(
 
   const shared = {
     models: subject
-      ? (catalog.data?.models ?? [])
-          .filter((model) => model.kind === "text")
-          .map((model) => model.id)
+      ? catalogModelIds(
+          (catalog.data?.models ?? []).filter((model) => model.kind === "text"),
+          choice?.contextMarker ?? null,
+        )
       : (choice?.officialModels ?? []),
     loading: subject !== null && catalog.isFetching,
   };

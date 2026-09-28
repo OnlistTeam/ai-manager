@@ -10,6 +10,7 @@ const CLAUDE: ToolModelChoice = {
   effort: { kind: "toolDefault" },
   effortLevels: ["low", "medium", "high", "xhigh"],
   officialModels: ["opus"],
+  contextMarker: { suffix: "[1m]", minTokens: 1_000_000 },
 };
 
 const menu = (effort: ToolModelChoice["effort"], choice = CLAUDE) =>

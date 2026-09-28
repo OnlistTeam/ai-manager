@@ -243,6 +243,7 @@ fn build_catalog(protocol: ProviderWireProtocol, entries: Vec<wire::CatalogEntry
                     .declared
                     .unwrap_or_else(|| endpoint::classify_model(&entry.id)),
                 id: entry.id,
+                context_tokens: entry.context_tokens,
             })
             .collect(),
         truncated,

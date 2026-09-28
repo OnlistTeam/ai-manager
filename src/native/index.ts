@@ -343,6 +343,7 @@ export {
   providerTestResultSchema,
 } from "./schemas/provider";
 export {
+  contextMarkerSchema,
   effortInForceSchema,
   MAX_MODEL_NAME_CHARS,
   modelEffortSchema,
@@ -350,6 +351,7 @@ export {
   toolModelChoiceSchema,
 } from "./schemas/modelChoice";
 export type {
+  ContextMarker,
   EffortInForce,
   ModelEffort,
   ToolModelChoice,

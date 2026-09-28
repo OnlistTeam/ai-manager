@@ -1,4 +1,4 @@
-import type { Provider } from "@/entities/provider";
+import type { Provider, ToolModelChoice } from "@/entities/provider";
 
 /** The endpoint the tool uses now, whose models the picker lists. */
 export interface ModelMenuEndpoint {
@@ -52,7 +52,8 @@ const CONTEXT_MARKER = /\[([12])m\]$/i;
  * last `/` and treats a trailing `[1m]` as the context size. One model then
  * looks the same whether an endpoint lists `gpt-5.6-sol`, `openai/gpt-5.6-sol`
  * or `anthropic/openai/gpt-5.6-sol[1m]`. Display only: the id written to the
- * tool's file stays exactly as the endpoint listed it.
+ * tool's file stays as the endpoint listed it, with no more than the tool's
+ * context marker added (`catalogModelIds`).
  */
 export function describeModel(id: string): ModelDisplay {
   const trimmed = id.trim();
@@ -66,6 +67,33 @@ export function describeModel(id: string): ModelDisplay {
   const context = marker ? `${marker[1]}M` : null;
   const note = [namespace, context].filter(Boolean).join(" · ");
   return { name, note: note || null, context };
+}
+
+/** A catalogue entry, as far as the picker reads it. */
+export interface CatalogModel {
+  id: string;
+  contextTokens?: number;
+}
+
+/**
+ * The ids the picker offers for a catalogue. A tool that reads its context
+ * window from a suffix on the name (Claude Code's `[1m]`) gets it on every
+ * model the catalogue gives a window that long; without it the tool runs the
+ * model with its short window. An id that already carries a marker, and a
+ * model whose window the catalogue does not say, are offered as listed.
+ */
+export function catalogModelIds(
+  models: readonly CatalogModel[],
+  marker: ToolModelChoice["contextMarker"],
+): string[] {
+  return models.map(({ id, contextTokens }) =>
+    marker &&
+    contextTokens !== undefined &&
+    contextTokens >= marker.minTokens &&
+    !CONTEXT_MARKER.test(id.trim())
+      ? `${id}${marker.suffix}`
+      : id,
+  );
 }
 
 /** The pill's text: the model's name, with the context size when it has one. */

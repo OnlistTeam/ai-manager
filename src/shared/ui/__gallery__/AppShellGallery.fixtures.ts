@@ -284,6 +284,7 @@ const MODEL_CHOICES: ToolModelChoice[] = [
     },
     effortLevels: ["low", "medium", "high", "xhigh"],
     officialModels: ["fable", "opus", "opus[1m]", "sonnet", "haiku"],
+    contextMarker: { suffix: "[1m]", minTokens: 1_000_000 },
   },
   {
     tool: "codex",
@@ -291,6 +292,7 @@ const MODEL_CHOICES: ToolModelChoice[] = [
     effort: { kind: "level", level: "low" },
     effortLevels: ["low", "medium", "high", "xhigh"],
     officialModels: ["gpt-6-sol", "gpt-6-astra", "gpt-6-luna", "gpt-5.5"],
+    contextMarker: null,
   },
   {
     tool: "gemini-cli",
@@ -298,6 +300,7 @@ const MODEL_CHOICES: ToolModelChoice[] = [
     effort: { kind: "toolDefault" },
     effortLevels: [],
     officialModels: ["auto", "pro", "flash", "flash-lite"],
+    contextMarker: null,
   },
 ];
 

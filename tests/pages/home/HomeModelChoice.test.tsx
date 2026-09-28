@@ -119,6 +119,7 @@ const CHOICE = {
   },
   effortLevels: ["low", "medium", "high", "xhigh"],
   officialModels: ["fable", "opus", "sonnet"],
+  contextMarker: { suffix: "[1m]", minTokens: 1_000_000 },
 };
 
 /** What the backend answers after a write, as Claude Code will resolve it. */
@@ -187,7 +188,7 @@ function serve(
           protocol: "anthropic",
           models: [
             { id: "glm-5", kind: "text" },
-            { id: "glm-5-air", kind: "text" },
+            { id: "glm-5-air", kind: "text", contextTokens: 1_000_000 },
             { id: "cogview-4", kind: "image" },
           ],
           truncated: false,
@@ -369,6 +370,8 @@ describe("Home model and effort pickers", () => {
     ).toBeVisible();
   });
 
+  // A model the catalogue gives a 1M window is written with Claude Code's
+  // `[1m]`, without which Claude Code runs it with a 200K window.
   it("lists a custom endpoint's own catalogue and sets a model from it", async () => {
     const calls = serve({
       "claude-code": [
@@ -383,7 +386,7 @@ describe("Home model and effort pickers", () => {
       expect(names(listbox)).toEqual([
         "DefaultLet Claude Code choose",
         "glm-5",
-        "glm-5-air",
+        "glm-5-air1M",
         en.home.tools.manageEndpoints,
       ]),
     );
@@ -391,12 +394,12 @@ describe("Home model and effort pickers", () => {
       { tool: "claude-code", provider: "relay" },
     ]);
     await userEvent.click(
-      within(listbox).getByRole("option", { name: "glm-5-air" }),
+      within(listbox).getByRole("option", { name: /^glm-5-air/ }),
     );
 
     await waitFor(() =>
       expect(calls.models).toEqual([
-        { tool: "claude-code", provider: "relay", model: "glm-5-air" },
+        { tool: "claude-code", provider: "relay", model: "glm-5-air[1m]" },
       ]),
     );
     expect(calls.activations).toEqual([]);
@@ -586,6 +589,7 @@ describe("Home model and effort pickers", () => {
           effort: { kind: "toolDefault" },
           effortLevels: [],
           officialModels: ["auto", "pro"],
+          contextMarker: null,
         },
       },
     );

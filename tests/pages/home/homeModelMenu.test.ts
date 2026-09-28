@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildModelItems,
+  catalogModelIds,
   describeModel,
   filterModelItems,
   modelPillLabel,
@@ -47,6 +48,33 @@ describe("buildModelItems", () => {
     const [first, ...rest] = buildModelItems(RELAY, null, COPY);
     expect(first).toMatchObject({ model: null, checked: true });
     expect(labels(rest)).toEqual(["glm-5", "glm-5-air"]);
+  });
+});
+
+describe("catalogModelIds", () => {
+  const MARKER = { suffix: "[1m]", minTokens: 1_000_000 };
+  const CATALOG = [
+    { id: "anthropic/claude-opus-5.5", contextTokens: 1_000_000 },
+    { id: "openai/gpt-5.6-luna", contextTokens: 1_050_000 },
+    { id: "anthropic/claude-haiku-4.5", contextTokens: 200_000 },
+    { id: "anthropic/openai/gpt-5.6-sol[1m]", contextTokens: 1_050_000 },
+    { id: "glm-5" },
+  ];
+
+  it("marks a model the catalogue gives a long enough window", () => {
+    expect(catalogModelIds(CATALOG, MARKER)).toEqual([
+      "anthropic/claude-opus-5.5[1m]",
+      "openai/gpt-5.6-luna[1m]",
+      "anthropic/claude-haiku-4.5",
+      "anthropic/openai/gpt-5.6-sol[1m]",
+      "glm-5",
+    ]);
+  });
+
+  it("offers the ids as listed to a tool without a marker", () => {
+    expect(catalogModelIds(CATALOG, null)).toEqual(
+      CATALOG.map((model) => model.id),
+    );
   });
 });
 

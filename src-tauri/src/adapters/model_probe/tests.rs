@@ -270,11 +270,13 @@ async fn a_catalogue_is_fetched_and_classified() {
         vec![
             ProbeModel {
                 id: "gpt-5.2".to_string(),
-                kind: ProbeModelKind::Text
+                kind: ProbeModelKind::Text,
+                context_tokens: None,
             },
             ProbeModel {
                 id: "gpt-image-2".to_string(),
-                kind: ProbeModelKind::Image
+                kind: ProbeModelKind::Image,
+                context_tokens: None,
             },
         ]
     );
@@ -290,7 +292,7 @@ async fn a_declared_modality_outranks_the_model_name() {
         200,
         r#"{"data":[
             {"id":"recraft-v3","architecture":{"output_modalities":["image"]}},
-            {"id":"gpt-5.4-image","architecture":{"output_modalities":["text","image"]}}
+            {"id":"gpt-5.4-image","context_length":1050000,"architecture":{"output_modalities":["text","image"]}}
         ]}"#,
     )]);
     let target = target(service.base_url(), ProviderWireProtocol::OpenAi);
@@ -305,11 +307,13 @@ async fn a_declared_modality_outranks_the_model_name() {
         vec![
             ProbeModel {
                 id: "recraft-v3".to_string(),
-                kind: ProbeModelKind::Image
+                kind: ProbeModelKind::Image,
+                context_tokens: None,
             },
             ProbeModel {
                 id: "gpt-5.4-image".to_string(),
-                kind: ProbeModelKind::Text
+                kind: ProbeModelKind::Text,
+                context_tokens: Some(1_050_000),
             },
         ]
     );

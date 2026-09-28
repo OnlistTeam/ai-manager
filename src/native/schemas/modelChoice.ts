@@ -41,6 +41,17 @@ export const effortInForceSchema = z.discriminatedUnion("kind", [
     .strict(),
 ]);
 
+/**
+ * The suffix the tool reads on a model name as its context window, such as
+ * Claude Code's `[1m]`, and the smallest window it stands for.
+ */
+export const contextMarkerSchema = z
+  .object({
+    suffix: z.string().min(1).max(16),
+    minTokens: z.number().int().positive(),
+  })
+  .strict();
+
 export const toolModelChoiceSchema = z
   .object({
     tool: toolIdSchema,
@@ -48,6 +59,7 @@ export const toolModelChoiceSchema = z
     effort: effortInForceSchema,
     effortLevels: z.array(settingValueSchema).max(16),
     officialModels: z.array(settingValueSchema).max(32),
+    contextMarker: contextMarkerSchema.nullable(),
   })
   .strict();
 
@@ -66,6 +78,7 @@ export const modelNameSchema = z
     "Model name contains a control character or a quote",
   );
 
+export type ContextMarker = z.infer<typeof contextMarkerSchema>;
 export type ModelEffort = z.infer<typeof modelEffortSchema>;
 export type EffortInForce = z.infer<typeof effortInForceSchema>;
 export type ToolModelChoice = z.infer<typeof toolModelChoiceSchema>;

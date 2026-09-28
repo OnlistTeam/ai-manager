@@ -26,6 +26,8 @@ export const probeModelSchema = z
   .object({
     id: z.string(),
     kind: probeModelKindSchema,
+    /** The context window in tokens, when the catalogue published one. */
+    contextTokens: z.number().int().positive().optional(),
   })
   .strict();
 

@@ -241,6 +241,8 @@ pub struct CatalogEntry {
     /// `None` means the entry carried an id and nothing more, which is the
     /// common case and the only case where the name heuristic is consulted.
     pub declared: Option<ProbeModelKind>,
+    /// The context window in tokens, when the service published one.
+    pub context_tokens: Option<u64>,
 }
 
 /// Three envelopes are accepted: the OpenAI/Anthropic `{"data":[…]}` shape, the
@@ -265,6 +267,7 @@ pub fn parse_catalog(protocol: ProviderWireProtocol, body: &Value) -> Option<Vec
                 Some(CatalogEntry {
                     id,
                     declared: declared_kind(protocol, entry),
+                    context_tokens: declared_context(entry),
                 })
             })
             .collect(),
@@ -325,6 +328,25 @@ fn declared_kind(protocol: ProviderWireProtocol, entry: &Value) -> Option<ProbeM
         return Some(ProbeModelKind::Image);
     }
     None
+}
+
+/// Reads a model's context window out of the catalogue entry, when the service
+/// publishes one: OpenRouter's `context_length` (at the top or under
+/// `top_provider`, as the relays that mirror its shape serve it), Anthropic's
+/// `max_input_tokens`, or Gemini's `inputTokenLimit`.
+fn declared_context(entry: &Value) -> Option<u64> {
+    [
+        entry.get("context_length"),
+        entry
+            .get("top_provider")
+            .and_then(|provider| provider.get("context_length")),
+        entry.get("max_input_tokens"),
+        entry.get("inputTokenLimit"),
+    ]
+    .into_iter()
+    .flatten()
+    .find_map(Value::as_u64)
+    .filter(|tokens| *tokens > 0)
 }
 
 fn model_id(protocol: ProviderWireProtocol, entry: &Value) -> Option<String> {
@@ -587,6 +609,36 @@ mod tests {
                 Some(ProbeModelKind::Image),
                 Some(ProbeModelKind::Text),
                 Some(ProbeModelKind::Text),
+                None,
+                None,
+            ]
+        );
+    }
+
+    #[test]
+    fn a_catalogue_that_publishes_its_context_window_is_read() {
+        let body = json!({"data":[
+            {"id":"anthropic/claude-opus-5.5","context_length":1_000_000},
+            {"id":"relay/mirror","top_provider":{"context_length":1_050_000}},
+            {"id":"claude-opus-5-5","max_input_tokens":1_000_000},
+            {"id":"gemini-3-pro","inputTokenLimit":1_048_576},
+            {"id":"odd","context_length":"1000000"},
+            {"id":"zero","context_length":0},
+            {"id":"plain-1"}
+        ]});
+        let windows: Vec<Option<u64>> = parse_catalog(ProviderWireProtocol::Anthropic, &body)
+            .unwrap()
+            .into_iter()
+            .map(|entry| entry.context_tokens)
+            .collect();
+        assert_eq!(
+            windows,
+            vec![
+                Some(1_000_000),
+                Some(1_050_000),
+                Some(1_000_000),
+                Some(1_048_576),
+                None,
                 None,
                 None,
             ]

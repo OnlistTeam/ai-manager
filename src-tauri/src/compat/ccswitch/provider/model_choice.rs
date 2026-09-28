@@ -146,6 +146,7 @@ pub(super) fn read(tool: ToolId, terminal: &ToolTerminal) -> Result<ToolModelCho
         effort,
         effort_levels: strings(spec.effort_levels),
         official_models: strings(spec.official_models),
+        context_marker: spec.context_marker,
     })
 }
 

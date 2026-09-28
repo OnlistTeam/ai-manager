@@ -68,8 +68,8 @@ pub use import::{ImportOutcome, ImportPreview, ImportSummary};
 pub use mcp::{McpConnectionDraft, McpInstallDraft, McpVariableDraft};
 pub use mcp_edit::{McpConnectionForm, McpEditForm, McpVariableForm};
 pub use model_choice::{
-    canonical_model_name, normalize_model_name, validate_effort, EffortInForce, EffortModel,
-    ModelChoiceSpec, ModelEffort, ToolModelChoice, MAX_MODEL_NAME_CHARS,
+    canonical_model_name, normalize_model_name, validate_effort, ContextMarker, EffortInForce,
+    EffortModel, ModelChoiceSpec, ModelEffort, ToolModelChoice, MAX_MODEL_NAME_CHARS,
 };
 pub use model_probe::{
     ModelCatalog, ModelCatalogRejection, ModelProbeOutcome, ModelProbeReply, ModelProbeRequest,

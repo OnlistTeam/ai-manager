@@ -104,6 +104,10 @@ pub enum ProbeModelKind {
 pub struct ProbeModel {
     pub id: String,
     pub kind: ProbeModelKind,
+    /// The context window in tokens, when the catalogue published one. Most
+    /// catalogues do not, so it is left off the wire when absent.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub context_tokens: Option<u64>,
 }
 
 /// Why an endpoint answered the catalogue request without a catalogue.
@@ -383,17 +387,25 @@ mod tests {
     fn catalog_wire_format_is_stable() {
         let catalog = ModelCatalog {
             protocol: ProviderWireProtocol::OpenAi,
-            models: vec![ProbeModel {
-                id: "gpt-image-2".to_string(),
-                kind: ProbeModelKind::Image,
-            }],
+            models: vec![
+                ProbeModel {
+                    id: "gpt-image-2".to_string(),
+                    kind: ProbeModelKind::Image,
+                    context_tokens: None,
+                },
+                ProbeModel {
+                    id: "claude-opus-5-5".to_string(),
+                    kind: ProbeModelKind::Text,
+                    context_tokens: Some(1_000_000),
+                },
+            ],
             truncated: false,
             rejection: None,
         };
 
         assert_eq!(
             serde_json::to_string(&catalog).unwrap(),
-            r#"{"protocol":"openAi","models":[{"id":"gpt-image-2","kind":"image"}],"truncated":false,"rejection":null}"#
+            r#"{"protocol":"openAi","models":[{"id":"gpt-image-2","kind":"image"},{"id":"claude-opus-5-5","kind":"text","contextTokens":1000000}],"truncated":false,"rejection":null}"#
         );
     }
 
